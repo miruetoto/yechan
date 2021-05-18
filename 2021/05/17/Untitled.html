@@ -91,7 +91,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      5 min read
     
 </span></p>
 
@@ -179,6 +179,108 @@ $</p>
 <p>$
 f({\bf x} )&gt; f({\bf x}+{\bf d})
 $</p>
+<p>여기에서 $f({\bf x}+{\bf d}) \approx f({\bf x})+ \left(\frac{d}{d{\bf x}} f({\bf x})\right)^T {\bf d}$ 이므로 결국아래 2식이 동시에 만족될때까지 ${\bf d}$를 찾는다.</p>
+<p>$
+\begin{cases}
+\left(\frac{d}{d{\bf x}} f({\bf x})\right)^T {\bf d} &lt; {\bf 0} \\
+\left(\frac{d}{d{\bf x}} c({\bf x})\right)^T {\bf d} = {\bf 0} 
+\end{cases}
+$</p>
+<p>이는 ${\cal L}({\bf x},\lambda)=f({\bf x}) - \lambda  c({\bf x})$ 에 대하여 아래식을 푸는것과 동치이다.</p>
+<p>$
+\begin{cases}
+\frac{\partial}{\partial{\bf x}} {\cal L}({\bf x},\lambda) = {\bf 0} \\
+\frac{\partial}{\partial\lambda} {\cal L}({\bf x},\lambda) ={\bf 0}
+\end{cases}
+$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 아래와 같이 하나의 <strong>부등호</strong> 로 이루어진 제약조건을 가지는 경우를 상상하여 보자.</p>
+<p>$
+\underset{ {\bf x} \in \mathbb{R}^p }{ \operatorname{min} } f({\bf x}) \quad \mbox{ subject to } \quad c({\bf x}) \geq 0
+$</p>
+<p>이 경우는 아래의 제약을 만족하는 ${\bf d}$를 계속 찾으면 된다.</p>
+<p>$
+\begin{cases}
+\left(\frac{d}{d{\bf x}} f({\bf x})\right)^T {\bf d} &lt; {\bf 0} \\
+c({\bf x}) \geq 0 \\
+c({\bf x})+\left(\frac{d}{d{\bf x}} c({\bf x})\right)^T {\bf d} \geq {\bf 0}
+\end{cases}
+$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>CASE 1</strong> : 먼저 $c({\bf x}) &gt; 0$ 라고 가정하자. 그럼 아래를 풀면 된다.</p>
+$$
+\begin{cases}
+\left(\frac{d}{d{\bf x}} f({\bf x})\right)^T {\bf d} &lt; {\bf 0} \\
+c({\bf x})+\left(\frac{d}{d{\bf x}} c({\bf x})\right)^T {\bf d} \geq {\bf 0}
+\end{cases}
+$$<p>이때 $\left(\frac{d}{d{\bf x}} f({\bf x})\right)^T {\bf d} &lt; {\bf 0} $ 을 만족하는 ${\bf d}$가 존재한다고 하자. 이러한 ${\bf d}$를 ${\bf d}^* $ 라고 정의하자. 이제 $c({\bf x})+\left(\frac{d}{d{\bf x}} c({\bf x})\right)^T {\bf d} \geq {\bf 0}$ 가 성립하는지 살펴보자. ${\bf d}={\bf d}^* $ 를 대입하면 
+\begin{align}
+c({\bf x})+\left(\frac{d}{d{\bf x}} c({\bf x})\right)^T {\bf d}^* \geq {\bf 0}
+\end{align}
+가 되는데, $c({\bf x})&gt;{\bf 0}$이므로 아래식을 만족하는 적당히 작은 $\delta$가 존재할 것이다. 
+\begin{align}
+c({\bf x})+\left(\frac{d}{d{\bf x}} c({\bf x})\right)^T \left(\frac{1}{\delta}{\bf d}^* \right)   \geq {\bf 0}
+\end{align}
+${\bf d}={\bf d}^* $ 가 $\left(\frac{d}{d{\bf x}} f({\bf x})\right)^T {\bf d} &lt; {\bf 0} $ 를 만족하면 ${\bf d}=\frac{1}{\delta}{\bf d}^* $ 역시 $\left(\frac{d}{d{\bf x}} f({\bf x})\right)^T {\bf d} &lt; {\bf 0}$ 를 만족한다. 따라서 
+\begin{align}
+\left(\frac{d}{d{\bf x}} f({\bf x})\right)^T {\bf d} &lt; {\bf 0}
+\end{align}
+를 만족하는 ${\bf d}={\bf d}^* $가 존재하면 아래의 세 부등식을 만족하는 ${\bf d}=\frac{1}{\delta}{\bf d}^* $는 항상 잡을 수 있다. 
+\begin{align}
+\begin{cases}
+\left(\frac{d}{d{\bf x}} f({\bf x})\right)^T {\bf d} &lt; {\bf 0} \\\\ \\\\
+c({\bf x}) \geq 0 \\\\ 
+c({\bf x})+\left(\frac{d}{d{\bf x}} c({\bf x})\right)^T {\bf d} \geq {\bf 0} \\\\ 
+\end{cases}
+\end{align}
+따라서 이러한 ${\bf d}$를 못찾는 경우는 $\frac{d}{d{\bf x}} f({\bf x})= {\bf 0} $ 인 경우뿐이다. 
+<br /><br />
+<strong>CASE 2</strong> : $c({\bf x}) = 0$ 이라고 하자. 그럼 아래를 풀면 된다. 
+\begin{align}
+\begin{cases}
+\left(\frac{d}{d{\bf x}} f({\bf x})\right)^T {\bf d} &lt; {\bf 0} \\\\ \\\\
+\left(\frac{d}{d{\bf x}} c({\bf x})\right)^T {\bf d} \geq {\bf 0} \\\\ 
+\end{cases}
+\end{align}
+내적의 정의를 잘 생각해보면 위의 조건은 (1) $f$의 그레디언트와 ${\bf d}$가 둔각을 이루고 (2) $c$의 그레디언트와 ${\bf d}$는 예각을 이루는 조건이다. 이러한 ${\bf d}$는 $f$ 그레디언트 $\frac{d}{d{\bf x}} f({\bf x})$와 $c$의 그레디언트 $\frac{d}{d{\bf x}} c({\bf x})$ 가 완전히 같은 방향을 바라보지만 않는 이상 항상 찾을 수 있다. (연습장을 꺼내서 그림을 잘 그려보자) 따라서 $\lambda \geq 0$에 대하여 아래식이 성립하는 경우를 제외하고는 항상 ${\bf d}$를 업데이트 할 수 있다. 
+\begin{align}
+\frac{d}{d{\bf x}} f({\bf x}) = \lambda \frac{d}{d{\bf x}} c({\bf x})
+\end{align}
+<br /><br />
+위의 사실들을 종합하면 아래의 2개를 각각 연립하여 풀고 두 연립방정식의 해를 합치면 된다. 
+\begin{align}
+case (1) : 
+\begin{cases}
+c({\bf x}) &gt; {\bf 0} \\\\ \\\\
+\frac{d}{d{\bf x}} f({\bf x})= {\bf 0} 
+\end{cases}
+\end{align}
+\begin{align}
+case (2) : 
+\begin{cases}
+c({\bf x}) = {\bf 0} \\\\ \\\\
+\frac{d}{d{\bf x}} f({\bf x}) = \lambda \frac{d}{d{\bf x}} c({\bf x}) \quad \mbox{for some}\quad \lambda \geq {\bf 0 }
+\end{cases}
+\end{align}
+근데 위의 두 연립방정식의 해를 합친것은 아래를 연립하여 푼것과 같다. 
+\begin{align}
+\begin{cases}
+\frac{d}{d{\bf x}} f({\bf x})- \lambda \frac{d}{d{\bf x}} c({\bf x})= 0 \\\\ \\\\
+c({\bf x}) \geq {\bf 0} \\\\ \\\\
+\lambda \geq 0 \\\\ \\\\
+\lambda c({\bf x})= {\bf 0}
+\end{cases}
+\end{align}</p>
 
 </div>
 </div>
