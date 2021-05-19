@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      3 min read
     
 </span></p>
 
@@ -192,8 +192,76 @@ X_1,\dots,X_n | \lambda \sim ~ i.i.d.~ \mbox{Poission}(\lambda)
 <ul>
 <li>$\alpha$, $\beta$ : parameter (hyper-parameter)</li>
 <li>$\lambda$ : realization of $\Lambda$ (parameter)</li>
-<li>$x_1,\dots,x_n$: <strong><em>(i.i.d.)</em></strong> realizations of $X$. </li>
+<li>$x_1,\dots,x_n$: realizations of $X$. </li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 여기에서 또 사소한 헷갈림이 발생한다. 일반적으로 빈도주의자들이 말하는 우도함수는 $L(\lambda)=f(x_1,\dots,x_n ; \lambda)$ 와 같이 표현한다. 이때 빈도주의자들은 $f(x_1,\dots,x_n ; \lambda)$ 대신에 간략하게 $f(x_1,\dots,x_n)$ 와 같이 쓰기도 하는데 이는 베이지안들이 생각하는 마지널의 표기법과 겹친다. 즉</p>
+<p>
+$$f(x_1,\dots,x_n)$$
+</p>
+<p>이 빈도주의자들에게는 우도함수로 보이고 베이지안에게는 마지날로 보인다. 베이지안들은 절대로 우도함수를 위와같이 쓰지 않는다. 철저하게</p>
+<p>
+$$f(x_1,\dots,x_n | \lambda)$$
+</p>
+<p>와 같이 쓴다. 대신 빈도주의자들은 우도함수를 $f(x_1,\dots,x_n ; \lambda)$ 혹은 $L(\lambda)$ 혹은 $f(x_1,\dots,x_n)$ 와 같이 쓴다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 다시 우리의 문제로 돌아와서 사후분포 즉 $f(\lambda | x_1,\dots,x_n)$ 을 구하는 방법에 대하여 알아보자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> <strong>(풀이 1: 미련함)</strong> 정석적인 풀이를 해보자. 아마 좀 어려울거다. 조건부 <strong><em>pdf</em></strong> 의 정의에 의해서 아래식이 성립한다.</p>
+<p>
+$$f(\lambda | x_1,\dots,x_n) = \frac{f(x_1,\dots,x_n,\lambda)}{f(x_1,\dots,x_n)}$$
+</p>
+<p>따라서 위를 계산하려면 $f(x_1,\dots,x_n,\lambda)$ 와 $f(x_1,\dots,x_n)$ 를 각각 계산하면 된다. 여기에서 $f(x_1,\dots,x_n,\lambda)$는 아래와 같이 쓸 수 있다.</p>
+<p>
+$$f(x_1,\dots,x_n,\lambda)= \left( \prod_{i=1}^{n} \frac{\lambda^{x_i} e^{-\lambda} }{x_i !} \right) \frac{\lambda^{\alpha-1}e^{-\lambda/\beta} }{\Gamma(\alpha)\beta^{\alpha} }$$
+</p>
+<p>이제 $f(x_1,\dots,x_n)$을 계산하면 되는데 이는 $f(x_1,\dots,x_n,\lambda)$을 적분해서 얻을 수 있다. 즉</p>
+<p>
+$$f(x_1,\dots,x_n)=\int f(x_1,\dots,x_n,\lambda) d\lambda $$
+</p>
+<p>을 계산하면 된다. 적분을 항상 손으로 계산할 수 있을지는 모르지만 위의 경우는 계산할 수 있다. 아무튼 계산해보면 아래와 같다. (이번 한번만 계산할것이다)</p>
+<p>$f(x_1,\dots,x_n)=\int f(x_1,\dots,x_n,\lambda) d\lambda  \\
+= \int_0^{\infty} \left( \prod_{i=1}^{n} \frac{\lambda^{x_i} e^{-\lambda} }{x_i !} \right) \frac{\lambda^{\alpha-1}e^{-\lambda/\beta} }{\Gamma(\alpha)\beta^{\alpha} } d\lambda \\
+= \frac{1}{\prod x_i! \Gamma(\alpha) \beta^{\alpha} } \int_0^{\infty}\lambda^{\sum x_i + \alpha-1 } e^{-\lambda \big(n+\frac{1}{\beta}\big)} d\lambda$</p>
+<p>감마함수의 정의에 따라서 아래식이 성립한다.</p>
+<p>
+$$\Gamma(n):=\int_{0}^{\infty} y^{n-1} e^{-y} dy $$
+</p>
+<p>요걸 이용하면 아래를 얻을 수 있다. (A4 용지 반페이지 정도 투자해서 치환적분해보면 풀린다)</p>
+$$f(x_1,\dots,x_n)
+=\frac{\Gamma(\sum x_i+\alpha)}{x_1! \dots x_n! \Gamma(\alpha) \beta^{\alpha} \big(n+\frac{1}{\beta}\big)^{\sum x_i+\alpha} }$$<p>여기까지 결과를 정리하면 아래와 같다.</p>
+<ul>
+<li>$f(x_1,\dots,x_n,\lambda)= \left( \prod_{i=1}^{n} \frac{\lambda^{x_i} e^{-\lambda} }{x_i !} \right) \frac{\lambda^{\alpha-1}e^{-\lambda/\beta} }{\Gamma(\alpha)\beta^{\alpha} }$</li>
+<li>$f(x_1,\dots,x_n)
+=\frac{\Gamma(\sum x_i+\alpha)}{\prod x_i! \Gamma(\alpha) \beta^{\alpha} \big(n+\frac{1}{\beta}\big)^{\sum x_i+\alpha} }$</li>
+</ul>
+<p>이제 (드디어) 아래식만 계산하면 풀이가 끝난다.</p>
+<p>
+$$f(\lambda | x_1,\dots,x_n) = \frac{f(x_1,\dots,x_n,\lambda)}{f(x_1,\dots,x_n)}$$
+</p>
+<p>계산해보면 아래와 같이 정리된다.</p>
+<p>
+$$f(\lambda | x_1,\dots,x_n)=\frac{\lambda^{\sum x_i \alpha-1} e^{-\lambda\big(n+\frac{1}{\beta}\big)} }{\Gamma(\sum x_i+\alpha)\big(n+\frac{1}{\beta} \big)^{- \sum x_i - \alpha} }$$
+</p>
+<p>따라서 $\lambda$의 사후분포는 모수가 $\big(\sum x_i+\alpha,\big(n+\frac{1}{\beta}\big)^{-1} \big) $ 인 감마분포를 따른다.</p>
 
 </div>
 </div>
