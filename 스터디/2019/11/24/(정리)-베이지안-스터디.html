@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      4 min read
+      6 min read
     
 </span></p>
 
@@ -330,6 +330,59 @@ $$f(x_1,\dots,x_n,\lambda) \propto \lambda^{\sum x_i+\alpha -1} e^{-\lambda\big(
 <li>$MSE:=\mathbb{E}(\lambda-\hat\lambda)^2$</li>
 </ul>
 <p>위의식은 predictor에 대한 MSE의 정의이고 아래식은 estimator에 대한 MSE의 정의이다. 다소 헷갈리지만 그냥 <strong>회귀식정의</strong>와 <strong>수통식정의</strong> 2개 있다고 생각하는 것이 속 편하다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 회귀식 MSE는 잔차제곱 즉 $e_i^2=(y_i-\hat{y}_ i)^2$의 average이다. 수통식 MSE는 손실함수 $(\lambda-\hat{\lambda})^2$ 의 mean이다. 여기에서 미치겠는것은 머신러닝쪽에서는 회귀식 MSE 그 자체를 손실함수라고 표현하기도 한다는 점이다. (요건 최적화쪽에서 따온 용어인데 최적화하는 사람들은 objective function 을 그냥 손실함수라고 부른다) 우선 여기서는 이런 용어는 무시하자. 그리고 우리는 수통식으로 정의한 MSE에만 관심을 가지자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 황당한 점은 또 빈도주의자와 베이지안이 생각하는 수통식 MSE의 정의가 다르다는 것이다. 이런일이 생기는 근본적인 이유는 베이지안들은 $\lambda$를 랜덤변수 $\Lambda$의 realization으로 보기 때문이다. 빈도주의자는 손실함수를 우도함수로 적분하고(<strong>expectation is taken over the likelihood of $x_1,\dots,x_n$</strong>) 베이지안들은 손실함수를 조인트로 적분한다(<strong>expectation is taken over the joint distribution of $x_1,\dots,x_n$ and $\lambda$</strong>). 즉 빈도주의자들은 MSE를 아래와 같이 정의한다. 이를 간단히 빈도주의식 MSE라고 하자.</p>
+<p>
+$$\mathbb{E}(\lambda-\hat\lambda)^2:=\int \dots \int (\lambda-\hat{\lambda})^2 f(x_1,\dots,x_n ; \lambda) dx_1\dots dx_n $$
+</p>
+<p>반면에 베이지안은 MSE를 아래와 같이 생각한다. 이를 간단히 베이지안식 MSE라고 하자.</p>
+<p>
+$$\mathbb{E}(\lambda-\hat\lambda)^2:=\int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda$$
+</p>
+<p>이러한 정의는 아래를 참고하면 나온다.</p>
+<ul>
+<li>
+<a href="https://en.wikipedia.org/wiki/Loss_function#Expected_loss">https://en.wikipedia.org/wiki/Loss_function#Expected_loss</a> </li>
+<li>
+<a href="https://en.wikipedia.org/wiki/Bayes_estimator#cite_note-1">https://en.wikipedia.org/wiki/Bayes_estimator#cite_note-1</a> </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 그리고 베이지안들은 베이지안식 MSE을 최소화하는 $\hat\lambda$를 베이즈룰이라고 정의한다. 즉 아래가 성립한다.</p>
+<p>$Bayes rule=\underset{\lambda}{\operatorname{argmin} } \int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda$</p>
+<p>이걸 계산하기 위해서는 아래를 계산하면 된다.</p>
+<p>
+$$\frac{\partial}{\partial \lambda} \int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda$$
+</p>
+<p>그런데 위의 식은 아래와 같이 풀 수 있다.</p>
+<p>$\frac{\partial}{\partial \lambda}
+\int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda \\
+= \frac{\partial}{\partial \lambda} \int \dots \int \Bigg\{ \int (\lambda-\hat{\lambda})^2 f(\lambda|x_1,\dots,x_n) d\lambda \Bigg\}f(x_1,\dots,x_n) dx_1\dots dx_n \\
+= \int \dots \int \Bigg\{\frac{\partial}{\partial \lambda} \int (\lambda-\hat{\lambda})^2 f(\lambda|x_1,\dots,x_n) d\lambda \Bigg\}f(x_1,\dots,x_n) dx_1\dots dx_n$</p>
+<p>따라서 결국 아래의 두 최적화 문제는 같은 문제이다.</p>
+<ul>
+<li>$\underset{\lambda}{\operatorname{argmin} }  \int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda$</li>
+<li>$\underset{\lambda}{\operatorname{argmin} } \int (\lambda-\hat{\lambda})^2 f(\lambda|x_1,\dots,x_n) d\lambda$ </li>
+</ul>
 
 </div>
 </div>
