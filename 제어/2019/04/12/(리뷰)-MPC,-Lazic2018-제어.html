@@ -194,20 +194,20 @@ window.onload = wrap_img;
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>-</code> 고정된 시간 $t$에 대한 모델은 아래와 같다.</p>
-<p>$
-{\bf x}[t]=\sum_{k=1}^{T}A_k{\bf x}[t-k]+\sum_{k=1}^{T}B_k {\bf u}[t-k] + C {\bf d}[t-1]
-$</p>
+<p>
+$${\bf x}[t]=\sum_{k=1}^{T}A_k{\bf x}[t-k]+\sum_{k=1}^{T}B_k {\bf u}[t-k] + C {\bf d}[t-1]$$
+</p>
 <p>여기에서 ${\bf x}[t]$, ${\bf u}[t]$ 그리고 ${\bf d}[t]$ 는 각각 <strong>상태변수</strong>, <strong>제어변수</strong>, <strong>장애변수</strong> 을 의미하는 vector이다. 또한 $A_k$, $B_k$, $C$는 각각 차원에 맞는 매트릭스이다.</p>
 <p><code>-</code> 고정된 시간 $t$에 대하여 ${\bf x}[t]$가 벡터인 이유는 <strong>상태변수</strong> 에 해당하는 변수값이 여러개이기 때문이다. 논문에서는 DP(=differential air pressure), CAT(cold-aisle temerature), EAT(entering air temperature), LAT(leaving air temperature) 를 상태변수로 두었다. 따라서 고정된 $t$에 대하여 ${\bf x}[t]$는 4차원 벡터이다. 마찬가지 논리로 <strong>제어변수</strong>는 fan speed, valve opening 2개가 있으므로 ${\bf u}[t]$는 2차원 벡터이다. 장애변수는 EWT와 server power useage가 있으므로 ${\bf d}[t]$ 역시 2차원 벡터이다.</p>
 <p><code>-</code> 그리고  ${\bf x}[t]$, ${\bf u}[t]$, ${\bf d}[t]$ 의 차원에 맞는 $A_k,~B_k,~C$를 각각 구해보면 $A_k=4\times 4$, $B_k$와 $C$는 $4 \times 2$ 행렬임을 알 수 있다.</p>
 <p><code>-</code> 복잡해 보이는 아래식은 결국 회귀분석의 하나의 응용형태에 불과하다.</p>
-<p>$
-{\bf x}[t]=\sum_{k=1}^{T}A_k{\bf x}[t-k]+\sum_{k=1}^{T}B_k {\bf u}[t-k] + C {\bf d}[t-1]
-$</p>
+<p>
+$${\bf x}[t]=\sum_{k=1}^{T}A_k{\bf x}[t-k]+\sum_{k=1}^{T}B_k {\bf u}[t-k] + C {\bf d}[t-1]$$
+</p>
 <p>총 $n$번의 시간동안 관측치를 모으게 된다면 위의 모델은 아래로 간략화하여 정리할 수 있다.</p>
-<p>$
-{\bf y}={\bf X}{\bf \beta}+\epsilon
-$</p>
+<p>
+$${\bf y}={\bf X}{\bf \beta}+\epsilon$$
+</p>
 <p>여기에서 ${\bf y}$는 $n\times 4$ 인 행렬이고 ${\bf X}$는 $n \times (6T+2)$ 인 행렬이며 $\bf \beta$는 $(6T+2) \times 4$ 행렬이다. 오차항 $\epsilon$은 $n \times 4$행렬이다. 알고 싶은것 즉 ${\bf y}$와 우리가 알고 있는것 즉 ${\bf X}$를 구체적으로 명시하면 아래와 같다.</p>
 <p>$
 {\bf y}=\begin{bmatrix}
@@ -226,8 +226,7 @@ $</p>
 \end{bmatrix} 
 $</p>
 <p><code>-</code> 우리는 이제 ${\bf X} \rightarrow {\bf y}$로의 맵핑을 학습하면 되는데 이러한 맵핑정보를 요약하고 있는 $\beta$는 구체적으로 명시하면 아래와 같다.</p>
-<p>$
-\beta=\begin{bmatrix}
+$$\beta=\begin{bmatrix}
 A_1 \\
 \dots \\
 A_T \\
@@ -235,25 +234,26 @@ B_1 \\
 \dots \\
 B_T \\
 C \\
-\end{bmatrix}
-$</p>
-<p><code>-</code> 결론적으로 말하여 저자들이 제시한 모델은 아래로 요약할 수 있다.</p>
-<p>$
-{\bf y}={\bf X}{\bf \beta}+\epsilon
-$</p>
+\end{bmatrix}$$<p><code>-</code> 결론적으로 말하여 저자들이 제시한 모델은 아래로 요약할 수 있다.</p>
+<p>
+$${\bf y}={\bf X}{\bf \beta}+\epsilon$$
+</p>
 <p>이제 총 $n$번의 시간동안 관측치를 모으게 된다면 위의 모델에서 $\beta$는 쉽게 구할 수 있다. 그럼 $n$개의 관측치를 어떻게 모을 것인가? ${\bf y}$를 모으는 것은 별로 문제가 되지 않는다. 매 시간마다 $(DT,CAT,EAT,LAT)$ 를 꼬박꼬박 관찰하여 기록하기만 하면 된다. 문제는 ${\bf X}$를 모으는 것인데 ${\bf X}$에서는 <strong>상태변수</strong> ${\bf x}=(DT,CAT,EAT,LAT)$ 와 <strong>장애변수</strong> ${\bf d}$ 뿐만 아니라 <strong>제어변수</strong> ${\bf u}=(fan,valve)$ 가 포함되어 있다. 제어변수는 우리가 통제할 수 있는 변수이므로 관측하는 동안 우리가 어떻게 액션하는지에 따라서 값이 달라지는 변수이다. 그럼 $n$번의 시간동안 제어변수들을 어떻게 조절해야 하는가? 저자들은 PID를 포함한 다양한 방법으로 상태변수들이 잘 통제되고 있는 상황에서는 자료를 분석하기 어렵다고 판단하여 $n$번의 시간동안은 <strong>랜덤하게 제어</strong>하여 자료를 축적하였다. 쉽게 말해서 벨브를 확 열어보기도 하고 닫아보기도 하면서 어떻게 상태변수들이 변화하는지 다양한 조건에서 관찰한 것이다. 물론 이렇게 제어하면 조금 위험할 수도 있는데 (온도가 지나치게 올라간다든가? 혹은 반대라든가) 저자들은 이러한 위험한 상황을 방지하기 위해서 너무 극단적으로 밸브를 열거나 닫는 상황은 피하도록 제안하였다. 이에 대한 자세한 설명은 4.2에 나와있다.</p>
 <p><code>-</code> $n$개의 관측치를 모았다면 이제 아래의 모델에서 $\beta$를 찾을 수 있다.</p>
-<p>${\bf y}={\bf X}{\bf \beta}+\epsilon$</p>
+<p>
+$${\bf y}={\bf X}{\bf \beta}+\epsilon$$
+</p>
 <p>이말은 곧 임의의 시간 $t$에 대하여 아래식을 만족하는 $A_k$, $B_k$, $C$ 값들을 정확하게 알고 있다는 것과 동치이다.</p>
-<p>${\bf x}[t]=\sum_{k=1}^{T}A_k{\bf x}[t-k]+\sum_{k=1}^{T}B_k {\bf u}[t-k] + C {\bf d}[t-1]$</p>
+<p>
+$${\bf x}[t]=\sum_{k=1}^{T}A_k{\bf x}[t-k]+\sum_{k=1}^{T}B_k {\bf u}[t-k] + C {\bf d}[t-1]$$
+</p>
 <p>즉 모델링이 완료된 상태이다. 이제 저자들의 목표 (1) 모델링이 달성되었다.</p>
 <p><code>-</code> 모델링이 완료되었다는 소리는 매우 건방질수 있는데 예컨데 <strong>적당한 조건을 우리에게 주기만 하면 우리는 다음상황에서의 상태변수 ${\bf x}$를 완벽하게 예측할 자신이 있다</strong> 라는 의미이다. 이 말이 사실이든 거짓이든 우선 여기서는 받아들이기로 하자.</p>
 <p><code>-</code> 위의 사실을 받아들이면 이제 남은 목표는 (2) 제어 (3) 효율적인 제어 이다. 여기에서 제어를 한다는 의미는 상태변수 ${\bf x}$를 원하는 set-point ${\bf x}_ {sp}$가 되도록 한다는 의미이다. 효율적인 제어라는 의미는 (2)를 달성하는데 너무 많은 에너지를 쓰지 않겠다는 의미이다. 이 방법은 너무 극단적인 액션 ${\bf u}$를 방지함으로써 얻을 수 있다. 즉 벨브를 갑자기 확 연다든가 하지 말라는 것이다. 목표 (2)와 (3)은 <strong>적당한 제약 조건을 만족하는</strong> 아래식을 최소화하는 ${\bf u}$를 찾음으로써 동시에 달성할 수 있다.</p>
-<p>$\min_ {\bf u} \sum_{\tau =t}^{t+L} \sum_{i=1}^{M} 
+$$\min_ {\bf u} \sum_{\tau =t}^{t+L} \sum_{i=1}^{M} 
 \left( 
 \sum_{s}q_s(x_i^{s}[\tau]-x_{sp}^{s})^2+\sum_{c}r_c(u_i^{c}[\tau]-u_{min}^{c})^2
-\right)$</p>
-<p>여기에서 $q_s$와 $r_c$는 각 상태변수와 제어변수에 해당하는 가중치이다. 그리고 $s \in \{DP,CAT,LAT\}$이며, $c \in \{fan,valve\}$이다.</p>
+\right)$$<p>여기에서 $q_s$와 $r_c$는 각 상태변수와 제어변수에 해당하는 가중치이다. 그리고 $s \in \{DP,CAT,LAT\}$이며, $c \in \{fan,valve\}$이다.</p>
 
 </div>
 </div>
@@ -262,9 +262,13 @@ $</p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>-</code> 쉽게 눈치채겠지만</p>
-<p>$\sum_{s}q_s(x_i^{s}[\tau]-x_{sp}^{s})^2$</p>
+<p>
+$$\sum_{s}q_s(x_i^{s}[\tau]-x_{sp}^{s})^2$$
+</p>
 <p>는 제어를 잘하기 위한 손실함수이다. 즉 (2)의 목표를 달성하기 위한 손실함수이다. 그리고</p>
-<p>$\sum_{c}r_c(u_i^{c}[\tau]-u_{min}^{c})^2$</p>
+<p>
+$$\sum_{c}r_c(u_i^{c}[\tau]-u_{min}^{c})^2$$
+</p>
 <p>는 효율적인 제어를 하기 위한 손실함수이다. 즉 (3)의 목표를 달성하기 위한 손실함수이다. 만약 $\sum_{s}q_s(x_i^{s}[\tau]-x_{sp}^{s})^2$ 항목만 있다면 제어를 잘하기 위해서 어떠한 액션 ${\bf u}$라도 불사할 것이다. 그것이 비록 에너지를 많이 소모하는 행위라 할지라도 말이다. 만약 $\sum_{c}r_c(u_i^{c}[\tau]-u_{min}^{c})^2$의 항목이 없다면 아무것도 안할 것이다. 그래야 에너지를 젤 적게 쓸테니깐 말이다. 따라서 위의 손실함수는 set-point로 도달할때 주는 <strong>보상</strong>과 너무 많은 에너지를 썼을때의 <strong>벌점</strong>을 동시에 내포하고 있다.</p>
 <p><code>-</code> $q_s$는 상태변수에 대한 가중치이다. $q_s$ 설정하겠다는 것은 $(DP,CAT,LAT)$를 똑같이 중요하게 생각하지는 않겠다는 의미이다. 예를 들어 $LAT$에 해당하는 가중치가 매우 낮다면 제어를 하다가 $LAT$의 경우 set-point에 도달하지 못해도 크게 신경쓰지 않겠다는 의미이다. $r_c$역시 마찬가지로 해석할 수 있다.</p>
 <p><code>-</code> 위의 식을 최소화하는 제약조건은 아래와 같다.</p>
@@ -285,22 +289,22 @@ $</p>
 <a class="anchor" href="#%EC%86%8C%EA%B0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>소감<a class="anchor-link" href="#%EC%86%8C%EA%B0%90"> </a>
 </h3>
 <p><code>-</code> 아래와 같은 모델은 사실 특별한 것이 없는 모델이다. 그냥 선형모델일 뿐이다.</p>
-<p>$
-{\bf x}[t]=\sum_{k=1}^{T}A_k{\bf x}[t-k]+\sum_{k=1}^{T}B_k {\bf u}[t-k] + C {\bf d}[t-1]
-$</p>
+<p>
+$${\bf x}[t]=\sum_{k=1}^{T}A_k{\bf x}[t-k]+\sum_{k=1}^{T}B_k {\bf u}[t-k] + C {\bf d}[t-1]$$
+</p>
 <p><code>-</code> 위의 모델로 모든 값들이 모델링된다는 보장이 없다. 논문에서는 자꾸 PID보다 컨트롤 잘한다고 주장하는데 이 주장이 반드시</p>
-<p>$
-{\bf x}[t]=\sum_{k=1}^{T}A_k{\bf x}[t-k]+\sum_{k=1}^{T}B_k {\bf u}[t-k] + C {\bf d}[t-1]
-$</p>
+<p>
+$${\bf x}[t]=\sum_{k=1}^{T}A_k{\bf x}[t-k]+\sum_{k=1}^{T}B_k {\bf u}[t-k] + C {\bf d}[t-1]$$
+</p>
 <p>에 의한 모델링이 정확하다고 볼 수는 없다. 위의식은 제약조건중 하나로 들어가 있을 뿐이라서 위의 제약조건상에 존재하지 않는 공간에서 ${\bf u}$의 최적화가 이루어졌다면 위의 제약조건은 아무 쓸모가 없게 되고 따라서 맞는지 틀린지도 전혀 검증할 수 없다. 실제로 논문에서 위의 모델링을 적용한 결과 모델의 MSE가 얼마라는 식의 주장(=argument)은 전혀 없다.</p>
 <p><code>-</code> 논문은 ${\bf d}[\tau]={\bf d}[\tau-1]$이 성립하는 일정시간을 잘라서 분석한다. 당연히 실제 자료에서</p>
-<p>$
-{\bf d}[\tau]={\bf d}[\tau-1]
-$</p>
+<p>
+$${\bf d}[\tau]={\bf d}[\tau-1]$$
+</p>
 <p>가 성립할리는 만무하고 적당히</p>
-<p>$
-{\bf d}[\tau] \approx {\bf d}[\tau-1]
-$</p>
+<p>
+$${\bf d}[\tau] \approx {\bf d}[\tau-1]$$
+</p>
 <p>느낌으로 시간을 잘라서 분석할 것이다. 그럼 어느정도 $\approx$이면 인정할 것인가? 만약에 ${\bf d}$가 서버의트래픽 때문에 생기는 발열이라면 차라리 괜찮다. 어느순간 재수없이 서버의 트래픽이 증가하여 발열이 급격하게 늘어난다면 발열이 생기기 전의 시간과 생긴후의 시간을 나누어서 분석하면 된다. 그런데 ${\bf d}$가 $EWT$와 같은 변수를 의미할때는 어떠할까? $EWT$는 물의 온도인데 시간에 따라서 일정하다가 갑자기 급격하게 변화하는 경우가 있을까? 조금씩 변화하는 함수이지 않을까? 이러한 함수에 대하여 ${\bf d}[\tau] \approx {\bf d}[\tau-1]$는 너무 순진한 가정이라고 생각한다.</p>
 
 </div>
