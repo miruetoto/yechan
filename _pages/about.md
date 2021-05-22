@@ -12,7 +12,7 @@ permalink: /about/
 
 `-` Reinforcement Learning
 
-## Pulications
+## Publications
 
 `-` Lee, D., Jeong, J. W., & Choi, G. (2021). Short Term Prediction of PV Power Output Generation Using Hierarchical Probabilistic Model. Energies, 14(10), 1-15.
 
