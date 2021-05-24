@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>분석환경셋팅 | 신록예찬</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="분석환경셋팅" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://miruetoto.github.io/yechan/2021/05/23/%ED%85%90%EC%84%9C%ED%94%8C%EB%A1%9C-MNIST%EB%A5%BC-MLP%EB%A1%9C-%EB%B6%84%EC%84%9D%ED%95%A8.html" />
+<meta property="og:url" content="https://miruetoto.github.io/yechan/2021/05/23/%ED%85%90%EC%84%9C%ED%94%8C%EB%A1%9C-MNIST%EB%A5%BC-MLP%EB%A1%9C-%EB%B6%84%EC%84%9D%ED%95%A8.html" />
+<meta property="og:site_name" content="신록예찬" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-05-23T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://miruetoto.github.io/yechan/2021/05/23/%ED%85%90%EC%84%9C%ED%94%8C%EB%A1%9C-MNIST%EB%A5%BC-MLP%EB%A1%9C-%EB%B6%84%EC%84%9D%ED%95%A8.html","@type":"BlogPosting","headline":"분석환경셋팅","dateModified":"2021-05-23T00:00:00-05:00","datePublished":"2021-05-23T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/2021/05/23/%ED%85%90%EC%84%9C%ED%94%8C%EB%A1%9C-MNIST%EB%A5%BC-MLP%EB%A1%9C-%EB%B6%84%EC%84%9D%ED%95%A8.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/yechan/">신록예찬</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/yechan/about/">About Me</a><a class="page-link" href="/yechan/search/">Search</a><a class="page-link" href="/yechan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">1. 분석환경셋팅</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-05-23T00:00:00-05:00" itemprop="datePublished">
+        May 23, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      13 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/miruetoto/yechan/tree/master/_notebooks/2020-1103-[텐서플로]-MNIST를 MLP로 분석함.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/yechan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/miruetoto/yechan/master?filepath=_notebooks%2F2020-1103-%5B%ED%85%90%EC%84%9C%ED%94%8C%EB%A1%9C%5D-MNIST%EB%A5%BC+MLP%EB%A1%9C+%EB%B6%84%EC%84%9D%ED%95%A8.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/miruetoto/yechan/blob/master/_notebooks/2020-1103-[텐서플로]-MNIST를 MLP로 분석함.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-1103-[텐서플로]-MNIST를 MLP로 분석함.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">import</span> <span class="nn">requests</span> 
+<span class="n">exec</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;http://miruetoto.github.io/source/datahandling.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<span class="o">%</span><span class="k">load_ext</span> rpy2.ipython
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>R[write to console]: Loading required package: usethis
+
+R[write to console]: ── <span class="ansi-bold">Attaching packages</span> ─────────────────────────────────────── tidyverse 1.3.0 ──
+
+R[write to console]: <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">ggplot2</span> 3.3.2     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">purrr  </span> 0.3.4
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tibble </span> 3.0.3     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">dplyr  </span> 1.0.1
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tidyr  </span> 1.1.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">stringr</span> 1.4.0
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">readr  </span> 1.3.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">forcats</span> 0.5.0
+
+R[write to console]: ── <span class="ansi-bold">Conflicts</span> ────────────────────────────────────────── tidyverse_conflicts() ──
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">filter()</span> masks <span class="ansi-blue-fg">stats</span>::filter()
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">lag()</span>    masks <span class="ansi-blue-fg">stats</span>::lag()
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="n">checkgpu</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2.2.0
+GPU check 4 TensorFlow: /device:GPU:0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="2.-Load-data">2. Load data<a class="anchor-link" href="#2.-Load-data"> </a></h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mnist</span><span class="o">=</span><span class="n">keras</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">mnist</span>
+<span class="n">mnistdata</span><span class="o">=</span><span class="n">mnist</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz
+11493376/11490434 [==============================] - 1s 0us/step
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>읽힌 자료는 아래와 같은 특징이 있다.</p>
+<ul>
+<li><code>mnistdata</code>는 len=2인 튜플이다.</li>
+<li><code>mnistdata[0]</code>에는 훈련집합이 담겨있고, <code>mnistdata[1]</code>에는 시험집합이 담겨있다. <ul>
+<li><code>mnistdata[0][0]</code>에는 train X 가 남겨있고, <code>mnistdata[0][1]</code>에는 train Y 가 담겨있다. </li>
+<li><code>mnistdata[1][0]</code>에는 test X 가 남겨있고, <code>mnistdata[1][1]</code>에는 test Y 가 담겨있다. </li>
+</ul>
+</li>
+<li><code>mnistdata[0][0]</code> = Xtrain = (60000,28,28) np array </li>
+<li><code>mnistdata[0][1]</code> = Ytrain = (60000,) np array </li>
+<li><code>mnistdata[1][0]</code> = Xtest = (10000,28,28) np array </li>
+<li><code>mnistdata[1][1]</code> = Ytest = (10000,) np array </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>아래와 같은 방식으로 자료를 저장한다</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span><span class="n">Ytrain</span><span class="p">),(</span><span class="n">Xtest</span><span class="p">,</span><span class="n">Ytest</span><span class="p">)</span><span class="o">=</span> <span class="n">mnistdata</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="3.-&#45936;&#51060;&#53552;&#44032;&#44277;-(reshape,astype)">3. &#45936;&#51060;&#53552;&#44032;&#44277; (reshape,astype)<a class="anchor-link" href="#3.-&#45936;&#51060;&#53552;&#44032;&#44277;-(reshape,astype)"> </a></h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Xtrain</span><span class="o">=</span><span class="n">Xtrain</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">60000</span><span class="p">,</span><span class="mi">784</span><span class="p">)</span>
+<span class="n">Xtest</span><span class="o">=</span><span class="n">Xtest</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span><span class="mi">784</span><span class="p">)</span>
+<span class="n">Xtrain</span><span class="o">=</span><span class="n">Xtrain</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">Xtest</span><span class="o">=</span><span class="n">Xtest</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">Xtrain</span><span class="o">/=</span><span class="mi">255</span>
+<span class="n">Xtest</span><span class="o">/=</span><span class="mi">255</span>
+<span class="n">Ytrain</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">Ytrain</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># 10은 카테고리의 총 수, 즉 0~9까지의 숫자</span>
+<span class="n">Ytest</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">Ytest</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(1) <code>reshape</code>: MLP를 돌리기 위해서 X의 차원을 (60000,28,28) np array 에서 (60000,784) np array 로 바꾼다.</p>
+<p>(2) <code>astype</code>: X의 자료형을 'unit8'에서 'float32'로 바꿔준다.</p>
+<p>(3) X의 값은 0-255로 분포되어 있는데 이를 0-1사이값으로 분포하게 바꾼다.</p>
+<p>(4) Y의 값은 원핫인코딩</p>
+<p><strong><em>Note: 원핫인코딩후에는 Y의 차원이 (60000,1) 에서 (60000,10)으로 바뀐다.</em></strong></p>
+<p><strong><em>Note: 2)를 거치지 않으면 3)이 실행되지 않음. 즉 자료형이 float32일 경우에만 3)이 실행가능.</em></strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="4.-&#47784;&#45944;&#44396;&#52629;-/-&#50500;&#53412;&#53581;&#52432;-&#49444;&#44228;-/-&#47784;&#45944;&#47553;">4. &#47784;&#45944;&#44396;&#52629; / &#50500;&#53412;&#53581;&#52432; &#49444;&#44228; / &#47784;&#45944;&#47553;<a class="anchor-link" href="#4.-&#47784;&#45944;&#44396;&#52629;-/-&#50500;&#53412;&#53581;&#52432;-&#49444;&#44228;-/-&#47784;&#45944;&#47553;"> </a></h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">784</span><span class="p">,),</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputlayer&#39;</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;hiddenlayer1&#39;</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span>
+                              <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">regularizers</span><span class="o">.</span><span class="n">l1</span><span class="p">(</span><span class="mf">0.01</span><span class="p">),</span>
+                              <span class="n">activity_regularizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">regularizers</span><span class="o">.</span><span class="n">l1_l2</span><span class="p">(</span><span class="n">l1</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">l2</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)))</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">))</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputlayer&#39;</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">))</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">model1</span><span class="p">,</span><span class="n">to_file</span><span class="o">=</span><span class="s1">&#39;model1.png&#39;</span><span class="p">)</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;Adam&#39;</span><span class="p">,</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span><span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Model: &#34;sequential&#34;
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+inputlayer (Dense)           (None, 128)               100480    
+_________________________________________________________________
+hiddenlayer1 (Dense)         (None, 128)               16512     
+_________________________________________________________________
+dropout (Dropout)            (None, 128)               0         
+_________________________________________________________________
+outputlayer (Dense)          (None, 10)                1290      
+=================================================================
+Total params: 118,282
+Trainable params: 118,282
+Non-trainable params: 0
+_________________________________________________________________
+Failed to import pydot. You must install pydot and graphviz for `pydotprint` to work.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#47751;&#44032;&#51648;&#45432;&#53944;"><strong>&#47751;&#44032;&#51648;&#45432;&#53944;</strong><a class="anchor-link" href="#&#47751;&#44032;&#51648;&#45432;&#53944;"> </a></h2><p>(1) 파라메터 계산하는 방법:</p>
+<ul>
+<li>L0의 경우 입력이 (n,784)출력이 (n,128)이다. 따라서 추정할 파라메터의 수는 (784+1) * 128 = 100480 이다. </li>
+</ul>
+<p>(2) 옵티마이저 바꾸는 방법:</p>
+<ul>
+<li><code>model1.compile(optimizer='SGD',loss='categorical_crossentropy',metrics=['accuracy'])</code></li>
+<li><code>model1.compile(optimizer='RMSprop',loss='categorical_crossentropy',metrics=['accuracy'])</code></li>
+<li><code>model1.compile(optimizer='Adam',loss='categorical_crossentropy',metrics=['accuracy'])</code></li>
+<li><a href="https://www.tensorflow.org/versions/r2.2/api_docs/python/tf/keras/optimizers">https://www.tensorflow.org/versions/r2.2/api_docs/python/tf/keras/optimizers</a></li>
+</ul>
+<p>(3) 활성화함수 종류:</p>
+<ul>
+<li>'softmax','linear','relu','tanh','elu' </li>
+<li><a href="https://www.tensorflow.org/versions/r2.2/api_docs/python/tf/keras/activations">https://www.tensorflow.org/versions/r2.2/api_docs/python/tf/keras/activations</a></li>
+</ul>
+<p>(4) regularizers</p>
+<ul>
+<li><a href="https://www.tensorflow.org/versions/r2.2/api_docs/python/tf/keras/regularizers">https://www.tensorflow.org/versions/r2.2/api_docs/python/tf/keras/regularizers</a></li>
+</ul>
+<p>(5) metrics</p>
+<ul>
+<li><a href="https://www.tensorflow.org/versions/r2.2/api_docs/python/tf/keras/metrics">https://www.tensorflow.org/versions/r2.2/api_docs/python/tf/keras/metrics</a></li>
+</ul>
+<p>(6) loss</p>
+<ul>
+<li><a href="https://www.tensorflow.org/versions/r2.2/api_docs/python/tf/keras/losses">https://www.tensorflow.org/versions/r2.2/api_docs/python/tf/keras/losses</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="5.-&#47784;&#45944;&#54984;&#47144;-/-&#44228;&#49688;&#52286;&#44592;">5. &#47784;&#45944;&#54984;&#47144; / &#44228;&#49688;&#52286;&#44592;<a class="anchor-link" href="#5.-&#47784;&#45944;&#54984;&#47144;-/-&#44228;&#49688;&#52286;&#44592;"> </a></h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">TensorBoard</span><span class="p">(</span><span class="n">log_dir</span><span class="o">=</span><span class="s1">&#39;./logs&#39;</span><span class="p">)]</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span><span class="n">Ytrain</span><span class="p">,</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">1028</span><span class="p">,</span><span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Epoch 1/100
+47/47 [==============================] - 0s 4ms/step - loss: 0.6684 - accuracy: 0.9208 - val_loss: 0.6014 - val_accuracy: 0.9318
+Epoch 2/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.6416 - accuracy: 0.9227 - val_loss: 0.5810 - val_accuracy: 0.9335
+Epoch 3/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.6158 - accuracy: 0.9248 - val_loss: 0.5604 - val_accuracy: 0.9347
+Epoch 4/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.5974 - accuracy: 0.9262 - val_loss: 0.5456 - val_accuracy: 0.9369
+Epoch 5/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.5832 - accuracy: 0.9274 - val_loss: 0.5275 - val_accuracy: 0.9370
+Epoch 6/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.5657 - accuracy: 0.9293 - val_loss: 0.5162 - val_accuracy: 0.9398
+Epoch 7/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.5527 - accuracy: 0.9303 - val_loss: 0.5057 - val_accuracy: 0.9405
+Epoch 8/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.5409 - accuracy: 0.9319 - val_loss: 0.4962 - val_accuracy: 0.9397
+Epoch 9/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.5276 - accuracy: 0.9337 - val_loss: 0.4839 - val_accuracy: 0.9422
+Epoch 10/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.5179 - accuracy: 0.9333 - val_loss: 0.4770 - val_accuracy: 0.9398
+Epoch 11/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.5088 - accuracy: 0.9345 - val_loss: 0.4653 - val_accuracy: 0.9438
+Epoch 12/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4979 - accuracy: 0.9356 - val_loss: 0.4583 - val_accuracy: 0.9450
+Epoch 13/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4871 - accuracy: 0.9375 - val_loss: 0.4421 - val_accuracy: 0.9468
+Epoch 14/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4817 - accuracy: 0.9378 - val_loss: 0.4380 - val_accuracy: 0.9468
+Epoch 15/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4732 - accuracy: 0.9393 - val_loss: 0.4291 - val_accuracy: 0.9496
+Epoch 16/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4645 - accuracy: 0.9392 - val_loss: 0.4226 - val_accuracy: 0.9488
+Epoch 17/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4587 - accuracy: 0.9405 - val_loss: 0.4199 - val_accuracy: 0.9504
+Epoch 18/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4516 - accuracy: 0.9417 - val_loss: 0.4099 - val_accuracy: 0.9506
+Epoch 19/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4433 - accuracy: 0.9428 - val_loss: 0.4035 - val_accuracy: 0.9513
+Epoch 20/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4377 - accuracy: 0.9420 - val_loss: 0.4042 - val_accuracy: 0.9508
+Epoch 21/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4312 - accuracy: 0.9446 - val_loss: 0.3970 - val_accuracy: 0.9516
+Epoch 22/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4271 - accuracy: 0.9429 - val_loss: 0.3941 - val_accuracy: 0.9523
+Epoch 23/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4225 - accuracy: 0.9451 - val_loss: 0.3831 - val_accuracy: 0.9533
+Epoch 24/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4153 - accuracy: 0.9456 - val_loss: 0.3796 - val_accuracy: 0.9543
+Epoch 25/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4113 - accuracy: 0.9467 - val_loss: 0.3763 - val_accuracy: 0.9552
+Epoch 26/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4078 - accuracy: 0.9472 - val_loss: 0.3709 - val_accuracy: 0.9553
+Epoch 27/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3996 - accuracy: 0.9479 - val_loss: 0.3674 - val_accuracy: 0.9563
+Epoch 28/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.4008 - accuracy: 0.9478 - val_loss: 0.3640 - val_accuracy: 0.9558
+Epoch 29/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3929 - accuracy: 0.9489 - val_loss: 0.3614 - val_accuracy: 0.9564
+Epoch 30/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3873 - accuracy: 0.9510 - val_loss: 0.3574 - val_accuracy: 0.9567
+Epoch 31/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3846 - accuracy: 0.9504 - val_loss: 0.3587 - val_accuracy: 0.9560
+Epoch 32/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3796 - accuracy: 0.9512 - val_loss: 0.3510 - val_accuracy: 0.9572
+Epoch 33/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3769 - accuracy: 0.9520 - val_loss: 0.3459 - val_accuracy: 0.9577
+Epoch 34/100
+47/47 [==============================] - 0s 4ms/step - loss: 0.3731 - accuracy: 0.9522 - val_loss: 0.3504 - val_accuracy: 0.9574
+Epoch 35/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3699 - accuracy: 0.9524 - val_loss: 0.3402 - val_accuracy: 0.9588
+Epoch 36/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3679 - accuracy: 0.9523 - val_loss: 0.3383 - val_accuracy: 0.9589
+Epoch 37/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3616 - accuracy: 0.9537 - val_loss: 0.3361 - val_accuracy: 0.9582
+Epoch 38/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3609 - accuracy: 0.9533 - val_loss: 0.3342 - val_accuracy: 0.9603
+Epoch 39/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3567 - accuracy: 0.9543 - val_loss: 0.3323 - val_accuracy: 0.9597
+Epoch 40/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3556 - accuracy: 0.9542 - val_loss: 0.3275 - val_accuracy: 0.9600
+Epoch 41/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3515 - accuracy: 0.9542 - val_loss: 0.3293 - val_accuracy: 0.9586
+Epoch 42/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3476 - accuracy: 0.9561 - val_loss: 0.3220 - val_accuracy: 0.9610
+Epoch 43/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3452 - accuracy: 0.9563 - val_loss: 0.3181 - val_accuracy: 0.9611
+Epoch 44/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3415 - accuracy: 0.9564 - val_loss: 0.3204 - val_accuracy: 0.9610
+Epoch 45/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3386 - accuracy: 0.9563 - val_loss: 0.3175 - val_accuracy: 0.9613
+Epoch 46/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3370 - accuracy: 0.9571 - val_loss: 0.3160 - val_accuracy: 0.9619
+Epoch 47/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3317 - accuracy: 0.9581 - val_loss: 0.3162 - val_accuracy: 0.9588
+Epoch 48/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3328 - accuracy: 0.9570 - val_loss: 0.3114 - val_accuracy: 0.9616
+Epoch 49/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3296 - accuracy: 0.9576 - val_loss: 0.3080 - val_accuracy: 0.9621
+Epoch 50/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3270 - accuracy: 0.9578 - val_loss: 0.3108 - val_accuracy: 0.9617
+Epoch 51/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3209 - accuracy: 0.9600 - val_loss: 0.3021 - val_accuracy: 0.9639
+Epoch 52/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3209 - accuracy: 0.9593 - val_loss: 0.3022 - val_accuracy: 0.9629
+Epoch 53/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3221 - accuracy: 0.9599 - val_loss: 0.3061 - val_accuracy: 0.9631
+Epoch 54/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3186 - accuracy: 0.9593 - val_loss: 0.2996 - val_accuracy: 0.9625
+Epoch 55/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3127 - accuracy: 0.9598 - val_loss: 0.2959 - val_accuracy: 0.9632
+Epoch 56/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3104 - accuracy: 0.9613 - val_loss: 0.2944 - val_accuracy: 0.9635
+Epoch 57/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3123 - accuracy: 0.9598 - val_loss: 0.2962 - val_accuracy: 0.9632
+Epoch 58/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3119 - accuracy: 0.9605 - val_loss: 0.2965 - val_accuracy: 0.9624
+Epoch 59/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3080 - accuracy: 0.9612 - val_loss: 0.2894 - val_accuracy: 0.9636
+Epoch 60/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3031 - accuracy: 0.9623 - val_loss: 0.2938 - val_accuracy: 0.9624
+Epoch 61/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3067 - accuracy: 0.9611 - val_loss: 0.2954 - val_accuracy: 0.9635
+Epoch 62/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3043 - accuracy: 0.9617 - val_loss: 0.2928 - val_accuracy: 0.9627
+Epoch 63/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.3043 - accuracy: 0.9612 - val_loss: 0.2892 - val_accuracy: 0.9643
+Epoch 64/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2992 - accuracy: 0.9620 - val_loss: 0.2839 - val_accuracy: 0.9643
+Epoch 65/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2958 - accuracy: 0.9627 - val_loss: 0.2838 - val_accuracy: 0.9640
+Epoch 66/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2964 - accuracy: 0.9635 - val_loss: 0.2803 - val_accuracy: 0.9645
+Epoch 67/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2914 - accuracy: 0.9638 - val_loss: 0.2840 - val_accuracy: 0.9638
+Epoch 68/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2903 - accuracy: 0.9640 - val_loss: 0.2801 - val_accuracy: 0.9648
+Epoch 69/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2875 - accuracy: 0.9639 - val_loss: 0.2807 - val_accuracy: 0.9653
+Epoch 70/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2858 - accuracy: 0.9643 - val_loss: 0.2751 - val_accuracy: 0.9655
+Epoch 71/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2848 - accuracy: 0.9640 - val_loss: 0.2726 - val_accuracy: 0.9661
+Epoch 72/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2847 - accuracy: 0.9647 - val_loss: 0.2746 - val_accuracy: 0.9658
+Epoch 73/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2811 - accuracy: 0.9648 - val_loss: 0.2742 - val_accuracy: 0.9648
+Epoch 74/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2825 - accuracy: 0.9643 - val_loss: 0.2729 - val_accuracy: 0.9649
+Epoch 75/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2819 - accuracy: 0.9656 - val_loss: 0.2760 - val_accuracy: 0.9644
+Epoch 76/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2773 - accuracy: 0.9656 - val_loss: 0.2736 - val_accuracy: 0.9652
+Epoch 77/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2748 - accuracy: 0.9656 - val_loss: 0.2699 - val_accuracy: 0.9661
+Epoch 78/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2771 - accuracy: 0.9650 - val_loss: 0.2725 - val_accuracy: 0.9641
+Epoch 79/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2760 - accuracy: 0.9664 - val_loss: 0.2691 - val_accuracy: 0.9661
+Epoch 80/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2714 - accuracy: 0.9670 - val_loss: 0.2672 - val_accuracy: 0.9668
+Epoch 81/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2725 - accuracy: 0.9663 - val_loss: 0.2678 - val_accuracy: 0.9670
+Epoch 82/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2705 - accuracy: 0.9670 - val_loss: 0.2675 - val_accuracy: 0.9662
+Epoch 83/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2692 - accuracy: 0.9670 - val_loss: 0.2619 - val_accuracy: 0.9682
+Epoch 84/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2671 - accuracy: 0.9672 - val_loss: 0.2633 - val_accuracy: 0.9669
+Epoch 85/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2659 - accuracy: 0.9675 - val_loss: 0.2644 - val_accuracy: 0.9671
+Epoch 86/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2672 - accuracy: 0.9673 - val_loss: 0.2622 - val_accuracy: 0.9663
+Epoch 87/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2643 - accuracy: 0.9677 - val_loss: 0.2640 - val_accuracy: 0.9657
+Epoch 88/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2653 - accuracy: 0.9678 - val_loss: 0.2662 - val_accuracy: 0.9662
+Epoch 89/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2625 - accuracy: 0.9680 - val_loss: 0.2608 - val_accuracy: 0.9655
+Epoch 90/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2602 - accuracy: 0.9687 - val_loss: 0.2614 - val_accuracy: 0.9657
+Epoch 91/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2614 - accuracy: 0.9680 - val_loss: 0.2640 - val_accuracy: 0.9657
+Epoch 92/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2612 - accuracy: 0.9678 - val_loss: 0.2637 - val_accuracy: 0.9647
+Epoch 93/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2590 - accuracy: 0.9683 - val_loss: 0.2551 - val_accuracy: 0.9682
+Epoch 94/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2555 - accuracy: 0.9680 - val_loss: 0.2590 - val_accuracy: 0.9670
+Epoch 95/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2572 - accuracy: 0.9684 - val_loss: 0.2580 - val_accuracy: 0.9668
+Epoch 96/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2565 - accuracy: 0.9688 - val_loss: 0.2595 - val_accuracy: 0.9664
+Epoch 97/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2517 - accuracy: 0.9701 - val_loss: 0.2568 - val_accuracy: 0.9684
+Epoch 98/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2532 - accuracy: 0.9687 - val_loss: 0.2574 - val_accuracy: 0.9663
+Epoch 99/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2529 - accuracy: 0.9697 - val_loss: 0.2561 - val_accuracy: 0.9679
+Epoch 100/100
+47/47 [==============================] - 0s 3ms/step - loss: 0.2511 - accuracy: 0.9698 - val_loss: 0.2493 - val_accuracy: 0.9664
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tensorflow.python.keras.callbacks.History at 0x7f79dc0f8dc0&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>훈련과정 텐서보드로 확인 : 커멘드에서 <code>tensorboard --logdir logs --host 192.168.0.25 --port 6007</code> 를 입력</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="6.-&#47784;&#45944;&#51200;&#51109;">6. &#47784;&#45944;&#51200;&#51109;<a class="anchor-link" href="#6.-&#47784;&#45944;&#51200;&#51109;"> </a></h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># model1.load_weights(&#39;./weights/model1&#39;)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>훈련시킨 model1의 계수를 저장한뒤에 저장된 계수를 다시 불러와서 model1에 덮어씌움.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># model2 = tf.keras.models.load_model(&#39;my_model.h5&#39;)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>훈련시킨 model1을 'my_model.h5'에 저장한뒤 그것을 model2에 load함.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="7.-$X\hat{\beta}$-&#44396;&#54616;&#44592;-/--Fitted-value-/-Prediction">7. $X\hat{\beta}$ &#44396;&#54616;&#44592; /  Fitted value / Prediction<a class="anchor-link" href="#7.-$X\hat{\beta}$-&#44396;&#54616;&#44592;-/--Fitted-value-/-Prediction"> </a></h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Yhattrain</span><span class="o">=</span><span class="n">model1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">)</span>
+<span class="n">Yhattest</span><span class="o">=</span><span class="n">model1</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xtest</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rbind</span><span class="p">(</span><span class="n">Yhattrain</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">Ytrain</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.000273</td>
+      <td>0.000408</td>
+      <td>0.000551</td>
+      <td>0.1935</td>
+      <td>0.000014</td>
+      <td>0.800909</td>
+      <td>0.000075</td>
+      <td>0.002489</td>
+      <td>0.00011</td>
+      <td>0.001669</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="&#47784;&#54805;&#51012;-&#54217;&#44032;&#54616;&#45716;-&#48169;&#48277;"><strong><em>&#47784;&#54805;&#51012; &#54217;&#44032;&#54616;&#45716; &#48169;&#48277;</em></strong><a class="anchor-link" href="#&#47784;&#54805;&#51012;-&#54217;&#44032;&#54616;&#45716;-&#48169;&#48277;"> </a></h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">trainloss</span><span class="p">,</span><span class="n">trainacc</span> <span class="o">=</span> <span class="n">model1</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">Xtrain</span><span class="p">,</span><span class="n">Ytrain</span><span class="p">)</span>
+<span class="n">testloss</span><span class="p">,</span><span class="n">testacc</span> <span class="o">=</span> <span class="n">model1</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">Xtest</span><span class="p">,</span><span class="n">Ytest</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">trainloss</span><span class="p">,</span><span class="n">trainacc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">testloss</span><span class="p">,</span><span class="n">testacc</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1875/1875 [==============================] - 2s 1ms/step - loss: 0.2395 - accuracy: 0.9741
+313/313 [==============================] - 0s 1ms/step - loss: 0.2595 - accuracy: 0.9647
+0.23953363299369812 0.9740999937057495
+0.2594677805900574 0.9646999835968018
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><a class="u-url" href="/yechan/2021/05/23/%ED%85%90%EC%84%9C%ED%94%8C%EB%A1%9C-MNIST%EB%A5%BC-MLP%EB%A1%9C-%EB%B6%84%EC%84%9D%ED%95%A8.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/yechan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/yechan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/yechan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/miruetoto" title="miruetoto"><svg class="svg-icon grey"><use xlink:href="/yechan/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

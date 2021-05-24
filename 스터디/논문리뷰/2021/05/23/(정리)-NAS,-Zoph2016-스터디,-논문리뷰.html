@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>(정리) NAS, Zoph2016 | 신록예찬</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="(정리) NAS, Zoph2016" />
+<meta name="author" content="신록예찬" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="작성완료" />
+<meta property="og:description" content="작성완료" />
+<link rel="canonical" href="https://miruetoto.github.io/yechan/%EC%8A%A4%ED%84%B0%EB%94%94/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/2021/05/23/(%EC%A0%95%EB%A6%AC)-NAS,-Zoph2016-%EC%8A%A4%ED%84%B0%EB%94%94,-%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0.html" />
+<meta property="og:url" content="https://miruetoto.github.io/yechan/%EC%8A%A4%ED%84%B0%EB%94%94/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/2021/05/23/(%EC%A0%95%EB%A6%AC)-NAS,-Zoph2016-%EC%8A%A4%ED%84%B0%EB%94%94,-%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0.html" />
+<meta property="og:site_name" content="신록예찬" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-05-23T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://miruetoto.github.io/yechan/%EC%8A%A4%ED%84%B0%EB%94%94/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/2021/05/23/(%EC%A0%95%EB%A6%AC)-NAS,-Zoph2016-%EC%8A%A4%ED%84%B0%EB%94%94,-%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0.html","@type":"BlogPosting","headline":"(정리) NAS, Zoph2016","dateModified":"2021-05-23T00:00:00-05:00","datePublished":"2021-05-23T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/%EC%8A%A4%ED%84%B0%EB%94%94/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/2021/05/23/(%EC%A0%95%EB%A6%AC)-NAS,-Zoph2016-%EC%8A%A4%ED%84%B0%EB%94%94,-%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0.html"},"author":{"@type":"Person","name":"신록예찬"},"description":"작성완료","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/yechan/">신록예찬</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/yechan/about/">About Me</a><a class="page-link" href="/yechan/search/">Search</a><a class="page-link" href="/yechan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">(정리) NAS, Zoph2016</h1><p class="page-description">작성완료</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-05-23T00:00:00-05:00" itemprop="datePublished">
+        May 23, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">신록예찬</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      13 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/yechan/categories/#스터디">스터디</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/yechan/categories/#논문리뷰">논문리뷰</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/miruetoto/yechan/tree/master/_notebooks/2020-1102-(정리) NAS, Zoph2016 [스터디, 논문리뷰].ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/yechan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/miruetoto/yechan/master?filepath=_notebooks%2F2020-1102-%28%EC%A0%95%EB%A6%AC%29+NAS%2C+Zoph2016+%5B%EC%8A%A4%ED%84%B0%EB%94%94%2C+%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0%5D.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/miruetoto/yechan/blob/master/_notebooks/2020-1102-(정리) NAS, Zoph2016 [스터디, 논문리뷰].ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-1102-(정리) NAS, Zoph2016 [스터디, 논문리뷰].ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 아래논문의 리뷰임</p>
+<ul>
+<li>Zoph, B., \&amp; Le, Q. V. (2016). Neural architecture search with reinforcement learning. arXiv preprint arXiv:1611.01578. </li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow</span> <span class="kn">import</span> <span class="n">keras</span>
+<span class="kn">import</span> <span class="nn">requests</span> 
+<span class="n">exec</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"http://miruetoto.github.io/source/datahandling.py"</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="n">checkgpu</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2.2.0
+GPU check 4 TensorFlow: /device:GPU:0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span><span class="mi">1100</span><span class="p">))</span><span class="o">/</span><span class="mi">100</span>
+<span class="n">y</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mf">0.2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="s1">'.'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&lt;matplotlib.lines.Line2D at 0x7fc725867dc0&gt;]</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">modelenv</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">modelenv</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'linear'</span><span class="p">))</span>
+<span class="n">modelenv</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'linear'</span><span class="p">))</span>
+<span class="n">modelenv</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'sigmoid'</span><span class="p">))</span>
+<span class="n">modelenv</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">'mean_squared_error'</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">'Adam'</span><span class="p">)</span>
+<span class="n">hist</span> <span class="o">=</span> <span class="n">modelenv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Epoch 1/200
+4/4 [==============================] - 0s 796us/step - loss: 407.0744
+Epoch 2/200
+4/4 [==============================] - 0s 775us/step - loss: 406.6873
+Epoch 3/200
+4/4 [==============================] - 0s 653us/step - loss: 406.3139
+Epoch 4/200
+4/4 [==============================] - 0s 750us/step - loss: 405.9553
+Epoch 5/200
+4/4 [==============================] - 0s 735us/step - loss: 405.6118
+Epoch 6/200
+4/4 [==============================] - 0s 802us/step - loss: 405.2848
+Epoch 7/200
+4/4 [==============================] - 0s 697us/step - loss: 404.9743
+Epoch 8/200
+4/4 [==============================] - 0s 762us/step - loss: 404.6805
+Epoch 9/200
+4/4 [==============================] - 0s 662us/step - loss: 404.4035
+Epoch 10/200
+4/4 [==============================] - 0s 626us/step - loss: 404.1425
+Epoch 11/200
+4/4 [==============================] - 0s 686us/step - loss: 403.8973
+Epoch 12/200
+4/4 [==============================] - 0s 676us/step - loss: 403.6674
+Epoch 13/200
+4/4 [==============================] - 0s 677us/step - loss: 403.4520
+Epoch 14/200
+4/4 [==============================] - 0s 722us/step - loss: 403.2508
+Epoch 15/200
+4/4 [==============================] - 0s 632us/step - loss: 403.0626
+Epoch 16/200
+4/4 [==============================] - 0s 687us/step - loss: 402.8871
+Epoch 17/200
+4/4 [==============================] - 0s 678us/step - loss: 402.7232
+Epoch 18/200
+4/4 [==============================] - 0s 655us/step - loss: 402.5706
+Epoch 19/200
+4/4 [==============================] - 0s 758us/step - loss: 402.4281
+Epoch 20/200
+4/4 [==============================] - 0s 752us/step - loss: 402.2950
+Epoch 21/200
+4/4 [==============================] - 0s 838us/step - loss: 402.1710
+Epoch 22/200
+4/4 [==============================] - 0s 853us/step - loss: 402.0552
+Epoch 23/200
+4/4 [==============================] - 0s 932us/step - loss: 401.9471
+Epoch 24/200
+4/4 [==============================] - 0s 974us/step - loss: 401.8461
+Epoch 25/200
+4/4 [==============================] - 0s 1ms/step - loss: 401.7517
+Epoch 26/200
+4/4 [==============================] - 0s 1ms/step - loss: 401.6633
+Epoch 27/200
+4/4 [==============================] - 0s 2ms/step - loss: 401.5805
+Epoch 28/200
+4/4 [==============================] - 0s 2ms/step - loss: 401.5031
+Epoch 29/200
+4/4 [==============================] - 0s 2ms/step - loss: 401.4304
+Epoch 30/200
+4/4 [==============================] - 0s 2ms/step - loss: 401.3623
+Epoch 31/200
+4/4 [==============================] - 0s 2ms/step - loss: 401.2984
+Epoch 32/200
+4/4 [==============================] - 0s 2ms/step - loss: 401.2383
+Epoch 33/200
+4/4 [==============================] - 0s 2ms/step - loss: 401.1818
+Epoch 34/200
+4/4 [==============================] - 0s 2ms/step - loss: 401.1285
+Epoch 35/200
+4/4 [==============================] - 0s 2ms/step - loss: 401.0786
+Epoch 36/200
+4/4 [==============================] - 0s 2ms/step - loss: 401.0314
+Epoch 37/200
+4/4 [==============================] - 0s 2ms/step - loss: 400.9869
+Epoch 38/200
+4/4 [==============================] - 0s 1ms/step - loss: 400.9449
+Epoch 39/200
+4/4 [==============================] - 0s 1ms/step - loss: 400.9052
+Epoch 40/200
+4/4 [==============================] - 0s 996us/step - loss: 400.8676
+Epoch 41/200
+4/4 [==============================] - 0s 1ms/step - loss: 400.8320
+Epoch 42/200
+4/4 [==============================] - 0s 1ms/step - loss: 400.7983
+Epoch 43/200
+4/4 [==============================] - 0s 955us/step - loss: 400.7662
+Epoch 44/200
+4/4 [==============================] - 0s 893us/step - loss: 400.7359
+Epoch 45/200
+4/4 [==============================] - 0s 870us/step - loss: 400.7073
+Epoch 46/200
+4/4 [==============================] - 0s 763us/step - loss: 400.6799
+Epoch 47/200
+4/4 [==============================] - 0s 860us/step - loss: 400.6539
+Epoch 48/200
+4/4 [==============================] - 0s 774us/step - loss: 400.6292
+Epoch 49/200
+4/4 [==============================] - 0s 882us/step - loss: 400.6057
+Epoch 50/200
+4/4 [==============================] - 0s 843us/step - loss: 400.5833
+Epoch 51/200
+4/4 [==============================] - 0s 810us/step - loss: 400.5620
+Epoch 52/200
+4/4 [==============================] - 0s 791us/step - loss: 400.5417
+Epoch 53/200
+4/4 [==============================] - 0s 804us/step - loss: 400.5224
+Epoch 54/200
+4/4 [==============================] - 0s 762us/step - loss: 400.5040
+Epoch 55/200
+4/4 [==============================] - 0s 771us/step - loss: 400.4864
+Epoch 56/200
+4/4 [==============================] - 0s 804us/step - loss: 400.4695
+Epoch 57/200
+4/4 [==============================] - 0s 832us/step - loss: 400.4533
+Epoch 58/200
+4/4 [==============================] - 0s 836us/step - loss: 400.4379
+Epoch 59/200
+4/4 [==============================] - 0s 842us/step - loss: 400.4230
+Epoch 60/200
+4/4 [==============================] - 0s 844us/step - loss: 400.4088
+Epoch 61/200
+4/4 [==============================] - 0s 757us/step - loss: 400.3952
+Epoch 62/200
+4/4 [==============================] - 0s 800us/step - loss: 400.3822
+Epoch 63/200
+4/4 [==============================] - 0s 843us/step - loss: 400.3697
+Epoch 64/200
+4/4 [==============================] - 0s 797us/step - loss: 400.3577
+Epoch 65/200
+4/4 [==============================] - 0s 722us/step - loss: 400.3461
+Epoch 66/200
+4/4 [==============================] - 0s 787us/step - loss: 400.3350
+Epoch 67/200
+4/4 [==============================] - 0s 799us/step - loss: 400.3243
+Epoch 68/200
+4/4 [==============================] - 0s 904us/step - loss: 400.3141
+Epoch 69/200
+4/4 [==============================] - 0s 824us/step - loss: 400.3042
+Epoch 70/200
+4/4 [==============================] - 0s 841us/step - loss: 400.2946
+Epoch 71/200
+4/4 [==============================] - 0s 824us/step - loss: 400.2854
+Epoch 72/200
+4/4 [==============================] - 0s 741us/step - loss: 400.2766
+Epoch 73/200
+4/4 [==============================] - 0s 937us/step - loss: 400.2680
+Epoch 74/200
+4/4 [==============================] - 0s 774us/step - loss: 400.2599
+Epoch 75/200
+4/4 [==============================] - 0s 918us/step - loss: 400.2520
+Epoch 76/200
+4/4 [==============================] - 0s 842us/step - loss: 400.2443
+Epoch 77/200
+4/4 [==============================] - 0s 806us/step - loss: 400.2369
+Epoch 78/200
+4/4 [==============================] - 0s 854us/step - loss: 400.2297
+Epoch 79/200
+4/4 [==============================] - 0s 870us/step - loss: 400.2229
+Epoch 80/200
+4/4 [==============================] - 0s 933us/step - loss: 400.2162
+Epoch 81/200
+4/4 [==============================] - 0s 787us/step - loss: 400.2098
+Epoch 82/200
+4/4 [==============================] - 0s 777us/step - loss: 400.2036
+Epoch 83/200
+4/4 [==============================] - 0s 809us/step - loss: 400.1976
+Epoch 84/200
+4/4 [==============================] - 0s 811us/step - loss: 400.1917
+Epoch 85/200
+4/4 [==============================] - 0s 833us/step - loss: 400.1860
+Epoch 86/200
+4/4 [==============================] - 0s 804us/step - loss: 400.1805
+Epoch 87/200
+4/4 [==============================] - 0s 777us/step - loss: 400.1752
+Epoch 88/200
+4/4 [==============================] - 0s 758us/step - loss: 400.1700
+Epoch 89/200
+4/4 [==============================] - 0s 900us/step - loss: 400.1649
+Epoch 90/200
+4/4 [==============================] - 0s 831us/step - loss: 400.1601
+Epoch 91/200
+4/4 [==============================] - 0s 821us/step - loss: 400.1554
+Epoch 92/200
+4/4 [==============================] - 0s 802us/step - loss: 400.1508
+Epoch 93/200
+4/4 [==============================] - 0s 795us/step - loss: 400.1464
+Epoch 94/200
+4/4 [==============================] - 0s 795us/step - loss: 400.1422
+Epoch 95/200
+4/4 [==============================] - 0s 743us/step - loss: 400.1380
+Epoch 96/200
+4/4 [==============================] - 0s 837us/step - loss: 400.1339
+Epoch 97/200
+4/4 [==============================] - 0s 767us/step - loss: 400.1300
+Epoch 98/200
+4/4 [==============================] - 0s 766us/step - loss: 400.1261
+Epoch 99/200
+4/4 [==============================] - 0s 794us/step - loss: 400.1223
+Epoch 100/200
+4/4 [==============================] - 0s 849us/step - loss: 400.1188
+Epoch 101/200
+4/4 [==============================] - 0s 815us/step - loss: 400.1153
+Epoch 102/200
+4/4 [==============================] - 0s 830us/step - loss: 400.1118
+Epoch 103/200
+4/4 [==============================] - 0s 785us/step - loss: 400.1085
+Epoch 104/200
+4/4 [==============================] - 0s 854us/step - loss: 400.1053
+Epoch 105/200
+4/4 [==============================] - 0s 858us/step - loss: 400.1021
+Epoch 106/200
+4/4 [==============================] - 0s 874us/step - loss: 400.0990
+Epoch 107/200
+4/4 [==============================] - 0s 779us/step - loss: 400.0960
+Epoch 108/200
+4/4 [==============================] - 0s 825us/step - loss: 400.0931
+Epoch 109/200
+4/4 [==============================] - 0s 796us/step - loss: 400.0902
+Epoch 110/200
+4/4 [==============================] - 0s 781us/step - loss: 400.0874
+Epoch 111/200
+4/4 [==============================] - 0s 807us/step - loss: 400.0847
+Epoch 112/200
+4/4 [==============================] - 0s 786us/step - loss: 400.0821
+Epoch 113/200
+4/4 [==============================] - 0s 772us/step - loss: 400.0795
+Epoch 114/200
+4/4 [==============================] - 0s 806us/step - loss: 400.0770
+Epoch 115/200
+4/4 [==============================] - 0s 761us/step - loss: 400.0745
+Epoch 116/200
+4/4 [==============================] - 0s 800us/step - loss: 400.0721
+Epoch 117/200
+4/4 [==============================] - 0s 772us/step - loss: 400.0699
+Epoch 118/200
+4/4 [==============================] - 0s 785us/step - loss: 400.0675
+Epoch 119/200
+4/4 [==============================] - 0s 808us/step - loss: 400.0653
+Epoch 120/200
+4/4 [==============================] - 0s 750us/step - loss: 400.0631
+Epoch 121/200
+4/4 [==============================] - 0s 900us/step - loss: 400.0611
+Epoch 122/200
+4/4 [==============================] - 0s 798us/step - loss: 400.0590
+Epoch 123/200
+4/4 [==============================] - 0s 820us/step - loss: 400.0569
+Epoch 124/200
+4/4 [==============================] - 0s 818us/step - loss: 400.0549
+Epoch 125/200
+4/4 [==============================] - 0s 795us/step - loss: 400.0530
+Epoch 126/200
+4/4 [==============================] - 0s 868us/step - loss: 400.0510
+Epoch 127/200
+4/4 [==============================] - 0s 804us/step - loss: 400.0492
+Epoch 128/200
+4/4 [==============================] - 0s 759us/step - loss: 400.0474
+Epoch 129/200
+4/4 [==============================] - 0s 792us/step - loss: 400.0455
+Epoch 130/200
+4/4 [==============================] - 0s 865us/step - loss: 400.0438
+Epoch 131/200
+4/4 [==============================] - 0s 819us/step - loss: 400.0421
+Epoch 132/200
+4/4 [==============================] - 0s 809us/step - loss: 400.0404
+Epoch 133/200
+4/4 [==============================] - 0s 750us/step - loss: 400.0388
+Epoch 134/200
+4/4 [==============================] - 0s 854us/step - loss: 400.0372
+Epoch 135/200
+4/4 [==============================] - 0s 786us/step - loss: 400.0357
+Epoch 136/200
+4/4 [==============================] - 0s 770us/step - loss: 400.0342
+Epoch 137/200
+4/4 [==============================] - 0s 784us/step - loss: 400.0327
+Epoch 138/200
+4/4 [==============================] - 0s 736us/step - loss: 400.0311
+Epoch 139/200
+4/4 [==============================] - 0s 796us/step - loss: 400.0297
+Epoch 140/200
+4/4 [==============================] - 0s 761us/step - loss: 400.0283
+Epoch 141/200
+4/4 [==============================] - 0s 837us/step - loss: 400.0269
+Epoch 142/200
+4/4 [==============================] - 0s 863us/step - loss: 400.0256
+Epoch 143/200
+4/4 [==============================] - 0s 902us/step - loss: 400.0243
+Epoch 144/200
+4/4 [==============================] - 0s 850us/step - loss: 400.0230
+Epoch 145/200
+4/4 [==============================] - 0s 811us/step - loss: 400.0217
+Epoch 146/200
+4/4 [==============================] - 0s 819us/step - loss: 400.0204
+Epoch 147/200
+4/4 [==============================] - 0s 785us/step - loss: 400.0192
+Epoch 148/200
+4/4 [==============================] - 0s 790us/step - loss: 400.0180
+Epoch 149/200
+4/4 [==============================] - 0s 817us/step - loss: 400.0168
+Epoch 150/200
+4/4 [==============================] - 0s 865us/step - loss: 400.0157
+Epoch 151/200
+4/4 [==============================] - 0s 833us/step - loss: 400.0145
+Epoch 152/200
+4/4 [==============================] - 0s 761us/step - loss: 400.0134
+Epoch 153/200
+4/4 [==============================] - 0s 779us/step - loss: 400.0123
+Epoch 154/200
+4/4 [==============================] - 0s 823us/step - loss: 400.0113
+Epoch 155/200
+4/4 [==============================] - 0s 828us/step - loss: 400.0102
+Epoch 156/200
+4/4 [==============================] - 0s 794us/step - loss: 400.0092
+Epoch 157/200
+4/4 [==============================] - 0s 771us/step - loss: 400.0081
+Epoch 158/200
+4/4 [==============================] - 0s 776us/step - loss: 400.0071
+Epoch 159/200
+4/4 [==============================] - 0s 789us/step - loss: 400.0062
+Epoch 160/200
+4/4 [==============================] - 0s 806us/step - loss: 400.0052
+Epoch 161/200
+4/4 [==============================] - 0s 771us/step - loss: 400.0042
+Epoch 162/200
+4/4 [==============================] - 0s 832us/step - loss: 400.0033
+Epoch 163/200
+4/4 [==============================] - 0s 816us/step - loss: 400.0024
+Epoch 164/200
+4/4 [==============================] - 0s 811us/step - loss: 400.0015
+Epoch 165/200
+4/4 [==============================] - 0s 837us/step - loss: 400.0006
+Epoch 166/200
+4/4 [==============================] - 0s 765us/step - loss: 399.9997
+Epoch 167/200
+4/4 [==============================] - 0s 801us/step - loss: 399.9989
+Epoch 168/200
+4/4 [==============================] - 0s 783us/step - loss: 399.9980
+Epoch 169/200
+4/4 [==============================] - 0s 736us/step - loss: 399.9972
+Epoch 170/200
+4/4 [==============================] - 0s 819us/step - loss: 399.9964
+Epoch 171/200
+4/4 [==============================] - 0s 788us/step - loss: 399.9956
+Epoch 172/200
+4/4 [==============================] - 0s 827us/step - loss: 399.9948
+Epoch 173/200
+4/4 [==============================] - 0s 766us/step - loss: 399.9940
+Epoch 174/200
+4/4 [==============================] - 0s 836us/step - loss: 399.9933
+Epoch 175/200
+4/4 [==============================] - 0s 877us/step - loss: 399.9926
+Epoch 176/200
+4/4 [==============================] - 0s 781us/step - loss: 399.9918
+Epoch 177/200
+4/4 [==============================] - 0s 774us/step - loss: 399.9911
+Epoch 178/200
+4/4 [==============================] - 0s 840us/step - loss: 399.9904
+Epoch 179/200
+4/4 [==============================] - 0s 803us/step - loss: 399.9897
+Epoch 180/200
+4/4 [==============================] - 0s 803us/step - loss: 399.9890
+Epoch 181/200
+4/4 [==============================] - 0s 790us/step - loss: 399.9883
+Epoch 182/200
+4/4 [==============================] - 0s 888us/step - loss: 399.9877
+Epoch 183/200
+4/4 [==============================] - 0s 814us/step - loss: 399.9869
+Epoch 184/200
+4/4 [==============================] - 0s 754us/step - loss: 399.9863
+Epoch 185/200
+4/4 [==============================] - 0s 882us/step - loss: 399.9857
+Epoch 186/200
+4/4 [==============================] - 0s 877us/step - loss: 399.9851
+Epoch 187/200
+4/4 [==============================] - 0s 865us/step - loss: 399.9845
+Epoch 188/200
+4/4 [==============================] - 0s 808us/step - loss: 399.9839
+Epoch 189/200
+4/4 [==============================] - 0s 838us/step - loss: 399.9833
+Epoch 190/200
+4/4 [==============================] - 0s 804us/step - loss: 399.9827
+Epoch 191/200
+4/4 [==============================] - 0s 809us/step - loss: 399.9821
+Epoch 192/200
+4/4 [==============================] - 0s 847us/step - loss: 399.9815
+Epoch 193/200
+4/4 [==============================] - 0s 820us/step - loss: 399.9809
+Epoch 194/200
+4/4 [==============================] - 0s 859us/step - loss: 399.9804
+Epoch 195/200
+4/4 [==============================] - 0s 830us/step - loss: 399.9799
+Epoch 196/200
+4/4 [==============================] - 0s 820us/step - loss: 399.9793
+Epoch 197/200
+4/4 [==============================] - 0s 779us/step - loss: 399.9788
+Epoch 198/200
+4/4 [==============================] - 0s 847us/step - loss: 399.9783
+Epoch 199/200
+4/4 [==============================] - 0s 775us/step - loss: 399.9777
+Epoch 200/200
+4/4 [==============================] - 0s 787us/step - loss: 399.9773
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">r00</span><span class="o">=</span><span class="mf">0.0535</span>
+<span class="n">r01</span><span class="o">=</span><span class="mf">91.1902</span>
+<span class="n">r10</span><span class="o">=</span><span class="mf">0.3961</span>
+<span class="n">r11</span><span class="o">=</span><span class="mf">34.4771</span>
+
+<span class="k">def</span> <span class="nf">J</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">c</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="n">w1</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span><span class="n">b1</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span><span class="n">w2</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span><span class="n">b2</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+    
+    <span class="n">J00</span><span class="o">=</span><span class="n">r00</span> <span class="o">*</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">w2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">w1</span><span class="o">*</span><span class="mi">0</span><span class="o">+</span><span class="n">b1</span><span class="p">)</span><span class="o">+</span><span class="n">b2</span><span class="p">))</span>
+    <span class="n">J01</span><span class="o">=</span><span class="n">r01</span> <span class="o">*</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">w2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">w1</span><span class="o">*</span><span class="mi">0</span><span class="o">+</span><span class="n">b1</span><span class="p">)</span><span class="o">+</span><span class="n">b2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">w2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">w1</span><span class="o">*</span><span class="mi">0</span><span class="o">+</span><span class="n">b1</span><span class="p">)</span><span class="o">+</span><span class="n">b2</span><span class="p">))</span>
+    <span class="n">J10</span><span class="o">=</span><span class="n">r10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">w2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">w1</span><span class="o">*</span><span class="mi">1</span><span class="o">+</span><span class="n">b1</span><span class="p">)</span><span class="o">+</span><span class="n">b2</span><span class="p">)))</span>
+    <span class="n">J11</span><span class="o">=</span><span class="n">r11</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">w2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">w1</span><span class="o">*</span><span class="mi">1</span><span class="o">+</span><span class="n">b1</span><span class="p">)</span><span class="o">+</span><span class="n">b2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">w2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">w1</span><span class="o">*</span><span class="mi">1</span><span class="o">+</span><span class="n">b1</span><span class="p">)</span><span class="o">+</span><span class="n">b2</span><span class="p">))</span> 
+    <span class="n">J</span><span class="o">=</span><span class="n">J00</span><span class="o">+</span><span class="n">J01</span><span class="o">+</span><span class="n">J10</span><span class="o">+</span><span class="n">J11</span>
+    <span class="k">return</span> <span class="n">J</span> 
+
+<span class="k">def</span> <span class="nf">grd</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">h</span><span class="o">=</span><span class="mf">1e-4</span>
+    <span class="n">grad</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">tmp_val</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">=</span><span class="n">tmp_val</span> <span class="o">+</span><span class="n">h</span> 
+        <span class="n">fxh1</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">=</span><span class="n">tmp_val</span> <span class="o">-</span><span class="n">h</span>
+        <span class="n">fxh2</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">grad</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">fxh1</span><span class="o">-</span><span class="n">fxh2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">=</span><span class="n">tmp_val</span> 
+    <span class="k">return</span> <span class="n">grad</span>   
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">para</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">8</span><span class="p">])</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"[step 1]"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"θ:=(c,w1,b1,w2,b2)="</span><span class="p">,</span><span class="n">para</span><span class="p">);</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"J(θ):"</span><span class="p">,</span><span class="n">J</span><span class="p">(</span><span class="n">para</span><span class="p">))</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ/dθ: "</span><span class="p">,</span> <span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dθ:"</span><span class="p">,[</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ: "</span><span class="p">,</span><span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">)</span><span class="o">*</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"--------------------------"</span><span class="p">)</span>
+<span class="n">para</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">11</span><span class="p">])</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"[step 2]"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"θ:=(c,w1,b1,w2,b2)="</span><span class="p">,</span><span class="n">para</span><span class="p">);</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"J(θ):"</span><span class="p">,</span><span class="n">J</span><span class="p">(</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ/dθ: "</span><span class="p">,</span> <span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dθ:"</span><span class="p">,[</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ: "</span><span class="p">,</span><span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">)</span><span class="o">*</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"--------------------------"</span><span class="p">)</span>
+<span class="n">para</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">77</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">16</span><span class="p">])</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"[step 3]"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"θ:=(c,w1,b1,w2,b2)="</span><span class="p">,</span><span class="n">para</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"J(θ):"</span><span class="p">,</span><span class="n">J</span><span class="p">(</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ/dθ: "</span><span class="p">,</span> <span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dθ:"</span><span class="p">,[</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ: "</span><span class="p">,</span><span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">)</span><span class="o">*</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"--------------------------"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[step 1]
+θ:=(c,w1,b1,w2,b2)= [-8 77 77  0 -8]
+J(θ): 0.0841047960343998
+dJ/dθ:  [  0   0   0   0 262]
+dθ: [0.0001, 0.0001, 0.0001, 0.0001, 0.0001]
+dJ:  [0.     0.     0.     0.     0.0262]
+--------------------------
+[step 2]
+θ:=(c,w1,b1,w2,b2)= [ -8  77  77   0 -11]
+J(θ): 0.055070269438824114
+dJ/dθ:  [ 0  0  0  0 13]
+dθ: [0.0001, 0.0001, 0.0001, 0.0001, 0.0001]
+dJ:  [0.     0.     0.     0.     0.0013]
+--------------------------
+[step 3]
+θ:=(c,w1,b1,w2,b2)= [ -8  77  77   0 -16]
+J(θ): 0.05355872880266694
+dJ/dθ:  [0 0 0 0 0]
+dθ: [0.0001, 0.0001, 0.0001, 0.0001, 0.0001]
+dJ:  [0. 0. 0. 0. 0.]
+--------------------------
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">para</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"[step 1]"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"θ:=(c,w1,b1,w2,b2)="</span><span class="p">,</span><span class="n">para</span><span class="p">);</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"J(θ):"</span><span class="p">,</span><span class="n">J</span><span class="p">(</span><span class="n">para</span><span class="p">))</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ/dθ: "</span><span class="p">,</span> <span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dθ:"</span><span class="p">,[</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ: "</span><span class="p">,</span><span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">)</span><span class="o">*</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"--------------------------"</span><span class="p">)</span>
+<span class="n">para</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"[step 2]"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"θ:=(c,w1,b1,w2,b2)="</span><span class="p">,</span><span class="n">para</span><span class="p">);</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"J(θ):"</span><span class="p">,</span><span class="n">J</span><span class="p">(</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ/dθ: "</span><span class="p">,</span> <span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dθ:"</span><span class="p">,[</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ: "</span><span class="p">,</span><span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">)</span><span class="o">*</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"--------------------------"</span><span class="p">)</span>
+<span class="n">para</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">15</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"[step 3]"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"θ:=(c,w1,b1,w2,b2)="</span><span class="p">,</span><span class="n">para</span><span class="p">);</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"J(θ):"</span><span class="p">,</span><span class="n">J</span><span class="p">(</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ/dθ: "</span><span class="p">,</span> <span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dθ:"</span><span class="p">,[</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ: "</span><span class="p">,</span><span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">)</span><span class="o">*</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"--------------------------"</span><span class="p">)</span>
+<span class="n">para</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">15</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">9</span><span class="p">])</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"[step 4]"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"θ:=(c,w1,b1,w2,b2)="</span><span class="p">,</span><span class="n">para</span><span class="p">);</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"J(θ):"</span><span class="p">,</span><span class="n">J</span><span class="p">(</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ/dθ: "</span><span class="p">,</span> <span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dθ:"</span><span class="p">,[</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ: "</span><span class="p">,</span><span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">)</span><span class="o">*</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"--------------------------"</span><span class="p">)</span>
+<span class="n">para</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">15</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">15</span><span class="p">])</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"[step 5]"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"θ:=(c,w1,b1,w2,b2)="</span><span class="p">,</span><span class="n">para</span><span class="p">);</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">"J(θ):"</span><span class="p">,</span><span class="n">J</span><span class="p">(</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ/dθ: "</span><span class="p">,</span> <span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dθ:"</span><span class="p">,[</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">,</span><span class="mf">1e-4</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dJ: "</span><span class="p">,</span><span class="n">grd</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">para</span><span class="p">)</span><span class="o">*</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"--------------------------"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[step 1]
+θ:=(c,w1,b1,w2,b2)= [5 1 1 5 5]
+J(θ): 34.85472007147423
+dJ/dθ:  [-3201    16    36    15    16]
+dθ: [0.0001, 0.0001, 0.0001, 0.0001, 0.0001]
+dJ:  [-0.3201  0.0016  0.0036  0.0015  0.0016]
+--------------------------
+[step 2]
+θ:=(c,w1,b1,w2,b2)= [10  0  0  3  3]
+J(θ): 32.844446092466185
+dJ/dθ:  [  -21     0     0     0 12373]
+dθ: [0.0001, 0.0001, 0.0001, 0.0001, 0.0001]
+dJ:  [-0.0021  0.      0.      0.      1.2373]
+--------------------------
+[step 3]
+θ:=(c,w1,b1,w2,b2)= [15  0  0  3 -2]
+J(θ): 4.294441929836379
+dJ/dθ:  [    0     0     0     0 25699]
+dθ: [0.0001, 0.0001, 0.0001, 0.0001, 0.0001]
+dJ:  [0.     0.     0.     0.     2.5699]
+--------------------------
+[step 4]
+θ:=(c,w1,b1,w2,b2)= [15  0  0  3 -9]
+J(θ): 0.2022920244041837
+dJ/dθ:  [ 0  0  0  0 36]
+dθ: [0.0001, 0.0001, 0.0001, 0.0001, 0.0001]
+dJ:  [0.     0.     0.     0.     0.0036]
+--------------------------
+[step 5]
+θ:=(c,w1,b1,w2,b2)= [ 15   0   0   3 -15]
+J(θ): 0.198060472116835
+dJ/dθ:  [0 0 0 0 0]
+dθ: [0.0001, 0.0001, 0.0001, 0.0001, 0.0001]
+dJ:  [0. 0. 0. 0. 0.]
+--------------------------
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="miruetoto/yechan"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/yechan/%EC%8A%A4%ED%84%B0%EB%94%94/%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0/2021/05/23/(%EC%A0%95%EB%A6%AC)-NAS,-Zoph2016-%EC%8A%A4%ED%84%B0%EB%94%94,-%EB%85%BC%EB%AC%B8%EB%A6%AC%EB%B7%B0.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/yechan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/yechan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/yechan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/miruetoto" title="miruetoto"><svg class="svg-icon grey"><use xlink:href="/yechan/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
