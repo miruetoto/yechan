@@ -6,12 +6,13 @@ permalink: /about/
 
 ## Research Interests 
 
-### Geometric Deep Learninig 
+`-` Geometric Deep Learninig 
 
-### Multiscale Analysis 
+`-` Multiscale Analysis 
 
-### Reinforcement Learning
+`-` Reinforcement Learning
 
+--- 
 
 ## Publications
 
