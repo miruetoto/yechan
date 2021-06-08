@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>(노트) 토픽모델 (R예제와 함께) | 신록예찬</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="(노트) 토픽모델 (R예제와 함께)" />
+<meta name="author" content="신록예찬" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="작성완료" />
+<meta property="og:description" content="작성완료" />
+<link rel="canonical" href="https://miruetoto.github.io/yechan/%ED%86%B5%EA%B3%84%EA%B3%84%EC%82%B0/%EB%94%A5%EB%9F%AC%EB%8B%9D/r/2021/06/04/(%EB%85%B8%ED%8A%B8)-%ED%86%A0%ED%94%BD%EB%AA%A8%EB%8D%B8-(R%EC%98%88%EC%A0%9C%EC%99%80-%ED%95%A8%EA%BB%98)-%ED%86%B5%EA%B3%84%EA%B3%84%EC%82%B0,-%EB%94%A5%EB%9F%AC%EB%8B%9D,-R.html" />
+<meta property="og:url" content="https://miruetoto.github.io/yechan/%ED%86%B5%EA%B3%84%EA%B3%84%EC%82%B0/%EB%94%A5%EB%9F%AC%EB%8B%9D/r/2021/06/04/(%EB%85%B8%ED%8A%B8)-%ED%86%A0%ED%94%BD%EB%AA%A8%EB%8D%B8-(R%EC%98%88%EC%A0%9C%EC%99%80-%ED%95%A8%EA%BB%98)-%ED%86%B5%EA%B3%84%EA%B3%84%EC%82%B0,-%EB%94%A5%EB%9F%AC%EB%8B%9D,-R.html" />
+<meta property="og:site_name" content="신록예찬" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-04T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://miruetoto.github.io/yechan/%ED%86%B5%EA%B3%84%EA%B3%84%EC%82%B0/%EB%94%A5%EB%9F%AC%EB%8B%9D/r/2021/06/04/(%EB%85%B8%ED%8A%B8)-%ED%86%A0%ED%94%BD%EB%AA%A8%EB%8D%B8-(R%EC%98%88%EC%A0%9C%EC%99%80-%ED%95%A8%EA%BB%98)-%ED%86%B5%EA%B3%84%EA%B3%84%EC%82%B0,-%EB%94%A5%EB%9F%AC%EB%8B%9D,-R.html","@type":"BlogPosting","headline":"(노트) 토픽모델 (R예제와 함께)","dateModified":"2021-06-04T00:00:00-05:00","datePublished":"2021-06-04T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/%ED%86%B5%EA%B3%84%EA%B3%84%EC%82%B0/%EB%94%A5%EB%9F%AC%EB%8B%9D/r/2021/06/04/(%EB%85%B8%ED%8A%B8)-%ED%86%A0%ED%94%BD%EB%AA%A8%EB%8D%B8-(R%EC%98%88%EC%A0%9C%EC%99%80-%ED%95%A8%EA%BB%98)-%ED%86%B5%EA%B3%84%EA%B3%84%EC%82%B0,-%EB%94%A5%EB%9F%AC%EB%8B%9D,-R.html"},"author":{"@type":"Person","name":"신록예찬"},"description":"작성완료","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/yechan/">신록예찬</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/yechan/about/">About Me</a><a class="page-link" href="/yechan/search/">Search</a><a class="page-link" href="/yechan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">(노트) 토픽모델 (R예제와 함께)</h1><p class="page-description">작성완료</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-06-04T00:00:00-05:00" itemprop="datePublished">
+        Jun 4, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">신록예찬</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/yechan/categories/#통계계산">통계계산</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/yechan/categories/#딥러닝">딥러닝</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/yechan/categories/#R">R</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/miruetoto/yechan/tree/master/_notebooks/2021-06-04-(노트) 토픽모델 (R예제와 함께) [통계계산, 딥러닝, R].ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/yechan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/miruetoto/yechan/master?filepath=_notebooks%2F2021-06-04-%28%EB%85%B8%ED%8A%B8%29+%ED%86%A0%ED%94%BD%EB%AA%A8%EB%8D%B8+%28R%EC%98%88%EC%A0%9C%EC%99%80+%ED%95%A8%EA%BB%98%29+%5B%ED%86%B5%EA%B3%84%EA%B3%84%EC%82%B0%2C+%EB%94%A5%EB%9F%AC%EB%8B%9D%2C+R%5D.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/miruetoto/yechan/blob/master/_notebooks/2021-06-04-(노트) 토픽모델 (R예제와 함께) [통계계산, 딥러닝, R].ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#Toy-Example">Toy Example </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#문서1-:-[손흥민,-골]">문서1 : [손흥민, 골] </a></li>
+<li class="toc-entry toc-h4"><a href="#문서1:[손흥민,골]">문서1:[손흥민,골] </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#구현">구현 </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-06-04-(노트) 토픽모델 (R예제와 함께) [통계계산, 딥러닝, R].ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Toy-Example">
+<a class="anchor" href="#Toy-Example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Toy Example<a class="anchor-link" href="#Toy-Example"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="nf">rbind</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">'손흥민'</span><span class="p">,</span><span class="s">'골'</span><span class="p">),</span>
+                  <span class="nf">c</span><span class="p">(</span><span class="s">'골'</span><span class="p">,</span><span class="s">'확률'</span><span class="p">),</span>
+                  <span class="nf">c</span><span class="p">(</span><span class="s">'확률'</span><span class="p">,</span><span class="s">'데이터과학'</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">rownames</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="s">'doc1'</span><span class="p">,</span><span class="s">'doc2'</span><span class="p">,</span><span class="s">'doc3'</span><span class="p">)</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="s">'word1'</span><span class="p">,</span><span class="s">'word2'</span><span class="p">)</span>
+<span class="n">documents</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table class="dataframe">
+<caption>A matrix: 3 × 2 of type chr</caption>
+<thead>
+	<tr>
+<th></th>
+<th scope="col">word1</th>
+<th scope="col">word2</th>
+</tr>
+</thead>
+<tbody>
+	<tr>
+<th scope="row">doc1</th>
+<td>손흥민</td>
+<td>골        </td>
+</tr>
+	<tr>
+<th scope="row">doc2</th>
+<td>골    </td>
+<td>확률      </td>
+</tr>
+	<tr>
+<th scope="row">doc3</th>
+<td>확률  </td>
+<td>데이터과학</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">document_topics</span><span class="o">=</span><span class="nf">rbind</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">),</span>
+                      <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">),</span>
+                      <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">0</span><span class="p">))</span> <span class="c1">## 랜덤으로 초기화 </span>
+<span class="nf">rownames</span><span class="p">(</span><span class="n">document_topics</span><span class="p">)</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="s">'doc1'</span><span class="p">,</span><span class="s">'doc2'</span><span class="p">,</span><span class="s">'doc3'</span><span class="p">)</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">document_topics</span><span class="p">)</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="s">'topic1'</span><span class="p">,</span><span class="s">'topic2'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">document_topics</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table class="dataframe">
+<caption>A matrix: 3 × 2 of type dbl</caption>
+<thead>
+	<tr>
+<th></th>
+<th scope="col">topic1</th>
+<th scope="col">topic2</th>
+</tr>
+</thead>
+<tbody>
+	<tr>
+<th scope="row">doc1</th>
+<td>1</td>
+<td>0</td>
+</tr>
+	<tr>
+<th scope="row">doc2</th>
+<td>0</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">doc3</th>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>문서당 토픽비율</p>
+<ul>
+<li>문서1: [손흥민, 골] = [1,0]</li>
+<li>문서2: [골, 확률] = [0,1]</li>
+<li>문서3: [확률, 데이터과학] = [1,0]</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>토픽별로 자주 등장하는 단어</p>
+<ul>
+<li>토픽0: 골, 골, 데이터과학 ---&gt; 토픽이름은 축구??.. </li>
+<li>토픽1: 손흥민, 확률, 확률 ---&gt; 토픽이름은 확률?? </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>목표: document_topics의 값을 그럴듯하게 바꾸자. 예를들면 아래처럼.</p>
+<div class="highlight"><pre><span></span><span class="n">document_topics</span><span class="o">=</span><span class="nf">rbind</span><span class="p">(</span><span class="n">doc1</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">),</span>
+                      <span class="n">doc2</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">),</span>
+                      <span class="n">doc3</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span> <span class="c1">## 랜덤으로 초기화</span>
+</pre></div>
+<p>그러니까 $3 \times 2$ 차원 랜덤변수를 뽑는문제임.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="문서1-:-[손흥민,-골]">
+<a class="anchor" href="#%EB%AC%B8%EC%84%9C1-:-%5B%EC%86%90%ED%9D%A5%EB%AF%BC,-%EA%B3%A8%5D" aria-hidden="true"><span class="octicon octicon-link"></span></a>문서1 : [<code>손흥민</code>, 골]<a class="anchor-link" href="#%EB%AC%B8%EC%84%9C1-:-%5B%EC%86%90%ED%9D%A5%EB%AF%BC,-%EA%B3%A8%5D"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 랜덤 초기화로 인한 현재상황은 아래와 같다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>문서당 토픽비율</p>
+<ul>
+<li>문서1: [손흥민, 골] = [1,0]</li>
+<li>문서2: [골, 확률] = [0,1]</li>
+<li>문서3: [확률, 데이터과학] = [1,0]</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>토픽별로 자주 등장하는 단어</p>
+<ul>
+<li>토픽0: 골, 골, 데이터과학</li>
+<li>토픽1: 손흥민, 확률, 확률 </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>–</code> 위에는 임의의 초기값이 들어가있다. 우리는 지금 문서1에서 손흥민에 해당하는 토픽으로 <code>토픽=0</code>이 그럴듯한지 <code>토픽=1</code>이 그럴듯한지 다시 생각하고 싶다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 깁스샘플링: 현재 관심있는 문서1의 첫단어 손흥민에 대한 토픽분류를 제외하고 나머지는 모두 올바른 값이라고 가정하자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>문서당 토픽비율</p>
+<ul>
+<li>문서1: [손흥민, 골] = [1,0] ==&gt; [?,0] </li>
+<li>문서2: [골, 확률] = [0,1] ==&gt; [0,1]</li>
+<li>문서3: [확률, 데이터과학] = [1,0] ==&gt; [1,0]</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>토픽별로 자주 등장하는 단어</p>
+<ul>
+<li>토픽0: 골, 골, 데이터과학 ==&gt; 골, 골, 데이터과학</li>
+<li>토픽1: 손흥민, 확률, 확률 ==&gt; ?, 확률, 확률</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 손흥민이라는 단어가 뽑힐 경우는 아래의 두 가지가 있다.</p>
+<ul>
+<li>토픽0에서 뽑혔을 경우</li>
+<li>토픽1에서 뽑혔을 경우</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 토픽0에서 뽑혔을 경우는 아래와 같이 계산가능하다</p>
+<ul>
+<li>(문서1에 토픽0이 포함되어 있는 비율) <em> (토픽0에서 손흥민이라는 단어를 뽑을 확률) = 1 </em> 0.001 </li>
+<li>p(토픽0|문서1) <em> p(손흥민|토픽0) = 1 </em> 0.001</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>–</code> 토픽1에서 뽑혔을경우는 아래와 같이 계산가능하다</p>
+<ul>
+<li>p(토픽1|문서1) <em> p(손흥민|토픽1) = 0.001 </em> 0.001 </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>–</code> 손흥민은 토픽0에서 뽑혔다고 보는것이 타당함. (왜? 현재단어 손흥민은 문서1에 있고, 문서1은 토픽0이 대부분이니까!)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>–</code> 아래와 같이 업데이트 한다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>문서당 토픽비율</p>
+<ul>
+<li>문서1: [손흥민, 골] = [0,0] </li>
+<li>문서2: [골, 확률] = [0,1] </li>
+<li>문서3: [확률, 데이터과학] = [1,0] </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>토픽별로 자주 등장하는 단어</p>
+<ul>
+<li>토픽0: 손흥민, 골, 골, 데이터과학</li>
+<li>토픽1: 확률, 확률 </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="문서1:[손흥민,골]">
+<a class="anchor" href="#%EB%AC%B8%EC%84%9C1:%5B%EC%86%90%ED%9D%A5%EB%AF%BC,%EA%B3%A8%5D" aria-hidden="true"><span class="octicon octicon-link"></span></a>문서1:[손흥민,<code>골</code>]<a class="anchor-link" href="#%EB%AC%B8%EC%84%9C1:%5B%EC%86%90%ED%9D%A5%EB%AF%BC,%EA%B3%A8%5D"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 업데이트 전</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>문서당 토픽비율</p>
+<ul>
+<li>문서1: [손흥민, 골] = [0,0] ==&gt; [0,?]</li>
+<li>문서2: [골, 확률] = [0,1] ==&gt; [0,1]</li>
+<li>문서3: [확률, 데이터과학] = [1,0] ==&gt; [1,0]</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>토픽별로 자주 등장하는 단어</p>
+<ul>
+<li>토픽0: 손흥민, 골, 골, 데이터과학 ==&gt; 손흥민, ?, 골, 데이터과학 </li>
+<li>토픽1: 확률, 확률 ==&gt; 확률, 확률 </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 샘플링</p>
+<ul>
+<li>p(토픽0|문서1)<em>p(골|토픽0) = 1 </em> 1/3</li>
+<li>p(토픽1|문서1)<em>p(골|토픽1) = 0.001 </em> 0.001 </li>
+</ul>
+<p>결정: 토픽0 선택 (왜? 현재단어는 문서1에 있는데 문서1에는 일단 토픽 0이 대부분이다 <code>+</code> 현재 단어는 골인데 골은 토픽0에서 잘나오니까)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 업데이트 후</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>문서당 토픽비율</p>
+<ul>
+<li>문서1: [손흥민, 골] = [0,0]</li>
+<li>문서2: [골, 확률] = [0,1]</li>
+<li>문서3: [확률, 데이터과학] = [1,0]</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 이런식으로 반복하면 결국 각 단어는 자신의 정체성을 아래와 같은 2가지 기준으로 판단하게 된다.</p>
+<ul>
+<li>나는 $d$-th document에 속해있다 $\to$ 그런데 이 document의 단어를 쭉보니까 토픽 $p$ 에 많다 $\to$ 나도 토픽 $p$ 인가? </li>
+<li>나와 똑같은 이름을 가진 단어들이 토픽 $p'$에 많다 $\to$ 나도 토픽 $p'$에서 왔을까? </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 재미있는점은 각 단어의 선택이 다른 단어에도 영향을 준다는 것이다. (다들 나 빼고는 다 맞다고 가정하고 있으니까.. )</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="구현">
+<a class="anchor" href="#%EA%B5%AC%ED%98%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>구현<a class="anchor-link" href="#%EA%B5%AC%ED%98%84"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 구현해보자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">doclen</span><span class="o">&lt;-</span><span class="m">5</span>
+<span class="n">word</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="s">'손흥민'</span><span class="p">,</span><span class="s">'골'</span><span class="p">,</span><span class="s">'골'</span><span class="p">,</span><span class="s">'박지성'</span><span class="p">,</span><span class="s">'패스'</span><span class="p">,</span>
+        <span class="s">'골'</span><span class="p">,</span><span class="s">'확률'</span><span class="p">,</span><span class="s">'패스'</span><span class="p">,</span><span class="s">'손흥민'</span><span class="p">,</span><span class="s">'골'</span><span class="p">,</span>
+        <span class="s">'골'</span><span class="p">,</span><span class="s">'골'</span><span class="p">,</span><span class="s">'확률'</span><span class="p">,</span><span class="s">'패스'</span><span class="p">,</span><span class="s">'골'</span><span class="p">,</span>
+        <span class="s">'골'</span><span class="p">,</span><span class="s">'박지성'</span><span class="p">,</span><span class="s">'통계'</span><span class="p">,</span><span class="s">'확률'</span><span class="p">,</span><span class="s">'골'</span><span class="p">,</span>
+        <span class="s">'확률'</span><span class="p">,</span><span class="s">'통계'</span><span class="p">,</span><span class="s">'박지성'</span><span class="p">,</span><span class="s">'통계'</span><span class="p">,</span><span class="s">'골'</span><span class="p">,</span>
+        <span class="s">'확률'</span><span class="p">,</span><span class="s">'확률'</span><span class="p">,</span><span class="s">'골'</span><span class="p">,</span><span class="s">'통계'</span><span class="p">,</span><span class="s">'AI'</span><span class="p">,</span>
+        <span class="s">'확률'</span><span class="p">,</span><span class="s">'확률'</span><span class="p">,</span><span class="s">'통계'</span><span class="p">,</span><span class="s">'통계'</span><span class="p">,</span><span class="s">'AI'</span><span class="p">,</span>
+        <span class="s">'확률'</span><span class="p">,</span><span class="s">'빅데이터'</span><span class="p">,</span><span class="s">'데이터과학'</span><span class="p">,</span><span class="s">'빅데이터'</span><span class="p">,</span><span class="s">'AI'</span><span class="p">,</span>
+        <span class="s">'확률'</span><span class="p">,</span><span class="s">'데이터과학'</span><span class="p">,</span><span class="s">'AI'</span><span class="p">,</span><span class="s">'데이터과학'</span><span class="p">,</span><span class="s">'데이터과학'</span><span class="p">)</span>
+<span class="n">doc</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">doclen</span><span class="p">),</span><span class="nf">rep</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="n">doclen</span><span class="p">),</span><span class="nf">rep</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="n">doclen</span><span class="p">),</span>
+       <span class="nf">rep</span><span class="p">(</span><span class="m">4</span><span class="p">,</span><span class="n">doclen</span><span class="p">),</span><span class="nf">rep</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="n">doclen</span><span class="p">),</span><span class="nf">rep</span><span class="p">(</span><span class="m">6</span><span class="p">,</span><span class="n">doclen</span><span class="p">),</span>
+       <span class="nf">rep</span><span class="p">(</span><span class="m">7</span><span class="p">,</span><span class="n">doclen</span><span class="p">),</span><span class="nf">rep</span><span class="p">(</span><span class="m">8</span><span class="p">,</span><span class="n">doclen</span><span class="p">),</span><span class="nf">rep</span><span class="p">(</span><span class="m">9</span><span class="p">,</span><span class="n">doclen</span><span class="p">))</span>
+<span class="n">topic</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span>
+         <span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span>
+         <span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span>
+         <span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span>
+         <span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span>
+         <span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">,</span>
+         <span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span>
+         <span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span>
+         <span class="m">2</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">)</span>
+<span class="n">data</span><span class="o">&lt;-</span> <span class="nf">tibble</span><span class="p">(</span><span class="n">word</span><span class="o">=</span><span class="n">word</span><span class="p">,</span><span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span><span class="n">topic</span><span class="o">=</span><span class="n">topic</span><span class="p">)</span>
+<span class="nf">head</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table class="dataframe">
+<caption>A tibble: 6 × 3</caption>
+<thead>
+	<tr>
+<th scope="col">word</th>
+<th scope="col">doc</th>
+<th scope="col">topic</th>
+</tr>
+	<tr>
+<th scope="col">&lt;chr&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+	<tr>
+<td>손흥민</td>
+<td>1</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>골    </td>
+<td>1</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>골    </td>
+<td>1</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>박지성</td>
+<td>1</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>패스  </td>
+<td>1</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>골    </td>
+<td>2</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">topic_doc</span><span class="o">&lt;-</span><span class="nf">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.1</span><span class="p">){</span>
+    <span class="n">count_</span> <span class="o">=</span> <span class="nf">dim</span><span class="p">(</span><span class="nf">filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">doc</span><span class="o">==</span><span class="n">d</span><span class="p">,</span><span class="n">topic</span><span class="o">==</span><span class="n">k</span><span class="p">))[</span><span class="m">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">alpha</span>
+    <span class="n">total_</span> <span class="o">=</span> <span class="nf">dim</span><span class="p">(</span><span class="nf">filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">doc</span><span class="o">==</span><span class="n">d</span><span class="p">))[</span><span class="m">1</span><span class="p">]</span><span class="o">+</span> <span class="n">K</span><span class="o">*</span><span class="n">alpha</span>
+    <span class="n">count_</span> <span class="o">/</span> <span class="n">total_</span> 
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">word_topic</span><span class="o">&lt;-</span><span class="nf">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.1</span><span class="p">){</span>
+    <span class="n">word_</span><span class="o">=</span><span class="nf">filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">doc</span><span class="o">==</span><span class="n">d</span><span class="p">)[</span><span class="n">w</span><span class="p">,]</span><span class="o">$</span><span class="n">word</span>
+    <span class="n">count_</span> <span class="o">=</span> <span class="nf">dim</span><span class="p">(</span><span class="nf">filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">topic</span><span class="o">==</span><span class="n">k</span><span class="p">,</span><span class="n">word</span><span class="o">==</span><span class="n">word_</span><span class="p">))[</span><span class="m">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">alpha</span> 
+    <span class="n">total_</span> <span class="o">=</span> <span class="nf">dim</span><span class="p">(</span><span class="nf">filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">topic</span><span class="o">==</span><span class="n">k</span><span class="p">))[</span><span class="m">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">N</span><span class="o">*</span><span class="n">alpha</span> 
+    <span class="n">count_</span> <span class="o">/</span> <span class="n">total_</span> 
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">topicprob</span><span class="o">&lt;-</span><span class="nf">function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">w</span><span class="p">){</span>
+    <span class="n">rtn</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">()</span>
+    <span class="nf">for</span><span class="p">(</span><span class="n">k</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">K</span><span class="p">){</span>
+       <span class="n">rtn</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nf">topic_doc</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="nf">word_topic</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">rtn</span><span class="o">/</span><span class="nf">sum</span><span class="p">(</span><span class="n">rtn</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">diri</span><span class="o">&lt;-</span><span class="nf">function</span><span class="p">(</span><span class="n">weights</span><span class="p">){</span>
+    <span class="n">cum</span><span class="o">&lt;-</span> <span class="n">weights</span> <span class="o">%&gt;%</span> <span class="nf">cumsum</span><span class="p">()</span> 
+    <span class="n">U</span><span class="o">&lt;-</span><span class="nf">runif</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+    <span class="m">1</span><span class="o">+</span><span class="nf">sum</span><span class="p">(</span><span class="n">U</span><span class="o">&gt;</span><span class="n">cum</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">D</span><span class="o">&lt;-</span><span class="nf">max</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">doc</span><span class="p">)</span>
+<span class="n">K</span><span class="o">&lt;-</span><span class="m">2</span>
+<span class="n">N</span><span class="o">&lt;-</span><span class="nf">length</span><span class="p">(</span><span class="nf">unique</span><span class="p">(</span><span class="n">data</span><span class="o">$</span><span class="n">word</span><span class="p">))</span>
+<span class="nf">for</span><span class="p">(</span><span class="n">iter</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="m">50</span><span class="p">){</span>
+    <span class="n">i</span><span class="o">&lt;-</span><span class="m">0</span>
+    <span class="nf">for</span><span class="p">(</span><span class="n">d</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">D</span><span class="p">){</span>
+        <span class="nf">for</span><span class="p">(</span><span class="n">w</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">doclen</span><span class="p">){</span>
+            <span class="n">i</span><span class="o">&lt;-</span><span class="n">i</span><span class="m">+1</span>
+            <span class="n">weights_</span><span class="o">&lt;-</span><span class="nf">topicprob</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="p">,],</span><span class="n">d</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">,]</span><span class="o">$</span><span class="n">topic</span><span class="o">&lt;-</span><span class="nf">diri</span><span class="p">(</span><span class="n">weights_</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">data</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table class="dataframe">
+<caption>A tibble: 45 × 3</caption>
+<thead>
+	<tr>
+<th scope="col">word</th>
+<th scope="col">doc</th>
+<th scope="col">topic</th>
+</tr>
+	<tr>
+<th scope="col">&lt;chr&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+	<tr>
+<td>손흥민    </td>
+<td>1</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>골        </td>
+<td>1</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>골        </td>
+<td>1</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>박지성    </td>
+<td>1</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>패스      </td>
+<td>1</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>골        </td>
+<td>2</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>확률      </td>
+<td>2</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>패스      </td>
+<td>2</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>손흥민    </td>
+<td>2</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>골        </td>
+<td>2</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>골        </td>
+<td>3</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>골        </td>
+<td>3</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>확률      </td>
+<td>3</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>패스      </td>
+<td>3</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>골        </td>
+<td>3</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>골        </td>
+<td>4</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>박지성    </td>
+<td>4</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>통계      </td>
+<td>4</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>확률      </td>
+<td>4</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>골        </td>
+<td>4</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>확률      </td>
+<td>5</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>통계      </td>
+<td>5</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>박지성    </td>
+<td>5</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>통계      </td>
+<td>5</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>골        </td>
+<td>5</td>
+<td>2</td>
+</tr>
+	<tr>
+<td>확률      </td>
+<td>6</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>확률      </td>
+<td>6</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>골        </td>
+<td>6</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>통계      </td>
+<td>6</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>AI        </td>
+<td>6</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>확률      </td>
+<td>7</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>확률      </td>
+<td>7</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>통계      </td>
+<td>7</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>통계      </td>
+<td>7</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>AI        </td>
+<td>7</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>확률      </td>
+<td>8</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>빅데이터  </td>
+<td>8</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>데이터과학</td>
+<td>8</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>빅데이터  </td>
+<td>8</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>AI        </td>
+<td>8</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>확률      </td>
+<td>9</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>데이터과학</td>
+<td>9</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>AI        </td>
+<td>9</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>데이터과학</td>
+<td>9</td>
+<td>1</td>
+</tr>
+	<tr>
+<td>데이터과학</td>
+<td>9</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="miruetoto/yechan"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/yechan/%ED%86%B5%EA%B3%84%EA%B3%84%EC%82%B0/%EB%94%A5%EB%9F%AC%EB%8B%9D/r/2021/06/04/(%EB%85%B8%ED%8A%B8)-%ED%86%A0%ED%94%BD%EB%AA%A8%EB%8D%B8-(R%EC%98%88%EC%A0%9C%EC%99%80-%ED%95%A8%EA%BB%98)-%ED%86%B5%EA%B3%84%EA%B3%84%EC%82%B0,-%EB%94%A5%EB%9F%AC%EB%8B%9D,-R.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/yechan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/yechan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/yechan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/miruetoto" title="miruetoto"><svg class="svg-icon grey"><use xlink:href="/yechan/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
