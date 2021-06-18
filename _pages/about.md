@@ -17,13 +17,14 @@ permalink: /about/
 ## Publications
 
 ### 2021 
+
 `-` Lee, D., Jeong, J. W., & Choi, G. (2021). Short Term Prediction of PV Power Output Generation Using Hierarchical Probabilistic Model. Energies, 14(10), 1-15.
 
 `-` Kim, D., Oh, H. S., & Choi, G. (2021). EPT: An R package for ensemble patch transform. SoftwareX, 14, 100704.
 
-### 2020 
+`-` Choi, G. (2021). A new approach for detecting gradual changes in non-stationary time series with seasonal effects. J. Korean Stat. Soc. 50, 419–430.
 
-`-` Choi, G. (2020). A new approach for detecting gradual changes in non-stationary time series with seasonal effects. Journal of the Korean Statistical Society, 1-12. Changes in Non-stationary Time Series with Seasonal Effects. Journal of the Korean Statistical Society.
+### 2020 
 
 `-` Kim, D., Choi, G., & Oh, H. S. (2020). Ensemble patch transformation: a flexible frame- work for decomposition and filtering of signal. EURASIP Journal on Advances in Signal Processing, 2020(1), 1-27.
 
