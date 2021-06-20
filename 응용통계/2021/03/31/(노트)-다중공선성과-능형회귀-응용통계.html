@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      7 min read
+      8 min read
     
 </span></p>
 
@@ -163,7 +163,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> 아래와 같은 가짜자료를 만들자.</p>
+<p><code>-</code> set.seed를 999로 설정하고 아래와 같은 가짜자료를 만들자.</p>
 
 </div>
 </div>
@@ -192,6 +192,23 @@ window.onload = wrap_img;
     
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">999</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
 <details class="description">
       <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
         <p></p>
@@ -199,8 +216,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">999</span><span class="p">)</span>
-<span class="n">n</span><span class="o">&lt;-</span><span class="m">20000</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">n</span><span class="o">&lt;-</span><span class="m">20000</span>
 <span class="c1">## 토익점수 </span>
 <span class="n">toeic</span><span class="o">&lt;-</span><span class="m">750</span><span class="o">+</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">sd</span><span class="o">=</span><span class="m">80</span><span class="p">)</span> 
 <span class="n">toeic</span><span class="o">&lt;-</span><span class="nf">round</span><span class="p">(</span><span class="n">toeic</span><span class="p">)</span> 
@@ -224,6 +240,14 @@ window.onload = wrap_img;
 </div>
     
 
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 토익과 텝스는 강한 선형관계를 가진다.</p>
+
+</div>
+</div>
+</div>
     
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -267,13 +291,15 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>원래모형은 <code>연봉=학점*600+토익*5+오차</code>인데, 토익이나 텝스나 그게 그거이므로, 아래와 같은 모형들도 거의 참모형이라고 생각할 수 있다.</p>
-<p>(1) <code>연봉=학점*600+토익*2+텝스*3+오차</code></p>
-<p>(2) <code>연봉=학점*600+토익*1+텝스*4+오차</code></p>
-<p>(3) <code>연봉=학점*600+토익*(-5)+텝스*10+오차</code></p>
-<p>(4) <code>연봉=학점*600+토익*(-1000)+텝스*(1005)+오차</code></p>
-<p>(5) <code>연봉=학점*600+토익*(-10000)+텝스*(10005)+오차</code></p>
-<p>...</p>
+<p><code>-</code> 원래모형은 $sal \approx 600\times gpa +5\times toeic$ 인데, 토익이나 텝스나 그게 그거이므로, 아래와 같은 모형들도 참모형이라고 생각할 수 있다.</p>
+<ul>
+<li>$sal \approx 600\times gpa +2\times toeic +3 \times teps$</li>
+<li>$sal \approx 600\times gpa +1\times toeic +4 \times teps$</li>
+<li>$sal \approx 600\times gpa -5\times toeic +10 \times teps$</li>
+<li>$sal \approx 600\times gpa -1000\times toeic +1005 \times teps$</li>
+<li>$sal \approx 600\times gpa -100000\times toeic +100005 \times teps$</li>
+<li>...</li>
+</ul>
 
 </div>
 </div>
@@ -281,7 +307,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> 결국에는 토익의 계수와 텝스의 계수를 더해서 5만되면 참모형</p>
+<p><code>-</code> 결국에는 토익의 계수와 텝스의 계수를 더해서 5만되면 참모형이라 생각할 수 있다.</p>
 
 </div>
 </div>
@@ -348,11 +374,28 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> set.seed()를 바꾸고 다시 가짜자료 생성 $\to$ 회귀분석을 수행하자.</p>
+<p><code>-</code> set.seed를 1로바꾸고 다시 가짜자료 생성 $\to$ 회귀분석을 수행하자.</p>
 
 </div>
 </div>
 </div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
     
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -363,8 +406,7 @@ Coefficients:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
-<span class="n">n</span><span class="o">&lt;-</span><span class="m">20000</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">n</span><span class="o">&lt;-</span><span class="m">20000</span>
 <span class="n">toeic</span><span class="o">&lt;-</span><span class="m">750</span><span class="o">+</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">sd</span><span class="o">=</span><span class="m">80</span><span class="p">)</span>
 <span class="n">toeic</span><span class="p">[</span><span class="n">toeic</span><span class="o">&gt;</span><span class="m">990</span><span class="p">]</span><span class="o">&lt;-</span><span class="m">990</span>
 <span class="n">teps</span><span class="o">&lt;-</span><span class="n">toeic</span> <span class="o">+</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">sd</span><span class="o">=</span><span class="m">0.01</span><span class="p">)</span>
@@ -434,11 +476,28 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> set.seed()를 변경하고 다시 가짜자료 생성 $\to$ 회귀분석 수행</p>
+<p><code>-</code> set.seed를 2로 변경하고 다시 가짜자료 생성 $\to$ 회귀분석 수행</p>
 
 </div>
 </div>
 </div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
     
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -449,8 +508,7 @@ Coefficients:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
-<span class="n">n</span><span class="o">&lt;-</span><span class="m">20000</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">n</span><span class="o">&lt;-</span><span class="m">20000</span>
 <span class="n">toeic</span><span class="o">&lt;-</span><span class="m">750</span><span class="o">+</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">sd</span><span class="o">=</span><span class="m">80</span><span class="p">)</span>
 <span class="n">toeic</span><span class="p">[</span><span class="n">toeic</span><span class="o">&gt;</span><span class="m">990</span><span class="p">]</span><span class="o">&lt;-</span><span class="m">990</span>
 <span class="n">toeic</span><span class="o">&lt;-</span><span class="nf">round</span><span class="p">(</span><span class="n">toeic</span><span class="p">)</span>
@@ -498,7 +556,7 @@ lm(formula = sal ~ toeic + teps + gpa)
 
 Coefficients:
 (Intercept)        toeic         teps          gpa  
-     -32.02      -152.82       157.85       600.85  
+      19.54       217.27      -212.31       603.10  
 </pre>
 </div>
 
@@ -521,11 +579,28 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> set.seed()를 변경하고 다시 가짜자료 생성 $\to$ 회귀분석 수행</p>
+<p><code>-</code> set.seed를 3으로 변경하고 다시 가짜자료 생성 $\to$ 회귀분석 수행</p>
 
 </div>
 </div>
 </div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
     
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -536,8 +611,7 @@ Coefficients:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">set.seed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span>
-<span class="n">n</span><span class="o">&lt;-</span><span class="m">20000</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">n</span><span class="o">&lt;-</span><span class="m">20000</span>
 <span class="n">toeic</span><span class="o">&lt;-</span><span class="m">750</span><span class="o">+</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">sd</span><span class="o">=</span><span class="m">80</span><span class="p">)</span>
 <span class="n">toeic</span><span class="p">[</span><span class="n">toeic</span><span class="o">&gt;</span><span class="m">990</span><span class="p">]</span><span class="o">&lt;-</span><span class="m">990</span>
 <span class="n">toeic</span><span class="o">&lt;-</span><span class="nf">round</span><span class="p">(</span><span class="n">toeic</span><span class="p">)</span>
@@ -618,26 +692,18 @@ Coefficients:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>-</code> 위의 예제들을 관찰하며 얻은 직관은 아래와 같다.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>(1) 추정하는 $\hat{\beta_1}$, $\hat{\beta_2}$가 어떤값일지 거의 예측안된다.</p>
+<ol>
+<li>
+<p>추정하는 $\hat{\beta_1}$, $\hat{\beta_2}$가 어떤값일지 거의 예측안된다.</p>
 <ul>
 <li>5근처의 값이 나올때도 있고, 30근처의 값이 나오기도 하고, 100근처의 값이 나오기도 한다. </li>
 <li>$\hat{\beta}_1$, $\hat{\beta}_2$의 분산이 크다. </li>
 </ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>(2) 그래도 $\hat{\beta}_1+\hat{\beta}_2\approx 5$라는 공통점은 있음.</p>
+</li>
+<li>
+<p>그래도 $\hat{\beta}_1+\hat{\beta}_2\approx 5$라는 공통점은 있음.</p>
+</li>
+</ol>
 
 </div>
 </div>
@@ -653,18 +719,13 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>아래는 모두 참모형이라고 생각되어지는 상황이다.</p>
-<p>(1) $\hat{\beta}_1=2$, $\hat{\beta}_2=3$</p>
-<p>(2) $\hat{\beta}_1=5$, $\hat{\beta}_2=0$</p>
-<p>(3) $\hat{\beta}_1=10$, $\hat{\beta}_2=-5$</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>모두 참모형에 가깝지만 상식적으로 (3)은 용납할 수 없다.</p>
+<p><code>-</code> 아래는 모두 참모형이라고 생각되어지는 상황이다.</p>
+<ol>
+<li>$\hat{\beta}_1=2$, $\hat{\beta}_2=3$</li>
+<li>$\hat{\beta}_1=5$, $\hat{\beta}_2=0$</li>
+<li>$\hat{\beta}_1=10$, $\hat{\beta}_2=-5$</li>
+</ol>
+<p>하지만 상식적으로 세번째 계수값은 용납할 수 없다.</p>
 
 </div>
 </div>
@@ -697,7 +758,7 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> 논의를 간단하게 하기 위해서 모형을 좀 더 단순화 하자.</p>
+<p><code>-</code> 논의를 간단하게 하기 위해서 모형을 좀 더 단순화 하자. <code>gpa</code>에 대응하는 계수 600을 우리가 이미 알고있다고 가정하자. 그리고 상수항도 0인것을 이미 알고 있다고 가정하자.</p>
 
 </div>
 </div>
@@ -705,17 +766,7 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>gpa</code>에 대응하는 계수 600을 우리가 이미 알고있다고 가정하자. (혹은 적절하게 추정했다고 가정하자.)</p>
-<p>그리고 상수항도 0인것을 이미 알고 있다고 가정하자. (혹은 적절하게 추정했다고 가정하자.)</p>
-<p>즉 원래모형에서 $\beta_0=0, \beta_3=600$ 을 가정하자.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>그리고 연봉은 오로지 토익과 텝스만으로 추정한다고 하자.</p>
+<p><code>-</code> 즉 원래모형에서 $\beta_0=0, \beta_3=600$ 을 가정하자. 그리고 연봉은 오로지 토익과 텝스만으로 추정한다고 하자.</p>
 
 </div>
 </div>
@@ -750,23 +801,11 @@ $$y= \beta_1 toeic  + \beta_2 teps , \quad y:= sal-600\times gpa $$
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>-</code> 우리의 목표는 올바른 계수값들의 후보들, 즉 $\hat{\beta}_1+\hat{\beta}_2 \approx 5$ 를 만족하는 $(\hat{\beta}_1,\hat{\beta}_2)$ 의 순서쌍들 중에서</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>(1) $\hat{\beta}_1=2$, $\hat{\beta}_2=3$</p>
-<p>(2) $\hat{\beta}_1=5$, $\hat{\beta}_2=0$</p>
-<p>(3) $\hat{\beta}_1=10$, $\hat{\beta}_2=-5$</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>$\hat{\beta}_1=2$, $\hat{\beta}_2=3$</li>
+<li>$\hat{\beta}_1=5$, $\hat{\beta}_2=0$ </li>
+<li>$\hat{\beta}_1=10$, $\hat{\beta}_2=-5$</li>
+</ol>
 <p>(3)과 같은 후보를 선택하지 않는 것이다.</p>
 
 </div>
@@ -852,6 +891,11 @@ Coefficients:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>-</code> 추정된 계수값은 아래와 같다.</p>
+<ul>
+<li>$\hat{\beta}_1=216.9$</li>
+<li>$\hat{\beta}_2=-211.9$</li>
+</ul>
+<p>텝스점수가 1점오를때마다 연봉이 211.9만원 날아간다.</p>
 
 </div>
 </div>
@@ -859,23 +903,11 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>$\hat{\beta}_1=216.9$</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>$\hat{\beta}_2=-211.9$</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> 왜 이런 계수값이 나왔는가? 위의 결과는 $L(\beta)=(y-X\beta)^\top (y-X\beta)$를 최소화하는 $\beta$를 구한 결과이다.</p>
+<p><code>-</code> 왜 이런 계수값이 나왔는가? 위의 결과는 단지</p>
+<p>
+$$L(\beta)=(y-X\beta)^\top (y-X\beta)$$
+</p>
+<p>를 최소화하는 $\beta$를 구한 결과이다.</p>
 
 </div>
 </div>
@@ -992,10 +1024,12 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>(1) $\hat{\beta}_1=2$, $\hat{\beta}_2=3$ $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=1.000052$</p>
-<p>(2) $\hat{\beta}_1=5$, $\hat{\beta}_2=0$  $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=1.000050$</p>
-<p>(3) $\hat{\beta}_1=10$, $\hat{\beta}_2=-5$ $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=1.000048$</p>
-<p>(4) $\hat{\beta}_1=104$, $\hat{\beta}_2=-100$ $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=7.321030$</p>
+<ol>
+<li>$\hat{\beta}_1=2$, $\hat{\beta}_2=3$ $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=1.000052$ </li>
+<li>$\hat{\beta}_1=5$, $\hat{\beta}_2=0$  $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=1.000050$ </li>
+<li>$\hat{\beta}_1=10$, $\hat{\beta}_2=-5$ $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=1.000048$ </li>
+<li>$\hat{\beta}_1=104$, $\hat{\beta}_2=-100$ $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=7.321030$ </li>
+</ol>
 
 </div>
 </div>
@@ -1003,7 +1037,11 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> (4)를 제외하고는 모두 $\hat{\beta}_1+\hat{\beta}_2 \approx 5$가 되도록 설정했다. 따라서 (4)를 제외하고는 거의 $c$와 비슷한 손실값을 가진다.</p>
+<p></p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+    <strong>Note: </strong>4를 제외하고는 모두 $\hat{\beta}_1+\hat{\beta}_2 \approx 5$가 되도록 설정했다. 따라서 4를 제외하고는 거의 $c$와 비슷한 손실값을 가진다. 
+</div>
 
 </div>
 </div>
@@ -1011,7 +1049,7 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> (1)-(3) 중 어떠한 것도 $(\hat{\beta}_1,\hat{\beta}_2)=(216.9,-211.9)$ 보다 손실함수를 작게 만들지 못한다.</p>
+<p><code>-</code> 1-4 중 어떠한 것도 $(\hat{\beta}_1,\hat{\beta}_2)=(216.9,-211.9)$ 보다 손실함수를 작게 만들지 못한다. 즉 $(\hat{\beta}_1,\hat{\beta}_2)=(216.9,-211.9)$ 가 슬프게도 최선의 조합이다.</p>
 
 </div>
 </div>
@@ -1019,7 +1057,7 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> 심지어 이대로라면 (1)-(3) 중에서 가장 적절한 해는 (3)이다. (우리가 제일 피하고싶었던 해!)</p>
+<p><code>-</code> 우리가 원하는 (1)혹은 (2)와 같은 형태의 해는 $(\hat{\beta}_1,\hat{\beta}_2)=(216.9,-211.9)$에 비하여 좋은 해가 아니다. 심지어 (3)에 비하여서도 좋은 값이 아니다.</p>
 
 </div>
 </div>
@@ -1047,20 +1085,25 @@ Coefficients:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">beta1</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">beta_</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="m">216.9</span><span class="p">,</span><span class="m">-211.9</span><span class="p">)</span>
+<span class="n">beta1</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">)</span>
 <span class="n">beta2</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="m">0</span><span class="p">)</span>
 <span class="n">beta3</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">-5</span><span class="p">)</span>
 <span class="n">beta4</span><span class="o">&lt;-</span><span class="nf">c</span><span class="p">(</span><span class="m">104</span><span class="p">,</span><span class="m">-100</span><span class="p">)</span>
+
+<span class="n">p_</span><span class="o">&lt;-</span><span class="p">(</span><span class="n">beta_</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="o">^</span><span class="m">2</span><span class="o">+</span><span class="n">beta_</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="o">/</span><span class="m">100000</span>
 <span class="n">p1</span><span class="o">&lt;-</span><span class="p">(</span><span class="n">beta1</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="o">^</span><span class="m">2</span><span class="o">+</span><span class="n">beta1</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="o">/</span><span class="m">100000</span>
 <span class="n">p2</span><span class="o">&lt;-</span><span class="p">(</span><span class="n">beta2</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="o">^</span><span class="m">2</span><span class="o">+</span><span class="n">beta2</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="o">/</span><span class="m">100000</span>
 <span class="n">p3</span><span class="o">&lt;-</span><span class="p">(</span><span class="n">beta3</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="o">^</span><span class="m">2</span><span class="o">+</span><span class="n">beta3</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="o">/</span><span class="m">100000</span>
 <span class="n">p4</span><span class="o">&lt;-</span><span class="p">(</span><span class="n">beta4</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="o">^</span><span class="m">2</span><span class="o">+</span><span class="n">beta4</span><span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="o">^</span><span class="m">2</span><span class="p">)</span><span class="o">/</span><span class="m">100000</span>
 
+<span class="n">L_</span><span class="o">&lt;-</span><span class="nf">L</span><span class="p">(</span><span class="n">beta_</span><span class="p">)</span><span class="o">/</span><span class="n">c</span><span class="o">+</span><span class="n">p_</span>
 <span class="n">L1</span><span class="o">&lt;-</span><span class="nf">L</span><span class="p">(</span><span class="n">beta1</span><span class="p">)</span><span class="o">/</span><span class="n">c</span><span class="o">+</span><span class="n">p1</span>
 <span class="n">L2</span><span class="o">&lt;-</span><span class="nf">L</span><span class="p">(</span><span class="n">beta2</span><span class="p">)</span><span class="o">/</span><span class="n">c</span><span class="o">+</span><span class="n">p2</span>
 <span class="n">L3</span><span class="o">&lt;-</span><span class="nf">L</span><span class="p">(</span><span class="n">beta3</span><span class="p">)</span><span class="o">/</span><span class="n">c</span><span class="o">+</span><span class="n">p3</span>
 <span class="n">L4</span><span class="o">&lt;-</span><span class="nf">L</span><span class="p">(</span><span class="n">beta4</span><span class="p">)</span><span class="o">/</span><span class="n">c</span><span class="o">+</span><span class="n">p4</span>
-<span class="nf">c</span><span class="p">(</span><span class="n">L1</span><span class="p">,</span><span class="n">L2</span><span class="p">,</span><span class="n">L3</span><span class="p">,</span><span class="n">L4</span><span class="p">)</span>
+
+<span class="nf">c</span><span class="p">(</span><span class="n">L_</span><span class="p">,</span><span class="n">L1</span><span class="p">,</span><span class="n">L2</span><span class="p">,</span><span class="n">L3</span><span class="p">,</span><span class="n">L4</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1079,7 +1122,8 @@ Coefficients:
 .list-inline>li {display: inline-block}
 .list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
 </style>
-&lt;ol class=list-inline&gt;<li>1.00018160335131</li>
+&lt;ol class=list-inline&gt;<li>1.9194722</li>
+<li>1.00018160335131</li>
 <li>1.00030017194528</li>
 <li>1.00129783100817</li>
 <li>7.5291903336433</li>&lt;/ol&gt;
@@ -1097,10 +1141,13 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>(1) $\hat{\beta}_1=2$, $\hat{\beta}_2=3$ $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=1.000182$</p>
-<p>(2) $\hat{\beta}_1=5$, $\hat{\beta}_2=0$  $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=1.000300$</p>
-<p>(3) $\hat{\beta}_1=10$, $\hat{\beta}_2=-5$ $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=1.001298$</p>
-<p>(4) $\hat{\beta}_1=104$, $\hat{\beta}_2=-100$ $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=7.529190$</p>
+<ol>
+<li>$\hat{\beta}_1=216.9$, $\hat{\beta}_2=-211.9$ $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=1.9194722$ </li>
+<li>$\hat{\beta}_1=2$, $\hat{\beta}_2=3$ $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=1.000182$ </li>
+<li>$\hat{\beta}_1=5$, $\hat{\beta}_2=0$  $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=1.000300$ </li>
+<li>$\hat{\beta}_1=10$, $\hat{\beta}_2=-5$ $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=1.001298$ </li>
+<li>$\hat{\beta}_1=104$, $\hat{\beta}_2=-100$ $\longrightarrow$ $\frac{1}{c}L(\boldsymbol{\beta})=7.529190$ </li>
+</ol>
 
 </div>
 </div>
@@ -1108,7 +1155,15 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> ??? 이유는 모르겠지만 이렇게하면 이제 $\frac{1}{c}L$을 최소화하는 해는 (1)이 되었다. (1)은 해석가능한 모형이다. 토익점수는 1점당 연봉2만원이 오르고 텝스점수는 1점당 연봉3만원이 오른다는 모형이다.</p>
+<p><code>-</code> ??? 이유는 모르겠지만 이렇게하면 이제 $\frac{1}{c}L$을 최소화하는 해는 $(\hat{\beta}_1,\hat{\beta}_2)=(2,3)$이 되었다. 이는 $(\hat{\beta}_1,\hat{\beta}_2)=(216.9,-211.9)$ 보다 훨씬 작은 손실을 가진다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 게다가 (1)은 해석가능한 모형이다. 토익점수는 1점당 연봉2만원이 오르고 텝스점수는 1점당 연봉3만원이 오른다는 모형이다.</p>
 
 </div>
 </div>
@@ -1273,23 +1328,11 @@ $$L(\beta_1,\beta_2)=\sum_{i=1}^{n}(y_i-\beta_1 toeic_i - \beta_2 teps_i)^2$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>[그림1]이랑 [그림2]을 섞어서 [그림3]을 만드는데, 각각을 얼만큼의 비율로 섞을지 결정한다.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>람다가 크면 그림2를 많이 반영한다. $\to$ 람다가 너무 크면 결국 $\hat{\beta}_1$와 $\hat{\beta}_2$의 추정값이 거의 0에 가깝게 된다.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>람다가 작으면 그림1을 많이 반영한다. $\to$ 람다가 너무 작게되면, 우리는 손실함수 $L(\beta_1,\beta_2)$에 아무런 수정도 하지않은 셈이된다.</p>
+<p><code>-</code> [그림1]이랑 [그림2]을 섞어서 [그림3]을 만드는데, 각각을 얼만큼의 비율로 섞을지 결정한다.</p>
+<ul>
+<li>람다가 크면 그림2를 많이 반영한다. $\to$ 람다가 너무 크면 결국 $\hat{\beta}_1$와 $\hat{\beta}_2$의 추정값이 거의 0에 가깝게 된다. </li>
+<li>람다가 작으면 그림1을 많이 반영한다. $\to$ 람다가 너무 작게되면, 우리는 손실함수 $L(\beta_1,\beta_2)$에 아무런 수정도 하지않은 셈이된다. </li>
+</ul>
 
 </div>
 </div>
@@ -1306,7 +1349,7 @@ $$L(\beta_1,\beta_2)=\sum_{i=1}^{n}(y_i-\beta_1 toeic_i - \beta_2 teps_i)^2$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>원래 $\beta_1+\beta_2=5$를 만족하는 어떠한 해도 솔루션이 되었음. 즉 [그림1]과 같은 상황</p>
+<p><code>-</code> 원래 $\beta_1+\beta_2=5$를 만족하는 어떠한 해도 솔루션이 되었다. 즉 [그림1]과 같은 상황이었다.</p>
 
 </div>
 </div>
@@ -1314,7 +1357,7 @@ $$L(\beta_1,\beta_2)=\sum_{i=1}^{n}(y_i-\beta_1 toeic_i - \beta_2 teps_i)^2$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>[그림1]과 같은 상황에서 약간의 경사를 주어서 [그림3]과 같은 상황을 만듬</p>
+<p><code>-</code> 그런데 손실함수에 $\lambda(\beta_1^2+\beta_2^2)$를 더함으로 인해 [그림1]과 같은 상황에서 약간의 경사를 주어 [그림3]을 만드는 효과를 냈다.</p>
 
 </div>
 </div>
@@ -1322,7 +1365,7 @@ $$L(\beta_1,\beta_2)=\sum_{i=1}^{n}(y_i-\beta_1 toeic_i - \beta_2 teps_i)^2$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>$\hat{\beta}_1$ 와 $\hat{\beta}_2$ 의 값을 안정적으로 만들어 준다.</p>
+<p><code>-</code> 이것은 $\hat{\beta}_1$ 와 $\hat{\beta}_2$ 의 값을 안정적으로 만들어 주면서 딱히 원래 $L(\beta_1,\beta_2)$의 모양을 크게 해치지 않는다.</p>
 
 </div>
 </div>
@@ -1330,23 +1373,7 @@ $$L(\beta_1,\beta_2)=\sum_{i=1}^{n}(y_i-\beta_1 toeic_i - \beta_2 teps_i)^2$$
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>그러면서도 딱히 원래 $L(\beta_1,\beta_2)$의 모양을 크게 해치지 않는다.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>(!) 그럴듯함. 우리가 원하는것 같다.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>이렇게 하면 다중공선성이 발생하는 상황에서 적절한 해를 구할 수 있을 것 같다.</p>
+<p><code>-</code> 이는 매우 그럴듯한 해결책이고 우리가 원하는 해결책인듯 하다. 즉 적절하게 $\lambda(\beta_1^2+\beta_2^2)$ 를 더하기만 하면 다중공선성이 발생하는 상황에서 해석가능한 해를 구할 수 있을것 같다.</p>
 
 </div>
 </div>
