@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Guebin Choi
+title: 
 permalink: /about/
 ---
 
