@@ -139,8 +139,15 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#한글설정-(생략가능)">한글설정 (생략가능) </a></li>
 <li class="toc-entry toc-h3"><a href="#그래픽카드-드라이버설치">그래픽카드 드라이버설치 </a></li>
 <li class="toc-entry toc-h3"><a href="#아나콘다">아나콘다 </a></li>
-<li class="toc-entry toc-h3"><a href="#주피터-원격제어">주피터 원격제어 </a></li>
-<li class="toc-entry toc-h3"><a href="#CUDA,-cuDNN,-tensorflow-gpu,-pytorch">CUDA, cuDNN, tensorflow-gpu, pytorch </a></li>
+<li class="toc-entry toc-h3"><a href="#주피터-원격제어">주피터 원격제어 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#1단계:-주피터랩설치">1단계: 주피터랩설치 </a></li>
+<li class="toc-entry toc-h4"><a href="#2단계:-패스워드-설정">2단계: 패스워드 설정 </a></li>
+<li class="toc-entry toc-h4"><a href="#3단계:-jupyter-lab-환경설정">3단계: jupyter lab 환경설정 </a></li>
+<li class="toc-entry toc-h4"><a href="#팁">팁 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#CUDA,-cuDNN,-tensorflow,-pytorch">CUDA, cuDNN, tensorflow, pytorch </a></li>
 <li class="toc-entry toc-h3"><a href="#주피터에-R커널-연결">주피터에 R커널 연결 </a></li>
 <li class="toc-entry toc-h3"><a href="#Rstudio-server">Rstudio server </a></li>
 <li class="toc-entry toc-h3"><a href="#Rstudio셋팅이후-하면-좋은것:-devtools::install_github()가-먹히지-않을-경우대비">Rstudio셋팅이후 하면 좋은것: devtools::install_github()가 먹히지 않을 경우대비 </a></li>
@@ -206,19 +213,29 @@ sudo apt install build-essential</code></pre>
 <h3 id="아나콘다">
 <a class="anchor" href="#%EC%95%84%EB%82%98%EC%BD%98%EB%8B%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>아나콘다<a class="anchor-link" href="#%EC%95%84%EB%82%98%EC%BD%98%EB%8B%A4"> </a>
 </h3>
-<p><code>-</code> 아나콘다를 다운받은 폴더로 가서 아래와 같이 실행한다.</p>
+<p><code>-</code> (아나콘다 설치) 아나콘다를 다운받은 폴더로 가서 아래와 같이 실행한다.</p>
 
 <pre><code>bash Anaconda3-2019.03-Linux-x86_64.sh</code></pre>
 <p>대충 <code>bash Ana</code> 정도까지만 치고 <code>tab</code>을 누르면 알아서 완성된다.</p>
-<p><code>-</code> 커맨드를 키고  아래를 실행한다.</p>
+<p><code>-</code> (환경만들기) 커맨드를 키고  아래를 실행한다.</p>
 
 <pre><code>(base) conda create -n py38r40 python=3.8
 (base) conda create --name py38r40 python=3.8</code></pre>
 <p>둘 중 아무거나 실행해도 된다. 파이썬 환경이 너무 높으면 나중에 <code>conda tensorflow-gpu</code>가 먹히지 않으니 환경을 만들때 파이썬버전을 3.8.x로 하자. (현시점 2021년 2월25일기준 3.9.x이면 <code>conda tensorflow-gpu</code> 가 동작하지 않음.)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="주피터-원격제어">
 <a class="anchor" href="#%EC%A3%BC%ED%94%BC%ED%84%B0-%EC%9B%90%EA%B2%A9%EC%A0%9C%EC%96%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>주피터 원격제어<a class="anchor-link" href="#%EC%A3%BC%ED%94%BC%ED%84%B0-%EC%9B%90%EA%B2%A9%EC%A0%9C%EC%96%B4"> </a>
 </h3>
-<p><code>-</code> 콘다 가상환경에서 주피터랩을 설치한다.</p>
+<h4 id="1단계:-주피터랩설치">
+<a class="anchor" href="#1%EB%8B%A8%EA%B3%84:-%EC%A3%BC%ED%94%BC%ED%84%B0%EB%9E%A9%EC%84%A4%EC%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>1단계: 주피터랩설치<a class="anchor-link" href="#1%EB%8B%A8%EA%B3%84:-%EC%A3%BC%ED%94%BC%ED%84%B0%EB%9E%A9%EC%84%A4%EC%B9%98"> </a>
+</h4>
+<p><code>-</code>  콘다 가상환경에서 주피터랩을 설치한다.</p>
 
 <pre><code>(py48r40) conda install jupyterlab</code></pre>
 <p></p>
@@ -226,6 +243,9 @@ sudo apt install build-essential</code></pre>
     <svg class="octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
     <strong>Note: </strong>사실 위에서 주피터랩을 따로 설치안해도 주피터랩이 잘만 실행된다. 하지만 이렇게하니까 나중에 R커널을 만들기위해 <code>IRkernel::installspec()</code>을 실행할때 아래와 같은 에러가 난다. 
 </div>
+<h4 id="2단계:-패스워드-설정">
+<a class="anchor" href="#2%EB%8B%A8%EA%B3%84:-%ED%8C%A8%EC%8A%A4%EC%9B%8C%EB%93%9C-%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>2단계: 패스워드 설정<a class="anchor-link" href="#2%EB%8B%A8%EA%B3%84:-%ED%8C%A8%EC%8A%A4%EC%9B%8C%EB%93%9C-%EC%84%A4%EC%A0%95"> </a>
+</h4>
 <p><code>-</code> 주피터랩은 보통 로칼로 접속하는데 이를 원격으로 접속할 수 있게 만들어보자. 우선 커맨드에서 아래를 실행하자.</p>
 
 <pre><code>(py38r40) jupyter lab --generate-config</code></pre>
@@ -234,9 +254,17 @@ sudo apt install build-essential</code></pre>
 <pre><code>from notebook.auth import passwd
 passwd()</code></pre>
 <p>패스워드를 설정하고 나오는 <code>sha1:어쩌고..</code> 부분을 복사한다.</p>
-<p><code>-</code> 이제 처음에 생성한 <code>/home/cgb/.jupyter/jupyter_notebook_config.py</code> 파일을 연다. 이 파일에 접근하기 위해서는 아래의 순서를 따른다. (1) 파일관리자를 키고 홈탭을 누른다. (이러면 자동으로 <code>/home/cgb</code> 폴더로 접근함.) (2) <code>컨트롤+h</code>를 누른다. (여기에서 <code>.jupyter</code> 는 숨겨진 폴더라서 바로는 안보이고 <code>컨트롤+h</code>를 눌러야 보인다.) (3) <code>jupyter_notebook_config.py</code>를 더블클릭한다. 또는 그냥 단순히 아래를 실행한다.</p>
-
-<pre><code>(py38r40) sudo nano ~/.jupyter/jupyter_notebook_config.py</code></pre>
+<h4 id="3단계:-jupyter-lab-환경설정">
+<a class="anchor" href="#3%EB%8B%A8%EA%B3%84:-jupyter-lab-%ED%99%98%EA%B2%BD%EC%84%A4%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>3단계: jupyter lab 환경설정<a class="anchor-link" href="#3%EB%8B%A8%EA%B3%84:-jupyter-lab-%ED%99%98%EA%B2%BD%EC%84%A4%EC%A0%95"> </a>
+</h4>
+<p><code>-</code> 이제 처음에 생성한 <code>/home/cgb/.jupyter/jupyter_notebook_config.py</code> 파일을 연다. 이 파일에 접근하기 위해서는 아래의 순서를 따른다.</p>
+<ol>
+<li>파일관리자를 키고 홈탭을 누른다. (이러면 자동으로 <code>/home/cgb</code> 폴더로 접근함.) </li>
+<li>
+<code>컨트롤+h</code>를 누른다. (여기에서 <code>.jupyter</code> 는 숨겨진 폴더라서 바로는 안보이고 <code>컨트롤+h</code>를 눌러야 보인다.) </li>
+<li>
+<code>jupyter_notebook_config.py</code>를 더블클릭한다. </li>
+</ol>
 <p><code>-</code> 원하는대로 수정하면 되는데 아래는 꼭 수정한다.</p>
 
 <pre><code>c.NotebookApp.open_browser = False
@@ -244,24 +272,34 @@ c.NotebookApp.ip = '192.168.0.4'
 c.NotebookApp.password = 'sha1:1969b198e067:915d665111e284538ffe3e63d08de9a0a4dba5e7'
 c.NotebookApp.port = 1306</code></pre>
 <p>여기에서 <code>192.168.0.4</code> 는 내부아이피다. 즉 <code>ifconfig</code>로 확인할 수 있는걸 쓴다.</p>
+<h4 id="팁">
+<a class="anchor" href="#%ED%8C%81" aria-hidden="true"><span class="octicon octicon-link"></span></a>팁<a class="anchor-link" href="#%ED%8C%81"> </a>
+</h4>
 <p><code>-</code> 패스워드 없이 주피터를 띄우려면 아래와 같이 한다.</p>
 
 <pre><code>jupyter lab --LabApp.token='' --LabApp.password=''</code></pre>
-<h3 id="CUDA,-cuDNN,-tensorflow-gpu,-pytorch">
-<a class="anchor" href="#CUDA,-cuDNN,-tensorflow-gpu,-pytorch" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>CUDA</code>, <code>cuDNN</code>, <code>tensorflow-gpu</code>, <code>pytorch</code><a class="anchor-link" href="#CUDA,-cuDNN,-tensorflow-gpu,-pytorch"> </a>
+<h3 id="CUDA,-cuDNN,-tensorflow,-pytorch">
+<a class="anchor" href="#CUDA,-cuDNN,-tensorflow,-pytorch" aria-hidden="true"><span class="octicon octicon-link"></span></a>CUDA, cuDNN, tensorflow, pytorch<a class="anchor-link" href="#CUDA,-cuDNN,-tensorflow,-pytorch"> </a>
 </h3>
 <p><code>-</code> 콘다환경으로 가서아래를 실행한다.</p>
 
 <pre><code>(py38r40) conda install -c conda-forge tensorflow-gpu
 (py38r40) conda install -c conda-forge pytorch-gpu</code></pre>
-<p>그러면 알아서 <code>CUDA</code>, <code>cuDNN</code>, <code>pytorch</code>, <code>tensorflow-gpu</code>가 깔린다. 참고로 gpu사용량은 아래와 같이 모니터링 할 수 있다.</p>
+<p>그러면 알아서 <code>CUDA</code>, <code>cuDNN</code>, <code>pytorch</code>, <code>tensorflow</code>가 깔린다.</p>
+<p><code>-</code> 참고로 gpu사용량은 아래와 같이 모니터링 할 수 있다.</p>
 
 <pre><code>(py38r40) watch -n 5 nvidia-smi -a --display=utilization</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="주피터에-R커널-연결">
 <a class="anchor" href="#%EC%A3%BC%ED%94%BC%ED%84%B0%EC%97%90-R%EC%BB%A4%EB%84%90-%EC%97%B0%EA%B2%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>주피터에 R커널 연결<a class="anchor-link" href="#%EC%A3%BC%ED%94%BC%ED%84%B0%EC%97%90-R%EC%BB%A4%EB%84%90-%EC%97%B0%EA%B2%B0"> </a>
 </h3>
-<blockquote>
-<p>콘다환경으로 가서 아래를 실행한다.</p>
+<p><code>-</code> 콘다환경으로 가서 아래를 실행한다.</p>
 
 <pre><code>(py38r40) conda install -c conda-forge r-essentials=4.0</code></pre>
 <p>이러면 콘다환경에는 R이 깔리고 base에는 R이 깔리지 않는다. 그리고 콘다환경에서 R을 실행한다. Rstudio가 아니라 커맨드에서 R을 실행해야한다. 그리고 <code>IRkernel</code>을 설치한다.</p>
@@ -271,7 +309,6 @@ c.NotebookApp.port = 1306</code></pre>
 
 <pre><code>IRkernel::installspec()</code></pre>
 <p>이제 주피터랩에서 R kernel을 사용할 수 있다.</p>
-</blockquote>
 <h3 id="Rstudio-server">
 <a class="anchor" href="#Rstudio-server" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rstudio server<a class="anchor-link" href="#Rstudio-server"> </a>
 </h3>
