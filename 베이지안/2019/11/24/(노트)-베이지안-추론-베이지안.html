@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>베이지안 추론 | 신록예찬’s 블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="베이지안 추론" />
+<meta name="author" content="신록예찬" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="작성완료" />
+<meta property="og:description" content="작성완료" />
+<link rel="canonical" href="https://miruetoto.github.io/yechan/%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88/2019/11/24/(%EB%85%B8%ED%8A%B8)-%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88-%EC%B6%94%EB%A1%A0-%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88.html" />
+<meta property="og:url" content="https://miruetoto.github.io/yechan/%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88/2019/11/24/(%EB%85%B8%ED%8A%B8)-%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88-%EC%B6%94%EB%A1%A0-%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88.html" />
+<meta property="og:site_name" content="신록예찬’s 블로그" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-24T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://miruetoto.github.io/yechan/%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88/2019/11/24/(%EB%85%B8%ED%8A%B8)-%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88-%EC%B6%94%EB%A1%A0-%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88.html","@type":"BlogPosting","headline":"베이지안 추론","dateModified":"2019-11-24T00:00:00-06:00","datePublished":"2019-11-24T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88/2019/11/24/(%EB%85%B8%ED%8A%B8)-%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88-%EC%B6%94%EB%A1%A0-%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88.html"},"author":{"@type":"Person","name":"신록예찬"},"description":"작성완료","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬's 블로그" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/yechan/">신록예찬&#39;s 블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/yechan/about/">About Me</a><a class="page-link" href="/yechan/search/">Search</a><a class="page-link" href="/yechan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">베이지안 추론</h1><p class="page-description">작성완료</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2019-11-24T00:00:00-06:00" itemprop="datePublished">
+        Nov 24, 2019
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">신록예찬</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/yechan/categories/#베이지안">베이지안</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/miruetoto/yechan/tree/master/_notebooks/2019-11-24-(노트) 베이지안 추론 [베이지안].ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/yechan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/miruetoto/yechan/master?filepath=_notebooks%2F2019-11-24-%28%EB%85%B8%ED%8A%B8%29+%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88+%EC%B6%94%EB%A1%A0+%5B%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88%5D.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/miruetoto/yechan/blob/master/_notebooks/2019-11-24-(노트) 베이지안 추론 [베이지안].ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#About-this-doc">About this doc </a></li>
+<li class="toc-entry toc-h3"><a href="#사후분포를-구하는-두-가지-방법">사후분포를 구하는 두 가지 방법 </a></li>
+<li class="toc-entry toc-h3"><a href="#Bayes-estimator">Bayes estimator </a></li>
+<li class="toc-entry toc-h3"><a href="#Conjugate-Prior">Conjugate Prior </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#(1)-감마-$\to$-포아송">(1) 감마 $\to$ 포아송 </a></li>
+<li class="toc-entry toc-h4"><a href="#(2)-베타-$\to$-베르누이">(2) 베타 $\to$ 베르누이 </a></li>
+<li class="toc-entry toc-h4"><a href="#(3)-감마-$\to$-지수">(3) 감마 $\to$ 지수 </a></li>
+<li class="toc-entry toc-h4"><a href="#(4)-카이제곱,정규-$\to$-정규">(4) 카이제곱,정규 $\to$ 정규 </a></li>
+<li class="toc-entry toc-h4"><a href="#정규분포-보충설명">정규분포 보충설명 </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2019-11-24-(노트) 베이지안 추론 [베이지안].ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="About-this-doc">
+<a class="anchor" href="#About-this-doc" aria-hidden="true"><span class="octicon octicon-link"></span></a>About this doc<a class="anchor-link" href="#About-this-doc"> </a>
+</h3>
+<p><code>-</code> 통계공부</p>
+<p><code>-</code> 학부수준</p>
+<p><code>-</code> 이 문서에서는 베이지안 대하여 다룬다. 베이지안 추론법이 아니라 베이지안을 다룬다고 한 이유는 그들의 방법을 이해하기 위함이 아니라 그들의 철학 혹은 사고방식을 이해하기 위함이다.</p>
+<p><code>-</code> 교재는 예전에 내가 공부했던 Hogg 5판, 그리고 김우철 수리통계학책.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="사후분포를-구하는-두-가지-방법">
+<a class="anchor" href="#%EC%82%AC%ED%9B%84%EB%B6%84%ED%8F%AC%EB%A5%BC-%EA%B5%AC%ED%95%98%EB%8A%94-%EB%91%90-%EA%B0%80%EC%A7%80-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>사후분포를 구하는 두 가지 방법<a class="anchor-link" href="#%EC%82%AC%ED%9B%84%EB%B6%84%ED%8F%AC%EB%A5%BC-%EA%B5%AC%ED%95%98%EB%8A%94-%EB%91%90-%EA%B0%80%EC%A7%80-%EB%B0%A9%EB%B2%95"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 가볍게 예제로 시작하자. $x_1,\dots,x_n$는 모수가 $\lambda$인 포아송분포에서 추출한 <strong><em>i.i.d.</em></strong> 샘플이라고 하자. (좀더 엄밀하게 쓰면 $X$는 모수가 $\lambda$인 포아송분포를 따르고 $x_1,\dots,x_n$ 은 $X$의 <strong><em>i.i.d. realization</em></strong> 이라고 말해야 한다.) 그리고 $\lambda$는 확률변수 $\Lambda$의 <strong><em>realization</em></strong> 이며 확률변수 $\Lambda$는 모수가 $\alpha$, $\beta$ 인 감마분포를 따른다고 하자. 이러한 상황을 보통 관용적으로는 간단하게 아래와 같이 표현한다.</p>
+<ul>
+<li>$\lambda \sim \Gamma(\alpha,\beta)$</li>
+<li>$x_1,\dots,x_n \sim ~ i.i.d.~ Poission(\lambda)$</li>
+</ul>
+<p>그런데 좀 더 엄밀하게는(=좀 더 엄밀한 빈도주의적 관점에서는) 아래와 같이 표현하는것이 더 정확하다.</p>
+<ul>
+<li>$\Lambda \sim \Gamma(\alpha,\beta)$</li>
+<li>$X_1,\dots,X_n | \lambda \sim ~ i.i.d.~ Poission(\lambda)$</li>
+</ul>
+<p>사실 이처럼 $\lambda$와 $\Lambda$를 구분하면서 말하는게 더 엄밀하면서 이해도 쉬운데 그렇게 안하는 이유는 따로 있다. 그냥 노테이션상 그리스기호의 대문자로 쓸 수 있는게 한정적이기 때문이다. $\lambda$를 확률변수 $\Lambda$의 realization으로 이해하는것은 아무 무리가 없지만 $\sigma$를 $\Sigma$의 realization 으로 표기해야 한다든가, $\alpha$를 $A$의 realization 으로 표기해야하면 오히려 더 큰 혼란이 생긴다. 그래서 김우철 교수님의 수리통계학 p.459 에서는 "확률변수 $\Theta$와 취하는 값 $\theta$를 구별하지 않고 모두 $\theta$로 나타내기로 한다." 라는 문장이 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 여기에서 많은 사람들이 헷갈려하는 점을 짚고 넘어가겠다. 혼돈은 $\lambda$를 파라메터로 부르는 것이 맞나? 라는 의문에서 시작된다. 이미 언급했지만  $\lambda$는 파라메터가 아니라 확률변수의 realization 을 의미하고 오히려 $\alpha,\beta$ 를 파라메터라고 부르는 것이 맞다고 생각한다. 하지만 이런 관점은 빈도주의적 관점이다. 베이지안들은 $\alpha,\beta$ 를 하이퍼파라메터라고 하고 $\lambda$를 그냥 파라메터라고 부른다. 그리고 베이지안들은 파라메터를 랜덤변수의 realization으로 생각한다. 정리하면 아래와 같다. 빈도주의자의 입장에서 정리하였다. (괄호는 베이지안들의 입장)</p>
+<ul>
+<li>$\alpha$, $\beta$ : parameter (hyper-parameter)</li>
+<li>$\lambda$ : realization of $\Lambda$ (parameter)</li>
+<li>$x_1,\dots,x_n$: realizations of $X$. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 여기에서 또 사소한 헷갈림이 발생한다. 일반적으로 빈도주의자들이 말하는 우도함수는 $L(\lambda)=f(x_1,\dots,x_n ; \lambda)$ 와 같이 표현한다. 이때 빈도주의자들은 $f(x_1,\dots,x_n ; \lambda)$ 대신에 간략하게 $f(x_1,\dots,x_n)$ 와 같이 쓰기도 하는데 이는 베이지안들이 생각하는 마지널의 표기법과 겹친다. 즉</p>
+<p>
+$$f(x_1,\dots,x_n)$$
+</p>
+<p>이 빈도주의자들에게는 우도함수로 보이고 베이지안에게는 마지날로 보인다. 베이지안들은 절대로 우도함수를 위와같이 쓰지 않는다. 철저하게</p>
+<p>
+$$f(x_1,\dots,x_n | \lambda)$$
+</p>
+<p>와 같이 쓴다. 대신 빈도주의자들은 우도함수를 $f(x_1,\dots,x_n ; \lambda)$ 혹은 $L(\lambda)$ 혹은 $f(x_1,\dots,x_n)$ 와 같이 쓴다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 다시 우리의 문제로 돌아와서 사후분포 즉 $f(\lambda | x_1,\dots,x_n)$ 을 구하는 방법에 대하여 알아보자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> <strong>(풀이 1: 미련함)</strong> 정석적인 풀이를 해보자. 아마 좀 어려울거다. 조건부 <strong><em>pdf</em></strong> 의 정의에 의해서 아래식이 성립한다.</p>
+<p>
+$$f(\lambda | x_1,\dots,x_n) = \frac{f(x_1,\dots,x_n,\lambda)}{f(x_1,\dots,x_n)}$$
+</p>
+<p>따라서 위를 계산하려면 $f(x_1,\dots,x_n,\lambda)$ 와 $f(x_1,\dots,x_n)$ 를 각각 계산하면 된다. 여기에서 $f(x_1,\dots,x_n,\lambda)$는 아래와 같이 쓸 수 있다.</p>
+<p>
+$$f(x_1,\dots,x_n,\lambda)= \left( \prod_{i=1}^{n} \frac{\lambda^{x_i} e^{-\lambda} }{x_i !} \right) \frac{\lambda^{\alpha-1}e^{-\lambda/\beta} }{\Gamma(\alpha)\beta^{\alpha} }$$
+</p>
+<p>이제 $f(x_1,\dots,x_n)$을 계산하면 되는데 이는 $f(x_1,\dots,x_n,\lambda)$을 적분해서 얻을 수 있다. 즉</p>
+<p>
+$$f(x_1,\dots,x_n)=\int f(x_1,\dots,x_n,\lambda) d\lambda $$
+</p>
+<p>을 계산하면 된다. 적분을 항상 손으로 계산할 수 있을지는 모르지만 위의 경우는 계산할 수 있다. 아무튼 계산해보면 아래와 같다. (이번 한번만 계산할것이다)</p>
+<p>$f(x_1,\dots,x_n)=\int f(x_1,\dots,x_n,\lambda) d\lambda  \\
+= \int_0^{\infty} \left( \prod_{i=1}^{n} \frac{\lambda^{x_i} e^{-\lambda} }{x_i !} \right) \frac{\lambda^{\alpha-1}e^{-\lambda/\beta} }{\Gamma(\alpha)\beta^{\alpha} } d\lambda \\
+= \frac{1}{\prod x_i! \Gamma(\alpha) \beta^{\alpha} } \int_0^{\infty}\lambda^{\sum x_i + \alpha-1 } e^{-\lambda \big(n+\frac{1}{\beta}\big)} d\lambda$</p>
+<p>감마함수의 정의에 따라서 아래식이 성립한다.</p>
+<p>
+$$\Gamma(n):=\int_{0}^{\infty} y^{n-1} e^{-y} dy $$
+</p>
+<p>요걸 이용하면 아래를 얻을 수 있다. (A4 용지 반페이지 정도 투자해서 치환적분해보면 풀린다)</p>
+$$f(x_1,\dots,x_n)
+=\frac{\Gamma(\sum x_i+\alpha)}{x_1! \dots x_n! \Gamma(\alpha) \beta^{\alpha} \big(n+\frac{1}{\beta}\big)^{\sum x_i+\alpha} }$$<p>여기까지 결과를 정리하면 아래와 같다.</p>
+<ul>
+<li>$f(x_1,\dots,x_n,\lambda)= \left( \prod_{i=1}^{n} \frac{\lambda^{x_i} e^{-\lambda} }{x_i !} \right) \frac{\lambda^{\alpha-1}e^{-\lambda/\beta} }{\Gamma(\alpha)\beta^{\alpha} }$</li>
+<li>$f(x_1,\dots,x_n)
+=\frac{\Gamma(\sum x_i+\alpha)}{\prod x_i! \Gamma(\alpha) \beta^{\alpha} \big(n+\frac{1}{\beta}\big)^{\sum x_i+\alpha} }$</li>
+</ul>
+<p>이제 (드디어) 아래식만 계산하면 풀이가 끝난다.</p>
+<p>
+$$f(\lambda | x_1,\dots,x_n) = \frac{f(x_1,\dots,x_n,\lambda)}{f(x_1,\dots,x_n)}$$
+</p>
+<p>계산해보면 아래와 같이 정리된다.</p>
+<p>
+$$f(\lambda | x_1,\dots,x_n)=\frac{\lambda^{\sum x_i \alpha-1} e^{-\lambda\big(n+\frac{1}{\beta}\big)} }{\Gamma(\sum x_i+\alpha)\big(n+\frac{1}{\beta} \big)^{- \sum x_i - \alpha} }$$
+</p>
+<p>따라서 $\lambda$의 사후분포는 모수가 $\big(\sum x_i+\alpha,\big(n+\frac{1}{\beta}\big)^{-1} \big) $ 인 감마분포를 따른다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> <strong>(풀이 2: 똑똑함)</strong> : 좀 더 쉽게 푸는 방법을 알려주겠다. 이는 아래와 같은 <strong>베이즈정리</strong>를 이용하는 것이다.</p>
+<p>
+$$f(\lambda | x_1,\dots,x_n) \propto f(x_1,\dots,x_n | \lambda) f(\lambda)$$
+</p>
+<p>위의 식을 아래와 같이 외우는 사람도 있다.</p>
+<blockquote>
+<p>posterior $\propto$ likelihood $\times$ prior</p>
+</blockquote>
+<p>뭐 저렇게만 보면 likelihood $\times$ prior 가 엄청난 의미를 가지고 있는것 같은데 그냥 $({\boldsymbol x},\theta)$의 <strong><em>joint pdf</em></strong> 란 의미다. 여기에서 ${\boldsymbol x}=(x_1,\dots,x_n)'$ 이다.</p>
+<p>참고로 위에서 $\propto$ 의 의미는 잘 아는것처럼 <strong>비례</strong>라는 의미이다. 즉 $f(y) \propto g(y)$ 라는 의미는 적당한 상수 $k$ 가 존재하여 $f(y)=k \times g(y)$ 가 성립한다는 의미이다. 이때 $k$는 진짜 $0.2$ 같은 상수란 의미가 아니라 $y$와 상관없는 어떤 수식이라는 의미이다. 베이즈정리의 증명은 그렇게 어렵지 않다.</p>
+<p>$f(\lambda | x_1,\dots,x_n) = \frac{f(\lambda,x_1,\dots,x_n)}{f(x_1,\dots,x_n)} 
+= \frac{f(\lambda)f(x_1,\dots,x_n | \lambda)}{f(x_1,\dots,x_n)} \\
+= ~const~ with~ regard~ to~ \lambda \times f(x_1,\dots,x_n | \lambda) f(\lambda)$</p>
+<p>결국 아래를 위우면 된다.</p>
+<p>$posterior = inverse~ of~ marginal~  \times ~joint \\ 
+=inverse~ of~ marginal~ \times ~likelihood~ \times~ prior \\
+\propto ~likelihood~ \times ~prior $</p>
+<p>베이즈정리를 잘 생각해보면 사후분포는 다음의 과정으로 구할 수 있음을 알 수 있다. <strong>(1)</strong> join를($=likelihood \times prior$)를 쓰고 <strong>(2)</strong> $\{x_1,\dots,x_n\}$ 와 하이퍼파라메터에 관련된텀은 모두 무시하고 $\lambda$와 관련된텀만 남겨 간추린모양을 만든 뒤 <strong>(3)</strong> 간추린모양을 보고 <strong><em>pdf</em></strong> 를 역추론해 때려맞춘다. 위의 예제로 치면 아래와 같이 joint를 쓴뒤</p>
+<p>
+$$f(x_1,\dots,x_n,\lambda)= \left( \prod_{i=1}^{n} \frac{\lambda^{x_i} e^{-\lambda} }{x_i !} \right) \frac{\lambda^{\alpha-1}e^{-\lambda/\beta} }{\Gamma(\alpha)\beta^{\alpha} }$$
+</p>
+<p>정리해서 아래와 같이 <strong>간추린모양</strong> 를 만든다.</p>
+<p>
+$$f(x_1,\dots,x_n,\lambda) \propto \lambda^{\sum x_i+\alpha -1} e^{-\lambda\big(n+\frac{1}{\beta}\big)}$$
+</p>
+<p>이는 모수가 $\big(\sum x_i+\alpha,\big(n+\frac{1}{\beta}\big)^{-1} \big) $  인 감마분포의 <strong>간추린모양</strong>이다. 따라서 사후분포는 모수가 $\big(\sum x_i+\alpha,\big(n+\frac{1}{\beta}\big)^{-1} \big) $ 인 감마분포이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> <strong>(풀이 3: 더 똑똑한 풀이)</strong> : 그냥  켤레 외우는 사람이 젤 똑똑한 사람이다. 켤레는 맨 마지막에 정리해두었다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Bayes-estimator">
+<a class="anchor" href="#Bayes-estimator" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bayes estimator<a class="anchor-link" href="#Bayes-estimator"> </a>
+</h3>
+<p><code>-</code> 여기서는 베이즈추정량에 대하여 다룬다. 이를 정의하기 위해서 <strong><em>loss, MSE, risk, Bayes risk</em></strong> 와 같은 용어들이 나온다. 참고로 이 챕터는 엄청 헷갈린다. 거의 책마다 정의하는게 다른 느낌이다. 하지만 여기저기 뒤적거리면서 내 나름대로 정리했다. 우선 가장 헷갈리는 MSE부터 정리하자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> MSE는 크게 2가지 부류로 나뉜다. (<a href="https://en.wikipedia.org/wiki/Mean_squared_error">https://en.wikipedia.org/wiki/Mean_squared_error</a>)</p>
+<ul>
+<li>$MSE:=\frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_ i)^2$</li>
+<li>$MSE:=\mathbb{E}(\lambda-\hat\lambda)^2$</li>
+</ul>
+<p>위의식은 predictor에 대한 MSE의 정의이고 아래식은 estimator에 대한 MSE의 정의이다. 다소 헷갈리지만 그냥 <strong>회귀식정의</strong>와 <strong>수통식정의</strong> 2개 있다고 생각하는 것이 속 편하다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 회귀식 MSE는 잔차제곱 즉 $e_i^2=(y_i-\hat{y}_ i)^2$의 average이다. 수통식 MSE는 손실함수 $(\lambda-\hat{\lambda})^2$ 의 mean이다. 여기에서 미치겠는것은 머신러닝쪽에서는 회귀식 MSE 그 자체를 손실함수라고 표현하기도 한다는 점이다. (요건 최적화쪽에서 따온 용어인데 최적화하는 사람들은 objective function 을 그냥 손실함수라고 부른다) 우선 여기서는 이런 용어는 무시하자. 그리고 우리는 수통식으로 정의한 MSE에만 관심을 가지자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 황당한 점은 또 빈도주의자와 베이지안이 생각하는 수통식 MSE의 정의가 다르다는 것이다. 이런일이 생기는 근본적인 이유는 베이지안들은 $\lambda$를 랜덤변수 $\Lambda$의 realization으로 보기 때문이다. 빈도주의자는 손실함수를 우도함수로 적분하고(<strong>expectation is taken over the likelihood of $x_1,\dots,x_n$</strong>) 베이지안들은 손실함수를 조인트로 적분한다(<strong>expectation is taken over the joint distribution of $x_1,\dots,x_n$ and $\lambda$</strong>). 즉 빈도주의자들은 MSE를 아래와 같이 정의한다. 이를 간단히 빈도주의식 MSE라고 하자.</p>
+<p>
+$$\mathbb{E}(\lambda-\hat\lambda)^2:=\int \dots \int (\lambda-\hat{\lambda})^2 f(x_1,\dots,x_n ; \lambda) dx_1\dots dx_n $$
+</p>
+<p>반면에 베이지안은 MSE를 아래와 같이 생각한다. 이를 간단히 베이지안식 MSE라고 하자.</p>
+<p>
+$$\mathbb{E}(\lambda-\hat\lambda)^2:=\int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda$$
+</p>
+<p>이러한 정의는 아래를 참고하면 나온다.</p>
+<ul>
+<li>
+<a href="https://en.wikipedia.org/wiki/Loss_function#Expected_loss">https://en.wikipedia.org/wiki/Loss_function#Expected_loss</a> </li>
+<li>
+<a href="https://en.wikipedia.org/wiki/Bayes_estimator#cite_note-1">https://en.wikipedia.org/wiki/Bayes_estimator#cite_note-1</a> </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 그리고 베이지안들은 베이지안식 MSE을 최소화하는 $\hat\lambda$를 베이즈룰이라고 정의한다. 즉 아래가 성립한다.</p>
+<p>$Bayes rule=\underset{\lambda}{\operatorname{argmin} } \int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda$</p>
+<p><code>-</code> 베이즈룰을 구하기 위해서는 아래를 계산하면 된다.</p>
+<p>$\frac{\partial}{\partial \lambda} \int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda$</p>
+<p>그런데 위의 식은 아래와 같이 풀 수 있다.</p>
+<p>$\frac{\partial}{\partial \lambda}
+\int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda \\
+= \frac{\partial}{\partial \lambda} \int \dots \int \Bigg\{ \int (\lambda-\hat{\lambda})^2 f(\lambda|x_1,\dots,x_n) d\lambda \Bigg\}f(x_1,\dots,x_n) dx_1\dots dx_n \\
+= \int \dots \int \Bigg\{\frac{\partial}{\partial \lambda} \int (\lambda-\hat{\lambda})^2 f(\lambda|x_1,\dots,x_n) d\lambda \Bigg\}f(x_1,\dots,x_n) dx_1\dots dx_n$</p>
+<p><code>-</code> 따라서 결국 아래의 두 최적화 문제는 같은 문제이다.</p>
+<ul>
+<li>$\underset{\lambda}{\operatorname{argmin} }  \int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda$</li>
+<li>$\underset{\lambda}{\operatorname{argmin} } \int (\lambda-\hat{\lambda})^2 f(\lambda|x_1,\dots,x_n) d\lambda$ </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 잠시 애매한 용어를 정리하고 넘어가겠다. 빈도주의자와 베이지안 모두 추정량은 MSE(=expectation of loss=risk)를 최소화하면 된다는 마인드를 가지고 있다. 그런데 빈도주의자의 관점에서는</p>
+<p>$MSE=risk=expectation~ of~ loss=\int \dots \int (\lambda-\hat{\lambda})^2 f(x_1,\dots,x_n ; \lambda) dx_1\dots dx_n$</p>
+<p>와 같이 정의된다. 베이지안의 경우는 아래와 같이 정의된다.</p>
+<p>$MSE=risk=expectation~ of~ loss=\int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda$</p>
+<p>그런데 이 베이지안의 MSE가 빈도주의자들에게는 아래와 같은 식으로 보일수도 있다.</p>
+<p>$\int  \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda \\
+=\int \Bigg\{ \int \dots \int (\lambda-\hat{\lambda})^2 f(x_1,\dots,x_n | \lambda) dx_1\dots dx_n \Bigg\}f(\lambda)d\lambda \\
+=\int \Big\{risk ~function ~defined~ by~ frequentist \Big\} f(\lambda)d\lambda$</p>
+<p>즉 베이지안식 MSE는 빈도주의주의식 MSE를 프라이어로 적분한것으로 볼 수 있다. 다시 말하면 베이지안식 risk는 빈도주의식 risk를 프라이어로 적분한 것이라 볼 수 있다. 그래서 빈도주의자들이 쓴 베이지안챕터는 베이지안식 MSE 혹은 베이지안식 risk를 <strong><em>mean of risk</em></strong> 라는 다소 해괴한 표현을 쓴다. 물론 베이지안 입장에서는 베이지안식 MSE는 그냥 깔끔하게 <strong><em>expected loss, risk, MSE</em></strong> 이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 그런데 애매한점은 여기에서 그치지 않는다. 아래의 최소화문제</p>
+<ul>
+<li>$\underset{\lambda}{\operatorname{argmin} }  \int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda$</li>
+<li>$\underset{\lambda}{\operatorname{argmin} } \int (\lambda-\hat{\lambda})^2 f(\lambda|x_1,\dots,x_n) d\lambda$</li>
+</ul>
+<p>가 똑같기 때문에</p>
+<p>
+$$\int (\lambda-\hat{\lambda})^2 f(\lambda|x_1,\dots,x_n) d\lambda$$
+</p>
+<p>자체를 그냥 <strong><em>risk</em></strong> 로 생각하자는 베이지안도 있다. 즉 이러한 베이지안은 위의식 자체가 그냥 
+<strong><em>expected loss, risk, MSE</em></strong> 라는 마인드이다. (<a href="https://en.wikipedia.org/wiki/Loss_function#Expected_loss">https://en.wikipedia.org/wiki/Loss_function#Expected_loss</a>)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 그런데 위와 같은 정의는 왜 이런식으로 정의했는지 이해는 되지만 쓰기에는 너무 헷갈린다(빈도주의자들의 용어와 충돌함). 그래서</p>
+<p>
+$$\int (\lambda-\hat{\lambda})^2 f(\lambda|x_1,\dots,x_n) d\lambda$$
+</p>
+<p>는 <strong><em>Bayes risk</em></strong> 로 부르고</p>
+<p>
+$$\int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1 \dots dx_n d\lambda$$
+</p>
+<p>는 따로 별다른 명칭을 정의하지 않는 사람들이 대다수이다. 왜냐하면</p>
+<p>
+$$\int \int \dots \int (\lambda-\hat{\lambda})^2 f(\lambda,x_1,\dots,x_n) dx_1\dots dx_n d\lambda$$
+</p>
+<p>을 <strong><em>expected loss, risk, MSE</em></strong> 등으로 정의하자니 빈도주의자의 반발이 거세다. 그렇다고 하여 <strong><em>mean of risk</em></strong> 라고 보기에는 베이지안들의 반발이 거세다. 이처럼 많은 논쟁이 되는 식인데 위의 식은 결정적으로 필요가 없다. 빈도주의자들은 애초에 없는 식이었고 베이지안들은 어차피 위의 식을 최소화하는 것이 아닌 <strong><em>Bayes risk</em></strong> 를 최소화하면 그만이기 때문에 필요가 없다. 베이지안 입장에서는 필요도 없는 식의 명칭때문에 싸울 이유가 없다. 그래서 요즘은 그냥 <strong><em>Bayes risk, Bayes rule</em></strong> 만 정의하면서 얼렁뚱땅 넘어가는 주의이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 이제 다시 원래의 문제로 돌아와서 베이즈룰을 구하기 위해서 아래를 푸는 방법을 고민해보자.</p>
+<p>$\frac{\partial}{\partial \lambda} \int (\lambda-\hat{\lambda})^2 f(\lambda|x_1,\dots,x_n) d\lambda =0 $</p>
+<p>미분과 적분의 순서를 바꿔서 계산하면 베이즈룰이 <strong><em>mean of posterior</em></strong> 임을 너무 쉽게 구할 수 있다. 즉</p>
+<p>$Bayes~ rule:= \int \lambda f(\lambda | x_1,\dots,x_n)d\lambda$</p>
+<p>이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Conjugate-Prior">
+<a class="anchor" href="#Conjugate-Prior" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conjugate Prior<a class="anchor-link" href="#Conjugate-Prior"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="(1)-감마-$\to$-포아송">
+<a class="anchor" href="#(1)-%EA%B0%90%EB%A7%88-%24%5Cto%24-%ED%8F%AC%EC%95%84%EC%86%A1" aria-hidden="true"><span class="octicon octicon-link"></span></a>(1) 감마 $\to$ 포아송<a class="anchor-link" href="#(1)-%EA%B0%90%EB%A7%88-%24%5Cto%24-%ED%8F%AC%EC%95%84%EC%86%A1"> </a>
+</h4>
+<p><code>-</code> 사전: $\Lambda \sim \Gamma(\alpha,\beta)$</p>
+<p><code>-</code> 우도: $X_1,\dots,X_n|\lambda \sim Poisson(\lambda)$</p>
+<p><code>-</code> 사후: $\Lambda| x_1,\dots,x_n \sim \Gamma\big(\sum x_i+\alpha,\big(n+\frac{1}{\beta}\big)^{-1} \big)$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="(2)-베타-$\to$-베르누이">
+<a class="anchor" href="#(2)-%EB%B2%A0%ED%83%80-%24%5Cto%24-%EB%B2%A0%EB%A5%B4%EB%88%84%EC%9D%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>(2) 베타 $\to$ 베르누이<a class="anchor-link" href="#(2)-%EB%B2%A0%ED%83%80-%24%5Cto%24-%EB%B2%A0%EB%A5%B4%EB%88%84%EC%9D%B4"> </a>
+</h4>
+<p><code>-</code> 사전: $p \sim Beta(\alpha,\beta)$</p>
+<p><code>-</code> 우도: $X_1,\dots,X_n|p \sim Bernoulli(p)$</p>
+<p><code>-</code> 사후: $p |x_1,\dots,x_n \sim Beta\big(\sum x_i + \alpha, n-\sum x_i + \beta)$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="(3)-감마-$\to$-지수">
+<a class="anchor" href="#(3)-%EA%B0%90%EB%A7%88-%24%5Cto%24-%EC%A7%80%EC%88%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>(3) 감마 $\to$ 지수<a class="anchor-link" href="#(3)-%EA%B0%90%EB%A7%88-%24%5Cto%24-%EC%A7%80%EC%88%98"> </a>
+</h4>
+<p><code>-</code> 사전: $\frac{1}{\mu} \sim \Gamma(\alpha,\beta)$</p>
+<p><code>-</code> 우도: $X_1,\dots,X_n|\frac{1}{\mu} \sim Poisson(\lambda)$</p>
+<p><code>-</code> 사후: $\frac{1}{\mu} | x_1,\dots,x_n \sim \Gamma\big(\sum x_i+\alpha,\big(n+\frac{1}{\beta}\big)^{-1} \big)$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="(4)-카이제곱,정규-$\to$-정규">
+<a class="anchor" href="#(4)-%EC%B9%B4%EC%9D%B4%EC%A0%9C%EA%B3%B1,%EC%A0%95%EA%B7%9C-%24%5Cto%24-%EC%A0%95%EA%B7%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>(4) 카이제곱,정규 $\to$ 정규<a class="anchor-link" href="#(4)-%EC%B9%B4%EC%9D%B4%EC%A0%9C%EA%B3%B1,%EC%A0%95%EA%B7%9C-%24%5Cto%24-%EC%A0%95%EA%B7%9C"> </a>
+</h4>
+<p><code>-</code> 사전</p>
+<ul>
+<li>분산: $\frac{\nu \mathbb{V}(\mu|\sigma^2)}{\sigma^2} \sim  \chi^2(\nu)$</li>
+<li>평균: $\mu | \sigma^2 \sim {\cal N} \big(\mathbb{E}(\mu|\sigma^2), \mathbb{V}(\mu|\sigma^2)\big)$ </li>
+</ul>
+<p><code>-</code> 우도</p>
+<ul>
+<li>$X_1,\dots,X_n | \mu, \sigma^2  \sim {\cal N}(\mu,\sigma^2)$  </li>
+</ul>
+<p><code>-</code> 사후</p>
+<ul>
+<li>$\frac{\nu \mathbb{V}(\mu|\sigma^2)+(n-1)s^2}{\sigma^2}  + \frac{(n^{-1}+\kappa^{-1})^{-1}(\bar{x}+\mathbb{E}(\mu|\sigma^2))^2}{\sigma^2} ~\big|~x_1,\dots,x_n \sim  \chi^2(n+\nu)$</li>
+<li>$\mu | \sigma^2, x_1,\dots,x_n \sim {\cal N}\Big(\frac{n\bar{x} +\kappa \mathbb{E}(\mu|\sigma^2)}{n+\kappa} , \frac{\sigma^2}{n+\kappa}\Big)$, where $\kappa:=\frac{\sigma^2}{\mathbb{V}(\mu|\sigma^2)}$</li>
+<li>$\frac{\frac{\mu-\mathbb{E}(\mu|\sigma^2,x_1,\dots,x_n)}{\sigma^2/(n+\kappa)} }{ \sqrt{ \big(\frac{\nu \mathbb{V}(\mu|\sigma^2)+(n-1)s^2}{\sigma^2}  + \frac{(n^{-1}+\kappa^{-1})^{-1}(\bar{x}+\mathbb{E}(\mu|\sigma^2))^2}{\sigma^2}\big)\big/(n+\nu)} } ~\Big|~ x_1,\dots,x_n \sim t(n+\nu)$</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="정규분포-보충설명">
+<a class="anchor" href="#%EC%A0%95%EA%B7%9C%EB%B6%84%ED%8F%AC-%EB%B3%B4%EC%B6%A9%EC%84%A4%EB%AA%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>정규분포 보충설명<a class="anchor-link" href="#%EC%A0%95%EA%B7%9C%EB%B6%84%ED%8F%AC-%EB%B3%B4%EC%B6%A9%EC%84%A4%EB%AA%85"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 정규분포의 경우는 외우는것이 좀 힘들어서 약간의 설명을 하겠다. 정규분포의 모수에서 평균은 똑같이 정규분포를 따른다고 가정하고 분산의 역수는 카이제곱분포를 따른다고 가정한다. 즉 아래와 같은 상황을 가정한다.</p>
+<ul>
+<li>$\frac{\nu \mathbb{V}(\mu |\sigma^2)}{\sigma^2} \sim  \chi^2(\nu)$ </li>
+<li>$\mu | \sigma^2 \sim {\cal N} \big(\mathbb{E}(\mu|\sigma^2), \mathbb{V}(\mu|\sigma^2)\big)$</li>
+<li>$X_1,\dots,X_n | \mu, \sigma^2  \sim {\cal N}(\mu,\sigma^2)$</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 결국 우리가 관측한 자료 $x_1,\dots,x_n | \mu,\sigma^2$ 의 분산은 $\sigma^2$ 자체의 값과 $\mu$의 분산 $\mathbb{V}(\mu |\sigma^2)$의 값에 영향을 같이 받게 된다. 예를 들어서 관측된자료 $x_1,\dots,x_n$ 이 있다고 치자. 계산해보니까 $\bar{x}=2$이고 표준편차 $s^2=1$ 이었다고 하자. 하지만 이것은 아래의 경우에 모두 가능한 상황이다.</p>
+<ul>
+<li>$\mu \sim {\cal N}(2,1)$, and $X_1,\dots,X_n \sim {\cal N}(\mu, 0)$</li>
+<li>$\mu \sim {\cal N}(2,0)$, and $X_1,\dots,X_n \sim {\cal N}(\mu,1)$</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 둘 다 다소 극단적이긴 했지만 모든 케이스들은 이러한 두 양근단의 사이일 것이다. 그럼 어떻게 결정을 해야할까? 한 가지 방법은</p>
+<p>
+$$\frac{\sigma^2}{\mathbb{V}(\mu|\sigma^2)}$$
+</p>
+<p>의 값을 미리 정하는 것이다. 김우철 교수님의 교재에서는 이를 카파로 정의하였다. 즉</p>
+<p>
+$$\kappa:=\frac{\sigma^2}{\mathbb{V}(\mu|\sigma^2)}$$
+</p>
+<p>이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 따라서 이 기호를 사용하면 아래와 같이 표현할 수 있다.</p>
+<ul>
+<li>$\frac{\nu}{\kappa} \sim  \chi^2(\nu)$</li>
+<li>$\mu | \sigma^2 \sim {\cal N} \big(\mathbb{E}(\mu |\sigma^2), \frac{\sigma^2}{\kappa} \big)$</li>
+<li>$X_1,\dots,X_n | \mu, \sigma^2  \sim {\cal N}(\mu,\sigma^2)$</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 눈치빠르다면 $\frac{\sigma^2}{\kappa}$ 의 표현을 보고 뭔가 느끼는게 있을 것이다. 계산해보면 알겠지만 $\bar{x}$는 $n$이 커질수록 점점 포스테리어에서 힘을 받는데 $\mathbb{E}(\mu|\sigma^2)$는 $\kappa$가 커질수록 힘을 받는다. 따라서 $\kappa$는 $n$에 대응하는 개념으로 생각할 수 있다. 왜 그럴까?</p>
+<p><code>-</code> 내가 이해하기로는 $\kappa$를 크게 잡는다는 것은 표본의 분산이 $\mu|\sigma^2$ 보다 크다고 선입견가지는 것인데 이는 평군의 추정에서 표본의 평균 $\bar{x}$을 믿기 싫다는 의미라고 볼 수 있다. 즉 $\kappa$ 가 클수록 평균을 추정할때 표본평균 $\bar{x}$보다 프라이어의 평균 $\mathbb{E}(\mu |\sigma^2)$을 더 신뢰하겠다는 의도로 해석할 수 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 실제로 $\kappa$는 거의 $n$과 비슷하게 생각해도 된다. 모두 $\mu$의 포스테리어는 아래와 같이 계산가능하다.</p>
+<p>
+$$\mu | \sigma^2, x_1,\dots,x_n \sim {\cal N}\Big(\frac{n\bar{x}+\kappa \mathbb{E}(\mu|\sigma^2)}{n+\kappa} ,\frac{\sigma^2}{n+\kappa}\Big)$$
+</p>
+<p>이때 마치 $\kappa$는 샘플평균 $\bar{x}$와 prior mean $\mathbb{E}(\mu|\sigma^2)$ 사이에 적절한 웨이트를 조정하는 역할을 한다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 그렇다면 $\nu$의 역할은 무엇일까? 아래의 포스테리어를 관찰하여 보자.</p>
+<p>
+$$\frac{\nu \mathbb{V}(\mu|\sigma^2) + (n-1)s^2+(n^{-1}+\kappa^{-1})^{-1}\big(\bar{x}-\mathbb{E}(\mu|\sigma^2)\big)^2 }{\sigma^2} ~\Bigg|~ x_1,\dots,x_n \sim \chi^2(\nu+n)$$
+</p>
+<p>위의 식은 (1) prior variance 즉 $\mathbb{V}(\mu|\sigma^2)$ 로만 분산을 구한것과 (2) 샘플 variance 즉 $x_1,\dots,x_n$ 으로만 분산을 계산한것 (3) 프라이어와 표본의 오차를 보정하는 텀으로 혼합되어 있다. 이중에서 $\kappa$는 (3)을 계산하는 가중치를 조절한다. 즉 여기에서 (1),(2)는 variance 와 관련된 항목이고 (3)은 bias와 관련된 항목이다. 여기까지 추론하면 $\nu$의 역할은 명확해진다. 바로 variance를 결정하는 두 항목</p>
+<p>
+$$\mathbb{V}(\mu|\sigma^2), \quad (n-1)s^2$$
+</p>
+<p>사이의 가중치를 조정하는 역할을 한다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 여기까지 과정을 알면 마지막 t분포는 쉽게 유도할 수 있다.</p>
+<p>
+$$\frac{\frac{\mu-\mathbb{E}(\mu|\sigma^2,x_1,\dots,x_n)}{\sigma^2/(n+\kappa)} }{ \sqrt{ \big(\frac{\nu \mathbb{V}(\mu|\sigma^2)+(n-1)s^2}{\sigma^2}  + \frac{(n^{-1}+\kappa^{-1})^{-1}(\bar{x}+\mathbb{E}(\mu|\sigma^2))^2}{\sigma^2}\big)\big/(n+\nu)} } ~\Bigg|~ x_1,\dots,x_n \sim t(n+\nu)$$
+</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="miruetoto/yechan"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/yechan/%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88/2019/11/24/(%EB%85%B8%ED%8A%B8)-%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88-%EC%B6%94%EB%A1%A0-%EB%B2%A0%EC%9D%B4%EC%A7%80%EC%95%88.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/yechan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/yechan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/yechan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/miruetoto" title="miruetoto"><svg class="svg-icon grey"><use xlink:href="/yechan/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
