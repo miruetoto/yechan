@@ -1,20 +1,9 @@
-#1. import useful python packages 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt 
-from matplotlib.pyplot import plot 
-from matplotlib.pyplot import imshow
-
-#2. python system 
-import warnings
-warnings.filterwarnings(action='ignore')
-
-
-#3. rpy2 
 import rpy2
 import rpy2.robjects as ro
-ro.r('library(devtools)') ## to use source_url 
-ro.r('library(tidyverse)')
+# ro.r('library(devtools)') ## to use source_url 
+# ro.r('library(tidyverse)')
 
 ############################## rpy2 functions ##############################
 def pull(r):
@@ -153,7 +142,7 @@ def cbindtemp(A,B):
     if typ==['scala','rowvec']: A=np.array(A); 
     if typ==['scala','colvec']: A=np.full(B.shape,A[0,0]); 
     if typ==['scala','matrix']: A=np.full((B.shape[0],1),A[0,0]); 
-    	
+
     if typ==['rowvec','scala']: B=np.array(B)
     #if typ==['rowvec','rowvec']:
     if typ==['rowvec','colvec']: A=A.T
@@ -193,7 +182,7 @@ def rbindtemp(A,B):
     if typ==['scala','rowvec']: A=np.full(B.shape,A[0,0]); 
     if typ==['scala','colvec']: A=np.array(A);
     if typ==['scala','matrix']: A=np.full((1,B.shape[1]),A[0,0]); 
-    	
+
     if typ==['rowvec','scala']: B=np.full((1,A.shape[1]),B[0,0]); 
     #if typ==['rowvec','rowvec']:
     if typ==['rowvec','colvec']: B=B.T
@@ -215,7 +204,7 @@ def ids(pddata):
     push(pddata.columns,"vname")
     print(r2p(ro.r("str_c(str_c('(',str_c(1:length(vname)-1),') ',vname),collapse='\n')"))[0])
 
-def l2distance(X): #X:=n*p matrix  
+def l2distance(X): #X:=n*p ndarray
     X=np.array(X)
     n=len(X)
     rtn=np.array(np.zeros([n,n]))
@@ -224,6 +213,4 @@ def l2distance(X): #X:=n*p matrix
     except MemoryError:
         for i in np.arange(0,n):
             rtn[i,:]=np.sum((X[i,:]-X[:,:])**2,axis=1)
-    return np.asmatrix(rtn)
-
-
+    return rtn
