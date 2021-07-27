@@ -50,11 +50,11 @@ def p2r(A):
     elif type(A)==type(np.matrix(np.zeros([2,2]))):
         rtn=m2r_temp(A)
     elif type(A)==type(np.zeros([2,2])):
-        if dim(A)==1: 
+        if len(A.shape)==1: 
             rtn=a2r_temp(A)
         else:
             rtn=m2r_temp(A)
-    elif type(A)==str: #  elif type(pd.DataFrame(np.matrix(A)).iloc[0,0])==str: 와 순서바꾸면 안됨
+    elif type(A)==str: 
         rtn=s2r_temp(A)        
     elif type(pd.DataFrame(np.matrix(A)).iloc[0,0])==str:
         rtn=s2r_temp(pd.DataFrame(np.matrix(A)).T.iloc[:,0])
