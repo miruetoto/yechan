@@ -33,20 +33,15 @@ clv<-function(dfdata){
   dfdata
 }
 
-# len is length
-len<-function(data){
-	length(data)
-}
-
 # print varialbe names
 ids<-function(data){
-	cat(str_c(str_c('[[',str_c(1:length(data)),']] ','\'',names(data),'\''),collapse='\n'))
+    cat(str_c(str_c('[[',str_c(1:length(data)),']] ','\'',names(data),'\''),collapse='\n'))
 }
 
 # minmaxscaling
 mms<-function(vector,range=c(0,1)){
-	vectorshift<-vector-min(vector)+range[1]
-	vectorshift/max(vectorshift)*range[2]
+    vectorshift<-vector-min(vector)+range[1]
+    vectorshift/max(vectorshift)*range[2]
 }
 
 # ggplots
@@ -60,11 +55,6 @@ gplot<-function(...){
          legend.title=element_text(face="italic",family="Times",colour="gray50",size=14),
          legend.text=element_text(face="italic",family="Times",colour="gray50",size=10)
         )
-}
-
-# plot setting
-pst<-function(w,h,r){
-    options(repr.plot.width=w*10, repr.plot.height=h*5,repr.plot.res=r*300)
 }
 
 
