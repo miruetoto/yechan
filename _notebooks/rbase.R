@@ -63,7 +63,7 @@ gplot<-function(...){
 }
 
 # plot setting
-pstt<-function(w,h,r){
+pst<-function(w,h,r){
     options(repr.plot.width=w*10, repr.plot.height=h*5,repr.plot.res=r*300)
 }
 
