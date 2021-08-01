@@ -6,89 +6,89 @@ import rpy2.robjects as ro
 # ro.r('library(tidyverse)')
 
 ############################## rpy2 functions ##############################
-def pull(r):
-    return r2p(ro.globalenv[r])
+# def pull(r):
+#     return r2p(ro.globalenv[r])
 
-def push(py,rname=None):
-    import inspect
-    def retrieve_name(var):
-        for fi in reversed(inspect.stack()):
-            names = [var_name for var_name, var_val in fi.frame.f_locals.items() if var_val is var]
-            if len(names) > 0:
-                return names[0]
-    if rname==None: rname = retrieve_name(py)
-    ro.globalenv[rname]=p2r(py)
+# def push(py,rname=None):
+#     import inspect
+#     def retrieve_name(var):
+#         for fi in reversed(inspect.stack()):
+#             names = [var_name for var_name, var_val in fi.frame.f_locals.items() if var_val is var]
+#             if len(names) > 0:
+#                 return names[0]
+#     if rname==None: rname = retrieve_name(py)
+#     ro.globalenv[rname]=p2r(py)
     
-def p2r(A):
-    from rpy2.robjects.vectors import FloatVector 
-    from rpy2.robjects.vectors import StrVector as s2r_temp
+# def p2r(A):
+#     from rpy2.robjects.vectors import FloatVector 
+#     from rpy2.robjects.vectors import StrVector as s2r_temp
 
-    def a2r_temp(a):
-        if type(a) in {float,int,bool}: a=[a]
-        a=list(a)
-        rtn=FloatVector(a)
-        return rtn
+#     def a2r_temp(a):
+#         if type(a) in {float,int,bool}: a=[a]
+#         a=list(a)
+#         rtn=FloatVector(a)
+#         return rtn
 
-    def m2r_temp(A):
-        A=np.matrix(A)
-        Acopy=A.T.copy()
-        nrow=Acopy.shape[0]
-        Acopy.shape=(np.prod(Acopy.shape),1)
-        rtn=ro.r.matrix(a2r_temp(list(Acopy)),ncol=nrow)
-        return rtn
+#     def m2r_temp(A):
+#         A=np.matrix(A)
+#         Acopy=A.T.copy()
+#         nrow=Acopy.shape[0]
+#         Acopy.shape=(np.prod(Acopy.shape),1)
+#         rtn=ro.r.matrix(a2r_temp(list(Acopy)),ncol=nrow)
+#         return rtn
 
-    from rpy2.robjects import pandas2ri
-    from rpy2.robjects.conversion import localconverter
+#     from rpy2.robjects import pandas2ri
+#     from rpy2.robjects.conversion import localconverter
 
-    def pd2r_temp(A):
-        with localconverter(ro.default_converter + pandas2ri.converter):
-            rtn = ro.conversion.py2rpy(A)
-        return rtn
+#     def pd2r_temp(A):
+#         with localconverter(ro.default_converter + pandas2ri.converter):
+#             rtn = ro.conversion.py2rpy(A)
+#         return rtn
     
-    if type(A)==type(pd.DataFrame(np.zeros([2,2]))):
-        rtn=pd2r_temp(A) 
-    elif type(A)==type(np.matrix(np.zeros([2,2]))):
-        rtn=m2r_temp(A)
-    elif type(A)==type(np.zeros([2,2])):
-        if len(A.shape)==1: 
-            rtn=a2r_temp(A)
-        else:
-            rtn=m2r_temp(A)
-    elif type(A)==str: 
-        rtn=s2r_temp(A)        
-    elif type(pd.DataFrame(np.matrix(A)).iloc[0,0])==str:
-        rtn=s2r_temp(pd.DataFrame(np.matrix(A)).T.iloc[:,0])
-    else:
-        rtn=a2r_temp(A)
-    return rtn
+#     if type(A)==type(pd.DataFrame(np.zeros([2,2]))):
+#         rtn=pd2r_temp(A) 
+#     elif type(A)==type(np.matrix(np.zeros([2,2]))):
+#         rtn=m2r_temp(A)
+#     elif type(A)==type(np.zeros([2,2])):
+#         if len(A.shape)==1: 
+#             rtn=a2r_temp(A)
+#         else:
+#             rtn=m2r_temp(A)
+#     elif type(A)==str: 
+#         rtn=s2r_temp(A)        
+#     elif type(pd.DataFrame(np.matrix(A)).iloc[0,0])==str:
+#         rtn=s2r_temp(pd.DataFrame(np.matrix(A)).T.iloc[:,0])
+#     else:
+#         rtn=a2r_temp(A)
+#     return rtn
 
-def r2p(A):
-    from rpy2.robjects import pandas2ri
-    from rpy2.robjects.conversion import localconverter
+# def r2p(A):
+#     from rpy2.robjects import pandas2ri
+#     from rpy2.robjects.conversion import localconverter
 
-    def r2a_temp(a):
-        return list(a)
+#     def r2a_temp(a):
+#         return list(a)
     
-    def r2m_temp(A):
-        return np.matrix(A)
+#     def r2m_temp(A):
+#         return np.matrix(A)
     
-    def r2pd_temp(A):
-        with localconverter(ro.default_converter + pandas2ri.converter):
-            rtn = ro.conversion.rpy2py(A)
-        return rtn   
+#     def r2pd_temp(A):
+#         with localconverter(ro.default_converter + pandas2ri.converter):
+#             rtn = ro.conversion.rpy2py(A)
+#         return rtn   
     
-    ro.globalenv['temp']=A
-    if ro.r('is.null(dim(temp))')[0]==False: ## in the cases of matrix or dataframe
-        if ro.r('is.data.frame(temp)')[0]: 
-            rtn=r2pd_temp(A)
-        elif ro.r('is.matrix(temp)')[0]:
-            rtn=r2m_temp(A)
-        else:
-            print('I don\`t know which type of this data in R.')
-    else:
-        rtn=r2a_temp(A)
-    ro.r('rm("temp")')
-    return rtn
+#     ro.globalenv['temp']=A
+#     if ro.r('is.null(dim(temp))')[0]==False: ## in the cases of matrix or dataframe
+#         if ro.r('is.data.frame(temp)')[0]: 
+#             rtn=r2pd_temp(A)
+#         elif ro.r('is.matrix(temp)')[0]:
+#             rtn=r2m_temp(A)
+#         else:
+#             print('I don\`t know which type of this data in R.')
+#     else:
+#         rtn=r2a_temp(A)
+#     ro.r('rm("temp")')
+#     return rtn
 
 def cbind(*Mat):
     lenofMat=len(Mat)
