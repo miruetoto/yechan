@@ -139,11 +139,11 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#Lib">Lib </a></li>
 <li class="toc-entry toc-h3"><a href="#map,-map_*-:-list(a=1:5,-b:1:30)-$\to$-list(fun(a),fun(b))">map, map_* : list(a=1:5, b:1:30) $\to$ list(fun(a),fun(b)) </a>
 <ul>
-<li class="toc-entry toc-h4"><a href="#use1">use1 </a></li>
-<li class="toc-entry toc-h4"><a href="#use2">use2 </a></li>
-<li class="toc-entry toc-h4"><a href="#use3:-map_dbl은-additional-arguments-를-전달할-수-있다.">use3: map_dbl은 additional arguments 를 전달할 수 있다. </a></li>
-<li class="toc-entry toc-h4"><a href="#use4">use4 </a></li>
-<li class="toc-entry toc-h4"><a href="#use5">use5 </a></li>
+<li class="toc-entry toc-h4"><a href="#ex1:-map,-map_*-차이">ex1: map, map_* 차이 </a></li>
+<li class="toc-entry toc-h4"><a href="#ex2:-%>%-연산자사용">ex2: %&gt;% 연산자사용 </a></li>
+<li class="toc-entry toc-h4"><a href="#ex3:-additional-arguments">ex3: additional arguments </a></li>
+<li class="toc-entry toc-h4"><a href="#ex4:-길이가-같지-않은-벡터들의-모임에서도-적용가능">ex4: 길이가 같지 않은 벡터들의 모임에서도 적용가능 </a></li>
+<li class="toc-entry toc-h4"><a href="#ex5:-응용예제">ex5: 응용예제 </a></li>
 </ul>
 </li>
 </ul><!--
@@ -291,8 +291,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="use1">
-<a class="anchor" href="#use1" aria-hidden="true"><span class="octicon octicon-link"></span></a>use1<a class="anchor-link" href="#use1"> </a>
+<h4 id="ex1:-map,-map_*-차이">
+<a class="anchor" href="#ex1:-map,-map_*-%EC%B0%A8%EC%9D%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex1: map, map_* 차이<a class="anchor-link" href="#ex1:-map,-map_*-%EC%B0%A8%EC%9D%B4"> </a>
 </h4>
 </div>
 </div>
@@ -670,7 +670,7 @@ $d
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">map_int</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="nf">function</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="nf">round</span><span class="p">(</span><span class="nf">max</span><span class="p">())</span> <span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_int</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="m">0</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -682,22 +682,24 @@ $d
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Warning message in max():
-“no non-missing arguments to max; returning -Inf”
-</pre>
-</div>
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style>&lt;dl class=dl-inline&gt;<dt>a</dt>
+<dd>1</dd>
+<dt>b</dt>
+<dd>1</dd>
+<dt>c</dt>
+<dd>1</dd>
+<dt>d</dt>
+<dd>1</dd>&lt;/dl&gt;
+
 </div>
 
-<div class="output_area">
-
-<div class="output_subarea output_text output_error">
-<pre>
-Error: Can't coerce element 1 from a double to a integer
-Traceback:
-
-1. map_int(df, function(df) round(max()))</pre>
-</div>
 </div>
 
 </div>
@@ -714,12 +716,231 @@ Traceback:
 </div>
 </div>
 </div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_int</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+Error: Can't coerce element 1 from a double to a integer
+Traceback:
+
+1. map_int(df, mean)</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="use2">
-<a class="anchor" href="#use2" aria-hidden="true"><span class="octicon octicon-link"></span></a>use2<a class="anchor-link" href="#use2"> </a>
+<p><code>-</code> map_lgl 역시 마찬가지임</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_lgl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="m">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style>&lt;dl class=dl-inline&gt;<dt>a</dt>
+<dd>TRUE</dd>
+<dt>b</dt>
+<dd>TRUE</dd>
+<dt>c</dt>
+<dd>TRUE</dd>
+<dt>d</dt>
+<dd>TRUE</dd>&lt;/dl&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_lgl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style>&lt;dl class=dl-inline&gt;<dt>a</dt>
+<dd>TRUE</dd>
+<dt>b</dt>
+<dd>TRUE</dd>
+<dt>c</dt>
+<dd>FALSE</dd>
+<dt>d</dt>
+<dd>TRUE</dd>&lt;/dl&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_lgl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1.5</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style>&lt;dl class=dl-inline&gt;<dt>a</dt>
+<dd>TRUE</dd>
+<dt>b</dt>
+<dd>TRUE</dd>
+<dt>c</dt>
+<dd>FALSE</dd>
+<dt>d</dt>
+<dd>FALSE</dd>&lt;/dl&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_lgl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+Error: Can't coerce element 1 from a double to a logical
+Traceback:
+
+1. map_lgl(df, mean)</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="ex2:-%&gt;%-연산자사용">
+<a class="anchor" href="#ex2:-%&gt;%-%EC%97%B0%EC%82%B0%EC%9E%90%EC%82%AC%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex2: %&gt;% 연산자사용<a class="anchor-link" href="#ex2:-%&gt;%-%EC%97%B0%EC%82%B0%EC%9E%90%EC%82%AC%EC%9A%A9"> </a>
 </h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> pip를 사용할수도 있음</p>
+
 </div>
 </div>
 </div>
@@ -817,8 +1038,8 @@ Traceback:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="use3:-map_dbl은-additional-arguments-를-전달할-수-있다.">
-<a class="anchor" href="#use3:-map_dbl%EC%9D%80-additional-arguments-%EB%A5%BC-%EC%A0%84%EB%8B%AC%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4." aria-hidden="true"><span class="octicon octicon-link"></span></a>use3: map_dbl은 additional arguments 를 전달할 수 있다.<a class="anchor-link" href="#use3:-map_dbl%EC%9D%80-additional-arguments-%EB%A5%BC-%EC%A0%84%EB%8B%AC%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4."> </a>
+<h4 id="ex3:-additional-arguments">
+<a class="anchor" href="#ex3:-additional-arguments" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex3: additional arguments<a class="anchor-link" href="#ex3:-additional-arguments"> </a>
 </h4>
 </div>
 </div>
@@ -913,8 +1134,8 @@ Traceback:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="use4">
-<a class="anchor" href="#use4" aria-hidden="true"><span class="octicon octicon-link"></span></a>use4<a class="anchor-link" href="#use4"> </a>
+<h4 id="ex4:-길이가-같지-않은-벡터들의-모임에서도-적용가능">
+<a class="anchor" href="#ex4:-%EA%B8%B8%EC%9D%B4%EA%B0%80-%EA%B0%99%EC%A7%80-%EC%95%8A%EC%9D%80-%EB%B2%A1%ED%84%B0%EB%93%A4%EC%9D%98-%EB%AA%A8%EC%9E%84%EC%97%90%EC%84%9C%EB%8F%84-%EC%A0%81%EC%9A%A9%EA%B0%80%EB%8A%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex4: 길이가 같지 않은 벡터들의 모임에서도 적용가능<a class="anchor-link" href="#ex4:-%EA%B8%B8%EC%9D%B4%EA%B0%80-%EA%B0%99%EC%A7%80-%EC%95%8A%EC%9D%80-%EB%B2%A1%ED%84%B0%EB%93%A4%EC%9D%98-%EB%AA%A8%EC%9E%84%EC%97%90%EC%84%9C%EB%8F%84-%EC%A0%81%EC%9A%A9%EA%B0%80%EB%8A%A5"> </a>
 </h4>
 </div>
 </div>
@@ -928,7 +1149,6 @@ Traceback:
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">z</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="m">4</span><span class="o">:</span><span class="m">50</span><span class="p">)</span>
 <span class="n">z</span>
-<span class="nf">map_dbl</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1010,24 +1230,6 @@ Traceback:
 <li>50</li>&lt;/ol&gt;
 </dd>
 </dl>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<style>
-.dl-inline {width: auto; margin:0; padding: 0}
-.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
-.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
-.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
-</style>&lt;dl class=dl-inline&gt;<dt>x</dt>
-<dd>3</dd>
-<dt>y</dt>
-<dd>47</dd>&lt;/dl&gt;
 
 </div>
 
@@ -1118,49 +1320,11 @@ Traceback:
 </div>
     
 
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">map</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea ">
-<dl>
-	<dt>$x</dt>
-		<dd>2</dd>
-	<dt>$y</dt>
-		<dd>27</dd>
-</dl>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="use5">
-<a class="anchor" href="#use5" aria-hidden="true"><span class="octicon octicon-link"></span></a>use5<a class="anchor-link" href="#use5"> </a>
+<h4 id="ex5:-응용예제">
+<a class="anchor" href="#ex5:-%EC%9D%91%EC%9A%A9%EC%98%88%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex5: 응용예제<a class="anchor-link" href="#ex5:-%EC%9D%91%EC%9A%A9%EC%98%88%EC%A0%9C"> </a>
 </h4>
 </div>
 </div>
