@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>(노트) purrr | 신록예찬’s 블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="(노트) purrr" />
+<meta name="author" content="신록예찬" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="작성완료" />
+<meta property="og:description" content="작성완료" />
+<link rel="canonical" href="https://miruetoto.github.io/yechan/r/2021/08/02/(%EB%85%B8%ED%8A%B8)-purrr-R.html" />
+<meta property="og:url" content="https://miruetoto.github.io/yechan/r/2021/08/02/(%EB%85%B8%ED%8A%B8)-purrr-R.html" />
+<meta property="og:site_name" content="신록예찬’s 블로그" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-08-02T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://miruetoto.github.io/yechan/r/2021/08/02/(%EB%85%B8%ED%8A%B8)-purrr-R.html","@type":"BlogPosting","headline":"(노트) purrr","dateModified":"2021-08-02T00:00:00-05:00","datePublished":"2021-08-02T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/r/2021/08/02/(%EB%85%B8%ED%8A%B8)-purrr-R.html"},"author":{"@type":"Person","name":"신록예찬"},"description":"작성완료","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬's 블로그" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/yechan/">신록예찬&#39;s 블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/yechan/about/">About Me</a><a class="page-link" href="/yechan/search/">Search</a><a class="page-link" href="/yechan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">(노트) purrr</h1><p class="page-description">작성완료</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-08-02T00:00:00-05:00" itemprop="datePublished">
+        Aug 2, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">신록예찬</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/yechan/categories/#R">R</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/miruetoto/yechan/tree/master/_notebooks/2021-08-02-(노트) purrr [R].ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/yechan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/miruetoto/yechan/master?filepath=_notebooks%2F2021-08-02-%28%EB%85%B8%ED%8A%B8%29+purrr+%5BR%5D.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/miruetoto/yechan/blob/master/_notebooks/2021-08-02-(노트) purrr [R].ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#About-this-doc">About this doc </a></li>
+<li class="toc-entry toc-h3"><a href="#Lib">Lib </a></li>
+<li class="toc-entry toc-h3"><a href="#map_dbl,-map_int,-map_chr,-map_lgl:-list(a=1:5,-b:1:30)-$\to$-list(fun(a),fun(b))">map_dbl, map_int, map_chr, map_lgl: list(a=1:5, b:1:30) $\to$ list(fun(a),fun(b)) </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#use1">use1 </a></li>
+<li class="toc-entry toc-h4"><a href="#use2">use2 </a></li>
+<li class="toc-entry toc-h4"><a href="#use3:-map_dbl은-additional-arguments-를-전달할-수-있다.">use3: map_dbl은 additional arguments 를 전달할 수 있다. </a></li>
+<li class="toc-entry toc-h4"><a href="#use4">use4 </a></li>
+<li class="toc-entry toc-h4"><a href="#use5">use5 </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-08-02-(노트) purrr [R].ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="About-this-doc">
+<a class="anchor" href="#About-this-doc" aria-hidden="true"><span class="octicon octicon-link"></span></a>About this doc<a class="anchor-link" href="#About-this-doc"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> purrr</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Lib">
+<a class="anchor" href="#Lib" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lib<a class="anchor-link" href="#Lib"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>── <span class="ansi-bold">Attaching packages</span> ─────────────────────────────────────── tidyverse 1.3.1 ──
+
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">ggplot2</span> 3.3.3     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">purrr  </span> 0.3.4
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tibble </span> 3.1.1     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">dplyr  </span> 1.0.5
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">tidyr  </span> 1.1.3     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">stringr</span> 1.4.0
+<span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">readr  </span> 1.4.0     <span class="ansi-green-fg">✔</span> <span class="ansi-blue-fg">forcats</span> 0.5.1
+
+── <span class="ansi-bold">Conflicts</span> ────────────────────────────────────────── tidyverse_conflicts() ──
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">filter()</span> masks <span class="ansi-blue-fg">stats</span>::filter()
+<span class="ansi-red-fg">✖</span> <span class="ansi-blue-fg">dplyr</span>::<span class="ansi-green-fg">lag()</span>    masks <span class="ansi-blue-fg">stats</span>::lag()
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="map_dbl,-map_int,-map_chr,-map_lgl:-list(a=1:5,-b:1:30)-$\to$-list(fun(a),fun(b))">
+<a class="anchor" href="#map_dbl,-map_int,-map_chr,-map_lgl:-list(a=1:5,-b:1:30)-%24%5Cto%24-list(fun(a),fun(b))" aria-hidden="true"><span class="octicon octicon-link"></span></a>map_dbl, map_int, map_chr, map_lgl: list(a=1:5, b:1:30) $\to$ list(fun(a),fun(b))<a class="anchor-link" href="#map_dbl,-map_int,-map_chr,-map_lgl:-list(a=1:5,-b:1:30)-%24%5Cto%24-list(fun(a),fun(b))"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> data</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">df</span> <span class="o">&lt;-</span> <span class="nf">tibble</span><span class="p">(</span>
+  <span class="n">a</span> <span class="o">=</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">10</span><span class="p">),</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">10</span><span class="p">),</span>
+  <span class="n">c</span> <span class="o">=</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">10</span><span class="p">),</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-black-intense-fg"># A tibble: 10 x 4</span>
+         a       b        c      d
+     <span class="ansi-black-intense-fg">&lt;dbl&gt;</span>   <span class="ansi-black-intense-fg">&lt;dbl&gt;</span>    <span class="ansi-black-intense-fg">&lt;dbl&gt;</span>  <span class="ansi-black-intense-fg">&lt;dbl&gt;</span>
+<span class="ansi-black-intense-fg"> 1</span> -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">882</span>  -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">267</span>  -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">00</span><span class="ansi-red-fg">8</span><span class="ansi-red-fg ansi-underline">2</span><span class="ansi-red-fg ansi-underline">9</span> -<span class="ansi-red-fg">2</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">45</span> 
+<span class="ansi-black-intense-fg"> 2</span>  1.53    1.51   -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">624</span>   -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">383</span>
+<span class="ansi-black-intense-fg"> 3</span> -<span class="ansi-red-fg">1</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">33</span>    1.97   -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">505</span>    1.48 
+<span class="ansi-black-intense-fg"> 4</span>  0.987  -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">418</span>  -<span class="ansi-red-fg">1</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">47</span>    -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">219</span>
+<span class="ansi-black-intense-fg"> 5</span> -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">800</span>   1.40   -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">451</span>    0.260
+<span class="ansi-black-intense-fg"> 6</span>  1.57    0.801  -<span class="ansi-red-fg">2</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">12</span>     0.845
+<span class="ansi-black-intense-fg"> 7</span>  0.099<span class="ansi-underline">0</span> -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">475</span>   0.063<span class="ansi-underline">9</span>   1.00 
+<span class="ansi-black-intense-fg"> 8</span>  0.101   0.644  -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">782</span>    0.697
+<span class="ansi-black-intense-fg"> 9</span>  1.22    0.047<span class="ansi-underline">1</span>  0.432    0.423
+<span class="ansi-black-intense-fg">10</span>  1.73    0.509  -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">953</span>   -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">984</span>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="use1">
+<a class="anchor" href="#use1" aria-hidden="true"><span class="octicon octicon-link"></span></a>use1<a class="anchor-link" href="#use1"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_dbl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+<span class="nf">map_dbl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">median</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+<span class="nf">map_dbl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sd</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>          a           b           c           d 
+ 0.42218821  0.57159037 -0.64167193  0.06686763 
+         a          b          c          d 
+ 0.5441529  0.5766656 -0.5644257  0.3419035 
+        a         b         c         d 
+1.1404138 0.8579740 0.7526226 1.1422112 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 결과는 벡터로 나온다. (벡터는 길이가 4이고 각 원소마다 a,b,c,d 라는 이름이 있음)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 결과가 벡터이므로 아래와 같은 연산이 가능함</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">print</span><span class="p">(</span><span class="nf">map_dbl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span> <span class="o">+</span> <span class="m">1</span> <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>        a         b         c         d 
+1.4221882 1.5715904 0.3583281 1.0668676 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 아래와 같이 각 원소에 이름이 있는 벡터를 선언할 수 있음.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">c</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="m">1.1</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="m">2.2</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="m">3.3</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="m">4.4</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>  a   b   c   d 
+1.1 2.2 3.3 4.4 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> map_dbl()이 아니라 map()을 사용해도 좋음. 단지 결과가 리스트로 나옴</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">mean</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>$a
+[1] 0.4221882
+
+$b
+[1] 0.5715904
+
+$c
+[1] -0.6416719
+
+$d
+[1] 0.06686763
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">median</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>$a
+[1] 0.5441529
+
+$b
+[1] 0.5766656
+
+$c
+[1] -0.5644257
+
+$d
+[1] 0.3419035
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">sd</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>$a
+[1] 1.140414
+
+$b
+[1] 0.857974
+
+$c
+[1] 0.7526226
+
+$d
+[1] 1.142211
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="use2">
+<a class="anchor" href="#use2" aria-hidden="true"><span class="octicon octicon-link"></span></a>use2<a class="anchor-link" href="#use2"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">df</span> <span class="o">%&gt;%</span> <span class="nf">map_dbl</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">%&gt;%</span> <span class="nf">map_dbl</span><span class="p">(</span><span class="n">median</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">%&gt;%</span> <span class="nf">map_dbl</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style>&lt;dl class=dl-inline&gt;<dt>a</dt>
+<dd>-0.0149968485095094</dd>
+<dt>b</dt>
+<dd>0.326090794905611</dd>
+<dt>c</dt>
+<dd>-0.549878371935588</dd>
+<dt>d</dt>
+<dd>-0.177962583988237</dd>&lt;/dl&gt;
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style>&lt;dl class=dl-inline&gt;<dt>a</dt>
+<dd>-0.0304324933163818</dd>
+<dt>b</dt>
+<dd>0.31130957556417</dd>
+<dt>c</dt>
+<dd>-0.404586000237996</dd>
+<dt>d</dt>
+<dd>-0.213197411510489</dd>&lt;/dl&gt;
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style>&lt;dl class=dl-inline&gt;<dt>a</dt>
+<dd>0.740629516697079</dd>
+<dt>b</dt>
+<dd>0.68175278103448</dd>
+<dt>c</dt>
+<dd>1.31345978648142</dd>
+<dt>d</dt>
+<dd>0.925891351401036</dd>&lt;/dl&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="use3:-map_dbl은-additional-arguments-를-전달할-수-있다.">
+<a class="anchor" href="#use3:-map_dbl%EC%9D%80-additional-arguments-%EB%A5%BC-%EC%A0%84%EB%8B%AC%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4." aria-hidden="true"><span class="octicon octicon-link"></span></a>use3: map_dbl은 additional arguments 를 전달할 수 있다.<a class="anchor-link" href="#use3:-map_dbl%EC%9D%80-additional-arguments-%EB%A5%BC-%EC%A0%84%EB%8B%AC%ED%95%A0-%EC%88%98-%EC%9E%88%EB%8B%A4."> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span>
+<span class="nf">mean</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="n">trim</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+0.625
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+1
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_dbl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">trim</span> <span class="o">=</span> <span class="m">0.5</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style>&lt;dl class=dl-inline&gt;<dt>a</dt>
+<dd>-0.0304324933163818</dd>
+<dt>b</dt>
+<dd>0.31130957556417</dd>
+<dt>c</dt>
+<dd>-0.404586000237996</dd>
+<dt>d</dt>
+<dd>-0.213197411510489</dd>&lt;/dl&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="use4">
+<a class="anchor" href="#use4" aria-hidden="true"><span class="octicon octicon-link"></span></a>use4<a class="anchor-link" href="#use4"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">z</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="m">4</span><span class="o">:</span><span class="m">50</span><span class="p">)</span>
+<span class="n">z</span>
+<span class="nf">map_dbl</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<dl>
+	<dt>$x</dt>
+		<dd>
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;<li>1</li>
+<li>2</li>
+<li>3</li>&lt;/ol&gt;
+</dd>
+	<dt>$y</dt>
+		<dd>
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;<li>4</li>
+<li>5</li>
+<li>6</li>
+<li>7</li>
+<li>8</li>
+<li>9</li>
+<li>10</li>
+<li>11</li>
+<li>12</li>
+<li>13</li>
+<li>14</li>
+<li>15</li>
+<li>16</li>
+<li>17</li>
+<li>18</li>
+<li>19</li>
+<li>20</li>
+<li>21</li>
+<li>22</li>
+<li>23</li>
+<li>24</li>
+<li>25</li>
+<li>26</li>
+<li>27</li>
+<li>28</li>
+<li>29</li>
+<li>30</li>
+<li>31</li>
+<li>32</li>
+<li>33</li>
+<li>34</li>
+<li>35</li>
+<li>36</li>
+<li>37</li>
+<li>38</li>
+<li>39</li>
+<li>40</li>
+<li>41</li>
+<li>42</li>
+<li>43</li>
+<li>44</li>
+<li>45</li>
+<li>46</li>
+<li>47</li>
+<li>48</li>
+<li>49</li>
+<li>50</li>&lt;/ol&gt;
+</dd>
+</dl>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style>&lt;dl class=dl-inline&gt;<dt>x</dt>
+<dd>3</dd>
+<dt>y</dt>
+<dd>47</dd>&lt;/dl&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<dl>
+	<dt>$x</dt>
+		<dd>3</dd>
+	<dt>$y</dt>
+		<dd>47</dd>
+</dl>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_dbl</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style>&lt;dl class=dl-inline&gt;<dt>x</dt>
+<dd>2</dd>
+<dt>y</dt>
+<dd>27</dd>&lt;/dl&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<dl>
+	<dt>$x</dt>
+		<dd>2</dd>
+	<dt>$y</dt>
+		<dd>27</dd>
+</dl>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="use5">
+<a class="anchor" href="#use5" aria-hidden="true"><span class="octicon octicon-link"></span></a>use5<a class="anchor-link" href="#use5"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mtcars</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table class="dataframe">
+<caption>A data.frame: 32 × 11</caption>
+<thead>
+	<tr>
+<th></th>
+<th scope="col">mpg</th>
+<th scope="col">cyl</th>
+<th scope="col">disp</th>
+<th scope="col">hp</th>
+<th scope="col">drat</th>
+<th scope="col">wt</th>
+<th scope="col">qsec</th>
+<th scope="col">vs</th>
+<th scope="col">am</th>
+<th scope="col">gear</th>
+<th scope="col">carb</th>
+</tr>
+	<tr>
+<th></th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+	<tr>
+<th scope="row">Mazda RX4</th>
+<td>21.0</td>
+<td>6</td>
+<td>160.0</td>
+<td>110</td>
+<td>3.90</td>
+<td>2.620</td>
+<td>16.46</td>
+<td>0</td>
+<td>1</td>
+<td>4</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Mazda RX4 Wag</th>
+<td>21.0</td>
+<td>6</td>
+<td>160.0</td>
+<td>110</td>
+<td>3.90</td>
+<td>2.875</td>
+<td>17.02</td>
+<td>0</td>
+<td>1</td>
+<td>4</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Datsun 710</th>
+<td>22.8</td>
+<td>4</td>
+<td>108.0</td>
+<td> 93</td>
+<td>3.85</td>
+<td>2.320</td>
+<td>18.61</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Hornet 4 Drive</th>
+<td>21.4</td>
+<td>6</td>
+<td>258.0</td>
+<td>110</td>
+<td>3.08</td>
+<td>3.215</td>
+<td>19.44</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Hornet Sportabout</th>
+<td>18.7</td>
+<td>8</td>
+<td>360.0</td>
+<td>175</td>
+<td>3.15</td>
+<td>3.440</td>
+<td>17.02</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Valiant</th>
+<td>18.1</td>
+<td>6</td>
+<td>225.0</td>
+<td>105</td>
+<td>2.76</td>
+<td>3.460</td>
+<td>20.22</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Duster 360</th>
+<td>14.3</td>
+<td>8</td>
+<td>360.0</td>
+<td>245</td>
+<td>3.21</td>
+<td>3.570</td>
+<td>15.84</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Merc 240D</th>
+<td>24.4</td>
+<td>4</td>
+<td>146.7</td>
+<td> 62</td>
+<td>3.69</td>
+<td>3.190</td>
+<td>20.00</td>
+<td>1</td>
+<td>0</td>
+<td>4</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Merc 230</th>
+<td>22.8</td>
+<td>4</td>
+<td>140.8</td>
+<td> 95</td>
+<td>3.92</td>
+<td>3.150</td>
+<td>22.90</td>
+<td>1</td>
+<td>0</td>
+<td>4</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Merc 280</th>
+<td>19.2</td>
+<td>6</td>
+<td>167.6</td>
+<td>123</td>
+<td>3.92</td>
+<td>3.440</td>
+<td>18.30</td>
+<td>1</td>
+<td>0</td>
+<td>4</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Merc 280C</th>
+<td>17.8</td>
+<td>6</td>
+<td>167.6</td>
+<td>123</td>
+<td>3.92</td>
+<td>3.440</td>
+<td>18.90</td>
+<td>1</td>
+<td>0</td>
+<td>4</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Merc 450SE</th>
+<td>16.4</td>
+<td>8</td>
+<td>275.8</td>
+<td>180</td>
+<td>3.07</td>
+<td>4.070</td>
+<td>17.40</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>3</td>
+</tr>
+	<tr>
+<th scope="row">Merc 450SL</th>
+<td>17.3</td>
+<td>8</td>
+<td>275.8</td>
+<td>180</td>
+<td>3.07</td>
+<td>3.730</td>
+<td>17.60</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>3</td>
+</tr>
+	<tr>
+<th scope="row">Merc 450SLC</th>
+<td>15.2</td>
+<td>8</td>
+<td>275.8</td>
+<td>180</td>
+<td>3.07</td>
+<td>3.780</td>
+<td>18.00</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>3</td>
+</tr>
+	<tr>
+<th scope="row">Cadillac Fleetwood</th>
+<td>10.4</td>
+<td>8</td>
+<td>472.0</td>
+<td>205</td>
+<td>2.93</td>
+<td>5.250</td>
+<td>17.98</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Lincoln Continental</th>
+<td>10.4</td>
+<td>8</td>
+<td>460.0</td>
+<td>215</td>
+<td>3.00</td>
+<td>5.424</td>
+<td>17.82</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Chrysler Imperial</th>
+<td>14.7</td>
+<td>8</td>
+<td>440.0</td>
+<td>230</td>
+<td>3.23</td>
+<td>5.345</td>
+<td>17.42</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Fiat 128</th>
+<td>32.4</td>
+<td>4</td>
+<td> 78.7</td>
+<td> 66</td>
+<td>4.08</td>
+<td>2.200</td>
+<td>19.47</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Honda Civic</th>
+<td>30.4</td>
+<td>4</td>
+<td> 75.7</td>
+<td> 52</td>
+<td>4.93</td>
+<td>1.615</td>
+<td>18.52</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Toyota Corolla</th>
+<td>33.9</td>
+<td>4</td>
+<td> 71.1</td>
+<td> 65</td>
+<td>4.22</td>
+<td>1.835</td>
+<td>19.90</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Toyota Corona</th>
+<td>21.5</td>
+<td>4</td>
+<td>120.1</td>
+<td> 97</td>
+<td>3.70</td>
+<td>2.465</td>
+<td>20.01</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Dodge Challenger</th>
+<td>15.5</td>
+<td>8</td>
+<td>318.0</td>
+<td>150</td>
+<td>2.76</td>
+<td>3.520</td>
+<td>16.87</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">AMC Javelin</th>
+<td>15.2</td>
+<td>8</td>
+<td>304.0</td>
+<td>150</td>
+<td>3.15</td>
+<td>3.435</td>
+<td>17.30</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Camaro Z28</th>
+<td>13.3</td>
+<td>8</td>
+<td>350.0</td>
+<td>245</td>
+<td>3.73</td>
+<td>3.840</td>
+<td>15.41</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Pontiac Firebird</th>
+<td>19.2</td>
+<td>8</td>
+<td>400.0</td>
+<td>175</td>
+<td>3.08</td>
+<td>3.845</td>
+<td>17.05</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Fiat X1-9</th>
+<td>27.3</td>
+<td>4</td>
+<td> 79.0</td>
+<td> 66</td>
+<td>4.08</td>
+<td>1.935</td>
+<td>18.90</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Porsche 914-2</th>
+<td>26.0</td>
+<td>4</td>
+<td>120.3</td>
+<td> 91</td>
+<td>4.43</td>
+<td>2.140</td>
+<td>16.70</td>
+<td>0</td>
+<td>1</td>
+<td>5</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Lotus Europa</th>
+<td>30.4</td>
+<td>4</td>
+<td> 95.1</td>
+<td>113</td>
+<td>3.77</td>
+<td>1.513</td>
+<td>16.90</td>
+<td>1</td>
+<td>1</td>
+<td>5</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Ford Pantera L</th>
+<td>15.8</td>
+<td>8</td>
+<td>351.0</td>
+<td>264</td>
+<td>4.22</td>
+<td>3.170</td>
+<td>14.50</td>
+<td>0</td>
+<td>1</td>
+<td>5</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Ferrari Dino</th>
+<td>19.7</td>
+<td>6</td>
+<td>145.0</td>
+<td>175</td>
+<td>3.62</td>
+<td>2.770</td>
+<td>15.50</td>
+<td>0</td>
+<td>1</td>
+<td>5</td>
+<td>6</td>
+</tr>
+	<tr>
+<th scope="row">Maserati Bora</th>
+<td>15.0</td>
+<td>8</td>
+<td>301.0</td>
+<td>335</td>
+<td>3.54</td>
+<td>3.570</td>
+<td>14.60</td>
+<td>0</td>
+<td>1</td>
+<td>5</td>
+<td>8</td>
+</tr>
+	<tr>
+<th scope="row">Volvo 142E</th>
+<td>21.4</td>
+<td>4</td>
+<td>121.0</td>
+<td>109</td>
+<td>4.11</td>
+<td>2.780</td>
+<td>18.60</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mtcars</span> <span class="o">%&gt;%</span> <span class="nf">split</span><span class="p">(</span><span class="n">.</span><span class="o">$</span><span class="n">cyl</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<dl>
+	<dt>$`4`</dt>
+		<dd>
+<table class="dataframe">
+<caption>A data.frame: 11 × 11</caption>
+<thead>
+	<tr>
+<th></th>
+<th scope="col">mpg</th>
+<th scope="col">cyl</th>
+<th scope="col">disp</th>
+<th scope="col">hp</th>
+<th scope="col">drat</th>
+<th scope="col">wt</th>
+<th scope="col">qsec</th>
+<th scope="col">vs</th>
+<th scope="col">am</th>
+<th scope="col">gear</th>
+<th scope="col">carb</th>
+</tr>
+	<tr>
+<th></th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+	<tr>
+<th scope="row">Datsun 710</th>
+<td>22.8</td>
+<td>4</td>
+<td>108.0</td>
+<td> 93</td>
+<td>3.85</td>
+<td>2.320</td>
+<td>18.61</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Merc 240D</th>
+<td>24.4</td>
+<td>4</td>
+<td>146.7</td>
+<td> 62</td>
+<td>3.69</td>
+<td>3.190</td>
+<td>20.00</td>
+<td>1</td>
+<td>0</td>
+<td>4</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Merc 230</th>
+<td>22.8</td>
+<td>4</td>
+<td>140.8</td>
+<td> 95</td>
+<td>3.92</td>
+<td>3.150</td>
+<td>22.90</td>
+<td>1</td>
+<td>0</td>
+<td>4</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Fiat 128</th>
+<td>32.4</td>
+<td>4</td>
+<td> 78.7</td>
+<td> 66</td>
+<td>4.08</td>
+<td>2.200</td>
+<td>19.47</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Honda Civic</th>
+<td>30.4</td>
+<td>4</td>
+<td> 75.7</td>
+<td> 52</td>
+<td>4.93</td>
+<td>1.615</td>
+<td>18.52</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Toyota Corolla</th>
+<td>33.9</td>
+<td>4</td>
+<td> 71.1</td>
+<td> 65</td>
+<td>4.22</td>
+<td>1.835</td>
+<td>19.90</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Toyota Corona</th>
+<td>21.5</td>
+<td>4</td>
+<td>120.1</td>
+<td> 97</td>
+<td>3.70</td>
+<td>2.465</td>
+<td>20.01</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Fiat X1-9</th>
+<td>27.3</td>
+<td>4</td>
+<td> 79.0</td>
+<td> 66</td>
+<td>4.08</td>
+<td>1.935</td>
+<td>18.90</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Porsche 914-2</th>
+<td>26.0</td>
+<td>4</td>
+<td>120.3</td>
+<td> 91</td>
+<td>4.43</td>
+<td>2.140</td>
+<td>16.70</td>
+<td>0</td>
+<td>1</td>
+<td>5</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Lotus Europa</th>
+<td>30.4</td>
+<td>4</td>
+<td> 95.1</td>
+<td>113</td>
+<td>3.77</td>
+<td>1.513</td>
+<td>16.90</td>
+<td>1</td>
+<td>1</td>
+<td>5</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Volvo 142E</th>
+<td>21.4</td>
+<td>4</td>
+<td>121.0</td>
+<td>109</td>
+<td>4.11</td>
+<td>2.780</td>
+<td>18.60</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</dd>
+	<dt>$`6`</dt>
+		<dd>
+<table class="dataframe">
+<caption>A data.frame: 7 × 11</caption>
+<thead>
+	<tr>
+<th></th>
+<th scope="col">mpg</th>
+<th scope="col">cyl</th>
+<th scope="col">disp</th>
+<th scope="col">hp</th>
+<th scope="col">drat</th>
+<th scope="col">wt</th>
+<th scope="col">qsec</th>
+<th scope="col">vs</th>
+<th scope="col">am</th>
+<th scope="col">gear</th>
+<th scope="col">carb</th>
+</tr>
+	<tr>
+<th></th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+	<tr>
+<th scope="row">Mazda RX4</th>
+<td>21.0</td>
+<td>6</td>
+<td>160.0</td>
+<td>110</td>
+<td>3.90</td>
+<td>2.620</td>
+<td>16.46</td>
+<td>0</td>
+<td>1</td>
+<td>4</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Mazda RX4 Wag</th>
+<td>21.0</td>
+<td>6</td>
+<td>160.0</td>
+<td>110</td>
+<td>3.90</td>
+<td>2.875</td>
+<td>17.02</td>
+<td>0</td>
+<td>1</td>
+<td>4</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Hornet 4 Drive</th>
+<td>21.4</td>
+<td>6</td>
+<td>258.0</td>
+<td>110</td>
+<td>3.08</td>
+<td>3.215</td>
+<td>19.44</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Valiant</th>
+<td>18.1</td>
+<td>6</td>
+<td>225.0</td>
+<td>105</td>
+<td>2.76</td>
+<td>3.460</td>
+<td>20.22</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+</tr>
+	<tr>
+<th scope="row">Merc 280</th>
+<td>19.2</td>
+<td>6</td>
+<td>167.6</td>
+<td>123</td>
+<td>3.92</td>
+<td>3.440</td>
+<td>18.30</td>
+<td>1</td>
+<td>0</td>
+<td>4</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Merc 280C</th>
+<td>17.8</td>
+<td>6</td>
+<td>167.6</td>
+<td>123</td>
+<td>3.92</td>
+<td>3.440</td>
+<td>18.90</td>
+<td>1</td>
+<td>0</td>
+<td>4</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Ferrari Dino</th>
+<td>19.7</td>
+<td>6</td>
+<td>145.0</td>
+<td>175</td>
+<td>3.62</td>
+<td>2.770</td>
+<td>15.50</td>
+<td>0</td>
+<td>1</td>
+<td>5</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+</dd>
+	<dt>$`8`</dt>
+		<dd>
+<table class="dataframe">
+<caption>A data.frame: 14 × 11</caption>
+<thead>
+	<tr>
+<th></th>
+<th scope="col">mpg</th>
+<th scope="col">cyl</th>
+<th scope="col">disp</th>
+<th scope="col">hp</th>
+<th scope="col">drat</th>
+<th scope="col">wt</th>
+<th scope="col">qsec</th>
+<th scope="col">vs</th>
+<th scope="col">am</th>
+<th scope="col">gear</th>
+<th scope="col">carb</th>
+</tr>
+	<tr>
+<th></th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+<th scope="col">&lt;dbl&gt;</th>
+</tr>
+</thead>
+<tbody>
+	<tr>
+<th scope="row">Hornet Sportabout</th>
+<td>18.7</td>
+<td>8</td>
+<td>360.0</td>
+<td>175</td>
+<td>3.15</td>
+<td>3.440</td>
+<td>17.02</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Duster 360</th>
+<td>14.3</td>
+<td>8</td>
+<td>360.0</td>
+<td>245</td>
+<td>3.21</td>
+<td>3.570</td>
+<td>15.84</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Merc 450SE</th>
+<td>16.4</td>
+<td>8</td>
+<td>275.8</td>
+<td>180</td>
+<td>3.07</td>
+<td>4.070</td>
+<td>17.40</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>3</td>
+</tr>
+	<tr>
+<th scope="row">Merc 450SL</th>
+<td>17.3</td>
+<td>8</td>
+<td>275.8</td>
+<td>180</td>
+<td>3.07</td>
+<td>3.730</td>
+<td>17.60</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>3</td>
+</tr>
+	<tr>
+<th scope="row">Merc 450SLC</th>
+<td>15.2</td>
+<td>8</td>
+<td>275.8</td>
+<td>180</td>
+<td>3.07</td>
+<td>3.780</td>
+<td>18.00</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>3</td>
+</tr>
+	<tr>
+<th scope="row">Cadillac Fleetwood</th>
+<td>10.4</td>
+<td>8</td>
+<td>472.0</td>
+<td>205</td>
+<td>2.93</td>
+<td>5.250</td>
+<td>17.98</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Lincoln Continental</th>
+<td>10.4</td>
+<td>8</td>
+<td>460.0</td>
+<td>215</td>
+<td>3.00</td>
+<td>5.424</td>
+<td>17.82</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Chrysler Imperial</th>
+<td>14.7</td>
+<td>8</td>
+<td>440.0</td>
+<td>230</td>
+<td>3.23</td>
+<td>5.345</td>
+<td>17.42</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Dodge Challenger</th>
+<td>15.5</td>
+<td>8</td>
+<td>318.0</td>
+<td>150</td>
+<td>2.76</td>
+<td>3.520</td>
+<td>16.87</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">AMC Javelin</th>
+<td>15.2</td>
+<td>8</td>
+<td>304.0</td>
+<td>150</td>
+<td>3.15</td>
+<td>3.435</td>
+<td>17.30</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Camaro Z28</th>
+<td>13.3</td>
+<td>8</td>
+<td>350.0</td>
+<td>245</td>
+<td>3.73</td>
+<td>3.840</td>
+<td>15.41</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Pontiac Firebird</th>
+<td>19.2</td>
+<td>8</td>
+<td>400.0</td>
+<td>175</td>
+<td>3.08</td>
+<td>3.845</td>
+<td>17.05</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>2</td>
+</tr>
+	<tr>
+<th scope="row">Ford Pantera L</th>
+<td>15.8</td>
+<td>8</td>
+<td>351.0</td>
+<td>264</td>
+<td>4.22</td>
+<td>3.170</td>
+<td>14.50</td>
+<td>0</td>
+<td>1</td>
+<td>5</td>
+<td>4</td>
+</tr>
+	<tr>
+<th scope="row">Maserati Bora</th>
+<td>15.0</td>
+<td>8</td>
+<td>301.0</td>
+<td>335</td>
+<td>3.54</td>
+<td>3.570</td>
+<td>14.60</td>
+<td>0</td>
+<td>1</td>
+<td>5</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mtcars</span> <span class="o">%&gt;%</span> <span class="nf">split</span><span class="p">(</span><span class="n">.</span><span class="o">$</span><span class="n">cyl</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">map</span><span class="p">(</span><span class="nf">function</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="nf">lm</span><span class="p">(</span><span class="n">mpg</span> <span class="o">~</span> <span class="n">wt</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>$`4`
+
+Call:
+lm(formula = mpg ~ wt, data = df)
+
+Coefficients:
+(Intercept)           wt  
+     39.571       -5.647  
+
+
+$`6`
+
+Call:
+lm(formula = mpg ~ wt, data = df)
+
+Coefficients:
+(Intercept)           wt  
+      28.41        -2.78  
+
+
+$`8`
+
+Call:
+lm(formula = mpg ~ wt, data = df)
+
+Coefficients:
+(Intercept)           wt  
+     23.868       -2.192  
+
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mtcars</span> <span class="o">%&gt;%</span> <span class="nf">split</span><span class="p">(</span><span class="n">.</span><span class="o">$</span><span class="n">cyl</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">map</span><span class="p">(</span><span class="o">~</span><span class="nf">lm</span><span class="p">(</span><span class="n">mpg</span> <span class="o">~</span> <span class="n">wt</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">.</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>$`4`
+
+Call:
+lm(formula = mpg ~ wt, data = .)
+
+Coefficients:
+(Intercept)           wt  
+     39.571       -5.647  
+
+
+$`6`
+
+Call:
+lm(formula = mpg ~ wt, data = .)
+
+Coefficients:
+(Intercept)           wt  
+      28.41        -2.78  
+
+
+$`8`
+
+Call:
+lm(formula = mpg ~ wt, data = .)
+
+Coefficients:
+(Intercept)           wt  
+     23.868       -2.192  
+
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mtcars</span> <span class="o">%&gt;%</span> <span class="nf">split</span><span class="p">(</span><span class="n">.</span><span class="o">$</span><span class="n">cyl</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">map</span><span class="p">(</span><span class="o">~</span><span class="nf">lm</span><span class="p">(</span><span class="n">mpg</span> <span class="o">~</span> <span class="n">wt</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">.</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+  <span class="nf">map</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>$`4`
+
+Call:
+lm(formula = mpg ~ wt, data = .)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.1513 -1.9795 -0.6272  1.9299  5.2523 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   39.571      4.347   9.104 7.77e-06 ***
+wt            -5.647      1.850  -3.052   0.0137 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 3.332 on 9 degrees of freedom
+Multiple R-squared:  0.5086,	Adjusted R-squared:  0.454 
+F-statistic: 9.316 on 1 and 9 DF,  p-value: 0.01374
+
+
+$`6`
+
+Call:
+lm(formula = mpg ~ wt, data = .)
+
+Residuals:
+     Mazda RX4  Mazda RX4 Wag Hornet 4 Drive        Valiant       Merc 280 
+       -0.1250         0.5840         1.9292        -0.6897         0.3547 
+     Merc 280C   Ferrari Dino 
+       -1.0453        -1.0080 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)   28.409      4.184   6.789  0.00105 **
+wt            -2.780      1.335  -2.083  0.09176 . 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.165 on 5 degrees of freedom
+Multiple R-squared:  0.4645,	Adjusted R-squared:  0.3574 
+F-statistic: 4.337 on 1 and 5 DF,  p-value: 0.09176
+
+
+$`8`
+
+Call:
+lm(formula = mpg ~ wt, data = .)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.1491 -1.4664 -0.8458  1.5711  3.7619 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  23.8680     3.0055   7.942 4.05e-06 ***
+wt           -2.1924     0.7392  -2.966   0.0118 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.024 on 12 degrees of freedom
+Multiple R-squared:  0.423,	Adjusted R-squared:  0.3749 
+F-statistic: 8.796 on 1 and 12 DF,  p-value: 0.01179
+
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mtcars</span> <span class="o">%&gt;%</span> <span class="nf">split</span><span class="p">(</span><span class="n">.</span><span class="o">$</span><span class="n">cyl</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">map</span><span class="p">(</span><span class="o">~</span><span class="nf">lm</span><span class="p">(</span><span class="n">mpg</span> <span class="o">~</span> <span class="n">wt</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">.</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+  <span class="nf">map</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">map_dbl</span><span class="p">(</span><span class="o">~</span><span class="n">.</span><span class="o">$</span><span class="n">r.squared</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.dl-inline {width: auto; margin:0; padding: 0}
+.dl-inline>dt, .dl-inline>dd {float: none; width: auto; display: inline-block}
+.dl-inline>dt::after {content: ":\0020"; padding-right: .5ex}
+.dl-inline>dt:not(:first-of-type) {padding-left: .5ex}
+</style>&lt;dl class=dl-inline&gt;<dt>4</dt>
+<dd>0.50863259632314</dd>
+<dt>6</dt>
+<dd>0.464510150550548</dd>
+<dt>8</dt>
+<dd>0.422965536496111</dd>&lt;/dl&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="miruetoto/yechan"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/yechan/r/2021/08/02/(%EB%85%B8%ED%8A%B8)-purrr-R.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/yechan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/yechan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/yechan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/miruetoto" title="miruetoto"><svg class="svg-icon grey"><use xlink:href="/yechan/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
