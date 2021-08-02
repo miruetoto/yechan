@@ -139,6 +139,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#Lib">Lib </a></li>
 <li class="toc-entry toc-h3"><a href="#map,-map_*-:-list(a=1:5,-b:1:30)-$\to$-list(fun(a),fun(b))">map, map_* : list(a=1:5, b:1:30) $\to$ list(fun(a),fun(b)) </a>
 <ul>
+<li class="toc-entry toc-h4"><a href="#map,-map_*-의-특징">map, map_* 의 특징 </a></li>
 <li class="toc-entry toc-h4"><a href="#ex1:-map,-map_*-차이">ex1: map, map_* 차이 </a></li>
 <li class="toc-entry toc-h4"><a href="#ex2:-%>%-연산자사용">ex2: %&gt;% 연산자사용 </a></li>
 <li class="toc-entry toc-h4"><a href="#ex3:-additional-arguments">ex3: additional arguments </a></li>
@@ -210,11 +211,20 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> map, map_* 의 특징</p>
+<h4 id="map,-map_*-의-특징">
+<a class="anchor" href="#map,-map_*-%EC%9D%98-%ED%8A%B9%EC%A7%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>map, map_* 의 특징<a class="anchor-link" href="#map,-map_*-%EC%9D%98-%ED%8A%B9%EC%A7%95"> </a>
+</h4>
+<p><code>1</code> C로 구현되어 있어 빠르다. 하지만 가독성이 희생되었다. (읽기 어렵다)</p>
+<p><code>2</code> 두번째 인수는 적용할 함수를 나타내며 <code>.f</code>로 되어있는데 이는 공식, 문자형벡터, 정수형벡터등을 지정할 수 있다.</p>
+<p><code>3</code> map_* 은 <code>.f</code>가 호출이 될 때마다 추가인수를 <code>...</code> 사용하여 전달할 수 있다. 여기에서 <code>...</code> 은 길이가 정해지지 않은 입력.</p>
+<p><code>4</code> map, map_* 의 첫번째 인수는 두번째 인수인 함수에 전달할 첫 인자이다. (이게 중요하다 $\star\star\star$)</p>
 <ul>
-<li>C로 구현되어 있어 빠르다. 하지만 가독성이 희생되었다. (읽기 어렵다)</li>
-<li>두번째 인수는 적용할 함수를 나타내며 <code>.f</code>로 되어있는데 이는 공식, 문자형벡터, 정수형벡터등을 지정할 수 있다. </li>
-<li>map_* 은 <code>.f</code>가 호출이 될 때마다 추가인수를 <code>...</code> 사용하여 전달할 수 있다. 여기에서 <code>...</code> 은 길이가 정해지지 않은 입력. </li>
+<li>사실 보통사람들은 <code>map(data, function)</code>의 형태로 외우는데 이는 엄밀하게 말하면 사실이 아니다. map함수의 역할은 단지 
+$${\tt map}\big([x1,x2,x3],f\big)=\big[f(x1),f(x2),f(x3)\big]$$ 
+이거나 
+$${\tt map}\Big(\big[[x1,y1],[x2,y2],[x3,y3]\big],f\Big)=\Big[f(x1,y1),f(x2,y2),f(x3,y3)\Big]$$ 
+일 뿐이다. </li>
+<li>대부분의 함수 $f$가 첫번쨰 인자로 data를 받기 때문에 이러한 오해가 생기는것. </li>
 </ul>
 
 </div>
@@ -283,6 +293,14 @@ window.onload = wrap_img;
 <h4 id="ex1:-map,-map_*-차이">
 <a class="anchor" href="#ex1:-map,-map_*-%EC%B0%A8%EC%9D%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex1: map, map_* 차이<a class="anchor-link" href="#ex1:-map,-map_*-%EC%B0%A8%EC%9D%B4"> </a>
 </h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> map_dbl(df,mean) = list (mean(df[[1]]),mean(df[[2]]), ... , mean(df[[n]]))</p>
+
 </div>
 </div>
 </div>
@@ -1472,6 +1490,129 @@ F-statistic: 8.796 on 1 and 12 DF,  p-value: 0.01179
 0.5086326 0.4645102 0.4229655 
 </pre>
 </div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="n">runif</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol>
+	<li>0.264654886908829</li>
+	<li>
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;</li>
+<li>0.165789187187329</li>
+<li>0.241316376952454</li>&lt;/ol&gt;
+
+	<li>
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;</li>
+<li>0.753685316303745</li>
+<li>0.439985636621714</li>
+<li>0.176742537645623</li>&lt;/ol&gt;
+
+	<li>
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;</li>
+<li>0.882823406485841</li>
+<li>0.801419929834083</li>
+<li>0.732465716311708</li>
+<li>0.0396612547338009</li>&lt;/ol&gt;
+
+	<li>
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;</li>
+<li>0.56984527898021</li>
+<li>0.297032885719091</li>
+<li>0.585848677903414</li>
+<li>0.371853708289564</li>
+<li>0.973834548844025</li>&lt;/ol&gt;
+
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="m">1</span><span class="o">:</span><span class="m">5</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>&lt;/ol&gt;
+
+</div>
+
 </div>
 
 </div>
