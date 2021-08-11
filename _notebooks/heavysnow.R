@@ -15,6 +15,8 @@ library(dplyr)
 library(ggplot2)
 library(ggforce)
 library(ggrepel)
+library(latex2exp)
+library(igraph)
 
 ###
 
@@ -71,7 +73,7 @@ friendship<-function(W){
 vis4igraph<-function(V,W,
                      Vsize=1,Vcol="#FFB3FFFF",Vfontsize=1,Vfontcol="gray40",Vfontype=4,
                      Elwd=1,Elty=1,Ecol="gray80",Ecurved=0.3,Earrowsize=1){
-    library(igraph)
+    #library(igraph)
     
     ## 1. define friendship 
     frnd_ship<-friendship(W)
@@ -105,7 +107,7 @@ vis4igraph<-function(V,W,
 vis4wc<-function(V,W,step=30,
                  Vfontsize=1,Vfontcol="gray40",Vfontype=4,
                  Elwd=1,Elty=1,Ecol="gray80",Ecurved=0.3,Earrowsize=1){
-    library(igraph)
+    #library(igraph)
     
     ## 1. define friendship 
     frnd_ship<-friendship(W)
@@ -138,42 +140,41 @@ vis4wc<-function(V,W,step=30,
     wc
 }
 
-vis4mcu3d<-function(V,W,f,hh,maxtau){
-    library(fields)
-    library(fields)
-    sdist<-rdist(hh[,1:(maxtau+1)])
-    ## pca
-    pcarslt<-princomp(sdist)
-    gx<-pcarslt$scores[,1]
-    gy<-pcarslt$scores[,2]
-    gz<-f
-    ## load graph lib
-    library(plot3D)
-    library(MBA)
-    #png("verytemp.png",res=300, width=2000, height=2000)
-    par(mar=c(0.1,0.1,0.1,0.1))
-    ## scatter3d 
-    scatter3D(gx,gy,gz,colvar=gz/max(gz),
-              type='h',pch=19,bty='g',ticktype="detailed",
-              xlab="",ylab="",zlab="",
-              xlim=c(min(gx)*1.5,max(gx)*1.5),ylim=c(min(gy)*1.5,max(gy)*1.5),zlim=c(0,max(gz)*1.5),
-              theta=15,phi=30,adj=0.1,d=3,
-              lwd=2,lty=3,cex=1,
-              colkey=FALSE,grid=TRUE)
-    ## draw Edg 
-    expgx<-expand.grid(gx,gx)
-    expgy<-expand.grid(gy,gy)
-    expgz<-expgx[,1]*0
-    Wvec<-as.vector(W)
-    arrowcol<-gray(Wvec*0.01)
-    arrowindex<-which(Wvec>0)
-    lines3D(expgx[,1][arrowindex],expgy[,1][arrowindex],expgz[arrowindex]
-         ,expgx[,2][arrowindex],expgy[,2][arrowindex],expgz[arrowindex],add=TRUE,
-         col="gray60",lwd=exp(1+Wvec[arrowindex])*3,lty=1,alpha=0.1)
-    ## labeling
-    text3D(gx,gy,gz+100,label=V,add=TRUE,cex=0.8,font=3,adj=0.5,alpha=0.6,phi=40,theta=40)
-    #dev.off()   
-}
+# vis4mcu3d<-function(V,W,f,hh,maxtau){
+#     library(fields)
+#     sdist<-rdist(hh[,1:(maxtau+1)])
+#     ## pca
+#     pcarslt<-princomp(sdist)
+#     gx<-pcarslt$scores[,1]
+#     gy<-pcarslt$scores[,2]
+#     gz<-f
+#     ## load graph lib
+#     library(plot3D)
+#     library(MBA)
+#     #png("verytemp.png",res=300, width=2000, height=2000)
+#     par(mar=c(0.1,0.1,0.1,0.1))
+#     ## scatter3d 
+#     scatter3D(gx,gy,gz,colvar=gz/max(gz),
+#               type='h',pch=19,bty='g',ticktype="detailed",
+#               xlab="",ylab="",zlab="",
+#               xlim=c(min(gx)*1.5,max(gx)*1.5),ylim=c(min(gy)*1.5,max(gy)*1.5),zlim=c(0,max(gz)*1.5),
+#               theta=15,phi=30,adj=0.1,d=3,
+#               lwd=2,lty=3,cex=1,
+#               colkey=FALSE,grid=TRUE)
+#     ## draw Edg 
+#     expgx<-expand.grid(gx,gx)
+#     expgy<-expand.grid(gy,gy)
+#     expgz<-expgx[,1]*0
+#     Wvec<-as.vector(W)
+#     arrowcol<-gray(Wvec*0.01)
+#     arrowindex<-which(Wvec>0)
+#     lines3D(expgx[,1][arrowindex],expgy[,1][arrowindex],expgz[arrowindex]
+#          ,expgx[,2][arrowindex],expgy[,2][arrowindex],expgz[arrowindex],add=TRUE,
+#          col="gray60",lwd=exp(1+Wvec[arrowindex])*3,lty=1,alpha=0.1)
+#     ## labeling
+#     text3D(gx,gy,gz+100,label=V,add=TRUE,cex=0.8,font=3,adj=0.5,alpha=0.6,phi=40,theta=40)
+#     #dev.off()   
+# }
 
 
 degree<-function(W){
@@ -205,17 +206,15 @@ gfft<-function(f,W){
 }
 
 eigenplot<-function(gfftresult,title=""){
-    library(latex2exp)
     λ<-gfftresult$λ
     egntb <- tibble(y=λ,x=(length(λ)):1)
-    library(ggplot2)
     egnplt <- ggplot(aes(x,y), data=egntb) + theme_classic()+
             geom_point(aes(x,y),size=1) + geom_line(lty=3,col="gray60") +
             xlab("")+ylab(TeX("$\\lambda$"))+ggtitle(TeX(title))
 }
 
 specplot<-function(gfftresult,title=""){
-    library(latex2exp)
+    #library(latex2exp)
     λ<-gfftresult$λ
     fhatabs<-abs(gfftresult$fbar)
     spectb <- tibble(y=fhatabs,x=λ)
@@ -317,7 +316,7 @@ decompose<-function(f,W,V=1:length(f)){
 # }
 
 shumanplot<-function(f,W){
-    library(plot3D)
+    #library(plot3D)
     n<-length(f)
     z<-f
     xpred<-seq(min(x)-0.5,max(x)+0.5,length.out=50)

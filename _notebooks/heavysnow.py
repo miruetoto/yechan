@@ -62,9 +62,9 @@ class HeavySnowTransform:  #hst(f,W,V,τ=τ,b=0.03,γ=1)
         else: #flow
             nextnode=np.random.choice(list(downstream),1).item()
             flowcount=flowcount+1
-        self.snowygrounds['h%s' % ell]=hnext
-        self.flowcount=self.flowcount+[flowcount]
-        self.trajectory=self.trajectory+[nextnode]    
+        self.snowygrounds['h%s' % ell]=hnext # pd.concat 
+        self.flowcount=self.flowcount+[flowcount] #pd.concat 
+        self.trajectory=self.trajectory+[nextnode] #pd.concat 
         
         self.snowygrounds_f['h%s' % ell]=self.f
         self.snowygrounds_sumxi['h%s' % ell]=hnext-self.f
