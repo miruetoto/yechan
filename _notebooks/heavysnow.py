@@ -31,9 +31,9 @@ class HeavySnowTransform:
         self.snowweight=np.zeros((self.n,self.n))
         
     def _snowonce(self,ell,maxflow):
-        b=self.b        
+        b=self.b
         flowcount=self.flowcount[-1] 
-        snowyground=self.snowygrounds[...,ell-1]
+        snowyground=self.snowygrounds[...,ell-1].copy()
         currentnode=self.trajectory[-1] 
         neighbor=self.nodeindex[(self.graphweight>0)[currentnode]]
         transitionprob=None
