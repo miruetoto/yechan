@@ -40,7 +40,7 @@ class HeavySnowTransform:
         nextnode=None 
         downstream=None
         
-        if flowcount >= maxflow: # reset 
+        if flowcount > maxflow: # reset 
             nextnode=np.random.choice(self.n,1,p=self.initdist).item()
             snowyground[nextnode]=snowyground[nextnode]+b
             flowcount=0
