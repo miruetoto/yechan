@@ -78,7 +78,7 @@ class HeavySnowTransform:
     def _updatesnowweight(self):
         self.snowweight=np.exp(-self.snowdistance/(self.tau*self.b**2))-np.eye(self.n)
     
-    def snow(self,tau,b=1,maxflow=99999):
+    def snow(self,tau,b=1,maxflow=100000):
         self._initialize()
         self.b=b
         self.tau=tau
