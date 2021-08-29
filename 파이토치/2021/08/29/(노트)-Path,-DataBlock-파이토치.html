@@ -96,7 +96,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      2 min read
     
 </span></p>
 
@@ -302,7 +302,7 @@ On a POSIX system, instantiating a Path should return this object.
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(#26) [Path('_action_files'),Path('.github'),Path('docker-compose.yml'),Path('.gitattributes'),Path('Gemfile'),Path('_notebooks'),Path('_pages'),Path('assets'),Path('_word'),Path('.gitignore')...]</pre>
+<pre>(#155) [Path('2019-05-20-(리뷰) Shuman2012의 레퍼런스 정리 [기하학적 딥러닝].ipynb'),Path('2021-08-09-(연구) HST example 2 이거로하자 [기하학적 딥러닝, 논문연구].ipynb'),Path('2021-08-28-(노트) Second CNN [파이토치].ipynb'),Path('2020-10-07-(샘플) tibble 선언 [R].ipynb'),Path('2021-08-02-(연구) HST example 1 (3) [기하학적 딥러닝, 논문연구].ipynb'),Path('2020-09-03-(노트) plt.plot [파이썬].ipynb'),Path('2021-05-17-(노트) 다층퍼셉트론, XOR 분류문제의 해결 [딥러닝].ipynb'),Path('2018-01-01-(노트) julia 설치 [우분투].ipynb'),Path('2021-08-15-MCU-weights.csv'),Path('2021-08-03-(노트) Pytorch Fashion-MNIST [파이토치, 딥러닝].ipynb')...]</pre>
 </div>
 
 </div>
@@ -316,7 +316,17 @@ On a POSIX system, instantiating a Path should return this object.
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> 사실 .ls()메소드에서 반환되는것은 <code>L</code>타입의 자료이다.</p>
+<blockquote>
+<p>사실 이 메소드는 원래 <code>pathlib</code>에서 제공하는 기능이 아니라 fastai/data에서 새롭게 추가한 메소드다.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> .ls()메소드에서 반환되는것은 <code>L</code>타입의 자료이다.</p>
 
 </div>
 </div>
@@ -329,7 +339,7 @@ On a POSIX system, instantiating a Path should return this object.
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">_a</span><span class="o">=</span><span class="n">path</span><span class="o">.</span><span class="n">ls</span><span class="p">()</span>
-a<span class="o">?</span>
+_a<span class="o">?</span>
 </pre></div>
 
     </div>
@@ -345,8 +355,8 @@ a<span class="o">?</span>
 
 <div class="output_text output_subarea ">
 <pre><span class="ansi-red-fg">Type:</span>        L
-<span class="ansi-red-fg">String form:</span> [Path('/home/cgb4/.fastai/data/oxford-iiit-pet/images/staffordshire_bull_terrier_106.jpg'), Path( &lt;...&gt; e_pinscher_23.jpg'), Path('/home/cgb4/.fastai/data/oxford-iiit-pet/images/newfoundland_120.jpg')]
-<span class="ansi-red-fg">Length:</span>      7395
+<span class="ansi-red-fg">String form:</span> [Path('2019-05-20-(리뷰) Shuman2012의 레퍼런스 정리 [기하학적 딥러닝].ipynb'), Path('2021-08-09-(연구) HST example  &lt;...&gt; ith tensorflow [텐서플로우].ipynb'), Path('2021-08-02-(연구) HST example 1 (4) [기하학적 딥러닝, 논문연구].ipynb')]
+<span class="ansi-red-fg">Length:</span>      155
 <span class="ansi-red-fg">File:</span>        ~/anaconda3/envs/2021bda/lib/python3.8/site-packages/fastcore/foundation.py
 <span class="ansi-red-fg">Docstring:</span>   Behaves like a list of `items` but can also index with list of indices or masks
 </pre>
@@ -1022,7 +1032,11 @@ untar_data<span class="ansi-blue-fg">(</span>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> get_image_files()은 path를 입력으로 받는다.</p>
+<p><code>-</code> get_image_files(): 이미지폴더의 path $\to$ 폴더내의모든 이미지파일의 path의 묶음</p>
+<ul>
+<li>입력: 이미지 파일이 저장된 폴더의 path </li>
+<li>출력: 입력폴더안에서 이미지파일로 판단되는 (확장자가 .jpg 등으로 끝나는) 모든파일의 path를 모은 list. 자료형은 list대신 L을 사용함. </li>
+</ul>
 
 </div>
 </div>
@@ -1133,7 +1147,7 @@ untar_data<span class="ansi-blue-fg">(</span>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_image_files</span><span class="p">(</span><span class="n">path</span><span class="o">/</span><span class="s1">'images'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_image_files</span><span class="p">(</span><span class="n">path</span><span class="o">/</span><span class="s1">'images'</span><span class="p">)</span> <span class="c1"># 입력: PosixPath 타입, 출력: L 타입</span>
 </pre></div>
 
     </div>
@@ -1149,6 +1163,39 @@ untar_data<span class="ansi-blue-fg">(</span>
 
 <div class="output_text output_subarea output_execute_result">
 <pre>(#7390) [Path('/home/cgb4/.fastai/data/oxford-iiit-pet/images/staffordshire_bull_terrier_106.jpg'),Path('/home/cgb4/.fastai/data/oxford-iiit-pet/images/english_cocker_spaniel_170.jpg'),Path('/home/cgb4/.fastai/data/oxford-iiit-pet/images/leonberger_5.jpg'),Path('/home/cgb4/.fastai/data/oxford-iiit-pet/images/shiba_inu_209.jpg'),Path('/home/cgb4/.fastai/data/oxford-iiit-pet/images/american_pit_bull_terrier_104.jpg'),Path('/home/cgb4/.fastai/data/oxford-iiit-pet/images/Egyptian_Mau_5.jpg'),Path('/home/cgb4/.fastai/data/oxford-iiit-pet/images/Egyptian_Mau_224.jpg'),Path('/home/cgb4/.fastai/data/oxford-iiit-pet/images/miniature_pinscher_58.jpg'),Path('/home/cgb4/.fastai/data/oxford-iiit-pet/images/american_bulldog_209.jpg'),Path('/home/cgb4/.fastai/data/oxford-iiit-pet/images/Persian_85.jpg')...]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_image_files</span><span class="p">(</span><span class="n">path</span><span class="o">/</span><span class="s1">'images'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># 첫번째 이미지가 저장된 path</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Path('/home/cgb4/.fastai/data/oxford-iiit-pet/images/staffordshire_bull_terrier_106.jpg')</pre>
 </div>
 
 </div>
