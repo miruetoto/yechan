@@ -1,0 +1,2818 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>(정리) pandas | 신록예찬’s 블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="(정리) pandas" />
+<meta name="author" content="신록예찬" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://miruetoto.github.io/yechan/%ED%8C%8C%EC%9D%B4%EC%8D%AC/2021/09/19/(%EC%A0%95%EB%A6%AC)-pandas-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html" />
+<meta property="og:url" content="https://miruetoto.github.io/yechan/%ED%8C%8C%EC%9D%B4%EC%8D%AC/2021/09/19/(%EC%A0%95%EB%A6%AC)-pandas-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html" />
+<meta property="og:site_name" content="신록예찬’s 블로그" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-19T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://miruetoto.github.io/yechan/%ED%8C%8C%EC%9D%B4%EC%8D%AC/2021/09/19/(%EC%A0%95%EB%A6%AC)-pandas-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html","@type":"BlogPosting","headline":"(정리) pandas","dateModified":"2021-09-19T00:00:00-05:00","datePublished":"2021-09-19T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/%ED%8C%8C%EC%9D%B4%EC%8D%AC/2021/09/19/(%EC%A0%95%EB%A6%AC)-pandas-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html"},"author":{"@type":"Person","name":"신록예찬"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬's 블로그" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/yechan/">신록예찬&#39;s 블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/yechan/about/">About Me</a><a class="page-link" href="/yechan/search/">Search</a><a class="page-link" href="/yechan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">(정리) pandas</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-19T00:00:00-05:00" itemprop="datePublished">
+        Sep 19, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">신록예찬</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      6 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/yechan/categories/#파이썬">파이썬</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/miruetoto/yechan/tree/master/_notebooks/2021-09-19-(정리) pandas [파이썬].ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/yechan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/miruetoto/yechan/master?filepath=_notebooks%2F2021-09-19-%28%EC%A0%95%EB%A6%AC%29+pandas+%5B%ED%8C%8C%EC%9D%B4%EC%8D%AC%5D.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/miruetoto/yechan/blob/master/_notebooks/2021-09-19-(정리) pandas [파이썬].ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#About-this-doc">About this doc </a></li>
+<li class="toc-entry toc-h3"><a href="#import">import </a></li>
+<li class="toc-entry toc-h3"><a href="#read-data-from-github">read data from github </a></li>
+<li class="toc-entry toc-h3"><a href="#structure">structure </a></li>
+<li class="toc-entry toc-h3"><a href="#select-column">select column </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#df에서-하나의-열을-선택하는-방법">df에서 하나의 열을 선택하는 방법 </a></li>
+<li class="toc-entry toc-h4"><a href="#열이름이-integer일-경우">열이름이 integer일 경우 </a></li>
+<li class="toc-entry toc-h4"><a href="#방법3:-df.loc[:,'X1']">방법3: df.loc[:,&#39;X1&#39;] </a></li>
+<li class="toc-entry toc-h4"><a href="#방법4:-df.iloc[:,0]">방법4: df.iloc[:,0] </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-09-19-(정리) pandas [파이썬].ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="About-this-doc">
+<a class="anchor" href="#About-this-doc" aria-hidden="true"><span class="octicon octicon-link"></span></a>About this doc<a class="anchor-link" href="#About-this-doc"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 이 문서는 아래의 문서들을 상속받아 작성되었다.</p>
+<ul>
+<li>
+<a href="https://miruetoto.github.io/yechan/%ED%8C%8C%EC%9D%B4%EC%8D%AC/2020/08/31/(%EC%83%98%ED%94%8C">판다스에서 인덱싱하기, 신록예찬</a>-%ED%8C%90%EB%8B%A4%EC%8A%A4%EC%97%90%EC%84%9C-%EC%9D%B8%EB%8D%B1%EC%8B%B1%ED%95%98%EA%B8%B0-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="import">
+<a class="anchor" href="#import" aria-hidden="true"><span class="octicon octicon-link"></span></a>import<a class="anchor-link" href="#import"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">dfply</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="read-data-from-github">
+<a class="anchor" href="#read-data-from-github" aria-hidden="true"><span class="octicon octicon-link"></span></a>read data from github<a class="anchor-link" href="#read-data-from-github"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">url</span><span class="o">=</span><span class="s1">'https://raw.githubusercontent.com/PacktPublishing/Pandas-Cookbook-Second-Edition/master/data/movie.csv'</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>director_name</th>
+      <th>num_critic_for_reviews</th>
+      <th>duration</th>
+      <th>director_facebook_likes</th>
+      <th>actor_3_facebook_likes</th>
+      <th>actor_2_name</th>
+      <th>actor_1_facebook_likes</th>
+      <th>gross</th>
+      <th>genres</th>
+      <th>actor_1_name</th>
+      <th>...</th>
+      <th>num_user_for_reviews</th>
+      <th>language</th>
+      <th>country</th>
+      <th>content_rating</th>
+      <th>budget</th>
+      <th>title_year</th>
+      <th>actor_2_facebook_likes</th>
+      <th>imdb_score</th>
+      <th>aspect_ratio</th>
+      <th>movie_facebook_likes</th>
+    </tr>
+    <tr>
+      <th>color</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Color</th>
+      <td>James Cameron</td>
+      <td>723.0</td>
+      <td>178.0</td>
+      <td>0.0</td>
+      <td>855.0</td>
+      <td>Joel David Moore</td>
+      <td>1000.0</td>
+      <td>760505847.0</td>
+      <td>Action|Adventure|Fantasy|Sci-Fi</td>
+      <td>CCH Pounder</td>
+      <td>...</td>
+      <td>3054.0</td>
+      <td>English</td>
+      <td>USA</td>
+      <td>PG-13</td>
+      <td>237000000.0</td>
+      <td>2009.0</td>
+      <td>936.0</td>
+      <td>7.9</td>
+      <td>1.78</td>
+      <td>33000</td>
+    </tr>
+    <tr>
+      <th>Color</th>
+      <td>Gore Verbinski</td>
+      <td>302.0</td>
+      <td>169.0</td>
+      <td>563.0</td>
+      <td>1000.0</td>
+      <td>Orlando Bloom</td>
+      <td>40000.0</td>
+      <td>309404152.0</td>
+      <td>Action|Adventure|Fantasy</td>
+      <td>Johnny Depp</td>
+      <td>...</td>
+      <td>1238.0</td>
+      <td>English</td>
+      <td>USA</td>
+      <td>PG-13</td>
+      <td>300000000.0</td>
+      <td>2007.0</td>
+      <td>5000.0</td>
+      <td>7.1</td>
+      <td>2.35</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Color</th>
+      <td>Sam Mendes</td>
+      <td>602.0</td>
+      <td>148.0</td>
+      <td>0.0</td>
+      <td>161.0</td>
+      <td>Rory Kinnear</td>
+      <td>11000.0</td>
+      <td>200074175.0</td>
+      <td>Action|Adventure|Thriller</td>
+      <td>Christoph Waltz</td>
+      <td>...</td>
+      <td>994.0</td>
+      <td>English</td>
+      <td>UK</td>
+      <td>PG-13</td>
+      <td>245000000.0</td>
+      <td>2015.0</td>
+      <td>393.0</td>
+      <td>6.8</td>
+      <td>2.35</td>
+      <td>85000</td>
+    </tr>
+    <tr>
+      <th>Color</th>
+      <td>Christopher Nolan</td>
+      <td>813.0</td>
+      <td>164.0</td>
+      <td>22000.0</td>
+      <td>23000.0</td>
+      <td>Christian Bale</td>
+      <td>27000.0</td>
+      <td>448130642.0</td>
+      <td>Action|Thriller</td>
+      <td>Tom Hardy</td>
+      <td>...</td>
+      <td>2701.0</td>
+      <td>English</td>
+      <td>USA</td>
+      <td>PG-13</td>
+      <td>250000000.0</td>
+      <td>2012.0</td>
+      <td>23000.0</td>
+      <td>8.5</td>
+      <td>2.35</td>
+      <td>164000</td>
+    </tr>
+    <tr>
+      <th>NaN</th>
+      <td>Doug Walker</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>131.0</td>
+      <td>NaN</td>
+      <td>Rob Walker</td>
+      <td>131.0</td>
+      <td>NaN</td>
+      <td>Documentary</td>
+      <td>Doug Walker</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>12.0</td>
+      <td>7.1</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>Color</th>
+      <td>Scott Smith</td>
+      <td>1.0</td>
+      <td>87.0</td>
+      <td>2.0</td>
+      <td>318.0</td>
+      <td>Daphne Zuniga</td>
+      <td>637.0</td>
+      <td>NaN</td>
+      <td>Comedy|Drama</td>
+      <td>Eric Mabius</td>
+      <td>...</td>
+      <td>6.0</td>
+      <td>English</td>
+      <td>Canada</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2013.0</td>
+      <td>470.0</td>
+      <td>7.7</td>
+      <td>NaN</td>
+      <td>84</td>
+    </tr>
+    <tr>
+      <th>Color</th>
+      <td>NaN</td>
+      <td>43.0</td>
+      <td>43.0</td>
+      <td>NaN</td>
+      <td>319.0</td>
+      <td>Valorie Curry</td>
+      <td>841.0</td>
+      <td>NaN</td>
+      <td>Crime|Drama|Mystery|Thriller</td>
+      <td>Natalie Zea</td>
+      <td>...</td>
+      <td>359.0</td>
+      <td>English</td>
+      <td>USA</td>
+      <td>TV-14</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>593.0</td>
+      <td>7.5</td>
+      <td>16.00</td>
+      <td>32000</td>
+    </tr>
+    <tr>
+      <th>Color</th>
+      <td>Benjamin Roberds</td>
+      <td>13.0</td>
+      <td>76.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>Maxwell Moody</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>Drama|Horror|Thriller</td>
+      <td>Eva Boehnke</td>
+      <td>...</td>
+      <td>3.0</td>
+      <td>English</td>
+      <td>USA</td>
+      <td>NaN</td>
+      <td>1400.0</td>
+      <td>2013.0</td>
+      <td>0.0</td>
+      <td>6.3</td>
+      <td>NaN</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>Color</th>
+      <td>Daniel Hsia</td>
+      <td>14.0</td>
+      <td>100.0</td>
+      <td>0.0</td>
+      <td>489.0</td>
+      <td>Daniel Henney</td>
+      <td>946.0</td>
+      <td>10443.0</td>
+      <td>Comedy|Drama|Romance</td>
+      <td>Alan Ruck</td>
+      <td>...</td>
+      <td>9.0</td>
+      <td>English</td>
+      <td>USA</td>
+      <td>PG-13</td>
+      <td>NaN</td>
+      <td>2012.0</td>
+      <td>719.0</td>
+      <td>6.3</td>
+      <td>2.35</td>
+      <td>660</td>
+    </tr>
+    <tr>
+      <th>Color</th>
+      <td>Jon Gunn</td>
+      <td>43.0</td>
+      <td>90.0</td>
+      <td>16.0</td>
+      <td>16.0</td>
+      <td>Brian Herzlinger</td>
+      <td>86.0</td>
+      <td>85222.0</td>
+      <td>Documentary</td>
+      <td>John August</td>
+      <td>...</td>
+      <td>84.0</td>
+      <td>English</td>
+      <td>USA</td>
+      <td>PG</td>
+      <td>1100.0</td>
+      <td>2004.0</td>
+      <td>23.0</td>
+      <td>6.6</td>
+      <td>1.85</td>
+      <td>456</td>
+    </tr>
+  </tbody>
+</table>
+<p>4916 rows × 27 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>NaN: missing, not a number</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="structure">
+<a class="anchor" href="#structure" aria-hidden="true"><span class="octicon octicon-link"></span></a>structure<a class="anchor-link" href="#structure"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">data</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([['James Cameron', 723.0, 178.0, ..., 7.9, 1.78, 33000],
+       ['Gore Verbinski', 302.0, 169.0, ..., 7.1, 2.35, 0],
+       ['Sam Mendes', 602.0, 148.0, ..., 6.8, 2.35, 85000],
+       ...,
+       ['Benjamin Roberds', 13.0, 76.0, ..., 6.3, nan, 16],
+       ['Daniel Hsia', 14.0, 100.0, ..., 6.3, 2.35, 660],
+       ['Jon Gunn', 43.0, 90.0, ..., 6.6, 1.85, 456]], dtype=object)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">## first observation </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array(['James Cameron', 723.0, 178.0, 0.0, 855.0, 'Joel David Moore',
+       1000.0, 760505847.0, 'Action|Adventure|Fantasy|Sci-Fi',
+       'CCH Pounder', 'Avatar', 886204, 4834, 'Wes Studi', 0.0,
+       'avatar|future|marine|native|paraplegic',
+       'http://www.imdb.com/title/tt0499549/?ref_=fn_tt_tt_1', 3054.0,
+       'English', 'USA', 'PG-13', 237000000.0, 2009.0, 936.0, 7.9, 1.78,
+       33000], dtype=object)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># (first observation, first variable) </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'James Cameron'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># first variable</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array(['James Cameron', 'Gore Verbinski', 'Sam Mendes', ...,
+       'Benjamin Roberds', 'Daniel Hsia', 'Jon Gunn'], dtype=object)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># first variable</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array(['James Cameron', 'Gore Verbinski', 'Sam Mendes', ...,
+       'Benjamin Roberds', 'Daniel Hsia', 'Jon Gunn'], dtype=object)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="select-column">
+<a class="anchor" href="#select-column" aria-hidden="true"><span class="octicon octicon-link"></span></a>select column<a class="anchor-link" href="#select-column"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="df에서-하나의-열을-선택하는-방법">
+<a class="anchor" href="#df%EC%97%90%EC%84%9C-%ED%95%98%EB%82%98%EC%9D%98-%EC%97%B4%EC%9D%84-%EC%84%A0%ED%83%9D%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>df</code>에서 하나의 열을 선택하는 방법<a class="anchor-link" href="#df%EC%97%90%EC%84%9C-%ED%95%98%EB%82%98%EC%9D%98-%EC%97%B4%EC%9D%84-%EC%84%A0%ED%83%9D%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dic</span><span class="o">=</span><span class="p">{</span><span class="s1">'X1'</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> 
+     <span class="s1">'X2'</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span>
+     <span class="s1">'X3'</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)}</span>
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+      <th>X2</th>
+      <th>X3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.994481</td>
+      <td>1.340418</td>
+      <td>0.581463</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.116595</td>
+      <td>-0.594872</td>
+      <td>0.377041</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.052723</td>
+      <td>-1.586597</td>
+      <td>-0.972149</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.014302</td>
+      <td>-0.149805</td>
+      <td>1.757051</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.092762</td>
+      <td>-1.130025</td>
+      <td>-1.002090</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 방법1</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">X1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0    0.994481
+1    0.116595
+2    0.052723
+3   -0.014302
+4   -0.092762
+Name: X1, dtype: float64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 방법2</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">'X1'</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0    0.994481
+1    0.116595
+2    0.052723
+3   -0.014302
+4   -0.092762
+Name: X1, dtype: float64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 방법3</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s1">'X1'</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.994481</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.116595</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.052723</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.014302</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.092762</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<code>df['X1']</code>는 series를 리턴하고 <code>df[['X1']]</code>는 dataframe을 리턴한다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 방법4</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">'X1'</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0    0.994481
+1    0.116595
+2    0.052723
+3   -0.014302
+4   -0.092762
+Name: X1, dtype: float64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 방법5</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">'X1'</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.994481</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.116595</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.052723</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.014302</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.092762</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<code>df.loc[:,'X1']</code>는 series를 리턴하고 <code>df[['X1']]</code>는 dataframe을 리턴한다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 방법6</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0    0.994481
+1    0.116595
+2    0.052723
+3   -0.014302
+4   -0.092762
+Name: X1, dtype: float64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 방법7</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,[</span><span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.994481</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.116595</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.052723</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.014302</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.092762</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 방법8 (<code>dfply</code>)</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">&gt;&gt;</span> <span class="n">select</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.994481</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.116595</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.052723</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.014302</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.092762</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">&gt;&gt;</span> <span class="n">select</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.994481</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.116595</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.052723</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.014302</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.092762</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">&gt;&gt;</span> <span class="n">select</span><span class="p">(</span><span class="s1">'X1'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.994481</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.116595</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.052723</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.014302</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.092762</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">&gt;&gt;</span> <span class="n">select</span><span class="p">([</span><span class="s1">'X1'</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.994481</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.116595</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.052723</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.014302</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.092762</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong><em>요약</em></strong></p>
+<ul>
+<li>
+<code>df.X1</code> 이 가장 간단하고 편리함. 그런데 변수이름을 알고 있어야 한다는 단점이 있음. </li>
+<li>
+<code>df.X1</code> 은 변수이름에 <code>.</code>이 포함된 경우는 사용불가. 그밖에도 변수이름에 공백이 있는등 이상한 형태의 변수이름에는 사용불가능.</li>
+<li>변수이름을 모르면서 위치로 select하는 방법은 df.iloc을 이용하는 방법이 유일함. (dfply 패지키 사용하는 방법은 제외)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="열이름이-integer일-경우">
+<a class="anchor" href="#%EC%97%B4%EC%9D%B4%EB%A6%84%EC%9D%B4-integer%EC%9D%BC-%EA%B2%BD%EC%9A%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>열이름이 integer일 경우<a class="anchor-link" href="#%EC%97%B4%EC%9D%B4%EB%A6%84%EC%9D%B4-integer%EC%9D%BC-%EA%B2%BD%EC%9A%B0"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]]))</span>
+<span class="n">df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 아래가 모두 가능</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0    1
+1    3
+2    5
+Name: 0, dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,[</span><span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 틀린방법1</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">'X1'</span><span class="p">,</span><span class="s1">'X2'</span><span class="p">]</span> <span class="c1">### 이러면 안된다.</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 방법4</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s1">'X1'</span><span class="p">,</span><span class="s1">'X2'</span><span class="p">]]</span>  <span class="c1">### 위의코드의 수정본</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+      <th>X2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.831265</td>
+      <td>0.180226</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.876543</td>
+      <td>2.526036</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-1.316322</td>
+      <td>0.169709</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-1.299773</td>
+      <td>1.207150</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.159891</td>
+      <td>1.071295</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 틀린방법2</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">'X1'</span><span class="p">:</span><span class="s1">'X2'</span><span class="p">]</span> <span class="c1">### 이러면 안된다.</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 방법5 위의코드의 수정본</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="방법3:-df.loc[:,'X1']">
+<a class="anchor" href="#%EB%B0%A9%EB%B2%953:-df.loc%5B:,'X1'%5D" aria-hidden="true"><span class="octicon octicon-link"></span></a>방법3: <code>df.loc[:,'X1']</code><a class="anchor-link" href="#%EB%B0%A9%EB%B2%953:-df.loc%5B:,'X1'%5D"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 세번째는 <code>loc</code>을 이용한 방법이다.</p>
+<p><code>-</code> <code>df.loc[:,'X1']</code>은 기본적으로 컬럼이름에 "."이 포함되어도 사용할 수 있다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">'X1'</span><span class="p">]</span> <span class="c1"># series를 리턴</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0   -0.831265
+1    0.876543
+2   -1.316322
+3   -1.299773
+4    0.159891
+Name: X1, dtype: float64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">'X1'</span><span class="p">]]</span> <span class="c1"># dataframe을 리턴</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.831265</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.876543</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-1.316322</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-1.299773</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.159891</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 또한 여러개의 컬럼을 호출할 수 있다. 즉 아래가 가능하다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">'X1'</span><span class="p">,</span><span class="s1">'X2'</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+      <th>X2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.831265</td>
+      <td>0.180226</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.876543</td>
+      <td>2.526036</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-1.316322</td>
+      <td>0.169709</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-1.299773</td>
+      <td>1.207150</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.159891</td>
+      <td>1.071295</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 슬라이싱을 통하여 여러개의 컬럼을 선택할수 있다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">'X1'</span><span class="p">:</span><span class="s1">'X3'</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+      <th>X2</th>
+      <th>X3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.659255</td>
+      <td>0.165344</td>
+      <td>0.733850</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.461843</td>
+      <td>0.648005</td>
+      <td>0.261899</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.894380</td>
+      <td>-0.483557</td>
+      <td>-0.385227</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.172640</td>
+      <td>-0.225751</td>
+      <td>-0.270766</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.349347</td>
+      <td>-0.379206</td>
+      <td>-0.676576</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p></p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+    <strong>Note: </strong>(단점) 이 방법의 단점은 컬럼의 <code>index-set</code>을 정의하고 접근하는것은 불가능하다. 예를들어 <code>홀수번째 컬럼들만 출력하는 코드</code>를 짤 수 없다. 
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="방법4:-df.iloc[:,0]">
+<a class="anchor" href="#%EB%B0%A9%EB%B2%954:-df.iloc%5B:,0%5D" aria-hidden="true"><span class="octicon octicon-link"></span></a>방법4: <code>df.iloc[:,0]</code><a class="anchor-link" href="#%EB%B0%A9%EB%B2%954:-df.iloc%5B:,0%5D"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>–</code> 마지막 방법은 <code>iloc</code>을 사용하는 것이다.</p>
+<p><code>–</code> <code>iloc</code>역시 <code>loc</code>과 마찬가지로 슬라이싱이 가능하다.</p>
+<p><code>–</code> 하지만 <code>loc</code>의 경우와 그 결과가 다르다. 1,2,3번째 변수를 <code>loc</code>으로 추출하고 싶을 경우</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">'X1'</span><span class="p">:</span><span class="s1">'X3'</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+      <th>X2</th>
+      <th>X3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.831265</td>
+      <td>0.180226</td>
+      <td>-0.372776</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.876543</td>
+      <td>2.526036</td>
+      <td>-0.842441</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-1.316322</td>
+      <td>0.169709</td>
+      <td>-0.504588</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-1.299773</td>
+      <td>1.207150</td>
+      <td>-1.005995</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.159891</td>
+      <td>1.071295</td>
+      <td>0.842492</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>와 같이 하지만 같은 결과를 <code>iloc</code>으로 구현하려면</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+      <th>X2</th>
+      <th>X3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.831265</td>
+      <td>0.180226</td>
+      <td>-0.372776</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.876543</td>
+      <td>2.526036</td>
+      <td>-0.842441</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-1.316322</td>
+      <td>0.169709</td>
+      <td>-0.504588</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-1.299773</td>
+      <td>1.207150</td>
+      <td>-1.005995</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.159891</td>
+      <td>1.071295</td>
+      <td>0.842492</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>와 같이 해야한다. 즉 <code>loc</code>의 경우 양쪽인덱스가 모두 포함되지만 <code>iloc</code>의 경우 마지막 인덱스는 포함되지 않는다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong><em><code>iloc</code>의 장점</em></strong></p>
+<p><code>–</code> <code>iloc</code>의 장점은 아래와 같이 <code>index-set</code> 을 정의하고 접근하는것도 가능하다. 예를들어 홀수번째 번수들만 출력하는 코드를 다음과 같이 구현가능하다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">index1</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">index1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>X1</th>
+      <th>X3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.659255</td>
+      <td>0.733850</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.461843</td>
+      <td>0.261899</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.894380</td>
+      <td>-0.385227</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.172640</td>
+      <td>-0.270766</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.349347</td>
+      <td>-0.676576</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="miruetoto/yechan"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/yechan/%ED%8C%8C%EC%9D%B4%EC%8D%AC/2021/09/19/(%EC%A0%95%EB%A6%AC)-pandas-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/yechan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/yechan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/yechan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/miruetoto" title="miruetoto"><svg class="svg-icon grey"><use xlink:href="/yechan/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
