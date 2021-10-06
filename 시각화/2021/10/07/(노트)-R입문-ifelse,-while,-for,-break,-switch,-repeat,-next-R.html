@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>(노트) R입문 ifelse, while, for, break, switch, repeat, next | 신록예찬’s 블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="(노트) R입문 ifelse, while, for, break, switch, repeat, next" />
+<meta name="author" content="신록예찬" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://miruetoto.github.io/yechan/%EC%8B%9C%EA%B0%81%ED%99%94/2021/10/07/(%EB%85%B8%ED%8A%B8)-R%EC%9E%85%EB%AC%B8-ifelse,-while,-for,-break,-switch,-repeat,-next-R.html" />
+<meta property="og:url" content="https://miruetoto.github.io/yechan/%EC%8B%9C%EA%B0%81%ED%99%94/2021/10/07/(%EB%85%B8%ED%8A%B8)-R%EC%9E%85%EB%AC%B8-ifelse,-while,-for,-break,-switch,-repeat,-next-R.html" />
+<meta property="og:site_name" content="신록예찬’s 블로그" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-10-07T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://miruetoto.github.io/yechan/%EC%8B%9C%EA%B0%81%ED%99%94/2021/10/07/(%EB%85%B8%ED%8A%B8)-R%EC%9E%85%EB%AC%B8-ifelse,-while,-for,-break,-switch,-repeat,-next-R.html","@type":"BlogPosting","headline":"(노트) R입문 ifelse, while, for, break, switch, repeat, next","dateModified":"2021-10-07T00:00:00-05:00","datePublished":"2021-10-07T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/%EC%8B%9C%EA%B0%81%ED%99%94/2021/10/07/(%EB%85%B8%ED%8A%B8)-R%EC%9E%85%EB%AC%B8-ifelse,-while,-for,-break,-switch,-repeat,-next-R.html"},"author":{"@type":"Person","name":"신록예찬"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬's 블로그" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/yechan/">신록예찬&#39;s 블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/yechan/about/">About Me</a><a class="page-link" href="/yechan/search/">Search</a><a class="page-link" href="/yechan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">(노트) R입문 ifelse, while, for, break, switch, repeat, next</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-07T00:00:00-05:00" itemprop="datePublished">
+        Oct 7, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">신록예찬</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/yechan/categories/#시각화">시각화</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/miruetoto/yechan/tree/master/_notebooks/2021-10-07-(노트) R입문 ifelse, while, for, break, switch, repeat, next [R].ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/yechan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/miruetoto/yechan/master?filepath=_notebooks%2F2021-10-07-%28%EB%85%B8%ED%8A%B8%29+R%EC%9E%85%EB%AC%B8+ifelse%2C+while%2C+for%2C+break%2C+switch%2C+repeat%2C+next+%5BR%5D.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/miruetoto/yechan/blob/master/_notebooks/2021-10-07-(노트) R입문 ifelse, while, for, break, switch, repeat, next [R].ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#while">while </a></li>
+<li class="toc-entry toc-h3"><a href="#break">break </a></li>
+<li class="toc-entry toc-h3"><a href="#ifelse">ifelse </a></li>
+<li class="toc-entry toc-h3"><a href="#switch">switch </a></li>
+<li class="toc-entry toc-h3"><a href="#repeat">repeat </a></li>
+<li class="toc-entry toc-h3"><a href="#next">next </a></li>
+<li class="toc-entry toc-h3"><a href="#요약">요약 </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-10-07-(노트) R입문 ifelse, while, for, break, switch, repeat, next [R].ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="while">
+<a class="anchor" href="#while" aria-hidden="true"><span class="octicon octicon-link"></span></a>while<a class="anchor-link" href="#while"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제1</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tot</span><span class="o">=</span><span class="m">0</span> 
+<span class="n">i</span><span class="o">=</span><span class="m">1</span>
+<span class="nf">while</span><span class="p">(</span><span class="n">i</span><span class="o">&lt;=</span><span class="m">100</span><span class="p">){</span>
+    <span class="n">tot</span> <span class="o">=</span> <span class="n">tot</span><span class="o">+</span><span class="n">i</span> 
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="m">+1</span> 
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tot</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 5050</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제1의 다른구현 (1)</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tot</span><span class="o">=</span><span class="m">0</span> 
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="m">100</span><span class="p">)</span> <span class="n">tot</span> <span class="o">=</span> <span class="n">tot</span> <span class="o">+</span> <span class="n">i</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tot</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 5050</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제1의 다른구현 (2)</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tot</span><span class="o">=</span><span class="m">0</span>
+<span class="n">i</span><span class="o">=</span><span class="m">1</span>
+<span class="nf">while</span><span class="p">(</span><span class="kc">TRUE</span><span class="p">){</span>
+   <span class="n">tot</span> <span class="o">=</span> <span class="n">tot</span><span class="o">+</span><span class="n">i</span>
+    <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="m">+1</span>
+    <span class="nf">if </span><span class="p">(</span><span class="n">i</span><span class="o">&gt;</span><span class="m">100</span><span class="p">)</span> <span class="n">break</span> 
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tot</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 5050</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제1의 다른구현 (3)</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tot</span><span class="o">=</span><span class="m">0</span>
+<span class="n">i</span><span class="o">=</span><span class="m">1</span>
+<span class="nf">while</span><span class="p">(</span><span class="kc">TRUE</span><span class="p">){</span>
+   <span class="n">tot</span> <span class="o">=</span> <span class="n">tot</span><span class="o">+</span><span class="n">i</span>
+    <span class="nf">if </span><span class="p">(</span><span class="n">i</span><span class="o">&gt;=</span><span class="m">100</span><span class="p">)</span> <span class="n">break</span> 
+    <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="m">+1</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tot</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 5050</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 저는 while 싫어해요</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 정말 어쩔수 없을때만 씁니다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="break">
+<a class="anchor" href="#break" aria-hidden="true"><span class="octicon octicon-link"></span></a>break<a class="anchor-link" href="#break"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제1</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">){</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="nf">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="m">3</span><span class="p">)</span> <span class="n">break</span> 
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] 1
+[1] 2
+[1] 3
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제2</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">){</span>
+    <span class="nf">for</span><span class="p">(</span><span class="n">j</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">){</span>
+        <span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+        <span class="nf">if</span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="m">3</span><span class="p">)</span> <span class="n">break</span> 
+    <span class="p">}</span>
+    <span class="nf">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="m">5</span><span class="p">)</span> <span class="n">break</span> 
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] 1 1
+[1] 1 2
+[1] 1 3
+[1] 2 1
+[1] 2 2
+[1] 2 3
+[1] 3 1
+[1] 3 2
+[1] 3 3
+[1] 4 1
+[1] 4 2
+[1] 4 3
+[1] 5 1
+[1] 5 2
+[1] 5 3
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="ifelse">
+<a class="anchor" href="#ifelse" aria-hidden="true"><span class="octicon octicon-link"></span></a>ifelse<a class="anchor-link" href="#ifelse"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제1</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="m">-2</span><span class="o">:</span><span class="m">2</span> 
+<span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] -2 -1  0  1  2</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">ifelse</span><span class="p">(</span><span class="n">x</span><span class="o">&gt;</span><span class="m">0</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 2 1 0 1 2</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제1의 다른구현</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 5</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">y_</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="m">0</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">x</span><span class="p">)){</span>
+    <span class="nf">if </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="m">0</span><span class="p">)</span> <span class="n">y_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="n">else</span> <span class="n">y_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">y_</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 2 1 0 1 2</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제2</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">x</span><span class="o">=</span> <span class="m">-5</span><span class="o">:</span><span class="m">5</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre> [1] -5 -4 -3 -2 -1  0  1  2  3  4  5</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">y</span><span class="o">=</span> <span class="nf">ifelse</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span> <span class="nf">ifelse</span><span class="p">(</span><span class="n">x</span><span class="o">&gt;</span><span class="m">2</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="m">1</span><span class="p">))</span>
+<span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre> [1] 0 0 0 0 0 1 1 1 3 4 5</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+<span class="nf">points</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">col</span><span class="o">=</span><span class="m">2</span><span class="p">,</span><span class="n">pch</span><span class="o">=</span><span class="m">16</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA0gAAANICAMAAADKOT/pAAACW1BMVEUAAAABAQECAgIDAwME%0ABAQFBQUGBgYHBwcICAgJCQkKCgoLCwsMDAwNDQ0PDw8RERESEhITExMVFRUXFxcYGBgZGRka%0AGhobGxscHBwdHR0eHh4fHx8gICAhISEiIiIjIyMlJSUmJiYnJycoKCgsLCwuLi4vLy8wMDAx%0AMTEyMjIzMzM0NDQ5OTk6Ojo7Ozs8PDw9PT0+Pj4/Pz9BQUFDQ0NFRUVGRkZHR0dISEhJSUlK%0ASkpLS0tMTExNTU1OTk5RUVFSUlJTU1NUVFRXV1dYWFhZWVlaWlpdXV1eXl5fX19gYGBhYWFi%0AYmJjY2NmZmZnZ2doaGhqampra2tsbGxubm5vb29xcXFycnJzc3N0dHR1dXV2dnZ3d3d4eHh5%0AeXl7e3t8fHx9fX1+fn5/f3+AgICBgYGCgoKEhISFhYWHh4eIiIiJiYmKioqLi4uMjIyNjY2O%0Ajo6Pj4+QkJCRkZGSkpKTk5OUlJSVlZWYmJiZmZmampqfn5+goKCioqKjo6Ompqanp6eoqKir%0Aq6usrKytra2urq6vr6+zs7O0tLS1tbW2tra5ubm7u7u8vLy9vb2+vr6/v7/AwMDCwsLDw8PE%0AxMTFxcXGxsbHx8fKysrLy8vMzMzNzc3Pz8/Q0NDR0dHS0tLT09PV1dXW1tbX19fY2NjZ2dna%0A2trb29vc3Nzd3d3e3t7fU2vf39/g4ODh4eHj4+Pm5ubn5+fo6Ojp6enr6+vs7Ozt7e3u7u7v%0A7+/w8PDx8fHy8vLz8/P09PT19fX29vb39/f4+Pj5+fn6+vr7+/v8/Pz9/f3+/v7///+aF589%0AAAAACXBIWXMAABJ0AAASdAHeZh94AAAVoklEQVR4nO3d/3uddX3H8TsNDQG1qOCko4JznVqk%0AjE6tmulGp9QvGzpHKbbLhgP3pQ4mc27KqNugVFA7dTpBmtmhtn6hzqZYpWoKxbCT82etJ6cp%0As0nTpHnd53Punsfjh9z3dZ1z35/3+fK8enKfXFC1gRWrSg8AFwMhQYCQIEBIECAkCBASBAgJ%0AAoQEAUKCACFBgJAgQEgQICQIEBIECAkChAQBQoIAIUGAkCBASBAgJAgQEgQICQKEBAFCggAh%0AQYCQIEBIECAkCBASBAgJAoQEAUKCACFBgJAgQEgQICQIEBIECAkChAQBQoIAIUGAkCBASBAg%0A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%0AH6egpT4ZSjyRAAAAAElFTkSuQmCC" width="420" height="420">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제2의 다른구현</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="m">-5</span><span class="o">:</span><span class="m">5</span> 
+<span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre> [1] -5 -4 -3 -2 -1  0  1  2  3  4  5</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="m">0</span> 
+<span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre> [1] 0 0 0 0 0 0 0 0 0 0 0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">n</span><span class="o">=</span> <span class="nf">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">n</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 11</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="n">n</span><span class="p">){</span>
+    <span class="nf">if </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&lt;</span><span class="m">0</span><span class="p">)</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="m">0</span> <span class="n">else</span> 
+        <span class="nf">if </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="m">2</span><span class="p">)</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="n">else</span>
+            <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="m">1</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre> [1] 0 0 0 0 0 1 1 1 3 4 5</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> ifelse와 if는 성격이 조금 다름</p>
+<ul>
+<li>if: 조건에 따라 코드 실행 흐름을 제어하는 성격 </li>
+<li>ifelse: 새로운 벡터를 생성하는 목적 </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="switch">
+<a class="anchor" href="#switch" aria-hidden="true"><span class="octicon octicon-link"></span></a>switch<a class="anchor-link" href="#switch"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제1</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 10</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 20</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 30</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제2</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">),</span><span class="m">30</span><span class="p">,</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 10 20 30</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">),</span><span class="m">30</span><span class="p">,</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 30</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">),</span><span class="m">30</span><span class="p">,</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 1 2 3</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제3</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">a1</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">),</span><span class="n">a2</span><span class="o">=</span><span class="m">30</span><span class="p">,</span><span class="n">a3</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 10 20 30</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="s">"a1"</span><span class="p">,</span><span class="n">a1</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">),</span><span class="n">a2</span><span class="o">=</span><span class="m">30</span><span class="p">,</span><span class="n">a3</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 10 20 30</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="n">a1</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">),</span><span class="n">a2</span><span class="o">=</span><span class="m">30</span><span class="p">,</span><span class="n">a3</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 30</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="s">"a2"</span><span class="p">,</span><span class="n">a1</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">),</span><span class="n">a2</span><span class="o">=</span><span class="m">30</span><span class="p">,</span><span class="n">a3</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 30</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="n">a1</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">),</span><span class="n">a2</span><span class="o">=</span><span class="m">30</span><span class="p">,</span><span class="n">a3</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 1 2 3</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="s">"a3"</span><span class="p">,</span><span class="n">a1</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="m">20</span><span class="p">,</span><span class="m">30</span><span class="p">),</span><span class="n">a2</span><span class="o">=</span><span class="m">30</span><span class="p">,</span><span class="n">a3</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 1 2 3</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제4</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="m">1</span><span class="o">:</span><span class="m">10</span>
+<span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre> [1]  1  2  3  4  5  6  7  8  9 10</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">c</span><span class="p">(</span>
+    <span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+    <span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="m">2</span><span class="p">),</span>
+    <span class="nf">mean</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="m">2</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1]  5.50 38.50  8.25</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="m">38.50</span><span class="o">-</span> <span class="m">5.50</span><span class="o">**</span><span class="m">2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 8.25</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="s">"f1"</span><span class="p">,</span>
+       <span class="n">f1</span><span class="o">=</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> 
+       <span class="n">f2</span><span class="o">=</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="m">2</span><span class="p">),</span> 
+       <span class="n">f3</span><span class="o">=</span><span class="nf">mean</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="m">2</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 5.5</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="s">"f2"</span><span class="p">,</span>
+       <span class="n">f1</span><span class="o">=</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> 
+       <span class="n">f2</span><span class="o">=</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="m">2</span><span class="p">),</span> 
+       <span class="n">f3</span><span class="o">=</span><span class="nf">mean</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="m">2</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 38.5</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">switch</span><span class="p">(</span><span class="s">"f3"</span><span class="p">,</span>
+       <span class="n">f1</span><span class="o">=</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> 
+       <span class="n">f2</span><span class="o">=</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="m">2</span><span class="p">),</span> 
+       <span class="n">f3</span><span class="o">=</span><span class="nf">mean</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="m">2</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 8.25</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제5: 예제4의 변형</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">myfun</span><span class="o">&lt;-</span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">){</span>
+    <span class="nf">switch</span><span class="p">(</span><span class="n">f</span><span class="p">,</span>
+       <span class="n">f1</span><span class="o">=</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> 
+       <span class="n">f2</span><span class="o">=</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="m">2</span><span class="p">),</span> 
+       <span class="n">f3</span><span class="o">=</span><span class="nf">mean</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="nf">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="m">2</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">myfun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="s">"f1"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 5.5</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">myfun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="s">"f2"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 38.5</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">myfun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="s">"f3"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 8.25</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="repeat">
+<a class="anchor" href="#repeat" aria-hidden="true"><span class="octicon octicon-link"></span></a>repeat<a class="anchor-link" href="#repeat"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제1</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tot</span><span class="o">=</span><span class="m">0</span> 
+<span class="n">i</span><span class="o">=</span><span class="m">1</span>
+<span class="n">repeat</span><span class="p">{</span>
+<span class="n">tot</span><span class="o">=</span><span class="n">tot</span><span class="o">+</span><span class="n">i</span>
+<span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="m">+1</span>
+<span class="nf">if </span><span class="p">(</span><span class="n">i</span><span class="o">&gt;</span><span class="m">100</span><span class="p">)</span> <span class="n">break</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tot</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] 5050</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 잘못된 예제1: 무한루프</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tot</span><span class="o">=</span><span class="m">0</span> 
+<span class="n">i</span><span class="o">=</span><span class="m">1</span>
+<span class="n">repeat</span><span class="p">{</span>
+<span class="n">tot</span><span class="o">=</span><span class="n">tot</span><span class="o">+</span><span class="n">i</span>
+<span class="nf">if </span><span class="p">(</span><span class="n">i</span><span class="o">&gt;</span><span class="m">100</span><span class="p">)</span> <span class="n">break</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="next">
+<a class="anchor" href="#next" aria-hidden="true"><span class="octicon octicon-link"></span></a>next<a class="anchor-link" href="#next"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제1</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">){</span>
+    <span class="nf">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="m">3</span><span class="p">)</span> <span class="n">next</span> <span class="n">else</span> 
+    <span class="nf">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>    
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] 1
+[1] 2
+[1] 4
+[1] 5
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>break와 비교</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">for</span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">){</span>
+    <span class="nf">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="m">3</span><span class="p">)</span> <span class="n">break</span> <span class="n">else</span> 
+    <span class="nf">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>    
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] 1
+[1] 2
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예제2</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">i</span><span class="o">=</span><span class="m">0</span>
+<span class="n">repeat</span><span class="p">{</span>
+    <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="m">+1</span>
+    <span class="nf">if </span><span class="p">(</span><span class="n">i</span><span class="o">&gt;</span><span class="m">5</span><span class="p">)</span> <span class="n">break</span> 
+    <span class="nf">if </span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="m">3</span><span class="p">)</span> <span class="n">next</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> 
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] 1
+[1] 2
+[1] 4
+[1] 5
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="요약">
+<a class="anchor" href="#%EC%9A%94%EC%95%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>요약<a class="anchor-link" href="#%EC%9A%94%EC%95%BD"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 조건: <strong>if</strong>, <strong>if~else</strong> / <strong>ifelse</strong>, switch</p>
+<p><code>-</code> 반복: <strong>for</strong>, while, repeat</p>
+<p><code>-</code> 루프탈출: break, next</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="miruetoto/yechan"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/yechan/%EC%8B%9C%EA%B0%81%ED%99%94/2021/10/07/(%EB%85%B8%ED%8A%B8)-R%EC%9E%85%EB%AC%B8-ifelse,-while,-for,-break,-switch,-repeat,-next-R.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/yechan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/yechan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/yechan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/miruetoto" title="miruetoto"><svg class="svg-icon grey"><use xlink:href="/yechan/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
