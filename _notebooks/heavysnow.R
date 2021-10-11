@@ -1,20 +1,21 @@
-# pkgs<-c(
-#     "kohonen",
-#     "dplyr",
-#     "ggplot2",
-#     "ggforce",
-#     "ggrepel",
-#     "igraph"
-#     )
-# not_installed_packages <- pkgs[ (  pkgs %in% installed.packages()[,1]  ) == 0]
-# install.packages(not_installed_packages,repos="https://cran.rstudio.com/")
-# for(i in pkgs) library(i,character.only = T)
+pkgs<-c(
+    "kohonen",
+    "dplyr",
+    "ggplot2",
+    "ggforce",
+    "ggrepel",
+    "igraph"
+    )
+not_installed_packages <- pkgs[ (  pkgs %in% installed.packages()[,1]  ) == 0]
+install.packages(not_installed_packages,repos="https://cran.rstudio.com/")
+for(i in pkgs) library(i,character.only = T)
 
 library(kohonen)
 library(dplyr)
 library(ggplot2)
 library(ggforce)
 library(ggrepel)
+library(gridExtra)
 library(latex2exp)
 library(igraph)
 

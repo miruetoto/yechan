@@ -78,7 +78,7 @@ class HeavysnowTransform:
         self.snowdistance=np.sum((self.snowygrounds[:,np.newaxis,:]-self.snowygrounds[np.newaxis,:,:])**2,axis=-1)
              
     def _updatesnowweight(self):
-        self.snowweight=np.exp(-self.snowdistance/(self.tau*2*self.theta**2))-np.eye(self.n)
+        self.snowweight=np.exp(-self.snowdistance/(2*self.tau*self.theta**2))-np.eye(self.n)
     
     def snow(self,tau,b=1,maxflow=100000):
         self._initialize()
@@ -139,24 +139,24 @@ class SpectralAnalysis:
         fig = ggplot()+thm+g1+g2+xlim(0,2.1)+ xlab("")+ ylab("") + ggtitle("Periodogram")
         return fig 
     
-    def _decomplot(self):       
-#         ggplot(data=tibble(V=V,f=f,Vtext=Vtext),aes(x=V,y=f,label=Vtext))+
-#         geom_col(aes(fill=(f>0)),width=0.1)+geom_hline(aes(yintercept=0),col="gray60",lty=2)+
-#         geom_text(fontface = 4,size=8)+
-#         xlab("")+ylab("")+guides(fill=FALSE)+theme(plot.title=element_text(face="bold.italic"))+
-#         theme_bw()+
-#         theme(strip.text.x = element_text(size = 20, color = "black", face = "bold.italic"))+
-#         theme(strip.text.y = element_text(size = 15, color = "black", face = "bold.italic"))+
-#         ylim(-1.2,1.2)+
-#         theme(plot.title=element_text(face="bold.italic"))
+#     def _decomplot(self):       
+# #         ggplot(data=tibble(V=V,f=f,Vtext=Vtext),aes(x=V,y=f,label=Vtext))+
+# #         geom_col(aes(fill=(f>0)),width=0.1)+geom_hline(aes(yintercept=0),col="gray60",lty=2)+
+# #         geom_text(fontface = 4,size=8)+
+# #         xlab("")+ylab("")+guides(fill=FALSE)+theme(plot.title=element_text(face="bold.italic"))+
+# #         theme_bw()+
+# #         theme(strip.text.x = element_text(size = 20, color = "black", face = "bold.italic"))+
+# #         theme(strip.text.y = element_text(size = 15, color = "black", face = "bold.italic"))+
+# #         ylim(-1.2,1.2)+
+# #         theme(plot.title=element_text(face="bold.italic"))
         
         
-        df=
-        thm = theme_classic()
-        aes1= aes(x=self.V,y=np.abs(self.fbar),xend=self.lamb,yend=0)
-        aes2= aes(x=self.lamb,y=np.abs(self.fbar))
-        g1= geom_col(aes1)  
-        g2= geom_text(aes2)    
-        fig = ggplot()+thm+g1+g2+xlim(0,2.1)+ xlab("")+ ylab("") + ggtitle("Periodogram")
-        return fig 
+#         df=
+#         thm = theme_classic()
+#         aes1= aes(x=self.V,y=np.abs(self.fbar),xend=self.lamb,yend=0)
+#         aes2= aes(x=self.lamb,y=np.abs(self.fbar))
+#         g1= geom_col(aes1)  
+#         g2= geom_text(aes2)    
+#         fig = ggplot()+thm+g1+g2+xlim(0,2.1)+ xlab("")+ ylab("") + ggtitle("Periodogram")
+#         return fig 
         
