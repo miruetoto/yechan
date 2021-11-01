@@ -4,9 +4,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>(노트) 판다스 - tidydata | 신록예찬’s 블로그</title>
+<title>(노트) 판다스 - tidydata, (bar+facet+coord), employee Example | 신록예찬’s 블로그</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="(노트) 판다스 - tidydata" />
+<meta property="og:title" content="(노트) 판다스 - tidydata, (bar+facet+coord), employee Example" />
 <meta name="author" content="신록예찬" />
 <meta property="og:locale" content="en_US" />
 <link rel="canonical" href="https://miruetoto.github.io/yechan/%EC%8B%9C%EA%B0%81%ED%99%94/2021/10/18/(%EB%85%B8%ED%8A%B8)-%ED%8C%90%EB%8B%A4%EC%8A%A4-tidydata-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html" />
@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-10-18T00:00:00-05:00" />
 <script type="application/ld+json">
-{"url":"https://miruetoto.github.io/yechan/%EC%8B%9C%EA%B0%81%ED%99%94/2021/10/18/(%EB%85%B8%ED%8A%B8)-%ED%8C%90%EB%8B%A4%EC%8A%A4-tidydata-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html","@type":"BlogPosting","headline":"(노트) 판다스 - tidydata","dateModified":"2021-10-18T00:00:00-05:00","datePublished":"2021-10-18T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/%EC%8B%9C%EA%B0%81%ED%99%94/2021/10/18/(%EB%85%B8%ED%8A%B8)-%ED%8C%90%EB%8B%A4%EC%8A%A4-tidydata-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html"},"author":{"@type":"Person","name":"신록예찬"},"@context":"https://schema.org"}</script>
+{"url":"https://miruetoto.github.io/yechan/%EC%8B%9C%EA%B0%81%ED%99%94/2021/10/18/(%EB%85%B8%ED%8A%B8)-%ED%8C%90%EB%8B%A4%EC%8A%A4-tidydata-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html","@type":"BlogPosting","headline":"(노트) 판다스 - tidydata, (bar+facet+coord), employee Example","dateModified":"2021-10-18T00:00:00-05:00","datePublished":"2021-10-18T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/%EC%8B%9C%EA%B0%81%ED%99%94/2021/10/18/(%EB%85%B8%ED%8A%B8)-%ED%8C%90%EB%8B%A4%EC%8A%A4-tidydata-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html"},"author":{"@type":"Person","name":"신록예찬"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬's 블로그" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -86,7 +86,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">(노트) 판다스 - tidydata</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-18T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">(노트) 판다스 - tidydata, (bar+facet+coord), employee Example</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-18T00:00:00-05:00" itemprop="datePublished">
         Oct 18, 2021
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -94,7 +94,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      7 min read
+      6 min read
     
 </span></p>
 
@@ -133,16 +133,20 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#imports">imports </a></li>
 <li class="toc-entry toc-h3"><a href="#weapons">weapons </a>
 <ul>
 <li class="toc-entry toc-h4"><a href="#tidying-(wide-$\to$-long)">tidying (wide $\to$ long) </a></li>
 <li class="toc-entry toc-h4"><a href="#untidying-(long-$\to$-wide)">untidying (long $\to$ wide) </a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h3"><a href="#Examples">Examples </a>
+<li class="toc-entry toc-h3"><a href="#예제1:-state_fruit">예제1: state_fruit </a>
 <ul>
-<li class="toc-entry toc-h4"><a href="#예제:-state_fruit">예제: state_fruit </a></li>
-<li class="toc-entry toc-h4"><a href="#예제:-state_fruit2">예제: state_fruit2 </a></li>
+<li class="toc-entry toc-h4"><a href="#풀이1:-stack-+-reset_index">풀이1: stack + reset_index </a></li>
+<li class="toc-entry toc-h4"><a href="#풀이2:-stack-+-rename_axis-+-reset_index">풀이2: stack + rename_axis + reset_index </a></li>
+<li class="toc-entry toc-h4"><a href="#풀이3:-melt(id_var=[??])">풀이3: melt(id_var=[??]) </a></li>
+<li class="toc-entry toc-h4"><a href="#풀이4:-틀린풀이">풀이4: 틀린풀이 </a></li>
+<li class="toc-entry toc-h4"><a href="#풀이5:-set_index-+-stack-+-reset_index">풀이5: set_index + stack + reset_index </a></li>
 </ul>
 </li>
 </ul><!--
@@ -154,6 +158,35 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="imports">
+<a class="anchor" href="#imports" aria-hidden="true"><span class="octicon octicon-link"></span></a>imports<a class="anchor-link" href="#imports"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">plotnine</span> <span class="kn">import</span> <span class="o">*</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -186,26 +219,9 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Examples">
-<a class="anchor" href="#Examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples<a class="anchor-link" href="#Examples"> </a>
+<h3 id="예제1:-state_fruit">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C1:-state_fruit" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제1: state_fruit<a class="anchor-link" href="#%EC%98%88%EC%A0%9C1:-state_fruit"> </a>
 </h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="예제:-state_fruit">
-<a class="anchor" href="#%EC%98%88%EC%A0%9C:-state_fruit" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제: state_fruit<a class="anchor-link" href="#%EC%98%88%EC%A0%9C:-state_fruit"> </a>
-</h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>(문제)</p>
-
 </div>
 </div>
 </div>
@@ -233,8 +249,8 @@ window.onload = wrap_img;
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">'https://raw.githubusercontent.com/PacktPublishing/Pandas-Cookbook-Second-Edition/master/data/state_fruit.csv'</span>
-<span class="n">state_fruit</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
-<span class="n">state_fruit</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+<span class="n">df</span>
 </pre></div>
 
     </div>
@@ -306,8 +322,9 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>(풀이1)</p>
-
+<h4 id="풀이1:-stack-+-reset_index">
+<a class="anchor" href="#%ED%92%80%EC%9D%B41:-stack-+-reset_index" aria-hidden="true"><span class="octicon octicon-link"></span></a>풀이1: stack + reset_index<a class="anchor-link" href="#%ED%92%80%EC%9D%B41:-stack-+-reset_index"> </a>
+</h4>
 </div>
 </div>
 </div>
@@ -318,7 +335,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -360,7 +377,7 @@ dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -472,234 +489,7 @@ dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_tidy</span><span class="o">=</span><span class="n">state_fruit</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="n">_tidy</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>level_0</th>
-      <th>level_1</th>
-      <th>0</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Texas</td>
-      <td>Apple</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Texas</td>
-      <td>Orange</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Texas</td>
-      <td>Banana</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Arizona</td>
-      <td>Apple</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Arizona</td>
-      <td>Orange</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Arizona</td>
-      <td>Banana</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Florida</td>
-      <td>Apple</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Florida</td>
-      <td>Orange</td>
-      <td>14</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Florida</td>
-      <td>Banana</td>
-      <td>190</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_tidy</span><span class="o">=</span><span class="n">_tidy</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'level_0'</span><span class="p">:</span><span class="s1">'G1'</span><span class="p">,</span><span class="s1">'level_1'</span><span class="p">:</span><span class="s1">'G2'</span><span class="p">})</span>
-<span class="n">_tidy</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>G1</th>
-      <th>G2</th>
-      <th>0</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Texas</td>
-      <td>Apple</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Texas</td>
-      <td>Orange</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Texas</td>
-      <td>Banana</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Arizona</td>
-      <td>Apple</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Arizona</td>
-      <td>Orange</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Arizona</td>
-      <td>Banana</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Florida</td>
-      <td>Apple</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Florida</td>
-      <td>Orange</td>
-      <td>14</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Florida</td>
-      <td>Banana</td>
-      <td>190</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_tidy</span><span class="o">=</span><span class="n">_tidy</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">'X1'</span><span class="p">})</span>
-<span class="n">_tidy</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'level_0'</span><span class="p">:</span><span class="s1">'G1'</span><span class="p">,</span><span class="s1">'level_1'</span><span class="p">:</span><span class="s1">'G2'</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="s1">'X1'</span><span class="p">})</span>
 </pre></div>
 
     </div>
@@ -807,7 +597,7 @@ dtype: int64</pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>(풀이2)</p>
+<p><code>-</code> 이름을 바꾸는 또다른 방법</p>
 
 </div>
 </div>
@@ -819,7 +609,7 @@ dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_tidy</span><span class="o">=</span> <span class="n">state_fruit</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_tidy</span><span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="n">_tidy</span>
 </pre></div>
 
@@ -1123,17 +913,7 @@ dtype: int64</pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>풀이1은 하나씩 생각나는대로 이름을 바꿔주면 되는 반면 풀이2는 한번에 모든 이름을 바꿔야한다. </li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>(틀린풀이) 열이름을 변경할때 df.columns.values를 이용하여 억지로 바꾸면 문제가 생긴다.</p>
+<p><code>-</code> 이름을 바꾸는 잘못된 방법: 열이름을 변경할때 df.columns.values를 이용하여 억지로 바꾸면 문제가 생긴다.</p>
 
 </div>
 </div>
@@ -1145,7 +925,7 @@ dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_tidy</span><span class="o">=</span> <span class="n">state_fruit</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_tidy</span><span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="n">_tidy</span>
 </pre></div>
 
@@ -1359,7 +1139,7 @@ dtype: int64</pre>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">_tidy</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s1">'G1'</span>
 <span class="n">_tidy</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s1">'G2'</span>
-<span class="n">_tidy</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="s1">'G3'</span>
+<span class="n">_tidy</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="s1">'X3'</span>
 </pre></div>
 
     </div>
@@ -1391,119 +1171,7 @@ dtype: int64</pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>Index(['G1', 'G2', 'G3'], dtype='object')</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_tidy</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>G1</th>
-      <th>G2</th>
-      <th>G3</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Texas</td>
-      <td>Apple</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Texas</td>
-      <td>Orange</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Texas</td>
-      <td>Banana</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Arizona</td>
-      <td>Apple</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Arizona</td>
-      <td>Orange</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Arizona</td>
-      <td>Banana</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Florida</td>
-      <td>Apple</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Florida</td>
-      <td>Orange</td>
-      <td>14</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Florida</td>
-      <td>Banana</td>
-      <td>190</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+<pre>Index(['G1', 'G2', 'X3'], dtype='object')</pre>
 </div>
 
 </div>
@@ -1518,7 +1186,7 @@ dtype: int64</pre>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>얼핏보면 맞아보이는데 key로 인덱싱이 안된다. (한마디로 위의 데이터프레임은 깨져있다.) </li>
+<li>얼핏보면 잘 바뀐듯 보이는데 key로 인덱싱이 안된다. (한마디로 위의 데이터프레임은 깨져있다.) </li>
 </ul>
 
 </div>
@@ -1573,7 +1241,7 @@ dtype: int64</pre>
 The above exception was the direct cause of the following exception:
 
 <span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
-<span class="ansi-green-fg">/tmp/ipykernel_342844/1666046328.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">&lt;ipython-input-18-51ac375fb8aa&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>_tidy<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">'G1'</span><span class="ansi-blue-fg">]</span>
 
 <span class="ansi-green-fg">~/anaconda3/envs/py38r40/lib/python3.8/site-packages/pandas/core/frame.py</span> in <span class="ansi-cyan-fg">__getitem__</span><span class="ansi-blue-fg">(self, key)</span>
@@ -1603,8 +1271,9 @@ The above exception was the direct cause of the following exception:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>(풀이3)</p>
-
+<h4 id="풀이2:-stack-+-rename_axis-+-reset_index">
+<a class="anchor" href="#%ED%92%80%EC%9D%B42:-stack-+-rename_axis-+-reset_index" aria-hidden="true"><span class="octicon octicon-link"></span></a>풀이2: stack + rename_axis + reset_index<a class="anchor-link" href="#%ED%92%80%EC%9D%B42:-stack-+-rename_axis-+-reset_index"> </a>
+</h4>
 </div>
 </div>
 </div>
@@ -1615,8 +1284,7 @@ The above exception was the direct cause of the following exception:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_tidy</span><span class="o">=</span> <span class="n">state_fruit</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
-<span class="n">_tidy</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -1658,8 +1326,7 @@ dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_tidy</span><span class="o">=</span><span class="n">_tidy</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">([</span><span class="s1">'G1'</span><span class="p">,</span><span class="s1">'G2'</span><span class="p">])</span>
-<span class="n">_tidy</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">([</span><span class="s1">'G1'</span><span class="p">,</span><span class="s1">'G2'</span><span class="p">])</span> 
 </pre></div>
 
     </div>
@@ -1702,7 +1369,7 @@ dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_tidy</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">([</span><span class="s1">'G1'</span><span class="p">,</span><span class="s1">'G2'</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -1814,7 +1481,7 @@ dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_tidy</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">'X1'</span><span class="p">})</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">([</span><span class="s1">'G1'</span><span class="p">,</span><span class="s1">'G2'</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">'X1'</span><span class="p">})</span>
 </pre></div>
 
     </div>
@@ -1922,212 +1589,16 @@ dtype: int64</pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>(풀이4)</p>
-
+<h4 id="풀이3:-melt(id_var=[??])">
+<a class="anchor" href="#%ED%92%80%EC%9D%B43:-melt(id_var=%5B??%5D)" aria-hidden="true"><span class="octicon octicon-link"></span></a>풀이3: melt(id_var=[??])<a class="anchor-link" href="#%ED%92%80%EC%9D%B43:-melt(id_var=%5B??%5D)"> </a>
+</h4>
 </div>
 </div>
 </div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Texas    Apple      12
-         Orange     10
-         Banana     40
-Arizona  Apple       9
-         Orange      7
-         Banana     12
-Florida  Apple       0
-         Orange     14
-         Banana    190
-dtype: int64</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">([</span><span class="s1">'G1'</span><span class="p">,</span><span class="s1">'G2'</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>G1       G2    
-Texas    Apple      12
-         Orange     10
-         Banana     40
-Arizona  Apple       9
-         Orange      7
-         Banana     12
-Florida  Apple       0
-         Orange     14
-         Banana    190
-dtype: int64</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">([</span><span class="s1">'G1'</span><span class="p">,</span><span class="s1">'G2'</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'X1'</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>G1</th>
-      <th>G2</th>
-      <th>X1</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Texas</td>
-      <td>Apple</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Texas</td>
-      <td>Orange</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Texas</td>
-      <td>Banana</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Arizona</td>
-      <td>Apple</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Arizona</td>
-      <td>Orange</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Arizona</td>
-      <td>Banana</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Florida</td>
-      <td>Apple</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Florida</td>
-      <td>Orange</td>
-      <td>14</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Florida</td>
-      <td>Banana</td>
-      <td>190</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>(풀이5) 데이터를 불러올때 아예 좌측상단이 채워졌다고 생각하고 불러오자. 즉 <code>index=0</code>을 사용하지 말자.</p>
+<p><code>-</code> <code>index=0</code>을 사용하지 않고 데이터를 불러왔을 경우</p>
 
 </div>
 </div>
@@ -2139,9 +1610,8 @@ dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">'https://raw.githubusercontent.com/PacktPublishing/Pandas-Cookbook-Second-Edition/master/data/state_fruit.csv'</span>
-<span class="n">state_fruit</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>  <span class="c1">#state_fruit = pd.read_csv(url,index_col=0) </span>
-<span class="n">state_fruit</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>  <span class="c1">#state_fruit = pd.read_csv(url,index_col=0) </span>
+<span class="n">df2</span>
 </pre></div>
 
     </div>
@@ -2221,41 +1691,7 @@ dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array(['Unnamed: 0', 'Apple', 'Orange', 'Banana'], dtype=object)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit</span><span class="o">=</span><span class="n">state_fruit</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'Unnamed: 0'</span><span class="p">:</span><span class="s1">'G1'</span><span class="p">})</span>
-<span class="n">state_fruit</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'Unnamed: 0'</span><span class="p">:</span><span class="s1">'G1'</span><span class="p">})</span>
 </pre></div>
 
     </div>
@@ -2335,8 +1771,7 @@ dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit</span><span class="o">=</span><span class="n">state_fruit</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'G1'</span><span class="p">])</span>
-<span class="n">state_fruit</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'Unnamed: 0'</span><span class="p">:</span><span class="s1">'G1'</span><span class="p">})</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'G1'</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -2448,78 +1883,7 @@ dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'variable'</span><span class="p">:</span><span class="s1">'G2'</span><span class="p">,</span><span class="s1">'value'</span><span class="p">:</span><span class="s1">'X1'</span><span class="p">})</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">/tmp/ipykernel_2973515/147226618.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>state_fruit<span class="ansi-blue-fg">.</span>rename<span class="ansi-blue-fg">(</span>columns<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">'variable'</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">'G2'</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">'value'</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">'X1'</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">NameError</span>: name 'state_fruit' is not defined</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="예제:-state_fruit2">
-<a class="anchor" href="#%EC%98%88%EC%A0%9C:-state_fruit2" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제: state_fruit2<a class="anchor-link" href="#%EC%98%88%EC%A0%9C:-state_fruit2"> </a>
-</h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>(문제)</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="https://github.com/PacktPublishing/Pandas-Cookbook-Second-Edition/blob/master/data/state_fruit2.csv">https://github.com/PacktPublishing/Pandas-Cookbook-Second-Edition/blob/master/data/state_fruit2.csv</a></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> 문제의 깃헙주소로 들어가서 데이터를 관찰 $\to$ 좌측상단이 'State'로 채워져있음 $\to$ 데이터를 읽을때 <code>index_col=0</code> 옵션을 사용하지 않음.</p>
-
-</div>
-</div>
-</div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s1">'https://raw.githubusercontent.com/PacktPublishing/Pandas-Cookbook-Second-Edition/master/data/state_fruit2.csv'</span>
-<span class="n">state_fruit2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="c1"># 문제의 주소로 들어가서 데이터를 살펴보자 -&gt; 좌측상단이 채워짐 -&gt; index_col=0 으로 불러오지 않음. </span>
-<span class="n">state_fruit2</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'Unnamed: 0'</span><span class="p">:</span><span class="s1">'G1'</span><span class="p">})</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'G1'</span><span class="p">])</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'variable'</span><span class="p">:</span><span class="s1">'G2'</span><span class="p">,</span><span class="s1">'value'</span><span class="p">:</span><span class="s1">'X1'</span><span class="p">})</span>
 </pre></div>
 
     </div>
@@ -2551,225 +1915,9 @@ dtype: int64</pre>
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>State</th>
-      <th>Apple</th>
-      <th>Orange</th>
-      <th>Banana</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Texas</td>
-      <td>12</td>
-      <td>10</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Arizona</td>
-      <td>9</td>
-      <td>7</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Florida</td>
-      <td>0</td>
-      <td>14</td>
-      <td>190</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>index1: <code>{State: [Texas, Arizona, Florida]}</code> = row</li>
-<li>index2: <code>{??? :[Apple, Orange, Banana]}</code> = col</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>(풀이1)</p>
-
-</div>
-</div>
-</div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit2</span><span class="o">.</span><span class="n">melt</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>variable</th>
-      <th>value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>State</td>
-      <td>Texas</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>State</td>
-      <td>Arizona</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>State</td>
-      <td>Florida</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Apple</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Apple</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Apple</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Orange</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Orange</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Orange</td>
-      <td>14</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>Banana</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>Banana</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>Banana</td>
-      <td>190</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit2</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'State'</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>State</th>
-      <th>variable</th>
-      <th>value</th>
+      <th>G1</th>
+      <th>G2</th>
+      <th>X1</th>
     </tr>
   </thead>
   <tbody>
@@ -2808,359 +1956,6 @@ dtype: int64</pre>
       <td>Florida</td>
       <td>Orange</td>
       <td>14</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Texas</td>
-      <td>Banana</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Arizona</td>
-      <td>Banana</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Florida</td>
-      <td>Banana</td>
-      <td>190</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">-</span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit2</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'State'</span><span class="p">],</span><span class="n">var_name</span><span class="o">=</span><span class="s1">'Fruit'</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>State</th>
-      <th>Fruit</th>
-      <th>value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Texas</td>
-      <td>Apple</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Arizona</td>
-      <td>Apple</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Florida</td>
-      <td>Apple</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Texas</td>
-      <td>Orange</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Arizona</td>
-      <td>Orange</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Florida</td>
-      <td>Orange</td>
-      <td>14</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Texas</td>
-      <td>Banana</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Arizona</td>
-      <td>Banana</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Florida</td>
-      <td>Banana</td>
-      <td>190</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit2</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'State'</span><span class="p">],</span><span class="n">var_name</span><span class="o">=</span><span class="s1">'Fruit'</span><span class="p">,</span><span class="n">value_name</span><span class="o">=</span><span class="s1">'Weight'</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>State</th>
-      <th>Fruit</th>
-      <th>Weight</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Texas</td>
-      <td>Apple</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Arizona</td>
-      <td>Apple</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Florida</td>
-      <td>Apple</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Texas</td>
-      <td>Orange</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Arizona</td>
-      <td>Orange</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Florida</td>
-      <td>Orange</td>
-      <td>14</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>Texas</td>
-      <td>Banana</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Arizona</td>
-      <td>Banana</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Florida</td>
-      <td>Banana</td>
-      <td>190</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_fruit2</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'State'</span><span class="p">],</span><span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'Orange'</span><span class="p">,</span><span class="s1">'Apple'</span><span class="p">,</span><span class="s1">'Banana'</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>State</th>
-      <th>variable</th>
-      <th>value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Texas</td>
-      <td>Orange</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Arizona</td>
-      <td>Orange</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Florida</td>
-      <td>Orange</td>
-      <td>14</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Texas</td>
-      <td>Apple</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Arizona</td>
-      <td>Apple</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Florida</td>
-      <td>Apple</td>
-      <td>0</td>
     </tr>
     <tr>
       <th>6</th>
@@ -3204,10 +1999,9 @@ dtype: int64</pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>*</code> Step1: [State, Apple, Orange, Banana] 중 하나의 변수를 선택하여 index1로 설정한다.</p>
+<p><code>*</code> Step1: [Unnamed: 0, Apple, Orange, Banana] 중 하나의 변수를 선택하여 index로 설정한다.</p>
 <ul>
-<li>요령1: [State, Apple, Orange, Banana] 중에서 숫자를 값으로 가지는 변수명은 제외한다. $\to$ 여기에서 Apple, Orange, Banana가 제외됨. </li>
-<li>요령2: 여기서 선택되는 변수가 <code>G1</code>자리에 들어온다. <code>G1</code>자리에 어울릴만한 변수를 선택. </li>
+<li>요령: [Unnamed: 0, Apple, Orange, Banana] 중에서 숫자를 값으로 가지는 변수명은 제외한다. $\to$ 여기에서 Apple, Orange, Banana가 제외됨. </li>
 </ul>
 
 </div>
@@ -3216,19 +2010,724 @@ dtype: int64</pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>*</code> Step2: melt()사용. 필수옵션은 <code>id_vars</code>, <code>var_name</code>.</p>
+<p><code>*</code> Step2: melt()사용. 필수옵션은 <code>id_vars=['Unnamed: 0']</code></p>
 <ul>
 <li>
 <code>id_vars</code>: Step1에서 선택한 변수이름, 즉 State. <code>G1</code>에 해당하는 변수명. </li>
-<li>
-<code>var_name</code>: Step1에서 선택한 변수를 제외한 나머지 변수명(즉 [Apple, Orange, Banana])을 통합할 만한 변수이름을 '새롭게 정의함'. 이름이 잘 생각안나면 그냥 <code>G2</code>로 정하자. </li>
-<li>
-<code>value_name</code>: 설정안해도 무방. <code>X1</code>자리의 이름임. <code>X1</code>에 적당한 이름을 주면 된다. </li>
 </ul>
+<p><code>*</code> Step3: 나머지 변수를 적당히 이름붙인다.</p>
 
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="풀이4:-틀린풀이">
+<a class="anchor" href="#%ED%92%80%EC%9D%B44:-%ED%8B%80%EB%A6%B0%ED%92%80%EC%9D%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>풀이4: 틀린풀이<a class="anchor-link" href="#%ED%92%80%EC%9D%B44:-%ED%8B%80%EB%A6%B0%ED%92%80%EC%9D%B4"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>Apple</th>
+      <th>Orange</th>
+      <th>Banana</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Texas</td>
+      <td>12</td>
+      <td>10</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Arizona</td>
+      <td>9</td>
+      <td>7</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Florida</td>
+      <td>0</td>
+      <td>14</td>
+      <td>190</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0  Unnamed: 0      Texas
+   Apple              12
+   Orange             10
+   Banana             40
+1  Unnamed: 0    Arizona
+   Apple               9
+   Orange              7
+   Banana             12
+2  Unnamed: 0    Florida
+   Apple               0
+   Orange             14
+   Banana            190
+dtype: object</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 여기서 어떻게 하죠?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 다루기 까다로워짐. 즉 망한것임</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="풀이5:-set_index-+-stack-+-reset_index">
+<a class="anchor" href="#%ED%92%80%EC%9D%B45:-set_index-+-stack-+-reset_index" aria-hidden="true"><span class="octicon octicon-link"></span></a>풀이5: set_index + stack + reset_index<a class="anchor-link" href="#%ED%92%80%EC%9D%B45:-set_index-+-stack-+-reset_index"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> df에서는 stack을 쓸 수 있지만 df2에서는 stack을 쓰기 까다롭다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> df, df2의 차이점이 무엇인가?</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Apple</th>
+      <th>Orange</th>
+      <th>Banana</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Texas</th>
+      <td>12</td>
+      <td>10</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>Arizona</th>
+      <td>9</td>
+      <td>7</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>Florida</th>
+      <td>0</td>
+      <td>14</td>
+      <td>190</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>Apple</th>
+      <th>Orange</th>
+      <th>Banana</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Texas</td>
+      <td>12</td>
+      <td>10</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Arizona</td>
+      <td>9</td>
+      <td>7</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Florida</td>
+      <td>0</td>
+      <td>14</td>
+      <td>190</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df2</span><span class="o">.</span><span class="n">index</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(Index(['Texas', 'Arizona', 'Florida'], dtype='object'),
+ RangeIndex(start=0, stop=3, step=1))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 즉 인덱스의 차이</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> df2에서도 df1과 같이 인덱스를 만들어주면 stack을 쓸 수 있다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'Unnamed: 0'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Apple</th>
+      <th>Orange</th>
+      <th>Banana</th>
+    </tr>
+    <tr>
+      <th>Unnamed: 0</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Texas</th>
+      <td>12</td>
+      <td>10</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>Arizona</th>
+      <td>9</td>
+      <td>7</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>Florida</th>
+      <td>0</td>
+      <td>14</td>
+      <td>190</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'Unnamed: 0'</span><span class="p">)</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Unnamed: 0        
+Texas       Apple      12
+            Orange     10
+            Banana     40
+Arizona     Apple       9
+            Orange      7
+            Banana     12
+Florida     Apple       0
+            Orange     14
+            Banana    190
+dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'Unnamed: 0'</span><span class="p">)</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>level_1</th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Texas</td>
+      <td>Apple</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Texas</td>
+      <td>Orange</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Texas</td>
+      <td>Banana</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Arizona</td>
+      <td>Apple</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Arizona</td>
+      <td>Orange</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Arizona</td>
+      <td>Banana</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Florida</td>
+      <td>Apple</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Florida</td>
+      <td>Orange</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Florida</td>
+      <td>Banana</td>
+      <td>190</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'Unnamed: 0'</span><span class="p">)</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'Unnamed: 0'</span><span class="p">:</span><span class="s1">'G1'</span><span class="p">,</span><span class="s1">'level_1'</span><span class="p">:</span><span class="s1">'G2'</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="s1">'X1'</span><span class="p">})</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>G1</th>
+      <th>G2</th>
+      <th>X1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Texas</td>
+      <td>Apple</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Texas</td>
+      <td>Orange</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Texas</td>
+      <td>Banana</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Arizona</td>
+      <td>Apple</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Arizona</td>
+      <td>Orange</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Arizona</td>
+      <td>Banana</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Florida</td>
+      <td>Apple</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Florida</td>
+      <td>Orange</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Florida</td>
+      <td>Banana</td>
+      <td>190</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
 </div>
 
 
