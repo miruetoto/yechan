@@ -115,7 +115,7 @@ class SpectralAnalysis:
         _drootinv=np.zeros_like(self.degree)
         _drootinv[self.degree>0]= 1/np.sqrt(self.degree[self.degree>0])
         self.Lz=np.diag(_drootinv)@(self.L)@np.diag(_drootinv)
-        self.Psi= None #
+        self.Psi= None 
         self.lamb= None
         self.Lamb= None
         self.fbar= None
