@@ -9,7 +9,7 @@
 # not_installed_packages <- pkgs[ (  pkgs %in% installed.packages()[,1]  ) == 0]
 # install.packages(not_installed_packages,repos="https://cran.rstudio.com/")
 # for(i in pkgs) library(i,character.only = T)
-
+library(tidyverse)
 library(kohonen)
 library(dplyr)
 library(ggplot2)
