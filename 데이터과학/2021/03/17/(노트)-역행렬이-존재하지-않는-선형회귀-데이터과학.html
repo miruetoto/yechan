@@ -1,0 +1,2540 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>(노트) 역행렬이 존재하지 않는 선형회귀 | 신록예찬’s 블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="(노트) 역행렬이 존재하지 않는 선형회귀" />
+<meta name="author" content="신록예찬" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://miruetoto.github.io/yechan/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99/2021/03/17/(%EB%85%B8%ED%8A%B8)-%EC%97%AD%ED%96%89%EB%A0%AC%EC%9D%B4-%EC%A1%B4%EC%9E%AC%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99.html" />
+<meta property="og:url" content="https://miruetoto.github.io/yechan/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99/2021/03/17/(%EB%85%B8%ED%8A%B8)-%EC%97%AD%ED%96%89%EB%A0%AC%EC%9D%B4-%EC%A1%B4%EC%9E%AC%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99.html" />
+<meta property="og:site_name" content="신록예찬’s 블로그" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-17T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://miruetoto.github.io/yechan/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99/2021/03/17/(%EB%85%B8%ED%8A%B8)-%EC%97%AD%ED%96%89%EB%A0%AC%EC%9D%B4-%EC%A1%B4%EC%9E%AC%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99.html","@type":"BlogPosting","headline":"(노트) 역행렬이 존재하지 않는 선형회귀","dateModified":"2021-03-17T00:00:00-05:00","datePublished":"2021-03-17T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99/2021/03/17/(%EB%85%B8%ED%8A%B8)-%EC%97%AD%ED%96%89%EB%A0%AC%EC%9D%B4-%EC%A1%B4%EC%9E%AC%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99.html"},"author":{"@type":"Person","name":"신록예찬"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬's 블로그" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/yechan/">신록예찬&#39;s 블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/yechan/about/">About Me</a><a class="page-link" href="/yechan/search/">Search</a><a class="page-link" href="/yechan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">(노트) 역행렬이 존재하지 않는 선형회귀</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-03-17T00:00:00-05:00" itemprop="datePublished">
+        Mar 17, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">신록예찬</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      9 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/yechan/categories/#데이터과학">데이터과학</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/miruetoto/yechan/tree/master/_notebooks/2021-03-17-(노트) 역행렬이 존재하지 않는 선형회귀 [데이터과학].ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/yechan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/miruetoto/yechan/master?filepath=_notebooks%2F2021-03-17-%28%EB%85%B8%ED%8A%B8%29+%EC%97%AD%ED%96%89%EB%A0%AC%EC%9D%B4+%EC%A1%B4%EC%9E%AC%ED%95%98%EC%A7%80+%EC%95%8A%EB%8A%94+%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80+%5B%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99%5D.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/miruetoto/yechan/blob/master/_notebooks/2021-03-17-(노트) 역행렬이 존재하지 않는 선형회귀 [데이터과학].ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#About-this-doc">About this doc </a></li>
+<li class="toc-entry toc-h3"><a href="#Introduction">Introduction </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#수학과-학생의-답변">수학과 학생의 답변 </a></li>
+<li class="toc-entry toc-h4"><a href="#통계학과-학생의-답변">통계학과 학생의 답변 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#예제1:-연봉-~-토익+학점+텝스">예제1: 연봉 ~ 토익+학점+텝스 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#왜-이런일이-일어나는가?">왜 이런일이 일어나는가? </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#역행렬이-없을-경우-문제해결법">역행렬이 없을 경우 문제해결법 </a></li>
+<li class="toc-entry toc-h3"><a href="#역행렬-비슷한것을-구하는-방법1">역행렬 비슷한것을 구하는 방법1 </a></li>
+<li class="toc-entry toc-h3"><a href="#역행렬-비슷한-것을-구하는-방법2">역행렬 비슷한 것을 구하는 방법2 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#선형대수학복습">선형대수학복습 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#요약-($\star\star\star$)">요약 ($\star\star\star$) </a></li>
+<li class="toc-entry toc-h3"><a href="#Appendix-A.">Appendix A. </a></li>
+<li class="toc-entry toc-h3"><a href="#Appendix-B.">Appendix B. </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-03-17-(노트) 역행렬이 존재하지 않는 선형회귀 [데이터과학].ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="About-this-doc">
+<a class="anchor" href="#About-this-doc" aria-hidden="true"><span class="octicon octicon-link"></span></a>About this doc<a class="anchor-link" href="#About-this-doc"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 2021년 1학기 전북대학교 데이터과학 강의노트</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Introduction">
+<a class="anchor" href="#Introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction<a class="anchor-link" href="#Introduction"> </a>
+</h3>
+<p><code>-</code> 질문: 언제 $\big(\bf X^\top X\big)^{-1}$가 존재하지 않는가?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="수학과-학생의-답변">
+<a class="anchor" href="#%EC%88%98%ED%95%99%EA%B3%BC-%ED%95%99%EC%83%9D%EC%9D%98-%EB%8B%B5%EB%B3%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>수학과 학생의 답변<a class="anchor-link" href="#%EC%88%98%ED%95%99%EA%B3%BC-%ED%95%99%EC%83%9D%EC%9D%98-%EB%8B%B5%EB%B3%80"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>일반적인 정사각행렬 ${\bf A}$를 생각하자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>${\bf A}$의 역행렬이 존재할 조건은 $\bf A$가 full-rank matrix일 경우이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\bf A$의 rank는 일차독립인 열 (혹은 행) 의 수이다.</p>
+<p>문제의 경우 관심있는 행렬 $\bf A$는 $\bf X^\top X$이다.</p>
+<p>$\bf X^\top X$는 $p \times p$ matrix이므로, $\bf X^\top X$의 rank가 $p$보다 작은 경우에 역행렬이 존재하지 않는다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>즉 $rank\big({\bf X}^\top {\bf X} \big)&lt; p$ 일때 역행렬이 존재하지 않음.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="통계학과-학생의-답변">
+<a class="anchor" href="#%ED%86%B5%EA%B3%84%ED%95%99%EA%B3%BC-%ED%95%99%EC%83%9D%EC%9D%98-%EB%8B%B5%EB%B3%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>통계학과 학생의 답변<a class="anchor-link" href="#%ED%86%B5%EA%B3%84%ED%95%99%EA%B3%BC-%ED%95%99%EC%83%9D%EC%9D%98-%EB%8B%B5%EB%B3%80"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> <strong>[경우1]</strong> 너무 적은 자료</p>
+<p>$\bf X$의 차원이 $n\times p$일 때, $n&lt;p$ 이면 $\bf X^\top X$의 역행렬이 존재하지 않는다. 즉 설명변수의 수가 관측치의 수보다 적으면 역행렬이 존재하지 않는다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(왜?)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\bf X$의 랭크는 아무리 커봐야 $n$이다. $\bf X^\top$의 랭크도 아무리 커봐야 $n$이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>따라서 $\bf X^\top X$의 랭크도 아무리 커봐야 $n$이다. (아래의 노트 참고) 
+</p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+    <strong>Note: </strong>$rank({\bf A B})\leq \min\Big(rank({\bf A}), rank({\bf B})\Big)$ 
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$n&lt;p$ 이므로, $rank({\bf X^\top X})\leq n &lt;p$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>따라서 역행렬이 없다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> <strong>[경우2]</strong> 다중공선성</p>
+<p>$n &gt; p$ 이더라도, 다중공선성이 있는 경우에는 역행렬이 없다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>다중공선성:</p>
+<ul>
+<li>설명변수간의 일차독립성이 보장되지 않는 경우. </li>
+<li>$p-1$개의 설명변수를 알고 있다면, 나머지 1개의 설명변수는 항상 $p-1$개의 설명변수의 선형조합으로 만들어 낼 수 있다 $\to$ 이 경우 $rank({\bf X'X})=p-1$</li>
+<li>즉 불필요한 설명변수가 있음을 의미함. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="예제1:-연봉-~-토익+학점+텝스">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C1:-%EC%97%B0%EB%B4%89-~-%ED%86%A0%EC%9D%B5+%ED%95%99%EC%A0%90+%ED%85%9D%EC%8A%A4" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제1: 연봉 ~ 토익+학점+텝스<a class="anchor-link" href="#%EC%98%88%EC%A0%9C1:-%EC%97%B0%EB%B4%89-~-%ED%86%A0%EC%9D%B5+%ED%95%99%EC%A0%90+%ED%85%9D%EC%8A%A4"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 직관: 사실상 토익점수만 있으면 텝스는 불필요한 변수 아닌가?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 데이터만들기</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2</span>
+<span class="o">%</span><span class="k">load_ext</span> rpy2.ipython
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The rpy2.ipython extension is already loaded. To reload it, use:
+  %reload_ext rpy2.ipython
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">R</span> 
+<span class="n">n</span><span class="o">&lt;-</span><span class="m">20</span>
+<span class="n">toeic</span><span class="o">&lt;-</span><span class="m">750</span><span class="o">+</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">sd</span><span class="o">=</span><span class="m">80</span><span class="p">)</span>
+<span class="n">toeic</span><span class="p">[</span><span class="n">toeic</span><span class="o">&gt;</span><span class="m">990</span><span class="p">]</span><span class="o">&lt;-</span><span class="m">990</span>
+<span class="n">toeic</span><span class="o">&lt;-</span><span class="nf">round</span><span class="p">(</span><span class="n">toeic</span><span class="p">)</span>
+<span class="n">teps</span><span class="o">&lt;-</span><span class="n">toeic</span> <span class="o">-</span> <span class="m">10</span>
+<span class="n">gpa</span><span class="o">&lt;-</span><span class="m">3.5</span><span class="o">+</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">sd</span><span class="o">=</span><span class="m">0.3</span><span class="p">)</span>
+<span class="n">gpa</span><span class="p">[</span><span class="n">gpa</span><span class="o">&gt;</span><span class="m">4.5</span><span class="p">]</span><span class="o">&lt;-</span><span class="m">4.5</span> 
+<span class="n">gpa</span><span class="o">&lt;-</span><span class="nf">round</span><span class="p">(</span><span class="n">gpa</span><span class="p">,</span><span class="m">1</span><span class="p">)</span>
+<span class="n">sal</span><span class="o">&lt;-</span><span class="n">gpa</span><span class="o">*</span><span class="m">600</span><span class="o">+</span><span class="n">toeic</span><span class="o">*</span><span class="m">5</span><span class="o">+</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">sd</span><span class="o">=</span><span class="m">300</span><span class="p">)</span>
+<span class="n">sal</span><span class="o">&lt;-</span><span class="nf">round</span><span class="p">(</span><span class="n">sal</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>given: (<code>sal</code>,<code>toeic</code>,<code>gpa</code>,<code>teps</code>)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 회귀분석을 해보자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">R</span> 
+<span class="nf">lm</span><span class="p">(</span><span class="n">sal</span><span class="o">~</span><span class="n">gpa</span><span class="o">+</span><span class="n">toeic</span><span class="o">+</span><span class="n">teps</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Call:
+lm(formula = sal ~ gpa + toeic + teps)
+
+Coefficients:
+(Intercept)          gpa        toeic         teps  
+    321.301      629.597        4.476           NA  
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-&gt; <code>NA</code>발생</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 역행렬을 구해보자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">R</span> 
+<span class="n">X</span><span class="o">&lt;-</span> <span class="nf">cbind</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="n">gpa</span><span class="p">,</span><span class="n">toeic</span><span class="p">,</span><span class="n">teps</span><span class="p">)</span>
+<span class="nf">solve</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">%*%</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>R[write to console]: Error in solve.default(t(X) %*% X) : 
+  system is computationally singular: reciprocal condition number = 2.66121e-21
+
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Error in solve.default(t(X) %*% X) : 
+  system is computationally singular: reciprocal condition number = 2.66121e-21
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-&gt; 역행렬 구하기 실패</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> <code>det</code>을 이용하여 디터미넌트를 구해보자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">R</span> 
+<span class="nf">det</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">%*%</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] 4.274158e-05
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-&gt; 거의 0 이라고 봐야함.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="왜-이런일이-일어나는가?">
+<a class="anchor" href="#%EC%99%9C-%EC%9D%B4%EB%9F%B0%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%98%EB%8A%94%EA%B0%80?" aria-hidden="true"><span class="octicon octicon-link"></span></a>왜 이런일이 일어나는가?<a class="anchor-link" href="#%EC%99%9C-%EC%9D%B4%EB%9F%B0%EC%9D%BC%EC%9D%B4-%EC%9D%BC%EC%96%B4%EB%82%98%EB%8A%94%EA%B0%80?"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>토익점수와 텝스점수가 선형적으로 종속되어 있기 때문이다. (수학적설명)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>우리는 이미 참모형에서 <code>토익점수-100=텝스점수</code>의 관계가 성립함을 알고 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>다시말하면, 토익점수만 알면 텝스점수는 반드시 알아낼 수 있다. (다중공선성)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>즉 토익점수 혹은 텝스점수중 하나는 <code>필요없는 설명변수</code>이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="역행렬이-없을-경우-문제해결법">
+<a class="anchor" href="#%EC%97%AD%ED%96%89%EB%A0%AC%EC%9D%B4-%EC%97%86%EC%9D%84-%EA%B2%BD%EC%9A%B0-%EB%AC%B8%EC%A0%9C%ED%95%B4%EA%B2%B0%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>역행렬이 없을 경우 문제해결법<a class="anchor-link" href="#%EC%97%AD%ED%96%89%EB%A0%AC%EC%9D%B4-%EC%97%86%EC%9D%84-%EA%B2%BD%EC%9A%B0-%EB%AC%B8%EC%A0%9C%ED%95%B4%EA%B2%B0%EB%B2%95"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 문제:  $\bf X^\top X$의 역형렬을 구할 수 없어서 모델을 학습하지 못하는 문제를 어떻게 해결할 것인가?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 아이디어: 역행렬을 구할순 없지만, 역행렬 비슷한것을 구해서 해결한다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 이러한 접근에는 크게 2가지 계열이 있다고 볼 수 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="역행렬-비슷한것을-구하는-방법1">
+<a class="anchor" href="#%EC%97%AD%ED%96%89%EB%A0%AC-%EB%B9%84%EC%8A%B7%ED%95%9C%EA%B2%83%EC%9D%84-%EA%B5%AC%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%951" aria-hidden="true"><span class="octicon octicon-link"></span></a>역행렬 비슷한것을 구하는 방법1<a class="anchor-link" href="#%EC%97%AD%ED%96%89%EB%A0%AC-%EB%B9%84%EC%8A%B7%ED%95%9C%EA%B2%83%EC%9D%84-%EA%B5%AC%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%951"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 역행렬을 구하지 못하는 것은 1차원으로 바꿔서 생각하면 역수를 구하지 못하는 것과 비슷하다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>예를들면 $\frac{3}{x}$와 같은 꼴에서 $x=0$ 인 경우를 계산하지 못해 코드에서 에러가 발생하는 것이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>이러한 에러를 회피하려면 분모에 $0$에 가까운 <strong>양수</strong> $\lambda$를 더하면 된다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>즉 $\frac{3}{x}$ 의 꼴이 $\frac{3}{x+\lambda}$로 변화하는 셈이 된다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\frac{3}{x}$대신에 $\frac{3}{x+\lambda}$를 사용하면 2개의 장점이 있다.</p>
+<p>(장점1) $x=0$ 일때 에러가 나지 않음.</p>
+<p>(장점2) $x\neq 0$ 일때 $\frac{3}{x}$ 와 거의 비슷한 값을 준다는 것이다.</p>
+<p>즉 $\frac{3}{x+\lambda}$는 $\frac{3}{x}$와 거의 비슷하면서도 $x=0$ 일때 생기는 에러를 회피할 수 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p></p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+    <strong>Note: </strong>위에서 살짝 언급을 피한 부분이 있는데 바로 $\frac{3}{x+\lambda}$에서 $x+\lambda$가 다시 0이 되면 어떡하냐는 것이다. 즉 $x=-\lambda$가 되는 순간에 분모는 다시 0이 되는문제가 있다. 이러한 경우를 회피하기 위해서 $x&gt;0$인 조건을 넣어줘야한다. 
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 이러한 아이디어를 다차원으로 확장하자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>전략: 앞으로는 ${\bf X^\top X}$의 역행렬을 구할 것이 아니라 $\big({\bf X^\top X}+\lambda \bf I\big)$의 역행렬을 구하도록 하자. 단, $\lambda &gt;0$.</p>
+<ul>
+<li>이때 ${\bf X^\top X}$ 반양정치행렬(semi positive definite matrix)이 된다. </li>
+<li>이것이 실수로치면 $\geq 0$의 조건이라고 생각하면 된다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="역행렬-비슷한-것을-구하는-방법2">
+<a class="anchor" href="#%EC%97%AD%ED%96%89%EB%A0%AC-%EB%B9%84%EC%8A%B7%ED%95%9C-%EA%B2%83%EC%9D%84-%EA%B5%AC%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%952" aria-hidden="true"><span class="octicon octicon-link"></span></a>역행렬 비슷한 것을 구하는 방법2<a class="anchor-link" href="#%EC%97%AD%ED%96%89%EB%A0%AC-%EB%B9%84%EC%8A%B7%ED%95%9C-%EA%B2%83%EC%9D%84-%EA%B5%AC%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%952"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="선형대수학복습">
+<a class="anchor" href="#%EC%84%A0%ED%98%95%EB%8C%80%EC%88%98%ED%95%99%EB%B3%B5%EC%8A%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>선형대수학복습<a class="anchor-link" href="#%EC%84%A0%ED%98%95%EB%8C%80%EC%88%98%ED%95%99%EB%B3%B5%EC%8A%B5"> </a>
+</h4>
+<p>(예비학습) ${\bf X}^\top{\bf X}$의 고유값분해를 이용하여 ${\bf X}^\top{\bf X}$의 역행렬을 계산하는 방법</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>${\bf X}^\top{\bf X}$는 모든 원소가 실수이고 대칭행렬이므로 고유값분해를 할 수 있다. (??)</p>
+<ul>
+<li>note: ${\bf A}$가 대칭행렬이다. $\Leftrightarrow$ $\bf A^\top = A$. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>쉽게 말하면 아래를 만족하는 직교행렬 $\boldsymbol{\Psi}$와 대각행렬 $\boldsymbol{\Lambda}$를 항상 찾을 수 있다는 이야기이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\bf X^\top \bf X=\boldsymbol{\Psi}\boldsymbol{\Lambda}\boldsymbol{\Psi}^\top $</p>
+<ul>
+<li>note: $\boldsymbol{\Psi}$가 직교행렬이다. $\Leftrightarrow$ $\boldsymbol{\Psi}^\top \boldsymbol{\Psi}=\boldsymbol{\Psi}\boldsymbol{\Psi}^\top=\bf I$</li>
+<li>note: $\boldsymbol{\Psi}$는 당연히 정사각행렬이어야함. (왜냐하면 정사각행렬이 아니면 첫번째 등호가 성립안하겠죠?)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>주장: ${\bf X}^\top{\bf X}$의 역행렬은 $\boldsymbol{\Psi}\boldsymbol{\Lambda}^{-1}\boldsymbol{\Psi}^\top$이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>증명: 너무쉬움.. 그냥 곱하면 됨..</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>직관: $\boldsymbol{\Lambda}^{-1}$만 존재하면 $\big({\bf X}^\top {\bf X} \big)^{-1}$이 존재하는 것이 아닌가?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(아이디어) $\boldsymbol{\Lambda}^{-1}$만 존재하지 않는다는 것은 대각선에 $0$인 원소가 끼어있다는 이야기임.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\boldsymbol{\Lambda}^{-1}$는 결국 $\boldsymbol{\Lambda}$의 모든 대각선원소를 역수취하면 얻을 수 있는데, $0$이 있어서 역수를 못취하는 것임.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$0$인 원소는 빼고 역수를 취하면 되지 않을까?</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">λ</span><span class="p">,</span> <span class="n">Ψ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Λ</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">λ</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">X</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[2.0000000e+01, 7.0400000e+01, 1.4266000e+04, 1.4066000e+04],
+        [7.0400000e+01, 2.5000000e+02, 5.0035000e+04, 4.9331000e+04],
+        [1.4266000e+04, 5.0035000e+04, 1.0283246e+07, 1.0140586e+07],
+        [1.4066000e+04, 4.9331000e+04, 1.0140586e+07, 9.9999260e+06]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Ψ</span><span class="o">*</span><span class="n">Λ</span><span class="o">*</span><span class="n">Ψ</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[2.0000000e+01, 7.0400000e+01, 1.4266000e+04, 1.4066000e+04],
+        [7.0400000e+01, 2.5000000e+02, 5.0035000e+04, 4.9331000e+04],
+        [1.4266000e+04, 5.0035000e+04, 1.0283246e+07, 1.0140586e+07],
+        [1.4066000e+04, 4.9331000e+04, 1.0140586e+07, 9.9999260e+06]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Λ</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[2.02834246e+07, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
+        [0.00000000e+00, 1.61241468e+01, 0.00000000e+00, 0.00000000e+00],
+        [0.00000000e+00, 0.00000000e+00, 3.37339356e-13, 0.00000000e+00],
+        [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.26211677e+00]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Λ</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Λ</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">Λ</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">Λ</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(20283424.613736466,
+ 16.124146751413505,
+ 3.3733935585117786e-13,
+ 1.2621167718825437)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Λ_invlike</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="o">/</span><span class="n">Λ</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="n">Λ</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="n">Λ</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Λ_invlike</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">Λ_invlike</span><span class="p">)</span>
+<span class="n">Λ_invlike</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[4.93013393e-08, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
+        [0.00000000e+00, 6.20187856e-02, 0.00000000e+00, 0.00000000e+00],
+        [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
+        [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 7.92319714e-01]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Ψ</span><span class="o">*</span><span class="n">Λ_invlike</span><span class="o">*</span><span class="n">Ψ</span><span class="o">.</span><span class="n">T</span> <span class="c1">## X'X 의 역행렬 비슷한것.. </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[ 0.00635302, -0.04904841,  0.03165894, -0.03187125],
+        [-0.04904841,  0.53032917, -0.24479401,  0.24569011],
+        [ 0.03165894, -0.24479401,  0.15776667, -0.15882276],
+        [-0.03187125,  0.24569011, -0.15882276,  0.15988969]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">X</span><span class="p">)</span><span class="o">*</span> <span class="p">(</span><span class="n">Ψ</span><span class="o">*</span><span class="n">Λ_invlike</span><span class="o">*</span><span class="n">Ψ</span><span class="o">.</span><span class="n">T</span><span class="p">),</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[ 0.02 ,  0.   ,  0.098, -0.098],
+       [ 0.   ,  1.   ,  0.   , -0.   ],
+       [ 0.098,  0.   ,  0.99 ,  0.01 ],
+       [-0.098, -0.   ,  0.01 ,  0.99 ]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">X</span><span class="p">)</span><span class="o">*</span> <span class="p">(</span><span class="n">Ψ</span><span class="o">*</span><span class="n">Λ_invlike</span><span class="o">*</span><span class="n">Ψ</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.image.AxesImage at 0x7f98d4174910&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.image.AxesImage at 0x7f98d405dac0&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="요약-($\star\star\star$)">
+<a class="anchor" href="#%EC%9A%94%EC%95%BD-(%24%5Cstar%5Cstar%5Cstar%24)" aria-hidden="true"><span class="octicon octicon-link"></span></a>요약 ($\star\star\star$)<a class="anchor-link" href="#%EC%9A%94%EC%95%BD-(%24%5Cstar%5Cstar%5Cstar%24)"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(1) 종종 $\bf X^\top X$의 역행렬을 구하기 어려울 경우가 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(2) 이는 다중공선성 문제와 연결된다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(3) $\bf X^\top X$의 역행렬이 없을때, 역행렬 비슷한 것을 구하기 위한 고민은 공학적 접근과 수학적 접근으로 나눌 수 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(4) 이중 공학적인 접근은 능형회귀(Ridge regression)로 수학적인 접근은 주성분분석(PCA)로 해석할 수 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Appendix-A.">
+<a class="anchor" href="#Appendix-A." aria-hidden="true"><span class="octicon octicon-link"></span></a>Appendix A.<a class="anchor-link" href="#Appendix-A."> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(주장) ${\bf X^\top X}= \boldsymbol{\Psi} \boldsymbol{\Lambda} \boldsymbol{\Psi}^\top= \sum_{j=1}^{p}\lambda_j\psi_j\psi_j^\top$ (단, $\boldsymbol{\Psi}=[\psi_1 \psi_2 \dots \psi_p]$)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(확인)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 고유벡터의 정의</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">Ψ</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[ 0.001, -0.112, -0.99 ,  0.084],
+       [ 0.003, -0.599,  0.   , -0.801],
+       [ 0.712, -0.555,  0.099,  0.418],
+       [ 0.702,  0.566, -0.099, -0.42 ]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ψ1</span><span class="o">=</span><span class="n">Ψ</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ψ2</span><span class="o">=</span><span class="n">Ψ</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ψ3</span><span class="o">=</span><span class="n">Ψ</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">ψ4</span><span class="o">=</span><span class="n">Ψ</span><span class="p">[:,</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ψ1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[0.00098772],
+        [0.00346414],
+        [0.71202356],
+        [0.70214634]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ψ4</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[ 0.08386966],
+        [-0.80078571],
+        [ 0.41832242],
+        [-0.42037422]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 고유값을 정의</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">λ1</span><span class="o">=</span><span class="n">Λ</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">λ2</span><span class="o">=</span><span class="n">Λ</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">λ3</span><span class="o">=</span><span class="n">Λ</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">λ4</span><span class="o">=</span><span class="n">Λ</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">λ1</span><span class="p">,</span><span class="n">λ2</span><span class="p">,</span><span class="n">λ3</span><span class="p">,</span><span class="n">λ4</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(20283424.613736466,
+ 16.124146751413505,
+ 3.3733935585117786e-13,
+ 1.2621167718825437)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$ \sum_{j=1}^{4}\lambda_j\psi_j\psi_j^\top$</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">λ1</span><span class="o">*</span><span class="n">ψ1</span><span class="o">*</span><span class="n">ψ1</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">λ2</span><span class="o">*</span><span class="n">ψ2</span><span class="o">*</span><span class="n">ψ2</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">λ3</span><span class="o">*</span><span class="n">ψ3</span><span class="o">*</span><span class="n">ψ3</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">λ4</span><span class="o">*</span><span class="n">ψ4</span><span class="o">*</span><span class="n">ψ4</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[2.0000000e+01, 7.0400000e+01, 1.4266000e+04, 1.4066000e+04],
+        [7.0400000e+01, 2.5000000e+02, 5.0035000e+04, 4.9331000e+04],
+        [1.4266000e+04, 5.0035000e+04, 1.0283246e+07, 1.0140586e+07],
+        [1.4066000e+04, 4.9331000e+04, 1.0140586e+07, 9.9999260e+06]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">X</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[2.0000000e+01, 7.0400000e+01, 1.4266000e+04, 1.4066000e+04],
+        [7.0400000e+01, 2.5000000e+02, 5.0035000e+04, 4.9331000e+04],
+        [1.4266000e+04, 5.0035000e+04, 1.0283246e+07, 1.0140586e+07],
+        [1.4066000e+04, 4.9331000e+04, 1.0140586e+07, 9.9999260e+06]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>그런데..</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\lambda_3 \approx 0$ 이므로,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\lambda_3\psi_3\psi_3^\top$를 빼도 거의 $\bf X^\top X$와 비슷할것이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(확인)</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">λ1</span><span class="o">*</span><span class="n">ψ1</span><span class="o">*</span><span class="n">ψ1</span><span class="o">.</span><span class="n">T</span><span class="o">+</span><span class="n">λ2</span><span class="o">*</span><span class="n">ψ2</span><span class="o">*</span><span class="n">ψ2</span><span class="o">.</span><span class="n">T</span><span class="o">+</span><span class="n">λ4</span><span class="o">*</span><span class="n">ψ4</span><span class="o">*</span><span class="n">ψ4</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[2.0000000e+01, 7.0400000e+01, 1.4266000e+04, 1.4066000e+04],
+        [7.0400000e+01, 2.5000000e+02, 5.0035000e+04, 4.9331000e+04],
+        [1.4266000e+04, 5.0035000e+04, 1.0283246e+07, 1.0140586e+07],
+        [1.4066000e+04, 4.9331000e+04, 1.0140586e+07, 9.9999260e+06]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">λ1</span><span class="o">*</span><span class="n">ψ1</span><span class="o">*</span><span class="n">ψ1</span><span class="o">.</span><span class="n">T</span><span class="o">+</span><span class="n">λ2</span><span class="o">*</span><span class="n">ψ2</span><span class="o">*</span><span class="n">ψ2</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[1.99911221e+01, 7.04847658e+01, 1.42659557e+04, 1.40660445e+04],
+        [7.04847658e+01, 2.49190658e+02, 5.00354228e+04, 4.93305751e+04],
+        [1.42659557e+04, 5.00354228e+04, 1.02832458e+07, 1.01405862e+07],
+        [1.40660445e+04, 4.93305751e+04, 1.01405862e+07, 9.99992578e+06]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">X</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[2.0000000e+01, 7.0400000e+01, 1.4266000e+04, 1.4066000e+04],
+        [7.0400000e+01, 2.5000000e+02, 5.0035000e+04, 4.9331000e+04],
+        [1.4266000e+04, 5.0035000e+04, 1.0283246e+07, 1.0140586e+07],
+        [1.4066000e+04, 4.9331000e+04, 1.0140586e+07, 9.9999260e+06]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>즉 $\lambda_1\psi_1\psi_1^\top+\lambda_2\psi_2\psi_2^\top \approx {\bf X}^\top{\bf X}$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>PCA를 통한 차원축소의 아이디어로 연결!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Appendix-B.">
+<a class="anchor" href="#Appendix-B." aria-hidden="true"><span class="octicon octicon-link"></span></a>Appendix B.<a class="anchor-link" href="#Appendix-B."> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>SVD(singular value decomposition)라는 것이 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\bf X=UDV^\top$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>${\bf X}: n\times p$ 행렬 </li>
+<li>${\bf U}: n\times n$ 직교행렬 or $n \times p$ 직교행렬 비슷한 행렬 </li>
+<li>${\bf D}: n\times p$ 대각행렬 비슷한 행렬 or $p\times p$ 대각행렬 </li>
+<li>${\bf V}: p\times p$ 직교행렬 </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>즉 임의의 매트릭스 $\bf X$를 분해할 수 있다는 것이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(실습)</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">U</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">Vt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(20, 4)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">d</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">Vt</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>((20, 20), (4,), (4, 4))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">R</span> 
+<span class="n">svdrslt</span><span class="o">&lt;-</span><span class="nf">svd</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">D</span><span class="o">&lt;-</span><span class="nf">diag</span><span class="p">(</span><span class="n">svdrslt</span><span class="o">$</span><span class="n">d</span><span class="p">)</span>
+<span class="n">U</span><span class="o">&lt;-</span><span class="n">svdrslt</span><span class="o">$</span><span class="n">u</span>
+<span class="n">V</span><span class="o">&lt;-</span><span class="n">svdrslt</span><span class="o">$</span><span class="n">v</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">dim</span><span class="p">(</span><span class="n">U</span><span class="p">))</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">dim</span><span class="p">(</span><span class="n">D</span><span class="p">))</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">dim</span><span class="p">(</span><span class="n">V</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] 20  4
+[1] 4 4
+[1] 4 4
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">R</span> 
+<span class="n">U</span><span class="o">%*%</span><span class="n">D</span><span class="o">%*%</span><span class="nf">t</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>      [,1] [,2] [,3] [,4]
+ [1,]    1  3.7  811  801
+ [2,]    1  3.8  716  706
+ [3,]    1  3.9  701  691
+ [4,]    1  3.3  767  757
+ [5,]    1  3.8  543  533
+ [6,]    1  3.2  666  656
+ [7,]    1  3.3  740  730
+ [8,]    1  3.5  690  680
+ [9,]    1  3.0  716  706
+[10,]    1  3.2  706  696
+[11,]    1  3.7  733  723
+[12,]    1  3.6  677  667
+[13,]    1  3.1  681  671
+[14,]    1  4.3  627  617
+[15,]    1  3.6  814  804
+[16,]    1  3.1  769  759
+[17,]    1  4.0  614  604
+[18,]    1  3.5  796  786
+[19,]    1  3.5  651  641
+[20,]    1  3.3  848  838
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">R</span> 
+<span class="n">X</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>        gpa toeic teps
+ [1,] 1 3.7   811  801
+ [2,] 1 3.8   716  706
+ [3,] 1 3.9   701  691
+ [4,] 1 3.3   767  757
+ [5,] 1 3.8   543  533
+ [6,] 1 3.2   666  656
+ [7,] 1 3.3   740  730
+ [8,] 1 3.5   690  680
+ [9,] 1 3.0   716  706
+[10,] 1 3.2   706  696
+[11,] 1 3.7   733  723
+[12,] 1 3.6   677  667
+[13,] 1 3.1   681  671
+[14,] 1 4.3   627  617
+[15,] 1 3.6   814  804
+[16,] 1 3.1   769  759
+[17,] 1 4.0   614  604
+[18,] 1 3.5   796  786
+[19,] 1 3.5   651  641
+[20,] 1 3.3   848  838
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>고유분해와 어떤관계가 있을까?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>우리가 관심있는 매트릭스는 $\bf X^\top X$로 한정하자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(분해관점1)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>고유값분해: $\bf X^\top X$는 대칭행렬이므로 고유값분해가 존재함.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>따라서 ${\bf X^\top X}=\boldsymbol{\Psi}\boldsymbol{\Lambda}\boldsymbol{\Psi}^\top$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(분해관점2)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>SVD: 임의의 매트릭스 ${\bf X}$를 아래와 같이 분해할 수 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\bf X=UDV^\top$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>따라서 $\bf X^\top X$는 아래와 같이 쓸 수 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\bf X^\top X =(UDV^\top)^\top(UDV^\top)$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$=\bf VD^\top U^\top UDV^\top$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$= \bf VD^\top D V^\top$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>결국 우리가 관심있는 매트릭스 $\bf X^\top X$와 같은 꼴에 한정하면 아래와 같이 생각할수 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(1) $\boldsymbol{\Psi}=\bf V$</p>
+<p>(2) $\boldsymbol{\Lambda}=\bf D^\top D$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(확인)</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Ψ</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[ 9.87721869e-04, -1.12128261e-01, -9.90147543e-01,
+          8.38696640e-02],
+        [ 3.46413964e-03, -5.98940943e-01,  1.13530343e-12,
+         -8.00785706e-01],
+        [ 7.12023556e-01, -5.55180051e-01,  9.90147543e-02,
+          4.18322417e-01],
+        [ 7.02146338e-01,  5.66102562e-01, -9.90147543e-02,
+         -4.20374224e-01]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">R</span> 
+<span class="n">V</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>              [,1]       [,2]        [,3]          [,4]
+[1,] -0.0009877219  0.1121283  0.08386966  9.901475e-01
+[2,] -0.0034641396  0.5989409 -0.80078571 -4.346004e-15
+[3,] -0.7120235563  0.5551801  0.41832242 -9.901475e-02
+[4,] -0.7021463376 -0.5661026 -0.42037422  9.901475e-02
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Λ</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[2.02834246e+07, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
+        [0.00000000e+00, 1.61241468e+01, 0.00000000e+00, 0.00000000e+00],
+        [0.00000000e+00, 0.00000000e+00, 3.37339356e-13, 0.00000000e+00],
+        [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.26211677e+00]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">R</span> 
+<span class="nf">t</span><span class="p">(</span><span class="n">D</span><span class="p">)</span><span class="o">%*%</span><span class="n">D</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>         [,1]     [,2]     [,3]         [,4]
+[1,] 20283425  0.00000 0.000000 0.000000e+00
+[2,]        0 16.12415 0.000000 0.000000e+00
+[3,]        0  0.00000 1.262117 0.000000e+00
+[4,]        0  0.00000 0.000000 1.817603e-27
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(raw rank approximation)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>${\bf X^\top X}= \boldsymbol{\Psi} \boldsymbol{\Lambda} \boldsymbol{\Psi}^\top= \sum_{j=1}^{p}\lambda_j\psi_j\psi_j^\top$ 와 비슷한 방법으로</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>${\bf X^\top X}= \boldsymbol{\Psi} \boldsymbol{\Lambda} \boldsymbol{\Psi}^\top= {\bf V D^\top D V^\top}=\sum_{j=1}^{p}d_j^2v_jv_j^\top$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>의 관점으로 $\bf X$를 근사시킬 수 있음.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">R</span> 
+<span class="n">D</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>         [,1]     [,2]    [,3]         [,4]
+[1,] 4503.712 0.000000 0.00000 0.000000e+00
+[2,]    0.000 4.015488 0.00000 0.000000e+00
+[3,]    0.000 0.000000 1.12344 0.000000e+00
+[4,]    0.000 0.000000 0.00000 4.263335e-14
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">R</span>
+<span class="n">d1</span><span class="o">&lt;-</span><span class="n">D</span><span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">]</span>
+<span class="n">d2</span><span class="o">&lt;-</span><span class="n">D</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">R</span> 
+<span class="n">v1</span><span class="o">&lt;-</span><span class="n">V</span><span class="p">[,</span><span class="m">1</span><span class="p">]</span>
+<span class="n">v2</span><span class="o">&lt;-</span><span class="n">V</span><span class="p">[,</span><span class="m">2</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="n">R</span> 
+<span class="n">d1</span><span class="o">^</span><span class="m">2</span> <span class="o">*</span> <span class="n">v1</span><span class="o">%*%</span><span class="nf">t</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span><span class="o">+</span> <span class="n">d2</span><span class="o">^</span><span class="m">2</span> <span class="o">*</span> <span class="n">v2</span><span class="o">%*%</span><span class="nf">t</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>            [,1]        [,2]        [,3]        [,4]
+[1,]    19.99112    70.48477    14265.96    14066.04
+[2,]    70.48477   249.19066    50035.42    49330.58
+[3,] 14265.95572 50035.42279 10283245.78 10140586.22
+[4,] 14066.04450 49330.57513 10140586.22  9999925.78
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">λ1</span><span class="o">*</span><span class="n">ψ1</span><span class="o">*</span><span class="n">ψ1</span><span class="o">.</span><span class="n">T</span><span class="o">+</span><span class="n">λ2</span><span class="o">*</span><span class="n">ψ2</span><span class="o">*</span><span class="n">ψ2</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[1.99911221e+01, 7.04847658e+01, 1.42659557e+04, 1.40660445e+04],
+        [7.04847658e+01, 2.49190658e+02, 5.00354228e+04, 4.93305751e+04],
+        [1.42659557e+04, 5.00354228e+04, 1.02832458e+07, 1.01405862e+07],
+        [1.40660445e+04, 4.93305751e+04, 1.01405862e+07, 9.99992578e+06]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">X</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[2.0000000e+01, 7.0400000e+01, 1.4266000e+04, 1.4066000e+04],
+        [7.0400000e+01, 2.5000000e+02, 5.0035000e+04, 4.9331000e+04],
+        [1.4266000e+04, 5.0035000e+04, 1.0283246e+07, 1.0140586e+07],
+        [1.4066000e+04, 4.9331000e+04, 1.0140586e+07, 9.9999260e+06]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="miruetoto/yechan"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/yechan/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99/2021/03/17/(%EB%85%B8%ED%8A%B8)-%EC%97%AD%ED%96%89%EB%A0%AC%EC%9D%B4-%EC%A1%B4%EC%9E%AC%ED%95%98%EC%A7%80-%EC%95%8A%EB%8A%94-%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/yechan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/yechan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/yechan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/miruetoto" title="miruetoto"><svg class="svg-icon grey"><use xlink:href="/yechan/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

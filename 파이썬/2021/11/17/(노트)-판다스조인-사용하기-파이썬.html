@@ -1,0 +1,4476 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>(노트) 판다스 concat, join | 신록예찬’s 블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="(노트) 판다스 concat, join" />
+<meta name="author" content="신록예찬" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://miruetoto.github.io/yechan/%ED%8C%8C%EC%9D%B4%EC%8D%AC/2021/11/17/(%EB%85%B8%ED%8A%B8)-%ED%8C%90%EB%8B%A4%EC%8A%A4%EC%A1%B0%EC%9D%B8-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html" />
+<meta property="og:url" content="https://miruetoto.github.io/yechan/%ED%8C%8C%EC%9D%B4%EC%8D%AC/2021/11/17/(%EB%85%B8%ED%8A%B8)-%ED%8C%90%EB%8B%A4%EC%8A%A4%EC%A1%B0%EC%9D%B8-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html" />
+<meta property="og:site_name" content="신록예찬’s 블로그" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-11-17T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://miruetoto.github.io/yechan/%ED%8C%8C%EC%9D%B4%EC%8D%AC/2021/11/17/(%EB%85%B8%ED%8A%B8)-%ED%8C%90%EB%8B%A4%EC%8A%A4%EC%A1%B0%EC%9D%B8-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html","@type":"BlogPosting","headline":"(노트) 판다스 concat, join","dateModified":"2021-11-17T00:00:00-06:00","datePublished":"2021-11-17T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/%ED%8C%8C%EC%9D%B4%EC%8D%AC/2021/11/17/(%EB%85%B8%ED%8A%B8)-%ED%8C%90%EB%8B%A4%EC%8A%A4%EC%A1%B0%EC%9D%B8-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html"},"author":{"@type":"Person","name":"신록예찬"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬's 블로그" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/yechan/">신록예찬&#39;s 블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/yechan/about/">About Me</a><a class="page-link" href="/yechan/search/">Search</a><a class="page-link" href="/yechan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">(노트) 판다스 concat, join</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-11-17T00:00:00-06:00" itemprop="datePublished">
+        Nov 17, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">신록예찬</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      14 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/yechan/categories/#파이썬">파이썬</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/miruetoto/yechan/tree/master/_notebooks/2021-11-17-(노트) 판다스조인 사용하기 [파이썬].ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/yechan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/miruetoto/yechan/master?filepath=_notebooks%2F2021-11-17-%28%EB%85%B8%ED%8A%B8%29+%ED%8C%90%EB%8B%A4%EC%8A%A4%EC%A1%B0%EC%9D%B8+%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0+%5B%ED%8C%8C%EC%9D%B4%EC%8D%AC%5D.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/miruetoto/yechan/blob/master/_notebooks/2021-11-17-(노트) 판다스조인 사용하기 [파이썬].ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#import">import </a></li>
+<li class="toc-entry toc-h3"><a href="#data">data </a></li>
+<li class="toc-entry toc-h3"><a href="#pd.concat([...])">pd.concat([...]) </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#예제1">예제1 </a></li>
+<li class="toc-entry toc-h4"><a href="#예제2">예제2 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#pd.concat([...],axis='columns')">pd.concat([...],axis=&#39;columns&#39;) </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#예제3">예제3 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#pd.concat([...],keys=[...])">pd.concat([...],keys=[...]) </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#예제4">예제4 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#pd.concat([...],keys=[...],axis='columns')">pd.concat([...],keys=[...],axis=&#39;columns&#39;) </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#예제5">예제5 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#df.join([...],how='outer')">df.join([...],how=&#39;outer&#39;) </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#예제6">예제6 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#예제3">예제3 </a></li>
+<li class="toc-entry toc-h3"><a href="#예제2:-observation-수가-달라도-가능함">예제2: observation 수가 달라도 가능함 </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-11-17-(노트) 판다스조인 사용하기 [파이썬].ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="import">
+<a class="anchor" href="#import" aria-hidden="true"><span class="octicon octicon-link"></span></a>import<a class="anchor-link" href="#import"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="data">
+<a class="anchor" href="#data" aria-hidden="true"><span class="octicon octicon-link"></span></a>data<a class="anchor-link" href="#data"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2016</span> <span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'https://raw.githubusercontent.com/PacktPublishing/Pandas-Cookbook/master/data/stocks_2016.csv'</span><span class="p">)</span>
+<span class="n">_df2017</span> <span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'https://raw.githubusercontent.com/PacktPublishing/Pandas-Cookbook/master/data/stocks_2017.csv'</span><span class="p">)</span>
+<span class="n">_df2018</span> <span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'https://raw.githubusercontent.com/PacktPublishing/Pandas-Cookbook/master/data/stocks_2018.csv'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="pd.concat([...])">
+<a class="anchor" href="#pd.concat(%5B...%5D)" aria-hidden="true"><span class="octicon octicon-link"></span></a>pd.concat([...])<a class="anchor-link" href="#pd.concat(%5B...%5D)"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="예제1">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C1" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제1<a class="anchor-link" href="#%EC%98%88%EC%A0%9C1"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2016</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2017</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2018</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>40</td>
+      <td>135</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AMZN</td>
+      <td>8</td>
+      <td>900</td>
+      <td>1125</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>220</td>
+      <td>400</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">_df2016</span><span class="p">,</span><span class="n">_df2017</span><span class="p">,</span><span class="n">_df2018</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>40</td>
+      <td>135</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AMZN</td>
+      <td>8</td>
+      <td>900</td>
+      <td>1125</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>220</td>
+      <td>400</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">_df2016</span><span class="p">,</span><span class="n">_df2017</span><span class="p">,</span><span class="n">_df2018</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2</td>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>3</td>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>4</td>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>5</td>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0</td>
+      <td>AAPL</td>
+      <td>40</td>
+      <td>135</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>1</td>
+      <td>AMZN</td>
+      <td>8</td>
+      <td>900</td>
+      <td>1125</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2</td>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>220</td>
+      <td>400</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">_df2016</span><span class="p">,</span><span class="n">_df2017</span><span class="p">,</span><span class="n">_df2018</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>AAPL</td>
+      <td>40</td>
+      <td>135</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>AMZN</td>
+      <td>8</td>
+      <td>900</td>
+      <td>1125</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>220</td>
+      <td>400</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> R에서 rbind와 유사하다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="예제2">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C2" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제2<a class="anchor-link" href="#%EC%98%88%EC%A0%9C2"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> rbind와의 차이점: 합치려는 데이터프레임의 column이 꼭 동일할 필요는 없다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2016</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2017</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">_df2016</span><span class="p">,</span> <span class="n">_df2017</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>NaN</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NaN</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NaN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>NaN</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="pd.concat([...],axis='columns')">
+<a class="anchor" href="#pd.concat(%5B...%5D,axis='columns')" aria-hidden="true"><span class="octicon octicon-link"></span></a>pd.concat([...],axis='columns')<a class="anchor-link" href="#pd.concat(%5B...%5D,axis='columns')"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> cbind 와 비슷한 느낌이다. (그런데 row의 숫자가 서로 달라도 괜찮음)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="예제3">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C3" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제3<a class="anchor-link" href="#%EC%98%88%EC%A0%9C3"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2016</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2017</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2018</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>40</td>
+      <td>135</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AMZN</td>
+      <td>8</td>
+      <td>900</td>
+      <td>1125</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>220</td>
+      <td>400</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">_df2016</span><span class="p">,</span><span class="n">_df2017</span><span class="p">,</span><span class="n">_df2018</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="s1">'columns'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80.0</td>
+      <td>95.0</td>
+      <td>110.0</td>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+      <td>AAPL</td>
+      <td>40.0</td>
+      <td>135.0</td>
+      <td>170.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50.0</td>
+      <td>80.0</td>
+      <td>130.0</td>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+      <td>AMZN</td>
+      <td>8.0</td>
+      <td>900.0</td>
+      <td>1125.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40.0</td>
+      <td>55.0</td>
+      <td>70.0</td>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+      <td>TSLA</td>
+      <td>50.0</td>
+      <td>220.0</td>
+      <td>400.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">_df2016</span><span class="p">,</span><span class="n">_df2017</span><span class="p">,</span><span class="n">_df2018</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80.0</td>
+      <td>95.0</td>
+      <td>110.0</td>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+      <td>AAPL</td>
+      <td>40.0</td>
+      <td>135.0</td>
+      <td>170.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50.0</td>
+      <td>80.0</td>
+      <td>130.0</td>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+      <td>AMZN</td>
+      <td>8.0</td>
+      <td>900.0</td>
+      <td>1125.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40.0</td>
+      <td>55.0</td>
+      <td>70.0</td>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+      <td>TSLA</td>
+      <td>50.0</td>
+      <td>220.0</td>
+      <td>400.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>컬럼이 길잖아요.. 그래서 1이에요.. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="pd.concat([...],keys=[...])">
+<a class="anchor" href="#pd.concat(%5B...%5D,keys=%5B...%5D)" aria-hidden="true"><span class="octicon octicon-link"></span></a>pd.concat([...],keys=[...])<a class="anchor-link" href="#pd.concat(%5B...%5D,keys=%5B...%5D)"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="예제4">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C4" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제4<a class="anchor-link" href="#%EC%98%88%EC%A0%9C4"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2016</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2017</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2018</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>40</td>
+      <td>135</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AMZN</td>
+      <td>8</td>
+      <td>900</td>
+      <td>1125</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>220</td>
+      <td>400</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">_df2016</span><span class="p">,</span><span class="n">_df2017</span><span class="p">,</span><span class="n">_df2018</span><span class="p">],</span><span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="mi">2016</span><span class="p">,</span><span class="mi">2017</span><span class="p">,</span><span class="mi">2018</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">2016</th>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th rowspan="6" valign="top">2017</th>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2018</th>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>40</td>
+      <td>135</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AMZN</td>
+      <td>8</td>
+      <td>900</td>
+      <td>1125</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>220</td>
+      <td>400</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="mi">2016</span><span class="p">,</span><span class="mi">2017</span><span class="p">,</span><span class="mi">2018</span><span class="p">],[</span><span class="n">_df2016</span><span class="p">,</span><span class="n">_df2017</span><span class="p">,</span><span class="n">_df2018</span><span class="p">])))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">2016</th>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th rowspan="6" valign="top">2017</th>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2018</th>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>40</td>
+      <td>135</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AMZN</td>
+      <td>8</td>
+      <td>900</td>
+      <td>1125</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>220</td>
+      <td>400</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">_df2016</span><span class="p">,</span><span class="n">_df2017</span><span class="p">,</span><span class="n">_df2018</span><span class="p">],</span><span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="mi">2016</span><span class="p">,</span><span class="mi">2017</span><span class="p">])</span> <span class="c1">## 의도하지 않는 코드 1 </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">2016</th>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th rowspan="6" valign="top">2017</th>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">_df2016</span><span class="p">,</span><span class="n">_df2017</span><span class="p">,</span><span class="n">_df2018</span><span class="p">],</span><span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="mi">2016</span><span class="p">,</span><span class="mi">2018</span><span class="p">])</span> <span class="c1">## 의도하지 않은 코드 2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">2016</th>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th rowspan="6" valign="top">2018</th>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">_df2016</span><span class="p">,</span><span class="n">_df2017</span><span class="p">,</span><span class="n">_df2018</span><span class="p">],</span><span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="mi">2016</span><span class="p">,</span><span class="mi">2017</span><span class="p">,</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2019</span><span class="p">])</span> <span class="c1">#의도하지 않은 코드3 </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">2016</th>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <th rowspan="6" valign="top">2017</th>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">2018</th>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>40</td>
+      <td>135</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AMZN</td>
+      <td>8</td>
+      <td>900</td>
+      <td>1125</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>220</td>
+      <td>400</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="pd.concat([...],keys=[...],axis='columns')">
+<a class="anchor" href="#pd.concat(%5B...%5D,keys=%5B...%5D,axis='columns')" aria-hidden="true"><span class="octicon octicon-link"></span></a>pd.concat([...],keys=[...],axis='columns')<a class="anchor-link" href="#pd.concat(%5B...%5D,keys=%5B...%5D,axis='columns')"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="예제5">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C5" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제5<a class="anchor-link" href="#%EC%98%88%EC%A0%9C5"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2016</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2017</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2018</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>40</td>
+      <td>135</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AMZN</td>
+      <td>8</td>
+      <td>900</td>
+      <td>1125</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>220</td>
+      <td>400</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">_df2016</span><span class="p">,</span><span class="n">_df2017</span><span class="p">,</span><span class="n">_df2018</span><span class="p">],</span><span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="mi">2016</span><span class="p">,</span><span class="mi">2017</span><span class="p">,</span><span class="mi">2018</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="4" halign="left">2016</th>
+      <th colspan="4" halign="left">2017</th>
+      <th colspan="4" halign="left">2018</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80.0</td>
+      <td>95.0</td>
+      <td>110.0</td>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+      <td>AAPL</td>
+      <td>40.0</td>
+      <td>135.0</td>
+      <td>170.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50.0</td>
+      <td>80.0</td>
+      <td>130.0</td>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+      <td>AMZN</td>
+      <td>8.0</td>
+      <td>900.0</td>
+      <td>1125.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40.0</td>
+      <td>55.0</td>
+      <td>70.0</td>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+      <td>TSLA</td>
+      <td>50.0</td>
+      <td>220.0</td>
+      <td>400.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="mi">2016</span><span class="p">,</span><span class="mi">2017</span><span class="p">,</span><span class="mi">2018</span><span class="p">],[</span><span class="n">_df2016</span><span class="p">,</span><span class="n">_df2017</span><span class="p">,</span><span class="n">_df2018</span><span class="p">])),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="4" halign="left">2016</th>
+      <th colspan="4" halign="left">2017</th>
+      <th colspan="4" halign="left">2018</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80.0</td>
+      <td>95.0</td>
+      <td>110.0</td>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+      <td>AAPL</td>
+      <td>40.0</td>
+      <td>135.0</td>
+      <td>170.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50.0</td>
+      <td>80.0</td>
+      <td>130.0</td>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+      <td>AMZN</td>
+      <td>8.0</td>
+      <td>900.0</td>
+      <td>1125.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40.0</td>
+      <td>55.0</td>
+      <td>70.0</td>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+      <td>TSLA</td>
+      <td>50.0</td>
+      <td>220.0</td>
+      <td>400.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="df.join([...],how='outer')">
+<a class="anchor" href="#df.join(%5B...%5D,how='outer')" aria-hidden="true"><span class="octicon octicon-link"></span></a>df.join([...],how='outer')<a class="anchor-link" href="#df.join(%5B...%5D,how='outer')"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="예제6">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C6" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제6<a class="anchor-link" href="#%EC%98%88%EC%A0%9C6"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2016</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>80</td>
+      <td>95</td>
+      <td>110</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>80</td>
+      <td>130</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>WMT</td>
+      <td>40</td>
+      <td>55</td>
+      <td>70</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2017</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2018</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>40</td>
+      <td>135</td>
+      <td>170</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AMZN</td>
+      <td>8</td>
+      <td>900</td>
+      <td>1125</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TSLA</td>
+      <td>50</td>
+      <td>220</td>
+      <td>400</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>_df2016.merge<span class="o">?</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre><span class="ansi-red-fg">Signature:</span>
+_df2016<span class="ansi-blue-fg">.</span>merge<span class="ansi-blue-fg">(</span>
+    right<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">'FrameOrSeriesUnion'</span><span class="ansi-blue-fg">,</span>
+    how<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">'str'</span> <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">'inner'</span><span class="ansi-blue-fg">,</span>
+    on<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">'IndexLabel | None'</span> <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    left_on<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">'IndexLabel | None'</span> <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    right_on<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">'IndexLabel | None'</span> <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+    left_index<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">'bool'</span> <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span>
+    right_index<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">'bool'</span> <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span>
+    sort<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">'bool'</span> <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span>
+    suffixes<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">'Suffixes'</span> <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">'_x'</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">'_y'</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span>
+    copy<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">'bool'</span> <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span>
+    indicator<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">'bool'</span> <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span>
+    validate<span class="ansi-blue-fg">:</span> <span class="ansi-blue-fg">'str | None'</span> <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-&gt;</span> <span class="ansi-blue-fg">'DataFrame'</span>
+<span class="ansi-red-fg">Docstring:</span>
+Merge DataFrame or named Series objects with a database-style join.
+
+A named Series object is treated as a DataFrame with a single named column.
+
+The join is done on columns or indexes. If joining columns on
+columns, the DataFrame indexes *will be ignored*. Otherwise if joining indexes
+on indexes or indexes on a column or columns, the index will be passed on.
+When performing a cross merge, no column specifications to merge on are
+allowed.
+
+Parameters
+----------
+right : DataFrame or named Series
+    Object to merge with.
+how : {'left', 'right', 'outer', 'inner', 'cross'}, default 'inner'
+    Type of merge to be performed.
+
+    * left: use only keys from left frame, similar to a SQL left outer join;
+      preserve key order.
+    * right: use only keys from right frame, similar to a SQL right outer join;
+      preserve key order.
+    * outer: use union of keys from both frames, similar to a SQL full outer
+      join; sort keys lexicographically.
+    * inner: use intersection of keys from both frames, similar to a SQL inner
+      join; preserve the order of the left keys.
+    * cross: creates the cartesian product from both frames, preserves the order
+      of the left keys.
+
+      .. versionadded:: 1.2.0
+
+on : label or list
+    Column or index level names to join on. These must be found in both
+    DataFrames. If `on` is None and not merging on indexes then this defaults
+    to the intersection of the columns in both DataFrames.
+left_on : label or list, or array-like
+    Column or index level names to join on in the left DataFrame. Can also
+    be an array or list of arrays of the length of the left DataFrame.
+    These arrays are treated as if they are columns.
+right_on : label or list, or array-like
+    Column or index level names to join on in the right DataFrame. Can also
+    be an array or list of arrays of the length of the right DataFrame.
+    These arrays are treated as if they are columns.
+left_index : bool, default False
+    Use the index from the left DataFrame as the join key(s). If it is a
+    MultiIndex, the number of keys in the other DataFrame (either the index
+    or a number of columns) must match the number of levels.
+right_index : bool, default False
+    Use the index from the right DataFrame as the join key. Same caveats as
+    left_index.
+sort : bool, default False
+    Sort the join keys lexicographically in the result DataFrame. If False,
+    the order of the join keys depends on the join type (how keyword).
+suffixes : list-like, default is ("_x", "_y")
+    A length-2 sequence where each element is optionally a string
+    indicating the suffix to add to overlapping column names in
+    `left` and `right` respectively. Pass a value of `None` instead
+    of a string to indicate that the column name from `left` or
+    `right` should be left as-is, with no suffix. At least one of the
+    values must not be None.
+copy : bool, default True
+    If False, avoid copy if possible.
+indicator : bool or str, default False
+    If True, adds a column to the output DataFrame called "_merge" with
+    information on the source of each row. The column can be given a different
+    name by providing a string argument. The column will have a Categorical
+    type with the value of "left_only" for observations whose merge key only
+    appears in the left DataFrame, "right_only" for observations
+    whose merge key only appears in the right DataFrame, and "both"
+    if the observation's merge key is found in both DataFrames.
+
+validate : str, optional
+    If specified, checks if merge is of specified type.
+
+    * "one_to_one" or "1:1": check if merge keys are unique in both
+      left and right datasets.
+    * "one_to_many" or "1:m": check if merge keys are unique in left
+      dataset.
+    * "many_to_one" or "m:1": check if merge keys are unique in right
+      dataset.
+    * "many_to_many" or "m:m": allowed, but does not result in checks.
+
+Returns
+-------
+DataFrame
+    A DataFrame of the two merged objects.
+
+See Also
+--------
+merge_ordered : Merge with optional filling/interpolation.
+merge_asof : Merge on nearest keys.
+DataFrame.join : Similar method using indices.
+
+Notes
+-----
+Support for specifying index levels as the `on`, `left_on`, and
+`right_on` parameters was added in version 0.23.0
+Support for merging named Series objects was added in version 0.24.0
+
+Examples
+--------
+&gt;&gt;&gt; df1 = pd.DataFrame({'lkey': ['foo', 'bar', 'baz', 'foo'],
+...                     'value': [1, 2, 3, 5]})
+&gt;&gt;&gt; df2 = pd.DataFrame({'rkey': ['foo', 'bar', 'baz', 'foo'],
+...                     'value': [5, 6, 7, 8]})
+&gt;&gt;&gt; df1
+    lkey value
+0   foo      1
+1   bar      2
+2   baz      3
+3   foo      5
+&gt;&gt;&gt; df2
+    rkey value
+0   foo      5
+1   bar      6
+2   baz      7
+3   foo      8
+
+Merge df1 and df2 on the lkey and rkey columns. The value columns have
+the default suffixes, _x and _y, appended.
+
+&gt;&gt;&gt; df1.merge(df2, left_on='lkey', right_on='rkey')
+  lkey  value_x rkey  value_y
+0  foo        1  foo        5
+1  foo        1  foo        8
+2  foo        5  foo        5
+3  foo        5  foo        8
+4  bar        2  bar        6
+5  baz        3  baz        7
+
+Merge DataFrames df1 and df2 with specified left and right suffixes
+appended to any overlapping columns.
+
+&gt;&gt;&gt; df1.merge(df2, left_on='lkey', right_on='rkey',
+...           suffixes=('_left', '_right'))
+  lkey  value_left rkey  value_right
+0  foo           1  foo            5
+1  foo           1  foo            8
+2  foo           5  foo            5
+3  foo           5  foo            8
+4  bar           2  bar            6
+5  baz           3  baz            7
+
+Merge DataFrames df1 and df2, but raise an exception if the DataFrames have
+any overlapping columns.
+
+&gt;&gt;&gt; df1.merge(df2, left_on='lkey', right_on='rkey', suffixes=(False, False))
+Traceback (most recent call last):
+...
+ValueError: columns overlap but no suffix specified:
+    Index(['value'], dtype='object')
+
+&gt;&gt;&gt; df1 = pd.DataFrame({'a': ['foo', 'bar'], 'b': [1, 2]})
+&gt;&gt;&gt; df2 = pd.DataFrame({'a': ['foo', 'baz'], 'c': [3, 4]})
+&gt;&gt;&gt; df1
+      a  b
+0   foo  1
+1   bar  2
+&gt;&gt;&gt; df2
+      a  c
+0   foo  3
+1   baz  4
+
+&gt;&gt;&gt; df1.merge(df2, how='inner', on='a')
+      a  b  c
+0   foo  1  3
+
+&gt;&gt;&gt; df1.merge(df2, how='left', on='a')
+      a  b  c
+0   foo  1  3.0
+1   bar  2  NaN
+
+&gt;&gt;&gt; df1 = pd.DataFrame({'left': ['foo', 'bar']})
+&gt;&gt;&gt; df2 = pd.DataFrame({'right': [7, 8]})
+&gt;&gt;&gt; df1
+    left
+0   foo
+1   bar
+&gt;&gt;&gt; df2
+    right
+0   7
+1   8
+
+&gt;&gt;&gt; df1.merge(df2, how='cross')
+   left  right
+0   foo      7
+1   foo      8
+2   bar      7
+3   bar      8
+<span class="ansi-red-fg">File:</span>      ~/anaconda3/envs/py38r40/lib/python3.8/site-packages/pandas/core/frame.py
+<span class="ansi-red-fg">Type:</span>      method
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2017</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Symbol</th>
+      <th>Shares</th>
+      <th>Low</th>
+      <th>High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AAPL</td>
+      <td>50</td>
+      <td>120</td>
+      <td>140</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>GE</td>
+      <td>100</td>
+      <td>30</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>IBM</td>
+      <td>87</td>
+      <td>75</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SLB</td>
+      <td>20</td>
+      <td>55</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TXN</td>
+      <td>500</td>
+      <td>15</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>TSLA</td>
+      <td>100</td>
+      <td>100</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="예제3">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C3" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제3<a class="anchor-link" href="#%EC%98%88%EC%A0%9C3"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> df1 데이터선언; 각 observation은 영화이름의 알파벳순서로 나열.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+<span class="n">df1</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'nodename'</span><span class="p">:[</span><span class="s1">'Ant-man'</span><span class="p">,</span><span class="s1">'Hulk'</span><span class="p">,</span><span class="s1">'Iron-man'</span><span class="p">],</span><span class="s1">'open'</span><span class="p">:[</span><span class="mi">2020</span><span class="p">,</span><span class="mi">2012</span><span class="p">,</span><span class="mi">2010</span><span class="p">]})</span>
+<span class="n">df1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>nodename</th>
+      <th>open</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Ant-man</td>
+      <td>2020</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Hulk</td>
+      <td>2012</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Iron-man</td>
+      <td>2010</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> df2 데이터선언; observation은 영화개봉순으로 나열.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'nodename'</span><span class="p">:[</span><span class="s1">'Iron-man'</span><span class="p">,</span><span class="s1">'Hulk'</span><span class="p">,</span><span class="s1">'Ant-man'</span><span class="p">],</span><span class="s1">'box-office'</span><span class="p">:[</span><span class="mi">100</span><span class="p">,</span><span class="mi">300</span><span class="p">,</span><span class="mi">50</span><span class="p">]})</span>
+<span class="n">df2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>nodename</th>
+      <th>box-office</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Iron-man</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Hulk</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Ant-man</td>
+      <td>50</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> df1,df2는 nodename이라는 공통된 열이 존재함 $\to$ inner join 으로 두 데이터를 합칠 수 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>df1에서 나열된 obsevation 순으로 합치자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span><span class="n">df2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>nodename</th>
+      <th>open</th>
+      <th>box-office</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Ant-man</td>
+      <td>2020</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Hulk</td>
+      <td>2012</td>
+      <td>300</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Iron-man</td>
+      <td>2010</td>
+      <td>100</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>df2에서 나열된 observation 순으로 합치자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df2</span><span class="p">,</span><span class="n">df1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>nodename</th>
+      <th>box-office</th>
+      <th>open</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Iron-man</td>
+      <td>100</td>
+      <td>2010</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Hulk</td>
+      <td>300</td>
+      <td>2012</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Ant-man</td>
+      <td>50</td>
+      <td>2020</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="예제2:-observation-수가-달라도-가능함">
+<a class="anchor" href="#%EC%98%88%EC%A0%9C2:-observation-%EC%88%98%EA%B0%80-%EB%8B%AC%EB%9D%BC%EB%8F%84-%EA%B0%80%EB%8A%A5%ED%95%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>예제2: observation 수가 달라도 가능함<a class="anchor-link" href="#%EC%98%88%EC%A0%9C2:-observation-%EC%88%98%EA%B0%80-%EB%8B%AC%EB%9D%BC%EB%8F%84-%EA%B0%80%EB%8A%A5%ED%95%A8"> </a>
+</h3>
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="miruetoto/yechan"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/yechan/%ED%8C%8C%EC%9D%B4%EC%8D%AC/2021/11/17/(%EB%85%B8%ED%8A%B8)-%ED%8C%90%EB%8B%A4%EC%8A%A4%EC%A1%B0%EC%9D%B8-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%ED%8C%8C%EC%9D%B4%EC%8D%AC.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/yechan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/yechan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/yechan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/miruetoto" title="miruetoto"><svg class="svg-icon grey"><use xlink:href="/yechan/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
