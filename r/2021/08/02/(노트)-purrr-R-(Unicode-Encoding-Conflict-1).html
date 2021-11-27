@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>(노트) purrr | 신록예찬’s 블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="(노트) purrr" />
+<meta name="author" content="신록예찬" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://miruetoto.github.io/yechan/r/2021/08/02/(%EB%85%B8%ED%8A%B8)-purrr-R-(Unicode-Encoding-Conflict-1).html" />
+<meta property="og:url" content="https://miruetoto.github.io/yechan/r/2021/08/02/(%EB%85%B8%ED%8A%B8)-purrr-R-(Unicode-Encoding-Conflict-1).html" />
+<meta property="og:site_name" content="신록예찬’s 블로그" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-08-02T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://miruetoto.github.io/yechan/r/2021/08/02/(%EB%85%B8%ED%8A%B8)-purrr-R-(Unicode-Encoding-Conflict-1).html","@type":"BlogPosting","headline":"(노트) purrr","dateModified":"2021-08-02T00:00:00-05:00","datePublished":"2021-08-02T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/r/2021/08/02/(%EB%85%B8%ED%8A%B8)-purrr-R-(Unicode-Encoding-Conflict-1).html"},"author":{"@type":"Person","name":"신록예찬"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬's 블로그" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/yechan/">신록예찬&#39;s 블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/yechan/about/">About Me</a><a class="page-link" href="/yechan/search/">Search</a><a class="page-link" href="/yechan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">(노트) purrr</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-08-02T00:00:00-05:00" itemprop="datePublished">
+        Aug 2, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">신록예찬</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/yechan/categories/#R">R</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/miruetoto/yechan/tree/master/_notebooks/2021-08-02-(노트) purrr [R] (Unicode Encoding Conflict 1).ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/yechan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/miruetoto/yechan/master?filepath=_notebooks%2F2021-08-02-%28%EB%85%B8%ED%8A%B8%29+purrr+%5BR%5D+%28Unicode+Encoding+Conflict+1%29.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/miruetoto/yechan/blob/master/_notebooks/2021-08-02-(노트) purrr [R] (Unicode Encoding Conflict 1).ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#About-this-doc">About this doc </a></li>
+<li class="toc-entry toc-h3"><a href="#Lib">Lib </a></li>
+<li class="toc-entry toc-h3"><a href="#map,-map_*-:-list(a=1:5,-b:1:30)-$\to$-list(fun(a),fun(b))">map, map_* : list(a=1:5, b:1:30) $\to$ list(fun(a),fun(b)) </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#ex1:-map,-map_*-차이">ex1: map, map_* 차이 </a></li>
+<li class="toc-entry toc-h4"><a href="#ex2:-%>%-연산자사용">ex2: %&gt;% 연산자사용 </a></li>
+<li class="toc-entry toc-h4"><a href="#ex3:-additional-arguments">ex3: additional arguments </a></li>
+<li class="toc-entry toc-h4"><a href="#ex4:-길이가-같지-않은-벡터들의-모임에서도-적용가능">ex4: 길이가 같지 않은 벡터들의 모임에서도 적용가능 </a></li>
+<li class="toc-entry toc-h4"><a href="#ex5:-응용예제">ex5: 응용예제 </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-08-02-(노트) purrr [R] (Unicode Encoding Conflict 1).ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="About-this-doc">
+<a class="anchor" href="#About-this-doc" aria-hidden="true"><span class="octicon octicon-link"></span></a>About this doc<a class="anchor-link" href="#About-this-doc"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> purrr</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Lib">
+<a class="anchor" href="#Lib" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lib<a class="anchor-link" href="#Lib"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="map,-map_*-:-list(a=1:5,-b:1:30)-$\to$-list(fun(a),fun(b))">
+<a class="anchor" href="#map,-map_*-:-list(a=1:5,-b:1:30)-%24%5Cto%24-list(fun(a),fun(b))" aria-hidden="true"><span class="octicon octicon-link"></span></a>map, map_* : list(a=1:5, b:1:30) $\to$ list(fun(a),fun(b))<a class="anchor-link" href="#map,-map_*-:-list(a=1:5,-b:1:30)-%24%5Cto%24-list(fun(a),fun(b))"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> map, map_* 의 특징</p>
+<p><code>1</code> C로 구현되어 있어 빠르다. 하지만 가독성이 희생되었다. (읽기 어렵다)</p>
+<p><code>2</code> 두번째 인수는 적용할 함수를 나타내며 <code>.f</code>로 되어있는데 이는 공식, 문자형벡터, 정수형벡터등을 지정할 수 있다.</p>
+<p><code>3</code> map_* 은 <code>.f</code>가 호출이 될 때마다 추가인수를 <code>...</code> 사용하여 전달할 수 있다. 여기에서 <code>...</code> 은 길이가 정해지지 않은 입력.</p>
+<p><code>4</code> map, map_* 의 첫번째 인수는 두번째 인수인 함수에 전달할 첫 인자이다. (이게 중요하다 $\star\star\star$)</p>
+<p>사실 보통사람들은 <code>map(data, function)</code>의 형태로 외우는데 이는 엄밀하게 말하면 사실이 아니다. map함수의 역할은 단지 
+$${\tt map}\big([x1,x2,x3],f\big)=\big[f(x1),f(x2),f(x3)\big]$$ 
+이거나 
+$${\tt map}\Big(\big[[x1,y1],[x2,y2],[x3,y3]\big],f\Big)=\Big[f(x1,y1),f(x2,y2),f(x3,y3)\Big]$$ 
+일 뿐이다.  대부분의 함수 $f$가 첫번쨰 인자로 data를 받기 때문에 이러한 오해가 생기는것.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> data</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">df</span> <span class="o">&lt;-</span> <span class="nf">tibble</span><span class="p">(</span>
+  <span class="n">a</span> <span class="o">=</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">10</span><span class="p">),</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">10</span><span class="p">),</span>
+  <span class="n">c</span> <span class="o">=</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">10</span><span class="p">),</span>
+  <span class="n">d</span> <span class="o">=</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-black-intense-fg"># A tibble: 10 x 4</span>
+        a      b       c      d
+    <span class="ansi-black-intense-fg">&lt;dbl&gt;</span>  <span class="ansi-black-intense-fg">&lt;dbl&gt;</span>   <span class="ansi-black-intense-fg">&lt;dbl&gt;</span>  <span class="ansi-black-intense-fg">&lt;dbl&gt;</span>
+<span class="ansi-black-intense-fg"> 1</span>  1.32  -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">971</span>  0.024<span class="ansi-underline">9</span> -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">525</span>
+<span class="ansi-black-intense-fg"> 2</span>  0.598 -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">541</span> -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">958</span>  -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">419</span>
+<span class="ansi-black-intense-fg"> 3</span> -<span class="ansi-red-fg">1</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">20</span>  -<span class="ansi-red-fg">1</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">0</span><span class="ansi-red-fg">9</span>   0.043<span class="ansi-underline">7</span>  0.620
+<span class="ansi-black-intense-fg"> 4</span> -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">705</span>  1.50  -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">108</span>   1.12 
+<span class="ansi-black-intense-fg"> 5</span> -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">302</span>  0.221 -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">0</span><span class="ansi-red-fg">30</span><span class="ansi-red-fg ansi-underline">9</span> -<span class="ansi-red-fg">1</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">63</span> 
+<span class="ansi-black-intense-fg"> 6</span>  0.814 -<span class="ansi-red-fg">1</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">12</span>  -<span class="ansi-red-fg">2</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">78</span>    0.688
+<span class="ansi-black-intense-fg"> 7</span>  0.205  1.94  -<span class="ansi-red-fg">1</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">74</span>    0.721
+<span class="ansi-black-intense-fg"> 8</span>  1.14  -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">745</span>  0.729   0.415
+<span class="ansi-black-intense-fg"> 9</span>  1.46  -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">634</span>  1.37   -<span class="ansi-red-fg">1</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">60</span> 
+<span class="ansi-black-intense-fg">10</span> -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">131</span> -<span class="ansi-red-fg">1</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">0</span><span class="ansi-red-fg">6</span>  -<span class="ansi-red-fg">0</span><span class="ansi-red-fg">.</span><span class="ansi-red-fg">297</span>   0.616
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="ex1:-map,-map_*-차이">
+<a class="anchor" href="#ex1:-map,-map_*-%EC%B0%A8%EC%9D%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex1: map, map_* 차이<a class="anchor-link" href="#ex1:-map,-map_*-%EC%B0%A8%EC%9D%B4"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> map_dbl(df,mean) = list (mean(df[[1]]),mean(df[[2]]), ... , mean(df[[n]]))</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_dbl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+<span class="nf">map_dbl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">median</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+<span class="nf">map_dbl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sd</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>            a             b             c             d 
+ 0.3198993385 -0.2495560154 -0.3744838885  0.0009570046 
+         a          b          c          d 
+ 0.4015112 -0.6895933 -0.0696422  0.5150910 
+        a         b         c         d 
+0.8986917 1.1163977 1.1914158 0.9909110 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 결과는 벡터로 나온다. (벡터는 길이가 4이고 각 원소마다 a,b,c,d 라는 이름이 있음)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 결과가 벡터이므로 아래와 같은 연산이 가능함</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">print</span><span class="p">(</span><span class="nf">map_dbl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span> <span class="o">+</span> <span class="m">1</span> <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>        a         b         c         d 
+1.3198993 0.7504440 0.6255161 1.0009570 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 아래와 같이 각 원소에 이름이 있는 벡터를 선언할 수 있음.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">c</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="m">1.1</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="m">2.2</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="m">3.3</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="m">4.4</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>  a   b   c   d 
+1.1 2.2 3.3 4.4 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> map_dbl()이 아니라 map()을 사용해도 좋음. 단지 결과가 리스트로 나옴</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">mean</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>$a
+[1] 0.3198993
+
+$b
+[1] -0.249556
+
+$c
+[1] -0.3744839
+
+$d
+[1] 0.0009570046
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">median</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>$a
+[1] 0.4015112
+
+$b
+[1] -0.6895933
+
+$c
+[1] -0.0696422
+
+$d
+[1] 0.515091
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">sd</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>$a
+[1] 0.8986917
+
+$b
+[1] 1.116398
+
+$c
+[1] 1.191416
+
+$d
+[1] 0.990911
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> map_chr을 쓰면 문자열벡터가 결과로 나옴</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_chr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">mean</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>          a           b           c           d 
+ "0.319899" "-0.249556" "-0.374484"  "0.000957" 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> map_int을 쓰면 인트벡터가 결과로 나옴</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_int</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">length</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> a  b  c  d 
+10 10 10 10 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_int</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="m">0</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>a b c d 
+1 1 1 1 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 그런데 결과가 이미 double로 나온 경우라면 int로 만들 수 없음</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_int</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+Error: Can't coerce element 1 from a double to a integer
+Traceback:
+
+1. map_int(df, mean)</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> map_lgl 역시 마찬가지임</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_lgl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="m">0</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   a    b    c    d 
+TRUE TRUE TRUE TRUE 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_lgl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   a    b    c    d 
+TRUE TRUE TRUE TRUE 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_lgl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="m">1.5</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>    a     b     c     d 
+FALSE  TRUE FALSE FALSE 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_lgl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+Error: Can't coerce element 1 from a double to a logical
+Traceback:
+
+1. map_lgl(df, mean)</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="ex2:-%&gt;%-연산자사용">
+<a class="anchor" href="#ex2:-%&gt;%-%EC%97%B0%EC%82%B0%EC%9E%90%EC%82%AC%EC%9A%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex2: %&gt;% 연산자사용<a class="anchor-link" href="#ex2:-%&gt;%-%EC%97%B0%EC%82%B0%EC%9E%90%EC%82%AC%EC%9A%A9"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> pip를 사용할수도 있음</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">df</span> <span class="o">%&gt;%</span> <span class="nf">map_dbl</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">%&gt;%</span> <span class="nf">map_dbl</span><span class="p">(</span><span class="n">median</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">%&gt;%</span> <span class="nf">map_dbl</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>            a             b             c             d 
+ 0.3198993385 -0.2495560154 -0.3744838885  0.0009570046 
+         a          b          c          d 
+ 0.4015112 -0.6895933 -0.0696422  0.5150910 
+        a         b         c         d 
+0.8986917 1.1163977 1.1914158 0.9909110 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="ex3:-additional-arguments">
+<a class="anchor" href="#ex3:-additional-arguments" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex3: additional arguments<a class="anchor-link" href="#ex3:-additional-arguments"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">))</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+<span class="nf">mean</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="p">),</span><span class="n">trim</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] 0.625
+[1] 1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_dbl</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">trim</span> <span class="o">=</span> <span class="m">0.5</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>         a          b          c          d 
+ 0.4015112 -0.6895933 -0.0696422  0.5150910 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="ex4:-길이가-같지-않은-벡터들의-모임에서도-적용가능">
+<a class="anchor" href="#ex4:-%EA%B8%B8%EC%9D%B4%EA%B0%80-%EA%B0%99%EC%A7%80-%EC%95%8A%EC%9D%80-%EB%B2%A1%ED%84%B0%EB%93%A4%EC%9D%98-%EB%AA%A8%EC%9E%84%EC%97%90%EC%84%9C%EB%8F%84-%EC%A0%81%EC%9A%A9%EA%B0%80%EB%8A%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex4: 길이가 같지 않은 벡터들의 모임에서도 적용가능<a class="anchor-link" href="#ex4:-%EA%B8%B8%EC%9D%B4%EA%B0%80-%EA%B0%99%EC%A7%80-%EC%95%8A%EC%9D%80-%EB%B2%A1%ED%84%B0%EB%93%A4%EC%9D%98-%EB%AA%A8%EC%9E%84%EC%97%90%EC%84%9C%EB%8F%84-%EC%A0%81%EC%9A%A9%EA%B0%80%EB%8A%A5"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">z</span> <span class="o">&lt;-</span> <span class="nf">list</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="m">4</span><span class="o">:</span><span class="m">50</span><span class="p">)</span> 
+<span class="nf">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>$x
+[1] 1 2 3
+
+$y
+ [1]  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
+[26] 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>$x
+[1] 3
+
+$y
+[1] 47
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map_dbl</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> x  y 
+ 2 27 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="ex5:-응용예제">
+<a class="anchor" href="#ex5:-%EC%9D%91%EC%9A%A9%EC%98%88%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>ex5: 응용예제<a class="anchor-link" href="#ex5:-%EC%9D%91%EC%9A%A9%EC%98%88%EC%A0%9C"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mtcars</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mtcars</span> <span class="o">%&gt;%</span> <span class="nf">split</span><span class="p">(</span><span class="n">.</span><span class="o">$</span><span class="n">cyl</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>$`4`
+                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+Datsun 710     22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+Merc 240D      24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+Merc 230       22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+Fiat 128       32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+Honda Civic    30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+Toyota Corolla 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+Toyota Corona  21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+Fiat X1-9      27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+Porsche 914-2  26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+Lotus Europa   30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+
+$`6`
+                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+Mazda RX4      21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+Mazda RX4 Wag  21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+Hornet 4 Drive 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+Valiant        18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+Merc 280       19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+Merc 280C      17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+Ferrari Dino   19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+
+$`8`
+                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mtcars</span> <span class="o">%&gt;%</span> <span class="nf">split</span><span class="p">(</span><span class="n">.</span><span class="o">$</span><span class="n">cyl</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">map</span><span class="p">(</span><span class="nf">function</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="nf">lm</span><span class="p">(</span><span class="n">mpg</span> <span class="o">~</span> <span class="n">wt</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>$`4`
+
+Call:
+lm(formula = mpg ~ wt, data = df)
+
+Coefficients:
+(Intercept)           wt  
+     39.571       -5.647  
+
+
+$`6`
+
+Call:
+lm(formula = mpg ~ wt, data = df)
+
+Coefficients:
+(Intercept)           wt  
+      28.41        -2.78  
+
+
+$`8`
+
+Call:
+lm(formula = mpg ~ wt, data = df)
+
+Coefficients:
+(Intercept)           wt  
+     23.868       -2.192  
+
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mtcars</span> <span class="o">%&gt;%</span> <span class="nf">split</span><span class="p">(</span><span class="n">.</span><span class="o">$</span><span class="n">cyl</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">map</span><span class="p">(</span><span class="o">~</span><span class="nf">lm</span><span class="p">(</span><span class="n">mpg</span> <span class="o">~</span> <span class="n">wt</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">.</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>$`4`
+
+Call:
+lm(formula = mpg ~ wt, data = .)
+
+Coefficients:
+(Intercept)           wt  
+     39.571       -5.647  
+
+
+$`6`
+
+Call:
+lm(formula = mpg ~ wt, data = .)
+
+Coefficients:
+(Intercept)           wt  
+      28.41        -2.78  
+
+
+$`8`
+
+Call:
+lm(formula = mpg ~ wt, data = .)
+
+Coefficients:
+(Intercept)           wt  
+     23.868       -2.192  
+
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mtcars</span> <span class="o">%&gt;%</span> <span class="nf">split</span><span class="p">(</span><span class="n">.</span><span class="o">$</span><span class="n">cyl</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">map</span><span class="p">(</span><span class="o">~</span><span class="nf">lm</span><span class="p">(</span><span class="n">mpg</span> <span class="o">~</span> <span class="n">wt</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">.</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+  <span class="nf">map</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>$`4`
+
+Call:
+lm(formula = mpg ~ wt, data = .)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.1513 -1.9795 -0.6272  1.9299  5.2523 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   39.571      4.347   9.104 7.77e-06 ***
+wt            -5.647      1.850  -3.052   0.0137 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 3.332 on 9 degrees of freedom
+Multiple R-squared:  0.5086,	Adjusted R-squared:  0.454 
+F-statistic: 9.316 on 1 and 9 DF,  p-value: 0.01374
+
+
+$`6`
+
+Call:
+lm(formula = mpg ~ wt, data = .)
+
+Residuals:
+     Mazda RX4  Mazda RX4 Wag Hornet 4 Drive        Valiant       Merc 280 
+       -0.1250         0.5840         1.9292        -0.6897         0.3547 
+     Merc 280C   Ferrari Dino 
+       -1.0453        -1.0080 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)   28.409      4.184   6.789  0.00105 **
+wt            -2.780      1.335  -2.083  0.09176 . 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.165 on 5 degrees of freedom
+Multiple R-squared:  0.4645,	Adjusted R-squared:  0.3574 
+F-statistic: 4.337 on 1 and 5 DF,  p-value: 0.09176
+
+
+$`8`
+
+Call:
+lm(formula = mpg ~ wt, data = .)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.1491 -1.4664 -0.8458  1.5711  3.7619 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  23.8680     3.0055   7.942 4.05e-06 ***
+wt           -2.1924     0.7392  -2.966   0.0118 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 2.024 on 12 degrees of freedom
+Multiple R-squared:  0.423,	Adjusted R-squared:  0.3749 
+F-statistic: 8.796 on 1 and 12 DF,  p-value: 0.01179
+
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mtcars</span> <span class="o">%&gt;%</span> <span class="nf">split</span><span class="p">(</span><span class="n">.</span><span class="o">$</span><span class="n">cyl</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">map</span><span class="p">(</span><span class="o">~</span><span class="nf">lm</span><span class="p">(</span><span class="n">mpg</span> <span class="o">~</span> <span class="n">wt</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">.</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+  <span class="nf">map</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">map_dbl</span><span class="p">(</span><span class="o">~</span><span class="n">.</span><span class="o">$</span><span class="n">r.squared</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">print</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>        4         6         8 
+0.5086326 0.4645102 0.4229655 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">map</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="n">runif</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol>
+	<li>0.264654886908829</li>
+	<li>
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;</li>
+<li>0.165789187187329</li>
+<li>0.241316376952454</li>&lt;/ol&gt;
+
+	<li>
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;</li>
+<li>0.753685316303745</li>
+<li>0.439985636621714</li>
+<li>0.176742537645623</li>&lt;/ol&gt;
+
+	<li>
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;</li>
+<li>0.882823406485841</li>
+<li>0.801419929834083</li>
+<li>0.732465716311708</li>
+<li>0.0396612547338009</li>&lt;/ol&gt;
+
+	<li>
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;</li>
+<li>0.56984527898021</li>
+<li>0.297032885719091</li>
+<li>0.585848677903414</li>
+<li>0.371853708289564</li>
+<li>0.973834548844025</li>&lt;/ol&gt;
+
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="m">1</span><span class="o">:</span><span class="m">5</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>&lt;/ol&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="miruetoto/yechan"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/yechan/r/2021/08/02/(%EB%85%B8%ED%8A%B8)-purrr-R-(Unicode-Encoding-Conflict-1).html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/yechan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/yechan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/yechan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/miruetoto" title="miruetoto"><svg class="svg-icon grey"><use xlink:href="/yechan/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
