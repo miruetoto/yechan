@@ -1,0 +1,4005 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>(노트) 기울기소멸, 추천시스템 | 신록예찬’s 블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="(노트) 기울기소멸, 추천시스템" />
+<meta name="author" content="신록예찬" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://miruetoto.github.io/yechan/%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D/2021/11/30/(%EB%85%B8%ED%8A%B8)-%EA%B8%B0%EC%9A%B8%EA%B8%B0%EC%86%8C%EB%A9%B8,-%EC%B6%94%EC%B2%9C%EC%8B%9C%EC%8A%A4%ED%85%9C-pytorch-%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D.html" />
+<meta property="og:url" content="https://miruetoto.github.io/yechan/%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D/2021/11/30/(%EB%85%B8%ED%8A%B8)-%EA%B8%B0%EC%9A%B8%EA%B8%B0%EC%86%8C%EB%A9%B8,-%EC%B6%94%EC%B2%9C%EC%8B%9C%EC%8A%A4%ED%85%9C-pytorch-%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D.html" />
+<meta property="og:site_name" content="신록예찬’s 블로그" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-11-30T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://miruetoto.github.io/yechan/%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D/2021/11/30/(%EB%85%B8%ED%8A%B8)-%EA%B8%B0%EC%9A%B8%EA%B8%B0%EC%86%8C%EB%A9%B8,-%EC%B6%94%EC%B2%9C%EC%8B%9C%EC%8A%A4%ED%85%9C-pytorch-%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D.html","@type":"BlogPosting","headline":"(노트) 기울기소멸, 추천시스템","dateModified":"2021-11-30T00:00:00-06:00","datePublished":"2021-11-30T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D/2021/11/30/(%EB%85%B8%ED%8A%B8)-%EA%B8%B0%EC%9A%B8%EA%B8%B0%EC%86%8C%EB%A9%B8,-%EC%B6%94%EC%B2%9C%EC%8B%9C%EC%8A%A4%ED%85%9C-pytorch-%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D.html"},"author":{"@type":"Person","name":"신록예찬"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬's 블로그" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/yechan/">신록예찬&#39;s 블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/yechan/about/">About Me</a><a class="page-link" href="/yechan/search/">Search</a><a class="page-link" href="/yechan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">(노트) 기울기소멸, 추천시스템</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-11-30T00:00:00-06:00" itemprop="datePublished">
+        Nov 30, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">신록예찬</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      14 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/yechan/categories/#빅데이터분석">빅데이터분석</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/miruetoto/yechan/tree/master/_notebooks/2021-11-30-(노트) 기울기소멸, 추천시스템 - pytorch [빅데이터분석].ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/yechan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/miruetoto/yechan/master?filepath=_notebooks%2F2021-11-30-%28%EB%85%B8%ED%8A%B8%29+%EA%B8%B0%EC%9A%B8%EA%B8%B0%EC%86%8C%EB%A9%B8%2C+%EC%B6%94%EC%B2%9C%EC%8B%9C%EC%8A%A4%ED%85%9C+-+pytorch+%5B%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%5D.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/miruetoto/yechan/blob/master/_notebooks/2021-11-30-(노트) 기울기소멸, 추천시스템 - pytorch [빅데이터분석].ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#기울기소멸">기울기소멸 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#고요속의-외침">고요속의 외침 </a></li>
+<li class="toc-entry toc-h3"><a href="#정의">정의 </a></li>
+<li class="toc-entry toc-h3"><a href="#이해">이해 </a></li>
+<li class="toc-entry toc-h3"><a href="#해결책-(기울기-소멸에-대한-해결책)">해결책 (기울기 소멸에 대한 해결책) </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#딥러닝-+-머신러닝-공부를-위한-교재">딥러닝 + 머신러닝 공부를 위한 교재 </a></li>
+<li class="toc-entry toc-h2"><a href="#추천시스템">추천시스템 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#import">import </a></li>
+<li class="toc-entry toc-h3"><a href="#data-(시뮬레이션)">data (시뮬레이션) </a></li>
+<li class="toc-entry toc-h3"><a href="#data-(load)">data (load) </a></li>
+<li class="toc-entry toc-h3"><a href="#user-item-matrix">user-item matrix </a></li>
+<li class="toc-entry toc-h3"><a href="#예측?">예측? </a></li>
+<li class="toc-entry toc-h3"><a href="#fastai를-이용한-학습:-df-$\to$-dls">fastai를 이용한 학습: df $\to$ dls </a></li>
+<li class="toc-entry toc-h3"><a href="#fastai를-이용한-학습:-learn">fastai를 이용한 학습: learn </a></li>
+<li class="toc-entry toc-h3"><a href="#추천:-마지막유저에-대한-예측결과?-(아마-홍차를-좋아하지-않을까?)">추천: 마지막유저에 대한 예측결과? (아마 홍차를 좋아하지 않을까?) </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-11-30-(노트) 기울기소멸, 추천시스템 - pytorch [빅데이터분석].ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="기울기소멸">
+<a class="anchor" href="#%EA%B8%B0%EC%9A%B8%EA%B8%B0%EC%86%8C%EB%A9%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>기울기소멸<a class="anchor-link" href="#%EA%B8%B0%EC%9A%B8%EA%B8%B0%EC%86%8C%EB%A9%B8"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="고요속의-외침">
+<a class="anchor" href="#%EA%B3%A0%EC%9A%94%EC%86%8D%EC%9D%98-%EC%99%B8%EC%B9%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>고요속의 외침<a class="anchor-link" href="#%EA%B3%A0%EC%9A%94%EC%86%8D%EC%9D%98-%EC%99%B8%EC%B9%A8"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> <a href="https://www.youtube.com/watch?v=ouitOnaDtFY">https://www.youtube.com/watch?v=ouitOnaDtFY</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 중간에 한명이라도 잘못말한다면..</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="정의">
+<a class="anchor" href="#%EC%A0%95%EC%9D%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>정의<a class="anchor-link" href="#%EC%A0%95%EC%9D%98"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> In machine learning, the vanishing gradient problem is encountered when training artificial neural networks with gradient-based learning methods and backpropagation.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="이해">
+<a class="anchor" href="#%EC%9D%B4%ED%95%B4" aria-hidden="true"><span class="octicon octicon-link"></span></a>이해<a class="anchor-link" href="#%EC%9D%B4%ED%95%B4"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 당연한거 아닌가?</p>
+<ul>
+<li>그래디언트 기반의 학습(그래디언트 기반의 옵티마이저): 손실함수의 기울기를 통하여 업데이트 하는 방식</li>
+<li>역전파: 손실함수의 기울기를 구하는 테크닉(체인룰 + $\alpha$). 구체적으로는 (1) 손실함수를 여러단계로 쪼개고 (2) 각 단계의 미분을 각각 구하고 (3) 그것들을 모두 곱하여 기울기를 계산한다. </li>
+<li>0근처의 숫자를 계속 곱하면 터지거나 0으로 간다. (사실 안정적인 기울기가 나올거라고 보는것이 이상한것임) </li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span><span class="n">high</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">grads</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 0.18688288,  0.43450847, -0.87513215,  1.35976661, -1.67602921,
+       -1.94881797,  0.28000878, -0.07982773,  0.41098101,  1.44913431,
+        1.42155413,  0.30179395, -1.11750978, -1.03629995,  1.73194045,
+        1.30429018, -1.85441508, -0.23849127,  1.69550035,  1.08930237,
+        0.61166949, -1.55165233,  1.35400582, -0.79701747,  0.80542101,
+       -1.63942602,  1.5169811 , -0.99256516,  1.12927938, -0.60001878,
+       -0.79629782, -1.41639694, -1.60737528, -0.810134  ,  1.46868468,
+        0.80995697, -0.01861418,  1.870188  ,  0.7237886 ,  1.94490223,
+        0.30018531,  0.7239008 , -1.49830624,  0.35257188,  1.54092802,
+        0.37818125,  1.85990611, -1.03105941,  0.5865016 , -1.98180695,
+       -0.27474677,  0.88501944,  0.47957049,  1.97015467,  1.18178691,
+        1.35343833,  1.84192922, -0.16687519, -0.63599077,  1.78165492,
+       -1.38607268, -0.6363796 ,  1.26337952, -1.82063191,  1.92715124,
+        0.56908745, -1.44857969, -0.44694881,  1.12397453,  0.81900019,
+       -1.34730467, -0.03100787, -1.98911877,  1.26495344,  0.4073905 ,
+       -1.96826953,  1.93068033,  1.07119525, -0.05285845,  1.43202408,
+        0.10627962, -1.24520154,  1.28336267,  1.24564003,  0.45895504,
+        0.05938386, -0.33004816,  1.71594089, -1.92451146, -1.67093832,
+        1.64631833, -0.55316687,  0.43782105, -1.87975355, -1.89361645,
+       -0.06089341,  0.571681  , -0.39305498, -1.40057471, -0.97509085])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grads</span><span class="o">.</span><span class="n">prod</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>-4.231809904440714e-11</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>기울기가 소멸함 </li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">3</span><span class="p">,</span><span class="n">high</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">grads</span><span class="o">.</span><span class="n">prod</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>16676775121011.598</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>기울기가 폭발함 </li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">3</span><span class="p">,</span><span class="n">high</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">grads</span><span class="o">.</span><span class="n">prod</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>-504691.96433542186</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">high</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">grads</span><span class="o">.</span><span class="n">prod</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>-5.898185033226975e-06</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 도깨비: 기울기가 소멸하기도 하고 터지기도 한다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="해결책-(기울기-소멸에-대한-해결책)">
+<a class="anchor" href="#%ED%95%B4%EA%B2%B0%EC%B1%85-(%EA%B8%B0%EC%9A%B8%EA%B8%B0-%EC%86%8C%EB%A9%B8%EC%97%90-%EB%8C%80%ED%95%9C-%ED%95%B4%EA%B2%B0%EC%B1%85)" aria-hidden="true"><span class="octicon octicon-link"></span></a>해결책 (기울기 소멸에 대한 해결책)<a class="anchor-link" href="#%ED%95%B4%EA%B2%B0%EC%B1%85-(%EA%B8%B0%EC%9A%B8%EA%B8%B0-%EC%86%8C%EB%A9%B8%EC%97%90-%EB%8C%80%ED%95%9C-%ED%95%B4%EA%B2%B0%EC%B1%85)"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p></p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+    <strong>Note: </strong>잘 정리되어있는게 없어서 제 머리속에서 정리했습니다. 부정확할수 있어요. 
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 개념</p>
+<ul>
+<li>데이터 $\to$ (아키텍처, 손실함수, 역전파, 업데이트) </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> Multi-level hierarchy</p>
+<ul>
+<li>여러층을 쪼개서 학습하자 $\to$ 어떻게?... 사전학습, 층별학습. </li>
+<li>기울기소실문제를 해결하여 딥러닝을 유행시킨 태초의 방법임. </li>
+<li>입력자료의 전처리도 여기에 해당함 </li>
+<li>결국 입력자료를 바꾼뒤에 학습하는 형태 </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> Faster hardware</p>
+<ul>
+<li>GPU를 중심으로 한 테크닉. </li>
+<li>근본적인 문제해결은 아니라는 힌튼의 비판. </li>
+<li>CPU를 쓸때보다 GPU를 쓰면 약간 더 깊은 모형을 학습할 수 있다 정도? </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> ResNet</p>
+<ul>
+<li>훌륭한 접근법중 하나임 </li>
+<li>아키텍처를 변경하는 방법이지만, 사실상 손실함수를 스무딩 시켜버리는 기법으로 이해해도 된다. </li>
+<li>숏컷이라는 아키텍처를 추가하여 이리저리 실험해보니까 손실함수가 스무딩 되었다! &lt;-- 이런게 아니라.. </li>
+<li>손실함수를 스무딩하기 위해서는 층별의 차이(residual)만 학습하는게 유리할것 같다. 그런데 그것을 위한 효과를 주기 위해 아키텍처를 설계하려면 단지 숏컷을 만들기만 하면 된다. &lt;-- 이런 모티브였을 것이다.. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 활성화함수의 변경</p>
+<ul>
+<li>렐루의 개발 $\to$ 특정노드가 죽음 $\to$ 리키렐루의 개발 </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 배치정규화</p>
+<ul>
+<li>어쩌다보니 되는 것. </li>
+<li>배치정규화는 공변량 쉬프트를 잡기위한 방법임. 그런데 기울기소멸에도 효과가 있음. 현재는 기울기 소멸에 대한 해결책으로 빠짐없이 언급되는 내용. 하지만 2015년의 원래 논문에서는 기울기소멸에 대한 언급없음 (<a href="https://arxiv.org/pdf/1502.03167.pdf">https://arxiv.org/pdf/1502.03167.pdf</a>)</li>
+<li>심지어 배치정규화는 오버피팅을 잡는것에도 효과가 있음 (이것은 논문에 언급있음) </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> <strong>기울기를 안구하면 안되나?</strong></p>
+<ul>
+<li>베이지안 최적화기법: (<a href="https://arxiv.org/pdf/1807.02811.pdf">https://arxiv.org/pdf/1807.02811.pdf</a>) $\to$ GPU를 어떻게써? $\to$ 진짜 엄청느려요.. 지옥입니다.. </li>
+<li>강화학습? </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="딥러닝-+-머신러닝-공부를-위한-교재">
+<a class="anchor" href="#%EB%94%A5%EB%9F%AC%EB%8B%9D-+-%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D-%EA%B3%B5%EB%B6%80%EB%A5%BC-%EC%9C%84%ED%95%9C-%EA%B5%90%EC%9E%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>딥러닝 + 머신러닝 공부를 위한 교재<a class="anchor-link" href="#%EB%94%A5%EB%9F%AC%EB%8B%9D-+-%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D-%EA%B3%B5%EB%B6%80%EB%A5%BC-%EC%9C%84%ED%95%9C-%EA%B5%90%EC%9E%AC"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 기계학습, 오일석 (<a href="http://www.yes24.com/Product/Goods/57537091">http://www.yes24.com/Product/Goods/57537091</a>)</p>
+<ul>
+<li>좋은 교재에요.. </li>
+<li>딥러닝 초급내용을 커버할 수 있습니다.. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 심층학습, 이안굿펠로우 (<a href="https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=171345378">https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=171345378</a>)</p>
+<ul>
+<li>이안굿펠로우는 GAN을 만든사람입니다. </li>
+<li>거의 표준임. </li>
+<li>번역상태가 너무 너무 안좋아요. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 머신러닝교재들</p>
+<ul>
+<li>패턴인식: </li>
+<li>Element of Statistical Learning </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="추천시스템">
+<a class="anchor" href="#%EC%B6%94%EC%B2%9C%EC%8B%9C%EC%8A%A4%ED%85%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>추천시스템<a class="anchor-link" href="#%EC%B6%94%EC%B2%9C%EC%8B%9C%EC%8A%A4%ED%85%9C"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="import">
+<a class="anchor" href="#import" aria-hidden="true"><span class="octicon octicon-link"></span></a>import<a class="anchor-link" href="#import"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">fastai.collab</span> <span class="kn">import</span> <span class="o">*</span> 
+<span class="kn">from</span> <span class="nn">fastai.tabular.all</span> <span class="kn">import</span> <span class="o">*</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="data-(시뮬레이션)">
+<a class="anchor" href="#data-(%EC%8B%9C%EB%AE%AC%EB%A0%88%EC%9D%B4%EC%85%98)" aria-hidden="true"><span class="octicon octicon-link"></span></a>data (시뮬레이션)<a class="anchor-link" href="#data-(%EC%8B%9C%EB%AE%AC%EB%A0%88%EC%9D%B4%EC%85%98)"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">user</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">))</span>
+<span class="n">item</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">))</span>
+<span class="n">_lst</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">4.2</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">i</span><span class="p">):</span> 
+    <span class="k">if</span> <span class="n">u</span><span class="o">&lt;=</span><span class="mi">50</span> <span class="ow">and</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mi">10</span><span class="p">:</span> 
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">0.2</span><span class="o">+</span><span class="mi">4</span> 
+    <span class="k">elif</span> <span class="n">u</span><span class="o">&lt;=</span><span class="mi">50</span> <span class="ow">and</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">0.2</span><span class="o">+</span><span class="mi">1</span> 
+    <span class="k">elif</span> <span class="n">u</span><span class="o">&gt;</span><span class="mi">50</span> <span class="ow">and</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">0.2</span><span class="o">+</span><span class="mi">1</span> 
+    <span class="k">elif</span> <span class="n">u</span><span class="o">&gt;</span><span class="mi">50</span> <span class="ow">and</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">0.2</span><span class="o">+</span><span class="mi">4</span> 
+        
+<span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">user</span><span class="p">:</span>
+    <span class="n">_item</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,(</span><span class="mi">10</span><span class="p">,))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">_item</span><span class="p">:</span>
+        <span class="n">_lst</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">u</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">f</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">i</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df1</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">_lst</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'user'</span><span class="p">,</span><span class="s1">'item'</span><span class="p">,</span><span class="s1">'rating'</span><span class="p">])</span>
+<span class="n">_df1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user</th>
+      <th>item</th>
+      <th>rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>14</td>
+      <td>0.787547</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>6</td>
+      <td>3.812296</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>11</td>
+      <td>0.959677</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>14</td>
+      <td>1.124721</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>8</td>
+      <td>4.226724</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>100</td>
+      <td>15</td>
+      <td>4.383630</td>
+    </tr>
+    <tr>
+      <th>996</th>
+      <td>100</td>
+      <td>1</td>
+      <td>0.788717</td>
+    </tr>
+    <tr>
+      <th>997</th>
+      <td>100</td>
+      <td>8</td>
+      <td>0.716445</td>
+    </tr>
+    <tr>
+      <th>998</th>
+      <td>100</td>
+      <td>5</td>
+      <td>1.096143</td>
+    </tr>
+    <tr>
+      <th>999</th>
+      <td>100</td>
+      <td>3</td>
+      <td>1.149897</td>
+    </tr>
+  </tbody>
+</table>
+<p>1000 rows × 3 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="s1">'커피'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span><span class="o">+</span><span class="p">[</span><span class="s1">'홍차'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['커피1',
+ '커피2',
+ '커피3',
+ '커피4',
+ '커피5',
+ '커피6',
+ '커피7',
+ '커피8',
+ '커피9',
+ '커피10',
+ '홍차1',
+ '홍차2',
+ '홍차3',
+ '홍차4',
+ '홍차5',
+ '홍차6',
+ '홍차7',
+ '홍차8',
+ '홍차9',
+ '홍차10']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'item'</span><span class="p">:</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)),</span> <span class="s1">'item_name'</span><span class="p">:[</span><span class="s1">'커피'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span><span class="o">+</span><span class="p">[</span><span class="s1">'홍차'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]})</span>
+<span class="n">_df2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>item</th>
+      <th>item_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>커피1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>커피2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>커피3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>커피4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>커피5</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5</td>
+      <td>커피6</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>6</td>
+      <td>커피7</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>7</td>
+      <td>커피8</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>8</td>
+      <td>커피9</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>9</td>
+      <td>커피10</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>10</td>
+      <td>홍차1</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>11</td>
+      <td>홍차2</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>12</td>
+      <td>홍차3</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>13</td>
+      <td>홍차4</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>14</td>
+      <td>홍차5</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>15</td>
+      <td>홍차6</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>16</td>
+      <td>홍차7</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>17</td>
+      <td>홍차8</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>18</td>
+      <td>홍차9</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>19</td>
+      <td>홍차10</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">=</span> <span class="n">_df1</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">_df2</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'user'</span><span class="p">)</span> 
+<span class="n">df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user</th>
+      <th>item</th>
+      <th>rating</th>
+      <th>item_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>14</td>
+      <td>0.787547</td>
+      <td>홍차5</td>
+    </tr>
+    <tr>
+      <th>142</th>
+      <td>1</td>
+      <td>8</td>
+      <td>4.226724</td>
+      <td>커피9</td>
+    </tr>
+    <tr>
+      <th>194</th>
+      <td>1</td>
+      <td>5</td>
+      <td>3.713112</td>
+      <td>커피6</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>1</td>
+      <td>5</td>
+      <td>4.118249</td>
+      <td>커피6</td>
+    </tr>
+    <tr>
+      <th>248</th>
+      <td>1</td>
+      <td>4</td>
+      <td>3.935039</td>
+      <td>커피5</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>551</th>
+      <td>100</td>
+      <td>15</td>
+      <td>3.598425</td>
+      <td>홍차6</td>
+    </tr>
+    <tr>
+      <th>552</th>
+      <td>100</td>
+      <td>15</td>
+      <td>4.383630</td>
+      <td>홍차6</td>
+    </tr>
+    <tr>
+      <th>193</th>
+      <td>100</td>
+      <td>8</td>
+      <td>0.716445</td>
+      <td>커피9</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>100</td>
+      <td>6</td>
+      <td>1.083683</td>
+      <td>커피7</td>
+    </tr>
+    <tr>
+      <th>999</th>
+      <td>100</td>
+      <td>12</td>
+      <td>3.844000</td>
+      <td>홍차3</td>
+    </tr>
+  </tbody>
+</table>
+<p>1000 rows × 4 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'2021-11-30-recommend.csv'</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="data-(load)">
+<a class="anchor" href="#data-(load)" aria-hidden="true"><span class="octicon octicon-link"></span></a>data (load)<a class="anchor-link" href="#data-(load)"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 가짜 자료</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"2021-11-30-recommend.csv"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user</th>
+      <th>item</th>
+      <th>rating</th>
+      <th>item_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>14</td>
+      <td>0.787547</td>
+      <td>홍차5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>8</td>
+      <td>4.226724</td>
+      <td>커피9</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>5</td>
+      <td>3.713112</td>
+      <td>커피6</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>5</td>
+      <td>4.118249</td>
+      <td>커피6</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>4</td>
+      <td>3.935039</td>
+      <td>커피5</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>995</th>
+      <td>100</td>
+      <td>15</td>
+      <td>3.598425</td>
+      <td>홍차6</td>
+    </tr>
+    <tr>
+      <th>996</th>
+      <td>100</td>
+      <td>15</td>
+      <td>4.383630</td>
+      <td>홍차6</td>
+    </tr>
+    <tr>
+      <th>997</th>
+      <td>100</td>
+      <td>8</td>
+      <td>0.716445</td>
+      <td>커피9</td>
+    </tr>
+    <tr>
+      <th>998</th>
+      <td>100</td>
+      <td>6</td>
+      <td>1.083683</td>
+      <td>커피7</td>
+    </tr>
+    <tr>
+      <th>999</th>
+      <td>100</td>
+      <td>12</td>
+      <td>3.844000</td>
+      <td>홍차3</td>
+    </tr>
+  </tbody>
+</table>
+<p>1000 rows × 4 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="user-item-matrix">
+<a class="anchor" href="#user-item-matrix" aria-hidden="true"><span class="octicon octicon-link"></span></a>user-item matrix<a class="anchor-link" href="#user-item-matrix"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 아래와 같은 매트릭스를 고려하자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="kc">None</span><span class="p">]</span><span class="o">*</span><span class="mi">20</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'커피'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span><span class="o">+</span><span class="p">[</span><span class="s1">'홍차'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+<span class="n">df2</span><span class="o">.</span><span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">([</span><span class="s1">'user'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">)])</span>
+<span class="n">df2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>커피1</th>
+      <th>커피2</th>
+      <th>커피3</th>
+      <th>커피4</th>
+      <th>커피5</th>
+      <th>커피6</th>
+      <th>커피7</th>
+      <th>커피8</th>
+      <th>커피9</th>
+      <th>커피10</th>
+      <th>홍차1</th>
+      <th>홍차2</th>
+      <th>홍차3</th>
+      <th>홍차4</th>
+      <th>홍차5</th>
+      <th>홍차6</th>
+      <th>홍차7</th>
+      <th>홍차8</th>
+      <th>홍차9</th>
+      <th>홍차10</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>user1</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user2</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user3</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user4</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user5</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>user96</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user97</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user98</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user99</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user100</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+<p>100 rows × 20 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 이러한 형식의 매트릭스에 df의 정보를 채워넣자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">to_list</span><span class="p">(),</span> <span class="n">df</span><span class="o">.</span><span class="n">item</span><span class="o">.</span><span class="n">to_list</span><span class="p">()):</span>
+    <span class="n">df2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">'user == @i and item == @j'</span><span class="p">)[</span><span class="s1">'rating'</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">index</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">([</span><span class="s1">'user'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>커피1</th>
+      <th>커피2</th>
+      <th>커피3</th>
+      <th>커피4</th>
+      <th>커피5</th>
+      <th>커피6</th>
+      <th>커피7</th>
+      <th>커피8</th>
+      <th>커피9</th>
+      <th>커피10</th>
+      <th>홍차1</th>
+      <th>홍차2</th>
+      <th>홍차3</th>
+      <th>홍차4</th>
+      <th>홍차5</th>
+      <th>홍차6</th>
+      <th>홍차7</th>
+      <th>홍차8</th>
+      <th>홍차9</th>
+      <th>홍차10</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>user1</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3.935039</td>
+      <td>3.713112</td>
+      <td>3.922179</td>
+      <td>4.165764</td>
+      <td>4.226724</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0.959677</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0.787547</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user2</th>
+      <td>3.909745</td>
+      <td>4.11717</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3.808519</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3.963164</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1.06571</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0.918659</td>
+      <td>1.163262</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user3</th>
+      <td>None</td>
+      <td>3.787083</td>
+      <td>4.041364</td>
+      <td>None</td>
+      <td>4.224596</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3.816186</td>
+      <td>4.115778</td>
+      <td>1.073658</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1.093765</td>
+      <td>None</td>
+      <td>1.065215</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user4</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3.757238</td>
+      <td>4.268842</td>
+      <td>3.913475</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0.836371</td>
+      <td>None</td>
+      <td>1.174135</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1.153179</td>
+      <td>3.726432</td>
+    </tr>
+    <tr>
+      <th>user5</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3.555718</td>
+      <td>3.826683</td>
+      <td>None</td>
+      <td>3.820999</td>
+      <td>3.50051</td>
+      <td>4.011156</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1.124607</td>
+      <td>1.156935</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0.81715</td>
+      <td>None</td>
+      <td>0.867264</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>user1 $\sim$ user5는 대체로 커피를 선호한다. </li>
+<li>user1은 커피1,2,3,5,9,10을 먹지 않았는데 아마 먹는다면 높은 점수를 줄 것이다. </li>
+<li>반대로 먹어보지 않은 홍차종류에는 낮은 점수를 줄 것이다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">47</span><span class="p">:</span><span class="mi">53</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>커피1</th>
+      <th>커피2</th>
+      <th>커피3</th>
+      <th>커피4</th>
+      <th>커피5</th>
+      <th>커피6</th>
+      <th>커피7</th>
+      <th>커피8</th>
+      <th>커피9</th>
+      <th>커피10</th>
+      <th>홍차1</th>
+      <th>홍차2</th>
+      <th>홍차3</th>
+      <th>홍차4</th>
+      <th>홍차5</th>
+      <th>홍차6</th>
+      <th>홍차7</th>
+      <th>홍차8</th>
+      <th>홍차9</th>
+      <th>홍차10</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>user48</th>
+      <td>4.018805</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4.018385</td>
+      <td>4.264931</td>
+      <td>None</td>
+      <td>1.196839</td>
+      <td>None</td>
+      <td>1.066406</td>
+      <td>1.270823</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0.942779</td>
+      <td>1.214148</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user49</th>
+      <td>4.379461</td>
+      <td>3.902307</td>
+      <td>4.101265</td>
+      <td>4.29727</td>
+      <td>4.178992</td>
+      <td>4.092554</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0.966461</td>
+      <td>None</td>
+      <td>0.916446</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4.085241</td>
+    </tr>
+    <tr>
+      <th>user50</th>
+      <td>None</td>
+      <td>4.382008</td>
+      <td>4.2637</td>
+      <td>None</td>
+      <td>3.849102</td>
+      <td>None</td>
+      <td>3.69737</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0.92486</td>
+      <td>None</td>
+      <td>1.152978</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1.009617</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user51</th>
+      <td>None</td>
+      <td>0.694796</td>
+      <td>1.164011</td>
+      <td>None</td>
+      <td>0.964617</td>
+      <td>None</td>
+      <td>1.391295</td>
+      <td>1.0149</td>
+      <td>None</td>
+      <td>0.838785</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3.856604</td>
+      <td>None</td>
+      <td>1.067545</td>
+    </tr>
+    <tr>
+      <th>user52</th>
+      <td>None</td>
+      <td>0.989442</td>
+      <td>0.961105</td>
+      <td>None</td>
+      <td>0.969555</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3.488142</td>
+      <td>None</td>
+      <td>3.584484</td>
+      <td>3.819045</td>
+      <td>None</td>
+      <td>4.286833</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1.085524</td>
+    </tr>
+    <tr>
+      <th>user53</th>
+      <td>None</td>
+      <td>0.998253</td>
+      <td>1.032884</td>
+      <td>0.674988</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0.998516</td>
+      <td>None</td>
+      <td>1.101346</td>
+      <td>None</td>
+      <td>3.989613</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3.994189</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4.02982</td>
+      <td>4.040601</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>user1 $\sim$ user50은 커피를 선호하고 user51 $\sim$ user100은 홍차를 선호함 </li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">94</span><span class="p">:]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>커피1</th>
+      <th>커피2</th>
+      <th>커피3</th>
+      <th>커피4</th>
+      <th>커피5</th>
+      <th>커피6</th>
+      <th>커피7</th>
+      <th>커피8</th>
+      <th>커피9</th>
+      <th>커피10</th>
+      <th>홍차1</th>
+      <th>홍차2</th>
+      <th>홍차3</th>
+      <th>홍차4</th>
+      <th>홍차5</th>
+      <th>홍차6</th>
+      <th>홍차7</th>
+      <th>홍차8</th>
+      <th>홍차9</th>
+      <th>홍차10</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>user95</th>
+      <td>None</td>
+      <td>1.14804</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0.888305</td>
+      <td>1.064191</td>
+      <td>None</td>
+      <td>1.376328</td>
+      <td>4.031612</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3.998592</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4.055125</td>
+      <td>3.998839</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user96</th>
+      <td>0.942084</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4.125248</td>
+      <td>4.109143</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4.215392</td>
+      <td>3.762246</td>
+      <td>4.1423</td>
+      <td>None</td>
+      <td>0.827988</td>
+    </tr>
+    <tr>
+      <th>user97</th>
+      <td>None</td>
+      <td>0.73649</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>0.814217</td>
+      <td>1.420604</td>
+      <td>1.050803</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3.827543</td>
+      <td>None</td>
+      <td>4.055171</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4.009129</td>
+      <td>4.063267</td>
+      <td>None</td>
+      <td>0.597993</td>
+    </tr>
+    <tr>
+      <th>user98</th>
+      <td>None</td>
+      <td>None</td>
+      <td>0.76752</td>
+      <td>None</td>
+      <td>1.072218</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1.021994</td>
+      <td>0.844369</td>
+      <td>1.117812</td>
+      <td>3.814472</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4.095386</td>
+      <td>4.159027</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1.194373</td>
+    </tr>
+    <tr>
+      <th>user99</th>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1.45157</td>
+      <td>None</td>
+      <td>0.794026</td>
+      <td>None</td>
+      <td>1.296687</td>
+      <td>0.755774</td>
+      <td>1.076408</td>
+      <td>None</td>
+      <td>3.822382</td>
+      <td>4.033721</td>
+      <td>None</td>
+      <td>3.80931</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>4.104406</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>user100</th>
+      <td>0.788717</td>
+      <td>None</td>
+      <td>1.149897</td>
+      <td>None</td>
+      <td>1.096143</td>
+      <td>1.083683</td>
+      <td>None</td>
+      <td>0.716445</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>3.844</td>
+      <td>3.611726</td>
+      <td>None</td>
+      <td>3.598425</td>
+      <td>4.04773</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="예측?">
+<a class="anchor" href="#%EC%98%88%EC%B8%A1?" aria-hidden="true"><span class="octicon octicon-link"></span></a>예측?<a class="anchor-link" href="#%EC%98%88%EC%B8%A1?"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> None의 값을 추론하는 방법? 머리속으로는 이미 알고있음. 그런데 어떻게 수식화 할 수 있을 것인지?</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'user1'</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>커피1         None
+커피2         None
+커피3         None
+커피4     3.935039
+커피5     3.713112
+커피6     3.922179
+커피7     4.165764
+커피8     4.226724
+커피9         None
+커피10        None
+홍차1     0.959677
+홍차2         None
+홍차3         None
+홍차4     0.787547
+홍차5         None
+홍차6         None
+홍차7         None
+홍차8         None
+홍차9         None
+홍차10        None
+Name: user1, dtype: object</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 유저의 취향은 예를들면 아래와 같이 표현할 수 있다.</p>
+<ul>
+<li>user1의 취향 = (커피좋아함, 홍차싫어함) = (0.9,0.21)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 숫자로 나타내면 아래와 같다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">user1_prprnc</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.21</span><span class="p">)</span> 
+<span class="n">user1_prprnc</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(0.8, 0.21)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 여기에서 (0.8, 0.21)은 각각 (커피음료, 홍차음료)로 해석할 수 있다. 현재는 단순하게 원소가 2인 벡터이지만 다양한 아이템의 경우 아래와 같은 featrue도 가능하다.</p>
+<ul>
+<li>음료의특징: (커피음료, 홍차음료, 우유포함, 설탕포함정도, 아이스여부, 행사여부, 이벤트중인음료, ...) </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 아이템1과 11의 특징은 예를들면 아래와 같이 표현할 수 있다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">item4_ftr</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.71</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">)</span> <span class="c1"># 커피4</span>
+<span class="n">item11_ftr</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.88</span><span class="p">)</span> <span class="c1"># 홍차1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 유저의 선호도와 아이템의 feature를 내적해보자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">user1_prprnc</span><span class="p">)</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">item4_ftr</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.574</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">user1_prprnc</span><span class="p">)</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">item11_ftr</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.256</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 유저의 선호도와 item의 feature가 비슷할수록 값이 높게 나온다. 실제 user1이 커피4와 홍차1에 매긴 평점은 (3.935039,0.959677) 인데 이 값이 (0.574,0.256) 와 비슷하게 만들면 된다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 적당히 값을 조정하여 다시 계산해보자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">user1_prprnc</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span> 
+<span class="n">item4_ftr</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">)</span> <span class="c1"># 커피4</span>
+<span class="n">item11_ftr</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="c1"># 홍차1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">user1_prprnc</span><span class="p">)</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">item4_ftr</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>3.9</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">user1_prprnc</span><span class="p">)</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">item11_ftr</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.9199999999999999</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>적당히 이런식으로?... </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 따라서 <code>user1_prprnc</code>, <code>item4_ftr</code>, <code>item11_ftr</code>의 값들이 학습을 통하여 조정할 파라메터이다. 확장하면..</p>
+<ul>
+<li>
+<code>user1_prprnc</code>, ... , <code>user100_prprnc</code>
+</li>
+<li>
+<code>item1_ftr</code>, ... , <code>item20_ftr</code>
+</li>
+</ul>
+<p>을 찾으면 된다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 신기한것은 이 파라메터들이 있다면 <code>None</code>에 대한 추론도 가능하다는 것이다. 예를들어서 user1은 item1를 먹지 않았지만 (즉 커피1) item1_ftr의 <code>계수값</code>이 다른유저를 통하여 학습 되었고 그 값이 아래와 같다고 하자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">item1_ftr</span> <span class="o">=</span> <span class="p">(</span><span class="mf">5.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.17</span><span class="p">)</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>그러면 커피1에 대하여 user1이 매길것이라 예상되는 평점은 아래와 같다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">user1_prprnc</span><span class="p">)</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">item1_ftr</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>4.606</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 생각해보니까 <code>user1_prprnc</code>, ... , <code>user100_prprnc</code>, <code>item1_ftr</code>, ... , <code>item20_ftr</code> 를 ${\bf W}$라고 생각하면 우리가 ${\bf W}$을 바꿈에 따라 예측값과 손실이 결정되므로 네트워크 구조가 만들어진다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 정리하면 아래와 같은 적당한 매트릭스를 선택하여</p>
+<ul>
+<li>
+<p>${\bf U}=\begin{bmatrix} {\tt user1~prprnc} \\ \dots \\ {\tt user100~prprnc} \end{bmatrix}$ $\quad 100 \times 2$ mat</p>
+</li>
+<li>
+<p>${\bf V}=\begin{bmatrix} {\tt item1~ftr} \\ \dots \\ {\tt item20~ftr} \end{bmatrix}$ $\quad 20 \times 2$ mat</p>
+</li>
+</ul>
+<p>${\bf U} {\bf V}^\top \approx$<code>df2</code>가 만족하도록 하면 된다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="fastai를-이용한-학습:-df-$\to$-dls">
+<a class="anchor" href="#fastai%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%ED%95%99%EC%8A%B5:-df-%24%5Cto%24-dls" aria-hidden="true"><span class="octicon octicon-link"></span></a>fastai를 이용한 학습: df $\to$ dls<a class="anchor-link" href="#fastai%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%ED%95%99%EC%8A%B5:-df-%24%5Cto%24-dls"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dls</span><span class="o">=</span><span class="n">CollabDataLoaders</span><span class="o">.</span><span class="n">from_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">bs</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> <span class="c1"># df의 형식: 첫번째열을 사용자인덱스, 두번째열은 아이템인덱스, 세번째열은 rating, 네번째열은 아이템이름으로 약속</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dls</span><span class="o">.</span><span class="n">items</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user</th>
+      <th>item</th>
+      <th>rating</th>
+      <th>item_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>365</th>
+      <td>46</td>
+      <td>2</td>
+      <td>4.046898</td>
+      <td>커피2</td>
+    </tr>
+    <tr>
+      <th>913</th>
+      <td>58</td>
+      <td>18</td>
+      <td>3.936074</td>
+      <td>홍차8</td>
+    </tr>
+    <tr>
+      <th>568</th>
+      <td>29</td>
+      <td>20</td>
+      <td>0.906526</td>
+      <td>홍차10</td>
+    </tr>
+    <tr>
+      <th>735</th>
+      <td>98</td>
+      <td>11</td>
+      <td>1.117812</td>
+      <td>홍차1</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>85</td>
+      <td>12</td>
+      <td>4.174649</td>
+      <td>홍차2</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>646</th>
+      <td>16</td>
+      <td>17</td>
+      <td>1.110942</td>
+      <td>홍차7</td>
+    </tr>
+    <tr>
+      <th>529</th>
+      <td>58</td>
+      <td>16</td>
+      <td>3.706312</td>
+      <td>홍차6</td>
+    </tr>
+    <tr>
+      <th>521</th>
+      <td>52</td>
+      <td>16</td>
+      <td>3.819045</td>
+      <td>홍차6</td>
+    </tr>
+    <tr>
+      <th>442</th>
+      <td>19</td>
+      <td>3</td>
+      <td>3.980287</td>
+      <td>커피3</td>
+    </tr>
+    <tr>
+      <th>169</th>
+      <td>56</td>
+      <td>9</td>
+      <td>1.256799</td>
+      <td>커피9</td>
+    </tr>
+  </tbody>
+</table>
+<p>800 rows × 4 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dls</span><span class="o">.</span><span class="n">show_batch</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user</th>
+      <th>item</th>
+      <th>rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>48</td>
+      <td>13</td>
+      <td>1.066406</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>36</td>
+      <td>4</td>
+      <td>4.470973</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>28</td>
+      <td>17</td>
+      <td>0.900068</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>63</td>
+      <td>13</td>
+      <td>3.950944</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>97</td>
+      <td>7</td>
+      <td>1.420604</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>28</td>
+      <td>12</td>
+      <td>0.634981</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>59</td>
+      <td>3</td>
+      <td>0.712771</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>55</td>
+      <td>15</td>
+      <td>4.142556</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>70</td>
+      <td>5</td>
+      <td>1.122270</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>55</td>
+      <td>19</td>
+      <td>3.910940</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="fastai를-이용한-학습:-learn">
+<a class="anchor" href="#fastai%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%ED%95%99%EC%8A%B5:-learn" aria-hidden="true"><span class="octicon octicon-link"></span></a>fastai를 이용한 학습: learn<a class="anchor-link" href="#fastai%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%ED%95%99%EC%8A%B5:-learn"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lrnr</span> <span class="o">=</span> <span class="n">collab_learner</span><span class="p">(</span><span class="n">dls</span><span class="p">,</span><span class="n">n_factors</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">y_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">lrnr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>2.307382</td>
+      <td>2.307487</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2.271858</td>
+      <td>2.300761</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2.226104</td>
+      <td>2.241102</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>2.158165</td>
+      <td>2.096051</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>2.057583</td>
+      <td>1.852412</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>1.918803</td>
+      <td>1.526070</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>1.745428</td>
+      <td>1.159489</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>1.548217</td>
+      <td>0.801841</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>1.342539</td>
+      <td>0.508398</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>1.144636</td>
+      <td>0.300776</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>0.966256</td>
+      <td>0.179386</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>0.813296</td>
+      <td>0.116355</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>0.685708</td>
+      <td>0.087725</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>0.580334</td>
+      <td>0.074926</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>0.493337</td>
+      <td>0.069165</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>0.421211</td>
+      <td>0.066249</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>0.361084</td>
+      <td>0.064734</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>0.310745</td>
+      <td>0.063450</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td>0.268494</td>
+      <td>0.062688</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td>0.232922</td>
+      <td>0.062042</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td>0.202899</td>
+      <td>0.061123</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>21</td>
+      <td>0.177505</td>
+      <td>0.060024</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>22</td>
+      <td>0.155968</td>
+      <td>0.059069</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>23</td>
+      <td>0.137705</td>
+      <td>0.058493</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>24</td>
+      <td>0.122167</td>
+      <td>0.057547</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>0.108919</td>
+      <td>0.057044</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>26</td>
+      <td>0.097614</td>
+      <td>0.056304</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>27</td>
+      <td>0.087978</td>
+      <td>0.055766</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>28</td>
+      <td>0.079737</td>
+      <td>0.055553</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>0.072692</td>
+      <td>0.055148</td>
+      <td>00:00</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lrnr</span><span class="o">.</span><span class="n">show_results</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user</th>
+      <th>item</th>
+      <th>rating</th>
+      <th>rating_pred</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>63.0</td>
+      <td>5.0</td>
+      <td>0.704781</td>
+      <td>0.870834</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>73.0</td>
+      <td>3.0</td>
+      <td>0.748582</td>
+      <td>1.085387</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>97.0</td>
+      <td>18.0</td>
+      <td>4.009129</td>
+      <td>3.826031</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>100.0</td>
+      <td>2.0</td>
+      <td>0.788717</td>
+      <td>0.902364</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.0</td>
+      <td>7.0</td>
+      <td>3.808519</td>
+      <td>3.961855</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>8.0</td>
+      <td>2.0</td>
+      <td>3.930134</td>
+      <td>4.158318</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>61.0</td>
+      <td>6.0</td>
+      <td>0.882227</td>
+      <td>1.001349</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>90.0</td>
+      <td>3.0</td>
+      <td>0.992861</td>
+      <td>0.875898</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>45.0</td>
+      <td>2.0</td>
+      <td>4.076026</td>
+      <td>3.944326</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 학습이 잘 되었다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="추천:-마지막유저에-대한-예측결과?-(아마-홍차를-좋아하지-않을까?)">
+<a class="anchor" href="#%EC%B6%94%EC%B2%9C:-%EB%A7%88%EC%A7%80%EB%A7%89%EC%9C%A0%EC%A0%80%EC%97%90-%EB%8C%80%ED%95%9C-%EC%98%88%EC%B8%A1%EA%B2%B0%EA%B3%BC?-(%EC%95%84%EB%A7%88-%ED%99%8D%EC%B0%A8%EB%A5%BC-%EC%A2%8B%EC%95%84%ED%95%98%EC%A7%80-%EC%95%8A%EC%9D%84%EA%B9%8C?)" aria-hidden="true"><span class="octicon octicon-link"></span></a>추천: 마지막유저에 대한 예측결과? (아마 홍차를 좋아하지 않을까?)<a class="anchor-link" href="#%EC%B6%94%EC%B2%9C:-%EB%A7%88%EC%A7%80%EB%A7%89%EC%9C%A0%EC%A0%80%EC%97%90-%EB%8C%80%ED%95%9C-%EC%98%88%EC%B8%A1%EA%B2%B0%EA%B3%BC?-(%EC%95%84%EB%A7%88-%ED%99%8D%EC%B0%A8%EB%A5%BC-%EC%A2%8B%EC%95%84%ED%95%98%EC%A7%80-%EC%95%8A%EC%9D%84%EA%B9%8C?)"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dls</span><span class="o">.</span><span class="n">show_batch</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user</th>
+      <th>item</th>
+      <th>rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>96</td>
+      <td>16</td>
+      <td>4.215393</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>47</td>
+      <td>19</td>
+      <td>0.802860</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>29</td>
+      <td>13</td>
+      <td>0.999733</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>22</td>
+      <td>1</td>
+      <td>4.120353</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>93</td>
+      <td>1</td>
+      <td>0.910488</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>69</td>
+      <td>17</td>
+      <td>4.030854</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>33</td>
+      <td>4</td>
+      <td>3.884066</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>42</td>
+      <td>3</td>
+      <td>4.031754</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>92</td>
+      <td>16</td>
+      <td>4.211045</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>93</td>
+      <td>5</td>
+      <td>0.754786</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">dls</span><span class="o">.</span><span class="n">one_batch</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[33,  5],
+        [90, 12],
+        [92, 17],
+        [ 8,  4],
+        [86, 18],
+        [34,  2],
+        [65,  4],
+        [24, 17],
+        [32, 20],
+        [48, 19],
+        [39, 13],
+        [93, 16],
+        [28, 15],
+        [93,  3],
+        [24,  9],
+        [83,  5],
+        [41, 16],
+        [66, 13],
+        [82,  8],
+        [ 3,  3],
+        [44, 11],
+        [66,  1],
+        [60,  7],
+        [19,  2],
+        [34,  6],
+        [75,  3],
+        [71, 11],
+        [91,  8],
+        [40,  1],
+        [82,  8],
+        [27, 20],
+        [ 6, 12],
+        [ 2, 16],
+        [52, 13],
+        [ 3, 12],
+        [96,  1],
+        [97,  7],
+        [43,  8],
+        [62, 16],
+        [ 2,  3],
+        [53, 10],
+        [18, 13],
+        [87, 18],
+        [ 3,  4],
+        [11, 20],
+        [78, 12],
+        [97,  8],
+        [ 5, 18],
+        [55, 19],
+        [49,  7],
+        [82, 19],
+        [89, 18],
+        [83,  5],
+        [15, 12],
+        [71, 19],
+        [13,  8],
+        [47, 18],
+        [77, 17],
+        [85, 18],
+        [99, 13],
+        [71,  3],
+        [91, 12],
+        [93,  9],
+        [32,  4],
+        [11,  1],
+        [99, 10],
+        [ 9,  6],
+        [37, 12],
+        [39, 15],
+        [79, 17],
+        [12, 14],
+        [17, 20],
+        [47,  4],
+        [45, 19],
+        [28, 14],
+        [60, 14],
+        [85, 20],
+        [32, 12],
+        [67,  1],
+        [41,  6],
+        [70, 13],
+        [14, 18],
+        [32, 10],
+        [54,  1],
+        [72, 18],
+        [43,  7],
+        [48, 14],
+        [63, 14],
+        [23,  1],
+        [34,  1],
+        [53,  8],
+        [30,  2],
+        [81, 13],
+        [37, 18],
+        [79, 14],
+        [72, 18],
+        [15,  3],
+        [58,  8],
+        [72, 17],
+        [84,  9]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[3.8841],
+        [4.0740],
+        [4.2110],
+        [4.1704],
+        [3.9240],
+        [3.9883],
+        [0.9209],
+        [0.7886],
+        [0.9573],
+        [0.9428],
+        [1.1037],
+        [4.2539],
+        [0.8191],
+        [0.9185],
+        [4.1671],
+        [1.3219],
+        [1.0192],
+        [4.3415],
+        [1.0013],
+        [3.7871],
+        [3.5376],
+        [1.3634],
+        [0.6438],
+        [3.9822],
+        [3.9594],
+        [1.1096],
+        [1.3426],
+        [1.4362],
+        [3.8607],
+        [1.0546],
+        [1.3456],
+        [0.9856],
+        [1.0657],
+        [3.4881],
+        [1.0737],
+        [0.8280],
+        [0.8142],
+        [4.0391],
+        [4.5269],
+        [4.0571],
+        [1.1013],
+        [0.9817],
+        [3.7327],
+        [4.0414],
+        [0.9072],
+        [4.0872],
+        [1.4206],
+        [0.8171],
+        [3.9909],
+        [4.0926],
+        [4.2850],
+        [4.1750],
+        [0.7048],
+        [0.9303],
+        [3.7663],
+        [4.0675],
+        [0.8345],
+        [3.9782],
+        [4.4613],
+        [3.8224],
+        [1.1899],
+        [4.2099],
+        [1.0655],
+        [4.0534],
+        [4.1945],
+        [0.7558],
+        [3.7392],
+        [0.5562],
+        [1.3496],
+        [3.8441],
+        [0.7485],
+        [0.9379],
+        [3.9969],
+        [0.9476],
+        [1.2098],
+        [3.7753],
+        [3.6889],
+        [1.1738],
+        [0.7987],
+        [3.9163],
+        [3.9499],
+        [0.8656],
+        [3.7496],
+        [0.9947],
+        [4.2200],
+        [4.2249],
+        [1.0664],
+        [3.9509],
+        [4.0336],
+        [3.8677],
+        [0.9985],
+        [3.6951],
+        [4.2049],
+        [0.7794],
+        [3.9599],
+        [4.0153],
+        [4.0335],
+        [0.8225],
+        [3.9910],
+        [1.0262]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>위와 같은 양식으로 넣어보자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">100</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lrnr</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">"cuda:0"</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([0.9876, 0.9024, 0.9773, 1.0426, 1.0167, 1.0830, 0.9469, 1.0651, 0.9543,
+        0.9429, 1.0613, 4.0173, 3.9544, 3.9878, 4.0336, 3.9385, 3.9631, 3.9678,
+        4.0884, 3.9306], device='cuda:0', grad_fn=&lt;AddBackward0&gt;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 예상대로 홍차를 매우 좋아함</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {}, "version_major": 2, "version_minor": 0}
+</script>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="miruetoto/yechan"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/yechan/%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D/2021/11/30/(%EB%85%B8%ED%8A%B8)-%EA%B8%B0%EC%9A%B8%EA%B8%B0%EC%86%8C%EB%A9%B8,-%EC%B6%94%EC%B2%9C%EC%8B%9C%EC%8A%A4%ED%85%9C-pytorch-%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/yechan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/yechan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/yechan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/miruetoto" title="miruetoto"><svg class="svg-icon grey"><use xlink:href="/yechan/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
