@@ -10,7 +10,7 @@
 # install.packages(not_installed_packages,repos="https://cran.rstudio.com/")
 # for(i in pkgs) library(i,character.only = T)
 library(tidyverse)
-library(kohonen)
+#library(kohonen)
 library(dplyr)
 library(ggplot2)
 library(ggforce)
