@@ -158,7 +158,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> ${\bf X}=[X_1, X_2, \dots, X_p]=\begin{bmatrix} x_1 \\ \dots \\ x_n \end{bmatrix}$</p>
+<p><code>-</code> ${\bf X}=[X_1, X_2, \dots, X_p]=\begin{bmatrix} x_1^\top \\ \dots \\ x_n^\top \end{bmatrix}$</p>
 
 </div>
 </div>
@@ -166,7 +166,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> ${\bf B}=[B_1,B_2,\dots,B_q]=\begin{bmatrix} \beta_1 \\ \beta_2 \\ \dots \\ \beta_p \end{bmatrix}$</p>
+<p><code>-</code> ${\bf W}=[W_1,W_2,\dots, W_q]=\begin{bmatrix} w_1^\top \\ w_2^\top \\ \dots \\ w_p^\top \end{bmatrix}$</p>
 
 </div>
 </div>
@@ -183,7 +183,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> ${\bf X B}=\sum_{j} X_j @ bb_j =einsum("ij,jk \to ik", X,W)$</p>
+<p><code>-</code> ${\bf X W}= [X_1 \dots X_p] \begin{bmatrix} w_1^\top \\ \dots \\ w_p^\top \end{bmatrix} =  X_1 @ w_1^\top + \dots + X_p @ w_p^\top $</p>
 
 </div>
 </div>
@@ -191,8 +191,11 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> ${\bf XW} =\begin{bmatrix}x_1 \\ \dots \\ x_n \end{bmatrix}\Big[W_1\dots W_q\Big] = \begin{bmatrix}
-        a_{1\cdot}^\top b_1 &amp; \dots &amp; a_{1\cdot}^\top b_n \\ \dots &amp;\dots &amp; \dots \\  a_{n\cdot}^\top b_1 &amp; \dots &amp; a_{n\cdot}^\top b_n\end{bmatrix}$</p>
+<p><code>-</code> ${\bf XW} =\begin{bmatrix}x_1^\top \\ \dots \\ x_n^\top \end{bmatrix}\Big[W_1\dots W_q\Big] = \begin{bmatrix}
+x_{1}^\top  @ W_1 &amp; \dots &amp; x_{1}^\top @ W_q \\ 
+\dots &amp;\dots &amp; \dots \\  
+x_{n}^\top @ W_1 &amp; \dots &amp; n_{n\cdot}^\top @ W_q 
+\end{bmatrix}$</p>
 
 </div>
 </div>
@@ -201,13 +204,13 @@ window.onload = wrap_img;
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>-</code> ${\bf X W}=\begin{bmatrix}
-        x_1 \\ 
+        x_1^\top \\ 
         \dots \\ 
-        x_n
+        x_n^\top
     \end{bmatrix}{\bf W}=\begin{bmatrix}
-    x_1 {\bf W} \\ 
+    x_1^\top @ {\bf W} \\ 
     \dots \\ 
-    x_n {\bf W}
+    x_n^\top @ {\bf W}
 \end{bmatrix}
 $</p>
 
@@ -217,7 +220,7 @@ $</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> ${\bf XW}={\bf X} [W_1 \dots,W_q] = [{\bf X} W_1,\dots,{\bf X} W_q]$</p>
+<p><code>-</code> ${\bf XW}={\bf X} [W_1 \dots W_q] = [{\bf X}@ W_1,\dots,{\bf X}@ W_q]$</p>
 
 </div>
 </div>
@@ -234,7 +237,7 @@ $</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> ${\bf X}{\beta}=\begin{bmatrix}x_{1\cdot}^\top{\beta} \\ \dots \\ x_{n\cdot}^\top {\beta}\end{bmatrix}
+<p><code>-</code> ${\bf X}{\boldsymbol \beta}=\begin{bmatrix}x_{1}^\top{\boldsymbol \beta} \\ \dots \\ x_{n}^\top {\beta}\end{bmatrix}
 $</p>
 
 </div>
@@ -243,7 +246,7 @@ $</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> ${\bf X}' {\bf X} = [x_{1\cdot}^\top,\dots, x_{n\cdot}^\top]\begin{bmatrix} x_{1\cdot} \\ \dots \\ x_{n\cdot} \end{bmatrix}=\sum_{i=1}^{n} x_{i\cdot}^\top x_{i\cdot}$</p>
+<p><code>-</code> ${\bf X}' {\bf X} = [x_1,\dots, x_n]\begin{bmatrix} x_1^\top \\ \dots \\ x_n^\top \end{bmatrix}=\sum_{i=1}^{n} x_i@ x_i^\top$</p>
 
 </div>
 </div>
@@ -251,7 +254,7 @@ $</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> ${\boldsymbol \Psi}{\boldsymbol\Lambda}{\boldsymbol\Psi}^\top= \sum_{i =1}^{p} \psi_i \lambda_i  \psi_i^\top$</p>
+<p><code>-</code> ${\boldsymbol \Psi}{\boldsymbol\Lambda}{\boldsymbol\Psi}^\top= \lambda_1 \Psi_1 @ \Psi_1^\top + \dots + \lambda_p \Psi_p@ \Psi_p^\top =  \sum_{i =1}^{p}  \lambda_i  \Psi_i @\Psi_i^\top$</p>
 
 </div>
 </div>
@@ -259,7 +262,7 @@ $</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> ${\bf U}{\bf D}{\bf V}^\top= \sum_{i =1}^{p} u_i d_i v_i^\top$</p>
+<p><code>-</code> ${\bf U}{\bf D}{\bf V}^\top= d_1 U_1@V_1 + \dots + d_p U_p@V_p = \sum_{i =1}^{p} d_i U_i@V_i^\top$</p>
 
 </div>
 </div>
