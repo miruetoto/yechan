@@ -94,7 +94,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      3 min read
+      4 min read
     
 </span></p>
 
@@ -400,15 +400,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> 메모리구조의 상상</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>다시 아래의 코드를 살펴보자.</p>
+<p><code>-</code> 다시 아래의 코드를 살펴보자.</p>
 
 </div>
 </div>
@@ -435,7 +427,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>a,b라는 변수는 메모리에 어떻게 저장되어 있을까?</p>
+<p>a,b라는 변수들은 메모리에 어떻게 저장되어있을까?</p>
 
 </div>
 </div>
@@ -451,7 +443,109 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>메모리는 방이 100개 있는 호텔이라고 생각하자.</p>
+<ul>
+<li>
+<p>메모리는 방이 여러개 있는호텔이라고 생각하자. (방은 변수를 저장할 수 있는 공간이다)</p>
+</li>
+<li>
+<div class="highlight"><pre><span></span><span class="n">a</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+<ul>
+<li>메모리 주소1에 존재하는 방을 앞으로 a라고 부르자. 그리고 그 방에 [1,2,3]을 넣는다. </li>
+</ul>
+</li>
+<li>
+<div class="highlight"><pre><span></span><span class="n">b</span><span class="o">=</span><span class="n">a</span>
+</pre></div>
+<ul>
+<li>메모리 주소2에 존재하는 방을 b라고 부르고 그 방에 a를 넣는다. </li>
+<li>그런데 a=[1,2,3]이므로 b라는 방 역시 [1,2,3]이 있다. </li>
+</ul>
+</li>
+<li>
+<div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+<ul>
+<li>방 a로 가서 [1,2,3]을 [1,2,3,4]로 바꾼다. </li>
+<li>방 b는 아무일도 일어나지 않는다. </li>
+</ul>
+</li>
+</ul>
+<p>R에서는 맞는 이야기인데 파이썬에서는 다르다. 왜?</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1">## 변수 a가 저장된 메모리주소(=방번호)를 출력하는 함수 </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>140628239102272</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="c1">## 변수 b가 저장된 메모리주소(=방번호)를 출력하는 함수 </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>140628239102272</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>실제로는 변수 a,b의 방주소가 동일하기 때문이다.</p>
 
 </div>
 </div>
@@ -459,10 +553,53 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<blockquote>
+<p>따라서 아래와 같은 비유가 더 적절하다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>메모리는 방이 여러개 있는호텔이라고 생각하자. (방은 변수를 저장할 수 있는 공간이다)</p>
+</li>
+<li>
 <div class="highlight"><pre><span></span><span class="n">a</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
 </pre></div>
-</blockquote>
+<ul>
+<li>메모리주소1(=140628239102272)에서 [1,2,3]을 만든다. </li>
+<li>메모리주소1(=140628239102272)의 방문에 a라는 포스트잇을 붙인다. </li>
+<li>따라서 앞으로 [1,2,3]을 찾으려면 a라고 적힌 포스트잇을 찾으면 된다.</li>
+</ul>
+</li>
+<li>
+<div class="highlight"><pre><span></span><span class="n">b</span><span class="o">=</span><span class="n">a</span>
+</pre></div>
+<ul>
+<li>b라는 포스트잇을 새로 만들고 그 포스트잇은 a와 같은 효과를 주도록 한다. </li>
+<li>쉽게말하면 b라는 포스트잇을 만들고 메모리주소1(=140628239102272)의 방문에 b라는 포스트잇을 붙인다는 의미이다. </li>
+<li>따라서 [1,2,3]을 찾으려면 a라는 포스트잇을 찾거나 b라는 포스트잇을 찾으면 된다. </li>
+</ul>
+</li>
+<li>
+<div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+<ul>
+<li>a라는 포스트잇이 붙어있는 방으로 찾아가서 [1,2,3]을 찾고 거기에서 append함수를 써서 [1,2,3,4]로 바꾼다. </li>
+<li>같은방에 a,b라는 포스트잇이 붙어이므로 b라는 포스트잇을 찾아가서 내용을 열어보면 [1,2,3,4]가 나온다. </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong><em>상상2</em></strong></p>
 
 </div>
 </div>
