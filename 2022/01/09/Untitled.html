@@ -91,7 +91,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      10 min read
     
 </span></p>
 
@@ -131,7 +131,869 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">irdisplay_option_defaults</span><span class="o">$</span><span class="n">jupyter.display_mimetypes</span>
+</pre></div>
+
+    </div>
 </div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;<li>'text/plain'</li><li>'text/html'</li><li>'text/markdown'</li><li>'text/latex'</li><li>'application/json'</li><li>'application/javascript'</li><li>'application/geo+json'</li><li>'application/vdom.v1+json'</li><li>'application/vnd.plotly.v1+json'</li><li>'application/vnd.vegalite.v2+json'</li><li>'application/vnd.vega.v4+json'</li><li>'application/pdf'</li><li>'image/png'</li><li>'image/jpeg'</li><li>'image/svg+xml'</li>&lt;/ol&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">help</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+
+<table width="100%" summary="page for seq {base}"><tr><td>seq {base}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sequence Generation</h2>
+
+<h3>Description</h3>
+
+<p>Generate regular sequences.  <code>seq</code> is a standard generic with a
+default method.  <code>seq.int</code> is a primitive which can be
+much faster but has a few restrictions.  <code>seq_along</code> and
+<code>seq_len</code> are very fast primitives for two common cases.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+seq(...)
+
+## Default S3 method:
+seq(from = 1, to = 1, by = ((to - from)/(length.out - 1)),
+    length.out = NULL, along.with = NULL, ...)
+
+seq.int(from, to, by, length.out, along.with, ...)
+
+seq_along(along.with)
+seq_len(length.out)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to or from methods.</p>
+</td></tr>
+<tr valign="top"><td><code>from, to</code></td>
+<td>
+<p>the starting and (maximal) end values of the
+sequence.  Of length <code>1</code> unless just <code>from</code> is supplied as
+an unnamed argument.</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>number: increment of the sequence.</p>
+</td></tr>
+<tr valign="top"><td><code>length.out</code></td>
+<td>
+<p>desired length of the sequence.  A
+non-negative number, which for <code>seq</code> and <code>seq.int</code> will be
+rounded up if fractional.</p>
+</td></tr>
+<tr valign="top"><td><code>along.with</code></td>
+<td>
+<p>take the length from the length of this argument.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Numerical inputs should all be finite (that is, not infinite,
+<code>NaN</code> or <code>NA</code>).
+</p>
+<p>The interpretation of the unnamed arguments of <code>seq</code> and
+<code>seq.int</code> is <em>not</em> standard, and it is recommended always to
+name the arguments when programming.
+</p>
+<p><code>seq</code> is  generic, and only the default method is described here.
+Note that it dispatches on the class of the <strong>first</strong> argument
+irrespective of argument names.  This can have unintended consequences
+if it is called with just one argument intending this to be taken as
+<code>along.with</code>: it is much better to use <code>seq_along</code> in that
+case.
+</p>
+<p><code>seq.int</code> is an internal generic which dispatches on
+methods for <code>"seq"</code> based on the class of the first supplied
+argument (before argument matching).
+</p>
+<p>Typical usages are
+</p>
+<pre>seq(from, to)
+seq(from, to, by= )
+seq(from, to, length.out= )
+seq(along.with= )
+seq(from)
+seq(length.out= )
+</pre>
+<p>The first form generates the sequence <code>from, from+/-1, ..., to</code>
+(identical to <code>from:to</code>).
+</p>
+<p>The second form generates <code>from, from+by</code>, ..., up to the
+sequence value less than or equal to <code>to</code>.  Specifying <code>to -
+  from</code> and <code>by</code> of opposite signs is an error.  Note that the
+computed final value can go just beyond <code>to</code> to allow for
+rounding error, but is truncated to <code>to</code>.  (&lsquo;Just beyond&rsquo;
+is by up to <i>1e-10</i> times <code>abs(from - to)</code>.)
+</p>
+<p>The third generates a sequence of <code>length.out</code> equally spaced
+values from <code>from</code> to <code>to</code>.  (<code>length.out</code> is usually
+abbreviated to <code>length</code> or <code>len</code>, and <code>seq_len</code> is much
+faster.)
+</p>
+<p>The fourth form generates the integer sequence <code>1, 2, ...,
+    length(along.with)</code>.  (<code>along.with</code> is usually abbreviated to
+<code>along</code>, and <code>seq_along</code> is much faster.)
+</p>
+<p>The fifth form generates the sequence <code>1, 2, ..., length(from)</code>
+(as if argument <code>along.with</code> had been specified), <em>unless</em>
+the argument is numeric of length 1 when it is interpreted as
+<code>1:from</code> (even for <code>seq(0)</code> for compatibility with S).
+Using either <code>seq_along</code> or <code>seq_len</code> is much preferred
+(unless strict S compatibility is essential).
+</p>
+<p>The final form generates the integer sequence <code>1, 2, ...,
+  length.out</code> unless <code>length.out = 0</code>, when it generates
+<code>integer(0)</code>.
+</p>
+<p>Very small sequences (with <code>from - to</code> of the order of <i>10^{-14}</i>
+times the larger of the ends) will return <code>from</code>.
+</p>
+<p>For <code>seq</code> (only), up to two of <code>from</code>, <code>to</code> and
+<code>by</code> can be supplied as complex values provided <code>length.out</code>
+or <code>along.with</code> is specified.  More generally, the default method
+of <code>seq</code> will handle classed objects with methods for
+the <code>Math</code>, <code>Ops</code> and <code>Summary</code> group generics.
+</p>
+<p><code>seq.int</code>, <code>seq_along</code> and <code>seq_len</code> are
+primitive.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>seq.int</code> and the default method of <code>seq</code> for numeric
+arguments return a vector of type <code>"integer"</code> or <code>"double"</code>:
+programmers should not rely on which.
+</p>
+<p><code>seq_along</code> and <code>seq_len</code> return an integer vector, unless
+it is a <em>long vector</em> when it will be double.
+</p>
+
+
+<h3>References</h3>
+
+<p>Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988)
+<em>The New S Language</em>.
+Wadsworth &amp; Brooks/Cole.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The methods <code>seq.Date</code> and <code>seq.POSIXt</code>.
+</p>
+<p><code>:</code>,
+<code>rep</code>,
+<code>sequence</code>,
+<code>row</code>,
+<code>col</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+seq(0, 1, length.out = 11)
+seq(stats::rnorm(20)) # effectively 'along'
+seq(1, 9, by = 2)     # matches 'end'
+seq(1, 9, by = pi)    # stays below 'end'
+seq(1, 6, by = 3)
+seq(1.575, 5.125, by = 0.05)
+seq(17) # same as 1:17, or even better seq_len(17)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>base</em> version 4.0.2 ]</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">print</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> [1]  1  2  3  4  5  6  7  8  9 10
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">IRkernel</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">display_</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+Error in display_text(&#34;Just text&#34;): could not find function &#34;display_text&#34;
+Traceback:
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">IRdisplay</span><span class="o">-</span><span class="n">options</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+Error in eval(expr, envir, enclos): object &#39;IRdisplay&#39; not found
+Traceback:
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">IRdisplay</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="o">?</span><span class="n">display</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+
+<table width="100%" summary="page for display {IRdisplay}"><tr><td>display {IRdisplay}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create and use multiple available reprs</h2>
+
+<h3>Description</h3>
+
+<p>Both functions create a mimebundle for multiple reprs.
+<code>display</code> proceeds to publish it using <code>publish_mimebundle</code>.
+<code>prepare_mimebundle</code> returns it (see <em>Value</em> for details)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+display(
+  obj,
+  ...,
+  mimetypes = getOption("jupyter.display_mimetypes"),
+  error_handler = stop
+)
+
+prepare_mimebundle(
+  obj,
+  mimetypes = getOption("jupyter.display_mimetypes"),
+  metadata = NULL,
+  error_handler = stop
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+<p>The object to create representations for</p>
+</td></tr>
+<tr valign="top"><td><code>mimetypes</code></td>
+<td>
+<p>Mimetypes to create reprs for. The defaults are defined by the option <code>jupyter.display_mimetypes</code>. (see: IRdisplay-options)</p>
+</td></tr>
+<tr valign="top"><td><code>error_handler</code></td>
+<td>
+<p>Function used when errors in individual reprs occur</p>
+</td></tr>
+<tr valign="top"><td><code>metadata, ...</code></td>
+<td>
+<p>Metadata to attach to the result (can be expanded by additional metadata)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>prepare_mimebundle</code> returns a list with items corresponding to the parameters of <code>publish_mimebundle</code> (<code>data</code> and <code>metadata</code>)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>publish_mimebundle</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+bundle &lt;- prepare_mimebundle(diag(3))
+
+## Not run: ## (Run inside of an IRkernel)
+display(help(display))
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>IRdisplay</em> version 1.0 ]</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="o">??</span><span class="n">display</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>R Information
+
+Vignettes with name or keyword or title matching ‘display’ using fuzzy
+matching:
+
+
+gridExtra::tableGrob    tableGrob: displaying tables as grid graphics
+knitr::datatables       Display Tables with the JavaScript Library
+                        DataTables
+pillar::numbers         Controlling display of numbers
+
+
+Type &#39;vignette(&#34;FOO&#34;, package=&#34;PKG&#34;)&#39; to inspect entries &#39;PKG::FOO&#39;.
+
+
+
+Demos with name or title matching ‘display’ using fuzzy matching:
+
+
+lattice::labels         Labels in lattice displays
+
+
+Type &#39;demo(PKG::FOO)&#39; to run demonstration &#39;PKG::FOO&#39;.
+
+
+
+Help files with alias or concept or title matching ‘display’ using
+fuzzy matching:
+
+
+base::as.hexmode        Display Numbers in Hexadecimal
+base::as.octmode        Display Numbers in Octal
+base::environment variables
+                        Environment Variables
+  Aliases: DISPLAY
+base::file.show         Display One or More Text Files
+base::showConnections   Display Connections
+base::strtrim           Trim Character Strings to Specified Display
+                        Widths
+data.table::tables      Display &#39;data.table&#39; metadata
+diffobj::show,DiffSummary-method
+                        Display DiffSummary Objects
+diffobj::show,PaletteOfStyles-method
+                        Display a PaletteOfStyles
+diffobj::summary,PaletteOfStyles-method
+                        Display a Summarized Version of a
+                        PaletteOfStyles
+fansi::html_code_block
+                        Format Character Vector for Display as Code in
+                        HTML
+fansi::in_html          Frame HTML in a Web Page And Display
+fansi::set_knit_hooks   Set an Output Hook to Display ANSI CSI SGR in
+                        Rmarkdown
+ggplot2::summary.ggplot
+                        Displays a useful description of a ggplot
+                        object
+glmnet::glmnet.measures
+                        Display the names of the measures used in CV
+                        for different &#34;glmnet&#34; families
+graphics::contour       Display Contours
+graphics::image         Display a Color Image
+grDevices::plotmath     Mathematical Annotation in R
+  Aliases: displaystyle
+grid::getNames          List the names of grobs on the display list
+grid::grid.display.list
+                        Control the Grid Display List
+  Aliases: grid.display.list, engine.display.list
+grid::grid.DLapply      Modify the Grid Display List
+grid::showViewport      Display grid viewports.
+gridExtra::tableGrob    Graphical display of a textual table
+haven::zap_widths       Remove display width attributes
+hexbin::hexbinplot      Trellis Hexbin Displays
+IRdisplay::display      Create and use multiple available reprs
+  Aliases: display
+IRdisplay::display_&lt;image&gt;
+                        Display a specific image output
+  Aliases: display_&lt;image&gt;, display_png, display_jpeg, display_pdf,
+    display_svg
+IRdisplay::display_&lt;text&gt;
+                        Display a specific textual output
+  Aliases: display_&lt;text&gt;, display_text, display_json,
+    display_javascript, display_html, display_markdown, display_latex
+IRdisplay::irdisplay_option_defaults
+                        IRdisplay options
+  Aliases: irdisplay_option_defaults, IRdisplay-options
+IRdisplay::publish_mimebundle
+                        Display data by mimetype, with optional
+                        alternative representations.
+lattice::panel.superpose
+                        Panel Function for Display Marked by groups
+lattice::trellis.device
+                        Initializing Trellis Displays
+lattice::trellis.par.get
+                        Graphical Parameters for Trellis Displays
+lazyeval::ast_          Display a call (or expression) as a tree.
+lifecycle::last_lifecycle_warnings
+                        Display last deprecation warnings
+pillar::colonnade       Format multiple vectors in a tabular display
+pillar::expect_known_display
+                        Test helpers
+  Aliases: expect_known_display
+pillar::get_extent      Calculate display width
+pillar::pillar          Object for formatting a vector suitable for
+                        tabular display
+pryr::call_tree         Display a call (or expression) as a tree.
+rbokeh::point_types     Display glyph types available for ly_points()
+RColorBrewer::brewer.pal
+                        ColorBrewer palettes
+  Aliases: display.brewer.pal, display.brewer.all
+rlang::rlang_backtrace_on_error
+                        Display backtrace on error
+rpart::printcp          Displays CP table for Fitted Rpart Object
+rstudioapi::sourceMarkers
+                        Display source markers
+shiny::showBookmarkUrlModal
+                        Display a modal dialog for bookmarking
+shiny::urlModal         Generate a modal dialog that displays a URL
+tools::toHTML           Display an Object in HTML
+tweenr::display_ease    Display an easing function
+  Aliases: display_ease
+utils::loadhistory      Load or Save or Display the Commands History
+utils::str              Compactly Display the Structure of an Arbitrary
+                        R Object
+utils::url.show         Display a Text URL
+xtable::autoformat      Automatically Format Export Tables
+  Aliases: xdisplay
+xtable::caption         Retrieve and Set Options for Export Tables
+  Aliases: display, display.xtable, display&lt;-, display&lt;-.xtable
+
+
+Type &#39;?PKG::FOO&#39; to inspect entries &#39;PKG::FOO&#39;, or &#39;TYPE?PKG::FOO&#39; for
+entries like &#39;PKG::FOO-TYPE&#39;.
+
+
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="o">??</span><span class="n">display</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>R Information
+
+Vignettes with name or keyword or title matching ‘display’ using fuzzy
+matching:
+
+
+gridExtra::tableGrob    tableGrob: displaying tables as grid graphics
+knitr::datatables       Display Tables with the JavaScript Library
+                        DataTables
+pillar::numbers         Controlling display of numbers
+
+
+Type &#39;vignette(&#34;FOO&#34;, package=&#34;PKG&#34;)&#39; to inspect entries &#39;PKG::FOO&#39;.
+
+
+
+Demos with name or title matching ‘display’ using fuzzy matching:
+
+
+lattice::labels         Labels in lattice displays
+
+
+Type &#39;demo(PKG::FOO)&#39; to run demonstration &#39;PKG::FOO&#39;.
+
+
+
+Help files with alias or concept or title matching ‘display’ using
+fuzzy matching:
+
+
+base::as.hexmode        Display Numbers in Hexadecimal
+base::as.octmode        Display Numbers in Octal
+base::environment variables
+                        Environment Variables
+  Aliases: DISPLAY
+base::file.show         Display One or More Text Files
+base::showConnections   Display Connections
+base::strtrim           Trim Character Strings to Specified Display
+                        Widths
+data.table::tables      Display &#39;data.table&#39; metadata
+diffobj::show,DiffSummary-method
+                        Display DiffSummary Objects
+diffobj::show,PaletteOfStyles-method
+                        Display a PaletteOfStyles
+diffobj::summary,PaletteOfStyles-method
+                        Display a Summarized Version of a
+                        PaletteOfStyles
+fansi::html_code_block
+                        Format Character Vector for Display as Code in
+                        HTML
+fansi::in_html          Frame HTML in a Web Page And Display
+fansi::set_knit_hooks   Set an Output Hook to Display ANSI CSI SGR in
+                        Rmarkdown
+ggplot2::summary.ggplot
+                        Displays a useful description of a ggplot
+                        object
+glmnet::glmnet.measures
+                        Display the names of the measures used in CV
+                        for different &#34;glmnet&#34; families
+graphics::contour       Display Contours
+graphics::image         Display a Color Image
+grDevices::plotmath     Mathematical Annotation in R
+  Aliases: displaystyle
+grid::getNames          List the names of grobs on the display list
+grid::grid.display.list
+                        Control the Grid Display List
+  Aliases: grid.display.list, engine.display.list
+grid::grid.DLapply      Modify the Grid Display List
+grid::showViewport      Display grid viewports.
+gridExtra::tableGrob    Graphical display of a textual table
+haven::zap_widths       Remove display width attributes
+hexbin::hexbinplot      Trellis Hexbin Displays
+IRdisplay::display      Create and use multiple available reprs
+  Aliases: display
+IRdisplay::display_&lt;image&gt;
+                        Display a specific image output
+  Aliases: display_&lt;image&gt;, display_png, display_jpeg, display_pdf,
+    display_svg
+IRdisplay::display_&lt;text&gt;
+                        Display a specific textual output
+  Aliases: display_&lt;text&gt;, display_text, display_json,
+    display_javascript, display_html, display_markdown, display_latex
+IRdisplay::irdisplay_option_defaults
+                        IRdisplay options
+  Aliases: irdisplay_option_defaults, IRdisplay-options
+IRdisplay::publish_mimebundle
+                        Display data by mimetype, with optional
+                        alternative representations.
+lattice::panel.superpose
+                        Panel Function for Display Marked by groups
+lattice::trellis.device
+                        Initializing Trellis Displays
+lattice::trellis.par.get
+                        Graphical Parameters for Trellis Displays
+lazyeval::ast_          Display a call (or expression) as a tree.
+lifecycle::last_lifecycle_warnings
+                        Display last deprecation warnings
+pillar::colonnade       Format multiple vectors in a tabular display
+pillar::expect_known_display
+                        Test helpers
+  Aliases: expect_known_display
+pillar::get_extent      Calculate display width
+pillar::pillar          Object for formatting a vector suitable for
+                        tabular display
+pryr::call_tree         Display a call (or expression) as a tree.
+rbokeh::point_types     Display glyph types available for ly_points()
+RColorBrewer::brewer.pal
+                        ColorBrewer palettes
+  Aliases: display.brewer.pal, display.brewer.all
+rlang::rlang_backtrace_on_error
+                        Display backtrace on error
+rpart::printcp          Displays CP table for Fitted Rpart Object
+rstudioapi::sourceMarkers
+                        Display source markers
+shiny::showBookmarkUrlModal
+                        Display a modal dialog for bookmarking
+shiny::urlModal         Generate a modal dialog that displays a URL
+tools::toHTML           Display an Object in HTML
+tweenr::display_ease    Display an easing function
+  Aliases: display_ease
+utils::loadhistory      Load or Save or Display the Commands History
+utils::str              Compactly Display the Structure of an Arbitrary
+                        R Object
+utils::url.show         Display a Text URL
+xtable::autoformat      Automatically Format Export Tables
+  Aliases: xdisplay
+xtable::caption         Retrieve and Set Options for Export Tables
+  Aliases: display, display.xtable, display&lt;-, display&lt;-.xtable
+
+
+Type &#39;?PKG::FOO&#39; to inspect entries &#39;PKG::FOO&#39;, or &#39;TYPE?PKG::FOO&#39; for
+entries like &#39;PKG::FOO-TYPE&#39;.
+
+
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">irdisplay_option_defaults</span><span class="o">$</span><span class="n">jupyter.display_mimetypes</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+&lt;ol class=list-inline&gt;<li>'text/plain'</li><li>'text/html'</li><li>'text/markdown'</li><li>'text/latex'</li><li>'application/json'</li><li>'application/javascript'</li><li>'application/geo+json'</li><li>'application/vdom.v1+json'</li><li>'application/vnd.plotly.v1+json'</li><li>'application/vnd.vegalite.v2+json'</li><li>'application/vnd.vega.v4+json'</li><li>'application/pdf'</li><li>'image/png'</li><li>'image/jpeg'</li><li>'image/svg+xml'</li>&lt;/ol&gt;
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {}, "version_major": 2, "version_minor": 0}
+</script>
 
 
 
