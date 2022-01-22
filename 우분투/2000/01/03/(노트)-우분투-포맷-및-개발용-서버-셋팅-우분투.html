@@ -94,7 +94,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      6 min read
+      7 min read
     
 </span></p>
 
@@ -346,7 +346,12 @@ c.</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> <a href="https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html">https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html</a></p>
+<p><code>-</code> 설치전: 기존의 R 삭제</p>
+
+<pre><code>conda remove r-base -y 
+sudo apt-get remove r-base-core 
+sudo apt purge r-base* r-recommended r-cran-*
+sudo apt autoremove</code></pre>
 
 </div>
 </div>
@@ -354,7 +359,44 @@ c.</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code></p>
+<p><code>-</code> <a href="https://cran.r-project.org/bin/linux/ubuntu/fullREADME.html">R설치전 준비작업</a>: 나노에디터를 키고 /etc/apt/sources.list를 연다.</p>
+
+<pre><code>sudo nano /etc/apt/sources.list</code></pre>
+<p>화살표로 이동하여 맨아래로 간뒤에 아래중 하나를 추가한다. (나는 focal-cran40으로 추가함)</p>
+
+<pre><code>deb https://cloud.r-project.org/bin/linux/ubuntu impish-cran40/
+deb https://cloud.r-project.org/bin/linux/ubuntu hirsute-cran40/
+deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/
+deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/
+deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran40/</code></pre>
+<p>저장후 나노에디터 종료. 그리고 아래를 실행.</p>
+
+<pre><code>sudo apt-get update</code></pre>
+<p>경우에 따라서 아래와 같은 에러메시지가 뜰 수 있다.</p>
+
+<pre><code>...
+W: GPG error: https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/ InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 51716619E084DAB9 
+...</code></pre>
+<p>공개키가 없어서 생기는 에러이므로 아래와 같이 가져온다.</p>
+
+<pre><code>sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 9578539176BAFBC6</code></pre>
+<p>그리고 다시 아래를 실행</p>
+
+<pre><code>sudo apt-get update</code></pre>
+<p>에러가 없이 뭔가 마무리 되어야한다.</p>
+
+<pre><code>(base) cgb3@cgb3:~$ sudo apt-get update
+Ign:1 http://linux.dropbox.com/ubuntu disco InRelease
+Hit:2 http://security.ubuntu.com/ubuntu focal-security InRelease  
+Hit:3 http://kr.archive.ubuntu.com/ubuntu focal InRelease                                 
+Hit:4 http://ppa.launchpad.net/graphics-drivers/ppa/ubuntu focal InRelease                
+Hit:5 http://linux.dropbox.com/ubuntu disco Release                 
+Get:6 https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/ InRelease [3,622 B]
+Hit:8 http://kr.archive.ubuntu.com/ubuntu focal-updates InRelease
+Get:9 https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/ Packages [46.4 kB]
+Hit:10 http://kr.archive.ubuntu.com/ubuntu focal-backports InRelease
+Fetched 50.0 kB in 1s (36.5 kB/s)                   
+Reading package lists... Done</code></pre>
 
 </div>
 </div>
@@ -362,7 +404,9 @@ c.</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> 설치</p>
+<p><code>-</code> R설치</p>
+
+<pre><code>sudo apt-get install r-base</code></pre>
 
 </div>
 </div>
@@ -370,17 +414,7 @@ c.</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-
-<pre><code>sudo apt-get update
-sudo apt-get install r-base</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> 아래를 설치한다.</p>
+<p><code>-</code> tidyverse 설치전 준비작업</p>
 
 <pre><code>sudo apt-get install -y libxml2-dev libcurl4-openssl-dev libssl-dev</code></pre>
 
@@ -390,7 +424,12 @@ sudo apt-get install r-base</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code></p>
+<p><code>-</code> Rstudio 설치: <a href="https://www.rstudio.com/products/rstudio/download-server/debian-ubuntu/">https://www.rstudio.com/products/rstudio/download-server/debian-ubuntu/</a></p>
+
+<pre><code>sudo apt remove rstudio-server
+sudo apt-get install gdebi-core
+wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2021.09.2-382-amd64.deb
+sudo gdebi rstudio-server-2021.09.2-382-amd64.deb</code></pre>
 
 </div>
 </div>

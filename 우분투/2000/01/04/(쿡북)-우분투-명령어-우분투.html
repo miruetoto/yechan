@@ -94,7 +94,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      3 min read
     
 </span></p>
 
@@ -135,6 +135,7 @@ window.onload = wrap_img;
     <ul class="section-nav">
 <li class="toc-entry toc-h3"><a href="#날짜,-달력">날짜, 달력 </a></li>
 <li class="toc-entry toc-h3"><a href="#파일시스템">파일시스템 </a></li>
+<li class="toc-entry toc-h3"><a href="#echo">echo </a></li>
 <li class="toc-entry toc-h3"><a href="#기본디렉토리-설명">기본디렉토리 설명 </a></li>
 <li class="toc-entry toc-h3"><a href="#vim">vim </a></li>
 <li class="toc-entry toc-h3"><a href="#wget">wget </a></li>
@@ -187,14 +188,7 @@ cal</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> 기본명령</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 작업경로, 디렉토리 이동, 파일확인</p>
 
 <pre><code>pwd 
 cd cgb2 
@@ -223,14 +217,116 @@ ls -lt --reverse # 자세히+파일수정시간의 역순으로 정렬</code></p
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>-</code> 뭐하는 파일인지 알고싶다면?</p>
 
+<pre><code>file picture.jpg</code></pre>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 카피, 이동, 새폴더, 삭제, 바로가기</p>
 
-<pre><code>file picture.jpg</code></pre>
+<pre><code>cp file1 file2 # file1을 복사하여 file2를 새로 만듬. file2가 이미 있다면 file1의 내용을 덮어씀 
+cp file1 file2 -i # 위와 동일한데 덮어쓰기 여부에 대한 확인메시지 생성
+cp file1 file2 --interactive # 위와 동일
+cp -r dir1 dir2 # dir1의 모든파일을 복사하여 dir2로 이동한뒤 붙어넣음. dir2가 없다면 새로 만듬. 기존의 dir2에 있던 파일이 삭제되는건 아님 
+cp --recursive dir1 dir2 # 위와 동일 
+mv # 카피사용방법과 동일 
+mkdir temp
+mkdir temp1, temp2, temp3 
+rm file1 # file1삭제 
+rm -r file1 dir1 # file1삭제 dir1폴더삭제 
+rm -rf file1 dir1 # 위와 동일한데 file1이나 dir1이 존재하지 않더라고 rm이 실행
+ln ## 바로 가기 만드는건데 쓸줄모름 배우기 싫어</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> -v(verbose)를 쓰면 친절한 느낌이 든다.</p>
+
+<pre><code>(base) cgb2@cgb2-desktop:~/Dropbox$ cp *.txt temppp -v
+'colab.txt' -&gt; 'temppp/colab.txt'</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="echo">
+<a class="anchor" href="#echo" aria-hidden="true"><span class="octicon octicon-link"></span></a>echo<a class="anchor-link" href="#echo"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> echo 기본기능</p>
+
+<pre><code>(base) cgb2@cgb2-desktop:~/Dropbox/temppp$ echo test
+test</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> echo + <code>*</code> : <code>*</code>가 현재 디렉토리에 있는 모든 파일이름으로 확장된이후에 echo가 동작함.</p>
+
+<pre><code>(base) cgb2@cgb2-desktop:~/Dropbox/temppp$ ls
+colab.txt  sample.txt
+(base) cgb2@cgb2-desktop:~/Dropbox/temppp$ echo *
+colab.txt sample.txt</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 응용</p>
+
+<pre><code>(base) cgb2@cgb2-desktop:~$ echo D*
+Desktop Documents Downloads Dropbox</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 응용2</p>
+
+<pre><code>(base) cgb2@cgb2-desktop:~$ echo /usr/*
+/usr/bin /usr/games /usr/include /usr/lib /usr/lib32 /usr/lib64 /usr/libexec /usr/libx32 /usr/local /usr/sbin /usr/share /usr/src</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 응용3</p>
+
+<pre><code>(base) cgb2@cgb2-desktop:~$ echo ~
+/home/cgb2</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 응용4</p>
+
+<pre><code>(base) cgb2@cgb2-desktop:~/Dropbox$ echo $((2+2))
+4</code></pre>
 
 </div>
 </div>
@@ -311,7 +407,10 @@ ls -lt --reverse # 자세히+파일수정시간의 역순으로 정렬</code></p
 </ul>
 </li>
 <li>
-<p><code>/usr/local</code></p>
+<p><code>/usr/local/bin</code>  소스코드로 컴파일된 파일, 보통 비어있음</p>
+</li>
+<li>
+<p><code>/usr/local/lib/R/site-library</code> R패키지가 설치되어있음, 예를들면 tidyverse</p>
 </li>
 </ul>
 
@@ -449,6 +548,7 @@ conda create -n py38r40 python=3.8
 conda env remove -n py38r40 
 conda install -c conda-forge jupyterlab 
 conda remove jupyterlab 
+conda remove r-base -y 
 conda remove -n py38r40 jupyterlab 
 conda update scipy
 conda update -n py38r40 scipy
