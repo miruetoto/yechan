@@ -1932,7 +1932,7 @@ Coefficients:
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> covarinace matrix 혹은 correlatin matrix의 일반화 버전 인듯</p>
+<p><code>-</code> SSE느낌</p>
 
 </div>
 </div>
@@ -1944,7 +1944,9 @@ Coefficients:
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="nd">@L@f</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n</span><span class="o">=</span><span class="mi">100</span>
+<span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span> 
+<span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span> <span class="c1">## SSE</span>
 </pre></div>
 
     </div>
@@ -1959,7 +1961,7 @@ Coefficients:
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>30.350531211035243</pre>
+<pre>93.64642114289096</pre>
 </div>
 
 </div>
@@ -1970,6 +1972,198 @@ Coefficients:
 </div>
     
 
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y</span><span class="nd">@y</span> <span class="c1">## SST </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>488.3941541922431</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">@</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="c1">## SSE</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>93.646421142891</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">y</span><span class="o">*</span><span class="mi">0</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">@</span><span class="p">(</span><span class="n">y</span><span class="o">*</span><span class="mi">0</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="c1">## SSH</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>394.747733049352</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">@</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">+</span> <span class="p">(</span><span class="n">y</span><span class="o">*</span><span class="mi">0</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">@</span><span class="p">(</span><span class="n">y</span><span class="o">*</span><span class="mi">0</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="c1">## SSE + SSH = SST </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>488.39415419224304</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">W</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">))</span> <span class="c1"># 노드가 다 연결되었다고 생각하자</span>
+<span class="n">D</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">L</span><span class="o">=</span><span class="n">D</span><span class="o">-</span><span class="n">W</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y</span><span class="nd">@L@y</span><span class="o">/</span><span class="n">n</span> <span class="c1">## SSE네?</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>93.64642114289107</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 시계열일경우 (노드를 다 연결할 필요는 없음)</p>
+
+</div>
+</div>
+</div>
     
     
 <div class="cell border-box-sizing code_cell rendered">
