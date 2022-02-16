@@ -14,7 +14,7 @@ class HeavysnowTransform:
     def __init__(self,graphsignal):
         self.n=graphsignal.n
         self.f=graphsignal.f
-        self.V=graphsignal.V
+        self.V=graphsignal.V 
         self.nodeindex=np.arange(0,self.n,dtype='int')
         self.graphweight=graphsignal.W
         self.initdist=graphsignal.initdist
@@ -30,6 +30,7 @@ class HeavysnowTransform:
         self.snowdistance=np.zeros((self.n,self.n))
         self.euclidweight=np.zeros((self.n,self.n))
         self.snowweight=np.zeros((self.n,self.n))
+        self.status=['init']
         self.theta=None
         
     def _snowonce(self,ell,maxflow):
@@ -46,10 +47,12 @@ class HeavysnowTransform:
             nextnode=np.random.choice(self.n,1,p=self.initdist).item()
             snowyground[nextnode]=snowyground[nextnode]+b
             flowcount=0
+            self.status.append('reset')
         elif sum(neighbor)==0: # empty neighborhood 
             nextnode=np.random.choice(self.n,1,p=self.initdist).item()
             snowyground[nextnode]=snowyground[nextnode]+b
             flowcount=0
+            self.status.append('empty_neighborhood')
         else:
             _transitionprob=self.graphweight[currentnode]/sum(self.graphweight[currentnode])
             nextnode=np.random.choice(self.n,1,p=_transitionprob).item()
@@ -57,10 +60,12 @@ class HeavysnowTransform:
             if nextnode in set(downstream): # flow 
                 snowyground[nextnode]=snowyground[nextnode]+b
                 flowcount=flowcount+1
+                self.status.append('flow')
             else: # block 
                 nextnode=np.random.choice(self.n,1,p=self.initdist).item()
                 snowyground[currentnode]=snowyground[currentnode]+b
                 flowcount=0
+                self.status.append('block')
         self.snowygrounds[...,ell]=snowyground
         self.flowcount=self.flowcount+[flowcount]
         self.trajectory=self.trajectory+[nextnode]
