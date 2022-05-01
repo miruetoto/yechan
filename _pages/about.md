@@ -36,3 +36,6 @@ permalink: /about/
 
 `-` Choi, G., Oh, H. S., Lee, Y., Kim, D. & Yu, K. (2015). Variational mode decomposition with missing data. Korean Journal of Applied Statistics, 28(2), 159–174.
 
+## Some urls for me
+
+- http://personal.psu.edu/drh20/asymp/fall2006/lectures/
