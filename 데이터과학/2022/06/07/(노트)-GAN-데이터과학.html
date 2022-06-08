@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>(노트) GAN | 신록예찬’s 블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="(노트) GAN" />
+<meta name="author" content="신록예찬" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://miruetoto.github.io/yechan/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99/2022/06/07/(%EB%85%B8%ED%8A%B8)-GAN-%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99.html" />
+<meta property="og:url" content="https://miruetoto.github.io/yechan/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99/2022/06/07/(%EB%85%B8%ED%8A%B8)-GAN-%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99.html" />
+<meta property="og:site_name" content="신록예찬’s 블로그" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-07T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://miruetoto.github.io/yechan/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99/2022/06/07/(%EB%85%B8%ED%8A%B8)-GAN-%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99.html","@type":"BlogPosting","headline":"(노트) GAN","dateModified":"2022-06-07T00:00:00-05:00","datePublished":"2022-06-07T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99/2022/06/07/(%EB%85%B8%ED%8A%B8)-GAN-%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99.html"},"author":{"@type":"Person","name":"신록예찬"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬's 블로그" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/yechan/">신록예찬&#39;s 블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/yechan/about/">About Me</a><a class="page-link" href="/yechan/search/">Search</a><a class="page-link" href="/yechan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">(노트) GAN</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-06-07T00:00:00-05:00" itemprop="datePublished">
+        Jun 7, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">신록예찬</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/yechan/categories/#데이터과학">데이터과학</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/miruetoto/yechan/tree/master/_notebooks/2022-06-07-(노트) GAN [데이터과학].ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/yechan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/miruetoto/yechan/master?filepath=_notebooks%2F2022-06-07-%28%EB%85%B8%ED%8A%B8%29+GAN+%5B%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99%5D.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/miruetoto/yechan/blob/master/_notebooks/2022-06-07-(노트) GAN [데이터과학].ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#GAN-(Generative-Adversarial-Network)">GAN (Generative Adversarial Network) </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#생성모형이란?-(쉬운-설명)">생성모형이란? (쉬운 설명) </a></li>
+<li class="toc-entry toc-h4"><a href="#GAN의-응용분야">GAN의 응용분야 </a></li>
+<li class="toc-entry toc-h4"><a href="#생성모형이란?-통계학과-버전의-설명">생성모형이란? 통계학과 버전의 설명 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#GAN의-원리">GAN의 원리 </a></li>
+<li class="toc-entry toc-h3"><a href="#구현">구현 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#import">import </a></li>
+<li class="toc-entry toc-h4"><a href="#데이터">데이터 </a></li>
+<li class="toc-entry toc-h4"><a href="#위조지폐범의-설계:-noise-$\to$-가짜이미지-를-만들어내는-네트워크를-만들자.">위조지폐범의 설계: noise $\to$ 가짜이미지 를 만들어내는 네트워크를 만들자. </a></li>
+<li class="toc-entry toc-h4"><a href="#경찰의-설계:-진짜이미지는-1,-가짜이미지는-0으로-판별하는-DNN을-만들자.">경찰의 설계: 진짜이미지는 1, 가짜이미지는 0으로 판별하는 DNN을 만들자. </a></li>
+<li class="toc-entry toc-h4"><a href="#일단-스토리를-전개해봅시다.">일단 스토리를 전개해봅시다. </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#경찰네트워크의-실력을-향상하자">경찰네트워크의 실력을 향상하자 </a></li>
+<li class="toc-entry toc-h3"><a href="#위조범네트워크의-성능을-향상시키자.">위조범네트워크의 성능을 향상시키자. </a></li>
+<li class="toc-entry toc-h3"><a href="#두-적대적-네트워크를-경쟁시키자.">두 적대적 네트워크를 경쟁시키자. </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-06-07-(노트) GAN [데이터과학].ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="GAN-(Generative-Adversarial-Network)">
+<a class="anchor" href="#GAN-(Generative-Adversarial-Network)" aria-hidden="true"><span class="octicon octicon-link"></span></a>GAN (Generative Adversarial Network)<a class="anchor-link" href="#GAN-(Generative-Adversarial-Network)"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 저자: 이안굿펠로우 (이름이 특이함. 좋은친구..)</p>
+<ul>
+<li>제가 추천한 딥러닝 교재의 저자 </li>
+<li>천재임 </li>
+<li>지도교수가 요수아 벤지오 </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 논문 NIPS, 저는 이 논문 읽고 소름돋았어요..</p>
+<ul>
+<li>
+<a href="https://arxiv.org/abs/1406.2661">https://arxiv.org/abs/1406.2661</a> (현재시점, 38751회 인용되었음)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 최근 10년간 머신러닝 분야에서 가장 혁신적인 아이디어이다. (얀르쿤, 2014년 시점..)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 무슨내용? 생성모형</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="생성모형이란?-(쉬운-설명)">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EB%AA%A8%ED%98%95%EC%9D%B4%EB%9E%80?-(%EC%89%AC%EC%9A%B4-%EC%84%A4%EB%AA%85)" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성모형이란? (쉬운 설명)<a class="anchor-link" href="#%EC%83%9D%EC%84%B1%EB%AA%A8%ED%98%95%EC%9D%B4%EB%9E%80?-(%EC%89%AC%EC%9A%B4-%EC%84%A4%EB%AA%85)"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote>
+<p>만들수 없다면 이해하지 못한 것이다, 리처드 파인만 (천재 물리학자)</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 사진속에 들어있는 동물이 개인지 고양이인지 맞출수 있는 기계와 개와 고양이를 그릴수 있는 기계중 어떤것이 더 시각적보에 대한 이해가 깊다고 볼수 있는가?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 진정으로 인공지능이 이미지를 이해했다면, 이미지를 만들수도 있어야 한다. $\to$ 이미지를 생성하는 모형을 만들어보자 $\to$ 성공</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Woman_1.jpg" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="GAN의-응용분야">
+<a class="anchor" href="#GAN%EC%9D%98-%EC%9D%91%EC%9A%A9%EB%B6%84%EC%95%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>GAN의 응용분야<a class="anchor-link" href="#GAN%EC%9D%98-%EC%9D%91%EC%9A%A9%EB%B6%84%EC%95%BC"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 내가 찍은 사진이 피카소의 화풍으로 표현된다면?</p>
+<ul>
+<li><a href="https://www.lgsl.kr/sto/stories/60/ALMA2020070001">https://www.lgsl.kr/sto/stories/60/ALMA2020070001</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 퀸의 라이브에이드가 4k로 나온다면?</p>
+<p><code>-</code> 1920년대 서울의 모습이 칼라로 복원된다면?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 딥페이크: 유명인의 가짜 포르노, 가짜뉴스, 협박(거짓기소)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 게임영상 (파이널판타지)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 거북이의 커버..</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 너무 많아요.....</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="생성모형이란?-통계학과-버전의-설명">
+<a class="anchor" href="#%EC%83%9D%EC%84%B1%EB%AA%A8%ED%98%95%EC%9D%B4%EB%9E%80?-%ED%86%B5%EA%B3%84%ED%95%99%EA%B3%BC-%EB%B2%84%EC%A0%84%EC%9D%98-%EC%84%A4%EB%AA%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>생성모형이란? 통계학과 버전의 설명<a class="anchor-link" href="#%EC%83%9D%EC%84%B1%EB%AA%A8%ED%98%95%EC%9D%B4%EB%9E%80?-%ED%86%B5%EA%B3%84%ED%95%99%EA%B3%BC-%EB%B2%84%EC%A0%84%EC%9D%98-%EC%84%A4%EB%AA%85"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote>
+<p>제한된 정보만으로 어떤 문제를 풀 떄, 그 과정에서 원래의 문제보다 일반적인 문제를 풀지 말고, 가능한 원래의 문제를 직접 풀어야한다. 배프닉 (SVM 창시자)</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 이미지 $\boldsymbol{x}$가 주어졌을 경우 라벨을 $y$라고 하자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 이미지를 보고 라벨을 맞추는 일은 $p(y| \boldsymbol{x})$에 관심이 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 이미지를 생성하는 일은 $p(\boldsymbol{x},y)$에 관심이 있는것이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 데이터의 생성확률 $p(\boldsymbol{x},y)$을 알면 클래스의 사후확률 $p(y|\boldsymbol{x})$를 알 수 있음. (아래의 수식 참고) 하지만 역은 불가능</p>
+<p>
+$$p(y|x) = \frac{p(x,y)}{p(x)} = \frac{p(x,y)}{\sum_{y}p(x,y)} $$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>즉 이미지를 생성하는일은 분류문제보다 더 어려운 일이라 해석가능 </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 따라서 배프닉의 원리에 의하면 식별적 분류가 생성적 분류보다 바람직한 접근법이라 할 수 있음.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 하지만 다양한 현실문제에서 생성모형이 유용할떄가 많다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="GAN의-원리">
+<a class="anchor" href="#GAN%EC%9D%98-%EC%9B%90%EB%A6%AC" aria-hidden="true"><span class="octicon octicon-link"></span></a>GAN의 원리<a class="anchor-link" href="#GAN%EC%9D%98-%EC%9B%90%EB%A6%AC"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> GAN은 생성모형중 하나임</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> GAN의 원리는 경찰과 위조지폐범이 서로 선의의(?) 경쟁을 통하여 서로 발전하는 모형으로 설명할 수 있다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote>
+<p>The generative model can be thought of as analogous to a team of counterfeiters,
+trying to produce fake currency and use it without detection, while the discriminative model is
+analogous to the police, trying to detect the counterfeit currency. Competition in this game drives
+both teams to improve their methods until the counterfeits are indistiguishable from the genuine
+articles.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 서로 적대적인(adversarial) 네트워크(network)를 동시에 학습시켜 가짜이미지를 만든다(generate)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 무식한 상황극..</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote>
+<p>위조범:가짜돈을 만들어서 부자가 되어야지! (가짜돈을 그림) &gt; 경찰:(위조범이 만든 돈을 보고) 이건 가짜다! &gt; 위조범:걸렸군.. 더 정교하게 만들어야지.. &gt; 경찰:이건 진짠가?... --&gt; 상사에게 혼남. 그것도 구분못하냐고 &gt; 위조범:더 정교하게 만들자.. &gt; 경찰:더 판별능력을 업그레이드 하자! 
+반복..</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 굉장히 우수한 경찰조차도 진짜와 가짜를 구분하지 못할때(=진짜 이미지를 0.5의 확률로만 진짜라고 말할때 = 가짜 이미지를 0.5의 확률로만 가짜라고 말할때) 학습을 멈춘다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="구현">
+<a class="anchor" href="#%EA%B5%AC%ED%98%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>구현<a class="anchor-link" href="#%EA%B5%AC%ED%98%84"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 목표: 노이즈에서 Mnist자료의 이미지를 생성하여 보자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="import">
+<a class="anchor" href="#import" aria-hidden="true"><span class="octicon octicon-link"></span></a>import<a class="anchor-link" href="#import"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>  
+<span class="kn">import</span> <span class="nn">tensorflow.experimental.numpy</span> <span class="k">as</span> <span class="nn">tnp</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
+Input <span class="ansi-green-fg">In [1]</span>, in <span class="ansi-cyan-fg">&lt;cell line: 1&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> <span class="ansi-bold" style="color: rgb(0,0,255)">tensorflow</span> <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> <span class="ansi-bold" style="color: rgb(0,0,255)">tf</span>  
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> <span class="ansi-bold" style="color: rgb(0,0,255)">tensorflow</span><span class="ansi-bold" style="color: rgb(0,0,255)">.</span><span class="ansi-bold" style="color: rgb(0,0,255)">experimental</span><span class="ansi-bold" style="color: rgb(0,0,255)">.</span><span class="ansi-bold" style="color: rgb(0,0,255)">numpy</span> <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> <span class="ansi-bold" style="color: rgb(0,0,255)">tnp</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> <span class="ansi-bold" style="color: rgb(0,0,255)">matplotlib</span><span class="ansi-bold" style="color: rgb(0,0,255)">.</span><span class="ansi-bold" style="color: rgb(0,0,255)">pyplot</span> <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> <span class="ansi-bold" style="color: rgb(0,0,255)">plt</span>
+
+<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named 'tensorflow'</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tnp</span><span class="o">.</span><span class="n">experimental_enable_numpy_behavior</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="데이터">
+<a class="anchor" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>데이터<a class="anchor-link" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0"> </a>
+</h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">mnist</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Xreal</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">784</span><span class="p">)</span><span class="o">/</span><span class="mi">255</span>
+<span class="c1">#y = tf.keras.utils.to_categorical(y_train)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="위조지폐범의-설계:-noise-$\to$-가짜이미지-를-만들어내는-네트워크를-만들자.">
+<a class="anchor" href="#%EC%9C%84%EC%A1%B0%EC%A7%80%ED%8F%90%EB%B2%94%EC%9D%98-%EC%84%A4%EA%B3%84:-noise-%24%5Cto%24-%EA%B0%80%EC%A7%9C%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%82%B4%EB%8A%94-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%9E%90." aria-hidden="true"><span class="octicon octicon-link"></span></a>위조지폐범의 설계: noise $\to$ 가짜이미지 를 만들어내는 네트워크를 만들자.<a class="anchor-link" href="#%EC%9C%84%EC%A1%B0%EC%A7%80%ED%8F%90%EB%B2%94%EC%9D%98-%EC%84%A4%EA%B3%84:-noise-%24%5Cto%24-%EA%B0%80%EC%A7%9C%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%96%B4%EB%82%B4%EB%8A%94-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EB%A5%BC-%EB%A7%8C%EB%93%A4%EC%9E%90."> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 입력? 적당한 벡터 혹은 매트릭스에 노이즈 (랜덤으로 생성한 어떠한 숫자)를 채운 것</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 출력? $28 \times 28$의 매트릭스, 각 원소는 0~1사이의 숫자가 있음; 혹은 $28\times 28 = 784$개의 벡터</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net_counterfeiter</span><span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">net_counterfeiter</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">net_counterfeiter</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">net_counterfeiter</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">net_counterfeiter</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">784</span><span class="p">))</span>
+<span class="n">net_counterfeiter</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">binary_crossentropy</span><span class="p">,</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="경찰의-설계:-진짜이미지는-1,-가짜이미지는-0으로-판별하는-DNN을-만들자.">
+<a class="anchor" href="#%EA%B2%BD%EC%B0%B0%EC%9D%98-%EC%84%A4%EA%B3%84:-%EC%A7%84%EC%A7%9C%EC%9D%B4%EB%AF%B8%EC%A7%80%EB%8A%94-1,-%EA%B0%80%EC%A7%9C%EC%9D%B4%EB%AF%B8%EC%A7%80%EB%8A%94-0%EC%9C%BC%EB%A1%9C-%ED%8C%90%EB%B3%84%ED%95%98%EB%8A%94-DNN%EC%9D%84-%EB%A7%8C%EB%93%A4%EC%9E%90." aria-hidden="true"><span class="octicon octicon-link"></span></a>경찰의 설계: 진짜이미지는 1, 가짜이미지는 0으로 판별하는 DNN을 만들자.<a class="anchor-link" href="#%EA%B2%BD%EC%B0%B0%EC%9D%98-%EC%84%A4%EA%B3%84:-%EC%A7%84%EC%A7%9C%EC%9D%B4%EB%AF%B8%EC%A7%80%EB%8A%94-1,-%EA%B0%80%EC%A7%9C%EC%9D%B4%EB%AF%B8%EC%A7%80%EB%8A%94-0%EC%9C%BC%EB%A1%9C-%ED%8C%90%EB%B3%84%ED%95%98%EB%8A%94-DNN%EC%9D%84-%EB%A7%8C%EB%93%A4%EC%9E%90."> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 입력?</p>
+<ul>
+<li>X: 28×28 의 매트릭스, 각 원소는 0~1사이의 숫자가 있음; 혹은 28×28=784개의 벡터</li>
+<li>y: 0 or 1 (진짜면 1 가짜면 0) </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 출력? yhat</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net_police</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">net_police</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">net_police</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">))</span>
+<span class="n">net_police</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">net_police</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">))</span>
+<span class="n">net_police</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">net_police</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">))</span>               
+<span class="n">net_police</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'sigmoid'</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="일단-스토리를-전개해봅시다.">
+<a class="anchor" href="#%EC%9D%BC%EB%8B%A8-%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%A5%BC-%EC%A0%84%EA%B0%9C%ED%95%B4%EB%B4%85%EC%8B%9C%EB%8B%A4." aria-hidden="true"><span class="octicon octicon-link"></span></a>일단 스토리를 전개해봅시다.<a class="anchor-link" href="#%EC%9D%BC%EB%8B%A8-%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%A5%BC-%EC%A0%84%EA%B0%9C%ED%95%B4%EB%B4%85%EC%8B%9C%EB%8B%A4."> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 아래는 진짜 이미지 입니다. (따라서 이 이미지에 대응하는 y는 1입니다, 이건 약속하기 나름이니 0이라고 생각해도 되겠네요.)</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Xreal</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.image.AxesImage at 0x7fbc882ffd00&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPsAAAD4CAYAAAAq5pAIAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjUuMiwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8qNh9FAAAACXBIWXMAAAsTAAALEwEAmpwYAAAOyElEQVR4nO3df5DU9X3H8deb6wmI4EAMhBBSonKhxDQQLxgbE0ycOGBnis40JkzHEGLnMpNoMdo2ju1MnHSmQzMmNmkwKYlEzA+czKiR6VAjXplaE0M4kAiCBkOggidUsAV/4R337h/3NXPqfT+77H53v3v3fj5mbnb3+97vft+z+uK73+9nv/sxdxeA0W9M2Q0AaA7CDgRB2IEgCDsQBGEHgviDZm7sNBvr4zShmZsEQnlFL+pVP2HD1eoKu5ktkvQNSW2SvufuK1PPH6cJusAuqWeTABI2e3dureaP8WbWJmmVpMWS5kpaamZza309AI1VzzH7AklPufted39V0l2SlhTTFoCi1RP2GZKeHvL4QLbsdcysy8x6zKynTyfq2ByAejT8bLy7r3b3TnfvbNfYRm8OQI56wn5Q0swhj9+RLQPQguoJ+xZJs83sXWZ2mqRPSVpfTFsAilbz0Ju795vZNZJ+psGhtzXu/nhhnQEoVF3j7O6+QdKGgnoB0EB8XRYIgrADQRB2IAjCDgRB2IEgCDsQBGEHgiDsQBCEHQiCsANBEHYgCMIOBEHYgSAIOxAEYQeCIOxAEIQdCIKwA0EQdiAIwg4EQdiBIJo6ZTNGn/6PnZ+s934+f8qvX1+4Nrnu+x5Zlqy/fdVpyXrbpm3JejTs2YEgCDsQBGEHgiDsQBCEHQiCsANBEHYgCMbZkTSwcH6y/s0130rWz23P/19soMK2H73w+8n6k50nk/W/mfXBCluIpa6wm9k+ScclnZTU7+6dRTQFoHhF7Nk/6u7PFfA6ABqIY3YgiHrD7pIeMLOtZtY13BPMrMvMesysp0/535MG0Fj1foy/yN0PmtlUSRvN7Al3f2joE9x9taTVkjTJpnid2wNQo7r27O5+MLs9LOleSQuKaApA8WoOu5lNMLOJr92XdKmknUU1BqBY9XyMnybpXjN77XV+7O73F9IVmqbv0vRo6d/e9oNkvaM9fU35QGI0fW9fX3Ld/xsYm6zPT5d1YvEHcmvjN+1IrjvwyivpFx+Bag67u++V9L4CewHQQAy9AUEQdiAIwg4EQdiBIAg7EASXuI4CbZMm5dZe/Mic5LpfvPXHyfpHx79QYeu17y/ueP5PkvXu2y5M1n9+8zeT9Y3f+05ube4Pr0mue/aXHknWRyL27EAQhB0IgrADQRB2IAjCDgRB2IEgCDsQBOPso8CBO2fk1rZ8YFUTOzk1X5m6JVm//4z0OPzyfZcm62tnPZhbmzT3SHLd0Yg9OxAEYQeCIOxAEIQdCIKwA0EQdiAIwg4EwTj7CND/sfOT9XXz8qdNHqP0Tz1Xsnz/Jcl6z4N/lKzvuDq/t00vj0uuO7Xn5WT9qefT1+q3/+Om3NoYS646KrFnB4Ig7EAQhB0IgrADQRB2IAjCDgRB2IEgzN2btrFJNsUvsPS4bUQDC+cn6/+89rZk/dz22r8u8WdPXJGst/35i8n60T99d7J+5Lz8Ae2OVU8n1+1/+kCyXsm/HdyaW+s9mR7D/+yyv0rW2zZtq6mnRtvs3TrmR4d90yvu2c1sjZkdNrOdQ5ZNMbONZrYnu51cZMMAilfNx/g7JC16w7IbJXW7+2xJ3dljAC2sYtjd/SFJR9+weImktdn9tZIuL7YtAEWr9WBvmrv3ZveflTQt74lm1iWpS5LG6fQaNwegXnWfjffBM3y5Z/ncfbW7d7p7Z7vG1rs5ADWqNeyHzGy6JGW3h4trCUAj1Br29ZKWZfeXSbqvmHYANErFY3YzWyfpYklnmdkBSV+WtFLST8zsakn7JV3ZyCZHOjv/Pcn6c9enx3w72tPXpG89kV/7jxfmJtc9ctfMZP0tz6fnKT/zh79M1xO1/uSajTWtLX1IeeS6l5L1qfmXyresimF396U5Jb4dA4wgfF0WCIKwA0EQdiAIwg4EQdiBIPgp6QKMOT39NeD+rx5L1n85555k/Xf9rybr1990Q25t8n/9d3LdqRPS34c6mayOXgum70/W9zWnjUKxZweCIOxAEIQdCIKwA0EQdiAIwg4EQdiBIBhnL8DLC9OXsP5sTvqnoCv5yxVfTNYn/jT/MtMyLyNFa2HPDgRB2IEgCDsQBGEHgiDsQBCEHQiCsANBMM5egD/+h+3J+pgK/6Yu35/+od7xP/3VqbYESe3WllvrqzBTeZs1byrzZmHPDgRB2IEgCDsQBGEHgiDsQBCEHQiCsANBMM5epf+96sLc2t9PuyW57oAqTLn8QHpa5XfqF8k6htfn+b96P6CB5Lr3707/N5mtbTX1VKaKe3YzW2Nmh81s55BlN5vZQTPbnv1d1tg2AdSrmo/xd0haNMzyW919Xva3odi2ABStYtjd/SFJR5vQC4AGqucE3TVm9lj2MX9y3pPMrMvMesysp08n6tgcgHrUGvZvSzpH0jxJvZK+lvdEd1/t7p3u3tmusTVuDkC9agq7ux9y95PuPiDpu5IWFNsWgKLVFHYzmz7k4RWSduY9F0BrqDjObmbrJF0s6SwzOyDpy5IuNrN5klyDU1V/rnEttob+8fm1M8ekx9EfeSV9+HL2nc+kt52sjl6V5r1/4pbzKrzC1tzKX+xdnFxzzorfJesjcd76imF396XDLL69Ab0AaCC+LgsEQdiBIAg7EARhB4Ig7EAQXOLaBEdOnpGs9+/d15xGWkylobUnV743WX9iybeS9X9/6czc2jOrzk2uO/H5/GmwRyr27EAQhB0IgrADQRB2IAjCDgRB2IEgCDsQBOPsTfDXP/9Est6RuBRzpBtYOD+3dvj6l5Pr7u5Mj6NfsuOTyfqERXtzaxM1+sbRK2HPDgRB2IEgCDsQBGEHgiDsQBCEHQiCsANBMM5eLcsvjanwb+Y3LlqXrK9SRy0dtYT9X8mfylqS7v7013NrHe3pn+B+/6+WJetvv2JXso7XY88OBEHYgSAIOxAEYQeCIOxAEIQdCIKwA0Ewzl4tzy8NaCC56sLxR5L16+44P1k/5/vp129/9nhu7dDCtybXnfLJA8n6te/sTtYXn56+Fn/9i9Nya5/esSi57ln/OiFZx6mpuGc3s5lmtsnMdpnZ42a2Ils+xcw2mtme7HZy49sFUKtqPsb3S7rB3edK+qCkL5jZXEk3Sup299mSurPHAFpUxbC7e6+7b8vuH5e0W9IMSUskrc2etlbS5Q3qEUABTumY3cxmSZovabOkae7em5WelTTswZmZdUnqkqRxSs/tBaBxqj4bb2ZnSLpb0nXufmxozd1dOaew3H21u3e6e2e7xtbVLIDaVRV2M2vXYNB/5O73ZIsPmdn0rD5d0uHGtAigCBU/xpuZSbpd0m53H3q94npJyyStzG7va0iHo8A4S7/Nuz/+nWT94Q+PS9b3nHhbbm35mfuS69ZrxTMfTtbv/8W83NrsFfF+zrlM1Ryzf0jSVZJ2mNn2bNlNGgz5T8zsakn7JV3ZkA4BFKJi2N39YeX/dMMlxbYDoFH4uiwQBGEHgiDsQBCEHQiCsANB2OCX35pjkk3xC2xknsBv6zgnt9axbn9y3X962yN1bbvST1VXusQ25dET6dde+p9dyXrH8tE73fRItNm7dcyPDjt6xp4dCIKwA0EQdiAIwg4EQdiBIAg7EARhB4Lgp6SrdPI3v82t7fnErOS6c6+9NlnfdeW/1NJSVeZs+Hyy/u7bXkrWOx5lHH20YM8OBEHYgSAIOxAEYQeCIOxAEIQdCIKwA0FwPTswinA9OwDCDkRB2IEgCDsQBGEHgiDsQBCEHQiiYtjNbKaZbTKzXWb2uJmtyJbfbGYHzWx79ndZ49sFUKtqfryiX9IN7r7NzCZK2mpmG7Pare5+S+PaA1CUauZn75XUm90/bma7Jc1odGMAinVKx+xmNkvSfEmbs0XXmNljZrbGzCbnrNNlZj1m1tOnE/V1C6BmVYfdzM6QdLek69z9mKRvSzpH0jwN7vm/Ntx67r7a3TvdvbNdY+vvGEBNqgq7mbVrMOg/cvd7JMndD7n7SXcfkPRdSQsa1yaAelVzNt4k3S5pt7t/fcjy6UOedoWkncW3B6Ao1ZyN/5CkqyTtMLPt2bKbJC01s3mSXNI+SZ9rQH8AClLN2fiHJQ13feyG4tsB0Ch8gw4IgrADQRB2IAjCDgRB2IEgCDsQBGEHgiDsQBCEHQiCsANBEHYgCMIOBEHYgSAIOxBEU6dsNrP/kbR/yKKzJD3XtAZOTav21qp9SfRWqyJ7+0N3f+twhaaG/U0bN+tx987SGkho1d5atS+J3mrVrN74GA8EQdiBIMoO++qSt5/Sqr21al8SvdWqKb2VeswOoHnK3rMDaBLCDgRRStjNbJGZPWlmT5nZjWX0kMfM9pnZjmwa6p6Se1ljZofNbOeQZVPMbKOZ7cluh51jr6TeWmIa78Q046W+d2VPf970Y3Yza5P0G0kfl3RA0hZJS919V1MbyWFm+yR1unvpX8Aws49IekHSne5+Xrbsq5KOuvvK7B/Kye7+pRbp7WZJL5Q9jXc2W9H0odOMS7pc0mdU4nuX6OtKNeF9K2PPvkDSU+6+191flXSXpCUl9NHy3P0hSUffsHiJpLXZ/bUa/J+l6XJ6awnu3uvu27L7xyW9Ns14qe9doq+mKCPsMyQ9PeTxAbXWfO8u6QEz22pmXWU3M4xp7t6b3X9W0rQymxlGxWm8m+kN04y3zHtXy/Tn9eIE3Ztd5O7vl7RY0heyj6styQePwVpp7LSqabybZZhpxn+vzPeu1unP61VG2A9Kmjnk8TuyZS3B3Q9mt4cl3avWm4r60Gsz6Ga3h0vu5/daaRrv4aYZVwu8d2VOf15G2LdImm1m7zKz0yR9StL6Evp4EzObkJ04kZlNkHSpWm8q6vWSlmX3l0m6r8ReXqdVpvHOm2ZcJb93pU9/7u5N/5N0mQbPyP9W0t+V0UNOX2dL+nX293jZvUlap8GPdX0aPLdxtaS3SOqWtEfSg5KmtFBvP5C0Q9JjGgzW9JJ6u0iDH9Efk7Q9+7us7Pcu0VdT3je+LgsEwQk6IAjCDgRB2IEgCDsQBGEHgiDsQBCEHQji/wEehlE7rasv6gAAAABJRU5ErkJggg==%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 이 진짜 이미지를 경찰이 봤습니다 $\to$ yhat이 나오겠죠?</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">policehat_from_realimage</span> <span class="o">=</span> <span class="n">net_police</span><span class="p">(</span><span class="n">Xreal</span><span class="p">)</span>
+<span class="n">policehat_from_realimage</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(60000, 1), dtype=float32, numpy=
+array([[0.42398518],
+       [0.42635447],
+       [0.4137003 ],
+       ...,
+       [0.4556293 ],
+       [0.4299409 ],
+       [0.45541716]], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>진짜 이미지이므로 yhat $\approx$ 1 이어야 좋은것임 </li>
+<li>하지만 그렇지 못함 (배운게 없는 무능한 경찰이므로) </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 이번에는 가짜 이미지를 경찰이 봤다고 합시다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(step1) 랜덤으로 아무숫자나 생성한다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Err</span><span class="o">=</span><span class="n">tnp</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(step2) 위조범을 시켜서 이미지를 생성시킨다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Xfake</span> <span class="o">=</span> <span class="n">net_counterfeiter</span><span class="p">(</span><span class="n">Err</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Xfake</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.image.AxesImage at 0x7fbc882449d0&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>누가봐도 가짜자료임 </li>
+<li>위조범의 실력이 형편없음 </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>(step3) 위조범이 생성한 이미지를 경찰한테 넘겨본다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">policehat_from_Xfake</span> <span class="o">=</span> <span class="n">net_police</span><span class="p">(</span><span class="n">Xfake</span><span class="p">)</span>
+<span class="n">policehat_from_Xfake</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(1, 1), dtype=float32, numpy=array([[0.48976764]], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 경찰의 실력도 형편없고 위조범의 실력도 형편없다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="경찰네트워크의-실력을-향상하자">
+<a class="anchor" href="#%EA%B2%BD%EC%B0%B0%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EC%9D%98-%EC%8B%A4%EB%A0%A5%EC%9D%84-%ED%96%A5%EC%83%81%ED%95%98%EC%9E%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>경찰네트워크의 실력을 향상하자<a class="anchor-link" href="#%EA%B2%BD%EC%B0%B0%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EC%9D%98-%EC%8B%A4%EB%A0%A5%EC%9D%84-%ED%96%A5%EC%83%81%ED%95%98%EC%9E%90"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 데이터 정리</p>
+<ul>
+<li>원래 $n=6131$개의 자료가 있음. 이를 ${\bf X}$라고 하자. 따라서 ${\bf X}$의 차원은 (6131,784). </li>
+<li>위조범이 만든 가짜 자료를 원래자료와 같은 숫자인 $6131$개 만큼 만듬. 이를 $\tilde{\bf X}$라고 하자. 따라서 $\tilde{\bf X}$의 차원은 (6131,784). </li>
+<li>진짜자료는 1, 가짜자료는 0으로 라벨링.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n</span><span class="o">=</span><span class="n">Xreal</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Err</span><span class="o">=</span><span class="n">tnp</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">Xfake</span> <span class="o">=</span> <span class="n">net_counterfeiter</span><span class="p">(</span><span class="n">Err</span><span class="p">)</span> <span class="c1">## counterfeiter_output을 Xtilde로 생각하면 된다.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Xpolice</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">Xreal</span><span class="p">,</span><span class="n">Xfake</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">real_label</span> <span class="o">=</span> <span class="n">tnp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">]]</span><span class="o">*</span><span class="n">n</span><span class="p">)</span> <span class="c1">## y=1 </span>
+<span class="n">fake_label</span> <span class="o">=</span> <span class="n">tnp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">]]</span><span class="o">*</span><span class="n">n</span><span class="p">)</span> <span class="c1">## y=0</span>
+<span class="n">ypolice</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">real_label</span><span class="p">,</span><span class="n">fake_label</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> yhat: 경찰의 예측</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">policehat_from_Xreal</span> <span class="o">=</span> <span class="n">net_police</span><span class="p">(</span><span class="n">Xreal</span><span class="p">)</span> 
+<span class="n">policehat_from_Xfake</span> <span class="o">=</span> <span class="n">net_police</span><span class="p">(</span><span class="n">Xfake</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">policehat_from_Xreal</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(60000, 1), dtype=float32, numpy=
+array([[0.42398518],
+       [0.42635447],
+       [0.4137003 ],
+       ...,
+       [0.4556293 ],
+       [0.4299409 ],
+       [0.45541716]], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 손실함수의 설계? 경찰의 미덕은 (1) 가짜를 가짜라고 하고 (2) 진짜를 진짜라 해야한다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>0,1로 분류해야하므로 BCEloss를 이용 </li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># loss_fn(policehat_from_realimage,real_label) +\</span>
+<span class="c1"># loss_fn(policehat_from_fakeimage,fake_label)</span>
+
+<span class="c1"># loss_of_police</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> compile and fit</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net_police</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">binary_crossentropy</span><span class="p">,</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net_police</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xpolice</span><span class="p">,</span><span class="n">ypolice</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>3750/3750 [==============================] - 4s 1ms/step - loss: 6.2678e-04
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;keras.callbacks.History at 0x7fbc88131060&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 훈련된 경찰의 성능을 살펴보자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net_police</span><span class="p">(</span><span class="n">Xreal</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(60000, 1), dtype=float32, numpy=
+array([[1.],
+       [1.],
+       [1.],
+       ...,
+       [1.],
+       [1.],
+       [1.]], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net_police</span><span class="p">(</span><span class="n">Xfake</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(60000, 1), dtype=float32, numpy=
+array([[1.2625352e-19],
+       [4.2175234e-13],
+       [1.0804389e-12],
+       ...,
+       [2.8166356e-12],
+       [5.0304915e-13],
+       [2.3770608e-07]], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="위조범네트워크의-성능을-향상시키자.">
+<a class="anchor" href="#%EC%9C%84%EC%A1%B0%EB%B2%94%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EC%9D%98-%EC%84%B1%EB%8A%A5%EC%9D%84-%ED%96%A5%EC%83%81%EC%8B%9C%ED%82%A4%EC%9E%90." aria-hidden="true"><span class="octicon octicon-link"></span></a>위조범네트워크의 성능을 향상시키자.<a class="anchor-link" href="#%EC%9C%84%EC%A1%B0%EB%B2%94%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EC%9D%98-%EC%84%B1%EB%8A%A5%EC%9D%84-%ED%96%A5%EC%83%81%EC%8B%9C%ED%82%A4%EC%9E%90."> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 자료구조: X는 임의의 에러이미지, net(X)는 fakeimage</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># discriminator.trainable = False</span>
+<span class="c1"># ganInput = Input(shape=(randomDim,))</span>
+<span class="c1"># x = generator(ganInput)</span>
+<span class="c1"># ganOutput = discriminator(x)</span>
+<span class="c1"># gan = Model(inputs=ganInput, outputs=ganOutput)</span>
+<span class="c1"># gan.compile(loss='binary_crossentropy', optimizer=adam)</span>
+
+<span class="c1"># dLosses = []</span>
+<span class="c1"># gLosses = []</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net_police</span><span class="o">.</span><span class="n">trainable</span><span class="o">=</span><span class="kc">False</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,))</span> 
+<span class="n">x1</span> <span class="o">=</span> <span class="n">net_counterfeiter</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">net_police</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+<span class="n">net_gan</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">x0</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">x2</span><span class="p">)</span> 
+<span class="n">net_gan</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">binary_crossentropy</span><span class="p">,</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">)</span>
+<span class="c1">#net_gan.fit(Err,real_label)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">net_counterfeiter</span><span class="p">(</span><span class="n">Err</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.image.AxesImage at 0x7fbc806b6140&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">net_counterfeiter</span><span class="p">(</span><span class="n">Err</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.image.AxesImage at 0x7fbd9d715d50&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="두-적대적-네트워크를-경쟁시키자.">
+<a class="anchor" href="#%EB%91%90-%EC%A0%81%EB%8C%80%EC%A0%81-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EB%A5%BC-%EA%B2%BD%EC%9F%81%EC%8B%9C%ED%82%A4%EC%9E%90." aria-hidden="true"><span class="octicon octicon-link"></span></a>두 적대적 네트워크를 경쟁시키자.<a class="anchor-link" href="#%EB%91%90-%EC%A0%81%EB%8C%80%EC%A0%81-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EB%A5%BC-%EA%B2%BD%EC%9F%81%EC%8B%9C%ED%82%A4%EC%9E%90."> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">batchSize</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">60000</span><span class="o">/</span><span class="mi">64</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>937.5</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s1">'-'</span><span class="o">*</span><span class="mi">15</span><span class="p">,</span> <span class="s1">'Epoch </span><span class="si">%d</span><span class="s1">'</span> <span class="o">%</span> <span class="n">e</span><span class="p">,</span> <span class="s1">'-'</span><span class="o">*</span><span class="mi">15</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">938</span><span class="p">):</span>
+            <span class="c1"># Get a random set of input noise and images</span>
+            <span class="n">Err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="n">batchSize</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+            <span class="n">Xreal_batch</span> <span class="o">=</span> <span class="n">Xreal</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Xreal</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">batchSize</span><span class="p">)]</span>
+
+            <span class="c1"># Generate fake MNIST images</span>
+            <span class="n">Xfake_batch</span> <span class="o">=</span> <span class="n">net_counterfeiter</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Err</span><span class="p">)</span>
+            <span class="c1"># print np.shape(imageBatch), np.shape(generatedImages)</span>
+            <span class="n">Xpolice_batch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">Xreal_batch</span><span class="p">,</span> <span class="n">Xfake_batch</span><span class="p">])</span>
+
+            <span class="c1"># Labels for generated and real data</span>
+            <span class="n">ypolice_batch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">batchSize</span><span class="p">)</span>
+            <span class="c1"># One-sided label smoothing</span>
+            <span class="n">ypolice_batch</span><span class="p">[:</span><span class="n">batchSize</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+            <span class="c1"># Train discriminator</span>
+            <span class="n">net_police</span><span class="o">.</span><span class="n">trainable</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">net_police</span><span class="o">.</span><span class="n">train_on_batch</span><span class="p">(</span><span class="n">Xpolice_batch</span><span class="p">,</span> <span class="n">ypolice_batch</span><span class="p">)</span>
+
+            <span class="c1"># Train generator</span>
+            <span class="n">Err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="n">batchSize</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+            <span class="n">real_label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">batchSize</span><span class="p">)</span>
+            <span class="n">net_police</span><span class="o">.</span><span class="n">trainable</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">net_gan</span><span class="o">.</span><span class="n">train_on_batch</span><span class="p">(</span><span class="n">Err</span><span class="p">,</span> <span class="n">real_label</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>--------------- Epoch 1 ---------------
+--------------- Epoch 2 ---------------
+--------------- Epoch 3 ---------------
+--------------- Epoch 4 ---------------
+--------------- Epoch 5 ---------------
+--------------- Epoch 6 ---------------
+--------------- Epoch 7 ---------------
+--------------- Epoch 8 ---------------
+--------------- Epoch 9 ---------------
+--------------- Epoch 10 ---------------
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">net_counterfeiter</span><span class="p">(</span><span class="n">Err</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.image.AxesImage at 0x7fbd9d328fa0&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">net_counterfeiter</span><span class="p">(</span><span class="n">Err</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="mi">28</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.image.AxesImage at 0x7fbd9d4379d0&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="miruetoto/yechan"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/yechan/%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99/2022/06/07/(%EB%85%B8%ED%8A%B8)-GAN-%EB%8D%B0%EC%9D%B4%ED%84%B0%EA%B3%BC%ED%95%99.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/yechan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/yechan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/yechan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/miruetoto" target="_blank" title="miruetoto"><svg class="svg-icon grey"><use xlink:href="/yechan/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
