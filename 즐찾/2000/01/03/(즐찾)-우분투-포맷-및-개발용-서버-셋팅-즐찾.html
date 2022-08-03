@@ -134,6 +134,7 @@ window.onload = wrap_img;
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
 <li class="toc-entry toc-h3"><a href="#About-this-doc">About this doc </a></li>
+<li class="toc-entry toc-h3"><a href="#우분투설치">우분투설치 </a></li>
 <li class="toc-entry toc-h3"><a href="#한글설정-(개발용-서버일-경우-생략-가능)">한글설정 (개발용 서버일 경우 생략 가능) </a></li>
 <li class="toc-entry toc-h3"><a href="#그래픽카드-드라이버설치">그래픽카드 드라이버설치 </a></li>
 <li class="toc-entry toc-h3"><a href="#아나콘다">아나콘다 </a></li>
@@ -171,6 +172,23 @@ window.onload = wrap_img;
 <p><code>-</code> 이 포스트는 Rstudio, Jupyter Lab을 동시에 쓰는 사람에게 유용하다.</p>
 <p><code>-</code> 매년 조금씩 셋팅방법이 다른것 같다.</p>
 <p><code>-</code> 가장 최근에는 2022년 2월5일에 이 블로그 내용으로 셋팅해보았음.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="우분투설치">
+<a class="anchor" href="#%EC%9A%B0%EB%B6%84%ED%88%AC%EC%84%A4%EC%B9%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>우분투설치<a class="anchor-link" href="#%EC%9A%B0%EB%B6%84%ED%88%AC%EC%84%A4%EC%B9%98"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 22.04부터는 파티션 나누지 않고 그냥 설치해도 잘 되는것 같다.</p>
 
 </div>
 </div>
@@ -389,7 +407,9 @@ W: GPG error: https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/ InRelea
 ...</code></pre>
 <p>공개키가 없어서 생기는 에러이므로 아래와 같이 가져온다.</p>
 
-<pre><code>sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 9578539176BAFBC6</code></pre>
+<pre><code>wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+#sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 51716619E084DAB9</code></pre>
 <p>그리고 다시 아래를 실행</p>
 
 <pre><code>sudo apt-get update</code></pre>
@@ -416,7 +436,9 @@ Reading package lists... Done</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>-</code> R설치</p>
 
-<pre><code>sudo apt-get install r-base</code></pre>
+<pre><code>wget http://security.ubuntu.com/ubuntu/pool/main/i/icu/libicu66_66.1-2ubuntu2_amd64.deb
+sudo dpkg -i libicu66_66.1-2ubuntu2_amd64.deb
+sudo apt-get install r-base</code></pre>
 
 </div>
 </div>
@@ -424,7 +446,7 @@ Reading package lists... Done</code></pre>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>-</code> tidyverse 설치전 준비작업</p>
+<p><code>-</code> tidyverse 설치전 준비작업 (필요없어진듯)</p>
 
 <pre><code>sudo apt-get install -y libxml2-dev libcurl4-openssl-dev libssl-dev</code></pre>
 
@@ -506,6 +528,25 @@ IRkernel::installspec()</code></pre>
 </div>
 </div>
 </div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git add . 
+<span class="o">!</span>git commit -m .
+<span class="o">!</span>git push
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
