@@ -94,7 +94,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      3 min read
+      2 min read
     
 </span></p>
 
@@ -261,6 +261,29 @@ window.onload = wrap_img;
     
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
+    
+    <span class="k">def</span> <span class="nf">_repr_html_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">html_str</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">        기록된 데이터 수: </span><span class="si">{}</span><span class="s2"> &lt;br/&gt; </span>
+<span class="s2">        """</span>
+        <span class="k">return</span> <span class="n">html_str</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">replaybuffer</span><span class="o">=</span><span class="n">ReplayBuffer</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -278,7 +301,7 @@ window.onload = wrap_img;
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Agent</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">env</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span> 
         <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
             <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">128</span><span class="p">),</span>
@@ -290,12 +313,10 @@ window.onload = wrap_img;
             <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
         <span class="p">)</span>     
         <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">replaybuffer</span> <span class="o">=</span> <span class="n">ReplayBuffer</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">t_step</span> <span class="o">=</span> <span class="mi">0</span>
     
-    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">next_state</span><span class="p">,</span> <span class="n">done</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">replaybuffer</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">next_state</span><span class="p">,</span> <span class="n">done</span><span class="p">)</span>
-        <span class="n">states</span><span class="p">,</span> <span class="n">actions</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">next_states</span><span class="p">,</span> <span class="n">dones</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">replaybuffer</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">learn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">replaybuffer</span><span class="p">):</span>
+        <span class="n">states</span><span class="p">,</span> <span class="n">actions</span><span class="p">,</span> <span class="n">rewards</span><span class="p">,</span> <span class="n">next_states</span><span class="p">,</span> <span class="n">dones</span> <span class="o">=</span> <span class="n">replaybuffer</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
         <span class="n">qvalue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="p">(</span><span class="n">next_states</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> 
         <span class="n">y</span> <span class="o">=</span> <span class="n">rewards</span> <span class="o">+</span> <span class="mf">0.99</span> <span class="o">*</span> <span class="n">qvalue</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dones</span><span class="p">)</span>
         <span class="n">yhat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="p">(</span><span class="n">states</span><span class="p">)</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">actions</span><span class="p">)</span>
@@ -351,7 +372,24 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">replaybuffer</span> <span class="o">=</span> <span class="n">ReplayBuffer</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -381,10 +419,12 @@ window.onload = wrap_img;
         
         <span class="c1">## STEP2: env.step()을 사용해서 원하는 정보를 뽑습니다.</span>
         <span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
-        <span class="c1">#reward = reward - 1/20*np.abs(t/50-15)</span>
+
+        
+        <span class="n">replaybuffer</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="n">action</span><span class="p">,</span><span class="n">reward</span><span class="p">,</span><span class="n">next_state</span><span class="p">,</span><span class="n">done</span><span class="p">)</span>
         
         <span class="c1">## STEP3: 뽑아낸 정보를 바탕으로 agent를 학습시킵니다.</span>
-        <span class="n">agent</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">next_state</span><span class="p">,</span> <span class="n">done</span><span class="p">)</span>
+        <span class="n">agent</span><span class="o">.</span><span class="n">learn</span><span class="p">(</span><span class="n">replaybuffer</span><span class="p">)</span>
         
         <span class="c1">## STEP4: 다음 상태로 갱신시킵니다</span>
         <span class="n">state</span> <span class="o">=</span> <span class="n">next_state</span>
@@ -417,39 +457,8 @@ window.onload = wrap_img;
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Episode 100	Average Score: -124.23
-Episode 172	Average Score: -79.854</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
-<span class="ansi-green-fg">/tmp/ipykernel_124028/2700587048.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">     15</span> 
-<span class="ansi-green-intense-fg ansi-bold">     16</span>         <span class="ansi-red-fg">## STEP3: 뽑아낸 정보를 바탕으로 agent를 학습시킵니다.</span>
-<span class="ansi-green-fg">---&gt; 17</span><span class="ansi-red-fg">         </span>agent<span class="ansi-blue-fg">.</span>step<span class="ansi-blue-fg">(</span>state<span class="ansi-blue-fg">,</span> action<span class="ansi-blue-fg">,</span> reward<span class="ansi-blue-fg">,</span> next_state<span class="ansi-blue-fg">,</span> done<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     18</span> 
-<span class="ansi-green-intense-fg ansi-bold">     19</span>         <span class="ansi-red-fg">## STEP4: 다음 상태로 갱신시킵니다</span>
-
-<span class="ansi-green-fg">/tmp/ipykernel_124028/2403039737.py</span> in <span class="ansi-cyan-fg">step</span><span class="ansi-blue-fg">(self, state, action, reward, next_state, done)</span>
-<span class="ansi-green-intense-fg ansi-bold">     18</span>     <span class="ansi-green-fg">def</span> step<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> state<span class="ansi-blue-fg">,</span> action<span class="ansi-blue-fg">,</span> reward<span class="ansi-blue-fg">,</span> next_state<span class="ansi-blue-fg">,</span> done<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">     19</span>         self<span class="ansi-blue-fg">.</span>replaybuffer<span class="ansi-blue-fg">.</span>add<span class="ansi-blue-fg">(</span>state<span class="ansi-blue-fg">,</span> action<span class="ansi-blue-fg">,</span> reward<span class="ansi-blue-fg">,</span> next_state<span class="ansi-blue-fg">,</span> done<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">---&gt; 20</span><span class="ansi-red-fg">         </span>states<span class="ansi-blue-fg">,</span> actions<span class="ansi-blue-fg">,</span> rewards<span class="ansi-blue-fg">,</span> next_states<span class="ansi-blue-fg">,</span> dones <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>replaybuffer<span class="ansi-blue-fg">.</span>sample<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     21</span>         qvalue <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>net<span class="ansi-blue-fg">(</span>next_states<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>detach<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>max<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>reshape<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     22</span>         y <span class="ansi-blue-fg">=</span> rewards <span class="ansi-blue-fg">+</span> <span class="ansi-cyan-fg">0.99</span> <span class="ansi-blue-fg">*</span> qvalue <span class="ansi-blue-fg">*</span> <span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1</span> <span class="ansi-blue-fg">-</span> dones<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/tmp/ipykernel_124028/2222795296.py</span> in <span class="ansi-cyan-fg">sample</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">     34</span>     <span class="ansi-green-fg">def</span> sample<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">     35</span>         _index <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>random<span class="ansi-blue-fg">.</span>choice<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>n<span class="ansi-blue-fg">,</span><span class="ansi-cyan-fg">128</span><span class="ansi-blue-fg">)</span> <span class="ansi-red-fg"># 128 is batch_size</span>
-<span class="ansi-green-fg">---&gt; 36</span><span class="ansi-red-fg">         </span>states <span class="ansi-blue-fg">=</span> torch<span class="ansi-blue-fg">.</span>tensor<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>states<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">[</span>_index<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-intense-fg ansi-bold">     37</span>         actions <span class="ansi-blue-fg">=</span> torch<span class="ansi-blue-fg">.</span>tensor<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>actions<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">[</span>_index<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-intense-fg ansi-bold">     38</span>         rewards <span class="ansi-blue-fg">=</span> torch<span class="ansi-blue-fg">.</span>tensor<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>rewards<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">[</span>_index<span class="ansi-blue-fg">]</span>
-
-<span class="ansi-red-fg">KeyboardInterrupt</span>: </pre>
+<pre>Episode 100	Average Score: -156.66
+Episode 116	Average Score: -146.37</pre>
 </div>
 </div>
 
