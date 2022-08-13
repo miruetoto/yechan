@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>(노트) RL lecture | 신록예찬’s 블로그</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="(노트) RL lecture" />
+<meta name="author" content="신록예찬" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://miruetoto.github.io/yechan/%EB%94%A5%EB%9F%AC%EB%8B%9D/2022/08/09/(%EB%85%B8%ED%8A%B8)-RL-lecture-%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5.html" />
+<meta property="og:url" content="https://miruetoto.github.io/yechan/%EB%94%A5%EB%9F%AC%EB%8B%9D/2022/08/09/(%EB%85%B8%ED%8A%B8)-RL-lecture-%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5.html" />
+<meta property="og:site_name" content="신록예찬’s 블로그" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-08-09T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://miruetoto.github.io/yechan/%EB%94%A5%EB%9F%AC%EB%8B%9D/2022/08/09/(%EB%85%B8%ED%8A%B8)-RL-lecture-%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5.html","@type":"BlogPosting","headline":"(노트) RL lecture","dateModified":"2022-08-09T00:00:00-05:00","datePublished":"2022-08-09T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://miruetoto.github.io/yechan/%EB%94%A5%EB%9F%AC%EB%8B%9D/2022/08/09/(%EB%85%B8%ED%8A%B8)-RL-lecture-%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5.html"},"author":{"@type":"Person","name":"신록예찬"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/yechan/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://miruetoto.github.io/yechan/feed.xml" title="신록예찬's 블로그" /><link rel="shortcut icon" type="image/x-icon" href="/yechan/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/yechan/">신록예찬&#39;s 블로그</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/yechan/about/">About Me</a><a class="page-link" href="/yechan/search/">Search</a><a class="page-link" href="/yechan/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">(노트) RL lecture</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-08-09T00:00:00-05:00" itemprop="datePublished">
+        Aug 9, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">신록예찬</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      9 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/yechan/categories/#딥러닝">딥러닝</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/miruetoto/yechan/tree/master/_notebooks/2022-08-09-(노트) RL lecture [강화학습].ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/yechan/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/miruetoto/yechan/master?filepath=_notebooks%2F2022-08-09-%28%EB%85%B8%ED%8A%B8%29+RL+lecture+%5B%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5%5D.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/miruetoto/yechan/blob/master/_notebooks/2022-08-09-(노트) RL lecture [강화학습].ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/yechan/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#imports">imports </a></li>
+<li class="toc-entry toc-h2"><a href="#Game1">Game1 </a></li>
+<li class="toc-entry toc-h2"><a href="#Game2">Game2 </a></li>
+<li class="toc-entry toc-h2"><a href="#Game3">Game3 </a></li>
+<li class="toc-entry toc-h2"><a href="#Game4:-LunarLander">Game4: LunarLander </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#환경만들기">환경만들기 </a></li>
+<li class="toc-entry toc-h3"><a href="#환경관찰">환경관찰 </a></li>
+<li class="toc-entry toc-h3"><a href="#Replay-Buffer">Replay Buffer </a></li>
+<li class="toc-entry toc-h3"><a href="#Qnetwork-설계">Qnetwork 설계 </a></li>
+<li class="toc-entry toc-h3"><a href="#Policy-설계">Policy 설계 </a></li>
+<li class="toc-entry toc-h3"><a href="#학습">학습 </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-08-09-(노트) RL lecture [강화학습].ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="imports">
+<a class="anchor" href="#imports" aria-hidden="true"><span class="octicon octicon-link"></span></a>imports<a class="anchor-link" href="#imports"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># !sudo apt-get update &gt; /dev/null 2&gt;&amp;1</span>
+<span class="c1"># !sudo apt-get install -y xvfb python-opengl ffmpeg &gt; /dev/null 2&gt;&amp;1</span>
+<span class="c1"># !pip install rarfile --quiet</span>
+<span class="c1"># !pip install stable-baselines3[extra] ale-py==0.7.4 --quiet</span>
+<span class="c1"># !pip install box2d-py --quiet</span>
+<span class="c1"># !pip install gym pyvirtualdisplay --quiet</span>
+<span class="c1"># !pip install pyglet --quiet</span>
+<span class="c1"># !pip install piglet --quiet</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#display = Display(visible=0, size=(1400, 900))</span>
+<span class="c1">#display.start()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gym</span>
+<span class="c1">#from gym.wrappers import Monitor</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># For visualization</span>
+<span class="kn">from</span> <span class="nn">gym.wrappers.monitoring</span> <span class="kn">import</span> <span class="n">video_recorder</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+<span class="kn">from</span> <span class="nn">IPython</span> <span class="kn">import</span> <span class="n">display</span> 
+<span class="kn">import</span> <span class="nn">glob</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Game1">
+<a class="anchor" href="#Game1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Game1<a class="anchor-link" href="#Game1"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 문제설명: 두개의 버튼이 있다. 버튼1을 누르면 1의 보상을, 버튼2를 누르면 100의 보상을 준다고 가정</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">'button1'</span><span class="p">,</span><span class="s1">'button2'</span><span class="p">])</span>
+<span class="n">action</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'button1'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">'button1'</span><span class="p">:</span> 
+    <span class="n">reward</span> <span class="o">=</span> <span class="mi">1</span> 
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">reward</span> <span class="o">=</span> <span class="mi">100</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">'button1'</span><span class="p">,</span><span class="s1">'button2'</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">'button1'</span><span class="p">:</span> 
+        <span class="n">reward</span> <span class="o">=</span> <span class="mi">1</span> 
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">reward</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">action</span><span class="p">,</span><span class="n">reward</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>button2 100
+button1 1
+button1 1
+button1 1
+button2 100
+button1 1
+button2 100
+button2 100
+button2 100
+button1 1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 게임을 푸는 방법? 버튼2를 누른다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 용어 정리</p>
+<ul>
+<li>Agent = 버튼을 누르는 사람</li>
+<li>Action = 에이전트가 할 수 있는 행동 (현재는 2개의 action이 가능) </li>
+<li>Env = Agent의 action을 보고 reward를 주는 존재 </li>
+<li>게임의 종료 = 버튼을 누르면 게임이 종료</li>
+<li>게임을 푸는 방법 = reward를 최대화하는 action을 선택</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Game2">
+<a class="anchor" href="#Game2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Game2<a class="anchor-link" href="#Game2"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 문제설명: 에이전트는 현재 2의 위치에 있다. 에이전트는 (1) 정지 (2) 왼쪽으로 이동 (3) 오른쪽으로 이동 하는 3개의 행동을 할 수 있다. 에이전트가 4의 위치에 도달하면 100의 보상을 얻고 게임이 종료된다. 에이전트가 0의 위치에 도달하면 보상없이 게임이 종료된다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 에이전트와 환경의 상호작용 구현1</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="n">action</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2 1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9999</span><span class="p">):</span> 
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">reward</span> <span class="o">=</span> <span class="mi">200</span>         
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"2의 위치에 도달, 보상 </span><span class="si">{}</span><span class="s2">점 획득"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reward</span><span class="p">))</span>
+        <span class="k">break</span> 
+    <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="o">-</span><span class="mi">2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">reward</span> <span class="o">=</span> <span class="mi">0</span> 
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"-2의 위치에 도달, 보상 </span><span class="si">{}</span><span class="s2">점 획득"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reward</span><span class="p">))</span>
+        <span class="k">break</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="n">action</span><span class="p">)</span>        
+        <span class="n">state</span> <span class="o">=</span> <span class="n">state</span> <span class="o">+</span> <span class="n">action</span> 
+        <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">'&lt;-'</span><span class="p">,</span><span class="s1">'.'</span><span class="p">,</span><span class="s1">'-&gt;'</span><span class="p">])</span>
+        
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2
+2의 위치에 도달, 보상 200점 획득
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 에이전트와 환경의 상호작용 구현2</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">Discrete</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Discrete(3)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>gym.spaces.Discrete<span class="o">?</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre><span class="ansi-red-fg">Init signature:</span> gym<span class="ansi-blue-fg">.</span>spaces<span class="ansi-blue-fg">.</span>Discrete<span class="ansi-blue-fg">(</span>n<span class="ansi-blue-fg">,</span> seed<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-red-fg">Docstring:</span>     
+A discrete space in :math:`\{ 0, 1, \\dots, n-1 \}`.
+
+Example::
+
+    &gt;&gt;&gt; Discrete(2)
+<span class="ansi-red-fg">File:</span>           ~/anaconda3/envs/py37/lib/python3.7/site-packages/gym/spaces/discrete.py
+<span class="ansi-red-fg">Type:</span>           type
+<span class="ansi-red-fg">Subclasses:</span>     
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Game2</span><span class="p">(</span><span class="n">gym</span><span class="o">.</span><span class="n">Env</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_space</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">Discrete</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">start</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Acition = {-1,0,1}  </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observation_space</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">spaces</span><span class="o">.</span><span class="n">Discrete</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="n">start</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># State = {-2,-1,0,1,2} </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="mi">0</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">action</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">+</span> <span class="n">action</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span> 
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">reward</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">reward</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="o">-</span><span class="mi">2</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span> 
+            <span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span>
+    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'state: </span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="mi">0</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">env</span><span class="o">=</span><span class="n">Game2</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">/tmp/ipykernel_318199/872583914.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>env<span class="ansi-blue-fg">=</span>Game2<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/tmp/ipykernel_318199/657266519.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-green-fg">class</span> Game2<span class="ansi-blue-fg">(</span>gym<span class="ansi-blue-fg">.</span>Env<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>     <span class="ansi-green-fg">def</span> __init__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>action_space <span class="ansi-blue-fg">=</span> gym<span class="ansi-blue-fg">.</span>spaces<span class="ansi-blue-fg">.</span>Discrete<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">,</span>start<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span> <span class="ansi-red-fg"># Acition = {-1,0,1}</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span>         self<span class="ansi-blue-fg">.</span>observation_space <span class="ansi-blue-fg">=</span> gym<span class="ansi-blue-fg">.</span>spaces<span class="ansi-blue-fg">.</span>Discrete<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">5</span><span class="ansi-blue-fg">,</span>start<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">)</span> <span class="ansi-red-fg"># State = {-2,-1,0,1,2}</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>         self<span class="ansi-blue-fg">.</span>state <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">0</span>
+
+<span class="ansi-red-fg">TypeError</span>: __init__() got an unexpected keyword argument 'start'</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Game3">
+<a class="anchor" href="#Game3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Game3<a class="anchor-link" href="#Game3"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Game4:-LunarLander">
+<a class="anchor" href="#Game4:-LunarLander" aria-hidden="true"><span class="octicon octicon-link"></span></a>Game4: LunarLander<a class="anchor-link" href="#Game4:-LunarLander"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="환경만들기">
+<a class="anchor" href="#%ED%99%98%EA%B2%BD%EB%A7%8C%EB%93%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>환경만들기<a class="anchor-link" href="#%ED%99%98%EA%B2%BD%EB%A7%8C%EB%93%A4%EA%B8%B0"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 환경을 만드는 방법은 아래와 같다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s1">'LunarLander-v2'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 환경에 대한 기본 정보를 조사하여 보자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">observation_space</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Box([-inf -inf -inf -inf -inf -inf -inf -inf], [inf inf inf inf inf inf inf inf], (8,), float32)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Discrete(4)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="환경관찰">
+<a class="anchor" href="#%ED%99%98%EA%B2%BD%EA%B4%80%EC%B0%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>환경관찰<a class="anchor-link" href="#%ED%99%98%EA%B2%BD%EA%B4%80%EC%B0%B0"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 환경관찰</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([-0.00404758,  1.420028  , -0.40998298,  0.40478534,  0.00469684,
+        0.09286724,  0.        ,  0.        ], dtype=float32)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># state, reward, done, _ </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(array([-0.00809555,  1.4285575 , -0.40942836,  0.37907284,  0.00928592,
+         0.09179026,  0.        ,  0.        ], dtype=float32),
+ 0.5036534969992488,
+ False,
+ {})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> action</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>int형으로 전달 </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> action -&gt; nextstate, reward, done</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(array([-0.01229286,  1.4379209 , -0.4236856 ,  0.4161223 ,  0.01319746,
+         0.07823766,  0.        ,  0.        ], dtype=float32),
+ -5.21949090539498,
+ False,
+ {})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Replay-Buffer">
+<a class="anchor" href="#Replay-Buffer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Replay Buffer<a class="anchor-link" href="#Replay-Buffer"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 랜덤액션을 연속적으로 생성하고 그 결과를 기록해보자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">states</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">actions</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">rewards</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">next_states</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">dones</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_state1</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1500</span><span class="p">):</span>
+    <span class="n">_action</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span> 
+    <span class="n">_state2</span><span class="p">,</span> <span class="n">_reward</span><span class="p">,</span> <span class="n">_done</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">_action</span><span class="p">)</span> 
+    <span class="c1">## save code </span>
+    <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_state1</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> 
+    <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_action</span><span class="p">)</span>
+    <span class="n">rewards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_reward</span><span class="p">)</span>
+    <span class="n">next_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_state2</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">dones</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_done</span><span class="p">)</span>
+    <span class="c1">## save code end </span>
+    <span class="n">_state1</span> <span class="o">=</span> <span class="n">_state2</span> 
+    <span class="k">if</span> <span class="n">_done</span><span class="p">:</span>
+        <span class="k">break</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 모인 히스토리를 확인해보자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">actions</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">next_states</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">rewards</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">dones</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(116, 116, 116, 116, 116)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Qnetwork-설계">
+<a class="anchor" href="#Qnetwork-%EC%84%A4%EA%B3%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>Qnetwork 설계<a class="anchor-link" href="#Qnetwork-%EC%84%A4%EA%B3%84"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 네트워크의 목적: 내가 여기서 뭘 해야하는지 알려줘! = 내가 이 상태에서, 어떠한 액션을 해야하는지 알려줘 $\to$ 8개의 상태를 입력으로 받으면 4개의 액션에 대한 좋은 정도를 숫자로 표현하는 어떠한 함수를 만들자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> net 설계</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">128</span><span class="p">),</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">32</span><span class="p">),</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">net</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Sequential(
+  (0): Linear(in_features=8, out_features=128, bias=True)
+  (1): ReLU()
+  (2): Linear(in_features=128, out_features=64, bias=True)
+  (3): ReLU()
+  (4): Linear(in_features=64, out_features=32, bias=True)
+  (5): ReLU()
+  (6): Linear(in_features=32, out_features=4, bias=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">states</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[ 0.1159, -0.1567, -0.1098, -0.1431],
+        [ 0.1156, -0.1568, -0.1101, -0.1433],
+        [ 0.1161, -0.1562, -0.1095, -0.1434],
+        [ 0.1152, -0.1559, -0.1102, -0.1450],
+        [ 0.1151, -0.1553, -0.1102, -0.1457],
+        [ 0.1141, -0.1548, -0.1108, -0.1468],
+        [ 0.1134, -0.1542, -0.1112, -0.1476],
+        [ 0.1133, -0.1537, -0.1111, -0.1480],
+        [ 0.1141, -0.1530, -0.1105, -0.1479],
+        [ 0.1140, -0.1525, -0.1104, -0.1483],
+        [ 0.1137, -0.1526, -0.1107, -0.1482],
+        [ 0.1143, -0.1520, -0.1102, -0.1482],
+        [ 0.1134, -0.1515, -0.1108, -0.1492],
+        [ 0.1134, -0.1510, -0.1108, -0.1497],
+        [ 0.1125, -0.1506, -0.1113, -0.1507],
+        [ 0.1118, -0.1501, -0.1118, -0.1515],
+        [ 0.1117, -0.1502, -0.1115, -0.1516],
+        [ 0.1117, -0.1495, -0.1114, -0.1520],
+        [ 0.1114, -0.1487, -0.1117, -0.1528],
+        [ 0.1115, -0.1480, -0.1116, -0.1531],
+        [ 0.1121, -0.1476, -0.1110, -0.1530],
+        [ 0.1117, -0.1468, -0.1115, -0.1537],
+        [ 0.1114, -0.1477, -0.1112, -0.1532],
+        [ 0.1111, -0.1469, -0.1117, -0.1539],
+        [ 0.1117, -0.1464, -0.1110, -0.1538],
+        [ 0.1117, -0.1459, -0.1110, -0.1540],
+        [ 0.1116, -0.1465, -0.1105, -0.1538],
+        [ 0.1115, -0.1466, -0.1104, -0.1537],
+        [ 0.1112, -0.1457, -0.1108, -0.1543],
+        [ 0.1112, -0.1451, -0.1105, -0.1545],
+        [ 0.1111, -0.1440, -0.1104, -0.1550],
+        [ 0.1112, -0.1432, -0.1100, -0.1551],
+        [ 0.1113, -0.1423, -0.1095, -0.1551],
+        [ 0.1115, -0.1409, -0.1091, -0.1559],
+        [ 0.1117, -0.1394, -0.1087, -0.1567],
+        [ 0.1117, -0.1384, -0.1079, -0.1566],
+        [ 0.1114, -0.1390, -0.1078, -0.1561],
+        [ 0.1115, -0.1376, -0.1070, -0.1567],
+        [ 0.1115, -0.1365, -0.1061, -0.1566],
+        [ 0.1116, -0.1357, -0.1052, -0.1561],
+        [ 0.1115, -0.1359, -0.1050, -0.1558],
+        [ 0.1115, -0.1348, -0.1042, -0.1559],
+        [ 0.1122, -0.1331, -0.1035, -0.1566],
+        [ 0.1117, -0.1328, -0.1027, -0.1562],
+        [ 0.1107, -0.1323, -0.1018, -0.1553],
+        [ 0.1106, -0.1332, -0.1018, -0.1549],
+        [ 0.1100, -0.1325, -0.1007, -0.1544],
+        [ 0.1106, -0.1310, -0.1002, -0.1549],
+        [ 0.1102, -0.1301, -0.0991, -0.1546],
+        [ 0.1102, -0.1299, -0.0987, -0.1545],
+        [ 0.1103, -0.1292, -0.0975, -0.1542],
+        [ 0.1110, -0.1281, -0.0974, -0.1550],
+        [ 0.1105, -0.1286, -0.0960, -0.1549],
+        [ 0.1112, -0.1276, -0.0959, -0.1558],
+        [ 0.1114, -0.1269, -0.0947, -0.1556],
+        [ 0.1118, -0.1261, -0.0940, -0.1560],
+        [ 0.1122, -0.1252, -0.0933, -0.1563],
+        [ 0.1126, -0.1244, -0.0926, -0.1567],
+        [ 0.1125, -0.1243, -0.0910, -0.1571],
+        [ 0.1122, -0.1251, -0.0904, -0.1571],
+        [ 0.1120, -0.1254, -0.0892, -0.1573],
+        [ 0.1122, -0.1246, -0.0881, -0.1573],
+        [ 0.1125, -0.1245, -0.0870, -0.1577],
+        [ 0.1130, -0.1237, -0.0871, -0.1588],
+        [ 0.1131, -0.1239, -0.0869, -0.1590],
+        [ 0.1133, -0.1236, -0.0863, -0.1599],
+        [ 0.1135, -0.1232, -0.0857, -0.1608],
+        [ 0.1138, -0.1229, -0.0850, -0.1618],
+        [ 0.1140, -0.1226, -0.0841, -0.1626],
+        [ 0.1139, -0.1232, -0.0834, -0.1631],
+        [ 0.1138, -0.1234, -0.0817, -0.1634],
+        [ 0.1146, -0.1225, -0.0817, -0.1645],
+        [ 0.1156, -0.1217, -0.0819, -0.1655],
+        [ 0.1155, -0.1217, -0.0798, -0.1668],
+        [ 0.1159, -0.1213, -0.0792, -0.1675],
+        [ 0.1165, -0.1209, -0.0798, -0.1681],
+        [ 0.1163, -0.1210, -0.0783, -0.1690],
+        [ 0.1166, -0.1208, -0.0777, -0.1695],
+        [ 0.1163, -0.1207, -0.0760, -0.1699],
+        [ 0.1162, -0.1206, -0.0745, -0.1704],
+        [ 0.1164, -0.1207, -0.0741, -0.1708],
+        [ 0.1164, -0.1204, -0.0727, -0.1713],
+        [ 0.1160, -0.1211, -0.0719, -0.1717],
+        [ 0.1158, -0.1211, -0.0706, -0.1720],
+        [ 0.1160, -0.1213, -0.0700, -0.1723],
+        [ 0.1166, -0.1211, -0.0706, -0.1727],
+        [ 0.1172, -0.1210, -0.0711, -0.1730],
+        [ 0.1171, -0.1216, -0.0696, -0.1732],
+        [ 0.1173, -0.1218, -0.0691, -0.1734],
+        [ 0.1175, -0.1220, -0.0686, -0.1734],
+        [ 0.1177, -0.1222, -0.0682, -0.1734],
+        [ 0.1176, -0.1224, -0.0669, -0.1731],
+        [ 0.1182, -0.1225, -0.0676, -0.1733],
+        [ 0.1187, -0.1225, -0.0679, -0.1734],
+        [ 0.1189, -0.1227, -0.0675, -0.1733],
+        [ 0.1193, -0.1227, -0.0672, -0.1733],
+        [ 0.1195, -0.1228, -0.0669, -0.1733],
+        [ 0.1195, -0.1230, -0.0666, -0.1733],
+        [ 0.1200, -0.1229, -0.0674, -0.1734],
+        [ 0.1197, -0.1228, -0.0667, -0.1739],
+        [ 0.1194, -0.1232, -0.0659, -0.1737],
+        [ 0.1190, -0.1236, -0.0649, -0.1739],
+        [ 0.1199, -0.1232, -0.0661, -0.1741],
+        [ 0.1205, -0.1230, -0.0663, -0.1743],
+        [ 0.1223, -0.1225, -0.0675, -0.1742],
+        [ 0.1227, -0.1224, -0.0676, -0.1740],
+        [ 0.1234, -0.1222, -0.0670, -0.1749],
+        [ 0.1242, -0.1221, -0.0671, -0.1747],
+        [ 0.1250, -0.1220, -0.0672, -0.1744],
+        [ 0.1250, -0.1225, -0.0665, -0.1742],
+        [ 0.1266, -0.1217, -0.0677, -0.1740],
+        [ 0.1282, -0.1211, -0.0676, -0.1748],
+        [ 0.1297, -0.1203, -0.0687, -0.1744],
+        [ 0.1407, -0.1144, -0.0539, -0.1827],
+        [ 0.1454, -0.1127, -0.0571, -0.1802],
+        [ 0.2541, -0.0678, -0.1365, -0.2192]], grad_fn=&lt;AddmmBackward0&gt;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Policy-설계">
+<a class="anchor" href="#Policy-%EC%84%A4%EA%B3%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>Policy 설계<a class="anchor-link" href="#Policy-%EC%84%A4%EA%B3%84"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 네트워크의 의미</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">states</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>([-0.0028694153297692537,
+  1.4209814071655273,
+  -0.2906474471092224,
+  0.44716283679008484,
+  0.0033316602930426598,
+  0.06583605706691742,
+  0.0,
+  0.0],
+ [-0.005824565887451172,
+  1.4311281442642212,
+  -0.29839688539505005,
+  0.4509572386741638,
+  0.006180517841130495,
+  0.05698297545313835,
+  0.0,
+  0.0])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([[ 0.1159, -0.1567, -0.1098, -0.1431],
+        [ 0.1156, -0.1568, -0.1101, -0.1433]], grad_fn=&lt;AddmmBackward0&gt;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>상태0에서는 액션0이, 상태1에서도 액션0이 가장 좋다는 의미 (왜? q-value가 젤 높으니까..)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 따라서 Agent는 아래와 같이 행동해야 한다. (네트워크가 잘 학습되었다는 전제가 필요함)</p>
+<ul>
+<li>state[0] -&gt; action = 0 </li>
+<li>state[1] -&gt; action = 0 </li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]))</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.return_types.max(
+values=tensor([0.1159, 0.1156], grad_fn=&lt;MaxBackward0&gt;),
+indices=tensor([0, 0]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]))</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([0, 0])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 네트워크가 있으므로 이제 어떠한 state에 대해서도 뭘 해야할지 (=어떤 액션을 해야할지) 알 수 있다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_state1</span> <span class="c1"># 어떤 state에 대해서도.. </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([-0.04434567, -0.00875275,  0.42108542,  0.08506536, -1.7435462 ,
+       -0.67104954,  1.        ,  0.        ], dtype=float32)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">_state1</span><span class="p">))</span> <span class="c1"># q-value를 계산할 수 있고 </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([ 0.1422, -0.1106, -0.0881, -0.1557], grad_fn=&lt;AddBackward0&gt;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">int</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">net</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">_state1</span><span class="p">))))</span> <span class="c1"># 그래서 다음에 우리가 어떤행동을 해야할 지 알 수 있음</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="학습">
+<a class="anchor" href="#%ED%95%99%EC%8A%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>학습<a class="anchor-link" href="#%ED%95%99%EC%8A%B5"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 네트워크를 학습시키자.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">"cuda:0"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Sequential(
+  (0): Linear(in_features=8, out_features=128, bias=True)
+  (1): ReLU()
+  (2): Linear(in_features=128, out_features=64, bias=True)
+  (3): ReLU()
+  (4): Linear(in_features=64, out_features=32, bias=True)
+  (5): ReLU()
+  (6): Linear(in_features=32, out_features=4, bias=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scores</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">playtimes</span><span class="o">=</span><span class="p">[]</span> 
+<span class="n">eps</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">epsd</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2001</span><span class="p">):</span> <span class="c1"># 게임 2000판 시켜줌.. </span>
+    <span class="n">state1</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span> <span class="c1"># 환경리셋 + 초기화된 환경을 state라는 변수에 저장 </span>
+    <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span> 
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span> <span class="c1"># 게임1판당 max 1000프레임만 할 수 있음</span>
+        <span class="c1"># (step1) Agent: action </span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">:</span> 
+            <span class="n">action</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span> <span class="c1"># 랜덤액션을 뽑음 </span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">net</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">state1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">"cuda:0"</span><span class="p">))))</span> <span class="c1"># 네트워크가 알려주는 action을 뽑음 </span>
+        
+        <span class="c1"># (step2) Agent -&gt; Env // Env -&gt; Agent </span>
+        <span class="n">state2</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="c1"># 액션을 환경에 전달 -&gt; (next_state, reward, done) 을 받음 </span>
+        
+        <span class="c1"># (step3) Agnet: save data and learn </span>
+        <span class="c1">## save data </span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state1</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+        <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="n">rewards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reward</span><span class="p">)</span>
+        <span class="n">next_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state2</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+        <span class="n">dones</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">done</span><span class="p">)</span>
+    
+        <span class="c1">## 최근 5000개의 자료만 준비함. </span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">5000</span><span class="p">:</span>
+            <span class="n">_states</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">states</span><span class="p">[</span><span class="o">-</span><span class="mi">5000</span><span class="p">:])</span>
+            <span class="n">_actions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">actions</span><span class="p">[</span><span class="o">-</span><span class="mi">5000</span><span class="p">:])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">_next_states</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">next_states</span><span class="p">[</span><span class="o">-</span><span class="mi">5000</span><span class="p">:])</span>
+            <span class="n">_rewards</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">rewards</span><span class="p">[</span><span class="o">-</span><span class="mi">5000</span><span class="p">:])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">_dones</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">dones</span><span class="p">[</span><span class="o">-</span><span class="mi">5000</span><span class="p">:])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> 
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_states</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
+            <span class="n">_actions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">_next_states</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">next_states</span><span class="p">)</span>
+            <span class="n">_rewards</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">rewards</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">_dones</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">dones</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1">## 최근 5000개의 자료에서 128개를 임의로 추출함. </span>
+        <span class="n">_n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">_states</span><span class="p">)</span>
+        <span class="n">_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">_n</span><span class="p">,</span><span class="mi">128</span><span class="p">)</span> <span class="c1"># 128 is batch_size </span>
+        <span class="n">_states</span> <span class="o">=</span> <span class="n">_states</span><span class="p">[</span><span class="n">_index</span><span class="p">]</span>
+        <span class="n">_actions</span> <span class="o">=</span> <span class="n">_actions</span><span class="p">[</span><span class="n">_index</span><span class="p">]</span>
+        <span class="n">_next_states</span> <span class="o">=</span> <span class="n">_next_states</span><span class="p">[</span><span class="n">_index</span><span class="p">]</span>
+        <span class="n">_rewards</span> <span class="o">=</span> <span class="n">_rewards</span><span class="p">[</span><span class="n">_index</span><span class="p">]</span>
+        <span class="n">_dones</span> <span class="o">=</span> <span class="n">_dones</span><span class="p">[</span><span class="n">_index</span><span class="p">]</span>
+        
+        <span class="c1">## GPU로 이동 </span>
+        <span class="n">_states</span> <span class="o">=</span> <span class="n">_states</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">"cuda:0"</span><span class="p">)</span>
+        <span class="n">_actions</span> <span class="o">=</span> <span class="n">_actions</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">"cuda:0"</span><span class="p">)</span>
+        <span class="n">_next_states</span> <span class="o">=</span> <span class="n">_next_states</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">"cuda:0"</span><span class="p">)</span>
+        <span class="n">_rewards</span> <span class="o">=</span> <span class="n">_rewards</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">"cuda:0"</span><span class="p">)</span>
+        <span class="n">_dones</span> <span class="o">=</span> <span class="n">_dones</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">"cuda:0"</span><span class="p">)</span>
+        
+        <span class="c1">## leanrn with pytorch </span>
+        <span class="n">yhat</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">_states</span><span class="p">)</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">_actions</span><span class="p">)</span> <span class="c1">## (s,a) -&gt; q(s,a) // 내가 현재상태 state에서, 현재 action을 하여 얻을 것이라 예상하는 보상 (net가 알려주는) </span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">_rewards</span> <span class="o">+</span> <span class="mf">0.99</span> <span class="o">*</span> <span class="n">net</span><span class="p">(</span><span class="n">_next_states</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">_dones</span><span class="p">)</span> <span class="c1">## 그런데 실제로는 이게 맞다고 봐야지~ </span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y</span><span class="o">-</span><span class="n">yhat</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        
+        <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+        <span class="c1"># (step4) Agent: prepare next steps </span>
+        <span class="n">state1</span> <span class="o">=</span> <span class="n">state2</span>  
+        <span class="n">eps</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.99</span><span class="o">*</span><span class="n">eps</span><span class="p">)</span> 
+        <span class="n">score</span> <span class="o">+=</span> <span class="n">reward</span>
+        
+        <span class="c1"># terminate </span>
+        <span class="k">if</span> <span class="n">done</span><span class="p">:</span>
+            <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+            <span class="n">playtimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="k">break</span>
+            
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\r</span><span class="s1">Episode </span><span class="si">{}</span><span class="se">\t</span><span class="s1">Score: </span><span class="si">{:.2f}</span><span class="se">\t</span><span class="s1">Playtime: </span><span class="si">{:.2f}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epsd</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">playtimes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">epsd</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\r</span><span class="s1">Episode </span><span class="si">{}</span><span class="se">\t</span><span class="s1">Score: </span><span class="si">{:.2f}</span><span class="se">\t</span><span class="s1">Playtime: </span><span class="si">{:.2f}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epsd</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:]),</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">playtimes</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">])))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Episode 94	Score: -117.16	Playtime: 999.00</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="miruetoto/yechan"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/yechan/%EB%94%A5%EB%9F%AC%EB%8B%9D/2022/08/09/(%EB%85%B8%ED%8A%B8)-RL-lecture-%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/yechan/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/yechan/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/yechan/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/miruetoto" target="_blank" title="miruetoto"><svg class="svg-icon grey"><use xlink:href="/yechan/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
