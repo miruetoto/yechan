@@ -94,7 +94,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      11 min read
+      12 min read
     
 </span></p>
 
@@ -1276,6 +1276,306 @@ tensor([4])
 tensor([2, 0])
 tensor([4])
 </pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 데이터로더스를 쓰기전에 데이터셋을 만들면 유리한 이유: tuple이나 zip을 쓰려면 은근 까다로움</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span>
+<span class="n">y</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">TensorDataset</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">tpl</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">zp</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>tpl은 for문을 돌릴떄 원하는 방식으로 돌아가지 않음</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span> 
+    <span class="nb">print</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(tensor(3.), tensor(1.))
+(tensor(4.), tensor(0.))
+(tensor(5.), tensor(1.))
+(tensor(6.), tensor(0.))
+(tensor(7.), tensor(1.))
+(tensor(8.), tensor(1.))
+(tensor(9.), tensor(0.))
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="n">tpl</span><span class="p">:</span> 
+    <span class="nb">print</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>tensor([3., 4., 5., 6., 7., 8., 9.])
+tensor([1., 0., 1., 0., 1., 1., 0.])
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="n">zp</span><span class="p">:</span> 
+    <span class="nb">print</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(tensor(3.), tensor(1.))
+(tensor(4.), tensor(0.))
+(tensor(5.), tensor(1.))
+(tensor(6.), tensor(0.))
+(tensor(7.), tensor(1.))
+(tensor(8.), tensor(1.))
+(tensor(9.), tensor(0.))
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>zp는 <code>__len__</code>이 정의되지 않아서 dl이 제대로 안만들어짐..</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dl</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dataloader</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="ow">in</span> <span class="n">dl</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="n">yy</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>tensor([9., 8.]) tensor([0., 1.])
+tensor([6., 7.]) tensor([0., 1.])
+tensor([3., 4.]) tensor([1., 0.])
+tensor([5.]) tensor([1.])
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dl</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dataloader</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">tpl</span><span class="p">,</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="ow">in</span> <span class="n">dl</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="n">yy</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>tensor([1., 0., 1., 0., 1., 1., 0.]) tensor([3., 4., 5., 6., 7., 8., 9.])
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dl</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dataloader</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">zp</span><span class="p">,</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="ow">in</span> <span class="n">dl</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="n">yy</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">/tmp/ipykernel_404060/612426665.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>dl <span class="ansi-blue-fg">=</span> torch<span class="ansi-blue-fg">.</span>utils<span class="ansi-blue-fg">.</span>data<span class="ansi-blue-fg">.</span>dataloader<span class="ansi-blue-fg">.</span>DataLoader<span class="ansi-blue-fg">(</span>zp<span class="ansi-blue-fg">,</span>batch_size<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span>shuffle<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">for</span> xx<span class="ansi-blue-fg">,</span>yy <span class="ansi-green-fg">in</span> dl<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     print<span class="ansi-blue-fg">(</span>xx<span class="ansi-blue-fg">,</span>yy<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/dataloader.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, dataset, batch_size, shuffle, sampler, batch_sampler, num_workers, collate_fn, pin_memory, drop_last, timeout, worker_init_fn, multiprocessing_context, generator, prefetch_factor, persistent_workers, pin_memory_device)</span>
+<span class="ansi-green-intense-fg ansi-bold">    351</span>             <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>  <span class="ansi-red-fg"># map-style</span>
+<span class="ansi-green-intense-fg ansi-bold">    352</span>                 <span class="ansi-green-fg">if</span> shuffle<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 353</span><span class="ansi-red-fg">                     </span>sampler <span class="ansi-blue-fg">=</span> RandomSampler<span class="ansi-blue-fg">(</span>dataset<span class="ansi-blue-fg">,</span> generator<span class="ansi-blue-fg">=</span>generator<span class="ansi-blue-fg">)</span>  <span class="ansi-red-fg"># type: ignore[arg-type]</span>
+<span class="ansi-green-intense-fg ansi-bold">    354</span>                 <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    355</span>                     sampler <span class="ansi-blue-fg">=</span> SequentialSampler<span class="ansi-blue-fg">(</span>dataset<span class="ansi-blue-fg">)</span>  <span class="ansi-red-fg"># type: ignore[arg-type]</span>
+
+<span class="ansi-green-fg">~/anaconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/sampler.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, data_source, replacement, num_samples, generator)</span>
+<span class="ansi-green-intense-fg ansi-bold">    104</span>                             "replacement={}".format(self.replacement))
+<span class="ansi-green-intense-fg ansi-bold">    105</span> 
+<span class="ansi-green-fg">--&gt; 106</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> isinstance<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>num_samples<span class="ansi-blue-fg">,</span> int<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">or</span> self<span class="ansi-blue-fg">.</span>num_samples <span class="ansi-blue-fg">&lt;=</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    107</span>             raise ValueError("num_samples should be a positive integer "
+<span class="ansi-green-intense-fg ansi-bold">    108</span>                              "value, but got num_samples={}".format(self.num_samples))
+
+<span class="ansi-green-fg">~/anaconda3/envs/py37/lib/python3.7/site-packages/torch/utils/data/sampler.py</span> in <span class="ansi-cyan-fg">num_samples</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    112</span>         <span class="ansi-red-fg"># dataset size might change at runtime</span>
+<span class="ansi-green-intense-fg ansi-bold">    113</span>         <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>_num_samples <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 114</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> len<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>data_source<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    115</span>         <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_num_samples
+<span class="ansi-green-intense-fg ansi-bold">    116</span> 
+
+<span class="ansi-red-fg">TypeError</span>: object of type 'zip' has no len()</pre>
 </div>
 </div>
 
