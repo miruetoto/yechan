@@ -109,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -216,7 +216,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#mme와-mle" id="toc-mme와-mle" class="nav-link active" data-scroll-target="#mme와-mle"><span class="header-section-number">1</span> MME와 MLE</a></li>
+  <li><a href="#hatthetamle의-일치성" id="toc-hatthetamle의-일치성" class="nav-link" data-scroll-target="#hatthetamle의-일치성"><span class="header-section-number">2</span> <span class="math inline">\(\hat{\theta}^{MLE}\)</span>의 일치성</a></li>
+  <li><a href="#hatthetamle의-점근분포" id="toc-hatthetamle의-점근분포" class="nav-link" data-scroll-target="#hatthetamle의-점근분포"><span class="header-section-number">3</span> <span class="math inline">\(\hat{\theta}^{MLE}\)</span>의 점근분포</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -227,13 +237,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="0eb1edc7-2fde-472a-bb3f-2aa5d1d4643f" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Distributions</span>, <span class="bu">Plots</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="mme와-mle" class="level1">
-<h1>MME와 MLE</h1>
+<section id="mme와-mle" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="mme와-mle"><span class="header-section-number">1</span> MME와 MLE</h2>
 <p>데이터로부터 모수 혹은 모수의 함수를 추측하는 일을 추정이라고 한다. 교과서에서 가장 처음으로 배우는 것은 적률추정(MME)이다. 적률추정량은 구하기가 쉽고<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 일치성을 가진다는 장점이 있는 반면 추정량이 유일하지 않다는 단점이 존재한다.</p>
 <p>보통 통계학과에서는 적률추정량보다 최대가능도 추정량(MLE)을 더 선호하게 된다. MLE는 일반적으로 MME보다 구하기 어렵다. 그래서 MLE를 구하는 여러가지 연습문제를 풀 필요성이 있다.</p>
 </section>
-<section id="hatthetamle의-일치성" class="level1">
-<h1><span class="math inline">\(\hat{\theta}^{MLE}\)</span>의 일치성</h1>
+<section id="hatthetamle의-일치성" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="hatthetamle의-일치성"><span class="header-section-number">2</span> <span class="math inline">\(\hat{\theta}^{MLE}\)</span>의 일치성</h2>
 <p>MME는 일치성을 가졌는데, MLE는 어떠할까? 일반적으로 MLE 역시 일치성을 가짐을 보일 수 있다. 이걸 증명하는게 좀 까다로운데 증명을 생략하고 직관만 얻어보자. 먼저 <span class="math inline">\(X_1,\dots,X_n\)</span>가 모수가 <span class="math inline">\(\theta_0\)</span>인 어떠한 분포의 <strong><em>iid</em></strong> random sample이라면 <span class="math inline">\(X_1,\dots,X_n\)</span>을 바탕으로 MLE를 아래와 같이 추정할 수 있다.</p>
 <p><span class="math display">\[\hat{\theta}^{MLE}=\underset{\theta \in \Omega}{\operatorname{argmax}} l(\theta)=\underset{\theta \in \Omega}{\operatorname{argmax}} \sum_{i=1}^{n}\log f(X_i;\theta)\]</span></p>
 <p>여기에서 <span class="math inline">\(l(\theta)\)</span>는 <span class="math inline">\(\theta\)</span>에 대한 로그가능도 함수라고 한다. 그런데 <span class="math inline">\(l(\theta)\)</span>를 최대화하는 일은 <span class="math inline">\(\frac{1}{n}l(\theta)\)</span>를 최대화하는 일과 같으므로 <span class="math inline">\(\hat{\theta}^{MLE}\)</span>는 아래와 같이 쓸 수 있다.</p>
@@ -251,12 +261,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>사실 이러한 조건은 당연한게 identifiable이 아니라면 제대로된 pdf가 아니라는 의미이겠고 pdf의 support가 <span class="math inline">\(\theta\)</span>에 depend 한다면 <span class="math inline">\(U[\theta-1,\theta+1]\)</span>과 같은 분포처럼 <span class="math inline">\(\theta\)</span>의 MLE가 유일하지 않을 수도 있다는 의미이므로 이러한 두 조건은 합리적으로 보임</p>
 </blockquote>
 </section>
-<section id="hatthetamle의-점근분포" class="level1">
-<h1><span class="math inline">\(\hat{\theta}^{MLE}\)</span>의 점근분포</h1>
+<section id="hatthetamle의-점근분포" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="hatthetamle의-점근분포"><span class="header-section-number">3</span> <span class="math inline">\(\hat{\theta}^{MLE}\)</span>의 점근분포</h2>
 <p><span class="math inline">\(\frac{1}{n}\dot{l}(\hat{\theta})\)</span>의 값을 테일러 정리에 의한 일차근사로 추정하면 아래와 같다.</p>
 <p><span class="math display">\[\frac{1}{n}\dot{l}(\hat{\theta}) \approx \frac{1}{n}\dot{l}(\theta) + \frac{1}{n}\ddot{l}(\theta)(\hat{\theta}-\theta)\]</span></p>
-<section id="mle의-일치성에-대한-구체적인-논의" class="level2">
-<h2 class="anchored" data-anchor-id="mle의-일치성에-대한-구체적인-논의">MLE의 일치성에 대한 구체적인 논의</h2>
+<section id="mle의-일치성에-대한-구체적인-논의" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="mle의-일치성에-대한-구체적인-논의"><span class="header-section-number">3.1</span> MLE의 일치성에 대한 구체적인 논의</h3>
 <p><span class="math inline">\(X_1,\dots,X_{10} \overset{i.i.d.}{\sim} Ber(\theta)\)</span> 이라고 하자.</p>
 <div id="39aaf9ef" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Bernoulli</span>(<span class="fl">0.3</span>),<span class="fl">10</span>)</span>

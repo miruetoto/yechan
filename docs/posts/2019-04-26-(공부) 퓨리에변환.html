@@ -75,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -182,7 +182,17 @@ ul.task-list li input[type="checkbox"] {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#about-this-doc" id="toc-about-this-doc" class="nav-link active" data-scroll-target="#about-this-doc"><span class="header-section-number">1</span> About this doc</a></li>
+  <li><a href="#들어가며" id="toc-들어가며" class="nav-link" data-scroll-target="#들어가며"><span class="header-section-number">2</span> 들어가며</a></li>
+  <li><a href="#퓨리에표현들" id="toc-퓨리에표현들" class="nav-link" data-scroll-target="#퓨리에표현들"><span class="header-section-number">3</span> 퓨리에표현들</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -190,15 +200,15 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="about-this-doc" class="level3">
-<h3 class="anchored" data-anchor-id="about-this-doc">About this doc</h3>
+<section id="about-this-doc" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="about-this-doc"><span class="header-section-number">1</span> About this doc</h2>
 <p><code>-</code> 이번에는 퓨리에 표현들을 정리하도록 하겠다. 내생각엔 퓨리에 표현들도 벡터의 미분만큼 복잡한 것 같다. 정의가 너무 많고 그게 그거 같아서 그렇다. 이번기회에 깔끔하게 정리하도록 하자. 참고한 문헌은 아래와 같다.</p>
 <ul>
 <li>Haykin, S., &amp; Van Veen, B. (2007). Signals and systems. John Wiley &amp; Sons.</li>
 </ul>
 </section>
-<section id="들어가며" class="level3">
-<h3 class="anchored" data-anchor-id="들어가며">들어가며</h3>
+<section id="들어가며" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="들어가며"><span class="header-section-number">2</span> 들어가며</h2>
 <p><code>-</code> 우선 신호와 하나의 신호값을 구분하는 notation을 생각하자. 우리가 다루는 신호 즉 데이터는 값들의 집합이다. 우리가 시계열자료를 다룬다면 데이터는 아래와 같이 표현한다.</p>
 <ul>
 <li><span class="math inline">\(\{x_i: i \in \mathbb{Z}\}\)</span></li>
@@ -214,8 +224,8 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p><code>-</code> 위와 같이 집합의 표현 없이 단독으로 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>와 같이 쓰면 하나의 고정된 값 <span class="math inline">\(i,t\)</span>에 대한 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>로 이해하자. 솔직히 이렇게 꼭 신호를 엄밀하게 집합으로 정의하는게 유별나 보일수도 있다. 일반적으로 사람들은 <span class="math inline">\(\{x(t): ~t \in \mathbb{R} \}\)</span> 대신에 보통 <span class="math inline">\(x(t)\)</span>로 간단하게 줄여서 쓰곤한다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 하지만 이 포스팅에 한정하여 위와 같이 집합의 형태로 엄밀하게 구분해 쓰도록 하자. 처음에는 익숙하지 않지만 나중에는 편리하다.</p>
 </section>
-<section id="퓨리에표현들" class="level3">
-<h3 class="anchored" data-anchor-id="퓨리에표현들">퓨리에표현들</h3>
+<section id="퓨리에표현들" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="퓨리에표현들"><span class="header-section-number">3</span> 퓨리에표현들</h2>
 <p><code>-</code> 지금부터 우리가 고려하는 모든 신호들은 기본적으로 <strong>(1)</strong> <strong>infinity range</strong>에서 정의된 신호라고 가정한다. 즉 연속신호이면 <span class="math inline">\(\mathbb{R}\)</span>에서 정의된다고 가정하고 이산신호면 <span class="math inline">\(\mathbb{Z}\)</span>에서 정의된다고 가정한다. 또한 우리가 분석하고자 하는 신호는 <strong>(2)</strong> <strong>integrable</strong> 하다고 가정한다. 이건 퓨리에표현들이 적분 혹은 무한합의 형태로 표현된다는 것을 상기하면 타당하여 보인다.</p>
 <p><code>-</code> 즉 우리가 고려하는 신호는 <strong>인피니티-레인지</strong>에서 정의되며 <strong>인피니티-레인지</strong>에서 적분값이 유한한 연속신호 혹은 이산신호 임을 알 수 있다. 이러한 신호는 구체적으로는 아래와 같이 쓸 수 있다.</p>
 <ul>
