@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.520">
+<meta name="generator" content="quarto-1.4.533">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -72,13 +72,40 @@ ul.task-list li input[type="checkbox"] {
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -379,7 +406,7 @@ ul.task-list li input[type="checkbox"] {
 <li id="fn1"><p><span class="math inline">\(X\)</span>가 확률변수이면 <span class="math inline">\(f(X)\)</span>역시 확률변수라고 배웠으니까<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p><span class="math inline">\(\int f_{1,2}(x,y)dx = f_2(y)\)</span><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>당연히 <span class="math inline">\({\cal F}^* \subset {\cal F}\)</span><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>이렇게 보니까 <span class="math inline">\({\cal F}^* \subset {\cal F}\)</span> 임을 감안하면 <span class="math inline">\(Y \in {\cal F}^* \Rightarrow Y \in {\cal F}\)</span> 임이 당연하게 느껴진다. <span class="math inline">\(Y \in {\cal F}\)</span>와 같은 기호표현이 너무 이상하게 느껴졌는데, 여기에서 의문이 조금 풀리는 것 같음.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>이렇게 보니까 <span class="math inline">\({\cal F}^* \subset {\cal F}\)</span> 임을 감안하면 <span class="math inline">\(Y \in {\cal F}^* \Rightarrow  Y \in {\cal F}\)</span> 임이 당연하게 느껴진다. <span class="math inline">\(Y \in {\cal F}\)</span>와 같은 기호표현이 너무 이상하게 느껴졌는데, 여기에서 의문이 조금 풀리는 것 같음.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p>조건부기대값이라고 번역하기는 조금 어색해서 원문그대로 외우는게 나은듯<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p><span class="math inline">\(X\)</span>가 <span class="math inline">\((\Omega, {\cal F})\)</span>에서의 rv이고 <span class="math inline">\(\int_P XdP &lt;\infty\)</span> 라는 의미<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7"><p><span class="math inline">\(X\)</span>가 <span class="math inline">\((\Omega, {\cal F})\)</span>에서의 rv이고 <span class="math inline">\(\int_P XdP &lt;\infty\)</span> 라는 의미<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -514,27 +541,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -549,10 +555,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -561,7 +571,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
       return note.innerHTML;
     }
   }
