@@ -9,7 +9,7 @@
 <meta name="author" content="신록예찬">
 <meta name="dcterms.date" content="2024-12-09">
 
-<title>신록예찬’s Blog - (공부) 추정의 논리전개</title>
+<title>신록예찬’s Blog - (공부) 추정</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -181,7 +181,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">(공부) 추정의 논리전개</h1>
+      <h1 class="title">(공부) 추정</h1>
                       </div>
   </div>
     
@@ -214,9 +214,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#비편향추정" id="toc-비편향추정" class="nav-link active" data-scroll-target="#비편향추정"><span class="header-section-number">1</span> 비편향추정</a></li>
-  <li><a href="#통계량과-모수의-정보" id="toc-통계량과-모수의-정보" class="nav-link" data-scroll-target="#통계량과-모수의-정보"><span class="header-section-number">2</span> 통계량과 모수의 정보</a></li>
-  <li><a href="#충분통계량" id="toc-충분통계량" class="nav-link" data-scroll-target="#충분통계량"><span class="header-section-number">3</span> 충분통계량</a></li>
+  <li><a href="#추정이란" id="toc-추정이란" class="nav-link active" data-scroll-target="#추정이란"><span class="header-section-number">1</span> 추정이란?</a></li>
+  <li><a href="#ub-to-mvue" id="toc-ub-to-mvue" class="nav-link" data-scroll-target="#ub-to-mvue"><span class="header-section-number">2</span> UB <span class="math inline">\(\to\)</span> MVUE</a></li>
+  <li><a href="#cs" id="toc-cs" class="nav-link" data-scroll-target="#cs"><span class="header-section-number">3</span> CS</a></li>
   <li><a href="#최소충분통계량" id="toc-최소충분통계량" class="nav-link" data-scroll-target="#최소충분통계량"><span class="header-section-number">4</span> 최소충분통계량</a></li>
   <li><a href="#라오블랙웰" id="toc-라오블랙웰" class="nav-link" data-scroll-target="#라오블랙웰"><span class="header-section-number">5</span> 라오블랙웰</a></li>
   <li><a href="#complete" id="toc-complete" class="nav-link" data-scroll-target="#complete"><span class="header-section-number">6</span> <em>complete</em></a></li>
@@ -234,73 +234,88 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p>ref: <a href="http://www2.math.ou.edu/~cremling/teaching/lecturenotes/stat/ln5.pdf" class="uri">http://www2.math.ou.edu/~cremling/teaching/lecturenotes/stat/ln5.pdf</a></p>
 </blockquote>
-<section id="비편향추정" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="비편향추정"><span class="header-section-number">1</span> 비편향추정</h2>
-<p><code>-</code> 비편향추정량(UB)란</p>
-<p><span class="math display">\[\forall \theta\in \Theta:~ E(\hat{\theta})=\theta\]</span></p>
-<p>를 만족하는 <span class="math inline">\(\theta\)</span> 의 추정량 <span class="math inline">\(\hat{\theta}\)</span> 을 의미한다.</p>
-<p><code>-</code> (예시) 아래와 같은 상황을 가정하자.</p>
+<section id="추정이란" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="추정이란"><span class="header-section-number">1</span> 추정이란?</h2>
+<p>이 문서에서 추정은 점추정을 의미한다. 통계학에서 말하는 추정이라는 것은 기본적으로 미지의 모수 <span class="math inline">\(\theta\)</span> 를 하나의 수로 미루어 짐작하는 행위를 의미한다. 추정에서 전개하는 많은 논의는 확률측도들의 집합 <span class="math inline">\({\cal P}:= \big\{P_{\theta}: \theta \in \Theta \big\}\)</span> 을 우선적으로 상상해 놓아야 정확한 이해를 할 수 있다. 예를들어 <span class="math inline">\(\theta\)</span> 를 잘 추정한다는 말의 의미는 <span class="math inline">\({\cal P}\)</span> 에서 적절한 원소를 잘 선택한다는 것을 뜻한다. 또한 추정량이 가져야 하는 여러가지 좋은 성질에 대한 의미도 다시 생각해볼 수 있다. 추정량이 가져야할 좋은 성질은 어떠한 수식의 형태로 나타나는데, 그러한 수식은 true 가 <span class="math inline">\({\cal P}\)</span> 중 어떠한 원소라고 할지라도 항상 성립해야 한다. 즉 임의의 <span class="math inline">\(P_{\theta} \in {\cal P}\)</span> 에 대하여 성립해야 한다. 예를들어 불편성의 경우 <span class="math inline">\(\mathbb{E}(\hat{\theta})=\theta\)</span> 라는 수식이 떠오를텐데, 이 수식은 임의의 <span class="math inline">\(P_{\theta} \in {\cal P}\)</span> 혹은 임의의 <span class="math inline">\(\theta \in \Theta\)</span> 에 대하여 성립해야 한다. 아래는 호그 앤 크레이그의 수리통계학에서 발췌한 부분이다.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hogg and Craig 5e 에서 발췌
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>확률밀도함수족 <span class="math inline">\(\big\{f(x;\theta): \theta \in \Theta\big\}\)</span> 를 고려하자. 실험자는 이 함수족의 하나의 요소가 확률변수의 p.d.f. 이도록 택할 필요가 있다. 즉 실험자는 <span class="math inline">\(\theta\)</span>의 점추정치를 필요로 한다. <span class="math inline">\(X_1,X_2,\dots,X_n\)</span>은 확률밀도함수족 <span class="math inline">\(\big\{f(x;\theta): \theta \in \Theta \big\}\)</span> 의 하나의 요소 (알지 못하는 요소) 인 p.d.f. 를 갖는 분포에서 추출한 확률표본이라 하자. 즉 이 표본은 p.d.f. <span class="math inline">\(f(x; \theta), \theta \in \Theta\)</span> 인 분포에서 나온 것이다. 문제는 통계량 <span class="math inline">\(Y_1=u_1(X_1,X_2,\dots,X_n)\)</span>을 정의하는 것이므로 <span class="math inline">\(x_1,x_2,\dots,x_n\)</span> 이 <span class="math inline">\(X_1,X_2,\dots,X_n\)</span> 의 실험치로 관찰되었다면 수 <span class="math inline">\(y_1=u_1(x_1,x_2,\dots,x_n)\)</span> 은 <span class="math inline">\(\theta\)</span> 의 좋은 점추정치가 될 것이다.</p>
+</div>
+</div>
+<p>예전에 공부할때는 왜 확률밀도함수족이라는 개념을 굳이 설명하는 것인가 의문이었는데, (복잡하기만 하다고 생각되었다) 이 확률밀도함수족이라는 개념이 미리 전제되지 않으면 이후의 논의를 정확하게 이해하는 것이 매우 어려워진다는 것을 오랜 시간이 지나고 알게 되었다.</p>
+</section>
+<section id="ub-to-mvue" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="ub-to-mvue"><span class="header-section-number">2</span> UB <span class="math inline">\(\to\)</span> MVUE</h2>
+<p><code># 정의</code> – UB</p>
+<p>연속형 혹은 이산형 확률변수 <span class="math inline">\(X_1,X_2,\dots,X_n\)</span>는 족(family) <span class="math inline">\({\cal P}:=\big\{P_{\theta}: \theta \in \Theta\big\}\)</span> 중 하나의 원소에서 추출한 확률표본이라고 하자. 만약에 모든 <span class="math inline">\(P_{\theta} \in {\cal P}\)</span> 에 대하여 아래의 조건을 만족하는 <span class="math inline">\(Y_1=u_1(X_1,X_2,\dots,X_n)\)</span> 가 있다면</p>
+<p><span class="math display">\[\int u_1(X_1,X_2,\dots,X_n) dP_{\theta} = \theta \quad \cdots (\star)\]</span></p>
+<p><span class="math inline">\(Y_1=u_1(X_1,X_2,\dots,X_n)\)</span> 는 <span class="math inline">\(\theta\)</span> 에 대한 불편추정량이라고 한다. 여기에서 중요한 점은 임의의 <span class="math inline">\(P_{\theta}\)</span> 에 대하여 수식 <span class="math inline">\((\star)\)</span>를 고려해야한다는 점이다. 임의의 <span class="math inline">\(P_{\theta} \in {\cal P}\)</span> 를 고려한다는 것은 임의의 <span class="math inline">\(\theta \in \Theta\)</span> 를 고려한다는 것과 같은 말이므로, 암기를 위해서 정의를 바꾸어 기억하면 아래와 같이 정리할 수 있겠다.</p>
+<p><span class="math display">\[\hat{\theta} \text{ is UB of } \theta \Leftrightarrow \forall \theta \in \Theta: \mathbb{E}_{\theta}(\hat{\theta})=\theta\]</span></p>
+<p><code>#</code></p>
+<p><code># 예제1</code> 아래와 같은 상황을 가정하자.</p>
 <p><span class="math display">\[X_n \overset{iid}{\sim} N(\theta,1)\]</span></p>
 <p>여기에서</p>
 <ol type="1">
-<li><span class="math inline">\(\hat{\theta}_1=0\)</span> 은 <span class="math inline">\(\theta=0\)</span> 일 경우에는 <span class="math inline">\(E(\hat{\theta})=\theta\)</span> 를 만족하지만 그 외의 경우에는 <span class="math inline">\(E(\hat{\theta})\neq\theta\)</span> 이므로 UB가 아니다.</li>
+<li><span class="math inline">\(\hat{\theta}_1=0\)</span> 은 <span class="math inline">\(\theta=0\)</span> 일 경우에는 <span class="math inline">\(E_{\theta}(\hat{\theta}_1)=\theta\)</span> 를 만족하지만 그 외의 경우에는 <span class="math inline">\(E_{\theta}(\hat{\theta}_1)\neq\theta\)</span> 이므로 UB가 아니다.</li>
 <li><span class="math inline">\(\hat{\theta}_2=X_1\)</span> 은 UB이다.</li>
 <li><span class="math inline">\(\hat{\theta}_3=\frac{X_1+X_2}{2}\)</span> 역시 UB이다.</li>
 <li><span class="math inline">\(\hat{\theta}_4=X_1+X_2-X_3\)</span> 역시 UB이다.</li>
 <li><span class="math inline">\(\hat{\theta}_5=-99X_1+100X_2\)</span> 역시 UB이다.</li>
 <li><span class="math inline">\(\hat{\theta}_6=\frac{X_1+0}{2}\)</span> 은 1과 동일한 이유로 UB가 아니다.</li>
 <li><span class="math inline">\(\hat{\theta}_7=\bar{X}\)</span>는 UB이다.</li>
-<li><span class="math inline">\(\hat{\theta}_8=w_1X_1+\dots+w_nX_n\)</span> ,where <span class="math inline">\(\sum_{i=1}^{n}w_i=1\)</span> 형태의 estimator는 모두 UB이다.</li>
 </ol>
-<p><code>-</code> 최소분산비편향추정량(MVUE)란 <span class="math inline">\(\theta\)</span>에 대한 비편향추정량을 모아놓은 집합 <span class="math inline">\(\hat{\Theta}_{UB}\)</span> 에서 최소분산을 가지는 추정량을 의미한다. MVUE를 구하는 방법은 아래와 같다.</p>
+<p><code>#</code></p>
+<p><code>-</code> 위의 예제에서 <span class="math inline">\(\hat{\theta}_2,\hat{\theta}_3,\hat{\theta}_4,\hat{\theta}_5,\hat{\theta}_7\)</span> 중에 좋은 추정치는 무엇일까? 각각의 분산을 계산해보면 <span class="math inline">\(\hat{\theta}_7=\bar{X}\)</span> 인 경우가 <span class="math inline">\(V(\hat{\theta}_7)=\frac{1}{n}\)</span> 로 가장 분산이 작음을 알 수 있는데, 이를 미루어 보면 <span class="math inline">\(\hat{\theta}_7\)</span> 이 가장 좋은 추정치임을 알 수 있다. 이처럼 비편향 추정량중에서 최소분산을 가지는 추정량은 좋은 추정량인데 이를 최소분산비편향추정량 (MVUE) 라고 한다.</p>
+<p><code># 정의</code> – MVUE</p>
+<p>최소분산비편향추정량(MVUE)란 <span class="math inline">\(\theta\)</span>에 대한 비편향추정량을 모아놓은 집합 <span class="math inline">\(\hat{\Theta}_{UB}\)</span> 에서 최소분산을 가지는 추정량을 의미한다.</p>
+<p><code>#</code></p>
+<p><code>-</code> MVUE를 구하는 방법은 아래와 같다.</p>
 <blockquote class="blockquote">
 <p><span class="math inline">\(\theta\)</span> 에 대한 모든 비편향추정량을 구한다. 즉 집합 <span class="math inline">\(\hat{\Theta}_{UB}\)</span> 를 구한다. 그리고 집합의 각 원소에 <span class="math inline">\(\hat{\theta} \in \hat{\Theta}_{UB}\)</span> 에 대하여 <span class="math inline">\(V(\hat{\theta})\)</span> 를 구한 뒤 <span class="math inline">\(V(\hat{\theta})\)</span> 가 가장 작은 <span class="math inline">\(\hat{\theta}\)</span> 를 선택한다.</p>
 </blockquote>
-<p>예를들어 위의 예제에서 <span class="math inline">\(V(\hat{\theta}_2)=1\)</span> 이고 <span class="math inline">\(V(\hat{\theta}_3)=\frac{1}{4}+\frac{1}{4}=\frac{1}{2}\)</span> 이므로 <span class="math inline">\(\hat{\theta}_3\)</span> 이 더 좋은 추정량이라 볼 수 있다.</p>
-<p><code>-</code> (의문) 왜 비편향추정량만 모아서 그중에서 최소분산을 구할까?</p>
-<ul>
-<li><span class="math inline">\(\hat{\theta}_1\)</span>와 같은 추정량은 <span class="math inline">\(V(\hat{\theta}_1)=0\)</span> 이므로 그냥 최소분산을 만족한다. 따라서 이러한 추정량은 제외해야지 게임이 성립함.</li>
-</ul>
-<p><code>-</code> 불만: 사실상 정의그대로 구하는건 거의 불가능함. 즉</p>
+<p><code>-</code> 의문: 왜 비편향추정량만 모아서 그중에서 최소분산을 구할까?</p>
+<blockquote class="blockquote">
+<p><span class="math inline">\(\hat{\theta}_1\)</span>와 같은 추정량은 <span class="math inline">\(V(\hat{\theta}_1)=0\)</span> 이므로 그냥 최소분산을 만족한다. 따라서 이러한 추정량은 제외해야 좋은 추정량을 고르는 게임이 성립함.</p>
+</blockquote>
+<p><code>-</code> 불만: 사실상 정의그대로 MVUE를 구하는건 거의 불가능에 가깝다. 즉 아래의 방법으로 구하는 것은 불가능에 가깝다.</p>
 <blockquote class="blockquote">
 <p><span class="math inline">\(\theta\)</span> 에 대한 모든 비편향추정량을 구한다. 즉 집합 <span class="math inline">\(\hat{\Theta}_{UB}\)</span> 를 구한다. 그리고 집합의 각 원소에 <span class="math inline">\(\hat{\theta} \in \hat{\Theta}_{UB}\)</span> 에 대하여 <span class="math inline">\(V(\hat{\theta})\)</span> 를 구한 뒤 <span class="math inline">\(V(\hat{\theta})\)</span> 가 가장 작은 <span class="math inline">\(\hat{\theta}\)</span> 를 선택한다.</p>
 </blockquote>
-<p>이러한 논리전개로 구하는건 거의 불가능함.</p>
-<p><code>-</code> 이론: 크래머라오 하한값(편의상 <span class="math inline">\(L^\star\)</span>이라고 하자)이라고 있는데, 이는 <span class="math inline">\({\Theta}_{UB}\)</span> 에 존재하는 모든 추정량에 대한 분산의 하한값을 제공한다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 즉 아래가 성립한다.</p>
-<ul>
-<li><span class="math inline">\(L^\star\)</span> is Cramer-Rao lower bound <span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(\forall \hat{\theta} \in {\Theta}_{UB}:~ V(\hat{\theta}) \geq L^\star\)</span></li>
-</ul>
-<p>역은 성립하지 않음을 주의하자. 즉 아래를 만족하는 <span class="math inline">\(L\)</span>이 존재할 수 있다.</p>
-<ul>
-<li><span class="math inline">\(V(\hat{\theta}) \geq L &gt; L^\star\)</span> for some <span class="math inline">\(\hat{\theta} \in \Theta_{UB}\)</span></li>
-</ul>
-<p><code>-</code> 위의 이론을 이용하면 아래의 논리전개를 펼 수 있다.</p>
+<p>따라서 적당한 이를 쉽게 하기 위한 적당한 이론이 필요하다.</p>
+<p><code># 이론1</code> – CRB</p>
+<p>크래머라오 하한값(편의상 <span class="math inline">\(L^\star\)</span>이라고 하자)이라고 있는데, 이는 <span class="math inline">\({\Theta}_{UB}\)</span> 에 존재하는 모든 추정량에 대한 분산의 하한값을 제공한다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 즉 아래가 성립한다.</p>
+<blockquote class="blockquote">
+<p><span class="math inline">\(L^\star\)</span> is Cramer-Rao lower bound <span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(\forall \hat{\theta} \in \hat{\Theta}_{UB}:~ V(\hat{\theta}) \geq L^\star\)</span></p>
+</blockquote>
+<p><code>#</code></p>
+<p><code>-</code> 따라서 이론1을 이용하면 아래의 논리전개를 펼 수 있다.</p>
 <ol type="1">
 <li><span class="math inline">\(L^\star\)</span>를 구한다.</li>
 <li>왠지 MVUE가 될 것 같은 <span class="math inline">\(\hat{\theta}\)</span>을 하나 찍고 그것의 분산 <span class="math inline">\(V(\hat{\theta})\)</span>를 구한다.</li>
 <li>만약에 <span class="math inline">\(V(\hat{\theta})=L^\star\)</span>를 만족하면 그 <span class="math inline">\(\hat{\theta}\)</span>이 MVUE라고 주장할 수 있다.</li>
 </ol>
-<p><code>-</code> 위의 논리전개에 대한 불만 [p.212]</p>
-<ul>
-<li><span class="math inline">\(V(\hat{\theta})=L^\star\)</span> 이길 기도해야함.</li>
-<li><span class="math inline">\(\forall \hat{\theta} \in {\Theta}_{UB}:~ V(\hat{\theta}) \geq L &gt; L^\star\)</span> 와 같은 <span class="math inline">\(L\)</span>이 존재하는 경우는 쓸 수 없음.</li>
-</ul>
-<p><code>-</code> 또 다른 방법: 완비충분통계량을 이용함</p>
+<p>그렇지만 이러한 논리전개를 펴는것이 어려운 경우가 있다. 그 이유는 3의 과정이 만족하지 않는 경우가 있기 때문이다. 모든 MVUE 가 CRB 를 만족하면 좋겠으나 그렇지 않다. 즉 MVUE 이지만 CRB를 만족하지 않는 추정량이 존재한다. 이러한 추정량에 대하여 MVUE임을 보이기 위해서는 이론1이 아닌 다른것이 필요하다.</p>
+<p><code># 이론2</code> – CSS</p>
+<p><code>#</code></p>
 </section>
-<section id="통계량과-모수의-정보" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="통계량과-모수의-정보"><span class="header-section-number">2</span> 통계량과 모수의 정보</h2>
-<p>통계량이 모수의 정보를 잘 담고 있으면 그 통계량은 모수에 대한 추정량으로 이용할 수 있다.</p>
-<ol type="1">
-<li>모수에 대한 정보를 담고 있는지 없는지 판단하는 방법?</li>
-<li>결합확률분포를 만들 수 있다는 관점에서 <span class="math inline">\(\theta\)</span>에 대한 정보를 완전히 담고 있는 경우</li>
-</ol>
-</section>
-<section id="충분통계량" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="충분통계량"><span class="header-section-number">3</span> 충분통계량</h2>
-<p><code>-</code> 편의상 아래와 같은 상황을 가정하자. (그렇지만 꼭 <em>iid</em> 이어야하는건 아닌 듯)</p>
-<p><span class="math display">\[ X_1,\dots,X_n \overset{iid}{\sim} P_{\theta}\]</span></p>
-<p><code>-</code> 충분통계량(SS)의 느낌: “이 값만 기억하면 <span class="math inline">\(\theta\)</span>를 추정하는데 무난할듯”</p>
-<p><code>-</code> 예시1: <span class="math inline">\(X_1 \sim N(\theta,1)\)</span></p>
+<section id="cs" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="cs"><span class="header-section-number">3</span> CS</h2>
+<p><code># 가짜정의</code> – 충분통계량</p>
+<p>연속형 혹은 이산형 확률변수 <span class="math inline">\(X_1,X_2,\dots,X_n\)</span>는 족(family) <span class="math inline">\({\cal P}:=\big\{P_{\theta}: \theta \in \Theta\big\}\)</span> 중 하나의 원소에서 추출한 확률표본이라고 하자. 실제 true가 <span class="math inline">\({\cal P}\)</span>의 어떤 원소이든 상관없이,</p>
+<blockquote class="blockquote">
+<p>통계량 <span class="math inline">\(Y_1=u_1(X_1,X_2,\dots,X_n)\)</span> 만 <strong>기억</strong>하면 <span class="math inline">\(\theta\)</span>를 추정하기에 “충분” 할 것 같다..</p>
+</blockquote>
+<p>라는 생각이 든다면, <span class="math inline">\(Y_1\)</span>을 <span class="math inline">\(\theta\)</span>에 대한 충분통계량 (CS) 이라고 할 수 있다.</p>
+<p><code>#</code></p>
+<p><code># 예시1</code> – <span class="math inline">\(X_1 \sim N(\theta,1)\)</span></p>
 <ul>
 <li><span class="math inline">\(X_1\)</span>은 <span class="math inline">\(\theta_1\)</span> 의 SS. (하나밖에 없으니 그거라도 기억해야지)</li>
 <li>즉 <span class="math inline">\(\hat{\theta}=X_1\)</span>은 <span class="math inline">\(\theta\)</span> 의 SS</li>
