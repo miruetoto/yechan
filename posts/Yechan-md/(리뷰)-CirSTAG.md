@@ -1,7 +1,7 @@
 ---
-title: "**(리뷰) CirSTAG**"
-author: "신록예찬"
-date: "06/29/2025" 
+title: (리뷰) CirSTAG
+author: 신록예찬
+date: 06/29/2025 
 format: html
 ---
 

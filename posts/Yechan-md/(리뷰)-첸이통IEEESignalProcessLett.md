@@ -1,5 +1,5 @@
 ---
-title: '**(리뷰) 첸 이통 -- IEEE Signal Process. Lett.**'
+title: (리뷰) 첸이통, IEEE Signal Process. Lett
 author: 신록예찬
 date: 04/09/2025
 draft: false
