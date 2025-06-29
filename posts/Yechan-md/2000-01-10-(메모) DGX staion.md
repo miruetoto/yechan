@@ -36,7 +36,7 @@ reboot
 
 `-` GPU가 MIG 모드로 되면 아래와 같이 GPU-Util 에 `N/A`로 표시된다. 아래는 0,1,2,4 에 대응하는 GPU가 MIG모드로 설정된 상태임
 
-![](첨부파일들/7_b43ded28-286f-41d4-9f34-efc46c40abf5-1-df0bf4cb-6b75-4ff9-af8e-92f83d9a45e2.png)
+![](./첨부파일들/7_b43ded28-286f-41d4-9f34-efc46c40abf5-1-df0bf4cb-6b75-4ff9-af8e-92f83d9a45e2.png)
 
 ### GPU, GI, CI 확인 
 
@@ -52,7 +52,7 @@ reboot
 nvidia-smi 
 ```
 
-![](첨부파일들/7_b43ded28-286f-41d4-9f34-efc46c40abf5-1-df0bf4cb-6b75-4ff9-af8e-92f83d9a45e2.png)
+![](./첨부파일들/7_b43ded28-286f-41d4-9f34-efc46c40abf5-1-df0bf4cb-6b75-4ff9-af8e-92f83d9a45e2.png)
 
 `-` GPU의 해석 
 
@@ -115,11 +115,11 @@ nvidia-smi
 
 `-` 생성가능한 gi 확인 
 
-![](첨부파일들/4_6efc36c2-c6e3-45f9-a743-dda52663a90f-1-4bf8348a-6689-43be-8c2a-de78b1bf8804.png)
+![](./첨부파일들/4_6efc36c2-c6e3-45f9-a743-dda52663a90f-1-4bf8348a-6689-43be-8c2a-de78b1bf8804.png)
 
 `-` 생성가능한 ci 확인 
 
-![Note: GPU 1,2 에만 GI가 존재하므로, 목록에는 GPU 1,2 만 보임](첨부파일들/14_72245eec-8104-43d7-8d8f-8c1b33c4dd6e-1-083e71fb-ac1b-4d0d-83db-3a2e6aac1681.png)
+![Note: GPU 1,2 에만 GI가 존재하므로, 목록에는 GPU 1,2 만 보임](./첨부파일들/14_72245eec-8104-43d7-8d8f-8c1b33c4dd6e-1-083e71fb-ac1b-4d0d-83db-3a2e6aac1681.png)
 
 ### GI 생성 
 
@@ -130,7 +130,7 @@ nvidia-smi
 nvidia-smi mig -i 4 -lgip
 ```
 
-![](첨부파일들/5_9271574a-caa9-414a-883e-d77820a9b1d9-1-385f197c-ec7a-46f8-9f2a-3d1c989fd82c.png)
+![](./첨부파일들/5_9271574a-caa9-414a-883e-d77820a9b1d9-1-385f197c-ec7a-46f8-9f2a-3d1c989fd82c.png)
 
 `-` 아래에 해당하는 `GI`를 2개 생성하고 싶다고 하자. (`GPU-INSTANCE-PROFILE-ID`=9 임을 유의)
 ```
@@ -150,13 +150,13 @@ nvidia-smi mig -i 4 -cgi 9
 nvidia-smi mig -i 4 -cgi 9 
 ```
 
-![Note: 2개까지는 잘 ㅁ나들어지고 그 이후에는 리소스 부족으로 에러가 발생한다.](첨부파일들/11_c9c17590-9979-467c-aa50-bada68b66093-1-c80a5ffb-7c5f-4124-95fa-c89f7d132d6d.png)
+![Note: 2개까지는 잘 ㅁ나들어지고 그 이후에는 리소스 부족으로 에러가 발생한다.](./첨부파일들/11_c9c17590-9979-467c-aa50-bada68b66093-1-c80a5ffb-7c5f-4124-95fa-c89f7d132d6d.png)
 
 > 2개까지는 잘 만들어지고 그 이후에는 리소스부족으로 에러발생 
 
 `-` 만들어진 `GI` 확인 
 
-![Note: 1,2번 GPU에 각각 GI가 1개씩 있고 4번 GPU에 GI가 2개 있다.](첨부파일들/12_3d027141-a381-4a00-999a-72e7ed4c800c-1-49b1ecd2-049c-4e51-9d23-5d97477a5e1c.png)
+![Note: 1,2번 GPU에 각각 GI가 1개씩 있고 4번 GPU에 GI가 2개 있다.](./첨부파일들/12_3d027141-a381-4a00-999a-72e7ed4c800c-1-49b1ecd2-049c-4e51-9d23-5d97477a5e1c.png)
 
 `-` 생성가능한 `CI` 확인 
 
@@ -164,7 +164,7 @@ nvidia-smi mig -i 4 -cgi 9
 nvidia-smi mig -lcip
 ```
 
-![Note: {GPU ID: GPU INSTANCE ID} 의 조합에서 {1:0}, {2:0}, {4:1}, {4:2} 에 해당하는 GI에서 생성가능한 CI들이 각각 출력된다. 4번 GPU의 GI들은 40기가가 한계이므로 생성가능 CI목록이 상대적으로 제한적임을 캐치하라](첨부파일들/15_db40ccbe-a3f0-4660-acf1-3547cd6ed491-1-8649fd20-87c2-4b8c-a05b-40bc8b9e54bc.png)
+![Note: {GPU ID: GPU INSTANCE ID} 의 조합에서 {1:0}, {2:0}, {4:1}, {4:2} 에 해당하는 GI에서 생성가능한 CI들이 각각 출력된다. 4번 GPU의 GI들은 40기가가 한계이므로 생성가능 CI목록이 상대적으로 제한적임을 캐치하라](./첨부파일들/15_db40ccbe-a3f0-4660-acf1-3547cd6ed491-1-8649fd20-87c2-4b8c-a05b-40bc8b9e54bc.png)
 
 ### CI 생성 
 
@@ -175,7 +175,7 @@ nvidia-smi mig -lcip
 nvidia-smi mig -i 4 -lcip
 ```
 
-![Note: 각 GPU-인스턴스(GI)에서는 3개 계산-인스턴스(CI)를 만들수 있음. 만약에 `Profile ID = 0` 으로 만든다면 14의 계산능력을 가진 CI를 3개까지 만들수 있음, 만약 `Profile ID = 2*` 로 만든다면 42개의 계산능력을 가진 CI를 1개만 만들 수 있음](첨부파일들/10_ada60fdb-5536-4494-b5aa-11bf75e39a5f-1-afaddcc7-847b-45e9-9988-946572524348.png)
+![Note: 각 GPU-인스턴스(GI)에서는 3개 계산-인스턴스(CI)를 만들수 있음. 만약에 `Profile ID = 0` 으로 만든다면 14의 계산능력을 가진 CI를 3개까지 만들수 있음, 만약 `Profile ID = 2*` 로 만든다면 42개의 계산능력을 가진 CI를 1개만 만들 수 있음](./첨부파일들/10_ada60fdb-5536-4494-b5aa-11bf75e39a5f-1-afaddcc7-847b-45e9-9988-946572524348.png)
 
 `-` {`GPUdev-ID`:`GI-ID`} = {4:1} 에서 `COMPUTE-INSTANCE-PROFILE-ID`=0 에 해당하는 CI를 3개 생성 
 
@@ -184,7 +184,7 @@ nvidia-smi mig -i 4 -lcip
 nvidia-smi mig -i 4 -gi 1 -cci 0
 ```
 
-![Note: 자원부족으로 3개까지 밖에 못만든다..](첨부파일들/6_9325b82f-8a59-46a3-b9f0-9d6a3673e5b5-1-3690903a-40be-4384-9ebc-c814535e95df.png)
+![Note: 자원부족으로 3개까지 밖에 못만든다..](./첨부파일들/6_9325b82f-8a59-46a3-b9f0-9d6a3673e5b5-1-3690903a-40be-4384-9ebc-c814535e95df.png)
 
 `-` {`GPUdev-ID`:`GI-ID`}={4:2} 에서 `COMPUTE-INSTANCE-PROFILE-ID`=2 에 해당하는 CI를 1개 생성 
 
@@ -193,11 +193,11 @@ nvidia-smi mig -i 4 -gi 1 -cci 0
 nvidia-smi mig -i 4 -gi 2 -cci 2 
 ```
 
-![Note: 자원이 부족해서 1개밖에 못 만든다.](첨부파일들/9_e5331b19-1d57-4bf9-a5e2-5a13799bbfdb-1-318514ed-7328-4e4c-b2de-fcb83322dad5.png)
+![Note: 자원이 부족해서 1개밖에 못 만든다.](./첨부파일들/9_e5331b19-1d57-4bf9-a5e2-5a13799bbfdb-1-318514ed-7328-4e4c-b2de-fcb83322dad5.png)
 
 `-` 현재 상황 
 
-![](첨부파일들/13_db0b2f43-a952-47be-8fc7-a17e24cd5f0f-1-e262e8c0-bbc8-4cfa-b836-8bab80440edd.png)
+![](./첨부파일들/13_db0b2f43-a952-47be-8fc7-a17e24cd5f0f-1-e262e8c0-bbc8-4cfa-b836-8bab80440edd.png)
 
 | GPUdev ID | GI ID      | CI ID     | MIGdev ID |
 |--------|------------|-----------|-----------|
