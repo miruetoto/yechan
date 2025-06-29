@@ -2,7 +2,6 @@
 title: '**(메모) DGX station 설정**'
 author: 신록예찬
 date: 01/10/2000
-jupyter: python3
 ---
 
 

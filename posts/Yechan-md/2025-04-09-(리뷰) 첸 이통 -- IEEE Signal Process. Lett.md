@@ -4,7 +4,6 @@ author: 신록예찬
 date: 04/09/2025
 draft: false
 bibliography: 2025-04-09-ref.bib
-jupyter: python3
 ---
 
 
