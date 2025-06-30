@@ -564,9 +564,6 @@ window.Quarto = {
 <p>그리고 생각해보니까 <span class="math inline">\(\prod_{i=1}^{n}I(a&lt;x_{(i)}&lt;b)=I(a&lt;x_{(1)})I(x_{(n)}&lt;b)\)</span>이므로 얽힌부분은 다시 아래로 간단히 표현할 수 있다.</p>
 <p><span class="math display">\[\text{얽힌부분}=I(a&lt;x_{(1)})I(x_{(n)}&lt;b)\]</span></p>
 <p>따라서 얽힌부분이 <span class="math inline">\(({\boldsymbol x}, a,b)\)</span>의 함수에서 <span class="math inline">\((x_{(1)},x_{(n)},a,b)\)</span>의 함수로 재표현되었으므로 <span class="math inline">\(T({\bf X})=(X_{(1)}, X_{(n)})\)</span>는 <span class="math inline">\((a,b)\)</span>에 대한 충분통계량이다.</p>
-<blockquote class="blockquote">
-<p>추가로 이 예제에서는 얽힌부분이 다시 <span class="math inline">\((x_{(1)},a)\)</span> 만의 함수, <span class="math inline">\((x_{(n)},b)\)</span>만의 함수로 재분해되므로 이경우는 <span class="math inline">\(X_{(1)}\)</span>이 <span class="math inline">\(a\)</span>에 대한 충분통계량, <span class="math inline">\(X_{(n)}\)</span>이 <span class="math inline">\(b\)</span>에 대한 충분통계량이 된다.</p>
-</blockquote>
 <p><code>-</code> 만약에 얽힌부분을 재표현하기 어렵다면 그냥 순서통계량이 충분통계량이 된다. 예를들어 코시분포, 로그로지스틱, 파레토분포가 그러한 예시이다.</p>
 <p><code>-</code> 지금까지 살펴본 분포들을 정리하면 아래와 같다.</p>
 <table class="caption-top table">
@@ -618,7 +615,7 @@ window.Quarto = {
 </tbody>
 </table>
 <p>여기에서 이산균등, 연속균등은 요약이 잘 되는 경우이며 코시,로그로지스틱,파레토는 요약이 잘 안되는 경우이다.</p>
-<p><code>-</code> 위의 표에 나온 분포들은 (이산균등, 연속균등, 코시, 로그로지스틱, 파레토) 모두 <span class="math inline">\({\cal X}\)</span>가 모수 <span class="math inline">\(\theta\)</span>에 의존한다는 특징이 있다. <span class="math inline">\({\cal X}\)</span>가 모수 <span class="math inline">\(\theta\)</span>에 의존하지 않는다고 한다면 iid 확률변수벡터</p>
+<p><code>-</code> 이제 좀 다른 예제들을 살펴보자. 아래와 같은 분포들을 고려하자.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 10%">
@@ -639,24 +636,52 @@ window.Quarto = {
 <td><strong>역감마</strong></td>
 <td><span class="math inline">\(f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{-\alpha-1} e^{-\beta/x}\)</span></td>
 <td><span class="math inline">\((\alpha, \beta)\)</span></td>
-<td><span class="math inline">\(\left(\sum \frac{1}{X_j}, \sum \log X_j\right)\)</span></td>
+<td><span class="math inline">\(\left(\sum \log X_i,\sum \frac{1}{X_i} \right)\)</span></td>
 </tr>
 <tr class="even">
 <td><strong>로그정규</strong></td>
 <td><span class="math inline">\(f(x) = \frac{1}{x\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(\log x - \mu)^2}{2\sigma^2}\right)\)</span></td>
 <td><span class="math inline">\((\mu, \sigma^2)\)</span></td>
-<td><span class="math inline">\(\left(\sum \log X_j, \sum (\log X_j)^2\right)\)</span></td>
+<td><span class="math inline">\(\left(\sum \log X_i, \sum (\log X_i)^2\right)\)</span></td>
 </tr>
 <tr class="odd">
 <td><strong>와이블</strong></td>
-<td><span class="math inline">\(f(x )= \frac{k}{\lambda} \left(\frac{x}{\lambda}\right)^{k-1} e^{-(x/\lambda)^k}\)</span></td>
+<td><span class="math inline">\(f(x)= \frac{k}{\lambda} \left(\frac{x}{\lambda}\right)^{k-1} e^{-(x/\lambda)^k}\)</span></td>
 <td><span class="math inline">\((k, \lambda)\)</span></td>
-<td><span class="math inline">\(\left(\sum \log X_j, \sum X_j^k\right)\)</span></td>
+<td><span class="math inline">\(\left(\sum \log X_i, \sum X_i^k\right)\)</span></td>
 </tr>
 </tbody>
 </table>
-<hr>
-<p><code>-</code></p>
+<p>먼저 역감마분포를 살펴보자. 역감마분포의 pdf는 아래와 같다.</p>
+<p><span class="math display">\[f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{-\alpha-1} e^{-\beta/x}\]</span></p>
+<p>따라서 확률변수벡터의 결합밀도함수에서 얽힌부분은 아래와 같다.</p>
+<ol type="1">
+<li><span class="math inline">\(x_1^{-\alpha-1}\cdots x_n^{-\alpha-1}\)</span></li>
+<li><span class="math inline">\(e^{-\beta/x_1}\cdots e^{-\beta/x_n}\)</span></li>
+</ol>
+<p>이때 두번째 얽힘부분을 재표현하는 방법은 쉽다.</p>
+<p><span class="math display">\[e^{-\beta/x_1}\cdots e^{-\beta/x_n}=e^{-\beta(\frac{1}{x_1}+\dots+\frac{1}{x_n})}\]</span></p>
+<p>이므로 숫자 <span class="math inline">\(\sum_{i=1}^{n}\frac{1}{x_i}\)</span> 만 잘 기억한다면 두번째 얽힘부분을 재표현 할 수 있다. 첫번째 얽힘부분은 좀 까다로운데 아래와 같이 생각하면 쉽다. “로그변환하고 지수변환하면 같음”을 이용하여 첫 얽힘부분을 로그변환한다. 그러면 아래와 같이 된다.</p>
+<p><span class="math display">\[(-\alpha-1)\sum_{i=1}^{n}\log x_i\]</span></p>
+<p>따라서 첫 얽힘부분을 재표현하기 위해서는 (1) <span class="math inline">\((-\alpha-1)\sum_{i=1}^{n}\log x_i\)</span> 을 기억하고 (2) 그 결과에 <span class="math inline">\(\exp\)</span>를 취하면 된다. 요약하면 <span class="math inline">\((\sum_{i=1}^{n}\log x_i,\sum_{i=1}^{n}\frac{1}{x_i})\)</span>만 기억하면 얽힘부분을 재현할 수 있으므로 <span class="math inline">\((\sum_{i=1}^{n}\log X_i,\sum_{i=1}^{n}\frac{1}{X_i})\)</span>는 역감마분포의 충분통계량이다. 이제 로그정규분포를 살펴보자. 로그정규분포의 pdf는 아래와 같고</p>
+<p><span class="math display">\[f(x) = \frac{1}{x\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(\log x - \mu)^2}{2\sigma^2}\right)\]</span></p>
+<p>따라서 확률변수벡터의 결합밀도함수에서의 얽힌부분은 아래와 같다.</p>
+<p><span class="math display">\[\exp\left(-\sum_{i=1}^{n}\frac{(\log x_i - \mu)^2}{2\sigma^2}\right)\]</span></p>
+<p>얽힌부분을 기억함에 있어서 로그를 취한뒤 부호를 바꾸어 기억해도 무방하므로 아래를 기억해도 무방하다.</p>
+<p><span class="math display">\[\sum_{i=1}^{n}\frac{(\log x_i - \mu)^2}{2\sigma^2}\]</span></p>
+<p>정리하면</p>
+<p><span class="math display">\[\frac{1}{2\sigma^2}\sum_{i=1}^{n}(\log x_i)^2 - \frac{1}{2\sigma^2}2\mu\sum_{i=1}^{n}\log x_i + \frac{n}{2\sigma^2}\mu^2\]</span></p>
+<p>이 된다. 이렇게 보니까 <span class="math inline">\(\frac{n}{2\sigma^2}\mu^2\)</span>은 얽힌부분이 아니다. 남은 부분은</p>
+<p><span class="math display">\[\frac{1}{2\sigma^2}\sum_{i=1}^{n}(\log x_i)^2 - \frac{\mu}{\sigma^2}\sum_{i=1}^{n}\log x_i\]</span></p>
+<p>가 되고 이는 <span class="math inline">\((\sum_{i=1}^{n}\log x_i,\sum_{i=1}^{n}(\log x_i)^2)\)</span>만 기억해도 충분히 재표현할 수 있다. 따라서 로그정규분포의 충분통계량은 <span class="math inline">\((\sum_{i=1}^{n}\log X_i,\sum_{i=1}^{n}(\log X_i)^2)\)</span>이다. 이제 와이블분포를 고려해보자. 와이블분포의 pdf는 아래와 같다.</p>
+<p><span class="math display">\[f(x)=\frac{k}{\lambda} \left(\frac{x}{\lambda}\right)^{k-1} e^{-(x/\lambda)^k}\]</span></p>
+<p>따라서 확률변수벡터의 결합밀도함수에서 얽힌부분은 아래와 같이 될 것이다.</p>
+<ol type="1">
+<li><span class="math inline">\(\left(\frac{x_1}{\lambda}\right)^{k-1}\cdots\left(\frac{x_n}{\lambda}\right)^{k-1}\)</span></li>
+<li><span class="math inline">\(e^{-(x_1^k/\lambda^k + \cdots +x_n^k/\lambda^k) }\)</span></li>
+</ol>
+<p>따라서 1의 얽힘은 <span class="math inline">\(\sum_{i=1}^{n}\log x_i\)</span> 를 기억하면 충분하고 2의 얽힘은 <span class="math inline">\(\sum_{i=1}^{n}x_i^k\)</span>를 기억하면 충분하다. 따라서 이때 충분통계량은 <span class="math inline">\((\sum_{i=1}^{n}\log X_i, \sum_{i=1}^{n}X_i^k)\)</span> 이다.</p>
+<p><code>-</code> 다른분포들의 충분통계량 역시 쉽게 구할 수 있다.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 3%">
