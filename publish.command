@@ -5,6 +5,9 @@
 
 set -e  # 에러 발생 시 스크립트 중단
 
+# 스크립트가 있는 디렉토리로 이동
+cd "$(dirname "$0")"
+
 # macOS 체크
 if [[ "$OSTYPE" != "darwin"* ]]; then
     echo "Error: This script is designed to run on macOS only."
