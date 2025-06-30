@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Yechan Blog 자동 동기화 및 배포 스크립트
+# macOS 전용
+
+set -e  # 에러 발생 시 스크립트 중단
+
+# macOS 체크
+if [[ "$OSTYPE" != "darwin"* ]]; then
+    echo "Error: This script is designed to run on macOS only."
+    echo "Current OS: $OSTYPE"
+    exit 1
+fi
+
+echo "Yechan Blog 동기화 및 배포 시작..."
+
+# 1. Obsidian 파일들을 Quarto 프로젝트로 복사
+echo "Obsidian 파일 복사 중..."
+OBSIDIAN_PATH="/Users/cgb/Library/Mobile Documents/iCloud~md~obsidian/Documents/Yechan"
+TARGET_PATH="./posts/Yechan-md"
+
+# 기존 파일들 백업 (선택사항)
+if [ -d "$TARGET_PATH" ]; then
+    echo "기존 파일들 정리 중..."
+    rm -rf "$TARGET_PATH"
+fi
+
+# Obsidian 파일들 복사
+if [ -d "$OBSIDIAN_PATH" ]; then
+    cp -R "$OBSIDIAN_PATH" "$TARGET_PATH"
+    echo "파일 복사 완료"
+else
+    echo "Error: Obsidian 폴더를 찾을 수 없습니다: $OBSIDIAN_PATH"
+    exit 1
+fi
+
+# 2. Quarto 렌더링
+echo "Quarto 렌더링 중..."
+quarto render
+
+echo "렌더링 완료"
+
+# 3. Git 커밋 및 푸시
+echo "Git 커밋 및 푸시 중..."
+
+# 변경사항 확인
+if [ -n "$(git status --porcelain)" ]; then
+    # 변경사항이 있는 경우
+    git add .
+    
+    # 현재 시간으로 커밋 메시지 생성
+    COMMIT_MSG="Auto sync from Obsidian - $(date '+%Y-%m-%d %H:%M:%S')"
+    
+    git commit -m "$COMMIT_MSG
+
+Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+    
+    git push origin main
+    
+    echo "블로그 업데이트 완료!"
+    echo "변경사항이 GitHub Pages에 반영되기까지 몇 분 소요될 수 있습니다."
+else
+    echo "변경사항이 없습니다. 푸시를 건너뜁니다."
+fi
+
+echo "모든 작업이 완료되었습니다!"
