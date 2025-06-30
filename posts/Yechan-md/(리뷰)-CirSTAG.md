@@ -43,9 +43,9 @@ format: html
 
 이 함수를 최대화하기 위해, 각 엣지 $p,q$에 대한 편미분은 유효 저항(Effective Resistance) $R_{eff}^{p,q}$와 데이터 벡터 간의 ℓ2 거리 $D_{data}^{p,q}$로 표현된다:
         $$\frac{\partial F_1}{\partial w_{p,q}} = R_{eff}^{p,q}$$
-        $$\frac{\partial F_2}{\partial w_{p,q}} = D_{data}^{p,q} = \|X^\top e_{p,q}\|_2^2 \quad (7)$$
+        $$\frac{\partial F_2}{\partial w_{p,q}} = D_{data}^{p,q} = \|X^\top e_{p,q}\|_2^2$$
         여기서 $e_{p,q} = e_p - e_q$이며, $e_p$는 $p$번째 항목에 1을 가진 표준 기저 벡터이다. 이 그래디언트를 기반으로 **스펙트럼 왜곡 메트릭 $\eta_{p,q}$**를 사용하여 중요하지 않은 엣지를 가지치기(prune)한다:
-        $$\eta_{p,q} = \frac{R_{eff}^{p,q}}{D_{data}^{p,q}} = w_{p,q}R_{eff}^{p,q} \quad (8)$$
+        $$\eta_{p,q} = \frac{R_{eff}^{p,q}}{D_{data}^{p,q}} = w_{p,q}R_{eff}^{p,q}$$
         $\eta_{p,q}$ 값이 작은 엣지(즉, 낮은 유효 저항과 큰 데이터 거리)는 가지치기되어 희소한 그래프 구조를 만든다. 초기 조밀 그래프는 k-최근접 이웃(kNN) 알고리즘을 사용하여 효율적으로 구성된다. PGM은 스펙트럼 그래프 희소화 기법인 짧은 사이클 분해(short-cycle decomposition)를 통해 정제된다.
 
 ### **3단계: 매니폴드에서의 안정성 분석 (Phase 3: Stability Analysis on the Manifolds)**
