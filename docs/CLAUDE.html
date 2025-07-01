@@ -201,10 +201,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#이미지-표시-문제" id="toc-이미지-표시-문제" class="nav-link" data-scroll-target="#이미지-표시-문제"><span class="header-section-number">1.3.2</span> 2. 이미지 표시 문제</a></li>
   <li><a href="#lua-필터-구현" id="toc-lua-필터-구현" class="nav-link" data-scroll-target="#lua-필터-구현"><span class="header-section-number">1.3.3</span> 3. Lua 필터 구현</a></li>
   <li><a href="#경로-수정" id="toc-경로-수정" class="nav-link" data-scroll-target="#경로-수정"><span class="header-section-number">1.3.4</span> 4. 경로 수정</a></li>
+  <li><a href="#publish.command-스크립트-개선" id="toc-publish.command-스크립트-개선" class="nav-link" data-scroll-target="#publish.command-스크립트-개선"><span class="header-section-number">1.3.5</span> 5. publish.command 스크립트 개선</a></li>
+  <li><a href="#이미지-파일-git-추적-문제-해결" id="toc-이미지-파일-git-추적-문제-해결" class="nav-link" data-scroll-target="#이미지-파일-git-추적-문제-해결"><span class="header-section-number">1.3.6</span> 6. 이미지 파일 Git 추적 문제 해결</a></li>
   </ul></li>
   <li><a href="#현재-상태" id="toc-현재-상태" class="nav-link" data-scroll-target="#현재-상태"><span class="header-section-number">1.4</span> 현재 상태</a></li>
   <li><a href="#사용법" id="toc-사용법" class="nav-link" data-scroll-target="#사용법"><span class="header-section-number">1.5</span> 사용법</a></li>
-  <li><a href="#배포-명령어" id="toc-배포-명령어" class="nav-link" data-scroll-target="#배포-명령어"><span class="header-section-number">1.6</span> 배포 명령어</a></li>
+  <li><a href="#배포-명령어" id="toc-배포-명령어" class="nav-link" data-scroll-target="#배포-명령어"><span class="header-section-number">1.6</span> 배포 명령어</a>
+  <ul class="collapse">
+  <li><a href="#수동-배포" id="toc-수동-배포" class="nav-link" data-scroll-target="#수동-배포"><span class="header-section-number">1.6.1</span> 수동 배포</a></li>
+  <li><a href="#자동-배포-권장" id="toc-자동-배포-권장" class="nav-link" data-scroll-target="#자동-배포-권장"><span class="header-section-number">1.6.2</span> 자동 배포 (권장)</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -266,19 +272,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>파일</strong>: <code>filters/fix-image-paths.lua</code></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode lua code-with-copy"><code class="sourceCode lua"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> Image<span class="op">(</span><span class="va">elem</span><span class="op">)</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="va">elem</span><span class="op">.</span><span class="va">src</span><span class="op">:</span><span class="fu">match</span><span class="op">(</span><span class="st">"^%./첨부파일들/"</span><span class="op">)</span> <span class="cf">then</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">elem</span><span class="op">.</span><span class="va">src</span> <span class="op">=</span> <span class="va">elem</span><span class="op">.</span><span class="va">src</span><span class="op">:</span><span class="fu">gsub</span><span class="op">(</span><span class="st">"^%./첨부파일들/"</span><span class="op">,</span> <span class="st">"https://github.com/miruetoto/yechan/blob/main/posts/Yechan-md/첨부파일들/"</span><span class="op">)</span> <span class="op">..</span> <span class="st">"?raw=true"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">elem</span><span class="op">.</span><span class="va">src</span> <span class="op">=</span> <span class="va">elem</span><span class="op">.</span><span class="va">src</span><span class="op">:</span><span class="fu">gsub</span><span class="op">(</span><span class="st">"^%./첨부파일들/"</span><span class="op">,</span> <span class="st">"https://raw.githubusercontent.com/miruetoto/yechan/main/posts/Yechan-md/첨부파일들/"</span><span class="op">)</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="va">elem</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>설정</strong>: <code>_quarto.yml</code>에 필터 추가</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filters</span><span class="kw">:</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> filters/fix-image-paths.lua</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>결과</strong>: - 변환 전: <code>./첨부파일들/image.png</code> - 변환 후: <code>https://github.com/miruetoto/yechan/blob/main/posts/Yechan-md/첨부파일들/image.png?raw=true</code></p>
+<p><strong>결과</strong>: - 변환 전: <code>./첨부파일들/image.png</code> - 변환 후: <code>https://raw.githubusercontent.com/miruetoto/yechan/main/posts/Yechan-md/첨부파일들/image.png</code></p>
 </section>
 <section id="경로-수정" class="level3" data-number="1.3.4">
 <h3 data-number="1.3.4" class="anchored" data-anchor-id="경로-수정"><span class="header-section-number">1.3.4</span> 4. 경로 수정</h3>
 <p><strong>문제</strong>: 처음에 잘못된 경로 사용 - 잘못된 경로: <code>docs/posts/Yechan-md/첨부파일들/</code> - 올바른 경로: <code>posts/Yechan-md/첨부파일들/</code></p>
 <p><strong>수정</strong>: Lua 필터에서 경로 수정하여 GitHub raw URL이 정상 작동하도록 함</p>
+</section>
+<section id="publish.command-스크립트-개선" class="level3" data-number="1.3.5">
+<h3 data-number="1.3.5" class="anchored" data-anchor-id="publish.command-스크립트-개선"><span class="header-section-number">1.3.5</span> 5. publish.command 스크립트 개선</h3>
+<p><strong>개선 사항</strong>: 백업 및 동기화 프로세스 체계화 - 기존: Obsidian 파일 복사 후 바로 렌더링 - 개선: 백업 → 삭제 → 복사 → 렌더링 → 배포 순서로 체계화</p>
+<p><strong>새로운 프로세스</strong>: 1. <strong>백업용 커밋</strong>: 현재 상태를 백업 커밋으로 저장 2. <strong>Yechan-md 내용 삭제</strong>: 기존 파일들만 삭제 (폴더는 유지) 3. <strong>Obsidian 파일 복사</strong>: <code>cp -R</code> 명령으로 복사 4. <strong>Quarto 렌더링</strong>: 이미지 경로 자동 변환 5. <strong>Git 커밋 및 푸시</strong>: GitHub Pages에 배포</p>
+</section>
+<section id="이미지-파일-git-추적-문제-해결" class="level3" data-number="1.3.6">
+<h3 data-number="1.3.6" class="anchored" data-anchor-id="이미지-파일-git-추적-문제-해결"><span class="header-section-number">1.3.6</span> 6. 이미지 파일 Git 추적 문제 해결</h3>
+<p><strong>문제</strong>: 이미지 파일들이 Git에 추적되지 않아 GitHub Pages에서 404 오류 - 로컬에서는 정상 표시되지만 GitHub Pages에서는 이미지가 보이지 않음 - 120+ 개의 이미지 파일이 Git에 추가되지 않은 상태</p>
+<p><strong>해결</strong>: - 모든 이미지 파일을 Git에 추가하여 추적 상태로 변경 - GitHub 저장소에 이미지 파일들 푸시 완료 - Lua 필터 URL 형식을 <code>raw.githubusercontent.com</code> 형식으로 수정</p>
 </section>
 </section>
 <section id="현재-상태" class="level2" data-number="1.4">
@@ -288,6 +304,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>✅ GitHub Pages에서 이미지 정상 표시</li>
 <li>✅ 소스 파일 변경 없이 자동화된 솔루션</li>
 <li>✅ 향후 새로운 포스트 작성 시에도 자동으로 적용</li>
+<li>✅ publish.command 스크립트로 백업/동기화/배포 자동화</li>
+<li>✅ 모든 이미지 파일이 Git에 추적되어 GitHub Pages에서 접근 가능</li>
 </ul>
 </section>
 <section id="사용법" class="level2" data-number="1.5">
@@ -296,18 +314,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>마크다운 파일에서 이미지 참조 시 기존대로 상대경로 사용</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](./첨부파일들/image.png)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><code>quarto render</code> 실행하면 자동으로 GitHub raw URL로 변환</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://github.com/miruetoto/yechan/blob/main/posts/Yechan-md/첨부파일들/image.png?raw=true"</span><span class="dt">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb5"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://raw.githubusercontent.com/miruetoto/yechan/main/posts/Yechan-md/첨부파일들/image.png"</span><span class="dt">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>GitHub Pages에서 이미지 정상 표시</p></li>
 </ol>
 </section>
 <section id="배포-명령어" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="배포-명령어"><span class="header-section-number">1.6</span> 배포 명령어</h2>
+<section id="수동-배포" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1" class="anchored" data-anchor-id="수동-배포"><span class="header-section-number">1.6.1</span> 수동 배포</h3>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Update content"</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="자동-배포-권장" class="level3" data-number="1.6.2">
+<h3 data-number="1.6.2" class="anchored" data-anchor-id="자동-배포-권장"><span class="header-section-number">1.6.2</span> 자동 배포 (권장)</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./publish.command</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>백업 커밋 → Obsidian 파일 동기화 → 렌더링 → 배포까지 자동 처리</li>
+</ul>
 
 
+</section>
 </section>
 </section>
 
