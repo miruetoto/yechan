@@ -1,5 +1,5 @@
 ---
-title: "**(리뷰) 파피용**"
+title: (리뷰) TDL (파피용)
 author: 신록예찬
 date: 04/24/2025
 draft: false
@@ -34,7 +34,7 @@ bibliography: 2025-04-24-ref.bib
 **TOPOLOGICAL NEURAL NETWORKS**
 
 Topological Neural Networks (TNNs)는 단백질 구조, 도시 교통 지도, 인용 네트워크와 같이 위상적으로 복잡한 시스템과 연관된 데이터로부터 지식을 추출하는 딥러닝 아키텍처이다. TNN은 Graph Neural Network(GNN)처럼, 여러 층을 쌓은 구조로 이루어져 있으며, 각 층은 데이터를 일련의 특징(feature)으로 변환한다 (그림 1 참고). 각 층에서는 데이터와 계산 도메인, 이웃(neighborhood), 그리고 메시지 패싱(message passing)이라는 핵심 개념을 활용하는데, 이 섹션에서는 이들 개념을 설명한다.
-![](첨부파일들/Pasted%20image%2020250701105912.png)
+
 
 
 ![](./첨부파일들/53_0200421b-9914-46af-a8e6-7b68e3b48b7d-1-1eb6153c-3bd9-41b3-98bc-7e0dd6452ee3.png)
