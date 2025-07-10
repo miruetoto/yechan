@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="신록예찬">
+<meta name="dcterms.date" content="2025-07-08">
+
+<title>(리뷰) CDNN – 신록예찬’s Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b7eda2101a7a109d5067cba531cf9672.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c3b4467b3a856aca0a94511ae8d17459.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">신록예찬’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DL2024/"> 
+<span class="menu-text">DL2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/AP2023/"> 
+<span class="menu-text">AP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/PP2024/"> 
+<span class="menu-text">PP2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DV2023/"> 
+<span class="menu-text">DV2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/MP2023/"> 
+<span class="menu-text">MP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SC2024/"> 
+<span class="menu-text">SC2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DS2022/"> 
+<span class="menu-text">DS2022</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SP2023/"> 
+<span class="menu-text">SP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/IR2021/"> 
+<span class="menu-text">IR2021</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan/"> 
+<span class="menu-text">yechan</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan2/"> 
+<span class="menu-text">yechan2</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/miruetoto/yechan"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#개론" id="toc-개론" class="nav-link active" data-scroll-target="#개론"><span class="header-section-number">1</span> 개론</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">(리뷰) CDNN</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>신록예찬 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 8, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p>Roy, O., Moshfeghi, Y., &amp; Smith, K. (2025). Covariance density neural networks.&nbsp;<em>arXiv preprint arXiv:2505.11139</em>.</p>
+</blockquote>
+<section id="개론" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="개론"><span class="header-section-number">1</span> 개론</h2>
+<p>본 논문은 뇌파(BCI) 데이터를 분석하는 새로운 방법인 <strong>공분산 밀도 신경망(Covariance Density Neural Networks, CDNN)</strong>이라는 최신 기술을 제안함. 이게 뭐냐? 기존 <strong>공분산 신경망(VNN)</strong>이 데이터에서 뽑은 공분산 행렬을 <strong>그래프 시프트 연산자(GSO)</strong>로 썼었음. 근데 CDNN은 여기서 한 발 더 나아간 것임. 데이터 공분산 행렬을 시스템의 <strong>준-해밀턴(quasi-Hamiltonian)</strong>으로 보고, 이걸로 양자역학이나 정보 이론에서 영감을 얻은 <strong>밀도 행렬(Density Matrix)</strong>을 만들어 GSO로 쓰는 방식임.</p>
+<p>이 핵심 개념이 바로 <strong>공분산 밀도 연산자(Covariance Density Operator)</strong>임. 수식은 이렇게 생겼음:</p>
+<p><span class="math display">\[\rho(C) = \frac{e^{-\beta C}}{\text{Tr}(e^{-\beta C})}\]</span></p>
+<p>여기서 <span class="math inline">\(C\)</span>는 우리가 데이터에서 추출한 공분산 행렬임. 그리고 <strong><span class="math inline">\(\beta\)</span> (베타)</strong>라는 게 진짜 중요한 역할을 함. 이건 ‘역온도(inverse temperature)’ 파라미터인데, 이 <span class="math inline">\(\beta\)</span> 값으로 네트워크의 안정성과 식별성을 아주 섬세하게 조절할 수 있게 됨.</p>
+<p>밀도 행렬은 몇 가지 특징이 있음:</p>
+<ul>
+<li><strong>양수 반정부호(positive semi-definite), 자기 수반(self-adjoint) 행렬</strong>임.</li>
+<li>트레이스(trace)가 1임.</li>
+<li>이 행렬의 고유값(eigenvalue)들은 확률적인 의미를 가져서, 엔트로피(entropy)를 해석할 수 있게 해줌.</li>
+<li>가장 놀라운 건, 원본 공분산 행렬이 <strong>특이 행렬(singular, 즉 역행렬이 없어서 Determinant가 0인 경우)</strong>이어도, 이 밀도 행렬을 쓰면 엔트로피 값이 발산하지 않고 <strong>유한한 값</strong>을 갖게 됨. 이게 기존 방법론의 한계를 극복하는 부분임.</li>
+</ul>
+<p>이 공분산 밀도 연산자를 기반으로 <strong>공분산 밀도 필터(Covariance Density Filter)</strong>도 정의함: <span class="math inline">\(z = H(\rho(C))x = \sum_{k=0}^K h_k [\rho(C)]^k x\)</span> - GSO를 정의하면 필터도 정의할 수 있는듯??</p>
+<p>그럼 이 <span class="math inline">\(\beta\)</span> 값이 정확히 뭘 한다는 거냐면:</p>
+<ul>
+<li><strong><span class="math inline">\(\beta\)</span> 값이 0보다 클 때</strong>는, 원래 공분산 행렬에서 분산이 큰 방향(높은 고유값 <span class="math inline">\(\lambda_i\)</span>)이 밀도 행렬에서는 낮은 밀도 고유값(<span class="math inline">\(\rho_i\)</span>)으로 매핑됨. 그래서 고분산 성분을 네트워크가 더 잘 식별할 수 있는 영역으로 ’압축’해주는 효과가 있음. 이 경우 네트워크가 더 안정적이며, 공분산 행렬에 큰 오차가 있어도 작은 <span class="math inline">\(\beta\)</span> 값을 쓰면 <strong>노이즈 제거 효과</strong>를 볼 수 있음.</li>
+<li>반대로 <strong><span class="math inline">\(\beta\)</span> 값이 0보다 작을 때</strong>는, 기존 공분산 필터랑 비슷하게 저분산 성분을 식별한다고 함. 음수 <span class="math inline">\(\beta\)</span> 값은 공분산 밀도 추정치의 불확실성에 대한 패널티를 증폭시켜 네트워크의 안정성을 감소시킬 수 있지만, 스펙트럼 프로파일을 더 넓게 탐색할 수 있다는 장점도 있음.</li>
+<li>이런 특성 덕분에 양수 <span class="math inline">\(\beta\)</span>와 음수 <span class="math inline">\(\beta\)</span>를 모두 사용하는 <strong>“다중 스케일 필터 뱅크”</strong>를 구성하면, 고주파와 저주파 모두에서 신호 차이를 식별하면서 동시에 네트워크를 더 안정적으로 만들 수 있다고 함. 이 <span class="math inline">\(\beta\)</span> 값은 데이터에서 학습할 수도 있음.</li>
+</ul>
+<p>안정성 측면에서는:</p>
+<ul>
+<li>이 필터의 립시츠 상수(Lipschitz constant)가 <span class="math inline">\(\beta\)</span> 값과 필터 계수에 의해 직접적으로 제어됨.</li>
+<li><strong><span class="math inline">\(\beta\)</span>가 0에 가까워질수록 네트워크는 점점 더 안정적</strong>이 됨. 즉, <span class="math inline">\(\beta\)</span> 값을 조절해서 네트워크가 얼마나 ‘안정적인지’와 얼마나 ’정보를 잘 구별하는지’ 사이의 균형을 직접 관리할 수 있다는 것임.</li>
+</ul>
+<p>또 다른 중요한 기여는 <strong>다중 스케일 폰 노이만 엔트로피(Multiscale von Neumann Entropy, CVNE)</strong>라는 정보 이론적 도구를 밀도 행렬 공식화를 통해 사용할 수 있게 된 점임. CVNE는 이렇게 정의됨:</p>
+<p><span class="math display">\[S_\beta(C) = -\text{Tr} ( \rho(C) \log \rho(C) )\]</span></p>
+<ul>
+<li>이건 <span class="math inline">\(\rho(C)\)</span>의 고유값 분포에 대한 섀넌 엔트로피와 같음.</li>
+<li>CVNE는 저랭크(low-rank)이거나 특이 공분산 행렬에 대해서도 <strong>유한한 엔트로피 값을 제공</strong>해서, 기존 방법의 한계를 극복했음. 기존 방식들은 특이 행렬일 때 엔트로피가 무한대로 발산했음.</li>
+<li>게다가 CVNE는 <strong>부분 가산성(sub-additivity) 속성</strong>도 만족함.</li>
+<li>특히, 나이브(naive) 엔트로피 측정법이 놓치는 <strong>미묘한 전역 스케일 변화</strong>까지도 CVNE는 감지하고 구별할 수 있음.</li>
+</ul>
+<p>실제 실험 결과도 좋았음:</p>
+<ul>
+<li>금융 예측이나 <strong>뇌-컴퓨터 인터페이스(BCI)의 모터 이미저리 분류</strong> 같은 분야에서 기존 모델들보다 훨씬 좋은 성능을 보여줬음.</li>
+<li>특히, 훈련에 사용되지 않은 새로운 사람의 뇌 신호에 대한 <strong>‘전이성(transferability)’ 문제 해결에 강점</strong>을 보였음. 이건 실시간 BCI처럼 정확도도 높고 훈련 시간도 짧아야 하는 경우에 아주 유용하다는 거지.</li>
+<li>BCI 데이터셋은 BCI 2A와 PhysioNet 데이터셋을 사용했는데, 둘 다 공개된 데이터라 재현성도 높다고 함. <strong>EEGNet보다 빠르면서도 더 좋은 성능</strong>을 냈음.</li>
+<li>합성 데이터셋에서의 회귀 문제에서도 <strong>노이즈가 많은 조건에서 VNN보다 뛰어난 안정성</strong>을 보여줬음.</li>
+</ul>
+<p>결론적으로, 공분산 밀도 연산자는 공분산 행렬을 GSO로 쓰는 VNN의 아이디어를 양자 역학적 개념인 밀도 행렬로 확장해서, 네트워크의 성능과 안정성을 훨씬 더 정교하게 제어할 수 있게 만들었다는 점에서 대단한 발전이라고 생각함. 특히 <span class="math inline">\(\beta\)</span> 파라미터가 그 중심 역할을 한다는 점이 핵심인 것 같음.</p>
+<p>물론 한계도 있음:</p>
+<ul>
+<li>공분산 행렬은 2차 통계만 인코딩해서 <strong>고차 또는 비선형 의존성을 놓칠 수 있음</strong>. (이건 상호 정보 행렬이나 가우시안 프로세스 커널을 통합하는 방식으로 해결할 수도 있다고 함).</li>
+<li>시간에 따라 변하거나 비정상적인 신호(예: EEG 드리프트)에는 <strong>동적 공분산 모델이나 온라인 적응</strong>이 필요함.</li>
+<li>계산 비용이 공분산 행렬 크기와 행렬 지수 연산에 비례해서 커질 수 있는데, <strong>Krylov Subspace Approximation 같은 방법</strong>이 유용할 수 있다고 함. ## 자료</li>
+</ul>
+<p>소스에 따르면 논문에서 사용된 BCI (Brain-Computer Interface) 데이터는 <strong>공개된 데이터다</strong></p>
+<p>구체적으로 다음 두 가지 BCI 데이터셋이 사용되었고, 모두 공개되어 있다:</p>
+<ul>
+<li><strong>BCI 2A 데이터셋</strong>: 이 데이터는 <strong>https://www.bbci.de/competition/iv/</strong> 에서 자유롭게 이용 가능하다. 이 데이터셋은 4가지 클래스의 모터 이미저리(Motor Imagery) 작업을 수행하는 9명의 참가자로부터 얻은 EEG 데이터로 구성된다. 각 참가자는 두 세션(훈련 및 테스트)을 다른 날에 완료했고, 각 세션은 288개의 4초짜리 시행으로 이루어져 있다.</li>
+<li><strong>PhysioNet 데이터셋</strong>: 이 데이터셋은 <strong>https://physionet.org/about/database/</strong> 에서 이용 가능하다. 2가지 클래스 데이터를 포함하며, 105명의 피험자로부터 얻은 EEG 기록으로 구성된다. 이 데이터셋은 109명의 건강한 지원자로부터 EEG 기록으로 구성되었으나, 기술적 문제로 4명의 기록이 제외되어 105명의 데이터가 최종 코호트에 사용되었다.</li>
+</ul>
+<p>또한, 연구자들은 모터 이미저리 데이터에 대해 <strong>TorchEEG Python 패키지</strong>와 <strong>Mother of all BCI Benchmarks (MOABB) 래퍼</strong>를 사용했다.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
