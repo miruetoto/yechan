@@ -1,5 +1,5 @@
 ---
-title: (리뷰)-CDNN ssssss
+title: (리뷰) CDNN
 author: 신록예찬
 date: 07/08/2025
 ---
