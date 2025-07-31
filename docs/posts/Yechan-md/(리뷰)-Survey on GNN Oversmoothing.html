@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="신록예찬">
+<meta name="dcterms.date" content="2025-07-22">
+
+<title>(리뷰) Survey on GNN Oversmoothing – 신록예찬’s Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b7eda2101a7a109d5067cba531cf9672.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c3b4467b3a856aca0a94511ae8d17459.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">신록예찬’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DL2024/"> 
+<span class="menu-text">DL2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/AP2023/"> 
+<span class="menu-text">AP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/PP2024/"> 
+<span class="menu-text">PP2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DV2023/"> 
+<span class="menu-text">DV2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/MP2023/"> 
+<span class="menu-text">MP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SC2024/"> 
+<span class="menu-text">SC2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DS2022/"> 
+<span class="menu-text">DS2022</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SP2023/"> 
+<span class="menu-text">SP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/IR2021/"> 
+<span class="menu-text">IR2021</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan/"> 
+<span class="menu-text">yechan</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan2/"> 
+<span class="menu-text">yechan2</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/miruetoto/yechan"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#빠른요약" id="toc-빠른요약" class="nav-link active" data-scroll-target="#빠른요약"><span class="header-section-number">1</span> 빠른요약</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">(리뷰) Survey on GNN Oversmoothing</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>신록예찬 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 22, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="빠른요약" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 빠른요약</h1>
+<ul>
+<li><p><strong>서론: GNN의 깊이 한계와 오버-스무딩 현상</strong></p>
+<ul>
+<li>그래프 신경망(GNN)은 관계형 및 상호작용 데이터 학습에 강력한 도구로 부상함.</li>
+<li>대부분의 GNN은 컴퓨터 비전 분야의 CNN과 달리 얕은 층을 가지며, 깊은 GNN의 성능을 저해하는 문제점 중 하나가 <strong>오버-스무딩</strong>임.</li>
+<li>오버-스무딩은 GNN의 깊이가 증가함에 따라 <strong>노드 특성(node features)이 유사해지는 현상</strong>을 의미하며, 모든 노드 특성이 동일한 상수 값으로 기하급수적으로 수렴하는 것을 말함.</li>
+<li>과도한 스무딩은 정보가 없는 한계로 수렴하게 만들며, 특히 노드 레이블이 이웃 노드 레이블과 다른 이종 그래프(heterophilic graphs) 처리 능력을 심각하게 저해할 수 있음.</li>
+</ul></li>
+<li><p><strong>오버-스무딩의 정의 (정의 1)</strong></p>
+<ul>
+<li>오버-스무딩은 적절한 노드-유사도 측정(<span class="math inline">\(\mu\)</span>)이 <strong>층 수(<span class="math inline">\(n\)</span>)에 따라 기하급수적으로 <span class="math inline">\(0\)</span>에 수렴하는 것</strong>으로 공리적으로 정의됨. 즉, <span class="math inline">\(\mu(X_n)\)</span>이 <span class="math inline">\(C_1e^{-C_2n}\)</span> 형태로 수렴함.</li>
+<li>노드-유사도 측정 <span class="math inline">\(\mu\)</span>는 다음 두 가지 조건을 만족해야 함:
+<ol type="1">
+<li>모든 노드 <span class="math inline">\(i\)</span>에 대해 <span class="math inline">\(X_i\)</span>가 상수 <span class="math inline">\(c\)</span>인 경우에만 <span class="math inline">\(\mu(X) = 0\)</span>이 성립해야 함 (노드 특성이 일정한 값으로 수렴할 때 오버-스무딩이 발생한다는 개념을 공식화함).</li>
+<li>삼각 부등식 또는 부분 가법성(<span class="math inline">\(\mu(X + Y) \le \mu(X) + \mu(Y)\)</span>)을 만족해야 함.</li>
+</ol></li>
+<li>이 정의는 기존의 다양한 오버-스무딩 접근 방식들을 통합하며, <strong>기하급수적 수렴</strong>이 오버-스무딩의 중요한 특징임을 강조함.</li>
+</ul></li>
+<li><p><strong>오버-스무딩 측정 방법</strong></p>
+<ul>
+<li><strong>디리클레 에너지(Dirichlet energy)</strong>: <span class="math display">\[E(X_n) = \frac{1}{v} \sum_{i \in V} \sum_{j \in N_i} |X_n^i - X_n^j|^2_2\]</span>
+<ul>
+<li><span class="math inline">\(\mu(X_n) = \sqrt{E(X_n)}\)</span>은 정의 1의 모든 조건을 만족하는 유효한 노드-유사도 측정임.</li>
+<li><span class="math inline">\(L_p\)</span>-norm (<span class="math inline">\(p &gt; 1\)</span>) 기반의 디리클레 에너지도 가능함.</li>
+</ul></li>
+<li><strong>평균 절대 거리(Mean Average Distance, MAD)</strong>: <span class="math display">\[\mu(X_n) = \frac{1}{v} \sum_{i \in V} \sum_{j \in N_i} \left(1- \frac{X_n^i \cdot X_n^j}{|X_n^i ||X_n^j |}\right)\]</span>
+<ul>
+<li>MAD는 정의 1의 조건 1과 2를 만족하지 않아 유효한 노드-유사도 측정이 아님. 특히 스칼라 값의 경우 항상 <span class="math inline">\(0\)</span>이 되어 오버-스무딩의 충분 조건이 되지 못함.</li>
+<li>그러나 다차원(<span class="math inline">\(m &gt; 1\)</span>)의 경우 층 수가 증가함에 따라 기하급수적으로 <span class="math inline">\(0\)</span>에 수렴하는 경향을 보여 조건 3을 만족할 수 있음.</li>
+<li><strong>디리클레 에너지가 더 안정적이고 모든 조건을 만족하므로 선호됨</strong>.</li>
+</ul></li>
+<li><strong>실험적 평가</strong>: GCN, GAT, GraphSAGE와 같은 표준 GNN 아키텍처는 Texas, Cora, Cornell5 등 다양한 실제 그래프 데이터셋에서 모두 <strong>층별 측정값(디리클레 에너지 및 MAD)이 층 수가 증가함에 따라 기하급수적으로 <span class="math inline">\(0\)</span>에 수렴함</strong>을 보임.</li>
+</ul></li>
+<li><p><strong>오버-스무딩 완화 방법</strong></p>
+<ul>
+<li><strong>1. 정규화 및 규제 (Normalization and Regularization)</strong>:
+<ul>
+<li>명시적 규제: Energetic GNNs (EGNNs)는 디리클레 에너지 편차에 페널티를 부과.</li>
+<li>암시적 규제: DropEdge, Graph DropConnect (GDC), PairNorm, Differentiable Group Normalization (DGN), NodeNorm 등이 있음.
+<ul>
+<li>PairNorm은 다음 수식을 통해 노드 특성 <span class="math inline">\(X\)</span>를 정규화하여 쌍별 거리(pairwise distances)를 각 층에서 일정하게 유지함: <span class="math display">\[\hat{X}_i = X_i - \frac{1}{v} \sum_{j=1}^v X_j\]</span> <span class="math display">\[X_i = s\frac{\hat{X}_i}{\sqrt{\frac{1}{v} \sum_{j=1}^v |\hat{X}_j|^2_2}}\]</span> 여기서 <span class="math inline">\(s &gt; 0\)</span>는 하이퍼파라미터임.</li>
+</ul></li>
+</ul></li>
+<li><strong>2. GNN 동역학 변경 (Change of GNN dynamics)</strong>:
+<ul>
+<li>GCN의 확산과 유사한 동역학을 대체함.</li>
+<li>Graph-Coupled Oscillator Network (GraphCON), PDE-GCN, Allen-Cahn Message Passing (ACMP), Gradient Flow Framework (GRAFF), Gradient Gating (G2) 등이 있음.
+<ul>
+<li>GraphCON은 비선형 진동자(non-linear oscillators)를 사용하여 확산과 유사한 GCN의 동역학을 대체함: <span class="math display">\[Y_n = Y_{n-1} + \Delta t[\sigma(F_{\theta_n}(X_{n-1},G)) - \gamma X_{n-1} - \alpha Y_{n-1}]\]</span> <span class="math display">\[X_n = X_{n-1} + \Delta t Y_n\]</span> 여기서 <span class="math inline">\(Y_n\)</span>은 보조 노드 특성(<span class="math inline">\(\Delta t &gt; 0\)</span>는 시간 단계)임.</li>
+<li>Gradient Gating (G2)는 그래프 기울기(graph-gradient)를 활용하는 학습 가능한 노드별 조기 종료 메커니즘을 게이팅 함수를 통해 구현함: <span class="math display">\[\hat{\tau}_n = \sigma(\hat{F}_{\hat{\theta}_n}(X_{n-1},G))\]</span> <span class="math display">\[\tau_n^{ik} = \tanh\left(\sum_{j \in N_i} |\hat{\tau}_n^{jk} - \hat{\tau}_n^{ik}|^p\right)\]</span> <span class="math display">\[X_n = (1-\tau_n) \odot X_{n-1} + \tau_n \odot \sigma(F_{\theta_n}(X_{n-1},G))\]</span> 여기서 <span class="math inline">\(p \ge 0\)</span>임.</li>
+</ul></li>
+</ul></li>
+<li><strong>3. 잔차 연결 (Residual connections)</strong>:
+<ul>
+<li>ResNet에서 영감을 받아 깊은 GNN에 잔차 연결을 추가함.</li>
+<li>Res-GCN, GCNII, Jumping Knowledge Networks (JKNets), Deep Adaptive Graph Neural Networks (DAGNNs) 등이 있음.
+<ul>
+<li>Res-GCN은 다음과 같은 잔차 연결을 포함함: <span class="math display">\[X_n = X_{n-1} + F_{\theta_n}(X_{n-1},G)\]</span></li>
+<li>GCNII는 모든 층에 초기 노드 특성 <span class="math inline">\(X_0\)</span>의 스케일된 잔차 연결을 추가함: <span class="math display">\[X_n = \sigma \left[ \left( (1-\alpha_n)\hat{D}^{- \frac{1}{2}} \hat{A} \hat{D}^{- \frac{1}{2}} X_{n-1} + \alpha_n X_0 \right) \left( (1-\beta_n)I + \beta_n W^n \right) \right]\]</span> 여기서 <span class="math inline">\(\alpha_n, \beta_n \in\)</span>는 하이퍼파라미터임.</li>
+</ul></li>
+</ul></li>
+<li><strong>완화 방법의 실험적 평가</strong>:
+<ul>
+<li>DropEdge-GCN과 Res-GCN은 여전히 오버-스무딩을 겪음 (디리클레 에너지가 기하급수적으로 <span class="math inline">\(0\)</span>에 수렴).</li>
+<li>G2-GCN, GraphCON-GCN, PairNorm, GCNII는 층별 디리클레 에너지를 거의 일정하게 유지하여 오버-스무딩을 완화함.</li>
+</ul></li>
+</ul></li>
+<li><p><strong>표현력 희생의 위험: 완화는 필수적이지만 충분하지 않음</strong></p>
+<ul>
+<li>오버-스무딩을 완화하는 것이 깊은 GNN 구축에 <strong>필수적(necessary)</strong>이지만, 이것만으로는 충분하지 않음.</li>
+<li>단순히 편향(bias) 벡터를 추가한 GCN이나 PairNorm은 디리클레 에너지를 일정하게 유지하여 오버-스무딩을 완화하지만, 층 수가 증가할수록 성능(정확도)이 크게 감소함.
+<ul>
+<li>예를 들어, 층별 디리클레 에너지를 약 <span class="math inline">\(1\)</span>로 일정하게 유지하는 GCN에 편향을 추가한 모델과 PairNorm 모델은 층 수가 증가할 때 성능이 급격히 저하됨.</li>
+</ul></li>
+<li><strong>오버-스무딩 완화만을 목표로 GNN의 표현력(expressive power)을 희생하는 것이 주요 함정임</strong>.</li>
+<li>G2와 같이 오버-스무딩을 완화하면서도 층 수가 증가함에 따라 성능이 약간 증가하는 방법도 있음.</li>
+</ul></li>
+<li><p><strong>연속시간 GNN으로의 확장</strong></p>
+<ul>
+<li>그래프 표현 학습의 새로운 분야로, GNN을 <strong>깊이에 따라 연속적인 모델</strong>로 다룸.</li>
+<li>메시지 패싱 전파를 상미분 방정식(ODEs) 또는 편미분 방정식(PDEs)으로 모델링된 그래프 동적 시스템으로 정식화함.
+<ul>
+<li>이는 다음과 같은 미분 방정식으로 모델링될 수 있음: <span class="math display">\[X'(t) = \sigma(F_{\theta}(X(t),G))\]</span> 여기서 <span class="math inline">\(X(t)\)</span>는 시간 <span class="math inline">\(t \ge 0\)</span>에서의 노드 특성을 의미함.</li>
+</ul></li>
+<li><strong>연속시간 오버-스무딩 (정의 2)</strong>: 노드 유사성 측정 <span class="math inline">\(\mu\)</span>가 <strong>시간(<span class="math inline">\(t\)</span>)에 따라 기하급수적으로 <span class="math inline">\(0\)</span>에 수렴하는 것</strong>으로 정의됨 (즉, <span class="math inline">\(\mu(X(t))\)</span>가 <span class="math inline">\(C_1e^{-C_2t}\)</span> 형태로 수렴).</li>
+<li>Graph Neural Ordinary Differential Equations (GDEs), Continuous Graph Neural Networks (CGNN), Graph-Coupled Oscillator Networks (GraphCON) 등이 연속시간 GNN의 예시임.</li>
+</ul></li>
+<li><p><strong>결론</strong></p>
+<ul>
+<li>깊은 GNN은 장거리 상호작용이 있는 관계형 데이터, 특히 이종 그래프 데이터 학습에 필수적임.</li>
+<li><strong>오버-스무딩은 깊은 GNN 구축의 핵심 과제</strong>임.</li>
+<li>논문은 오버-스무딩에 대한 <strong>공리적 정의</strong>를 제시하고, 오버-스무딩 완화가 깊은 GNN 성능 향상을 위한 <strong>필수 조건</strong>이지만 GNN의 <strong>표현력 손실 없이</strong> 이루어져야 함을 강조함.</li>
+<li>이 정의는 <strong>연속시간 GNN</strong> 분야로 확장될 수 있음.</li>
+</ul></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
