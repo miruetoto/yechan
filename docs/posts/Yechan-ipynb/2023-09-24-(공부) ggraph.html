@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="신록예찬">
-<meta name="dcterms.date" content="2025-07-31">
+<meta name="dcterms.date" content="2023-09-24">
 
-<title>(리뷰) 아티팩트관련 논문들 – 신록예찬’s Blog</title>
+<title>(코드) ggraph – 신록예찬's Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -158,14 +193,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#towards-measuring-bias-in-image-classification" id="toc-towards-measuring-bias-in-image-classification" class="nav-link active" data-scroll-target="#towards-measuring-bias-in-image-classification"><span class="header-section-number">1</span> Towards Measuring Bias in Image Classification</a></li>
-  <li><a href="#explainable-artificial-intelligence-for-bias-detection-in-covid-ct-scan-classifiers" id="toc-explainable-artificial-intelligence-for-bias-detection-in-covid-ct-scan-classifiers" class="nav-link" data-scroll-target="#explainable-artificial-intelligence-for-bias-detection-in-covid-ct-scan-classifiers"><span class="header-section-number">2</span> Explainable artificial intelligence for bias detection in covid ct-scan classifiers</a></li>
-  <li><a href="#quantifying-acceptable-artefact-ranges-for-dermatologic-classification-algorithms" id="toc-quantifying-acceptable-artefact-ranges-for-dermatologic-classification-algorithms" class="nav-link" data-scroll-target="#quantifying-acceptable-artefact-ranges-for-dermatologic-classification-algorithms"><span class="header-section-number">3</span> Quantifying acceptable artefact ranges for dermatologic classification algorithms</a></li>
-  <li><a href="#msrnet" id="toc-msrnet" class="nav-link" data-scroll-target="#msrnet"><span class="header-section-number">4</span> MSRNet</a></li>
-  <li><a href="#dermoscopic-dark-corner-artifacts-removal-friend-or-foe" id="toc-dermoscopic-dark-corner-artifacts-removal-friend-or-foe" class="nav-link" data-scroll-target="#dermoscopic-dark-corner-artifacts-removal-friend-or-foe"><span class="header-section-number">5</span> Dermoscopic dark corner artifacts removal: Friend or foe?</a></li>
-  <li><a href="#computer-based-melanocytic-and-nevus-image-enhancement-and-segmentation" id="toc-computer-based-melanocytic-and-nevus-image-enhancement-and-segmentation" class="nav-link" data-scroll-target="#computer-based-melanocytic-and-nevus-image-enhancement-and-segmentation"><span class="header-section-number">6</span> Computer Based Melanocytic and Nevus Image Enhancement and Segmentation</a></li>
-  <li><a href="#synartifact" id="toc-synartifact" class="nav-link" data-scroll-target="#synartifact"><span class="header-section-number">7</span> SynArtifact</a></li>
-  <li><a href="#association-between-surgical-skin-markings-in-dermoscopic-images-and-diagnostic-performance-of-a-deep-learning-convolutional-neural-network-for-melanoma-recognition" id="toc-association-between-surgical-skin-markings-in-dermoscopic-images-and-diagnostic-performance-of-a-deep-learning-convolutional-neural-network-for-melanoma-recognition" class="nav-link" data-scroll-target="#association-between-surgical-skin-markings-in-dermoscopic-images-and-diagnostic-performance-of-a-deep-learning-convolutional-neural-network-for-melanoma-recognition"><span class="header-section-number">8</span> Association Between Surgical Skin Markings in Dermoscopic Images and Diagnostic Performance of a Deep Learning Convolutional Neural Network for Melanoma Recognition</a></li>
+  <li><a href="#imports" id="toc-imports" class="nav-link active" data-scroll-target="#imports"><span class="header-section-number">1</span> Imports</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">2</span> Example</a></li>
   </ul>
 </nav>
     </div>
@@ -174,7 +203,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">(리뷰) 아티팩트관련 논문들</h1>
+<h1 class="title"><strong>(코드) ggraph</strong></h1>
 </div>
 
 
@@ -191,7 +220,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 31, 2025</p>
+      <p class="date">September 24, 2023</p>
     </div>
   </div>
   
@@ -203,171 +232,68 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<blockquote class="blockquote">
-<p>HCAM을 위한 참고문헌들 중 아키팩트 관련 연구를 조사</p>
-</blockquote>
-<section id="towards-measuring-bias-in-image-classification" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="towards-measuring-bias-in-image-classification"><span class="header-section-number">1</span> Towards Measuring Bias in Image Classification</h2>
-<p><code>-</code> bib</p>
-<pre><code>@inproceedings{schaaf2021towards,
-  title={Towards measuring bias in image classification},
-  author={Schaaf, Nina and de Mitri, Omar and Kim, Hang Beom and Windberger, Alexander and Huber, Marco F},
-  booktitle={International Conference on Artificial Neural Networks},
-  pages={433--445},
-  year={2021},
-  organization={Springer}
-}</code></pre>
-<p><code>-</code> CNN에서 데이터 편향을 측정하는 방식을 제시</p>
-<ol type="1">
-<li>의도적으로 편향된 CNN을 훈련하기 위해 알려진 편향이 있는 인공 데이터셋을 생성</li>
-<li>attribution maps이라는 시각화 도구를 사용하여 네트워크의 의사 결정을 조사</li>
-<li>이 맵이 알려진 편향을 얼마나 잘 나타내는지&nbsp;의미 있는 지표를 사용하여 정량적으로 평가</li>
-</ol>
-<p><code>-</code> 알려진편향이란?</p>
-<ol type="1">
-<li>고양이 vs.&nbsp;개(Cat vs.&nbsp;Dog): 이 데이터셋에서는 객체 편향(object bias)이 의도되었음
-<ul>
-<li>편향된 데이터셋을 만들기 위해, 편향되지 않은 원본 고양이 및 개 이미지에 모든 고양이 이미지에 체계적으로 공을 추가했습니다.</li>
-<li>이 편향의 목적은 훈련된 CNN이 고양이 자체 대신 공을 기반으로 “고양이” 클래스를 예측하도록 하는 것이었습니다.</li>
-<li>공의 위치 정보는 바운딩 박스 형태로 저장되었으며, 공은 주 이미지 객체(고양이)와 겹치지 않도록 했음</li>
-</ul></li>
-<li>과일(Fruits) 데이터셋:
-<ul>
-<li>이 데이터셋에서는 확산성 배경 편향(diffuse background bias)이 의도되었음.</li>
-<li>편향된 데이터셋의 경우, 사과 이미지만 사과나무 배경에 배치되었고, 다른 과일들(바나나, 옥수수, 복숭아, 파인애플)은 다양한 배경에 배치되었습니다.</li>
-<li>이 편향의 목적은 CNN이 “사과” 클래스를 예측할 때 과일 자체 대신 사과나무 배경을 기반으로 판단하도록 하는 것</li>
-</ul></li>
-</ol>
-<p><code>-</code> 연구자들은 이러한 편향된 데이터셋을 사용하여 의도적으로 편향된 CNN을 훈련시켰으며, 예측 정확도 분석을 통해 훈련된 편향된 네트워크에 이러한 의도된 편향이 실제로 포함되어 있음을 확인음. 예를 들어, “고양이 vs.&nbsp;개”의 경우 공이 고양이 클래스의 특징으로 사용되었고, “과일”의 경우 사과나무 배경이 사과 클래스의 특징으로 사용되었음.</p>
-<p><code>-</code> 우리연구와 연관성: 의도된 편향을 넣는 아이디어가 우리랑 같음.</p>
+<section id="imports" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="imports"><span class="header-section-number">1</span> Imports</h2>
+<div id="6b96b159-e482-4941-88f3-9902de9de813" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>source(<span class="st">"ggplot3.R"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>library(ggraph)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>library(tidygraph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="7bb74a29-aa46-4585-800e-4763d435cbe6" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>figsize()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="explainable-artificial-intelligence-for-bias-detection-in-covid-ct-scan-classifiers" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="explainable-artificial-intelligence-for-bias-detection-in-covid-ct-scan-classifiers"><span class="header-section-number">2</span> Explainable artificial intelligence for bias detection in covid ct-scan classifiers</h2>
-<p><code>-</code> bib</p>
-<pre><code>@article{palatnik2021explainable,
-  title={Explainable artificial intelligence for bias detection in covid ct-scan classifiers},
-  author={Palatnik de Sousa, Iam and Vellasco, Marley MBR and Costa da Silva, Eduardo},
-  journal={Sensors},
-  volume={21},
-  number={16},
-  pages={5657},
-  year={2021},
-  publisher={MDPI}
-}</code></pre>
-<p><code>-</code> 설명 가능한 인공지능(XAI) 방법을 활용하여&nbsp;COVID-19 CT-스캔 분류기에서 발생할 수 있는&nbsp;편향을 감지하는 연구를 제시</p>
-<p><code>-</code> 본 연구는 GradCAM, LIME, RISE 등&nbsp;다양한 XAI 기법을 적용하여 분류 모델이 이미지의 특정 부분에 어떻게 집중하는지 시각화</p>
-<p><code>-</code> 특히,&nbsp;VGG16 아키텍처는&nbsp;인공물에 대한 편향에 가장 크게 영향을 받는 것으로 나타났으며,&nbsp;DenseNet은 상대적으로 더&nbsp;강건함을 보였음. 이 연구는 의료 영상 분야에서&nbsp;AI 시스템의 투명성과 해석 가능성의 중요성을 역설.</p>
-<p><code>-</code> 우리연구랑 “의료 영상 분야에서&nbsp;AI 시스템의 투명성과 해석 가능성의 중요성” 했다는 점에서 공통점이 있음.</p>
-</section>
-<section id="quantifying-acceptable-artefact-ranges-for-dermatologic-classification-algorithms" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="quantifying-acceptable-artefact-ranges-for-dermatologic-classification-algorithms"><span class="header-section-number">3</span> Quantifying acceptable artefact ranges for dermatologic classification algorithms</h2>
-<p><code>-</code> bib</p>
-<pre><code>@article{petrie2021quantifying,
-  title={Quantifying acceptable artefact ranges for dermatologic classification algorithms},
-  author={Petrie, TC and Larson, C and Heath, M and Samatham, R and Davis, A and Berry, EG and Leachman, SA},
-  journal={Skin health and disease},
-  volume={1},
-  number={2},
-  pages={ski2--19},
-  year={2021},
-  publisher={Oxford University Press}
-}</code></pre>
-<p><code>-</code> 이 연구는 피부과 분류 알고리즘에서 수용 가능한 인공물 범위를 정량화하는 데 중점을 둠.</p>
-<p><code>-</code> 저자들은 피부 병변을 식별하는 데 사용되는 기계 학습 정확도에 대한 다양한 인공물(예: 흐림, 색상 변화)의 영향을 측정하는 시스템을 만들었음</p>
-<p><code>-</code> 이 연구는 컨볼루션 신경망(CNN)의 성능이 이미지 인공물의 양에 따라 크게 달라지며, 단순한 정확도 측정으로는 분류기의 유용성을 설명하기에 불충분하다는 것을 보여줌.</p>
-<p><code>-</code> 궁극적으로, 이 논문은 의료 기기가 규제 기관의 승인을 받기 위해 정량화된 인공물 허용 범위를 설정해야 한다고 주장</p>
-<p><code>-</code> 따라서, 이 논문은 스마트폰 기기 차이로 인해 발생할 수 있는 채도, 밝기, 색조 등의 이미지 인공물이 피부과 이미지 분류 알고리즘의 정확도에 미치는 영향을 실제로 정량적으로 분석하고 그 효과를 밝힌 연구</p>
-<p><code>-</code> 우리논문에서 인용: 심지어 촬영장비의 기기차이로 인한 아키팩트도 발생가능하다 (이는 쉽사리 제거하기 힘들지. 특정 오브젝트가 아니거든, 그런데 이건 우리방법도 제거가 어렵겠는걸)</p>
-</section>
-<section id="msrnet" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="msrnet"><span class="header-section-number">4</span> MSRNet</h2>
-<p><code>-</code> bib</p>
-<pre><code>@article{bibi2023msrnet,
-  title={MSRNet: multiclass skin lesion recognition using additional residual block based fine-tuned deep models information fusion and best feature selection},
-  author={Bibi, Sobia and Khan, Muhammad Attique and Shah, Jamal Hussain and Dama{\v{s}}evi{\v{c}}ius, Robertas and Alasiry, Areej and Marzougui, Mehrez and Alhaisoni, Majed and Masood, Anum},
-  journal={Diagnostics},
-  volume={13},
-  number={19},
-  pages={3063},
-  year={2023},
-  publisher={MDPI}
-}</code></pre>
-<p><code>-</code> 피부암, 특히 흑색종의 다중 클래스 분류를 위한 딥러닝 아키텍처를 제안</p>
-<p><code>-</code> 논문자체는 아키팩트 관련이 없는듯. 논문은 이미지 전처리, 특징 추출 및 융합, 특징 선택, 그리고 분류의 네 가지 핵심 단계를 포함하여 기존 기술 대비 향상된 분류 정확도를 보여주는 방법을 제안함.</p>
-<p><code>-</code> 그런데 논문의 초록(Abstract)에서는 피부 병변의 감지 및 분류가 털(hairs), 노이즈(noise), 병변 모양의 불규칙성(irregularity of lesion shape), 색상, 불필요한 특징(irrelevant features) 및 질감(textures)과 같은 다양한 형태의 아티팩트로 인해 더 어렵다고 설명하고 있음.</p>
-<p><code>-</code> 우리논문에서 언급할때: “XXX에서 말했듯이 다양한 아키팩트가 불리함</p>
-</section>
-<section id="dermoscopic-dark-corner-artifacts-removal-friend-or-foe" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="dermoscopic-dark-corner-artifacts-removal-friend-or-foe"><span class="header-section-number">5</span> Dermoscopic dark corner artifacts removal: Friend or foe?</h2>
-<p><code>-</code> bib</p>
-<pre><code>@article{pewton2024dermoscopic,
-  title={Dermoscopic dark corner artifacts removal: Friend or foe?},
-  author={Pewton, Samuel William and Cassidy, Bill and Kendrick, Connah and Yap, Moi Hoon},
-  journal={Computer Methods and Programs in Biomedicine},
-  volume={244},
-  pages={107986},
-  year={2024},
-  publisher={Elsevier}
-}</code></pre>
-<p><code>-</code> 이 논문은&nbsp;피부암 분류에서 딥러닝 모델 성능에 대한 피부경 검사 중 발생하는 어두운 모서리 아티팩트(DCA)의 영향을 탐구함. 연구자들은&nbsp;DCA가 없는 이미지로 훈련된 모델이 DCA가 있는 테스트 세트에서 낮은 특이도(TNR)를 보이며, DCA를 흑색종으로 잘못 분류하는 경향이 있음을 발견했음</p>
-<p><code>-</code> 이러한 문제를 해결하기 위해, 연구는&nbsp;실제 DCA를 모방한 합성 DCA를 훈련 데이터에 추가하는 새로운 데이터 증강 전략을 제안함. 실험 결과,&nbsp;합성 DCA로 훈련된 모델, 특히 ‘사실적 DCA’ 모델이 DCA를 제거하거나 채색하는 기존 방법에 비해 특이도와 정확도 측면에서 상당한 개선을 보여주었음.</p>
-<p><code>-</code> 또한, 이 연구는&nbsp;Grad-CAM 히트맵 시각화를 정량화하는 새로운 방법을 제시하여 모델이 이미지의 어느 부분에 초점을 맞추는지 더 잘 이해할 수 있도록 도와줌.</p>
-<p><code>-</code> 전반적으로, 이 논문은&nbsp;DCA가 딥러닝 기반 피부암 진단에 미치는 영향을 완화하고 모델의 신뢰성을 높이기 위한 새로운 접근 방식을 제시함.</p>
-<p><code>-</code> 우리논문에서 언급할때: “XXX에서 말했듯이 다양한 아키팩트가 불리함, 제거가 무조건 좋은건 아님.</p>
-<p><code>-</code> 우리의 연구는 아티팩터로 모델의 성능이 떨어짐을 우려하여 더 나은 모델을 제시하는게 아님. (이 연구는 그런 연구임). 우리는 아티팩터로 인해서 XAI가 사실상 무력화 되는 것에 초점을 맞추고 있음.</p>
-</section>
-<section id="computer-based-melanocytic-and-nevus-image-enhancement-and-segmentation" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="computer-based-melanocytic-and-nevus-image-enhancement-and-segmentation"><span class="header-section-number">6</span> Computer Based Melanocytic and Nevus Image Enhancement and Segmentation</h2>
-<p><code>-</code> bib</p>
-<pre><code>@article{jamil2016computer,
-  title={Computer based melanocytic and nevus image enhancement and segmentation},
-  author={Jamil, Uzma and Akram, M Usman and Khalid, Shehzad and Abbas, Sarmad and Saleem, Kashif},
-  journal={BioMed Research International},
-  volume={2016},
-  number={1},
-  pages={2082589},
-  year={2016},
-  publisher={Wiley Online Library}
-}</code></pre>
-<p><code>-</code> 이 연구는 피부암의 일종인 흑색종을 진단하는 데 사용되는 디지털 피부경 검사 이미지의 컴퓨터 기반 분석에 중점을 둠.</p>
-<p><code>-</code> 방법: (1) 머리카락이나 젤과 같은 원치 않는 아티팩트를 제거 (2) 병변과 주변 피부 사이의 대비를 강화 (3) 정교한 알고리즘을 사용하여 병변을 정확하게 분할</p>
-<p><code>-</code> 우리연구와 관련: 이 논문은 아키팩트를 제거하는 쪽임. 그런연구를 했군. 평범한 생각임. 창의성 X</p>
-</section>
-<section id="synartifact" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="synartifact"><span class="header-section-number">7</span> SynArtifact</h2>
-<p><code>-</code> bib</p>
-<pre><code>@article{cao2024synartifact,
-  title={Synartifact: Classifying and alleviating artifacts in synthetic images via vision-language model},
-  author={Cao, Bin and Yuan, Jianhao and Liu, Yexin and Li, Jian and Sun, Shuyang and Liu, Jing and Zhao, Bo},
-  journal={arXiv preprint arXiv:2402.18068},
-  year={2024}
-}</code></pre>
-<p><code>-</code> dataset</p>
-<p>https://github.com/BBBiiinnn/SynArtifact</p>
-<p><img src="첨부파일들/Pasted image 20250731154028.png" class="img-fluid"></p>
-<p><code>-</code> 이건 우리연구랑 관련없네..</p>
-</section>
-<section id="association-between-surgical-skin-markings-in-dermoscopic-images-and-diagnostic-performance-of-a-deep-learning-convolutional-neural-network-for-melanoma-recognition" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="association-between-surgical-skin-markings-in-dermoscopic-images-and-diagnostic-performance-of-a-deep-learning-convolutional-neural-network-for-melanoma-recognition"><span class="header-section-number">8</span> Association Between Surgical Skin Markings in Dermoscopic Images and Diagnostic Performance of a Deep Learning Convolutional Neural Network for Melanoma Recognition</h2>
-<p><code>-</code> bib (400번인용됨.. 많어)</p>
-<pre><code>@article{winkler2019association,
-  title={Association between surgical skin markings in dermoscopic images and diagnostic performance of a deep learning convolutional neural network for melanoma recognition},
-  author={Winkler, Julia K and Fink, Christine and Toberer, Ferdinand and Enk, Alexander and Deinlein, Teresa and Hofmann-Wellenhof, Rainer and Thomas, Luc and Lallas, Aimilios and Blum, Andreas and Stolz, Wilhelm and others},
-  journal={JAMA dermatology},
-  volume={155},
-  number={10},
-  pages={1135--1141},
-  year={2019},
-  publisher={American Medical Association}
-}</code></pre>
-<p><code>-</code> 피부암 진단에 사용되는 딥러닝 합성곱 신경망(CNN)의 성능에 관심이 있음.</p>
-<p><code>-</code> 특히, 젠티안 바이올렛 수술용 피부 표식이 피부경 검사 이미지 내에서 CNN의 진단 정확도에 미치는 영향을 탐구하고 있음.</p>
-<p><code>-</code> 연구 결과에 따르면, 이러한 표식은 양성 병변의 위양성률을 현저히 증가시켜 CNN이 양성 종양을 악성으로 오진할 가능성을 높임. 따라서, CNN 분석을 위한 피부경 검사 이미지에서는 “피부 표식을 피해야 한다”는 결론을 내림.</p>
-<p><code>-</code> 내 의문: 검사이미지에 인공지능을 위해서 피부표식을 피해야한다가.. 현실적인가?</p>
-<blockquote class="blockquote">
-<p><strong>임상 루틴과의 충돌 가능성</strong>: 연구자들은 의심스러운 병변에 수술용 피부 표식을 하는 것이 <strong>“임상 루틴에서 빈번하게 이루어지는”</strong> 관행임을 인정합니다. 이는 병변 절제술이나 사진 촬영 전에 이루어지는 일반적인 절차입니다. 따라서 CNN 분석을 위해 이 루틴을 변경하는 것은 의료진의 업무 방식에 영향을 미칠 수 있습니다.</p>
-</blockquote>
-<p><code>-</code> 우리논문: 의료이미지에 아키팩트가 있는건 당연히 안좋아. 그건 알아.. 그런데 CNN등의 분석을 위해 의료루틴을 변경하는게 의료진의 업무방식에 영향을 미칠수있음. 즉 현실적이진 않어. 우리는 다른해법을 제시함.</p>
+<section id="example" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="example"><span class="header-section-number">2</span> Example</h2>
+<div id="fa2b7595-29de-42fe-b3e2-ca41291caef0" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>as_tbl_graph(highschool)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-bright-black-fg"># A tbl_graph: 70 nodes and 506 edges
+</span><span class="ansi-bright-black-fg">#
+</span><span class="ansi-bright-black-fg"># A directed multigraph with 1 component
+</span><span class="ansi-bright-black-fg">#
+</span><span class="ansi-bright-black-fg"># A tibble: 70 × 1</span>
+  name 
+  <span style="font-style:italic" class="ansi-bright-black-fg">&lt;chr&gt;</span>
+<span class="ansi-bright-black-fg">1</span> 1    
+<span class="ansi-bright-black-fg">2</span> 2    
+<span class="ansi-bright-black-fg">3</span> 3    
+<span class="ansi-bright-black-fg">4</span> 4    
+<span class="ansi-bright-black-fg">5</span> 5    
+<span class="ansi-bright-black-fg">6</span> 6    
+<span class="ansi-bright-black-fg"># ℹ 64 more rows</span>
+<span class="ansi-bright-black-fg">#
+</span><span class="ansi-bright-black-fg"># A tibble: 506 × 3</span>
+   from    to  year
+  <span style="font-style:italic" class="ansi-bright-black-fg">&lt;int&gt;</span> <span style="font-style:italic" class="ansi-bright-black-fg">&lt;int&gt;</span> <span style="font-style:italic" class="ansi-bright-black-fg">&lt;dbl&gt;</span>
+<span class="ansi-bright-black-fg">1</span>     1    13  <span style="text-decoration:underline">1</span>957
+<span class="ansi-bright-black-fg">2</span>     1    14  <span style="text-decoration:underline">1</span>957
+<span class="ansi-bright-black-fg">3</span>     1    20  <span style="text-decoration:underline">1</span>957
+<span class="ansi-bright-black-fg"># ℹ 503 more rows</span></pre>
+</div>
+</div>
+</div>
+<div id="4e732ad7-4121-4d2d-8bfe-b580342798c8" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create graph of highschool friendships</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>graph <span class="op">&lt;-</span> as_tbl_graph(highschool) <span class="op">%&gt;%</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    mutate(Popularity <span class="op">=</span> centrality_degree(mode <span class="op">=</span> <span class="st">'in'</span>))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plot using ggraph</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ggraph(graph, layout <span class="op">=</span> <span class="st">'kk'</span>) <span class="op">+</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    geom_edge_fan(aes(alpha <span class="op">=</span> after_stat(index)), show.legend <span class="op">=</span> FALSE) <span class="op">+</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    geom_node_point(aes(size <span class="op">=</span> Popularity)) <span class="op">+</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    facet_edges(<span class="op">~</span>year) <span class="op">+</span> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    theme_graph(foreground <span class="op">=</span> <span class="st">'steelblue'</span>, fg_text_colour <span class="op">=</span> <span class="st">'white'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2023-09-24-(공부) ggraph_files/figure-html/cell-5-output-1.png" width="450" height="300" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>
