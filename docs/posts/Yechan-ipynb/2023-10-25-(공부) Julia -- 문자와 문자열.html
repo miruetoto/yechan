@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.24">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="신록예찬">
-<meta name="dcterms.date" content="2022-12-23">
+<meta name="dcterms.date" content="2023-10-25">
 
-<title>(리뷰) EbayesThresh – 신록예찬's Blog</title>
+<title>(공부) Julia – 문자와 문자열 – 신록예찬's Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b7eda2101a7a109d5067cba531cf9672.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-c3b4467b3a856aca0a94511ae8d17459.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -105,35 +105,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -222,18 +193,16 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
+  <li><a href="#문자와-문자열의-차이" id="toc-문자와-문자열의-차이" class="nav-link active" data-scroll-target="#문자와-문자열의-차이"><span class="header-section-number">1</span> 문자와 문자열의 차이</a>
   <ul class="collapse">
-  <li><a href="#ebayesthresh로-무엇을-할-수-있는가" id="toc-ebayesthresh로-무엇을-할-수-있는가" class="nav-link" data-scroll-target="#ebayesthresh로-무엇을-할-수-있는가"><span class="header-section-number">1.1</span> Ebayesthresh로 무엇을 할 수 있는가?</a></li>
-  <li><a href="#간단한-사용법" id="toc-간단한-사용법" class="nav-link" data-scroll-target="#간단한-사용법"><span class="header-section-number">1.2</span> 간단한 사용법</a></li>
-  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments"><span class="header-section-number">1.3</span> arguments</a></li>
-  <li><a href="#원리" id="toc-원리" class="nav-link" data-scroll-target="#원리"><span class="header-section-number">1.4</span> 원리</a></li>
+  <li><a href="#문자-0차원-자료형" id="toc-문자-0차원-자료형" class="nav-link" data-scroll-target="#문자-0차원-자료형"><span class="header-section-number">1.1</span> 문자 (0차원 자료형)</a></li>
+  <li><a href="#문자열-1차원-자료형" id="toc-문자열-1차원-자료형" class="nav-link" data-scroll-target="#문자열-1차원-자료형"><span class="header-section-number">1.2</span> 문자열 (1차원 자료형)</a></li>
+  <li><a href="#차이점" id="toc-차이점" class="nav-link" data-scroll-target="#차이점"><span class="header-section-number">1.3</span> 차이점</a></li>
   </ul></li>
-  <li><a href="#description-of-the-method" id="toc-description-of-the-method" class="nav-link" data-scroll-target="#description-of-the-method"><span class="header-section-number">2</span> Description of the method</a>
+  <li><a href="#문자문자열-관련-기능" id="toc-문자문자열-관련-기능" class="nav-link" data-scroll-target="#문자문자열-관련-기능"><span class="header-section-number">2</span> 문자/문자열 관련 기능</a>
   <ul class="collapse">
-  <li><a href="#the-bayesian-model" id="toc-the-bayesian-model" class="nav-link" data-scroll-target="#the-bayesian-model"><span class="header-section-number">2.1</span> The Bayesian model</a></li>
-  <li><a href="#thresholding-rules" id="toc-thresholding-rules" class="nav-link" data-scroll-target="#thresholding-rules"><span class="header-section-number">2.2</span> Thresholding rules</a></li>
-  <li><a href="#choosing-the-threshold" id="toc-choosing-the-threshold" class="nav-link" data-scroll-target="#choosing-the-threshold"><span class="header-section-number">2.3</span> Choosing the threshold</a></li>
+  <li><a href="#문자-관련-기능" id="toc-문자-관련-기능" class="nav-link" data-scroll-target="#문자-관련-기능"><span class="header-section-number">2.1</span> 문자 관련 기능</a></li>
+  <li><a href="#문자열-관련-기능" id="toc-문자열-관련-기능" class="nav-link" data-scroll-target="#문자열-관련-기능"><span class="header-section-number">2.2</span> 문자열 관련 기능</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -243,7 +212,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><strong>(리뷰) EbayesThresh</strong></h1>
+<h1 class="title"><strong>(공부) Julia – 문자와 문자열</strong></h1>
 </div>
 
 
@@ -260,7 +229,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 23, 2022</p>
+      <p class="date">October 25, 2023</p>
     </div>
   </div>
   
@@ -272,133 +241,158 @@ window.Quarto = {
 </header>
 
 
-<ul>
-<li>ref: <a href="https://www.jstatsoft.org/article/view/v012i08" class="uri">https://www.jstatsoft.org/article/view/v012i08</a></li>
-</ul>
-<section id="introduction" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
-<section id="ebayesthresh로-무엇을-할-수-있는가" class="level3" data-number="1.1">
-<h3 data-number="1.1" class="anchored" data-anchor-id="ebayesthresh로-무엇을-할-수-있는가"><span class="header-section-number">1.1</span> Ebayesthresh로 무엇을 할 수 있는가?</h3>
-<p>아래와 같은 상황을 가정하자.</p>
-<p><span class="math display">\[X_i = \mu_i +\epsilon_i.\]</span></p>
-<p>여기에서 아래를 가정한다.</p>
-<ul>
-<li><span class="math inline">\(\epsilon_i \overset{iid}{\sim} N(0,1)\)</span></li>
-<li>each <span class="math inline">\(\mu_i\)</span> is zero with probability <span class="math inline">\((1−w)\)</span>, while, with probability <span class="math inline">\(w\)</span>, <span class="math inline">\(\mu_i\)</span> is drawn from a symmetric heavy-tailed density <span class="math inline">\(\gamma\)</span>.</li>
-</ul>
-<p>일반적으로 <span class="math inline">\(w\)</span>, 즉 <span class="math inline">\(\mu_i\)</span>가 0이 아닐 확률은 매우 작은값으로 설정된다. 따라서 위와 같은 구조로 <span class="math inline">\(\epsilon_i\)</span>와 <span class="math inline">\(\mu_i\)</span>를 생성하면 아래와 같이 된다.</p>
-<ul>
-<li><span class="math inline">\(\epsilon_i\)</span>: 절대값이 작은 신호들이 dense하게 있음.</li>
-<li><span class="math inline">\(\mu_i\)</span>: 절대값이 큰 신호들이 sparse하게 있음. (sparse한 이유는 <span class="math inline">\(w\)</span>가 작으므로)</li>
-</ul>
-<p>따라서 <span class="math inline">\(X_i\)</span>의 모양은 아래의 그림의 왼쪽과 같다.</p>
-<p><img src="2022-12-23-(리뷰) Ebayesthresh_files/figure-html/18547a09-da0b-4b2a-b2d1-0217687a9822-1-d876b765-1518-4066-bc5b-282834717c1c.png" class="img-fluid"></p>
-<p>이 논문의 목표는 왼쪽의 그림 <span class="math inline">\(X_i= \mu_i +\epsilon_i\)</span>로부터 오른쪽의 그림 <span class="math inline">\(\hat{\mu}_i\)</span>을 구하는 것이다. 즉 작은 절대값의 노이즈 <span class="math inline">\(\epsilon_i\)</span>에서 큰 절대값의 신호 <span class="math inline">\(\mu_i\)</span>를 골라내는 일을 목표로 한다. 저자들은 이러한 작업을 “건초더미에서 바늘찾기”라는 말로 비유하였다. 이러한 “건초더미에서 바늘찾기”는 여러 분야에 응용될 수 있다. 구체적으로는 천문학, 이미지프로세싱, 데이터마이닝, 모형선택등에 사용될 수 있다고 한다. 언급한 분야에 대한 자세한 discussion은 Johnstone and Silverman (2004)에서 찾을 수 있다. 또한 “건초더미에서 바늘찾기”는 위에서 언급한 분야 이외에 퓨리에, 웨이블릿 혹은 다른 dictionaries에 의한 함수추정문제를 해결할 수 있다. 이는 퓨리에나 웨이블릿변환과 같은 multiscale trasnform이 원래 신호를 sparese한 구조로 바꾸기 때문이다. 즉 퓨리에변환 웨이블릿변환으로 underlying function을 추정할 수 있다는 의미이다. 우리는 이러한 접근법에 좀 더 초점을 맞추도록 하겠다.</p>
-</section>
-<section id="간단한-사용법" class="level3" data-number="1.2">
-<h3 data-number="1.2" class="anchored" data-anchor-id="간단한-사용법"><span class="header-section-number">1.2</span> 간단한 사용법</h3>
-<p>R을 이용하여 <code>Ebayesthresh</code>를 사용하는 간단한 방법을 살펴보도록 하자. 논문에 표현된 그림1을 재현하여 보자.</p>
-<div id="503cc688" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(EbayesThresh)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="8d6d5139-6ca6-45b3-b6e6-5ec6363e481e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>) <span class="sc">+</span> <span class="fu">sample</span>(<span class="fu">c</span>( <span class="fu">runif</span>(<span class="dv">25</span>,<span class="sc">-</span><span class="dv">7</span>,<span class="dv">7</span>), <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">975</span>)))</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,<span class="at">type=</span><span class="st">'l'</span>,<span class="at">lwd=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2022-12-23-(리뷰) Ebayesthresh_files/figure-html/cell-3-output-1.png" width="685" height="557" class="figure-img"></p>
-</figure>
+<section id="문자와-문자열의-차이" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="문자와-문자열의-차이"><span class="header-section-number">1</span> 문자와 문자열의 차이</h2>
+<section id="문자-0차원-자료형" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="문자-0차원-자료형"><span class="header-section-number">1.1</span> 문자 (0차원 자료형)</h3>
+<p><code>-</code> 선언 및 자료형</p>
+<div id="cfe7aa9a-bc69-4536-aed0-13d1fb416438" class="cell" data-tags="[]" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ch">'B'</span> <span class="co"># 선언 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>'B': ASCII/Unicode U+0042 (category Lu: Letter, uppercase)</code></pre>
 </div>
 </div>
-</div>
-<p>위와 같은 자료 <span class="math inline">\(X_i\)</span>를 관측하였다고 가정하자. 이 신호에는 “건초(<span class="math inline">\(\epsilon_i\)</span>)”더미에 25개의 “바늘(<span class="math inline">\(\mu_i\)</span>)”이 섞여있다. 여기에서 “바늘”만 골라내는 코드는 아래와 같이 작성할 수 있다.</p>
-<div id="d462faf8-a675-4d39-ae1f-d5b2b5ba568d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>muhat <span class="ot">&lt;-</span> <span class="fu">ebayesthresh</span>(x, <span class="at">sdev=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>결과를 시각화하면 아래와 같다.</p>
-<div id="cf6bdf3c-52a6-4b5f-af5b-39aba3306ef4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,<span class="at">type=</span><span class="st">'l'</span>,<span class="at">lwd=</span><span class="fl">0.2</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(muhat,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2022-12-23-(리뷰) Ebayesthresh_files/figure-html/cell-5-output-1.png" width="685" height="557" class="figure-img"></p>
-</figure>
-</div>
+<div id="a38e94d6-e581-4183-954b-a5da12ad20c5" class="cell" data-tags="[]" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(<span class="ch">'b'</span>) <span class="co"># 자료형</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>Char</code></pre>
 </div>
 </div>
 </section>
-<section id="arguments" class="level3" data-number="1.3">
-<h3 data-number="1.3" class="anchored" data-anchor-id="arguments"><span class="header-section-number">1.3</span> arguments</h3>
-<p>일반적으로 <code>ebayesthresh</code> 함수를 사용하는 방법은 아래와 같다.</p>
-<div id="696d5447-0b79-4dc8-b637-50f6886de1dc" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>muhat <span class="ot">&lt;-</span> <span class="fu">ebayesthresh</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    x,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">prior =</span> <span class="st">"laplace"</span>, </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">a =</span> <span class="fl">0.5</span>, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">bayesfac =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sdev =</span> <span class="cn">NA</span>, </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">verbose =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">threshrule =</span> <span class="st">"median"</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><code>prior</code>, <code>a</code>: <span class="math inline">\(\mu_i\)</span>의 density. 보통 <span class="math inline">\(\frac{1}{2}a \exp(-a|u|)\)</span>라고 가정한다. parameter <span class="math inline">\(a\)</span>는 Section 2.1에서 자시해 나옴.</p>
-<p><code>bayesfac</code>, <code>threshrule</code>: Section 2.2, 2.3에 자세히 나온다.</p>
-<p><code>sdev</code>: <span class="math inline">\(\epsilon_i\)</span>의 sd를 의미한다. 이 값을 알고 있다면 설정하면 되지만 보통은 이 값을 모른다고 가정한다. <span class="math inline">\(\epsilon_i\)</span>의 sd를 모르는 경우는 observed data로 부터 추정하는데 보통 <span class="math inline">\({\tt median}(|X_i|)\)</span>로 추정한다.</p>
-<p><span class="math inline">\(\epsilon_i\)</span>의 sd를 <span class="math inline">\({\tt median}(|X_i|)\)</span>로 추정하는 motivation을 이해하는 것이 중요하다. 이는 sparse assumption of <span class="math inline">\(\mu_i\)</span>에서 시작한다. 신호 <span class="math inline">\(\mu_i\)</span>가 합리적인 수준에서 sparse하다면 median absolute value of <span class="math inline">\(X_i\)</span>는 <span class="math inline">\(\mu_i\)</span>의 값들과 상관이 없을 것이다. 하지만 당연히 신호가 sparse하지 않다면 이러한 방식으로 <code>sdev</code>를 추정하는 것은 매우 조심스럽게 수행되어야 할 것이다.</p>
-<div id="6ce5f8fc-931b-4826-aeca-f0ffd54477b3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n) <span class="sc">+</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="fu">runif</span>(<span class="dv">25</span>,<span class="sc">-</span><span class="dv">7</span>,<span class="dv">7</span>), <span class="fu">rep</span>(<span class="dv">0</span>,n<span class="dv">-25</span>)))</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sd</span>(x))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">median</span>(<span class="fu">abs</span>(x)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.242456
-[1] 0.7058475</code></pre>
+<section id="문자열-1차원-자료형" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="문자열-1차원-자료형"><span class="header-section-number">1.2</span> 문자열 (1차원 자료형)</h3>
+<p><code>-</code> 선언 및 자료형</p>
+<div id="68e5b318-5a26-4caf-84c0-1307bfb34f7e" class="cell" data-tags="[]" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="st">"A"</span> <span class="co"># 선언</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>"A"</code></pre>
 </div>
 </div>
-<ul>
-<li>실제로는 잘 추론하지 못하는 것 같다?</li>
-</ul>
+<div id="441194e8-8bd6-4e15-8a79-02d2b9235001" class="cell" data-tags="[]" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(<span class="st">"A"</span>) <span class="co"># 자료형</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>String</code></pre>
+</div>
+</div>
 </section>
-<section id="원리" class="level3" data-number="1.4">
-<h3 data-number="1.4" class="anchored" data-anchor-id="원리"><span class="header-section-number">1.4</span> 원리</h3>
-<p>어떻게 <span class="math inline">\(\hat{\mu}_i\)</span>를 추정할 수 있을까? 가장 간단한 방법은 <strong>thresholding</strong>이다.</p>
-<p>많은 실제예제에서 <span class="math inline">\(\mu_i\)</span>는 어떤 의미에서 (in some sense) sparse하다고 여길 수 있다. EbayesThresh 패키지는 이처럼 <span class="math inline">\(\mu_i\)</span>가 sparse하다는 구조 (혹은 가정)을 이용하여 <span class="math inline">\(\mu_i\)</span>를 적절하게 추정한다.</p>
-<p><strong><em>Sparsity</em></strong>를 이용하는 자연스러운 방법은 <strong><em>threshoding</em></strong>이다: 여기에서 threshold의 값 <span class="math inline">\(t\)</span>를 너무 크게 잡으면 신호를 잡음으로 잘못 판단할 것이고 <span class="math inline">\(t\)</span>의 값이 너무 작다면 잡음을 신호로 잘못 판단할 수 있다. 따라서 <span class="math inline">\(t\)</span>의 선택은 이 양쪽 기준사이의 tradeoff가 있는데 EbayesThresh는 이러한 tradeoff를 자동으로 조정하는 효과가 있다.</p>
-<ul>
-<li><p><span class="math inline">\(\mu_i\)</span>는 <span class="math inline">\(w\)</span>의 확률로 0 이며 <span class="math inline">\((1-w)\)</span>의 확률로 0이 아니다. <span class="math inline">\(\mu_i\)</span>가 0이 아닐경우에는 symmetric heavy-tailed density <span class="math inline">\(\gamma\)</span>에서 추출된다고 가정한다. 여기에서 prior에 대한 key parameter인 <span class="math inline">\(w\)</span>는 데이터로부터 자동으로 추정된다. (marginal maximum likelihood 를 이용한다) 그리고 추정된 <span class="math inline">\(w\)</span>는 Bayesian model로 다시 대입된다.</p></li>
-<li><p><span class="math inline">\(w\)</span>가 추정되면 Bayesian model은 thresholding procedure를 수행할 수 있다. 왜냐하면 <span class="math inline">\(w\)</span>를 추정하면 <span class="math inline">\(t(w)\)</span>를 선택한다는 말과 같은말이기 때문이다.</p></li>
-</ul>
-<p><strong>argument</strong></p>
+<section id="차이점" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="차이점"><span class="header-section-number">1.3</span> 차이점</h3>
+<p><code>-</code> <code>"a"</code>와 <code>'a'</code>의 차이</p>
+<div id="7cf29492-5a9e-47f2-9656-21421ae8e98b" class="cell" data-tags="[]" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ch">'a'</span> <span class="co"># 단일문자</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>'a': ASCII/Unicode U+0061 (category Ll: Letter, lowercase)</code></pre>
+</div>
+</div>
+<div id="c83bf0a3-d4c9-456f-846e-60a434133c32" class="cell" data-tags="[]" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="st">"a"</span> <span class="co"># 문자열</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>"a"</code></pre>
+</div>
+</div>
+<div id="c2fd5fe6-25b7-4b14-b8bf-b06554a36de6" class="cell" data-tags="[]" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="st">"a"</span>[<span class="fl">1</span>] <span class="co"># 'a'와 같음</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>'a': ASCII/Unicode U+0061 (category Ll: Letter, lowercase)</code></pre>
+</div>
+</div>
 </section>
 </section>
-<section id="description-of-the-method" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="description-of-the-method"><span class="header-section-number">2</span> Description of the method</h2>
-<section id="the-bayesian-model" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="the-bayesian-model"><span class="header-section-number">2.1</span> The Bayesian model</h3>
-<p><span class="math display">\[X_i \sim N(\mu_i,1)\]</span></p>
-<p><span class="math inline">\(f_{\text{prior}}(\mu)=(1-w)\delta_0(\mu)+w \gamma_a(\mu), \quad \gamma_a(\mu)=\frac{1}{2}a\exp(-a|\mu|)\)</span></p>
-<p>여기에서 <span class="math inline">\(\gamma_a(\mu)\)</span>는 하나의 예시일 뿐이다. Ebayesthresh에 디폴트로 설정된 <code>prior="laplace"</code>를 셋팅하면 <span class="math inline">\(\gamma_a(\mu)\)</span>가 사용된다. <span class="math inline">\(\gamma\)</span>의 선택은 tail이 polynomial rates로 줄어드는 어떠한 분포를 사용해도 무방하다. 저자들은 quasi-Cauchy분포를 제안하였는데 이는 Johnstone and Sliverman이 만든 theoretical assumption을 만족하는 분포중 가장 꼬리가 두꺼운 분포이다.</p>
+<section id="문자문자열-관련-기능" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="문자문자열-관련-기능"><span class="header-section-number">2</span> 문자/문자열 관련 기능</h2>
+<section id="문자-관련-기능" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="문자-관련-기능"><span class="header-section-number">2.1</span> 문자 관련 기능</h3>
+<p><code>-</code> isuppercase: 대소문자 판단</p>
+<div id="7ffa917d-87a9-4bcb-8992-198e71145b0c" class="cell" data-tags="[]" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">isuppercase</span>(<span class="ch">'a'</span>), <span class="fu">islowercase</span>(<span class="ch">'a'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>(false, true)</code></pre>
+</div>
+</div>
+<div id="79498365-ff70-44fe-8132-554e3d215f10" class="cell" data-tags="[]" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">isuppercase</span>(<span class="ch">'A'</span>), <span class="fu">islowercase</span>(<span class="ch">'A'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>(true, false)</code></pre>
+</div>
+</div>
 </section>
-<section id="thresholding-rules" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="thresholding-rules"><span class="header-section-number">2.2</span> Thresholding rules</h3>
-<p>모수 <span class="math inline">\(\mu\)</span>는 사전분포(prior distribution)를 가진다고 가정하고 <span class="math inline">\(X \sim N(\mu,1)\)</span>이라고 가정하자. 이 경우 <span class="math inline">\(X=x\)</span>가 given되었을 경우 <span class="math inline">\(\mu\)</span>의 사후분포(posterior distribution)를 구할 수 있다. (자세한 내용은 Section 6을 참고해야함) 사후분포의 중앙값을 <span class="math inline">\(\hat{\mu}(x;w)\)</span>라고 하자. (사후분포의 중앙값이 <span class="math inline">\(w\)</span>에 영향받는 이유는 사전분포가 <span class="math inline">\(w\)</span>에 depend하기 때문이다. 여기에서 <span class="math inline">\(w\)</span>는 marginal MLE로 적절히 추론한다고 가정한다)</p>
-<p><span class="math inline">\(X_i\)</span>는 독립이라고 가정한다. 여기에서 <span class="math inline">\(X_i\)</span>가 독립이 아니라면 약간의 정보손실이 있을 수 있다. 하지만 <span class="math inline">\(X_i\)</span> 사이에 너무 많은 dependency가 존재하는 경우가 아니라면 Ebayesthresh는 어느정도 합리적인 결과를 제공한다.</p>
-<p>만약에 <code>bayesfac=TRUE</code>를 사용하면 <span class="math inline">\(\mu\)</span>의 사후분포의 중앙값 대신에 Bayes factor threshold 를 쓸 수도 있다.</p>
-</section>
-<section id="choosing-the-threshold" class="level3" data-number="2.3">
-<h3 data-number="2.3" class="anchored" data-anchor-id="choosing-the-threshold"><span class="header-section-number">2.3</span> Choosing the threshold</h3>
-<p><span class="math inline">\(X_i\)</span>의 marginal density는</p>
-<p><span class="math inline">\((1-w)\phi(x) +w(\gamma \star \phi)(x)\)</span></p>
-<p><span class="math inline">\(l(w) = \sum_{i=1}^{n}\log \big\{(1-w)\phi(X_i)+wg(X_i) \big\}\)</span></p>
-<p>와 같이 정의가능하다. 단, 여기에서 <span class="math inline">\(g:= \gamma\star \phi\)</span> 이다.</p>
-<p>이제 우리는 아래의 식을 풀면된다.</p>
-<p><span class="math display">\[\underset{w}{\operatorname{argmax}} l(w)\quad\quad \text{subject to}\quad t(w) \leq \sqrt{2\log n}\]</span></p>
-<p>여기에서 <span class="math inline">\(\sqrt{2\log n}\)</span>은 흔히 말하는 universal threshold 이다.</p>
-<p>만약에 <span class="math inline">\(w\)</span>이외에 <span class="math inline">\(a\)</span>도 추정해야 한다면 아래와 같이 추정할 수 있다.</p>
-<p><span class="math display">\[\underset{w}{\operatorname{argmax}} l(w)\quad\quad \text{subject to}\quad t(w) \leq \sqrt{2\log n}\]</span></p>
+<section id="문자열-관련-기능" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="문자열-관련-기능"><span class="header-section-number">2.2</span> 문자열 관련 기능</h3>
+<p><code>-</code> 문자열 슬라이싱</p>
+<div id="6b5889cc-6d96-4d5a-b3be-1bba51658fcc" class="cell" data-tags="[]" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>str <span class="op">=</span> <span class="st">"Jeonbuk National University"</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>str[<span class="kw">end</span><span class="op">-</span><span class="fl">1</span><span class="op">:</span><span class="kw">end</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>"ty"</code></pre>
+</div>
+</div>
+<p><code>-</code> 문자열의 결합</p>
+<div id="bc0a5f21-3ad2-46ed-90f1-f1d8c7647a3e" class="cell" data-tags="[]" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="st">"a"</span><span class="op">*</span><span class="st">"b"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>"ab"</code></pre>
+</div>
+</div>
+<p><code>-</code> 문자열의 반복</p>
+<div id="eca213cf-26f5-4906-8f1f-3a5240a00bb0" class="cell" data-tags="[]" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="st">"a"</span><span class="op">^</span><span class="fl">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>"aaaaa"</code></pre>
+</div>
+</div>
+<div id="cbf4f37c-0cbd-4d00-b6dd-7b84f14a4bfc" class="cell" data-tags="[]" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">repeat</span>(<span class="st">"a"</span>,<span class="fl">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>"aaaaa"</code></pre>
+</div>
+</div>
+<p><code>-</code> 문자열 끼워넣기</p>
+<div id="eb6d05c2-041c-4151-b7ee-17c161a72fe9" class="cell" data-tags="[]" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"최규빈"</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="st">"제 이름은 </span><span class="sc">$</span>name<span class="st"> 입니다"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>"제 이름은 최규빈 입니다"</code></pre>
+</div>
+</div>
+<p><code>-</code> 문자열 바꾸기</p>
+<div id="208dba47-b4a2-47ac-adf6-37fc7fa8760d" class="cell" data-tags="[]" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>str <span class="op">=</span> <span class="st">"abcdefg"</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">replace</span>(str, <span class="st">"g"</span> <span class="op">=&gt;</span> <span class="st">"u"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>"abcdefu"</code></pre>
+</div>
+</div>
+<p><code>-</code> 문자열 나누기</p>
+<div id="f07c2720-b5c0-4507-9724-28fd76d5a168" class="cell" data-tags="[]" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>str <span class="op">=</span> <span class="st">"2023-08"</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">split</span>(str,<span class="st">"-"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>2-element Vector{SubString{String}}:
+ "2023"
+ "08"</code></pre>
+</div>
+</div>
+<p><code>-</code> 문자열 합치기</p>
+<div id="bcfad11d-2735-4ea6-b2f5-254f0ecc03bc" class="cell" data-tags="[]" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">join</span>([<span class="st">"2023"</span>,<span class="st">"08"</span>],<span class="st">"-"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>"2023-08"</code></pre>
+</div>
+</div>
+<div id="cc246214-e547-4d9c-aea9-2355935cafeb" class="cell" data-tags="[]" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">join</span>([<span class="st">"2023"</span>,<span class="st">"08"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>"202308"</code></pre>
+</div>
+</div>
+<p><code>-</code> lowercase: 대문자를 소문자로 바꾸는 방법</p>
+<div id="95aafc0a-beed-44ae-8af6-fb658c32fa47" class="cell" data-tags="[]" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>str <span class="op">=</span> <span class="st">"HELLO, JULIA!"</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lowercase</span>(str)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>"hello, julia!"</code></pre>
+</div>
+</div>
 
 
 </section>
