@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="신록예찬">
+<meta name="dcterms.date" content="2025-07-31">
+
+<title>(공부) 수렴 – 신록예찬’s Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c3b4467b3a856aca0a94511ae8d17459.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">신록예찬’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DL2024/"> 
+<span class="menu-text">DL2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/AP2023/"> 
+<span class="menu-text">AP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/PP2024/"> 
+<span class="menu-text">PP2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DV2023/"> 
+<span class="menu-text">DV2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/MP2023/"> 
+<span class="menu-text">MP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SC2024/"> 
+<span class="menu-text">SC2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DS2022/"> 
+<span class="menu-text">DS2022</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SP2023/"> 
+<span class="menu-text">SP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/IR2021/"> 
+<span class="menu-text">IR2021</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan/"> 
+<span class="menu-text">yechan</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan2/"> 
+<span class="menu-text">yechan2</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/miruetoto/yechan"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#거의-확실-수렴" id="toc-거의-확실-수렴" class="nav-link active" data-scroll-target="#거의-확실-수렴"><span class="header-section-number">1</span> 18.1 거의 확실 수렴</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">(공부) 수렴</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>신록예찬 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 31, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="거의-확실-수렴" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="거의-확실-수렴"><span class="header-section-number">1</span> 18.1 거의 확실 수렴</h2>
+<p>거의 확실 수렴은 §12.2에서 공식적으로 정의되었음. 이 조건은 종종 다음과 같이 표현됨. <span class="math display">\[P\left( \limsup_{n \to \infty} |X_n - X| &gt; \varepsilon \right) = 0, \quad \forall \varepsilon &gt; 0\]</span> 이는 임의의 <span class="math inline">\(\varepsilon &gt; 0\)</span>에 대해 <span class="math inline">\(|X_n - X| &gt; \varepsilon\)</span> 사건이 무한히 자주 발생할 확률이 0이라는 뜻임.</p>
+<blockquote class="blockquote">
+<p>규빈: <span class="math inline">\(X_n\)</span>이랑 <span class="math inline">\(X\)</span>의 차이 <span class="math inline">\(\Delta_n\)</span>가 <span class="math inline">\(n\)</span>이 커질수록 수렴하지 않고 진동하고 있다고 하자. 이런 상황에서 <span class="math inline">\(\Delta_n\)</span>의 liminf는 0일지라도 limsup은 0이 아닐 수 있음. 대부분 0일지라도 10번, 100번, 1000번, … 이런식으로 아주 가끔씩 (그렇지만 무한번 자주) 1이 나온다고 하면 <span class="math inline">\(\Delta_n\)</span>의 limsup은 1임. 그리고 이러한 상황에서는 수식 <span class="math inline">\(P\left( \limsup_{n \to \infty} |X_n - X| &gt; \varepsilon \right) = 0, \quad \forall \varepsilon &gt; 0\)</span> 가 만족되지 않음.</p>
+</blockquote>
+<p>또 다른 방식으로는, <span class="math inline">\(P(C) = 1\)</span>이라고 하되, 여기서 각 <span class="math inline">\(\omega \in C\)</span>와 임의의 <span class="math inline">\(\varepsilon &gt; 0\)</span>에 대해 <span class="math inline">\(|X_n(\omega) - X(\omega)| &gt; \varepsilon\)</span>이 유한 번만 발생한다고 말할 수 있음. 이는 다음과 같이도 씀. <span class="math display">\[P(|X_n - X| &gt; \varepsilon, \ \text{i.o.}) = 0, \quad \forall \varepsilon &gt; 0\]</span>여기서 i.o.는 ’무한히 자주(infinitely often)’를 의미함. (18.2)의 확률은 특정 <span class="math inline">\(n\)</span>이 아닌 전체 수열의 성질에 부여됨. ’무한히 자주’의 개념을 이해하려면, <span class="math inline">\(\bigcup_{n = m}^{\infty} \{|X_n - X| &gt; \varepsilon\}\)</span> 사건을 생각하면 됨. 이는 “<span class="math inline">\(m\)</span> 이후에 적어도 한 번 <span class="math inline">\(|X_n - X| &gt; \varepsilon\)</span>가 일어나는 사건”임. 만약 이런 일이 어떤 <span class="math inline">\(m\)</span> 이후에도 항상 발생한다면, <span class="math inline">\(|X_n - X| &gt; \varepsilon\)</span> 사건이 무한히 자주 발생한다고 함. 즉, <span class="math display">\[\{|X_n - X| &gt; \varepsilon, \ \text{i.o.}\} = \bigcap_{m=1}^\infty \bigcup_{n = m}^\infty \{|X_n - X| &gt; \varepsilon\} = \limsup_{n \to \infty} \{|X_n - X| &gt; \varepsilon\}\]</span>이 집합과 여집합에 관한 유용한 사실들이 다음 보조정리에 나옴.</p>
+<p>18.1 보조정리 <span class="math inline">\(\{E_n \in \mathcal{F}_j^\infty\}_{1}^\infty\)</span> 를 임의의 수열이라고 하자. 그러면</p>
+<ol type="i">
+<li><p><span class="math display">\[P\left( \limsup_{n \to \infty} E_n \right) = \lim_{n \to \infty} P\left( \bigcup_{m = n}^\infty E_m \right)\]</span></p></li>
+<li><p><span class="math display">\[P\left( \liminf_{n \to \infty} E_n \right) = \lim_{n \to \infty} P\left( \bigcap_{m = n}^\infty E_m \right)\]</span></p></li>
+</ol>
+<p>증명: 수열 <span class="math inline">\(\left\{ \bigcup_{m = n}^\infty E_m \right\}_{m=1}^\infty\)</span> 는 단조감소하며 <span class="math inline">\(\limsup_{n} E_n\)</span>으로 수렴함. 따라서 (i)는 정리 3.4에 의해 성립함. (ii)도 동일한 방식으로 따라오는데, 수열 <span class="math inline">\(\left\{ \bigcap_{m = n}^\infty E_m \right\}_{m=1}^\infty\)</span> 가 단조증가하며 <span class="math inline">\(\liminf_{n} E_n\)</span>으로 수렴하기 때문임. ■</p>
+<blockquote class="blockquote">
+<p>규빈: 여기에서 <span class="math inline">\(E_n =\{\Delta_n&gt; \epsilon\}\)</span>으로 생각하면 편리하다. 즉 <span class="math inline">\(E_n \to \emptyset\)</span> 이라는 의미는 잘 수렴하고 있다는 의미이고, <span class="math inline">\(E_n \nrightarrow \emptyset\)</span>이라는 의미는 잘 수렴하지 않는다는 의미라 느끼면된다.</p>
+</blockquote>
+<p>거의 확실 수렴(a.s. convergence)을 증명하는 데 있어 중요한 도구는 보렐-칸텔리 보조정리임. 이 보조정리는 ‘수렴(convergence)’ 부분과 ‘발산(divergence)’ 부분의 두 부분으로 나뉨. 첫 번째 부분은 매우 일반적인 수렴의 충분조건을 제공하므로 가장 유용함. 반면 두 번째 부분은 수렴의 필요조건을 제공하지만, 이를 위해서는 수열의 독립성이 요구됨.</p>
+<p>18.2 보렐-칸텔리 보조정리</p>
+<ol type="i">
+<li><p>임의의 사건 수열 <span class="math inline">\(\{E_n \in \mathcal{F}\}_{1}^\infty\)</span>에 대해<br>
+<span class="math display">\[\sum_{n=1}^\infty P(E_n) &lt; \infty \ \Rightarrow \ P(E_n \ \text{i.o.}) = 0.\]</span></p></li>
+<li><p>독립사건 수열 <span class="math inline">\(\{E_n \in \mathcal{F}\}_{1}^\infty\)</span>에 대해<br>
+<span class="math display">\[\sum_{n=1}^\infty P(E_n) = \infty \ \Rightarrow \ P(E_n \ \text{i.o.}) = 1.\]</span></p></li>
+</ol>
+<p>증명: 가산가법성에 의해,<br>
+<span class="math display">\[P\left( \bigcup_{n=m}^\infty E_n \right) \le \sum_{n=m}^\infty P(E_n). \tag{18.6}\]</span><br>
+(18.4)의 전제는 (18.6)의 우변이 <span class="math inline">\(m=1\)</span>에서 유한하다는 것임. 이는 <span class="math inline">\(\sum_{n=m}^\infty P(E_n) \to 0\)</span> as <span class="math inline">\(m \to \infty\)</span> (2.25에 의해) 이므로,<br>
+<span class="math display">\[\lim_{m \to \infty} P\left( \bigcup_{n=m}^\infty E_n \right) = 0. \tag{18.7}\]</span><br>
+따라서 (i)는 18.1의 (i)에 의해 바로 성립함.</p>
+<p>(ii)를 증명하기 위해, 7.5에 의해 <span class="math inline">\(\{E_n^c \in \mathcal{F}_j^\infty\}\)</span>도 독립이므로, 임의의 <span class="math inline">\(m &gt; 0\)</span>과 <span class="math inline">\(m' &gt; m\)</span>에 대해<br>
+<span class="math display">\[P\left( \bigcap_{n=m}^{m'} E_n^c \right) = \prod_{n=m}^{m'} P(E_n^c) = \prod_{n=m}^{m'} (1 - P(E_n))\]</span><br>
+<span class="math display">\[\le \exp\left( - \sum_{n=m}^{m'} P(E_n) \right) \to 0 \quad \text{as} \quad m' \to \infty, \tag{18.8}\]</span><br>
+가정에 의해 <span class="math inline">\(e^{-x} \ge 1 - x\)</span>이므로 (18.8)은 모든 <span class="math inline">\(m\)</span>에 대해 성립함.</p>
+<p>따라서,<br>
+<span class="math display">\[P(\liminf E_n^c) = \lim_{m \to \infty} P\left( \bigcap_{n=m}^\infty E_n^c \right) = 0, \tag{18.9}\]</span><br>
+18.1(ii)에 의해,<br>
+<span class="math display">\[P(E_n \ \text{i.o.}) = P(\limsup E_n) = 1 - P(\liminf E_n^c) = 1. \tag{18.10}\]</span> ■</p>
+<p>이 결과(수렴 부분)가 거의 확실 수렴(a.s. convergence)을 보이는 데 어떤 역할을 하는지 이해하기 위해, 다음과 같은 특수한 경우를 생각해보자.</p>
+<p><span class="math display">\[E_n = \{\omega : |X_n(\omega) - X(\omega)| &gt; \varepsilon \}.\]</span></p>
+<p>만약 <span class="math inline">\(\sum_{n=1}^\infty P(E_n) &lt; \infty\)</span>이면, <span class="math inline">\(P(E_n) &gt; 0\)</span>라는 조건은 많아야 유한한 개의 <span class="math inline">\(n\)</span>에 대해서만 성립할 수 있음. 보렐-칸텔리 보조정리에 따르면 <span class="math inline">\(P(E_n \ \text{i.o.}) = 0\)</span>이 되어야 모순을 피할 수 있음.</p>
+<p>18.3 정리 <span class="math inline">\(\{X_n\}\)</span>이 <span class="math inline">\(X\)</span>로 거의 확실 수렴(a.s.)할 필요충분조건은 모든 <span class="math inline">\(\varepsilon &gt; 0\)</span>에 대하여<br>
+<span class="math display">\[\lim_{m \to \infty} P\left( \sup_{n \ge m} |X_n - X| \le \varepsilon \right) = 1\]</span><br>
+이 성립하는 것임. (18.11)</p>
+<p>증명:<br>
+다음과 같이 정의하자.<br>
+<span class="math display">\[A_m(\varepsilon) = \bigcap_{n=m}^\infty \{\omega : |X_n(\omega) - X(\omega)| \le \varepsilon \} \in \mathcal{F},\]</span><br>
+그러면 (18.11)은 <span class="math inline">\(\lim_{m \to \infty} P(A_m(\varepsilon)) = 1\)</span> 형태로 쓸 수 있음. 수열 <span class="math inline">\(\{A_m(\varepsilon)\}_{m=1}^\infty\)</span>는 단조증가하므로, <span class="math inline">\(A_m(\varepsilon) = \bigcup_{j=1}^m A_j(\varepsilon)\)</span>이고, <span class="math inline">\(A(\varepsilon) = \bigcup_{m=1}^\infty A_m(\varepsilon)\)</span>라고 하면, (18.11)은 <span class="math inline">\(P(A(\varepsilon)) = 1\)</span>로 표현됨.</p>
+<p>집합 <span class="math inline">\(C\)</span>를 다음 성질로 정의하자. 각 <span class="math inline">\(\omega \in C\)</span>에 대해 <span class="math inline">\(\{X_n(\omega)\}_{n=1}^\infty\)</span>가 수렴함. 즉, <span class="math inline">\(\omega \in C\)</span>이면<br>
+<span class="math display">\[\exists m(\omega) \ \text{such that} \ \sup_{n \ge m(\omega)} |X_n(\omega) - X(\omega)| \le \varepsilon, \ \forall \varepsilon &gt; 0.\]</span><br>
+명백히 <span class="math inline">\(\omega \in C\)</span>이면 어떤 <span class="math inline">\(m\)</span>에 대해 <span class="math inline">\(\omega \in A_m(\varepsilon)\)</span>이므로 <span class="math inline">\(C \subseteq A(\varepsilon)\)</span>. 따라서 <span class="math inline">\(P(C) = 1\)</span>이면 <span class="math inline">\(P(A(\varepsilon)) = 1\)</span>이 성립하여 “only if”가 증명됨.</p>
+<p>이제 “if”를 보이자. 모든 <span class="math inline">\(\varepsilon &gt; 0\)</span>에 대해 <span class="math inline">\(P(A(\varepsilon)) = 1\)</span>이라고 가정하자. 양의 정수 <span class="math inline">\(k\)</span>에 대해 <span class="math inline">\(\varepsilon = 1/k\)</span>로 두고,<br>
+<span class="math display">\[A^* = \bigcap_{k=1}^\infty A(1/k) = \left( \bigcup_{k=1}^\infty A(1/k)^c \right)^c\]</span><br>
+로 정의하자. 두 번째 등식은 1.1(iv)에 의해 성립함. 3.6(ii)에 의해 <span class="math inline">\(P(A^*) = 1 - P\left( \bigcup_{k=1}^\infty A(1/k)^c \right) = 1\)</span>이 됨.</p>
+<p><span class="math inline">\(A^*\)</span>의 모든 원소는 (18.13)의 의미에서 수렴하는 결과이므로 <span class="math inline">\(A^* \subseteq C\)</span>이고, 따라서 결론이 성립함. ■</p>
+<p>앞의 정리는 꼬리수열 <span class="math inline">\(\{|X_n(\omega) - X(\omega)|\}_{n=m}^\infty\)</span>이 집합 <span class="math inline">\(A_m\)</span> 위에서 균등하게(uniform) 0에 가까워지는 것으로 거의 확실 수렴을 특징지음. 여기서 <span class="math inline">\(A_m\)</span>의 측도는 <span class="math inline">\(m \to \infty\)</span>일 때 1에 수렴함. 이와 관련 있으나 구별되는 또 다른 결과는 거의 확실 수렴과 <span class="math inline">\(\Omega\)</span>의 부분집합에서의 균등수렴 사이의 직접적인 연관을 제시함.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>정의 (균등수렴)</strong> 측도공간 <span class="math inline">\((\Omega, \mathcal{F}, P)\)</span>의 부분집합 <span class="math inline">\(C \subset \Omega\)</span>에 대해, 함수열 <span class="math inline">\(X_n: C \to \mathbb{R}\)</span> 이 함수 <span class="math inline">\(X: C \to \mathbb{R}\)</span>에 <strong>균등수렴</strong>한다고 함은 <span class="math display">\[\forall \varepsilon &gt; 0,\; \exists N \in \mathbb{N} \text{ such that } n \ge N \implies |X_n(\omega) - X(\omega)| &lt; \varepsilon \quad \forall \omega \in C\]</span>가 성립하는 것을 말함. “균등”이라는 말은 <span class="math inline">\(\forall \omega \in C\)</span> 때문에 붙는 말임. 기호로는 <span class="math display">\[\sup_{\omega \in C} |X_n(\omega) - X(\omega)| \xrightarrow[n \to \infty]{} 0\]</span>이라고 쓸 수 있음. 여기에서도 “균등”이라는 말은 <span class="math inline">\(\sup_{\omega \in C}\)</span> 때문에 붙은 것임. 즉 아래와 같이 정리 할 수 있겠음.</p>
+</div>
+</div>
+<p>18.4 에고로프 정리(Egoroff’s Theorem)<br>
+<span class="math inline">\(X_n \xrightarrow{\text{a.s.}} X\)</span>일 필요충분조건은, 임의의 <span class="math inline">\(\delta &gt; 0\)</span>에 대하여 <span class="math inline">\(P(C(\delta)) \ge 1 - \delta\)</span>를 만족하는 집합 <span class="math inline">\(C(\delta)\)</span>가 존재하고, <span class="math inline">\(X_n(\omega) \to X(\omega)\)</span>가 <span class="math inline">\(C(\delta)\)</span> 위에서 균등수렴(uniform convergence)하는 것임.</p>
+<p>증명:<br>
+(Only if) <span class="math inline">\(X_n(\omega)\)</span>가 <span class="math inline">\(C(1/k)\)</span> 위에서 균등수렴한다고 가정하자. 여기서 <span class="math inline">\(k = 1, 2, 3, \dots\)</span>이며, <span class="math inline">\(\{C(1/k), k \in \mathbb{N}\}\)</span>은 <span class="math inline">\(P\)</span>의 단조성에 의해 단조증가하도록 선택 가능함. 또한 <span class="math inline">\(P\left( \bigcup_{k=1}^\infty C(1/k) \right) = 1\)</span>은 <span class="math inline">\(P\)</span>의 연속성에 의해 성립함.</p>
+<p>(If) 다음과 같이 두자.<br>
+<span class="math display">\[A_m(\delta) = \bigcap_{n = k(m)}^\infty \{\omega : |X_n(\omega) - X(\omega)| &lt; 1/m\},\]</span><br>
+여기서 <span class="math inline">\(k(m)\)</span>은 <span class="math inline">\(P(A_m(\delta)) \ge 1 - 2^{-m} \delta\)</span>를 만족하도록 선택함. 거의 확실 수렴과 18.3에 의해, 각 <span class="math inline">\(m\)</span>에 대해 유한한 <span class="math inline">\(k(m)\)</span>이 존재함이 보장됨.</p>
+<p>그 다음,<br>
+<span class="math display">\[C(\delta) = \bigcap_{m=1}^\infty A_m(\delta),\]</span><br>
+라고 하면, 구성상 <span class="math inline">\(C(\delta)\)</span> 위에서 수렴은 균등함. 즉, <span class="math inline">\(\omega \in C(\delta)\)</span>이면 각 <span class="math inline">\(m &gt; 0\)</span>에 대해 <span class="math inline">\(n \ge k(m)\)</span>이면 <span class="math inline">\(|X_n(\omega) - X(\omega)| &lt; 1/m\)</span>이 성립함.</p>
+<p>마지막으로, 가산부가성(subadditivity)과 1.1(iii)을 적용하면,<br>
+<span class="math display">\[P(C(\delta)) = 1 - P\left( \bigcup_{m=1}^\infty A_m(\delta)^c \right) \ge 1 - \sum_{m=1}^\infty (1 - P(A_m(\delta))) \ge 1 - \delta\]</span><br>
+가 되어, 정리가 성립함. ■</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
