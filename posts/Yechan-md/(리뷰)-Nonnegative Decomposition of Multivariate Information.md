@@ -3,7 +3,6 @@ title: (리뷰) Nonnegative Decomposition of Multivariate Information
 author: 신록예찬
 date: 07/31/2025
 draft: false
-bibliography: ref.bib
 ---
 
 

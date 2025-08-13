@@ -3,7 +3,6 @@ title: (연구) Hcam Thm
 author: 신록예찬
 date: 08/05/2025
 draft: false
-bibliography: ref.bib
 ---
 
 ## 첫번째 버전
