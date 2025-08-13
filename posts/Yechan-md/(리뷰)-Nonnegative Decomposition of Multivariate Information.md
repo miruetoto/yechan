@@ -1,11 +1,9 @@
 ---
 title: (리뷰) Nonnegative Decomposition of Multivariate Information
 author: 신록예찬
-date: 07/31/2025
+date: 08/05/2025
 draft: false
 ---
-
-
 
 ### 1. 중복성(Redundancy)의 새로운 정의: $I_{min}$
 
