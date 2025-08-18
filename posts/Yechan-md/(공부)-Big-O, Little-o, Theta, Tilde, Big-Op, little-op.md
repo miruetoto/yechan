@@ -69,7 +69,10 @@ draft: false
 - 표본합: $S_n = \sum_{i=1}^n X_i$
 - 중심극한정리(CLT)와 약한대수의법칙(WLLN) 사용 가능
 
----
+`-` 참고사항
+
+- $\frac{X_n}{a_n} \overset{p}{\to} 0$ $\Leftrightarrow$ $X_n= o_P(a_n)$
+- $X_n \overset{d}{\to} X$ $\Rightarrow$ $X_n=O_P(1)$ 
 
 | 번호  | 문제                                                       | 정답  |
 | --- | -------------------------------------------------------- | --- |
@@ -174,57 +177,57 @@ draft: false
 | 99  | $\overline{X}_n - \mu = O_p(1/n^{0.49})$                 | T   |
 | 100 | $\overline{X}_n - \mu = o_p(1/n^{0.49})$                 | F   |
 
-**혼합형**
+# 혼합형태
 
 | 번호 | 문제 | 정답 |
 |---|---|---|
-| 1 | $S_n/\sqrt{n} + O_p(1) = O_p(1) + o(1)$ | T |
-| 2 | $S_n/n + o_p(1) = o_p(1) + O(n^{-1})$ | T |
-| 3 | $\overline X_n-\mu + O_p(n^{-1/2}) = o_p(1) + O_p(n^{-1/2})$ | T |
-| 4 | $(\overline X_n-\mu)^2 + o_p(n^{-1}) = O_p(n^{-1}) + o(n^{-1})$ | T |
-| 5 | $S_n/n + O_p(n^{-1/2}) = O_p(1) + o_p(1)$ | T |
-| 6 | $S_n/n + o_p(n^{-1}) = o_p(1) + o_p(n^{-1})$ | F |
-| 7 | $\sqrt{n}(\overline X_n-\mu) + O_p(1) = O_p(1) + o(1)$ | T |
-| 8 | $(\overline X_n-\mu)^{-1} + O_p(n^{1/2}) = O_p(n^{1/2}) + o_p(n^{1/2})$ | F |
-| 9 | $S_n/n^2 + O_p(n^{-1}) = o_p(1) + O(n^{-1})$ | T |
-| 10 | $n(\overline X_n-\mu)^2 + o_p(1) = O_p(1) + o(1)$ | T |
-| 11 | $S_n/\sqrt{n} + o(1) = O_p(1) + O(n^{-1/2})$ | T |
-| 12 | $\overline X_n-\mu + O(n^{-1}) = o_p(1) + O(n^{-1})$ | T |
-| 13 | $S_n/n + O_p(1/\log n) = O_p(1) + o(1)$ | T |
-| 14 | $S_n/\sqrt{n\log n} + O_p(1) = O_p(1) + o_p(1)$ | T |
-| 15 | $\sqrt{n}(\overline X_n-\mu) + o_p(1) = o(1) + O_p(1)$ | T |
-| 16 | $(\overline X_n-\mu)^3 + O_p(n^{-3/2}) = o_p(n^{-1}) + O(n^{-3/2})$ | T |
-| 17 | $S_n/n + o(1) = o_p(1) + O_p(n^{-1/2})$ | T |
-| 18 | $S_n/\sqrt{n} + O(n^{-1/2}) = O_p(1) + o_p(1)$ | T |
-| 19 | $(S_n-n\mu)/n + O_p(n^{-1/2}) = o_p(1) + O_p(n^{-1/2})$ | T |
-| 20 | $(S_n-n\mu)/\sqrt{n} + o(1) = O_p(1) + o_p(1)$ | T |
-| 21 | $n(\overline X_n-\mu)^2 + O_p(1/\log n) = O_p(1) + o(1)$ | T |
-| 22 | $n^{1/2}(\overline X_n-\mu)^2 + O_p(n^{-1/2}) = O_p(n^{-1/2}) + o(1)$ | T |
-| 23 | $S_n/n + O_p(n^{-1}) = O_p(1) + o(n^{-1})$ | T |
-| 24 | $S_n/n + o(n^{-1}) = o_p(1) + O(n^{-1})$ | T |
-| 25 | $(\overline X_n-\mu)\log n + O_p(n^{-1/2}) = O_p(n^{-1/2}\log n) + o_p(n^{-1/2})$ | T |
-| 26 | $S_n/n^2 + o_p(n^{-1}) = o(n^{-1}) + O_p(n^{-1})$ | T |
-| 27 | $(S_n-n\mu)^2/n + O_p(1) = O_p(1) + o(1)$ | T |
-| 28 | $(S_n-n\mu)^2/n + o(1) = o_p(1) + O_p(1)$ | T |
-| 29 | $S_n^{-1} + O_p(n^{-1}) = O_p(n^{-1}) + o_p(n^{-1})$ | F |
-| 30 | $(\overline X_n-\mu)^{-2} + O_p(n) = O_p(n) + o(n)$ | F |
-| 31 | $\overline X_n-\mu + O_p(n^{-1/2}\log^{-1}n) = O_p(n^{-1/2}) + o(1)$ | T |
-| 32 | $S_n/\sqrt{n\log\log n} + O_p(1) = O_p(1) + o_p(1)$ | T |
-| 33 | $S_n/\sqrt{n} + O(1/\log n) = O_p(1) + o(1)$ | T |
-| 34 | $S_n/n + O(1) = O_p(1) + o_p(1)$ | F |
-| 35 | $n(\overline X_n-\mu)^2 + o(1/\log n) = O_p(1) + o_p(1)$ | T |
-| 36 | $(\overline X_n-\mu)\sqrt{\log n} + O_p(n^{-1/2}) = O_p(n^{-1/2}\sqrt{\log n}) + o(1)$ | T |
-| 37 | $S_n/\sqrt{n} + o_p(1) = o(1) + O_p(1)$ | T |
-| 38 | $\overline X_n-\mu + o(n^{-1/2}) = o_p(n^{-1/2}) + O(n^{-1/2})$ | F |
-| 39 | $(S_n-n\mu)/n + o_p(n^{-1/2}) = O_p(n^{-1/2}) + o(1)$ | T |
-| 40 | $S_n/n^2 + O(n^{-1}) = O_p(n^{-1}) + o_p(n^{-1})$ | T |
-| 41 | $(\overline X_n-\mu)^2\log n + O_p(n^{-1}) = O_p(n^{-1}\log n) + o(1)$ | T |
-| 42 | $\sqrt{n}(\overline X_n-\mu) + O(1) = O_p(1) + o(1)$ | T |
-| 43 | $S_n/\sqrt{n} + O_p(n^{-1/2}) = O_p(1) + O(n^{-1/2})$ | T |
-| 44 | $S_n/n + o(1/\log n) = o_p(1) + O(1/\log n)$ | T |
-| 45 | $(\overline X_n-\mu)^3 + o(n^{-3/2}) = o_p(n^{-1}) + O_p(n^{-3/2})$ | T |
-| 46 | $S_n/\sqrt{n\log n} + o_p(1) = O_p(1) + o(1)$ | T |
-| 47 | $S_n/n + O_p(n^{-3/4}) = O_p(1) + o_p(1)$ | T |
-| 48 | $S_n/n + o_p(n^{-3/4}) = o_p(1) + O(n^{-3/4})$ | T |
-| 49 | $(S_n-n\mu)/\sqrt{n} + O_p(1/\log n) = O_p(1) + o(1)$ | T |
-| 50 | $n^{1/2}(\overline X_n-\mu)^2 + O_p(n^{-1/2}) = O_p(n^{-1/2}) + o_p(1)$ | T 
+| 1 | $S_n/\sqrt{n} + O_p(1) = O_p(1)$ | T |
+| 2 | $S_n/n + o_p(1) = \mu + o_p(1)$ | T |
+| 3 | $\overline X_n-\mu + O_p(n^{-1/2}) = O_p(n^{-1/2})$ | T |
+| 4 | $(\overline X_n-\mu)^2 + o_p(n^{-1}) = O_p(n^{-1})$ | T |
+| 5 | $S_n/n + O_p(n^{-1/2}) = \mu + O_p(n^{-1/2})$ | T |
+| 6 | $S_n/n + o_p(n^{-1}) = \mu + o_p(n^{-1})$ | T |
+| 7 | $\sqrt{n}(\overline X_n-\mu) + O_p(1) = O_p(1)$ | T |
+| 8 | $(\overline X_n-\mu)^{-1} + O_p(n^{1/2}) = O_p(n^{1/2})$ | F |
+| 9 | $S_n/n^2 + O_p(n^{-1}) = O_p(n^{-1})$ | T |
+| 10 | $n(\overline X_n-\mu)^2 + o_p(1) = O_p(1)$ | T |
+| 11 | $S_n/\sqrt{n} + o(1) = O_p(1)$ | T |
+| 12 | $\overline X_n-\mu + O(n^{-1}) = o_p(1)$ | T |
+| 13 | $S_n/n + O_p(1/\log n) = \mu + o_p(1)$ | T |
+| 14 | $S_n/\sqrt{n\log n} + O_p(1) = O_p(1)$ | T |
+| 15 | $\sqrt{n}(\overline X_n-\mu) + o_p(1) = O_p(1)$ | T |
+| 16 | $(\overline X_n-\mu)^3 + O_p(n^{-3/2}) = o_p(n^{-1})$ | T |
+| 17 | $S_n/n + o(1) = \mu + o_p(1)$ | T |
+| 18 | $S_n/\sqrt{n} + O(n^{-1/2}) = O_p(1)$ | T |
+| 19 | $(S_n-n\mu)/n + O_p(n^{-1/2}) = o_p(1)$ | T |
+| 20 | $(S_n-n\mu)/\sqrt{n} + o(1) = O_p(1)$ | T |
+| 21 | $n(\overline X_n-\mu)^2 + O_p(1/\log n) = O_p(1)$ | T |
+| 22 | $n^{1/2}(\overline X_n-\mu)^2 + O_p(n^{-1/2}) = O_p(n^{-1/2})$ | T |
+| 23 | $S_n/n + O_p(n^{-1}) = \mu + o_p(1)$ | T |
+| 24 | $S_n/n + o(n^{-1}) = \mu + o_p(1)$ | T |
+| 25 | $(\overline X_n-\mu)\log n + O_p(n^{-1/2}) = O_p(n^{-1/2}\log n)$ | T |
+| 26 | $S_n/n^2 + o_p(n^{-1}) = O_p(n^{-1})$ | T |
+| 27 | $(S_n-n\mu)^2/n + O_p(1) = O_p(1)$ | T |
+| 28 | $(S_n-n\mu)^2/n + o(1) = O_p(1)$ | T |
+| 29 | $S_n^{-1} + O_p(n^{-1}) = O_p(n^{-1})$ | F |
+| 30 | $(\overline X_n-\mu)^{-2} + O_p(n) = O_p(n)$ | F |
+| 31 | $\overline X_n-\mu + O_p(n^{-1/2}\log^{-1}n) = O_p(n^{-1/2})$ | T |
+| 32 | $S_n/\sqrt{n\log\log n} + O_p(1) = O_p(1)$ | T |
+| 33 | $S_n/\sqrt{n} + O(1/\log n) = O_p(1)$ | T |
+| 34 | $S_n/n + O(1) = \mu + O(1)$ | F |
+| 35 | $n(\overline X_n-\mu)^2 + o(1/\log n) = O_p(1)$ | T |
+| 36 | $(\overline X_n-\mu)\sqrt{\log n} + O_p(n^{-1/2}) = O_p(n^{-1/2}\sqrt{\log n})$ | T |
+| 37 | $S_n/\sqrt{n} + o_p(1) = O_p(1)$ | T |
+| 38 | $\overline X_n-\mu + o(n^{-1/2}) = O_p(n^{-1/2})$ | T |
+| 39 | $(S_n-n\mu)/n + o_p(n^{-1/2}) = o_p(1)$ | T |
+| 40 | $S_n/n^2 + O(n^{-1}) = O_p(n^{-1})$ | T |
+| 41 | $(\overline X_n-\mu)^2\log n + O_p(n^{-1}) = O_p(n^{-1}\log n)$ | T |
+| 42 | $\sqrt{n}(\overline X_n-\mu) + O(1) = O_p(1)$ | T |
+| 43 | $S_n/\sqrt{n} + O_p(n^{-1/2}) = O_p(1)$ | T |
+| 44 | $S_n/n + o(1/\log n) = \mu + o_p(1/\log n)$ | T |
+| 45 | $(\overline X_n-\mu)^3 + o(n^{-3/2}) = o_p(n^{-1})$ | T |
+| 46 | $S_n/\sqrt{n\log n} + o_p(1) = O_p(1)$ | T |
+| 47 | $S_n/n + O_p(n^{-3/4}) = \mu + O_p(n^{-3/4})$ | T |
+| 48 | $S_n/n + o_p(n^{-3/4}) = \mu + o_p(n^{-3/4})$ | T |
+| 49 | $(S_n-n\mu)/\sqrt{n} + O_p(1/\log n) = O_p(1)$ | T |
+| 50 | $n^{1/2}(\overline X_n-\mu)^2 + O_p(n^{-1/2}) = O_p(n^{-1/2})$ | T |
