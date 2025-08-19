@@ -1,7 +1,7 @@
 ---
 title: (공부) Big-O, Little-o, Theta, Tilde, Big-Op, little-op
 author: 신록예찬
-date: 08/14/2025
+date: 08/18/2025
 draft: false
 ---
 # $O$, $o$, $\Theta$, $\sim$ 
