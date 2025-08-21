@@ -1,5 +1,5 @@
 ---
-title: (글짓기)-Cascased-CAM, 2장관련연구
+title: (글짓기) Cascased-CAM, 2장관련연구
 author: 신록예찬
 date: 08/19/2025
 draft: false

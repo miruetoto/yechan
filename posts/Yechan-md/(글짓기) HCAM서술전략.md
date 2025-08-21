@@ -1,5 +1,5 @@
 ---
-title: (연구) HCAM서술전략
+title: (글짓기) HCAM서술전략
 author: 신록예찬
 date: 07/31/2025
 draft: false
