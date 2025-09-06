@@ -38,7 +38,7 @@ fi
 
 # 3. Obsidian 파일들 복사
 echo "Obsidian 파일 복사 중..."
-OBSIDIAN_PATH="/Users/cgb/Library/Mobile Documents/iCloud~md~obsidian/Documents/Yechan"
+OBSIDIAN_PATH="/Users/cgb/Library/Mobile Documents/iCloud~md~obsidian/Documents/TopoNotes/Yechan"
 
 if [ -d "$OBSIDIAN_PATH" ]; then
     cp -R "$OBSIDIAN_PATH"/* "$TARGET_PATH"/
