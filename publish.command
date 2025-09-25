@@ -41,8 +41,13 @@ echo "Obsidian 파일 복사 중..."
 OBSIDIAN_PATH="/Users/cgb/Library/Mobile Documents/iCloud~md~obsidian/Documents/TopoNotes/Yechan"
 
 if [ -d "$OBSIDIAN_PATH" ]; then
-    cp -R "$OBSIDIAN_PATH"/* "$TARGET_PATH"/
-    echo "파일 복사 완료"
+    # indexes 폴더를 제외하고 모든 파일 복사
+    for item in "$OBSIDIAN_PATH"/*; do
+        if [ "$(basename "$item")" != "indexes" ]; then
+            cp -R "$item" "$TARGET_PATH"/
+        fi
+    done
+    echo "파일 복사 완료 (indexes 폴더 제외)"
 else
     echo "Error: Obsidian 폴더를 찾을 수 없습니다: $OBSIDIAN_PATH"
     exit 1
