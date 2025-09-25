@@ -121,3 +121,5 @@ $$I(\mathbf{X}; Y) \geq \mathbb{E}\left[\sum_{k=1}^{K} I(\mathbf{X}^{(k)}; Y^{(k
 \end{cor}
 
 이 완화된 정리는 H-CAM이 원본 이미지의 분류 정보를 **손실 있는 계층적 분해(lossy hierarchical decomposition)**로 재구성함을 보여줌. 각 계층은 서로 다른 중요도의 특징들을 포착하며, 정규화와 중복으로 인한 정보 손실에도 불구하고 전체적으로는 원본의 주요 분류 근거들을 체계적으로 드러냄. 이는 H-CAM이 완벽한 정보 보존이 아닌 **해석 가능한 근사(interpretable approximation)**를 제공한다는 실용적 관점을 이론적으로 뒷받침함.
+
+[[Yechan 인덱스]]

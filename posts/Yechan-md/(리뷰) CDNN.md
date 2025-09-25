@@ -71,3 +71,7 @@ $$S_\beta(C) = -\text{Tr} ( \rho(C) \log \rho(C) )$$
 - **PhysioNet 데이터셋**: 이 데이터셋은 **https://physionet.org/about/database/** 에서 이용 가능하다. 2가지 클래스 데이터를 포함하며, 105명의 피험자로부터 얻은 EEG 기록으로 구성된다. 이 데이터셋은 109명의 건강한 지원자로부터 EEG 기록으로 구성되었으나, 기술적 문제로 4명의 기록이 제외되어 105명의 데이터가 최종 코호트에 사용되었다.
 
 또한, 연구자들은 모터 이미저리 데이터에 대해 **TorchEEG Python 패키지**와 **Mother of all BCI Benchmarks (MOABB) 래퍼**를 사용했다.
+
+[[Yechan 인덱스]]
+
+[[리뷰 인덱스]]

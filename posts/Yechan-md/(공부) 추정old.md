@@ -109,3 +109,6 @@ $\mathbb{V}_{\theta}\big[\frac{\partial}{\partial\theta}Y_1\big]=\mathbb{E}_{\th
 
 > 베르누이에 대한 피셔정보량은 <https://en.wikipedia.org/wiki/Fisher_information> 에서 확인할 수 있음 
 
+[[Yechan 인덱스]]
+
+[[공부 인덱스]]

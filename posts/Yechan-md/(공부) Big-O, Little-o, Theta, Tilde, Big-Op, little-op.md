@@ -231,3 +231,7 @@ draft: false
 | 48 | $S_n/n + o_p(n^{-3/4}) = \mu + o_p(n^{-3/4})$ | T |
 | 49 | $(S_n-n\mu)/\sqrt{n} + O_p(1/\log n) = O_p(1)$ | T |
 | 50 | $n^{1/2}(\overline X_n-\mu)^2 + O_p(n^{-1/2}) = O_p(n^{-1/2})$ | T |
+
+[[Yechan 인덱스]]
+
+[[공부 인덱스]]

@@ -76,3 +76,6 @@ $$w_i = w_0 \cdot \exp(-\lambda \cdot i), \quad \text{where } \sum_{i=0}^{K} w_i
 
 ---
 
+[[Yechan 인덱스]]
+
+[[글짓기 인덱스]]
