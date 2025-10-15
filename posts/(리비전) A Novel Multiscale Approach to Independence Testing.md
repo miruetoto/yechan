@@ -446,4 +446,3 @@ $$
 
 ![](attachments/Pasted%20image%2020250915094306.png)
 
-[[Yechan 인덱스]]

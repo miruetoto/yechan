@@ -3,11 +3,18 @@ title: (리뷰) TDL (파피용)
 author: 신록예찬
 date: 04/24/2025
 draft: false
-bibliography: 2025-04-24-ref.bib
 ---
 
+```
+@article{papillon2023architectures,
+  title={Architectures of topological deep learning: A survey of message-passing topological neural networks},
+  author={Papillon, Mathilde and Sanborn, Sophia and Hajij, Mustafa and Miolane, Nina},
+  journal={arXiv preprint arXiv:2304.10031},
+  year={2023}
+}
+```
+<https://arxiv.org/abs/2304.10031>
 
-@papillon2023architectures 을 리뷰해보자. 
 
 **ABSTRACT**
 
