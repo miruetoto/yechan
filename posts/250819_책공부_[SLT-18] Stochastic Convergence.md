@@ -99,21 +99,19 @@ $A^*$의 모든 원소는 (18.13)의 의미에서 수렴하는 결과이므로 $
 
 앞의 정리는 꼬리수열 $\{|X_n(\omega) - X(\omega)|\}_{n=m}^\infty$이 집합 $A_m$ 위에서 균등하게(uniform) 0에 가까워지는 것으로 거의 확실 수렴을 특징지음. 여기서 $A_m$의 측도는 $m \to \infty$일 때 1에 수렴함. 이와 관련 있으나 구별되는 또 다른 결과는 거의 확실 수렴과 $\Omega$의 부분집합에서의 균등수렴 사이의 직접적인 연관을 제시함.
 
-:::{.callout-note}
-
-**정의 (균등수렴)** 측도공간 $(\Omega, \mathcal{F}, P)$의 부분집합 $C \subset \Omega$에 대해, 함수열 $X_n: C \to \mathbb{R}$ 이 함수 $X: C \to \mathbb{R}$에 **균등수렴**한다고 함은
- $$\forall \varepsilon > 0,\; \exists N \in \mathbb{N} \text{ such that } n \ge N \implies |X_n(\omega) - X(\omega)| < \varepsilon \quad \forall \omega \in C$$가 성립하는 것을 말함. "균등"이라는 말은 $\forall \omega \in C$ 때문에 붙는 말임. 기호로는
-$$\sup_{\omega \in C} |X_n(\omega) - X(\omega)| \xrightarrow[n \to \infty]{} 0$$이라고 쓸 수 있음. 여기에서도 "균등"이라는 말은 $\sup_{\omega \in C}$ 때문에 붙은 것임. 즉 아래와 같이 정리 할 수 있겠음. 
-
-- 함수열의 수렴 = $\forall \varepsilon > 0,\; \exists N \in \mathbb{N} \text{ such that } n \ge N \implies |X_n(\omega) - X(\omega)| < \varepsilon$
-- C에서 함수열의 균등수렴 = $\forall \varepsilon > 0,\; \exists N \in \mathbb{N} \text{ such that } n \ge N \implies |X_n(\omega) - X(\omega)| < \varepsilon \quad \forall \omega \in C$
-
-혹은 
-
-- 함수열의 수렴 = $|X_n(\omega) - X(\omega)| \xrightarrow[n \to \infty]{} 0$
-- C에서 함수열의 균등수렴 = $\sup_{\omega \in C} |X_n(\omega) - X(\omega)| \xrightarrow[n \to \infty]{} 0$
-
-:::
+> 규빈: 
+> 
+> **정의 (균등수렴)** 측도공간 $(\Omega, \mathcal{F}, P)$의 부분집합 $C \subset \Omega$에 대해, 함수열 $X_n: C \to \mathbb{R}$ 이 함수 $X: C \to \mathbb{R}$에 **균등수렴**한다고 함은
+>  $$\forall \varepsilon 0,\; \exists N \in \mathbb{N} \text{ such that } n \ge N \implies |X_n(\omega) - X(\omega)| < \varepsilon \quad \forall \omega \in C$$가 성립하는 것을 말함. "균등"이라는 말은 $\forall \omega \in C$ 때문에 붙는 말임. 기호로는
+> $$\sup_{\omega \in C} |X_n(\omega) - X(\omega)| \xrightarrow[n \to \infty]{} 0$$이라고 쓸 수 있음. 여기에서도 "균등"이라는 말은 $\sup_{\omega \in C}$ 때문에 붙은 것임. 즉 아래와 같이 정리 할 수 있겠음. 
+> 
+> - 함수열의 수렴 = $\forall \varepsilon 0,\; \exists N \in \mathbb{N} \text{ such that } n \ge N \implies |X_n(\omega) - X(\omega)| < \varepsilon$
+> - C에서 함수열의 균등수렴 = $\forall \varepsilon 0,\; \exists N \in \mathbb{N} \text{ such that } n \ge N \implies |X_n(\omega) - X(\omega)| < \varepsilon \quad \forall \omega \in C$
+> 
+> 혹은 
+> 
+> - 함수열의 수렴 = $|X_n(\omega) - X(\omega)| \xrightarrow[n \to \infty]{} 0$
+> - C에서 함수열의 균등수렴 = $\sup_{\omega \in C} |X_n(\omega) - X(\omega)| \xrightarrow[n \to \infty]{} 0$
 
 `18.4 에고로프 정리(Egoroff's Theorem)`  
 
@@ -142,14 +140,13 @@ $$P(C(\delta)) = 1 - P\left( \bigcup_{m=1}^\infty A_m(\delta)^c \right) \ge 1 - 
 $$\lim_{n \to \infty} P(|X_n - X| > \varepsilon) = 0 \tag{18.18}$$  
 이면, $X_n$이 $X$로 확률수렴(in probability, in pr.)한다고 함.  여기서 수렴하는 것은 확률변수 값 $\{X_n(\omega)\}$이 아니라, 비확률적수열(nonstochastic sequence)^[즉 숫자를 의미함] $\{P(|X_n - X| > \varepsilon)\}$임. $\Omega$에서 실제로 수렴하는 원소들의 확률은 명시되지 않음. 하지만 18.3 정리로부터 바로 다음 관계가 성립하는데, 이는 (18.11)이 (18.18)을 함의하기 때문임.
 
-:::{.callout-note}
-결국 $E_n=\{ \Delta_n> \epsilon \}= \{ |X_n-X| >\epsilon\}$ 이라고 본다면, 거의확실한수렴과 확률수렴은 아래와 같다.
 
-- 확률수렴: $\lim_{n \to \infty} P(E_n) = 0$ 
-- as수렴: $P(\lim\sup_{n\to\infty} E_n) =0$ 
-
-확률수렴은 확률값, 즉 숫자에 극한을 취하고, as수렴은 이벤트, 즉 집합에 극한을 취한다. 
-:::
+> 규빈: 결국 $E_n=\{ \Delta_n\epsilon \}= \{ |X_n-X| >\epsilon\}$ 이라고 본다면, 거의확실한수렴과 확률수렴은 아래와 같다.
+> 
+> - 확률수렴: $\lim_{n \to \infty} P(E_n) = 0$ 
+> - as수렴: $P(\lim\sup_{n\to\infty} E_n) =0$ 
+> 
+> 확률수렴은 확률값, 즉 숫자에 극한을 취하고, as수렴은 이벤트, 즉 집합에 극한을 취한다. 
 
 `18.5 정리`  $X_n \xrightarrow{\text{a.s.}} X$이면 $X_n \xrightarrow{\text{pr.}} X$임. ■
 
@@ -236,95 +233,80 @@ $\varepsilon$와 $\delta$가 임의이므로 정리가 성립함. ■
 
 $E(|X_n|^p) < \infty$이면 $X_n$이 $L_p$-bounded라고 했음을 기억하자. $p > 0$일 때, 수열 $\{\|X_n - X\|_p\}$을 고려하자. 모든 $n$에 대해 $E(\|X_n\|_p) < \infty$이고, $\lim_{n \to \infty} \|X_n - X\|_p = 0$이면, $X_n$이 $X$로 $L_p$ 노름에서 수렴한다고 하며, 기호로 $X_n \xrightarrow{L_p} X$라고 씀. $p = 2$일 경우를 평균제곱수렴(mean square convergence, m.s.)이라고 부름.
 
-:::{.callout-note}
-노름(norm)의 정의는 다음과 같음. 집합 $V$가 벡터공간일 때, 함수
-$$\|\cdot\| : V \to \mathbb{R}$$
-가 **노름**이라 불리려면, 모든 $x, y \in V$와 모든 스칼라 $\alpha$에 대하여 다음 세 가지 성질을 만족해야 함
+> 규빈: 노름(norm)의 정의는 다음과 같음. 집합 $V$가 벡터공간일 때, 함수
+> $$\|\cdot\| : V \to \mathbb{R}$$
+> 가 **노름**이라 불리려면, 모든 $x, y \in V$와 모든 스칼라 $\alpha$에 대하여 다음 세 가지 성질을 만족해야 함
+> 
+> `1`. 양의 정부호성(Positive definiteness)
+>        $$\|x\| \ge 0 \quad \text{그리고} \quad \|x\| = 0 \iff x = 0$$
+>     (벡터가 0이 아니면 노름은 반드시 양수)
+> 
+> `2`. 호모지니어티(동차성, Homogeneity)
+>     $$\|\alpha x\| = |\alpha| \, \|x\|$$
+>     (스칼라 배 만큼 길이도 절대값만큼 변함)
+> 
+> `3`. 삼각부등식(Triangle inequality)
+>  $$\|x + y\| \le \|x\| + \|y\|$$
+>     (두 벡터의 합의 길이는 각각 길이의 합보다 크지 않음)
+> 
+> **예시**
+> 
+> `1`. 유클리드 노름(Euclidean norm, $L_2$ **norm)** 
+> $$\|x\|_2 = \sqrt{\sum_{i=1}^n x_i^2}$$
+> `2`. $L_p$ 노름 ($p \ge 1$)
+> $$\|x\|_p = \left( \sum_{i=1}^n |x_i|^p \right)^{1/p}$$
+> `3`. **최대 노름(Sup norm,** $L_\infty$ norm)
+> $$\|x\|_\infty = \max_{1 \le i \le n} |x_i|$$
 
-`1`. 양의 정부호성(Positive definiteness)
-       $$\|x\| \ge 0 \quad \text{그리고} \quad \|x\| = 0 \iff x = 0$$
-    (벡터가 0이 아니면 노름은 반드시 양수)
 
-`2`. 호모지니어티(동차성, Homogeneity)
-    $$\|\alpha x\| = |\alpha| \, \|x\|$$
-    (스칼라 배 만큼 길이도 절대값만큼 변함)
+> 규빈: 확률변수 $X$와 $p \ge 1$에 대하여, $L_p$ **노름**은
+> 
+> $$\|X\|_p = \left( E\left[ |X|^p \right] \right)^{1/p}$$
+> 로 정의. 여기서 $E[\cdot]$는 기대값을 의미함.
+> 
+> - $p=1$이면 $\|X\|_1 = E[|X|]$ → 평균 절대값
+> - $p=2$이면 $\|X\|_2 = \sqrt{E[X^2]}$ → 표준편차와 연관
+> - $p \to \infty$이면 $\|X\|_\infty$는 거의 확실하게(essential supremum) 절댓값의 최대치
+> 
+> **성질**
+> 
+> 1. $\|X\|_p \ge 0이고, \|X\|_p = 0 \iff X = 0 \ \text{a.s.}$
+> 2. $\|\alpha X\|_p = |\alpha| \cdot \|X\|_p$
+> 3. **Minkowski 부등식** (삼각 부등식) -- $\|X+Y\|_p \le \|X\|_p + \|Y\|_p$
+> 
+> 
+> 확률수렴(convergence in probability)은 때때로 $L_0$-수렴이라고 불리는데, 이는 $L_p$ 수렴이 $0 < q < p$인 모든 $q$에 대해 $L_q$ 수렴을 함의한다는 사실(리아푸노프 부등식에 의해 설명됨)과, 마르코프 부등식에서 바로 나오는 다음 관계를 통해 이해할 수 있음.
 
-`3`. 삼각부등식(Triangle inequality)
- $$\|x + y\| \le \|x\| + \|y\|$$
-    (두 벡터의 합의 길이는 각각 길이의 합보다 크지 않음)
 
-**예시**
+> 규빈: 
+> **마르코프 부등식(Markov inequality)** 
+> 확률변수 $Y \ge 0$와 임의의 $a 0$에 대하여  
+> $$P(Y \ge a) \le \frac{E[Y]}{a}$$
+>
+> 
+> **$L_p$ 수렴이 확률수렴을 함의하는 이유 (마르코프 부등식 활용)
+> 
+> $Y = |X_n - X|^p$로 두면  
+> $$P(|X_n - X| \varepsilon) = P(|X_n - X|^p \varepsilon^p) \le \frac{E[|X_n - X|^p]}{\varepsilon^p}$$
+> 만약 $X_n \xrightarrow{L_p} X$라면  
+> $$E[|X_n - X|^p] \to 0$$
+> 이므로, 우변이 $0$으로 감. 따라서  
+> $$P(|X_n - X| \varepsilon) \to 0$$
+> 즉, $X_n \xrightarrow{\mathrm{pr}} X$가 성립함.
+> 
+> 
+> **리아푸노프 부등식(Liapunov inequality)**  
+> $0 < q < p$일 때  
+> $$\|X\|_q \le \|X\|_p$$
+> 여기서 $\|X\|_r = (E[|X|^r])^{1/r}$는 $L_r$ 노름임.  
+> 따라서 $L_p$ 수렴이면 $L_q$ 수렴도 자동으로 성립함.
+> 
+> 
+> **정리**  
+> - 마르코프 부등식으로 $L_p$ 수렴 $\Rightarrow$ 확률수렴 증명 가능  
+> - 리아푸노프 부등식으로 $L_p$ 수렴 $\Rightarrow$ $L_q$ 수렴 ($0 < q < p$) 증명 가능  
+> - 확률수렴을 $L_0$ 수렴이라고 부르는 이유는, $p>0$에 대해 $L_p$ 수렴이 “$q \to 0$”의 의미에서 확률수렴을 함의하기 때문
 
-`1`. 유클리드 노름(Euclidean norm, $L_2$ **norm)** 
-$$\|x\|_2 = \sqrt{\sum_{i=1}^n x_i^2}$$
-`2`. $L_p$ 노름 ($p \ge 1$)
-$$\|x\|_p = \left( \sum_{i=1}^n |x_i|^p \right)^{1/p}$$
-`3`. **최대 노름(Sup norm,** $L_\infty$ norm)
-$$\|x\|_\infty = \max_{1 \le i \le n} |x_i|$$
-:::
-
-:::{.callout-note}
-확률변수 $X$와 $p \ge 1$에 대하여, $L_p$ **노름**은
-
-$$\|X\|_p = \left( E\left[ |X|^p \right] \right)^{1/p}$$
-로 정의. 여기서 $E[\cdot]$는 기대값을 의미함.
-
-- $p=1$이면 $\|X\|_1 = E[|X|]$ → 평균 절대값
-- $p=2$이면 $\|X\|_2 = \sqrt{E[X^2]}$ → 표준편차와 연관
-- $p \to \infty$이면 $\|X\|_\infty$는 거의 확실하게(essential supremum) 절댓값의 최대치
-
-**성질**
-
-1. $\|X\|_p \ge 0이고, \|X\|_p = 0 \iff X = 0 \ \text{a.s.}$
-2. $\|\alpha X\|_p = |\alpha| \cdot \|X\|_p$
-3. **Minkowski 부등식** (삼각 부등식) -- $\|X+Y\|_p \le \|X\|_p + \|Y\|_p$
-:::
-
-확률수렴(convergence in probability)은 때때로 $L_0$-수렴이라고 불리는데, 이는 $L_p$ 수렴이 $0 < q < p$인 모든 $q$에 대해 $L_q$ 수렴을 함의한다는 사실(리아푸노프 부등식에 의해 설명됨)과, 마르코프 부등식에서 바로 나오는 다음 관계를 통해 이해할 수 있음.
-
-:::{.callout-note}
-**마르코프 부등식(Markov inequality)** 
-확률변수 $Y \ge 0$와 임의의 $a > 0$에 대하여  
-$$
-P(Y \ge a) \le \frac{E[Y]}{a}
-$$
----
-
-**$L_p$ 수렴이 확률수렴을 함의하는 이유 (마르코프 부등식 활용)
-
-$Y = |X_n - X|^p$로 두면  
-$$
-P(|X_n - X| > \varepsilon) = P(|X_n - X|^p > \varepsilon^p) \le \frac{E[|X_n - X|^p]}{\varepsilon^p}
-$$
-
-만약 $X_n \xrightarrow{L_p} X$라면  
-$$
-E[|X_n - X|^p] \to 0
-$$
-이므로, 우변이 $0$으로 감. 따라서  
-$$
-P(|X_n - X| > \varepsilon) \to 0
-$$
-즉, $X_n \xrightarrow{\mathrm{pr}} X$가 성립함.
-
----
-
-**리아푸노프 부등식(Liapunov inequality)**  
-$0 < q < p$일 때  
-$$
-\|X\|_q \le \|X\|_p
-$$
-여기서 $\|X\|_r = (E[|X|^r])^{1/r}$는 $L_r$ 노름임.  
-따라서 $L_p$ 수렴이면 $L_q$ 수렴도 자동으로 성립함.
-
----
-
-**정리**  
-- 마르코프 부등식으로 $L_p$ 수렴 $\Rightarrow$ 확률수렴 증명 가능  
-- 리아푸노프 부등식으로 $L_p$ 수렴 $\Rightarrow$ $L_q$ 수렴 ($0 < q < p$) 증명 가능  
-- 확률수렴을 $L_0$ 수렴이라고 부르는 이유는, $p>0$에 대해 $L_p$ 수렴이 “$q \to 0$”의 의미에서 확률수렴을 함의하기 때문
-
-:::
 
 `18.13 정리`  임의의 $p > 0$에 대해 $X_n \xrightarrow{L_p} X$이면, $X_n \xrightarrow{\mathrm{pr}} X$. ■
 
@@ -349,66 +331,45 @@ $$\lim_{K \to \infty} \ \sup_{n \ge 1} \ E\left[\,|X_n|^p \cdot 1_{\{|X_n|^p > K
 
 우리는 12.8에서 이 결과의 거의 확실 수렴(a.s.) 대응 결과를 이미 증명했으며, 결론은 $|X_n - X| \xrightarrow{\mathrm{a.s.}} 0$이면 $E|X_n - X| \to 0$라고 쓸 수 있음. $L_1$ 경우에서 $L_p$ 경우로의 확장은 18.8(i)를 $g(\cdot) = |\cdot|^p$에 적용하면 쉽게 얻을 수 있음.
 
-:::{.callout-note}
-`12.8 정리`  $\{X_n\}_{1}^\infty$가 균등적분가능(uniformly integrable)한 수열이라고 하자.  만약 $X_n \xrightarrow{\mathrm{a.s.}} X$이면  
-$$
-E(X_n) \to E(X)
-$$
-가 성립함.
+> 규빈: `12.8 정리`  $\{X_n\}_{1}^\infty$가 균등적분가능(uniformly integrable)한 수열이라고 하자.  만약 $X_n \xrightarrow{\mathrm{a.s.}} X$이면  
+> $$E(X_n) \to E(X)$$
+> 가 성립함.
+> 
+> 증명: 다음을 주목하자.
+> $$E(|X_n|) = E(|X_n| \cdot 1_{\{|X_n| < M\}}) + E(|X_n| \cdot 1_{\{|X_n| \ge M\}}) \le M + E(|X_n| \cdot 1_{\{|X_n| \ge M\}}). \tag{12.24}$$
+> 
+> $M$을 충분히 크게 잡으면, 가정에 의해 두 번째 항을 균등하게 작게 만들 수 있으므로 $E|X_n|$이 균등하게 유계임을 알 수 있음.
+> 
+> Fatou 보조정리에 의해 $E|X| < \infty$이고 $E(X)$가 존재함. 이제 $Y_n = |X_n - X|$라 두면 $Y_n \to 0$ a.s.이며, 삼각부등식과 9.29에 의해
+> $$E(Y_n \cdot 1_{\{Y_n M\}}) \le 2E(|X_n| \cdot 1_{\{|X_n| M/2\}}) + 2E(|X| \cdot 1_{\{|X| M/2\}}). \tag{12.25}$$
+> 
+> 우변의 두 번째 항은 $M \to \infty$일 때 0으로 수렴하므로, $\{X_n\}$이 균등적분가능하면 $\{Y_n\}$도 균등적분가능함. 이제
+> $$E(Y_n) = E(Y_n \cdot 1_{\{Y_n \le M\}}) + E(Y_n \cdot 1_{\{Y_n M\}}) \tag{12.26}$$
+> 
+> 로 쓸 수 있음. 유계수렴정리에 의해 임의의 $\varepsilon 0$에 대해 $M < \infty$일 때 어떤 $N_\varepsilon$가 존재하여 $n N_\varepsilon$이면
+> 
+> $$E(Y_n \cdot 1_{\{Y_n \le M\}}) < \varepsilon/2$$
+> 
+> 가 성립함. 또한 $M$을 충분히 크게 잡으면 모든 $n$에 대하여
+> 
+> $$E(Y_n \cdot 1_{\{Y_n M\}}) < \varepsilon/2$$
+> 
+> 가 되어 $n N_\varepsilon$이면 $E(Y_n) < \varepsilon$이 됨. 그러므로 $\varepsilon$이 임의이므로 $E(Y_n) \to 0$임. 마지막으로
+> 
+> $$E(Y_n) = E(|X_n - X|) \ge |E(X_n) - E(X)| \tag{12.27}$$
+> 이 모듈러스 부등식으로부터 따라오므로, $E(X_n) \to E(X)$ 결론을 얻음. ■
 
-증명: 다음을 주목하자.
-$$
-E(|X_n|) = E(|X_n| \cdot 1_{\{|X_n| < M\}}) + E(|X_n| \cdot 1_{\{|X_n| \ge M\}})
-\le M + E(|X_n| \cdot 1_{\{|X_n| \ge M\}}). \tag{12.24}
-$$
-
-$M$을 충분히 크게 잡으면, 가정에 의해 두 번째 항을 균등하게 작게 만들 수 있으므로 $E|X_n|$이 균등하게 유계임을 알 수 있음.
-
-Fatou 보조정리에 의해 $E|X| < \infty$이고 $E(X)$가 존재함. 이제 $Y_n = |X_n - X|$라 두면 $Y_n \to 0$ a.s.이며, 삼각부등식과 9.29에 의해
-$$
-E(Y_n \cdot 1_{\{Y_n > M\}}) \le 2E(|X_n| \cdot 1_{\{|X_n| > M/2\}}) + 2E(|X| \cdot 1_{\{|X| > M/2\}}). \tag{12.25}
-$$
-
-우변의 두 번째 항은 $M \to \infty$일 때 0으로 수렴하므로, $\{X_n\}$이 균등적분가능하면 $\{Y_n\}$도 균등적분가능함. 이제
-$$
-E(Y_n) = E(Y_n \cdot 1_{\{Y_n \le M\}}) + E(Y_n \cdot 1_{\{Y_n > M\}}) \tag{12.26}
-$$
-
-로 쓸 수 있음. 유계수렴정리에 의해 임의의 $\varepsilon > 0$에 대해 $M < \infty$일 때 어떤 $N_\varepsilon$가 존재하여 $n > N_\varepsilon$이면
-
-$$
-E(Y_n \cdot 1_{\{Y_n \le M\}}) < \varepsilon/2
-$$
-
-가 성립함. 또한 $M$을 충분히 크게 잡으면 모든 $n$에 대하여
-
-$$
-E(Y_n \cdot 1_{\{Y_n > M\}}) < \varepsilon/2
-$$
-
-가 되어 $n > N_\varepsilon$이면 $E(Y_n) < \varepsilon$이 됨. 그러므로 $\varepsilon$이 임의이므로 $E(Y_n) \to 0$임. 마지막으로
-
-$$
-E(Y_n) = E(|X_n - X|) \ge |E(X_n) - E(X)| \tag{12.27}
-$$
-이 모듈러스 부등식으로부터 따라오므로, $E(X_n) \to E(X)$ 결론을 얻음. ■
-:::
 
 $L_p$ 수렴의 유용한 특징 중 하나는 $X_n - X$의 $L_p$ 노름이 $n$의 크기 순서를 가지는 상수열을 정의하여, 극한에 접근하는 속도를 측정할 수 있다는 점임. 예를 들어 $\|X_t - X\|_2 = O(n^{-k})$이지만 $o(n^{-k})$는 아닐 때, $X_n$이 평균제곱(mean square)에서 $n^k$ 속도로 $X$에 수렴한다고 말함. 이는 스케일된 확률변수 $n^k(X_t - X)$가 극한에서 양의 유한한 분산을 가지는 비퇴화(non-degenerate) 변수가 될 수 있음을 의미함. 이러한 수렴 속도를 결정하는 것은 종종 극한분포(limit distribution) 분석의 첫 단계가 됨.
 
 > 규빈: $L_p$ 수렴의 유용함은 (1) $X_n$와 $X$의 차이를 상수화하여 그 차이가 어떠한 $n$의 속도로 0으로 가는지 빅-O/스몰-o로 서술할수있다는 것 (2) $X_n$과 $X$의 차이를 $n$으로 스케일링하여 양의 유한한 분산을 가지는 비퇴화확률변수 $Y$를 만들수 있다는 것임. 그리고 이렇게 만들어진 $Y$는 극한분포분석의 첫 단계가 됨.  즉, “속도 결정 → 그 속도에 맞춰 스케일링 → 한계 분포 분석” 이런 흐름의 첫 단계라는 의미임. 
 
-:::{.callout-note}
-예를들어보겠음. IID분포 $X_i$의 평균 $\bar X_n$에 대해
-$$
-\|\bar X_n - E X_1\|_2 = \left( \frac{\operatorname{Var}(X_1)}{n} \right)^{1/2} = \frac{\sigma}{\sqrt{n}}
-$$
-가 되어 평균제곱에서의 속도는 $n^{-1/2}$임. 따라서 $Y=\sqrt{n}(\bar X_n - E X_1)$는 분산 $\sigma^2$ 규모의 비퇴화 변수로 스케일됨. 더 나아가 중심극한정리로
-$$
-Y= \sqrt{n}(\bar X_n - E X_1) \Rightarrow N(0, \sigma^2)
-$$
-와 같이 기술할 수 있음.
-:::
+> 규빈: 예를들어보겠음. IID분포 $X_i$의 평균 $\bar X_n$에 대해
+> $$\|\bar X_n - E X_1\|_2 = \left( \frac{\operatorname{Var}(X_1)}{n} \right)^{1/2} = \frac{\sigma}{\sqrt{n}}$$
+> 가 되어 평균제곱에서의 속도는 $n^{-1/2}$임. 따라서 $Y=\sqrt{n}(\bar X_n - E X_1)$는 분산 $\sigma^2$ 규모의 비퇴화 변수로 스케일됨. 더 나아가 중심극한정리로
+> $$Y= \sqrt{n}(\bar X_n - E X_1) \Rightarrow N(0, \sigma^2)$$
+> 와 같이 기술할 수 있음.
+
 
 ## 18.5 예제  
 
@@ -432,14 +393,13 @@ $$
 
 같은 방법을 사용하면 임의의 $p > 0$에 대해 $L_p$에서 수렴하지 않는, 거의 확실 수렴하는 수열을 정의할 수 있음. 예시는 독자에게 연습으로 남김.
 
-:::{.callout-note}
-확률공간 $([0,1],\mathcal{B}_{[0,1]},m)$에서
 
-$X_n(\omega) = \begin{cases} n^{1/p}, & \omega \in [0, 1/n), \\ 0, & \text{otherwise} \end{cases}$
-로 정의함. 여기서 $m$은 르베그 측도임.
-- **a.s. 수렴**: $\omega$가 $[0, 1/n)$에 속할 확률은 $1/n \to 0$이므로, 거의 모든 $\omega$에 대해 $n$이 충분히 크면 $X_n(\omega) = 0$이 됨. 따라서 $X_n \xrightarrow{\mathrm{a.s.}} 0$.
--  **$L_p$ 수렴 실패**: $E|X_n|^p = \frac{(n^{1/p})^p}{n} = \frac{n}{n} = 1$ 이므로 $L_p$ 노름이 줄지 않음. 따라서 $X_n$은 $L_p$에서 $0$으로 수렴하지 않음.
-:::
+> 규빈: 확률공간 $([0,1],\mathcal{B}_{[0,1]},m)$에서
+> 
+> $X_n(\omega) = \begin{cases} n^{1/p}, & \omega \in [0, 1/n), \\ 0, & \text{otherwise} \end{cases}$
+> 로 정의함. 여기서 $m$은 르베그 측도임.
+> - **a.s. 수렴**: $\omega$가 $[0, 1/n)$에 속할 확률은 $1/n \to 0$이므로, 거의 모든 $\omega$에 대해 $n$이 충분히 크면 $X_n(\omega) = 0$이 됨. 따라서 $X_n \xrightarrow{\mathrm{a.s.}} 0$.
+> -  **$L_p$ 수렴 실패**: $E|X_n|^p = \frac{(n^{1/p})^p}{n} = \frac{n}{n} = 1$ 이므로 $L_p$ 노름이 줄지 않음. 따라서 $X_n$은 $L_p$에서 $0$으로 수렴하지 않음.
 
 `18.16 예제`  다음과 같이 수열을 생성하자. $X_1 = 1$이 확률 1로 주어짐. $(X_2, X_3)$은 $(0,1)$ 또는 $(1,0)$이 같은 확률로 선택됨. $(X_4, X_5, X_6)$은 $(1,0,0)$, $(0,1,0)$, $(0,0,1)$이 같은 확률로 선택됨. 이런 식으로 진행함. $k = 1,2,3,\dots$에 대해, 다음 $k$개의 원소는 하나만 1이고 나머지는 0이 되도록 무작위로 선택됨. 따라서 $n \in [\tfrac12 k(k-1) + 1, \tfrac12 k(k+1)]$ 범위에서 $P(X_n = 1) = 1/k$이고, $p>0$일 때 $E|X_n|^p = 1/k$임. $n \to \infty$일 때 $k \to \infty$이므로 $X_n$은 확률수렴과 $L_p$ 수렴에서 0으로 감.^[$X_n \overset{pr}{\to} 0$  이고 $X_n \overset{L_p}{\to} 0$ 이라는 의미임.]   그러나 임의의 $n$에 대해, 무한히 많은 $j$에 대해 $X_{n+j} = 1$이 a.s. 성립하므로
 $$
@@ -449,15 +409,17 @@ $$
 
 또한 수열 $\{k^{1/r} X_n\}$을 고려하자. 여기서 항들은 $n \in [\tfrac12 k(k-1) + 1, \tfrac12 k(k+1)]$ 구간에서 0 또는 $k^{1/r}$임. 이 경우 $E(|k^{1/r} X_n|^p) = k^{p/r - 1}$이므로, 적절한 $r$을 선택하면 $p > r$일 때 $L_p$에서 수렴하지 않는 수열을 만들 수 있음. $r=1$일 때는 $E(k X_n) = 1$이 모든 $n$에 대해 성립하지만, 18.15와 마찬가지로 이 수열은 균등적분가능하지 않음. 따라서 수열의 기댓값의 극한은 존재하지만, 확률 극한과는 다름. ■
 
-:::{.callout-note}
-정리하면 아래와 같음
 
-| **수열**          | **pr 수렴** | **a.s. 수렴** | **$L_p$ 수렴** |
-| --------------- | --------- | ----------- | ------------ |
-| ${X_n}$         | O         | X           | O            |
-| ${k^{1/r} X_n}$ | O         | X           | X            |
+> 
+> 규빈: 정리하면 아래와 같음
+> 
+> | **수열**          | **pr 수렴** | **a.s. 수렴** | **$L_p$ 수렴** |
+> |:---|:---|:---|:---|
+> | ${X_n}$         | O         | X           | O            |
+> | ${k^{1/r} X_n}$ | O         | X           | X            |
+> 
+> 
 
-:::
 
 균등적분가능하지 않고, $L_1$에서는 수렴하지만 임의의 $\theta > 0$에 대해 $L_{1+\theta}$에서는 수렴하지 않는 경우, 기댓값이 극한에서 형식적으로는 잘 정의되어 있어도 표본평균의 극한이라는 직관적 의미는 무너질 수 있음. 18.15 예제는 유명한 성 페테르부르크 역설(St Petersburg Paradox)의 변형임. 게임은 플레이어가 $n \in \mathbb{N}$을 선언하고, 동전 던지기에서 $n$번 연속 앞면이 나오고 그 다음 뒷면이 나올 것에 베팅하는 것임. 맞히면 지급액은 £$2^{n+1}$. 이길 확률은 $2^{-n-1}$이므로, 기대이익은 £1이고, 판돈이 £1일 경우 ‘공정한 게임’임. $n=1,2,3,\dots$로 생성한 랜덤 상금 수열 $X_n$은 정확히 18.15에서 기술된 과정과 동일함. $n$이 매우 큰 경우를 생각하면, 유한한 판 수에서 기대이익보다 확률적 극한이 장래 이익의 더 나은 지표라는 점을 알 수 있음. $n$이 큰 경우 아무도 이 ‘겉보기에 공정한’ 게임에 베팅하지 않으려는 역설은 위험회피(risk aversion) 같은 심리학적 개념으로 설명되기도 하지만, 사실상 충분히 큰 $n$에서는 기댓값 자체가 결과의 실질적 예측지표로서 적절하지 않다는 설명이 충분함.
 
@@ -475,14 +437,14 @@ $$
 
 우리는 이미 강한 대수의 법칙(SLLN)이 적용되는 두 가지 경우를 봄. 13.12에 따르면, $\bar{X}_n \xrightarrow{as} \mu = E(X_1)$이 성립하는데, 이는 $\{X_t\}$가 정상(stationary)이고 에르고딕(ergodic)인 수열이며 $E|X_1| < \infty$일 때임. 이러한 유형의 결과는 독립(independent)인 수열의 예를 통해 설명할 수 있으며, 독립성은 에르고딕성을 보장하기에 충분함.
 
-:::{.callout-note}
-`13.12 에르고딕 정리 (Ergodic theorem) 
-$\{ X_t(\omega) \}_{t=1}^\infty$가 정상(stationary), 에르고딕(ergodic), 적분가능(integrable)한 확률 과정이라고 하자. 그러면
-$$
-\lim_{n \to \infty} \frac{S_n(\omega)}{n} = E(X_1), \quad \text{a.s.}
-$$
-여기서 $S_n(\omega) = \sum_{t=1}^n X_t(\omega)$임.
-:::
+
+> 규빈 -- `13.12 에르고딕 정리 (Ergodic theorem) 
+> $\{ X_t(\omega) \}_{t=1}^\infty$가 정상(stationary), 에르고딕(ergodic), 적분가능(integrable)한 확률 과정이라고 하자. 그러면
+> $$
+> \lim_{n \to \infty} \frac{S_n(\omega)}{n} = E(X_1), \quad \text{a.s.}
+> $$
+> 여기서 $S_n(\omega) = \sum_{t=1}^n X_t(\omega)$임.
+> 
 
 `18.17 예제`
 $\{X_t\}$를 서로 독립인 베르누이 확률변수로 두고, $P(X_t = 1) = P(X_t = 0) = \frac12$라고 하자. 즉, 동전 던지기를 이진수(binary)로 표현한 경우임. 에르고딕 정리(ergodic theorem)의 조건이 명백히 만족되므로,
@@ -496,22 +458,22 @@ $$
 기억할 만한 유용한 사실은 정상 에르고딕(stationary ergodic) 성질이 **측정가능 변환(measurable transformation)** 하에서도 보존된다는 점임. 즉, $\{X_t\}$가 정상이고 에르고딕이면, $g: \mathbb{R} \to \mathbb{R}$가 측정가능 함수일 때 $\{g(X_t)\}$ 역시 정상이고 에르고딕임. 예를 들어, $E(X_1^2) < \infty$이면
 $$\frac{1}{n} \sum_{t=1}^n X_t^2 \xrightarrow{\text{a.s.}} E(X_1^2)$$가 성립함. 에르고딕 정리는 대부분의 정상 과정(stationary sequence)에 대해 강법칙(strong law)을 보장하는 역할을 함. §13.5에서 봤듯이 에르고딕성은 정규성(regularity)이나 혼합성(mixing)보다 약한 성질임. 확률수렴(stochastic convergence)에서 흥미로운 문제는, 시퀀스의 좌표 분포가 이질적(heterogeneous)일 때 발생함. 이 경우 좌표 평균이 안정적인 절차라는 것을 가정하는 것이 자명하지 않음.
 
-:::{.callout-note}
-13.5 Example  
-$X$를 평균 0 대칭 분포를 가지며 분산이 $\sigma^2$인 확률변수라 하자. $X_t = (-1)^t X$라 하면, $\{X_t\}$는 정상 시퀀스(stationary sequence)가 됨.  특히,  
-$$
-E(X_t) = 0
-$$
-이고, 공분산은 
-$$
-\text{Cov}(X_n, X_{n+k}) = 
-\begin{cases}
-\sigma^2, & k \ \text{짝수일 때} \\
--\sigma^2, & k \ \text{홀수일 때}
-\end{cases}
-$$
-가 됨.  이 값은 $t$에 무관함.
-:::
+
+> 규빈 -- 13.5 Example  
+> $X$를 평균 0 대칭 분포를 가지며 분산이 $\sigma^2$인 확률변수라 하자. $X_t = (-1)^t X$라 하면, $\{X_t\}$는 정상 시퀀스(stationary sequence)가 됨.  특히,  
+> $$
+> E(X_t) = 0
+> $$
+> 이고, 공분산은 
+> $$
+> \text{Cov}(X_n, X_{n+k}) = 
+> \begin{cases}
+> \sigma^2, & k \ \text{짝수일 때} \\
+> -\sigma^2, & k \ \text{홀수일 때}
+> \end{cases}
+> $$
+> 가 됨.  이 값은 $t$에 무관함.
+> 
 
 > 규빈: 정규성과 혼합성은 둘 다 시퀀스의 의존 구조를 설명하는 개념이지만 강도와 의미가 다름. **정규성(regularity)**은 확률변수들의 결합 구조가 어느 정도 안정적이어서, 과거 정보가 미래에 미치는 영향이 제한적이라는 조건을 의미함. 보통 마팅게일 차분(martingale difference)나 예측불가능성 조건과 비슷하게, 과거 σ-대수에 조건부한 미래 값이 평균적으로 특정한 값(예: 기대값 0)에 가까워지는 성질을 가짐. 하지만 이 조건은 혼합성보다 약해서, 장기 의존(long-range dependence)이 완전히 제거될 필요는 없음. **혼합성(mixing)**은 좀 더 강한 의존 약화 조건으로, 시퀀스의 먼 과거와 먼 미래가 거의 독립처럼 행동한다는 뜻. 대표적으로 α-혼합(strong mixing), φ-혼합, ρ-혼합 등이 있는데, 강도에 따라 계량화됨. 예를 들어 strong mixing에서는 시간 간격이 커질수록 과거 사건과 미래 사건의 결합확률이 곱확률에 가까워짐. 이건 정규성보다 훨씬 강한 조건이라, 혼합이면 대부분의 경우 강법칙, 중심극한정리 등도 자동으로 성립함. 즉, 강도 관계는 대략적으로 "독립성 ⇒ 혼합성 ⇒ 정규성 ⇒ 에르고딕성" 이 순서로 볼 수 있음.
 
@@ -587,27 +549,17 @@ $$\text{Var}(\bar X_n) = \frac{1}{n^2}\Big(\sum_{t=1}^n \sigma_t^2 + 2\sum_{t=2}
 $$\le \frac{B}{n} + \frac{2}{n^2}\sum_{m=1}^{n-1}(n-m)B_m, \tag{19.4}$$
 여기서 $B_m = \sup_t |\sigma_{t,t-m}|$이고, $B_m \le B$, $m \ge 1$이다. 따라서 이는 아래와 같이 정리 19.1의 변형된 형태를 제안하게 됨.
 
-:::{.callout-note}
-이때 $B_m\leq B$를 만족하는 $B_m$의 존재성은 Cauchy-Schwarz 부등식에 의하여 보일 수 있다. Cauchy-Schwarz 부등식에 의하면 임의의 실수열 $a=(a_1,\dots,a_n)$, $b=(b_1,\dots,b_n)$에 대해  
-$$
-\Big| \sum_{i=1}^n a_i b_i \Big| \le 
-\Big( \sum_{i=1}^n a_i^2 \Big)^{1/2}
-\Big( \sum_{i=1}^n b_i^2 \Big)^{1/2}.
-$$
-이 성립한다. 확률변수 $X,Y$에 대해서도 동일하게  
-$$
-|\mathbb{E}[XY]| \le \sqrt{\mathbb{E}[X^2]} \cdot \sqrt{\mathbb{E}[Y^2]}
-$$
-가 성립한다. 이를 공분산에 적용하면  
-$$
-\sigma_{t,t-m} = \text{Cov}(X_t,X_{t-m}) = \mathbb{E}[(X_t-\mu_t)(X_{t-m}-\mu_{t-m})]
-$$
-이고, 따라서 
-$$
-|\sigma_{t,t-m}| \le \sigma_t \sigma_{t-m} = B.
-$$
-임의의 $t$에 의하여 위의 논의가 성립하므로 $\sup_t|\sigma_{t,t-m}|\leq B$.
-:::
+
+> 규빈: 이때 $B_m\leq B$를 만족하는 $B_m$의 존재성은 Cauchy-Schwarz 부등식에 의하여 보일 수 있다. Cauchy-Schwarz 부등식에 의하면 임의의 실수열 $a=(a_1,\dots,a_n)$, $b=(b_1,\dots,b_n)$에 대해  
+> $$\Big| \sum_{i=1}^n a_i b_i \Big| \le \Big( \sum_{i=1}^n a_i^2 \Big)^{1/2}\Big( \sum_{i=1}^n b_i^2 \Big)^{1/2}.$$
+> 이 성립한다. 확률변수 $X,Y$에 대해서도 동일하게  
+> $$|\mathbb{E}[XY]| \le \sqrt{\mathbb{E}[X^2]} \cdot \sqrt{\mathbb{E}[Y^2]}$$
+> 가 성립한다. 이를 공분산에 적용하면  
+> $$\sigma_{t,t-m} = \text{Cov}(X_t,X_{t-m}) = \mathbb{E}[(X_t-\mu_t)(X_{t-m}-\mu_{t-m})]$$
+> 이고, 따라서 
+> $$|\sigma_{t,t-m}| \le \sigma_t \sigma_{t-m} = B.$$
+> 임의의 $t$에 의하여 위의 논의가 성립하므로 $\sup_t|\sigma_{t,t-m}|\leq B$.
+> 
 
 > 규빈: 모든 $t$에 대하여 $\sigma^2_t \leq B$ 가 성립하면, $\mathrm{Var}(\overline{X}_n) =  n^{-2} \left[ \sum_{t=1}^n \sigma_t^2 + 2 \sum_{t=2}^n \sum_{s=1}^{t-1} \sigma_{ts} \right]$ 의 첫번째 항은 $o(1)$으로 처리할 수 있고 두번째항은 $m$(=lag)이 커질수록 $B_m$이 매우 빠르게 작아진다면 $o(1)$으로 처리할 수 있다는 의미임. (그리고 $m$이 커질수록 $B_m$이 매우 빠르게 작아진다는 의미는 lag이 커질수록 빠르게 uncorrelated 된다는 의미가 되는거고..) 
 
@@ -618,48 +570,42 @@ $$
 
 추가적으로, 2.30에 비추어 보면 충분조건은 $B_m = O((\log m)^{-1-\delta}), \ \delta > 0$인데, 이는 자기공분산에 대한 매우 약한 제한이다. 
 
-:::{.callout-note}
+> 규빈: 조건 $\sum_{m=1}^{\infty} \frac{1}{m} B_m < \infty$ 가 직관적인편은 아닌데 그 이유는 $B_m$이 어떻게 생겨야 하는지?에 대한 아이디어를 주지 못하기 때문이다. 만약에 $B_m$이 상수라면 $\sum_{m=1}^{\infty}\frac{1}{m}B_m$은 발산하므로, $B_m$은 $m$이 커질수록 점점 작아지긴 해야한다. 그렇다면 $B_m=\frac{1}{m}$ 이라면 어떨까? $\sum_{m=1}^{\infty}\frac{1}{m}B_m=\sum_{m=1}^{\infty}\frac{1}{m^2}$ 이므로 빠르게 수렴한다.  그렇다면 만약에 아래와 같은 경우라면 어떨까? 
+> 
+> - $B_1 < \infty$
+> - $B_m=\frac{1}{\log m},\quad m=2,3,\dots$ 
+> 
+> 즉 $B_m \sim O( (\log m)^{-1})$ 인 경우이다. 이 경우는 수렴하지 않는다. 따져보자. 
+> $$\sum_{m=1}^{\infty}\frac{1}{m}B_m=B_1+\sum_{m=2}^{\infty}\frac{1}{m \log m}$$
+> 
+> 여기에서 $\sum_{m=2}^{\infty}\frac{1}{m \log m}$의 수렴여부는 아래의 수렴여부와 같고 
+> 
+> $$\int_{x=2}^{\infty}\frac{1}{x} \frac{1}{\log x}$$
+> 치환적분을 이용하여 계산하면 $\int_2^\infty \frac{1}{x \log x}dx=\int_{\log 2}^\infty \frac{1}{u}du=[\log u ]_{\log 2}^{\infty}=\infty$ 이기 때문이다.  그렇다면 만약에 아래와 같은 경우라면 어떨까? 
+> 
+> - $B_1 < \infty$
+> - $B_m=\frac{1}{(\log m)^{1+\delta}},\quad m=2,3,\dots$ 
+> 
+> 즉 $B_m \sim O( (\log m)^{-1-\delta})$ 인 경우이다. 이 경우는 
+> 
+> $$\int_2^\infty \frac{1}{x (\log x)^{1+\delta}}dx=\int_{\log 2}^\infty \frac{1}{u^{1+\delta}}du= \left[ -\frac{1}{\delta} u^{-\delta} \right]_{\log 2}^\infty = \frac{1}{\delta (\log 2)^{\delta}}$$
+> 
+> 의 계산으로부터 수렴한다. 
+> 
+> ---
+> 
+> **따름정리 2.30이랑 연결~**
+> 
+> `2.30 따름정리` 만약 $x_n = O(n^{\alpha}L(n))$ 이라면, 모든 $\alpha < -1$ 과 무한대에서 천천히 변하는 모든 함수 $L(n)$ 에 대하여 $\sum_{n=1}^{\infty} x_n < \infty$ 이다. ■
+> 
+> 여기서 *천천히 변하는 함수* $L(n)$이란 임의의 $c 0$에 대해  
+> 
+> $$\lim_{n \to \infty} \frac{L(cn)}{L(n)} = 1$$
+> 을 만족하는 함수로, 대표적으로 $\log n$, $\log\log n$, 상수 함수 등이 있다.  이 따름정리의 의미는 우리가 보통 알고 있는 **“$\sum n^\alpha$는 $\alpha < -1$일 때 수렴”**이라는 사실을 더 일반화한 것이다. 즉, 단순히 $n^\alpha$ 꼴뿐 아니라, 그에 천천히 변하는 함수 $L(n)$이 곱해져 있어도, $\alpha < -1$라는 조건만 맞으면 여전히 수렴한다는 뜻이다. 예컨대 $x_n = \frac{\log \log n}{n^{1.1}}$ 같은 경우에도, $\alpha = -1.1 < -1$이고 $L(n) = \log \log n$은 slowly varying 함수이므로 급수가 수렴한다.  지금 맥락에서는 $x_m = \frac{B_m}{m}$을 생각할 때 $B_m = O((\log m)^{-1-\delta})$ 꼴로만 만들어도, 
+> $$x_m = O\!\left(\frac{1}{m (\log m)^{1+\delta}}\right).$$이는 $n^\alpha L(n)$ 꼴로 보면 $\alpha = -1$, $L(n) = (\log n)^{-(1+\delta)}$이다. $L(n)$은 slowly varying 함수이므로, $\alpha = -1$ 경계값에서 로그항이 추가적으로 급수를 수렴하게 만들어준다. 즉, `2.30 따름정리`는 $n^\alpha$와 slowly varying function의 곱으로 표현되는 급수의 수렴 조건을 일반적으로 보장해 주며, 지금의 충분조건 역시 이 맥락에서 이해할 수 있다.  
+> 
+> 정리하면, 정리 19.2의 충분조건 $B_m = O((\log m)^{-1-\delta}), \delta 0$라는 것은 조화급수의 발산을 막기 위해 **로그 항의 작은 보정만 있어도 된다**는 사실을 보여준다. 이것이 의미하는 바는 분명하다. 자기공분산의 상한을 나타내는 $B_m$이 반드시 급격하게 줄어들 필요는 없으며, 단지 $(\log m)^{-1-\delta}$ 정도로만 줄어들어도 충분하다. 로그 함수는 무한대로 갈 때 극히 느리게 증가하기 때문에, 그 역수는 아주 천천히 0으로 수렴한다. 그런데도 로그에 작은 지수를 하나 더 얹어주기만 하면, 즉 $(\log m)^{-1-\delta}$ 정도로만 감소해도, 원래 발산하던 급수 $\sum \frac{1}{m}$를 수렴하는 급수로 바꿔버린다. 따라서 정리 19.2의 조건을 충족시키는 데 필요한 제약은 사실상 매우 약한 것이다. 자기공분산이 조금만이라도 줄어든다면, 그것이 극도로 느린 속도라 하더라도, 여전히 평균 $\overline{X}_n$이 $L_2$에서 수렴한다는 결론을 보장할 수 있는 것이다.  즉, 정리에서 제시한 충분조건 $B_m = O((\log m)^{-1-\delta}), \delta 0$라는 것은 단순히 로그보다 약간 더 빠른 감소만 해도 된다는 뜻이고, 이는 실제 과정에서 자기공분산에 요구하는 제약이 얼마나 약한지를 잘 보여주는 대목이다.  
 
-조건 $\sum_{m=1}^{\infty} \frac{1}{m} B_m < \infty$ 가 직관적인편은 아닌데 그 이유는 $B_m$이 어떻게 생겨야 하는지?에 대한 아이디어를 주지 못하기 때문이다. 만약에 $B_m$이 상수라면 $\sum_{m=1}^{\infty}\frac{1}{m}B_m$은 발산하므로, $B_m$은 $m$이 커질수록 점점 작아지긴 해야한다. 그렇다면 $B_m=\frac{1}{m}$ 이라면 어떨까? $\sum_{m=1}^{\infty}\frac{1}{m}B_m=\sum_{m=1}^{\infty}\frac{1}{m^2}$ 이므로 빠르게 수렴한다.  그렇다면 만약에 아래와 같은 경우라면 어떨까? 
-
-- $B_1 < \infty$
-- $B_m=\frac{1}{\log m},\quad m=2,3,\dots$ 
-
-즉 $B_m \sim O( (\log m)^{-1})$ 인 경우이다. 이 경우는 수렴하지 않는다. 따져보자. 
-$$\sum_{m=1}^{\infty}\frac{1}{m}B_m=B_1+\sum_{m=2}^{\infty}\frac{1}{m \log m}$$
-
-여기에서 $\sum_{m=2}^{\infty}\frac{1}{m \log m}$의 수렴여부는 아래의 수렴여부와 같고 
-
-$$\int_{x=2}^{\infty}\frac{1}{x} \frac{1}{\log x}$$
-치환적분을 이용하여 계산하면 $\int_2^\infty \frac{1}{x \log x}dx=\int_{\log 2}^\infty \frac{1}{u}du=[\log u ]_{\log 2}^{\infty}=\infty$ 이기 때문이다.  그렇다면 만약에 아래와 같은 경우라면 어떨까? 
-
-- $B_1 < \infty$
-- $B_m=\frac{1}{(\log m)^{1+\delta}},\quad m=2,3,\dots$ 
-
-즉 $B_m \sim O( (\log m)^{-1-\delta})$ 인 경우이다. 이 경우는 
-
-$$\int_2^\infty \frac{1}{x (\log x)^{1+\delta}}dx=\int_{\log 2}^\infty \frac{1}{u^{1+\delta}}du= \left[ -\frac{1}{\delta} u^{-\delta} \right]_{\log 2}^\infty = \frac{1}{\delta (\log 2)^{\delta}}$$
-
-의 계산으로부터 수렴한다. 
-
----
-
-**따름정리 2.30이랑 연결~**
-
-`2.30 따름정리` 만약 $x_n = O(n^{\alpha}L(n))$ 이라면, 모든 $\alpha < -1$ 과 무한대에서 천천히 변하는 모든 함수 $L(n)$ 에 대하여 $\sum_{n=1}^{\infty} x_n < \infty$ 이다. ■
-
-여기서 *천천히 변하는 함수* $L(n)$이란 임의의 $c > 0$에 대해  
-
-$$
-\lim_{n \to \infty} \frac{L(cn)}{L(n)} = 1
-$$
-을 만족하는 함수로, 대표적으로 $\log n$, $\log\log n$, 상수 함수 등이 있다.  이 따름정리의 의미는 우리가 보통 알고 있는 **“$\sum n^\alpha$는 $\alpha < -1$일 때 수렴”**이라는 사실을 더 일반화한 것이다. 즉, 단순히 $n^\alpha$ 꼴뿐 아니라, 그에 천천히 변하는 함수 $L(n)$이 곱해져 있어도, $\alpha < -1$라는 조건만 맞으면 여전히 수렴한다는 뜻이다. 예컨대 $x_n = \frac{\log \log n}{n^{1.1}}$ 같은 경우에도, $\alpha = -1.1 < -1$이고 $L(n) = \log \log n$은 slowly varying 함수이므로 급수가 수렴한다.  지금 맥락에서는 $x_m = \frac{B_m}{m}$을 생각할 때 $B_m = O((\log m)^{-1-\delta})$ 꼴로만 만들어도, 
-$$
-x_m = O\!\left(\frac{1}{m (\log m)^{1+\delta}}\right).
-$$이는 $n^\alpha L(n)$ 꼴로 보면 $\alpha = -1$, $L(n) = (\log n)^{-(1+\delta)}$이다. $L(n)$은 slowly varying 함수이므로, $\alpha = -1$ 경계값에서 로그항이 추가적으로 급수를 수렴하게 만들어준다. 즉, `2.30 따름정리`는 $n^\alpha$와 slowly varying function의 곱으로 표현되는 급수의 수렴 조건을 일반적으로 보장해 주며, 지금의 충분조건 역시 이 맥락에서 이해할 수 있다.  
-
-정리하면, 정리 19.2의 충분조건 $B_m = O((\log m)^{-1-\delta}), \delta > 0$라는 것은 조화급수의 발산을 막기 위해 **로그 항의 작은 보정만 있어도 된다**는 사실을 보여준다. 이것이 의미하는 바는 분명하다. 자기공분산의 상한을 나타내는 $B_m$이 반드시 급격하게 줄어들 필요는 없으며, 단지 $(\log m)^{-1-\delta}$ 정도로만 줄어들어도 충분하다. 로그 함수는 무한대로 갈 때 극히 느리게 증가하기 때문에, 그 역수는 아주 천천히 0으로 수렴한다. 그런데도 로그에 작은 지수를 하나 더 얹어주기만 하면, 즉 $(\log m)^{-1-\delta}$ 정도로만 감소해도, 원래 발산하던 급수 $\sum \frac{1}{m}$를 수렴하는 급수로 바꿔버린다. 따라서 정리 19.2의 조건을 충족시키는 데 필요한 제약은 사실상 매우 약한 것이다. 자기공분산이 조금만이라도 줄어든다면, 그것이 극도로 느린 속도라 하더라도, 여전히 평균 $\overline{X}_n$이 $L_2$에서 수렴한다는 결론을 보장할 수 있는 것이다.  즉, 정리에서 제시한 충분조건 $B_m = O((\log m)^{-1-\delta}), \delta > 0$라는 것은 단순히 로그보다 약간 더 빠른 감소만 해도 된다는 뜻이고, 이는 실제 과정에서 자기공분산에 요구하는 제약이 얼마나 약한지를 잘 보여주는 대목이다.  
-:::
 
 이 결과들로부터 두 가지 관찰을 할 수 있다. 첫째, 의존도의 차원과 분산의 성장 사이에 **trade-off**가 존재한다는 점이다. 정리 **19.1**과 **19.2**는 쉽게 결합될 수 있으며, 공분산이 감소하는 속도를 더 엄격히 하면 분산이 더 빠르게 성장할 수 있고, 그 반대도 성립한다. 독자는 위 증명에서 사용된 비교적 간단한 기법을 응용하여 이러한 가능성을 탐구할 수 있다. 다만, $|\sigma_{t, t-m}|$ 항은 $m$이 커짐에 따라 감소하는 동시에 $t$가 커짐에 따라 증가하는 것으로 다루어야 함을 유념해야 한다. 유사한 trade-off들은 이후 다른 맥락에서 다시 도출된다.
 
