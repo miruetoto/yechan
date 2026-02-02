@@ -275,8 +275,9 @@ def rename_images(posts_dir: Path, attachments_dir: Path):
 
     total_renamed = 0
 
-    # 모든 MD 파일 처리
-    for md_path in sorted(posts_dir.glob('**/*.md')):
+    # 모든 MD/QMD 파일 처리
+    all_files = list(posts_dir.glob('**/*.md')) + list(posts_dir.glob('**/*.qmd'))
+    for md_path in sorted(all_files):
         date_prefix = get_date_prefix(md_path.name)
         if not date_prefix:
             continue
