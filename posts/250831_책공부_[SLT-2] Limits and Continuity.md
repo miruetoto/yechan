@@ -1,5 +1,5 @@
 ---
-title: (책공부) 수열의극한,무한급수
+title: (책공부) [SLT-2] Limits and Continuity
 author: 신록예찬
 date: 08/31/2025
 draft: false

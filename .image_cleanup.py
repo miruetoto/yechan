@@ -2,7 +2,7 @@
 """
 이미지 파일 정리 프로그램
 1. posts/attachments/ 폴더의 미사용 이미지 자동 삭제
-2. 이미지 파일명을 MD 파일 날짜 기준으로 정리 (YYMMDD_01.png 형식)
+2. 이미지 파일명을 MD 파일명 기준으로 정리 (파일명_01.png 형식)
 """
 
 import re
@@ -90,13 +90,13 @@ def get_date_prefix(md_filename: str) -> str:
     return None
 
 def rename_images_for_file(md_path: Path, attachments_dir: Path) -> list:
-    """MD 파일의 이미지들을 날짜 기반으로 리네임"""
-    date_prefix = get_date_prefix(md_path.name)
-    if not date_prefix:
-        return []
+    """MD 파일의 이미지들을 파일명 기반으로 리네임"""
+    # MD 파일명에서 확장자 제거
+    base_name = md_path.stem  # e.g., "250910_책공부_The Book of Why"
 
-    # 이미 정리된 파일명 패턴 (YYMMDD_NN.ext)
-    already_renamed_pattern = re.compile(rf'^{date_prefix}_\d{{2}}\.\w+$')
+    # 이미 정리된 파일명 패턴 (파일명_NN.ext)
+    escaped_base = re.escape(base_name)
+    already_renamed_pattern = re.compile(rf'^{escaped_base}_\d{{2}}\.\w+$')
 
     # 등장 순서대로 이미지 찾기
     images = find_image_references_ordered(md_path)
@@ -112,10 +112,10 @@ def rename_images_for_file(md_path: Path, attachments_dir: Path) -> list:
     if not images_to_rename:
         return []
 
-    # 기존에 해당 날짜로 된 파일들 확인 (번호 이어서 부여)
+    # 기존에 해당 파일명으로 된 파일들 확인 (번호 이어서 부여)
     existing_nums = []
     for f in attachments_dir.iterdir():
-        m = re.match(rf'^{date_prefix}_(\d{{2}})\.\w+$', f.name)
+        m = re.match(rf'^{escaped_base}_(\d{{2}})\.\w+$', f.name)
         if m:
             existing_nums.append(int(m.group(1)))
 
@@ -130,12 +130,12 @@ def rename_images_for_file(md_path: Path, attachments_dir: Path) -> list:
             continue
 
         ext = old_path.suffix.lower()
-        new_name = f"{date_prefix}_{next_num:02d}{ext}"
+        new_name = f"{base_name}_{next_num:02d}{ext}"
 
-        # 새 이름이 이미 존재하면 스킵
+        # 새 이름이 이미 존재하면 번호 증가
         while (attachments_dir / new_name).exists():
             next_num += 1
-            new_name = f"{date_prefix}_{next_num:02d}{ext}"
+            new_name = f"{base_name}_{next_num:02d}{ext}"
 
         rename_plan.append((old_name, new_name))
         next_num += 1
@@ -269,7 +269,7 @@ def cleanup_unused_images(posts_dir: Path, attachments_dir: Path, current_dir: P
         print_color("✓ 모든 이미지가 사용 중입니다!", Colors.GREEN)
 
 def rename_images(posts_dir: Path, attachments_dir: Path):
-    """이미지 파일명을 날짜 기반으로 정리"""
+    """이미지 파일명을 MD 파일명 기반으로 정리"""
     print_color("이미지 파일명 정리 중...", Colors.GREEN)
     print()
 
@@ -278,10 +278,6 @@ def rename_images(posts_dir: Path, attachments_dir: Path):
     # 모든 MD/QMD 파일 처리
     all_files = list(posts_dir.glob('**/*.md')) + list(posts_dir.glob('**/*.qmd'))
     for md_path in sorted(all_files):
-        date_prefix = get_date_prefix(md_path.name)
-        if not date_prefix:
-            continue
-
         renamed = rename_images_for_file(md_path, attachments_dir)
         if renamed:
             print(f"  {md_path.name}")
@@ -319,7 +315,7 @@ def main():
     # 메뉴 선택
     print("작업 선택:")
     print("  1) 미사용 이미지 정리 (삭제)")
-    print("  2) 이미지 파일명 정리 (YYMMDD_NN 형식)")
+    print("  2) 이미지 파일명 정리 (파일명_NN 형식)")
     print("  3) 모두 실행 (1 + 2)")
     print()
 

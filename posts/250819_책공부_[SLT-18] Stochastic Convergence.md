@@ -1,5 +1,5 @@
 ---
-title: (책공부) 확률변수의 수렴
+title: (책공부) [SLT-18] Stochastic Convergence
 author: 신록예찬
 date: 08/19/2025
 draft: false
@@ -62,7 +62,7 @@ $$
 따라서,  
 $$
 P(\liminf E_n^c) = \lim_{m \to \infty} P\left( \bigcap_{n=m}^\infty E_n^c \right) = 0, \tag{18.9}
-$$  
+$$
 18.1(ii)에 의해,  
 $$
 P(E_n \ \text{i.o.}) = P(\limsup E_n) = 1 - P(\liminf E_n^c) = 1. \tag{18.10}
