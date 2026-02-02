@@ -5,7 +5,6 @@ date: 08/19/2025
 draft: false
 ---
 
-# 18. Stochastic Convergence
 ## 18.1 거의 확실 수렴
 
 거의 확실 수렴은 §12.2에서 공식적으로 정의되었음. 이 조건은 종종 다음과 같이 표현됨. $$P\left( \limsup_{n \to \infty} |X_n - X| > \varepsilon \right) = 0, \quad \forall \varepsilon > 0$$

@@ -4,7 +4,6 @@ author: 신록예찬
 date: 08/31/2025
 draft: false
 ---
-# 2. Limits and Continuity
 
 ## 2.2 수열과 극한
 

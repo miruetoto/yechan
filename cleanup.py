@@ -362,36 +362,6 @@ def cleanup_unused_images(posts_dir: Path, attachments_dir: Path, current_dir: P
 
         print()
         print_color(f"✓ {deleted}개 파일 삭제 완료", Colors.GREEN)
-
-        # 리포트 생성
-        print()
-        print_color("4. 리포트 생성 중...", Colors.GREEN)
-
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        report_file = current_dir / f"이미지정리_리포트_{timestamp}.txt"
-
-        with open(report_file, 'w', encoding='utf-8') as f:
-            f.write("=" * 50 + "\n")
-            f.write("이미지 파일 정리 리포트\n")
-            f.write(f"생성: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-            f.write("=" * 50 + "\n\n")
-
-            f.write("【요약】\n")
-            f.write(f"  • 전체: {len(all_images)}개\n")
-            f.write(f"  • 사용: {used_count}개\n")
-            f.write(f"  • 삭제: {deleted}개\n")
-            f.write(f"  • 사용률: {usage_rate}%\n\n")
-
-            f.write("【삭제된 이미지】\n")
-            for img in sorted_unused:
-                f.write(f"  ✗ {img}\n")
-
-            if missing_images:
-                f.write("\n【누락된 이미지】\n")
-                for img in sorted(missing_images):
-                    f.write(f"  ! {img}\n")
-
-        print_color(f"✓ 리포트: {report_file.name}", Colors.GREEN)
     else:
         print()
         print_color("✓ 모든 이미지가 사용 중입니다!", Colors.GREEN)
