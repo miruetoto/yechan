@@ -11,9 +11,9 @@ draft: false
 
 $X$를 공집합이 아닌 집합이라 하자. $X$의 부분집합들의 모임 $\mathcal{T}$가 $X$ 위의 위상이란, $\mathcal{T}$가 다음 공리들을 만족하는 것이다.
 
-[$O_1$] $X$ and $\varnothing$ belong to $\mathcal{T}$.
-[$O_2$] The union of any number of sets in $\mathcal{T}$ belongs to $\mathcal{T}$.
-[$O_3$] The intersection of any two sets in $\mathcal{T}$ belongs to $\mathcal{T}$.
+- [$O_1$] $X$ and $\varnothing$ belong to $\mathcal{T}$.
+- [$O_2$] The union of any number of sets in $\mathcal{T}$ belongs to $\mathcal{T}$.
+- [$O_3$] The intersection of any two sets in $\mathcal{T}$ belongs to $\mathcal{T}$.
 
 $\mathcal{T}$의 원소들을 $\mathcal{T}$-열린 집합, 또는 간단히 열린 집합이라 부르며, $X$와 $\mathcal{T}$를 함께 쌍 $(X, \mathcal{T})$를 위상 공간이라 한다.
 
@@ -58,8 +58,8 @@ $G$가 점 $p \in X$를 포함하는 열린 집합이면, $G$를 $p$의 열린 �
 
 Remark: 공리 [$O_1$], [$O_2$], [$O_3$]은 다음 두 공리와 동치이다:
 
-[$O_1^*$] The union of any number of sets in $\mathcal{T}$ belongs to $\mathcal{T}$.
-[$O_2^*$] The intersection of any finite number of sets in $\mathcal{T}$ belongs to $\mathcal{T}$.
+- [$O_1^*$] The union of any number of sets in $\mathcal{T}$ belongs to $\mathcal{T}$.
+- [$O_2^*$] The intersection of any finite number of sets in $\mathcal{T}$ belongs to $\mathcal{T}$.
 
 [$O_1^*$]이 $\varnothing$가 $\mathcal{T}$에 속함을 함의하는데, 이는
 $$\cup \{G \in \mathcal{T} : G \in \varnothing\} = \varnothing$$
@@ -97,9 +97,10 @@ Proposition 5.2: In a topological space $X$, a subset $A$ of $X$ is open if and 
 위상 공간의 공리 [$O_1$], [$O_2$], [$O_3$]과 드 모르간 법칙으로부터 다음을 얻는다
 
 Theorem 5.3: Let $X$ be a topological space. Then the class of closed subsets of $X$ possesses the following properties:
-(i) $X$ and $\varnothing$ are closed sets.
-(ii) The intersection of any number of closed sets is closed.
-(iii) The union of any two closed sets is closed.
+
+- (i) $X$ and $\varnothing$ are closed sets.
+- (ii) The intersection of any number of closed sets is closed.
+- (iii) The union of any two closed sets is closed.
 
 닫힌 집합은 그 극한점을 이용하여 다음과 같이 특성화할 수도 있다:
 
