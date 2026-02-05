@@ -330,7 +330,9 @@ $p \in B \subset D_p \subset G$ or $p \in B \subset G$
 
 를 만족한다. 즉 그림에서 보이는 바와 같다. 다시 말해, $\mathcal{B}$는 위의 (ii)를 만족한다.
 
+
 ![](attachments/250831_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_01.png)
+
 Example 1.3: 임의의 이산공간 $(X, \mathcal{D})$를 생각하자. 그러면 $X$의 모든 한원소 부분집합들의 족 $\mathcal{B} = \{\{p\} : p \in X\}$는 $X$ 위의 이산 위상 $\mathcal{D}$에 대한 기저이다. 각 한원소집합 $\{p\}$는 $\mathcal{D}$-열린이고, 모든 $A \subset X$가 $\mathcal{D}$-열린이므로, 모든 집합은 한원소집합들의 합집합이다. 사실 $X$의 부분집합들의 임의의 다른 족 $\mathcal{B}^*$가 $\mathcal{D}$에 대한 기저인 것은 $\mathcal{B}$의 상위족(superclass)인 것, 즉 $\mathcal{B}^* \supset \mathcal{B}$인 것과 동치이다.
 
 > 규빈: 결국에는 ${\cal B}$가 최소기저의 느낌을 가진다는것.
