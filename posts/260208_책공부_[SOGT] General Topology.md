@@ -18,21 +18,27 @@ $X$를 공집합이 아닌 집합이라 하자. $X$의 부분집합들의 모임
 $\mathcal{T}$의 원소들을 $\mathcal{T}$-열린 집합, 또는 간단히 열린 집합이라 부르며, $X$와 $\mathcal{T}$를 함께 쌍 $(X, \mathcal{T})$를 위상 공간이라 한다.
 
 > 규빈: 위상이란, $X$의 부분집합 중 "모든 멤버들이 여유있는 집합들의 모임"이라 볼 수 있다. 여기에서 여유있다라는 개념이 좀 추상적인 편인데, 내가 이해하는 방식으로 설명하보겠다. 아래와 같은 상상을 하자. 
+> 
 > 1. $X$의 임의의 부분집합 $A$를 생각하자. 
 > 2. $A$의 원소들은 각각 스스로 "내가 여유있나?" 라고 반문한다. 
 > 3. 내가 여유있는지 판단할때, 외부원소 없이 스스로 독립적으로 여유있다고 느낄수도 있고, 아니면 어떠한 원소의 존재때문에 "쟤랑 같이 있음 내가 여유있지" 라고 느낄수도 있다. 
 > 4. 아무튼 어떠한 판단과정을 거쳐서 $A$의 모든 원소들이 "난 여유있어" 라고 생각한다면? 그 집합 $A$는 여유있는 집합이다. 
+> 
 > 예를들어서 $X=\{a,b,c\}$ 라고 하자. 원소 $a$는 $b$가 있다면 여유있다고 느끼고, 원소 $b$는 본인스스로 여유있다고 느낀다. $c$는 $b$가 있어야 여유있다고 느낀다. 그렇다면 
+> 
 > 1. $\{b\}$는 여유있는 집합이다. 왜냐하면 원소 $b$는 스스로 여유있다고 생각하니까. 
 > 2. $\{a,b\}$ 역시 여유있는 집합이다. 왜냐하면 원소 $a$는 $b$가 있다면 여유있다고 생각하고, $b$는 그 스스로 여유있다고 생각하니까. 
 > 3. $\{b,c\}$ 역시 여유있는 집합이다. 왜냐하면 원소 $b$는 스스로 여유있다고 생각하고, $c$는 $b$가 있다면 여유있다고 생각하니까. 
 > 4. $\{a,b,c\}$ 역시 여유있는 집합이다. 왜냐하면 $a$는 $b$때문에 여유있다고 생각하고 $b$는 스스로 여유있다고 생각하고 $c$는 $b$때문에 여유있다고 생각하니까. 
 > 5. $\emptyset$역시 여유있는집합이다. 왜냐하면 여유있음을 따질수 있는 주체가 없으니까. (그냥 여유있다 생각한다고 치는거) 
 > 6. $\{a\}$는 여유있는 집합이 아니다. 왜냐하면 $a$는 스스로 여유있다고 생각하지 못하니까. 그리고 $\{c\}$역시 여유있는집합이 아니다. 왜냐하면 $c$ 역시 스스로 여유있다 생각하지 못하기 때문이다. 또한 $\{a,c\}$역시 여유있는 집합이 아니다. 
+> 
 > 엄청 중요한 직관중 하나가 나를 여유있게 만들러주는 존재이다. $a$의 입장에서는 $b$만 있으면 숨통이 트이므로 "$b$만 있으면 괜찮아, 난 $b$랑 가까우니까" 라고 생각할 수 있다. 또한 $c$역시 $b$를 가깝게 생각할 것이다. 이렇게 "여유"라는 개념은 "가까움"이라는 개념과 추상적으로 닿아있다. 토폴로지는 사실 거리없이 가까움의 개념을 정의할 수 있는 도구라 해석할 수 있는데, 그 주된 테크닉이 "여유있는 집합들의 모임 $\to$ 가까움" 을 정의하는 방식이다. 이제 공리를 하나씩 따져보자. 
+> 
 > 1. O1을 따져보자. 공집합은 항상 여유있는 집합이라 치자고 했다. $X$ 역시 비슷한 맥락인데 전체집합은 모든 원소들을 모은 집합인데 그래도 모든 원소가 모여있으면 각각의 원소가 "여유있어" 라고 생각한다고 가정하자. (만약에 그렇지 않다면 논의할게 없으니까.. 다 모여있어도 여유있다고 생각하지 않는데, 거기서 뭘 여유있는 집합의 모임을 만들어) 
 > 2. O2를 따져보자. 이 성질은 합집합에 대한 성질인데, 이건 생각보다 당연하다. $A$모임의 각 원소가 스스로 여유있다고 느끼고, $B$모임의 각 원소가 스스로 여유있다고 느낀다고 가정하자. 그러면 당연히 $A\cup B$의 각 원소도 모두 스스로 여유있다고 여길것이다. 왜냐하면 최소한 $A\cup B$ 에서 $A$원소 출신은 $A\cup B$에 있는 $A$때문에 스스로 여유있다 여길것이고, $B$원소 출신역시 $A\cup B$에 있는 $B$때문에 스스로 여유있다고 여길테니까. 
 > 3. O3조건을 따져보자. 이 조건이 킥이다. $A$모임의 각 원소가 스스로 여유있다고 여기고, $B$모임의 각 원소가 스스로 여유있다고 여긴다고 가정하자. $A\cap B$의 원소는 과거에 $A$에도, $B$에도 속해있던 원소이다. 이 원소를 편의상 $p$라고 하자. $p$는 $A\cap B$에서 여유있다고 느낄까? 그렇지 않을 수 있다. 예를들어 그 $p$가 $A$에서 느낀 여유있음은 $A,B$ 모두에 있는 원소때문일 수도 있지만 (즉 $A\cap B$에 있는 원소때문일수도 있지만) $A$에만 있는 원소때문일 수도 있다 (즉 $A-B$에 있는 원소때문일 수도 있다). 마찬가지로 그 $p$가 $B$에서 느낀 여유있음은 $A,B$ 모두에 있는 원소떄문일 수도 있지만 (즉 $A \cap B$에 있는 원소때문일수도 있지만) $B$에만 있는 원소때문일수도 있다 (즉 $B-A$에 있는 원소 때문일수도 있다). 결과적으로 $p$가 만약 (1) $A$에만 있는 원소때문에 $A$에서 편안함을 느꼈고, (2) $B$에만 있는 원소 때문에 $B$에서 편안함을 느꼈다면, 그 $p$와 가까웠던 두 원소가 교집합에서는 동시에 날아가는 상황이 생기는 것이다. 따라서 이러한 경우에는 $p$가 $A\cap B$에서 여유있음을 느낄 이유가 없다. 따라서 O3이 만족하는건 직관적이지 않을 수 있다. 여기서 하나의 센스가 필요한데 바로 "교집합은 가까운 원소를 남긴다" 이다. 즉 교집합으로 날아가는 원소는 가까운 원소가 아니라는 의미이다. 이 센스를 적용하면 $p$와 가까웠던 원소들이 교집합에 모두 날아가는 상황이 불가능함을 이해할 수 있다. 
+> 
 > 요약하면 O1-O3는 여유있음(내부)과 가까움(이웃)의 개념을 동시에 정의하는 매우 영리한 원칙인 셈이다. 
 
 Example 1.1: $\mathcal{U}$를 4장에서 다룬 실수의 모든 열린 집합들의 모임이라 하자. 그러면 $\mathcal{U}$는 $\mathbb{R}$ 위의 위상이며, 이를 $\mathbb{R}$ 위의 보통위상이라 한다. 마찬가지로 평면 $\mathbb{R}^2$에서 모든 열린 집합들의 모임 $\mathcal{U}$도 위상이며, $\mathbb{R}^2$ 위의 보통위상이라 한다. 별도로 명시하지 않는 한 $\mathbb{R}$과 $\mathbb{R}^2$에서는 항상 보통위상을 가정한다.
@@ -51,15 +57,20 @@ $$\{a, c, d\} \cap \{a, b, d, e\} = \{a, d\}$$
 이 $\mathcal{T}_3$에 속하지 않기 때문이다. 즉 $\mathcal{T}_3$은 공리 [$O_3$]을 만족하지 않는다.
 
 > 규빈: 이것도 읽어보자. ${\cal T}_1$은 이런상황인 것이다. 
+> 
 > 1. $a$는 스스로 여유있다 여긴다. 
 > 2. $\{c,d\}$는 서로가 같이 있을때 여유있다 느낀다.
 > 3. $\{b,e\}$는 $\{c,d\}$와 같이 있을때 여유있다 느낀다. 
+> 
 > 그리고 ${\cal T}_2$는 이런상황인 것이다. 
+> 
 > 1. $a$는 스스로 여유있다 여긴다. 
 > 2. $\{c,d\}$는 서로가 같이 있을때 여유있다 느낀다.
 > 3. $b$는 $\{c,d\}$와 같이 있을때 여유있다고 느낀다. 
 > 4. 어? 그런데 왜 $\{a,b,c,d\}$는 여유있는 집합이 아니야???? 
+> 
 > 그리고 ${\cal T}_3$은 이런상황인 것이다. 
+>
 > 1. $\{a,c,d\}$는 여유있는 집합이다. 
 > 2. $\{a,b,d,e\}$는 여유있는 집합이다. 
 > 3. 어?? 그럼 $\{a,d\}$는 가까운사이 아니야? 그런데 왜 $\{a,d\}$는 ${\cal T}_3$에 없어??
@@ -314,15 +325,22 @@ Then there exists one and only one topology $\mathcal{T}$ on $X$ such that $A^k$
 
 ### BASE FOR A TOPOLOGY
 
-$(X, \mathcal{T})$를 위상공간이라 하자. $X$의 열린 부분집합들의 족 $\mathcal{B}$, 즉 $\mathcal{B} \subset \mathcal{T}$가 위상 $\mathcal{T}$에 대한 기저(base)라 함은
+$(X, \mathcal{T})$를 위상공간이라 하자. $X$의 열린 부분집합들의 족 $\mathcal{B}$^, 즉 $\mathcal{B} \subset \mathcal{T}$가 위상 $\mathcal{T}$에 대한 기저(base)라 함은
 
-(i) 모든 열린집합 $G \in \mathcal{T}$가 $\mathcal{B}$의 원소들의 합집합인 것이다.
+`(i)` 모든 열린집합 $G \in \mathcal{T}$가 $\mathcal{B}$의 원소들의 합집합인 것이다.
 
-> 규빈: ${\cal T}$의 기저 ${\cal B}$는 ${\cal T}$의 원소중 다른 ${\cal T}$의 원소들의 합집합으로 표현가능한 원소들을 제외한 것이다. $\varnothing, \ X, \ \{b, c, d, e\}, \ \{a, b, e\}, \ \{b, e\}, \ \{a\}$ 
+> 규빈: 일단 ${\cal T}$는 그 자신의 기저이다. (가장 큰 기저) 만약에 ${\cal T}$의 원소중 다른 ${\cal T}$의 원소들의 합집합으로 표현가능한 원소들을 제외한다면, 그것보다 좀더 작은 기저를 얻을 수 있을 것이다. 예를들어서 $X = \{a, b, c, d, e\}$의 부분집합들의 다음 모임들을 생각하자. $$\mathcal{T}= \{X, \varnothing, \{a\}, \{c, d\}, \{a, c, d\}, \{b, c, d, e\}\}$$ 이것은 토폴로지이므로 그 자체로 기저가 된다. 그런데 $\{a,c,d\}$는 $\{a\}$와 $\{c,d\}$의 합집합으로 표현가능하므로 이를 제외한 집합족 ${\cal B}=\{X, \varnothing, \{a\}, \{c, d\},, \{b, c, d, e\}\}$ 를 만들어도 기저가 된다. 또한 전체집합도 제외할수 있고 공집합도 "아무것도 안 합친것"으로 표현할 수 있으니 집합족 ${\cal B}=\{\{a\}, \{c, d\},, \{b, c, d, e\}\}$  역시 기저가 될 수 있다. 
+
+> 규빈: $X$에 대한 임의의 토폴로지 ${\cal T}$는 그 자체로 항상 기저이다. 그렇지만 기저는 반드시 토폴로지일 필요가 없다. 
+
 
 동치로, $\mathcal{B} \subset \mathcal{T}$가 $\mathcal{T}$에 대한 기저인 것은
 
-(ii) 열린집합 $G$에 속하는 임의의 점 $p$에 대해, $p \in B \subset G$인 $B \in \mathcal{B}$가 존재하는 것이다.
+`(ii)` 열린집합 $G$에 속하는 임의의 점 $p$에 대해, $p \in B \subset G$인 $B \in \mathcal{B}$가 존재하는 것이다.
+
+> 규빈: 신기하게 (i)이랑 (ii)는 느낌이 다른데, 증명하는건 그렇게 어렵지 않네? 
+
+> 규빈: 그러니까 임의의 열린집합 $G$의 임의의 원소 $p$를 설명할 수 있는 조각이 ${\cal B}$에 하나는 있다는 느낌임. 
 
 Example 1.1: 열린구간들은 직선 $\mathbf{R}$ 위의 보통 위상에 대한 기저를 이룬다. 왜냐하면 $G \subset \mathbf{R}$이 열린집합이고 $p \in G$이면, 정의에 의해 $p \in (a, b) \subset G$인 열린구간 $(a, b)$가 존재하기 때문이다. 마찬가지로, 열린 원판들은 평면 $\mathbf{R}^2$ 위의 보통 위상에 대한 기저를 이룬다.
 
@@ -333,7 +351,7 @@ $p \in B \subset D_p \subset G$ or $p \in B \subset G$
 를 만족한다. 즉 그림에서 보이는 바와 같다. 다시 말해, $\mathcal{B}$는 위의 (ii)를 만족한다.
 
 
-![ ](attachments/250831_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_01.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_01.png)
 
 Example 1.3: 임의의 이산공간 $(X, \mathcal{D})$를 생각하자. 그러면 $X$의 모든 한원소 부분집합들의 족 $\mathcal{B} = \{\{p\} : p \in X\}$는 $X$ 위의 이산 위상 $\mathcal{D}$에 대한 기저이다. 각 한원소집합 $\{p\}$는 $\mathcal{D}$-열린이고, 모든 $A \subset X$가 $\mathcal{D}$-열린이므로, 모든 집합은 한원소집합들의 합집합이다. 사실 $X$의 부분집합들의 임의의 다른 족 $\mathcal{B}^*$가 $\mathcal{D}$에 대한 기저인 것은 $\mathcal{B}$의 상위족(superclass)인 것, 즉 $\mathcal{B}^* \supset \mathcal{B}$인 것과 동치이다.
 
@@ -359,7 +377,8 @@ $$\text{if} \quad a < c < b < d \quad \text{then} \quad (a, b] \cap (c, d] = (c,
 
 이는 아래 그림에서 보이는 바와 같다.
 
-![ ](attachments/250831_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_02.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_02.png)
+
 따라서 반열린-반닫힌 구간들의 합집합으로 이루어진 족 $\mathcal{T}$는 $\mathbf{R}$ 위의 위상이다, 즉 $\mathcal{B}$는 $\mathbf{R}$ 위의 위상 $\mathcal{T}$에 대한 기저이다. 이 위상 $\mathcal{T}$를 상극한 위상(upper limit topology)이라 부른다. $\mathcal{T} \neq \mathcal{U}$임을 관찰하라.
 
 > 규빈: 그렇지만 $\sigma({\cal T}) = \sigma({\cal U})$ 임.. 측도론에서 배웠지
@@ -374,12 +393,16 @@ $$\mathcal{B}^* = \{[a, b) : a, b \in \mathbf{R},\, a < b\}$$
 
 $(X, \mathcal{T})$를 위상공간이라 하자. $X$의 열린 부분집합들의 족 $\mathcal{S}$, 즉 $\mathcal{S} \subset \mathcal{T}$가 위상 $\mathcal{T}$에 대한 부분기저(subbase)라 함은, $\mathcal{S}$의 원소들의 유한 교집합들이 $\mathcal{T}$에 대한 기저를 이루는 것이다.
 
-> 규빈: ${\cal S}$는 여러개의 친목모임(=여유있는 집합)을 가지고 있다. 그런데 ${\cal S}$의 친목모임은 너무 덩치가 커서 ${\cal T}$에 대한 블록역할을 하기에는 충분치 않다. 그러나 ${\cal S}$의 친목모임을 진짜 친한 원소들끼리만 남도록 더욱 잘게 쪼개서 (=유한번 교집합하여) 소규모 친목모임 ${\cal B}$로 만든다면, 이 ${\cal B}$는 ${\cal T}$의 base라는 모임. 
+> 규빈: ${\cal S}$는 여러개의 친목모임(=여유있는 집합)을 가지고 있다. 그런데 때때로 ${\cal S}$의 친목모임은 너무 덩치가 커서 ${\cal T}$에 대한 블록역할을 하기에는 충분치 않다. 그러나 ${\cal S}$의 친목모임을 진짜 친한 원소들끼리만 남도록 더욱 잘게 쪼갠뒤 (=유한번 교집합하여) 무한합집하여 친목모임 ${\cal B}$로 만든다면, 이 ${\cal B}$는 ${\cal T}$의 base라는 내용. 
 
 Example 2.1: 직선 $\mathbf{R}$에서 모든 열린구간 $(a, b)$는 두 무한 열린구간 $(a, \infty)$와 $(-\infty, b)$의 교집합임을 관찰하라: $(a, b) = (a, \infty) \cap (-\infty, b)$. 그런데 열린구간들은 $\mathbf{R}$ 위의 보통 위상에 대한 기저를 이룬다; 따라서 모든 무한 열린구간들의 족 $\mathcal{S}$는 $\mathbf{R}$에 대한 부분기저이다.
 
+> 규빈: 부분기저가 기저는 아님. 그러나 적당히 유한교집합하여 기저를 만들 수는 있어. 
+
 Example 2.2: 평면 $\mathbf{R}^2$에서 수직 무한 열린 띠와 수평 무한 열린 띠의 교집합은 아래 그림에서 보이는 바와 같이 열린 직사각형이다.
-![ ](attachments/250831_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_03.png)
+
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_03.png)
+
 그런데 앞서 언급한 바와 같이, 열린 직사각형들은 $\mathbf{R}^2$ 위의 보통 위상에 대한 기저를 이룬다. 따라서 모든 무한 열린 띠들의 족 $\mathcal{S}$는 $\mathbf{R}^2$에 대한 부분기저이다.
 
 ### TOPOLOGIES GENERATED BY CLASSES OF SETS
@@ -388,7 +411,7 @@ $\mathcal{A}$를 공집합이 아닌 집합 $X$의 부분집합들의 임의의 
 
 Theorem 6.2: Any class $\mathcal{A}$ of subsets of a non-empty set $X$ is the subbase for a unique topology $\mathcal{T}$ on $X$. That is, finite intersections of members of $\mathcal{A}$ form a base for the topology $\mathcal{T}$ on $X$.
 
-> 규빈: $X$의 임의의 부분집합들의 모임 ${\cal A}$는 항상 sub-base역할을 할 수 있다. 왜냐하면 이론 6.2에 의하여 ${\cal A}$의 원소들을 유한번교집합하여 더 작은 친목모임들의 집합으로 만들면 그것이 기저역할을 하기때문이다. 
+> 규빈: $X$의 임의의 부분집합들의 모임 ${\cal A}$는 항상 어떠한 위상인지는 모르겠지만 어떤 위상의 sub-base역할을 할 수 있다. 왜냐하면 이론 6.2에 의하여 ${\cal A}$의 원소들을 유한번교집합하여 더 작은 친목모임들의 집합으로 만들고, 그걸 무한합집합하여 원소를 추가하면 그것이 기저역할을 하기때문이다. 
 
 Example 3.1: $X = \{a, b, c, d\}$의 다음 부분집합들의 족을 생각하자:
 
@@ -422,8 +445,51 @@ Proposition 6.3: Let $\mathcal{A}$ be a class of subsets of a non-empty set $X$.
 
 $p$를 위상공간 $X$에서 임의의 점이라 하자. $p$를 포함하는 열린집합들의 족 $\mathcal{B}_p$가 $p$에서의 국소 기저(local base)라 함은, $p$를 포함하는 각 열린집합 $G$에 대해 $p \in G_p \subset G$인 $G_p \in \mathcal{B}_p$가 존재하는 것이다.
 
+> 규빈: 기저를 정의함에 있어서, ${\cal T}$의 기저를 정의하는 두번째 방법이
+> 
+> 1. ${\cal T}$에서 임의의 열린집합 $G$를 선택
+> 2. $G$에서 임의의 점 $p$를 선택
+> 3. 어떠한 1,2의 선택에서도 항상 $p\in B \subset G$를 만족하는 적당한 $B \in {\cal B}$가 존재한다면 ${\cal B}$가 base라는 
+> 
+> 논리였음. 그런데 local-base는 이런느낌임
+> 
+> 1. $X$의 원소 $p$를 하나 선택함.
+> 2. $p$를 포함하는 열린 열린집합 $G$를 임의로 선택함. 
+> 3. 어떠한 1,2의 선택에서도 $p \in B_p \subset G$ 가 성립하도록 하는 "열린집합" $B_p \in {\cal B}_p$ 가 존재한다면 ${\cal B}_p$를 local-bases라고 한다. 
+
 Example 4.1: 평면 $\mathbf{R}^2$ 위의 보통 위상과 임의의 점 $p \in \mathbf{R}^2$을 생각하자. 그러면 $p$를 중심으로 하는 모든 열린 원판의 모음 $\mathcal{B}_p$는 $p$에서의 국소 기저이다. 왜냐하면, 이전에 증명한 바와 같이, $p$를 포함하는 임의의 열린 집합 $G$는 중심이 $p$인 열린 원판 $D_p$를 포함하기 때문이다.
 
-![ ](attachments/Pasted%20image%2020260208211238.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_04.png)
 
 마찬가지로, 중심이 $a \in \mathbf{R}$인 모든 열린 구간 $(a - \delta, \, a + \delta)$의 모음은 직선 $\mathbf{R}$ 위의 점 $a$에서의 국소 기저이다.
+
+> 규빈: 아래의 표를 관찰하자. 
+
+|       | base $\mathcal{B}$                                           | subbase $\mathcal{S}$                                                                                        | local base $\mathcal{B}_p$                                                                                                                   |
+| ----- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| 범위    | 위상 전체                                                        | 위상 전체                                                                                                        | 한 점 $p$ 주변                                                                                                                                   |
+| 원소    | 열린 집합 ($\mathcal{B} \subset \mathcal{T}$)                    | 열린 집합 ($\mathcal{S} \subset \mathcal{T}$)                                                                    | $p$를 포함하는 열린 집합 ($\mathcal{B}_p \subset \mathcal{T}$)                                                                                        |
+| 핵심 성질 | $\mathcal{B}$의 원소들을 임의 합집합하면 모든 $\mathcal{T}$-열린집합을 구성할 수 있음 | $\mathcal{S}$의 원소들을 유한 교집합하여 원소를 추가하여 $\bar{\mathcal{S}}$를 만든 뒤 그것을 임의 합집합하면 모든 $\mathcal{T}$-열린집합을 구성할 수 있음 | 점 $p$를 포함하는 $\mathcal{T}$-열린집합을 재구성할 수 있는 건 아님. 그렇지만 $p$를 포함하는 매우 작은 열린집합이라도, 그것보다 더 작은 열린집합을 항상 포함하고 있어 "$p$에서 어떤 일이 벌어지느냐?"에 더 초점을 맞출 수 있음 |
+| 대표 예시 | $\mathbb{R}$: 열린 구간 $(a,b)$ 전체                               | $\mathbb{R}$: $\{(-\infty, a)\} \cup \{(b, \infty)\}$                                                        | $\mathbb{R}$에서 점 $p$: $(p-\delta, p+\delta)$들의 모임                                                                                            |
+
+> 규빈: 내 생각엔 base와 subbase는 전체 열린집합을 "설명"하려는 의도가 강한 반면, local base는 한점 $p$에서의 행동을 살펴보려는 의도가 강한것 같음. 
+
+위상에 대한 기저("큰 의미에서")와 한 점에서의 국소 기저("작은 의미에서") 사이에는 다음과 같은 관계가 명백히 성립한다:
+
+Proposition 6.4: Let $\mathcal{B}$ be a base for a topology $\mathcal{T}$ on $X$ and let $p \in X$. Then the members of the base $\mathcal{B}$ which contain $p$ form a local base at the point $p$.
+
+> 규빈: 그러니까 ${\cal B}$에서 점 $p$를 포함하는 열린집합만을 뽑은게 ${\cal B}_p$네? 
+
+이전에 점 $p$를 포함하는 열린 집합의 관점에서 정의된 일부 개념들은 점 $p$에서의 국소 기저의 원소들만으로도 정의할 수 있다. 예를 들어,
+
+Proposition 6.5: A point $p$ in a topological space $X$ is an accumulation point of $A \subset X$ iff each member of some local base $\mathcal{B}_p$ at $p$ contains a point of $A$ different from $p$.
+
+Proposition 6.6: A sequence $\langle a_1, a_2, \ldots \rangle$ of points in a topological space $X$ converges to $p \in X$ iff each member of some local base $\mathcal{B}_p$ at $p$ contains almost all of the terms of the sequence.
+
+앞의 세 명제로부터 다음의 유용한 따름정리가 성립한다.
+
+Corollary 6.7: Let $\mathcal{B}$ be a base for a topology $\mathcal{T}$ on $X$. Then:
+(i) $p \in X$ is an accumulation point of $A \subset X$ iff each open base set $B \in \mathcal{B}$ containing $p$ contains a point of $A$ different from $p$;
+(ii) a sequence $\langle a_1, a_2, \ldots \rangle$ of points in $X$ converges to $p \in X$ iff each open base set $B \in \mathcal{B}$ containing $p$ contains almost all of the terms of the sequence.
+
+Example 4.2: 실수직선 $\mathbf{R}$ 위의 하한 위상(lower limit topology) $\mathcal{T}$는 반닫힌-열린 구간 $[a, b)$의 모임을 기저로 가진다. $A = (0, 1)$이라 하자. $G = [1, 2)$는 $1$을 포함하는 $\mathcal{T}$-열린 집합인데 $G \cap A = \varnothing$임에 주목하라. 따라서 $1$은 $A$의 극한점이 아니다. 반면에, $0 \in \mathbf{R}$은 $A$의 극한점이다. 왜냐하면 $0$을 포함하는 임의의 열린 기저 집합 $[a, b)$, 즉 $a \leq 0 < b$인 것은 $0$이 아닌 $A$의 점을 포함하기 때문이다.
