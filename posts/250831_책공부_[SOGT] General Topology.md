@@ -1,7 +1,7 @@
 ---
 title: (책공부) [SOGT] General Topology
 author: 신록예찬
-date: 08/31/2025
+date: 02/08/2026
 draft: false
 ---
 
@@ -318,6 +318,8 @@ $(X, \mathcal{T})$를 위상공간이라 하자. $X$의 열린 부분집합들�
 
 (i) 모든 열린집합 $G \in \mathcal{T}$가 $\mathcal{B}$의 원소들의 합집합인 것이다.
 
+> 규빈: ${\cal T}$의 기저 ${\cal B}$는 ${\cal T}$의 원소중 다른 ${\cal T}$의 원소들의 합집합으로 표현가능한 원소들을 제외한 것이다. $\varnothing, \ X, \ \{b, c, d, e\}, \ \{a, b, e\}, \ \{b, e\}, \ \{a\}$ 
+
 동치로, $\mathcal{B} \subset \mathcal{T}$가 $\mathcal{T}$에 대한 기저인 것은
 
 (ii) 열린집합 $G$에 속하는 임의의 점 $p$에 대해, $p \in B \subset G$인 $B \in \mathcal{B}$가 존재하는 것이다.
@@ -419,3 +421,9 @@ Proposition 6.3: Let $\mathcal{A}$ be a class of subsets of a non-empty set $X$.
 ### LOCAL BASES
 
 $p$를 위상공간 $X$에서 임의의 점이라 하자. $p$를 포함하는 열린집합들의 족 $\mathcal{B}_p$가 $p$에서의 국소 기저(local base)라 함은, $p$를 포함하는 각 열린집합 $G$에 대해 $p \in G_p \subset G$인 $G_p \in \mathcal{B}_p$가 존재하는 것이다.
+
+Example 4.1: 평면 $\mathbf{R}^2$ 위의 보통 위상과 임의의 점 $p \in \mathbf{R}^2$을 생각하자. 그러면 $p$를 중심으로 하는 모든 열린 원판의 모음 $\mathcal{B}_p$는 $p$에서의 국소 기저이다. 왜냐하면, 이전에 증명한 바와 같이, $p$를 포함하는 임의의 열린 집합 $G$는 중심이 $p$인 열린 원판 $D_p$를 포함하기 때문이다.
+
+![](attachments/Pasted%20image%2020260208211238.png)
+
+마찬가지로, 중심이 $a \in \mathbf{R}$인 모든 열린 구간 $(a - \delta, \, a + \delta)$의 모음은 직선 $\mathbf{R}$ 위의 점 $a$에서의 국소 기저이다.
