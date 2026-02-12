@@ -37,7 +37,7 @@ $\mathcal{T}$의 원소들을 $\mathcal{T}$-열린 집합, 또는 간단히 열�
 > 
 > 1. O1을 따져보자. 공집합은 항상 여유있는 집합이라 치자고 했다. $X$ 역시 비슷한 맥락인데 전체집합은 모든 원소들을 모은 집합인데 그래도 모든 원소가 모여있으면 각각의 원소가 "여유있어" 라고 생각한다고 가정하자. (만약에 그렇지 않다면 논의할게 없으니까.. 다 모여있어도 여유있다고 생각하지 않는데, 거기서 뭘 여유있는 집합의 모임을 만들어) 
 > 2. O2를 따져보자. 이 성질은 합집합에 대한 성질인데, 이건 생각보다 당연하다. $A$모임의 각 원소가 스스로 여유있다고 느끼고, $B$모임의 각 원소가 스스로 여유있다고 느낀다고 가정하자. 그러면 당연히 $A\cup B$의 각 원소도 모두 스스로 여유있다고 여길것이다. 왜냐하면 최소한 $A\cup B$ 에서 $A$원소 출신은 $A\cup B$에 있는 $A$때문에 스스로 여유있다 여길것이고, $B$원소 출신역시 $A\cup B$에 있는 $B$때문에 스스로 여유있다고 여길테니까. 
-> 3. O3조건을 따져보자. 이 조건이 킥이다. $A$모임의 각 원소가 스스로 여유있다고 여기고, $B$모임의 각 원소가 스스로 여유있다고 여긴다고 가정하자. $A\cap B$의 원소는 과거에 $A$에도, $B$에도 속해있던 원소이다. 이 원소를 편의상 $p$라고 하자. $p$는 $A\cap B$에서 여유있다고 느낄까? 그렇지 않을 수 있다. 예를들어 그 $p$가 $A$에서 느낀 여유있음은 $A,B$ 모두에 있는 원소때문일 수도 있지만 (즉 $A\cap B$에 있는 원소때문일수도 있지만) $A$에만 있는 원소때문일 수도 있다 (즉 $A-B$에 있는 원소때문일 수도 있다). 마찬가지로 그 $p$가 $B$에서 느낀 여유있음은 $A,B$ 모두에 있는 원소떄문일 수도 있지만 (즉 $A \cap B$에 있는 원소때문일수도 있지만) $B$에만 있는 원소때문일수도 있다 (즉 $B-A$에 있는 원소 때문일수도 있다). 결과적으로 $p$가 만약 (1) $A$에만 있는 원소때문에 $A$에서 편안함을 느꼈고, (2) $B$에만 있는 원소 때문에 $B$에서 편안함을 느꼈다면, 그 $p$와 가까웠던 두 원소가 교집합에서는 동시에 날아가는 상황이 생기는 것이다. 따라서 이러한 경우에는 $p$가 $A\cap B$에서 여유있음을 느낄 이유가 없다. 따라서 O3이 만족하는건 직관적이지 않을 수 있다. 여기서 하나의 센스가 필요한데 바로 "교집합은 가까운 원소를 남긴다" 이다. 즉 교집합으로 날아가는 원소는 가까운 원소가 아니라는 의미이다. 이 센스를 적용하면 $p$와 가까웠던 원소들이 교집합에 모두 날아가는 상황이 불가능함을 이해할 수 있다. 
+> 3. O3조건을 따져보자. 이 조건이 킥이다. $A$모임의 각 원소가 스스로 여유있다고 여기고, $B$모임의 각 원소가 스스로 여유있다고 여긴다고 가정하자. $A\cap B$의 원소는 과거에 $A$에도, $B$에도 속해있던 원소이다. 이 원소를 편의상 $p$라고 하자. $p$는 $A\cap B$에서 여유있다고 느낄까? 그렇지 않을 수 있다. 예를들어 그 $p$가 $A$에서 느낀 여유있음은 $A,B$ 모두에 있는 원소때문일 수도 있지만 (즉 $A\cap B$에 있는 원소때문일수도 있지만) $A$에만 있는 원소때문일 수도 있다 (즉 $A-B$에 있는 원소때문일 수도 있다). 마찬가지로 그 $p$가 $B$에서 느낀 여유있음은 $A,B$ 모두에 있는 원소때문일 수도 있지만 (즉 $A \cap B$에 있는 원소때문일수도 있지만) $B$에만 있는 원소때문일수도 있다 (즉 $B-A$에 있는 원소 때문일수도 있다). 결과적으로 $p$가 만약 (1) $A$에만 있는 원소때문에 $A$에서 편안함을 느꼈고, (2) $B$에만 있는 원소 때문에 $B$에서 편안함을 느꼈다면, 그 $p$와 가까웠던 두 원소가 교집합에서는 동시에 날아가는 상황이 생기는 것이다. 따라서 이러한 경우에는 $p$가 $A\cap B$에서 여유있음을 느낄 이유가 없다. 따라서 O3이 만족하는건 직관적이지 않을 수 있다. 여기서 하나의 센스가 필요한데 바로 "교집합은 가까운 원소를 남긴다" 이다. 즉 교집합으로 날아가는 원소는 가까운 원소가 아니라는 의미이다. 이 센스를 적용하면 $p$와 가까웠던 원소들이 교집합에 모두 날아가는 상황이 불가능함을 이해할 수 있다. 
 > 
 > 요약하면 O1-O3는 여유있음(내부)과 가까움(이웃)의 개념을 동시에 정의하는 매우 영리한 원칙인 셈이다. 
 
@@ -493,3 +493,169 @@ Corollary 6.7: Let $\mathcal{B}$ be a base for a topology $\mathcal{T}$ on $X$. 
 (ii) a sequence $\langle a_1, a_2, \ldots \rangle$ of points in $X$ converges to $p \in X$ iff each open base set $B \in \mathcal{B}$ containing $p$ contains almost all of the terms of the sequence.
 
 Example 4.2: 실수직선 $\mathbf{R}$ 위의 하한 위상(lower limit topology) $\mathcal{T}$는 반닫힌-열린 구간 $[a, b)$의 모임을 기저로 가진다. $A = (0, 1)$이라 하자. $G = [1, 2)$는 $1$을 포함하는 $\mathcal{T}$-열린 집합인데 $G \cap A = \varnothing$임에 주목하라. 따라서 $1$은 $A$의 극한점이 아니다. 반면에, $0 \in \mathbf{R}$은 $A$의 극한점이다. 왜냐하면 $0$을 포함하는 임의의 열린 기저 집합 $[a, b)$, 즉 $a \leq 0 < b$인 것은 $0$이 아닌 $A$의 점을 포함하기 때문이다.
+
+## Chap 7. Continuity and Topological Equivalence
+
+### CONTINUOUS FUNCTIONS
+
+$(X, \mathcal{T})$와 $(Y, \mathcal{T}^*)$를 위상공간이라 하자. $X$에서 $Y$로의 함수 $f$가 $\mathcal{T}$와 $\mathcal{T}^*$에 대해 연속(continuous relative to $\mathcal{T}$ and $\mathcal{T}^*$), 또는 $\mathcal{T}$-$\mathcal{T}^*$ 연속, 또는 간단히 연속이라 함은, $Y$의 모든 $\mathcal{T}^*$-열린 부분집합 $H$의 역상 $f^{-1}[H]$가 $X$의 $\mathcal{T}$-열린 부분집합이 되는 것을 말한다. 즉,
+
+$$H \in \mathcal{T}^* \quad \text{implies} \quad f^{-1}[H] \in \mathcal{T}$$
+
+관련된 위상을 나타내는 것이 편리할 때 $X$에서 $Y$로의 함수를 $f : (X, \mathcal{T}) \to (Y, \mathcal{T}^*)$로 쓸 것이다.
+
+Example 1.1: $X = \{a, b, c, d\}$와 $Y = \{x, y, z, w\}$ 위의 다음 위상을 생각하자:
+
+$$\mathcal{T} = \{X, \varnothing, \{a\}, \{a,b\}, \{a,b,c\}\}, \quad \mathcal{T}^* = \{Y, \varnothing, \{x\}, \{y\}, \{x,y\}, \{y,z,w\}\}$$
+
+또한 아래 다이어그램으로 정의되는 함수 $f: X \to Y$와 $g: X \to Y$를 생각하자:
+
+
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_05.png)
+
+
+함수 $f$는 연속이다. $Y$ 위의 위상 $\mathcal{T}^*$의 각 원소의 역상이 $X$ 위의 위상 $\mathcal{T}$의 원소이기 때문이다. 함수 $g$는 연속이 아니다. $\{y, z, w\} \in \mathcal{T}^*$, 즉 $Y$의 열린 부분집합이지만, 그 역상 $g^{-1}[\{y, z, w\}] = \{c, d\}$는 $X$의 열린 부분집합이 아니기 때문이다. 즉 $\mathcal{T}$에 속하지 않는다.
+
+Example 1.2: 임의의 이산 공간 $(X, \mathcal{D})$와 임의의 위상 공간 $(Y, \mathcal{T})$를 생각하자. 그러면 모든 함수 $f: X \to Y$는 $\mathcal{D}$-$\mathcal{T}$ 연속이다. 왜냐하면 $H$가 $Y$의 임의의 열린 부분집합이면, 그 역상 $f^{-1}[H]$는 $X$의 열린 부분집합이기 때문이다. 이산 공간에서는 모든 부분집합이 열린 집합이기 때문이다.
+
+Example 1.3: $X$와 $Y$가 위상 공간이고 $f: X \to Y$라 하자. $\mathcal{B}$를 $Y$ 위의 위상에 대한 기저라 하자. 각 원소 $B \in \mathcal{B}$에 대해 $f^{-1}[B]$가 $X$의 열린 부분집합이라고 가정하면, $f$는 연속함수이다. $H$를 $Y$의 열린 부분집합이라 하면, $H = \cup_i B_i$, 즉 $\mathcal{B}$의 원소들의 합집합이다. 그런데
+
+$$f^{-1}[H] = f^{-1}[\cup_i B_i] = \cup_i f^{-1}[B_i]$$
+
+이고 각 $f^{-1}[B_i]$는 가정에 의해 열린 집합이다. 따라서 $f^{-1}[H]$는 열린 집합들의 합집합이므로 열린 집합이다. 그러므로 $f$는 연속이다.
+
+앞의 예제의 결과를 형식적으로 진술하자.
+
+Proposition 7.1: A function $f: X \to Y$ is continuous iff the inverse of each member of a base $\mathcal{B}$ for $Y$ is an open subset of $X$.
+
+이 명제는 사실 다음과 같이 강화될 수 있다:
+
+Theorem 7.2: Let $\mathcal{S}$ be a subbase for a topological space $Y$. Then a function $f: X \to Y$ is continuous iff the inverse of each member of $\mathcal{S}$ is an open subset of $X$.
+
+Example 1.4: 평면 $\mathbf{R}^2$에서 직선 $\mathbf{R}$으로의 사영 사상들은 보통 위상에 대해 모두 연속이다. 예를 들어, $\pi(\langle x, y \rangle) = y$로 정의되는 사영 $\pi: \mathbf{R}^2 \to \mathbf{R}$을 생각하자. 그러면 임의의 열린 구간 $(a, b)$의 역상은 아래에 그려진 것과 같은 무한 열린 띠(strip)이다:
+
+
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_06.png)
+<$\pi^{-1}[(a, b)]$ is shaded>
+
+따라서 Proposition 7.1에 의해, $\mathbf{R}$의 모든 열린 부분집합의 역상은 $\mathbf{R}^2$에서 열린 집합이다. 즉 $\pi$는 연속이다.
+
+Example 1.5: $\mathbf{R}$ 위의 절댓값 함수 $f$, 즉 $x \in \mathbf{R}$에 대해 $f(x) = |x|$는 연속이다. $A = (a, b)$가 $\mathbf{R}$의 열린 구간이면,
+
+$$f^{-1}[A] = \begin{cases} \varnothing & \text{if } a < b \leq 0 \\ (-b, b) & \text{if } a < 0 < b \\ (-b, -a) \cup (a, b) & \text{if } 0 \leq a < b \end{cases}$$
+
+아래 그림에서 보는 바와 같다. 각 경우에 $f^{-1}[A]$는 열린 집합이다. 따라서 $f$는 연속이다.
+
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_07.png)
+
+
+연속 함수는 닫힌 집합에 대한 행동으로도 특성화할 수 있다. 다음과 같다:
+
+Theorem 7.3: A function $f: X \to Y$ is continuous if and only if the inverse image of every closed subset of $Y$ is a closed subset of $X$.
+
+> 규빈: 연속함수는 원래 이어진 느낌이잖아? 근데 그 이어진 느낌의 함수를 "열린집합을 열린집합으로 보내고 닫힌집합을 닫힌집합으로 보내는 함수" 라고 다시 정의한 것임. (여기서 살짝 논리적 점프가 있음) 이것은 "가까움"을 보존하는 함수라는 의미임. 
+
+### CONTINUOUS FUNCTIONS AND ARBITRARY CLOSENESS
+
+$X$를 위상 공간이라 하자. 점 $p \in X$가 집합 $A \subset X$에 임의로 가깝다(arbitrarily close)고 말하는 것은
+
+either (i) $p \in A$ or (ii) $p$ is an accumulation point of $A$
+
+일 때이다.
+
+$\bar{A} = A \cup A'$임을 상기하라. 따라서 $A$의 폐포는 $X$에서 $A$에 임의로 가까운 점들로 정확히 구성된다. 또한 $\bar{A} = A^\circ \cup \mathrm{b}(A)$임을 상기하라. 따라서 $p$가 $A$의 내점이거나 경계점이면 $p$는 $A$에 임의로 가깝다.
+
+연속 함수는 임의적 가까움(arbitrary closeness)을 보존하는 함수로도 특성화할 수 있다. 즉,
+
+Theorem 7.4: A function $f: X \to Y$ is continuous if and only if, for any $p \in X$ and any $A \subset X$, 
+
+$p$ arbitrarily close to $A$ $\Rightarrow$ $f(p)$ arbitrarily close to $f[A]$
+
+or
+
+$p \in \bar{A}$ $\Rightarrow$ $f(p) \in \overline{f[A]}$
+
+or
+
+$f[\bar{A}] \subset \overline{f[A]}$
+
+> 규빈: 이거 사실 위의 3개가 모두 같은말임. 왜냐하면 "$p$ arbitrarily close to $A$ " 이게 의미하는게 결국 $p \in \bar{A}$ 이기 때문이다. 세번째는 두번째를 집합버전으로 다시 쓴 것이다. 이 정리에서 말하는것은 연속함수는 가까운점을 멀리 떨어뜨리지 않는 함수라는 점이다. 
+
+### CONTINUITY AT A POINT
+
+지금까지 정의한 연속성은 전체적(global) 성질이다. 즉, 함수가 전체 집합 $X$ 위에서 어떻게 행동하는지를 제한한다. 이에 대응하는 국소적 개념으로 한 점에서의 연속성(continuity at a point)이 존재한다.
+
+함수 $f: X \to Y$가 $p \in X$에서 연속이라 함은, $f(p)$를 포함하는 모든 열린 집합 $H \subset Y$에 대해 그 역상 $f^{-1}[H]$가 $p$를 포함하는 어떤 열린 집합 $G \subset X$의 상위집합이 되는 것이다. 동치적으로, $f(p)$의 모든 근방의 역상이 $p$의 근방이 되는 것이다. 즉,
+
+$$N \in \mathcal{N}_{f(p)} \Rightarrow f^{-1}[N] \in \mathcal{N}_p$$
+
+
+실수직선 $\mathbf{R}$의 보통 위상에 대해, 이 정의는 함수 $f: \mathbf{R} \to \mathbf{R}$에 대한 $\epsilon - \delta$ 정의와 일치함에 주목하라. 사실, 함수 $f: \mathbf{R} \to \mathbf{R}$에 대한 국소적 연속성과 전체적 연속성 사이의 관계는 일반적으로도 성립한다. 즉,
+
+Theorem 7.5: Let $X$ and $Y$ be topological spaces. Then a function $f: X \to Y$ is continuous if and only if it is continuous at every point of $X$.
+
+### SEQUENTIAL CONTINUITY AT A POINT
+
+함수 $f: X \to Y$가 점 $p \in X$에서 점렬 연속(sequentially continuous)이라 함은, $X$에서 $p$로 수렴하는 모든 수열 $\langle a_n \rangle$에 대해 $Y$에서의 수열 $\langle f(a_n) \rangle$이 $f(p)$로 수렴하는 것이다. 즉,
+
+$$a_n \to p \quad \text{implies} \quad f(a_n) \to f(p)$$
+
+점렬 연속과 한 점에서의 연속은 다음과 같이 관련된다:
+
+Proposition 7.6: If a function $f: X \to Y$ is continuous at $p \in X$, then it is sequentially continuous at $p$.
+
+Remark: 앞 명제의 역은 성립하지 않는다. 예를 들어, 실수직선 $\mathbf{R}$ 위의 위상 $\mathcal{T}$가 $\varnothing$과 가산 집합의 여집합들로 구성된 것을 생각하자. 수열 $\langle a_n \rangle$이 $p$로 수렴할 필요충분조건은 다음과 같은 형태를 가지는 것임을 상기하라 (Chapter 5의 Example 7.3 참고):
+
+$$\langle a_1, a_2, \ldots, a_{n_0}, p, p, p, \ldots \rangle$$
+
+그러면 임의의 함수 $f: (\mathbf{R}, \mathcal{T}) \to (X, \mathcal{T}^*)$에 대해,
+
+$$\langle f(a_n) \rangle = \langle f(a_1), \ldots, f(a_{n_0}), f(p), f(p), f(p), \ldots \rangle$$
+
+은 $f(p)$로 수렴한다. 즉, $(\mathbf{R}, \mathcal{T})$ 위의 모든 함수는 점렬 연속이다. 반면에, $f(x) = x$로 정의되는 함수 $f: (\mathbf{R}, \mathcal{T}) \to (\mathbf{R}, \mathcal{U})$, 즉 항등함수는 $\mathcal{T}$-$\mathcal{U}$ 연속이 아니다. $f^{-1}[(0,1)] = (0,1)$이 $\mathbf{R}$의 $\mathcal{T}$-열린 부분집합이 아니기 때문이다.
+
+### OPEN AND CLOSED FUNCTIONS
+
+연속함수는 모든 열린집합의 역상이 열린집합이고, 모든 닫힌집합의 역상이 닫힌집합이라는 성질을 갖는다. 그러면 자연스럽게 다음과 같은 유형의 함수들에 대해 질문할 수 있다:
+
+(1) A function $f: X \to Y$ is called an open (or interior) function if the image of every open set is open.
+
+(2) A function $g: X \to Y$ is called a closed function if the image of every closed set is closed.
+
+일반적으로, 열린 함수가 반드시 닫힌 함수일 필요는 없으며, 그 역도 마찬가지이다. 사실, 우리의 첫 번째 예시에서의 함수는 열린 함수이고 연속이지만 닫힌 함수는 아니다.
+
+Example 2.1: 평면 $\mathbf{R}^2$에서 $x$-축으로의 사영 $\pi: \mathbf{R}^2 \to \mathbf{R}$, 즉 $\pi((x,y)) = x$를 생각하자. 임의의 열린 원판 $D \subset \mathbf{R}^2$의 사영 $\pi[D]$는 열린 구간임을 관찰하라. 따라서 열린집합 $G \subset \mathbf{R}^2$의 상 $\pi[G]$ 안의 임의의 점 $\pi(p)$는 $\pi[G]$에 포함된 어떤 열린 구간에 속하므로, $\pi[G]$는 열린집합이다. 따라서 $\pi$는 열린 함수이다. 반면에, $\pi$는 닫힌 함수가 아닌데, 집합 $A = \{(x,y) : xy \geq 1, \, x > 0\}$는 닫힌집합이지만 그 사영 $\pi[A] = (0, \infty)$는 닫힌집합이 아니기 때문이다. (아래 그림을 참조하라.)
+
+
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_08.png)
+
+> 규빈: 이런거 정리해보자
+
+| 조합  | 연속  | 열린  | 닫힌  | 예시                                                             |
+| --- | --- | --- | --- | -------------------------------------------------------------- |
+| 1   | O   | O   | O   | $f(x)=x$                                                       |
+| 2   | O   | O   | X   | $f(x)=e^x$                                                     |
+| 3   | O   | X   | O   | $f(x)=0$                                                       |
+| 4   | O   | X   | X   | $f(x) = \sin x$                                                |
+| 5   | X   | O   | O   | $(\mathbf{R},{\cal U}) \to (\mathbf{R},{\cal U})$ 에서는 상상하기 어려움 |
+| 6   | X   | O   | X   | $(\mathbf{R},{\cal U}) \to (\mathbf{R},{\cal U})$ 에서는 상상하기 어려움 |
+| 7   | X   | X   | O   | $f(x)=[x]$                                                     |
+| 8   | X   | X   | X   | $f(x)=\begin{cases} 1 & x\leq 0 \\ x & x>0 \end{cases}$        |
+
+### HOMEOMORPHIC SPACES
+
+위상공간 $(X, \mathcal{T})$는, 우리가 보았듯이, 집합 $X$와 $X$의 부분집합들로 이루어진 특별한 모임 $\mathcal{T}$가 특정 공리들을 만족하는 것이다. 임의의 두 위상공간 $(X, \mathcal{T})$와 $(Y, \mathcal{T}^*)$ 사이에는 많은 함수 $f: X \to Y$가 존재한다. 우리가 임의의 함수가 아니라 연속함수, 열린 함수, 또는 닫힌 함수를 논의하는 이유는, 이러한 함수들이 공간 $(X, \mathcal{T})$와 $(Y, \mathcal{T}^*)$의 구조의 어떤 측면을 보존하기 때문이다.
+
+이제 어떤 전단사(즉, 일대일이고 위로의) 사상 $f: X \to Y$가 존재한다고 가정하자. 그러면 $f$는 $X$의 멱집합, 즉 $X$의 부분집합들의 모임으로부터 $Y$의 멱집합으로의 전단사 함수 $f: \mathcal{P}(X) \to \mathcal{P}(Y)$를 유도한다. 만약 이 유도된 함수가 $\mathcal{T}$를 $\mathcal{T}^*$ 위로 보낸다면, 즉 $X$의 열린집합들과 $Y$의 열린집합들 사이의 일대일 대응을 정의한다면, 공간 $(X, \mathcal{T})$와 $(Y, \mathcal{T}^*)$는 위상적 관점에서 동일하다. 구체적으로:
+
+Definition: Two topological spaces $X$ and $Y$ are called homeomorphic or topologically equivalent if there exists a bijective (i.e. one-one, onto) function $f: X \to Y$ such that $f$ and $f^{-1}$ are continuous. The function $f$ is called a homeomorphism.
+
+함수 $f$가 열린 함수이면서 연속이면 bicontinuous 또는 topological이라 부른다. 따라서 $f: X \to Y$가 동형사상이 될 필요충분조건은 $f$가 bicontinuous이고 전단사인 것이다.
+
+Example 3.1: $X = (-1, 1)$로 놓자. $f(x) = \tan \frac{1}{2}\pi x$로 정의된 함수 $f: X \to \mathbf{R}$는 일대일이고, 위로의 함수이며, 연속이다. 더 나아가, 역함수 $f^{-1}$ 또한 연속이다. 따라서 실직선 $\mathbf{R}$과 열린구간 $(-1, 1)$은 동형이다.
+
+Example 3.2: $X$와 $Y$를 이산공간이라 하자. 그러면, Example 1.2에서 보았듯이, 한 공간에서 다른 공간으로의 모든 함수는 연속이다. 따라서 $X$와 $Y$가 동형일 필요충분조건은 한 공간에서 다른 공간으로의 일대일 대응 함수가 존재하는 것, 즉 두 집합의 기수가 같은 것이다.
+
+Proposition 7.7: The relation in any collection of topological spaces defined by "$X$ is homeomorphic to $Y$" is an equivalence relation.
+
+따라서, 동치관계에 대한 기본 정리에 의해, 임의의 위상공간들의 모임은 위상적으로 동치인 공간들의 류(class)들로 분할될 수 있다.
