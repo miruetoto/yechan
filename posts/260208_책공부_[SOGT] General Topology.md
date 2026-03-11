@@ -472,7 +472,7 @@ Example 4.1: 평면 $\mathbf{R}^2$ 위의 보통 위상과 임의의 점 $p \in 
 | 핵심 성질 | $\mathcal{B}$의 원소들을 임의 합집합하면 모든 $\mathcal{T}$-열린집합을 구성할 수 있음 | $\mathcal{S}$의 원소들을 유한 교집합하여 원소를 추가하여 $\bar{\mathcal{S}}$를 만든 뒤 그것을 임의 합집합하면 모든 $\mathcal{T}$-열린집합을 구성할 수 있음 | 점 $p$를 포함하는 $\mathcal{T}$-열린집합을 재구성할 수 있는 건 아님. 그렇지만 $p$를 포함하는 매우 작은 열린집합이라도, 그것보다 더 작은 열린집합을 항상 포함하고 있어 "$p$에서 어떤 일이 벌어지느냐?"에 더 초점을 맞출 수 있음 |
 | 대표 예시 | $\mathbb{R}$: 열린 구간 $(a,b)$ 전체                               | $\mathbb{R}$: $\{(-\infty, a)\} \cup \{(b, \infty)\}$                                                        | $\mathbb{R}$에서 점 $p$: $(p-\delta, p+\delta)$들의 모임                                                                                            |
 
-> 규빈: 내 생각엔 base와 subbase는 전체 열린집합을 "설명"하려는 의도가 강한 반면, local base는 한점 $p$에서의 행동을 살펴보려는 의도가 강한것 같음. 
+> 규빈: 내 생각엔 base와 subbase는 전체 열린집합을 "설명"하려는 의도가 강한 반면, local base는 한점 $p$에서의 행동을 살펴보려는 의도가 강한것 같음. 또한 local base는 거리의 개념과도 밀접한 관련이 있음. 
 
 위상에 대한 기저("큰 의미에서")와 한 점에서의 국소 기저("작은 의미에서") 사이에는 다음과 같은 관계가 명백히 성립한다:
 
@@ -707,5 +707,292 @@ Proposition 7.7: The relation in any collection of topological spaces defined by
 > 3. 해상도 패밀리 (Separation & Countability): 점들의 구별과 조밀함공간을 구성하는 점이나 집합들이 얼마나 촘촘하게 배치되어 있고, 서로 구별 가능한지를 측정한다. 하우스도르프($T_2$, Hausdorff) 성질은 서로 다른 두 점을 골랐을 때, 서로 겹치지 않는 열린 집합(방)으로 각각 격리시킬 수 있는지를 본다. 이 성질이 없으면 수열의 극한값이 2개가 되는 등 직관에 반하는 현상이 발생한다. **가분성(Separability)**은 셀 수 있는 점들(예: 유리수)만으로 전체 공간을 꽉 채울(Dense) 수 있는지를 묻는 성질입니다. 제1 가산 / 제2 가산(First/Second Countable) 성질은 공간을 설명하는 기본 블록(기저)의 개수가 셀 수 있을 만큼 적은지, 즉 위상적 구조가 얼마나 단순하게 기술될 수 있는지를 나타낸다. 
 > 4. 대수적 위상수학 패밀리 (Algebraic Topology): 구멍의 개수 계산공간의 모양을 구체적인 숫자나 대수적 구조로 변환하여, 구멍의 개수와 차원을 정밀하게 계산하는 도구이다. **오일러 지표(Euler Characteristic, $\chi$)**는 $V(\text{점}) - E(\text{선}) + F(\text{면})$의 공식으로 계산되며, 이 숫자 하나로 구($2$), 도넛($0$), 이중 도넛($-2$) 등을 명확히 구별할 수 있다. **기본군(Fundamental Group, $\pi_1$)**은 공간에 존재하는 1차원 구멍(루프)의 구조를 대수적인 '군(Group)'으로 표현한 것이다. **호몰로지/코호몰로지(Homology/Cohomology)**는 1차원 구멍뿐만 아니라 2차원 구멍(비어있는 속), 3차원 구멍 등 $n$차원의 구멍 개수를 모조리 셀 수 있는 일반화된 도구이다. **베티 수(Betti Numbers)**는 이를 수치화한 것으로 $b_0$는 연결된 덩어리의 개수, $b_1$은 터널의 개수, $b_2$는 빈 공간(Void)의 개수를 의미한다.
 > 5. 다양체 전용 패밀리 (Manifold Properties): 기하학적 형상다루는 공간이 '다양체(Manifold)'일 때 추가적으로 확인할 수 있는 기하학적 특성들이다. **차원(Dimension)**은 공간을 국소적으로 확대했을 때 개미에게 몇 차원 유클리드 공간($\mathbb{R}^n$)처럼 보이는지를 뜻하며, 차원이 다르면 위상동형이 될 수 없다. **가향성(Orientability)**은 공간의 안과 밖, 혹은 앞과 뒤의 구분이 명확한지를 따진다. 구나 원기둥은 가향(Orientable)이지만, 뫼비우스의 띠나 클라인 병은 비가향(Non-orientable)이다.**경계(Boundary, $\partial M$)**는 공간이 끝없이 이어지는지, 아니면 더 이상 갈 수 없는 끝자락(절벽)이 존재하는지를 나타내는 불변량이다.
+
+### TOPOLOGICAL PROPERTIES
+
+집합의 성질 $P$는, 위상공간 $(X, \mathcal{T})$가 $P$를 가질 때마다 $(X, \mathcal{T})$에 동형사상인 모든 공간도 역시 $P$를 가지면, topological 또는 topological invariant라고 불린다.
+
+Example 4.1: Example 3.1에서 보았듯이, 실수직선 $\mathbf{R}$은 열린구간 $X = (-1, 1)$에 동형사상이다. 따라서 length는 위상적 성질이 아닌데, $X$와 $\mathbf{R}$의 길이가 다르기 때문이다. 또한 boundedness도 위상적 성질이 아닌데, $X$는 유계이지만 $\mathbf{R}$은 그렇지 않기 때문이다.
+
+Example 4.2: $X$를 양의 실수의 집합, 즉 $X = (0, \infty)$라 하자. $f(x) = 1/x$로 정의된 함수 $f: X \to X$는 $X$에서 $X$로의 동형사상이다. 수열
+
+$$\langle a_n \rangle = (1, \tfrac{1}{2}, \tfrac{1}{3}, \ldots)$$
+
+이 동형사상 하에서 수열
+
+$$\langle f(a_n) \rangle = (1, 2, 3, \ldots)$$
+
+에 대응됨을 관찰하라. 수열 $\langle a_n \rangle$은 코시 수열이지만, 수열 $\langle f(a_n) \rangle$은 그렇지 않다. 따라서 코시 수열이 되는 성질은 위상적이지 않다.
+
+위상수학의 대부분은 compactness와 connectedness 같은 특정 위상적 성질들의 결과를 탐구하는 것이다. 사실, 형식적으로 위상수학은 위상적 불변량에 대한 연구이다. 다음 예제에서 connectedness가 정의되고, 이것이 위상적 성질임이 보여진다.
+
+Example 4.3: 위상공간 $(X, \mathcal{T})$가 disconnected라 함은 $X$가 두 개의 열린, 공집합이 아닌, 서로소인 부분집합의 합집합인 것이다. 즉,
+
+$$X = G \cup H \quad \text{where} \quad G, H \in \mathcal{T},\ G \cap H = \varnothing \quad \text{but} \quad G, H \neq \varnothing$$
+
+$f: X \to Y$가 동형사상이면 $X = G \cup H$일 필요충분조건은 $Y = f[G] \cup f[H]$이고, 따라서 $Y$가 disconnected일 필요충분조건은 $X$가 disconnected인 것이다.
+
+공간 $(X, \mathcal{T})$가 connected라 함은 disconnected가 아닌 것이다.
+
+> 규빈: disconnected는 위상공간자체에 부여된 성질임. 따라서 예를들면 $(\mathbb{R}, {\cal U})$ 에서 집합 $A=[1,2] \cup [3,4]$가 disconnected 인지 connected인지 고민하는건 애초에 질문이 잘못된것임. 
+
+> 규빈: 이산공간은 disconnected, 비이산공간은 connected, 보통위상공간은 connected 임. 보통위상공간에서 $X'=(-1, 0) \cup (0, 1)$에 부분공간 위상을 부여하면, $G = (-1,0)$과 $H = (0,1)$이 둘 다 $X'$에서 열린집합이고, 서로소이며, 공이 아니므로 disconnected이다. 보통위상공간에서 임의의 구간 $(a,b), [a,b], [a,b), (a,b]$에 부분위상공간을 부여하면 이는 모두 connected이다. 또한 $\mathbb{Q}$에 부분위상공간을 부여하면 disconnected이다. 
+
+### TOPOLOGIES INDUCED BY FUNCTIONS
+
+$\{(Y_i, \mathcal{T}_i)\}$를 위상공간들의 임의의 모임이라 하고, 각 $Y_i$에 대해 임의의 공이 아닌 집합 $X$ 위에 정의된 함수 $f_i: X \to Y_i$가 주어졌다고 하자. 우리는 모든 함수 $f_i$가 연속이 되는 $X$ 위의 위상들을 조사하고자 한다. $f_i$가 $X$ 위의 어떤 위상에 대해 연속이려면, $Y_i$의 각 열린 부분집합의 역상이 $X$의 열린 부분집합이어야 함을 상기하자. 따라서 우리는 $X$의 부분집합들의 다음 클래스를 고려한다:
+
+$$\mathcal{S} = \bigcup_i \{f_i^{-1}[H] : H \in \mathcal{T}_i\}$$
+
+즉, $\mathcal{S}$는 모든 공간 $Y_i$의 각 열린 부분집합의 역상으로 이루어진다. $\mathcal{S}$에 의해 생성되는 $X$ 위의 위상 $\mathcal{T}$를 함수 $f_i$에 의해 induced(또는 generated)된 위상이라 부른다. $\mathcal{T}$의 주요 성질들은 다음 정리에 나열되어 있다.
+
+> 규빈: 여기에서 $i$는 countable일까? uncountable일까? 임의의 모임이라고 했으니까 uncountable같긴한데.. 잘 모르겠음.. (AI는 uncountable이라고함) 
+
+Theorem 7.8: (i) All the functions $f_i$ are continuous relative to $\mathcal{T}$.
+
+(ii) $\mathcal{T}$ is the intersection of all the topologies on $X$ with respect to which the functions $f_i$ are continuous.
+
+(iii) $\mathcal{T}$ is the smallest, i.e. coarsest, topology on $X$ with respect to which the functions $f_i$ are continuous.
+
+(iv) $\mathcal{S}$ is a subbase for the topology $\mathcal{T}$.
+
+$\mathcal{S}$를 함수 $f_i$에 의해 유도된 위상, 즉 모든 함수 $f_i$가 연속이 되는 $X$ 위의 가장 약한(coarsest) 위상에 대한 defining subbase라 부르겠다.
+
+Example 5.1: $\pi_1$과 $\pi_2$를 평면 $\mathbf{R}^2$에서 $\mathbf{R}$로의 사영이라 하자. 즉,
+
+$$\pi_1(\langle x, y \rangle) = x \quad \text{and} \quad \pi_2(\langle x, y \rangle) = y$$
+
+아래 그림에서 보이듯이, $\mathbf{R}$에서의 열린구간 $(a, b)$의 역상은 $\mathbf{R}^2$에서의 무한 열린 띠(infinite open strip)임을 관찰하라.
+
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_09.png)
+
+이러한 무한 열린 띠들이 $\mathbf{R}^2$ 위의 보통위상에 대한 부분기저를 이룸을 상기하라. 따라서 $\mathbf{R}^2$ 위의 보통위상은 사영 $\pi_1$과 $\pi_2$가 연속이 되는 $\mathbf{R}^2$ 위의 가장 작은 위상이다.
+
+## Chap 8. Metric and Normed Spaces
+
+## METRICS
+
+$X$를 공이 아닌 집합이라 하자. $X \times X$, 즉 $X$의 원소들의 순서쌍 위에 정의된 실수값 함수 $d$가 $X$ 위의 metric 또는 distance function이라 불리려면, 모든 $a, b, c \in X$에 대해 다음 공리들을 만족해야 한다:
+
+- [$\mathbf{M_1}$] $d(a, b) \geq 0$ and $d(a, a) = 0$.
+- [$\mathbf{M_2}$] (Symmetry) $d(a, b) = d(b, a)$.
+- [$\mathbf{M_3}$] (Triangle Inequality) $d(a, c) \leq d(a, b) + d(b, c)$.
+- [$\mathbf{M_4}$] If $a \neq b$, then $d(a, b) > 0$.
+
+실수 $d(a, b)$를 $a$에서 $b$까지의 distance라 부른다.
+
+[$\mathbf{M_1}$]은 임의의 점에서 다른 점까지의 거리가 절대 음수가 아니며, 한 점에서 자기 자신까지의 거리는 0임을 말한다. 공리 [$\mathbf{M_2}$]는 점 $a$에서 점 $b$까지의 거리가 $b$에서 $a$까지의 거리와 같음을 말한다; 따라서 우리는 $a$와 $b$ 사이의(between) 거리라고 말한다.
+
+[$\mathbf{M_3}$]이 Triangle Inequality라 불리는 이유는, $a$, $b$, $c$가 평면 $\mathbf{R}^2$의 점들일 때, [$\mathbf{M_3}$]이 삼각형의 한 변의 길이 $d(a, c)$가 나머지 두 변의 길이의 합 $d(a, b) + d(b, c)$ 이하임을 말하기 때문이다. 마지막 공리 [$\mathbf{M_4}$]는 서로 다른 두 점 사이의 거리가 양수임을 말한다.
+
+이제 거리함수의 몇 가지 예를 든다. 이들이 실제로 요구되는 공리들을 만족하는지는 나중에 검증될 것이다.
+
+Example 1.1: $a$와 $b$가 실수일 때, $d(a, b) = |a - b|$로 정의된 함수 $d$는 실수직선 $\mathbf{R}$ 위의 거리함수이며 usual metric이라 불린다. 나아가,
+
+$$d(p, q) = \sqrt{(a_1 - b_1)^2 + (a_2 - b_2)^2}$$
+
+로 정의된 함수 $d$는, $p = (a_1, a_2)$이고 $q = (b_1, b_2)$가 평면 $\mathbf{R}^2$의 점들일 때, 거리함수이며 $\mathbf{R}^2$ 위의 usual metric이라 불린다. 별도의 언급이 없는 한, $\mathbf{R}$과 $\mathbf{R}^2$ 위에서는 각각 이 거리함수를 가정한다.
+
+Example 1.2: $X$를 임의의 공이 아닌 집합이라 하고, $d$를 다음과 같이 정의된 함수라 하자.
+
+$$d(a, b) = \begin{cases} 0 & \text{if } a = b \\ 1 & \text{if } a \neq b \end{cases}$$
+
+그러면 $d$는 $X$ 위의 거리함수이다. 이 거리함수 $d$는 보통 $X$ 위의 trivial metric이라 불린다.
+
+
+
+Example 1.3: $\mathcal{C}[0,1]$을 닫힌 단위구간 $[0,1]$ 위의 연속함수들의 클래스라 하자. 클래스 $\mathcal{C}[0,1]$ 위에 다음과 같이 거리함수가 정의된다:
+
+$$d(f, g) = \int_0^1 |f(x) - g(x)|\, dx$$
+
+여기서 $d(f, g)$는 정확히 아래 그림에 보이듯이 두 함수 사이에 놓인 영역의 넓이이다.
+
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_10.png)
+Example 1.4: 다시 $\mathcal{C}[0,1]$을 $[0,1]$ 위의 연속함수들의 모임이라 하자. $\mathcal{C}[0,1]$ 위에 또 다른 거리함수가 다음과 같이 정의된다:
+
+$$d^*(f, g) = \sup\{|f(x) - g(x)| : x \in [0,1]\}$$
+
+여기서 $d^*(f, g)$는 정확히 위에서 그림으로 보인 바와 같이 두 함수 사이의 최대 수직 간격이다.
+
+Example 1.5: $p = \langle a_1, a_2 \rangle$와 $q = \langle b_1, b_2 \rangle$를 평면 $\mathbf{R}^2$의 임의의 점, 즉 실수의 순서쌍이라 하자. 다음과 같이 정의된 함수 $d_1$과 $d_2$는
+
+$$d_1(p, q) = \max(|a_1 - b_1|,\, |a_2 - b_2|), \qquad d_2(p, q) = |a_1 - b_1| + |a_2 - b_2|$$
+
+$\mathbf{R}^2$ 위의 서로 다른 거리함수이다.
+
+함수 $\rho$가 [M1], [M2] 그리고 [M3]를 만족하고, 즉 반드시 [M4]를 만족할 필요는 없을 때, 이를 pseudometric이라 한다. metric에 대한 많은 결과들은 pseudometric에 대해서도 역시 성립한다.
+
+### DISTANCE BETWEEN SETS, DIAMETERS
+
+집합 $X$ 위의 metric $d$가 주어졌다고 하자. 점 $p \in X$와 $X$의 공집합이 아닌 부분집합 $A$ 사이의 distance는 다음과 같이 표시하고 정의한다
+$$
+d(p, A) = \inf \{ d(p, a) : a \in A \}
+$$
+즉, $p$에서 $A$의 점들까지의 거리들의 greatest lower bound이다. $X$의 두 공집합이 아닌 부분집합 $A$와 $B$ 사이의 distance는 다음과 같이 표시하고 정의한다
+$$
+d(A, B) = \inf \{ d(a, b) : a \in A, b \in B \}
+$$
+즉, $A$의 점들에서 $B$의 점들까지의 거리들의 greatest lower bound이다.
+
+$X$의 공집합이 아닌 부분집합 $A$의 diameter는 다음과 같이 표시하고 정의한다
+$$
+d(A) = \sup \{ d(a, a') : a, a' \in A \}
+$$
+즉, $A$ 안의 점들 사이 거리들의 least upper bound이다. $A$의 diameter가 유한하면, 즉 $d(A) < \infty$이면, $A$는 bounded라고 한다; 그렇지 않고, 즉 $d(A) = \infty$이면, $A$는 unbounded라고 한다.
+
+Example 2.1: 집합 $X$가 공집합이 아니고 $d$가 $X$ 위의 trivial metric이라고 하자. 그러면 $p \in X$이고 $A, B \subset X$일 때,
+$$
+d(p, A) =
+\begin{cases}
+1 \quad \text{if } p \notin A \\
+0 \quad \text{if } p \in A
+\end{cases}
+\qquad
+d(A, B) =
+\begin{cases}
+1 \quad \text{if } A \cap B = \emptyset \\
+0 \quad \text{if } A \cap B \ne \emptyset
+\end{cases}
+$$
+
+Example 2.2: 실수선 $\mathbf{R}$ 위의 다음 구간들을 생각하자: $A = [0,1)$, $B = (1,2]$.
+
+$d$가 $\mathbf{R}$ 위의 usual metric을 나타낸다면, $d(A, B) = 0$이다. 반면에 $d^*$가 $\mathbf{R}$ 위의 trivial metric을 나타낸다면, $A$와 $B$는 서로소이므로 $d^*(A, B) = 1$이다.
+
+다음 명제는 위의 정의들로부터 분명하게 따른다:
+
+Proposition 8.1: Let $A$ and $B$ be non-empty subsets of $X$ and let $p \in X$. Then:
+
+`(i)` $d(p, A)$, $d(A, B)$ and $d(A)$ are non-negative real numbers.
+
+`(ii)` If $p \in A$, then $d(p, A) = 0$.
+
+`(iii)` If $A \cap B$ is non-empty, then $d(A, B) = 0$.
+
+`(iv)` If $A$ is finite, then $d(A) < \infty$, i.e. $A$ is bounded.
+
+`(ii)`, `(iii)` and `(iv)`의 역은 성립하지 않는다.
+공집합 $\emptyset$에 대하여 다음과 같은 약속을 채택한다:
+$$
+d(p, \emptyset) = \infty, \quad d(A, \emptyset) = d(\emptyset, A) = \infty, \quad d(\emptyset) = -\infty
+$$
+
+### OPEN SPHERES
+
+집합 $X$ 위의 metric $d$가 주어졌다고 하자. 임의의 점 $p \in X$와 임의의 실수 $\delta > 0$에 대하여, $S_d(p, \delta)$ 또는 간단히 $S(p, \delta)$는 $p$로부터 거리 $\delta$ 이내에 있는 점들의 집합을 나타낸다:
+$$
+S(p, \delta) = \{ x : d(p, x) < \delta \}
+$$
+$S(p, \delta)$를 중심이 $p$이고 반지름이 $\delta$인 open sphere, 또는 간단히 sphere라고 부른다. 또한 spherical neighborhood 또는 ball이라고도 한다.
+
+Example 3.1: 평면 $\mathbf{R}^2$에서 점 $p = (0,0)$와 실수 $\delta = 1$을 생각하자. $d$가 $\mathbf{R}^2$ 위의 usual metric이면, $S_d(p, \delta)$는 오른쪽에 그려진 open unit disc이다. 
+
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_11.png)
+
+반면에, Example 1.5에서 정의된 $\mathbf{R}^2$ 위의 metric $d_1$과 $d_2$에 대하여, $S_{d_1}(p, \delta)$와 $S_{d_2}(p, \delta)$는 아래에 그려진 $\mathbf{R}^2$의 부분집합들이다.
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_12.png)
+
+Example 3.2: 집합 $X$ 위의 trivial metric을 $d$라 하고, $p \in X$라 하자. $p$와 $X$의 다른 모든 점 사이의 거리는 정확히 1임을 기억하자. 따라서
+$$
+S(p, \delta) =
+\begin{cases}
+X \quad \text{if } \delta > 1 \\
+\{p\} \quad \text{if } \delta \le 1
+\end{cases}
+$$
+
+Example 3.3: 실수선 $\mathbf{R}$ 위의 usual metric을 $d$라 하자, 즉 $d(a,b) = |a - b|$이다. 그러면 open sphere $S(p, \delta)$는 열린구간 $(p - \delta, p + \delta)$이다.
+
+Example 3.4: $[0,1]$ 위의 모든 연속함수들의 집합 $C[0,1]$ 위의 metric $d$를 다음과 같이 정의하자
+$$
+d(f, g) = \sup \{|f(x) - g(x)| : x \in [0,1]\}
+$$
+(Example 1.4를 보라). $\delta > 0$과 함수 $f_0 \in C[0,1]$가 주어지면, open sphere $S(f_0, \delta)$는 아래 그림에 나타난 것처럼 $f_0 - \delta$와 $f_0 + \delta$로 둘러싸인 영역 안에 있는 모든 연속함수 $g$들의 집합이다.
+
+
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_13.png)
+
+metric space에서 open spheres의 한 가지 중요한 성질은 다음 lemma에 주어진다.
+
+Lemma 8.2: Let $S$ be an open sphere with center $p$ and radius $\delta$. Then for every point $q \in S$ there exists an open sphere $T$ centered at $q$ such that $T$ is contained in $S$. (See the adjacent Venn diagram.)
+
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_%5BSOGT%5D%20General%20Topology_14.png)
+METRIC TOPOLOGIES, METRIC SPACES
+
+일반적으로 두 open spheres의 교집합은 open sphere일 필요는 없다. 그러나 우리는 두 open spheres의 교집합에 있는 모든 점이 그 교집합 안에 포함된 어떤 open sphere에 속한다는 것을 보일 것이다. 즉,
+
+Lemma 8.3: Let $S_1$ and $S_2$ be open spheres and let $p \in S_1 \cap S_2$. Then there exists an open sphere $S_p$ with center $p$ such that $p \in S_p \subset S_1 \cap S_2$.
+
+따라서 Theorem 6.1에 의해 우리는 다음을 얻는다.
+
+> 규빈: Thm 6.1
+> 
+> Theorem 6.1: Let $\mathcal{B}$ be a class of subsets of a non-empty set $X$. Then $\mathcal{B}$ is a base for some topology on $X$ if and only if it possesses the following two properties:
+> (i) $X = \bigcup\{B : B \in \mathcal{B}\}$.
+> (ii) For any $B, B^* \in \mathcal{B}$, $B \cap B^*$ is the union of members of $\mathcal{B}$, or, equivalently, if $p \in B \cap B^*$ then $\exists B_p \in \mathcal{B}$ such that $p \in B_p \subset B \cap B^*$.
+> 
+
+Theorem 8.4: The class of open spheres in a set $X$ with metric $d$ is a base for a topology on $X$.
+Definition: Let $d$ be a metric on a non-empty set $X$. The topology $\mathcal{T}$ on $X$ generated by the class of open spheres in $X$ is called the metric topology (or, the topology induced by the metric $d$). Furthermore, the set $X$ together with the topology $\mathcal{T}$ induced by the metric $d$ is called a metric space and is denoted by $(X, d)$.
+
+따라서 metric space는 위상이 metric에 의해 유도되는 위상공간이다. 이에 따라, 위상공간에서 정의된 모든 개념들은 metric space에 대해서도 역시 정의된다. 예를 들어, metric space에 대하여 열린집합, 닫힌집합, 근방, 집적점, 폐포 등을 말할 수 있다.
+
+Example 4.1: 실수선 $\mathbf{R}$ 위의 usual metric을 $d$라 하자, 즉 $d(a,b) = |a - b|$이다. 그러면 $\mathbf{R}$에서의 open spheres는 정확히 유한한 열린구간들이다. 따라서 $\mathbf{R}$ 위의 usual metric은 $\mathbf{R}$ 위의 usual topology를 유도한다. 마찬가지로, 평면 $\mathbf{R}^2$ 위의 usual metric은 $\mathbf{R}^2$ 위의 usual topology를 유도한다.
+
+Example 4.2: 어떤 집합 $X$ 위의 trivial metric을 $d$라 하자. 임의의 $p \in X$에 대하여, $S(p, \frac{1}{2}) = \{p\}$임에 유의하자. 따라서 모든 singleton 집합은 열린집합이고, 결국 모든 집합이 열린집합이 된다. 다시 말해, $X$ 위의 trivial metric은 $X$ 위의 discrete topology를 유도한다.
+
+Example 4.3: $(X, d)$가 metric space이고 $Y$가 $X$의 공집합이 아닌 부분집합이라고 하자. 함수 $d$를 부분집합 $Y$의 점들에 제한한 것 역시 $d$로 나타내며, 이는 $Y$ 위의 metric이 된다. 우리는 $(Y, d)$를 $(X, d)$의 metric subspace라고 부른다. 실제로 $(Y, d)$는 $(X, d)$의 subspace이며, 즉 relative topology를 갖는다.
+
+흔히 동일한 기호, 예를 들어 $X$를, metric space와 그 metric이 정의된 underlying set을 모두 나타내는 데 사용한다.
+
+> 연구: snow-distance가 유도하는 공간은 뭘까
+
+> 규빈: 원래는 $(X,d)$를 metric space라고 해야하는데 때로는 $X$를 metric space라고 하기도 한다는 의미. 
+
+### PROPERTIES OF METRIC TOPOLOGIES
+
+metric space $X$의 위상은 metric으로부터 유도되므로, $X$의 위상적 성질들이 $X$의 거리 성질들과 관련되어 있을 것이라고 생각하는 것은 타당하다. 예를 들어,
+
+Theorem 8.5: Let $p$ be a point in a metric space $X$. Then the countable class of open spheres, $\{S(p, 1), S(p, \frac{1}{2}), S(p, \frac{1}{3}), \ldots\}$ is a local base at $p$.
+
+Theorem 8.6: metric space $X$의 부분집합 $A$의 closure $\overline{A}$는 $A$로부터의 거리가 0인 점들의 집합이다, 즉
+$$
+\overline{A} = \{ x : d(x, A) = 0 \}.
+$$
+> 규빈: 이게 또 살짝 새로운 관점이네.. "집합$A$클로저 = 집합$A$와의 거리가 0인 점들의 집합"
+
+공리 [M4]로부터, singleton 집합 $\{p\}$로부터의 거리가 0인 유일한 점은 $p$ 자신뿐임을 알 수 있다, 즉
+$$
+d(x, \{p\}) = 0 \text{ implies } x = p
+$$
+따라서 앞의 정리에 의해, metric space에서 singleton 집합 $\{p\}$는 닫힌집합이다. 이에 따라, singleton 집합들의 유한 합집합, 즉 유한집합도 닫힌집합이다. 이를 다음과 같이 정식으로 서술한다:
+
+Corollary 8.7: In a metric space $X$ all finite sets are closed.
+
+따라서 metric space $X$는 일반적인 위상공간에서는 성립하지 않을 수도 있는 어떤 위상적 성질들을 갖는다는 것을 알 수 있다.
+
+다음으로 metric space의 중요한 “separation” 성질이 이어진다.
+
+Theorem 8.8 (Separation Axiom): Let $A$ and $B$ be closed disjoint subsets of a metric space $X$. Then there exist disjoint open sets $G$ and $H$ such that $A \subset G$ and $B \subset H$. (See Venn diagram below.)
+
+위의 정리로부터 서로소인 두 닫힌집합 사이의 거리가 0보다 클 것이라고 생각할 수도 있다. 다음 예제는 이것이 사실이 아님을 보여준다.
+
+
+
+## Chap 9. Countability
+
+## Chap 10. Separation Axioms
+
+## Chap 11. Compactness
+
+## Chap 12. Product Spaces
+
+## Chap 13. Connetedness
+
+## Chap 14. Complete Metric Spaces
+
+## Chap 15. Function Spaces
+
+
 
 

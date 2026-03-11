@@ -423,11 +423,10 @@ def rename_images_for_file(md_path: Path, attachments_dir: Path) -> list:
     # MD 파일 내용 업데이트
     content = md_path.read_text(encoding='utf-8')
     for old_name, new_name in rename_plan:
-        # URL 인코딩된 버전도 처리
+        # 로컬 마크다운 링크는 인코딩하지 않은 파일명을 유지한다.
+        # 기존 문서에 인코딩된 경로가 있더라도 새 경로는 실제 파일명으로 정규화한다.
         old_encoded = quote(old_name)
-        new_encoded = quote(new_name)
-
-        content = content.replace(f"attachments/{old_encoded}", f"attachments/{new_encoded}")
+        content = content.replace(f"attachments/{old_encoded}", f"attachments/{new_name}")
         content = content.replace(f"attachments/{old_name}", f"attachments/{new_name}")
 
     md_path.write_text(content, encoding='utf-8')

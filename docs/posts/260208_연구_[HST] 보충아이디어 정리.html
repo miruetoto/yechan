@@ -69,6 +69,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 <link rel="stylesheet" href="styles.css">
@@ -154,7 +183,60 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#a.-topological-interpolation-t에-의한-두-위상-사이의-연속-보간" id="toc-a.-topological-interpolation-t에-의한-두-위상-사이의-연속-보간" class="nav-link active" data-scroll-target="#a.-topological-interpolation-t에-의한-두-위상-사이의-연속-보간">A. Topological Interpolation: <span class="math inline">\(t\)</span>에 의한 두 위상 사이의 연속 보간</a>
+  <ul class="collapse">
+  <li><a href="#a.1-핵심-구조" id="toc-a.1-핵심-구조" class="nav-link" data-scroll-target="#a.1-핵심-구조">A.1 핵심 구조</a></li>
+  <li><a href="#a.2-위상적-전환점의-엄밀한-정의" id="toc-a.2-위상적-전환점의-엄밀한-정의" class="nav-link" data-scroll-target="#a.2-위상적-전환점의-엄밀한-정의">A.2 위상적 전환점의 엄밀한 정의</a></li>
+  <li><a href="#a.3-persistence-diagram의-t-궤적" id="toc-a.3-persistence-diagram의-t-궤적" class="nav-link" data-scroll-target="#a.3-persistence-diagram의-t-궤적">A.3 Persistence Diagram의 <span class="math inline">\(t\)</span>-궤적</a></li>
+  </ul></li>
+  <li><a href="#b.-euclidean-graph-bi-filtration" id="toc-b.-euclidean-graph-bi-filtration" class="nav-link" data-scroll-target="#b.-euclidean-graph-bi-filtration">B. Euclidean-Graph Bi-Filtration</a>
+  <ul class="collapse">
+  <li><a href="#b.1-a와의-핵심-차이" id="toc-b.1-a와의-핵심-차이" class="nav-link" data-scroll-target="#b.1-a와의-핵심-차이">B.1 A와의 핵심 차이</a></li>
+  <li><a href="#b.2-엄밀한-구성" id="toc-b.2-엄밀한-구성" class="nav-link" data-scroll-target="#b.2-엄밀한-구성">B.2 엄밀한 구성</a></li>
+  <li><a href="#b.3-왜-이것이-새로운가" id="toc-b.3-왜-이것이-새로운가" class="nav-link" data-scroll-target="#b.3-왜-이것이-새로운가">B.3 왜 이것이 새로운가</a></li>
+  <li><a href="#b.4-example-2에서의-구체적-해석" id="toc-b.4-example-2에서의-구체적-해석" class="nav-link" data-scroll-target="#b.4-example-2에서의-구체적-해석">B.4 Example 2에서의 구체적 해석</a></li>
+  </ul></li>
+  <li><a href="#c.-약에르고드성이-보장하는-well-posedness" id="toc-c.-약에르고드성이-보장하는-well-posedness" class="nav-link" data-scroll-target="#c.-약에르고드성이-보장하는-well-posedness">C. 약에르고드성이 보장하는 Well-Posedness</a>
+  <ul class="collapse">
+  <li><a href="#c.1-a와-b를-위한-세-가지-보장" id="toc-c.1-a와-b를-위한-세-가지-보장" class="nav-link" data-scroll-target="#c.1-a와-b를-위한-세-가지-보장">C.1 A와 B를 위한 세 가지 보장</a></li>
+  </ul></li>
+  <li><a href="#d.-새-노드-보간-n-n1" id="toc-d.-새-노드-보간-n-n1" class="nav-link" data-scroll-target="#d.-새-노드-보간-n-n1">D. 새 노드 보간 (N → N+1)</a>
+  <ul class="collapse">
+  <li><a href="#d.1-문제-설정" id="toc-d.1-문제-설정" class="nav-link" data-scroll-target="#d.1-문제-설정">D.1 문제 설정</a></li>
+  <li><a href="#d.2-제안하는-보간-공식" id="toc-d.2-제안하는-보간-공식" class="nav-link" data-scroll-target="#d.2-제안하는-보간-공식">D.2 제안하는 보간 공식</a></li>
+  <li><a href="#d.3-이론적-정당화" id="toc-d.3-이론적-정당화" class="nav-link" data-scroll-target="#d.3-이론적-정당화">D.3 이론적 정당화</a></li>
+  <li><a href="#d.4-yv_n1-예측" id="toc-d.4-yv_n1-예측" class="nav-link" data-scroll-target="#d.4-yv_n1-예측">D.4 <span class="math inline">\(y(v_{N+1})\)</span> 예측</a></li>
+  <li><a href="#d.5-이-결과가-위상적으로-의미하는-것" id="toc-d.5-이-결과가-위상적으로-의미하는-것" class="nav-link" data-scroll-target="#d.5-이-결과가-위상적으로-의미하는-것">D.5 이 결과가 위상적으로 의미하는 것</a></li>
+  </ul></li>
+  <li><a href="#e.-parallel-hst와-앙상블-안정성" id="toc-e.-parallel-hst와-앙상블-안정성" class="nav-link" data-scroll-target="#e.-parallel-hst와-앙상블-안정성">E. Parallel HST와 앙상블 안정성</a>
+  <ul class="collapse">
+  <li><a href="#e.1-문제" id="toc-e.1-문제" class="nav-link" data-scroll-target="#e.1-문제">E.1 문제</a></li>
+  <li><a href="#e.2-제안-batch-parallel-hst" id="toc-e.2-제안-batch-parallel-hst" class="nav-link" data-scroll-target="#e.2-제안-batch-parallel-hst">E.2 제안: Batch-Parallel HST</a></li>
+  <li><a href="#e.3-이론적-보장" id="toc-e.3-이론적-보장" class="nav-link" data-scroll-target="#e.3-이론적-보장">E.3 이론적 보장</a></li>
+  <li><a href="#e.4-핵심-결과-bias-variance-tradeoff" id="toc-e.4-핵심-결과-bias-variance-tradeoff" class="nav-link" data-scroll-target="#e.4-핵심-결과-bias-variance-tradeoff">E.4 핵심 결과: Bias-Variance Tradeoff</a></li>
+  <li><a href="#e.5-b-to-infty에서의-극한" id="toc-e.5-b-to-infty에서의-극한" class="nav-link" data-scroll-target="#e.5-b-to-infty에서의-극한">E.5 <span class="math inline">\(B \to \infty\)</span>에서의 극한</a></li>
+  <li><a href="#e.6-앙상블-snow-weight와-snow-laplacian" id="toc-e.6-앙상블-snow-weight와-snow-laplacian" class="nav-link" data-scroll-target="#e.6-앙상블-snow-weight와-snow-laplacian">E.6 앙상블 Snow Weight와 Snow Laplacian</a></li>
+  </ul></li>
+  <li><a href="#개-방향의-관계도" id="toc-개-방향의-관계도" class="nav-link" data-scroll-target="#개-방향의-관계도">5개 방향의 관계도</a></li>
+  <li><a href="#a.1-깊이-파기-snow-distance가-정의하는-거리공간의-구조" id="toc-a.1-깊이-파기-snow-distance가-정의하는-거리공간의-구조" class="nav-link" data-scroll-target="#a.1-깊이-파기-snow-distance가-정의하는-거리공간의-구조">A.1 깊이 파기: Snow Distance가 정의하는 거리공간의 구조</a>
+  <ul class="collapse">
+  <li><a href="#a.1.1-sd_ijt는-pseudo-metric인가" id="toc-a.1.1-sd_ijt는-pseudo-metric인가" class="nav-link" data-scroll-target="#a.1.1-sd_ijt는-pseudo-metric인가">A.1.1 <span class="math inline">\(SD_{ij}(t)\)</span>는 (pseudo-)metric인가?</a></li>
+  <li><a href="#a.1.2-snow-height-trajectory의-기하학적-해석" id="toc-a.1.2-snow-height-trajectory의-기하학적-해석" class="nav-link" data-scroll-target="#a.1.2-snow-height-trajectory의-기하학적-해석">A.1.2 Snow Height Trajectory의 기하학적 해석</a></li>
+  <li><a href="#a.1.3-sd_ijt의-단조성과-그-의미" id="toc-a.1.3-sd_ijt의-단조성과-그-의미" class="nav-link" data-scroll-target="#a.1.3-sd_ijt의-단조성과-그-의미">A.1.3 <span class="math inline">\(SD_{ij}(t)\)</span>의 단조성과 그 의미</a></li>
+  <li><a href="#a.1.4-정규화된-snow-distance" id="toc-a.1.4-정규화된-snow-distance" class="nav-link" data-scroll-target="#a.1.4-정규화된-snow-distance">A.1.4 정규화된 Snow Distance</a></li>
+  <li><a href="#a.1.5-delta_ijs의-점근적-행동-두-단계" id="toc-a.1.5-delta_ijs의-점근적-행동-두-단계" class="nav-link" data-scroll-target="#a.1.5-delta_ijs의-점근적-행동-두-단계">A.1.5 <span class="math inline">\(\Delta_{ij}(s)\)</span>의 점근적 행동 — 두 단계</a></li>
+  <li><a href="#a.1.6-정규화된-sd의-수렴" id="toc-a.1.6-정규화된-sd의-수렴" class="nav-link" data-scroll-target="#a.1.6-정규화된-sd의-수렴">A.1.6 정규화된 SD의 수렴</a></li>
+  <li><a href="#a.1.7-metric-space의-gromov-hausdorff-수렴" id="toc-a.1.7-metric-space의-gromov-hausdorff-수렴" class="nav-link" data-scroll-target="#a.1.7-metric-space의-gromov-hausdorff-수렴">A.1.7 Metric Space의 Gromov-Hausdorff 수렴</a></li>
+  <li><a href="#a.1.8-persistence-diagram의-t-궤적-엄밀한-진술" id="toc-a.1.8-persistence-diagram의-t-궤적-엄밀한-진술" class="nav-link" data-scroll-target="#a.1.8-persistence-diagram의-t-궤적-엄밀한-진술">A.1.8 Persistence Diagram의 <span class="math inline">\(t\)</span>-궤적: 엄밀한 진술</a></li>
+  <li><a href="#a.1.9-확률적-고려-기대값-vs-sample-path" id="toc-a.1.9-확률적-고려-기대값-vs-sample-path" class="nav-link" data-scroll-target="#a.1.9-확률적-고려-기대값-vs-sample-path">A.1.9 확률적 고려: 기대값 vs Sample Path</a></li>
+  <li><a href="#a.1.10-열린-문제와-추가-연구-방향" id="toc-a.1.10-열린-문제와-추가-연구-방향" class="nav-link" data-scroll-target="#a.1.10-열린-문제와-추가-연구-방향">A.1.10 열린 문제와 추가 연구 방향</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -190,8 +272,444 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>좋은 피드백입니다. 이전 대화에서 새 노드 예측과 barycentric interpolation 아이디어를 이미 논의했던 내용도 확인했습니다. 이제 모든 방향을 깊이 있게, 서로 독립적인 기여로 정리하겠습니다.</p>
+<hr>
+<section id="a.-topological-interpolation-t에-의한-두-위상-사이의-연속-보간" class="level2">
+<h2 class="anchored" data-anchor-id="a.-topological-interpolation-t에-의한-두-위상-사이의-연속-보간">A. Topological Interpolation: <span class="math inline">\(t\)</span>에 의한 두 위상 사이의 연속 보간</h2>
+<section id="a.1-핵심-구조" class="level3">
+<h3 class="anchored" data-anchor-id="a.1-핵심-구조">A.1 핵심 구조</h3>
+<p><span class="math inline">\(t\)</span>를 고정할 때마다 snow distance가 거리공간을 정의합니다:</p>
+<p><span class="math display">\[d_t: {\cal V} \times {\cal V} \to \mathbb{R}_{\geq 0}, \quad d_t(v_i, v_j) := SD_{ij}(t)\]</span></p>
+<p>이것이 만드는 <strong>거리공간의 연속 가족</strong> <span class="math inline">\(\{({\cal V}, d_t)\}_{t \geq 0}\)</span>을 생각합니다.</p>
+<p><strong>양 끝점:</strong></p>
+<p><span class="math display">\[d_0(v_i, v_j) = |y(v_i) - y(v_j)| \quad \text{(순수 유클리드 거리)}\]</span></p>
+<p><span class="math inline">\(t \to \infty\)</span>일 때, Appendix A.2의 분해와 약에르고드성에 의해:</p>
+<p><span class="math display">\[\frac{1}{t} d_t^2(v_i, v_j) \to \lim_{t\to\infty} \frac{1}{t} \sum_{s=0}^{t} (h(v_i,s) - h(v_j,s))^2\]</span></p>
+<p>이 극한은 <strong>시그널 <span class="math inline">\(\mathbf{y}\)</span>와 독립적</strong>이고, 오직 <span class="math inline">\((\mathbf{E}, \mathbf{W})\)</span>에만 의존합니다.</p>
+<p><strong>왜 독립적인가 (정확한 논증):</strong> 논문의 약에르고드성 증명에서 block 이벤트 시점 <span class="math inline">\(M_k\)</span>마다 <span class="math inline">\(\delta(\mathbf{P}(M_k)) = 0\)</span>입니다. 이것은 전이행렬의 모든 행이 <span class="math inline">\(\boldsymbol{\mu}_0\)</span>과 동일해진다는 뜻이므로, 이 시점 이후의 눈 동역학은 이전 경로(따라서 초기 신호)에 대한 메모리를 완전히 잃습니다. <span class="math inline">\(t\)</span>가 충분히 크면 block 이후의 기여가 지배적이 되므로, <span class="math inline">\(\frac{1}{t}SD^2_{ij}(t)\)</span>에서 초기 <span class="math inline">\(\mathbf{y}\)</span>의 기여는 <span class="math inline">\(O(t_0/t) \to 0\)</span>이 됩니다.</p>
+</section>
+<section id="a.2-위상적-전환점의-엄밀한-정의" class="level3">
+<h3 class="anchored" data-anchor-id="a.2-위상적-전환점의-엄밀한-정의">A.2 위상적 전환점의 엄밀한 정의</h3>
+<p><strong>Definition (위상적 전환 시각 <span class="math inline">\(t_0^*\)</span>):</strong></p>
+<p><span class="math display">\[t_0^* := \inf\left\{t : \max_{i,j} \frac{|h(v_i,t) - h(v_j,t)|}{\frac{1}{|{\cal V}|}\sum_k h(v_k,t)} &lt; \epsilon \right\}\]</span></p>
+<p>즉, 눈 높이의 상대적 차이가 <span class="math inline">\(\epsilon\)</span> 이하가 되는 최초 시각입니다. 논문의 Figure 7에서 <span class="math inline">\(t \approx 12000\)</span>이 이에 해당합니다.</p>
+<p><strong>이것이 위상적으로 중요한 이유:</strong> <span class="math inline">\(t &lt; t_0^*\)</span>에서 Vietoris-Rips complex <span class="math inline">\(VR_\epsilon({\cal V}, d_t)\)</span>는 주로 <span class="math inline">\(\mathbf{y}\)</span>의 값 분포에 의해 결정됩니다. <span class="math inline">\(t &gt; t_0^*\)</span>에서는 그래프 연결 구조에 의해 결정됩니다. <strong>전환 구간</strong> <span class="math inline">\(t \approx t_0^*\)</span>에서는 두 정보가 혼합되어, cliff 감지(논문 Figure 5)처럼 <strong>어느 쪽 도메인에서도 단독으로 감지할 수 없는 구조</strong>가 나타납니다.</p>
+</section>
+<section id="a.3-persistence-diagram의-t-궤적" class="level3">
+<h3 class="anchored" data-anchor-id="a.3-persistence-diagram의-t-궤적">A.3 Persistence Diagram의 <span class="math inline">\(t\)</span>-궤적</h3>
+<p>고정된 <span class="math inline">\(\epsilon\)</span>에서 <span class="math inline">\(t\)</span>를 변화시키면, Betti 수 <span class="math inline">\(\beta_k(VR_\epsilon({\cal V}, d_t))\)</span>가 <span class="math inline">\(t\)</span>의 함수로 변합니다. 이 <strong>Betti curve</strong> <span class="math inline">\(\beta_k(\epsilon, t)\)</span>는 두 도메인의 위상적 정보가 어떻게 전이되는지를 시각화합니다.</p>
+<p>Example 2 (ring data, <span class="math inline">\(\mathbf{y}\)</span>에 두 그룹)에서의 예측:</p>
+<ul>
+<li><span class="math inline">\(\beta_0\)</span> at small <span class="math inline">\(t\)</span>: 2 (유클리드에서 두 그룹)</li>
+<li><span class="math inline">\(\beta_0\)</span> at large <span class="math inline">\(t\)</span>: 1 (그래프에서 하나의 연결 성분)</li>
+<li><span class="math inline">\(\beta_1\)</span> at small <span class="math inline">\(t\)</span>: 0 (유클리드에서 원 구조 미감지)</li>
+<li><span class="math inline">\(\beta_1\)</span> at large <span class="math inline">\(t\)</span>: 1 (그래프에서 원형 매니폴드의 1-cycle)</li>
+<li><strong>중간 <span class="math inline">\(t\)</span>에서: <span class="math inline">\(\beta_0 = 2\)</span>이면서 <span class="math inline">\(\beta_1 = 1\)</span></strong> → 두 반원이 각각 보이면서 원형 구조도 보임</li>
+</ul>
+<p>이것은 논문의 Figure 4 (bottom right)의 “두 반원 구조” 결과와 정확히 대응합니다.</p>
+<hr>
+</section>
+</section>
+<section id="b.-euclidean-graph-bi-filtration" class="level2">
+<h2 class="anchored" data-anchor-id="b.-euclidean-graph-bi-filtration">B. Euclidean-Graph Bi-Filtration</h2>
+<section id="b.1-a와의-핵심-차이" class="level3">
+<h3 class="anchored" data-anchor-id="b.1-a와의-핵심-차이">B.1 A와의 핵심 차이</h3>
+<p>A는 <span class="math inline">\(t\)</span>를 하나의 슬라이더로 사용해서 유클리드 → 그래프 사이를 “이동”합니다. B는 Appendix A.2의 분해를 활용해서 <strong>두 정보를 분리한 채로 동시에</strong> 봅니다. 비유하자면, A는 “온도를 조절하는 것”이고, B는 “빨간 불과 파란 불을 각각 따로 밝기를 조절하는 것”입니다.</p>
+</section>
+<section id="b.2-엄밀한-구성" class="level3">
+<h3 class="anchored" data-anchor-id="b.2-엄밀한-구성">B.2 엄밀한 구성</h3>
+<p>Appendix A.2의 분해:</p>
+<p><span class="math display">\[SD^2_{ij}(t) = \underbrace{\sum_{s=0}^{t_0}(h(v_i,s)-h(v_j,s))^2}_{=: (d^E_{ij})^2} + \underbrace{\sum_{s=t_0+1}^{t}(h(v_i,s)-h(v_j,s))^2}_{=: (d^G_{ij})^2}\]</span></p>
+<p>논문에서 보인 것처럼, 충분히 큰 <span class="math inline">\(t_0\)</span>에서:</p>
+<ul>
+<li><span class="math inline">\(d^E_{ij} \approx\)</span> 유클리드 거리 정보 (Figure A.2의 세 번째 열)</li>
+<li><span class="math inline">\(d^G_{ij} \approx\)</span> 확산 거리 정보 (Figure A.2의 네 번째 열)</li>
+</ul>
+<p><strong>Bi-filtration 정의:</strong></p>
+<p><span class="math display">\[K(\alpha, \beta) := \left\{\sigma = [v_{i_0}, \ldots, v_{i_k}] : d^E_{i_p i_q} \leq \alpha \text{ and } d^G_{i_p i_q} \leq \beta, \;\forall p,q \right\}\]</span></p>
+<p><span class="math inline">\(\alpha\)</span>와 <span class="math inline">\(\beta\)</span>를 독립적으로 변화시키면 <span class="math inline">\((\alpha, \beta)\)</span> 평면 위의 persistence를 얻습니다.</p>
+</section>
+<section id="b.3-왜-이것이-새로운가" class="level3">
+<h3 class="anchored" data-anchor-id="b.3-왜-이것이-새로운가">B.3 왜 이것이 새로운가</h3>
+<p>기존 TDA에서 bi-filtration이 존재하긴 합니다 (예: density-Rips, multi-parameter persistence). 그러나 HST의 bi-filtration은 독특합니다:</p>
+<ul>
+<li><strong>같은 데이터의 다른 측면을 분리</strong>: density-Rips는 밀도와 거리를 결합하지만, 둘 다 같은 도메인의 정보입니다. HST의 bi-filtration은 <strong>본질적으로 다른 두 도메인</strong>(유클리드와 그래프)의 정보를 분리합니다.</li>
+<li><strong><span class="math inline">\(t_0\)</span> 선택에 따른 유연성</strong>: <span class="math inline">\(t_0\)</span>는 분해의 경계점이므로, 다양한 <span class="math inline">\(t_0\)</span>에서의 bi-filtration을 비교하면 두 도메인의 상대적 기여를 체계적으로 분석할 수 있습니다.</li>
+<li><strong>단일 프로세스에서 자연스럽게 도출</strong>: 인위적으로 두 거리를 결합하는 것이 아니라, HST라는 하나의 물리적 프로세스에서 자연스럽게 분해됩니다.</li>
+</ul>
+</section>
+<section id="b.4-example-2에서의-구체적-해석" class="level3">
+<h3 class="anchored" data-anchor-id="b.4-example-2에서의-구체적-해석">B.4 Example 2에서의 구체적 해석</h3>
+<p>Modified ring data (<span class="math inline">\(y = \pm 3\)</span>)에서:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(\alpha\)</span> (유클리드)</th>
+<th><span class="math inline">\(\beta\)</span> (그래프)</th>
+<th>보이는 구조</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>작음</td>
+<td>작음</td>
+<td>개별 점들만 (0-simplex)</td>
+</tr>
+<tr class="even">
+<td>큼</td>
+<td>작음</td>
+<td>두 그룹이 각각 연결됨 (<span class="math inline">\(\beta_0 = 2\)</span>)</td>
+</tr>
+<tr class="odd">
+<td>작음</td>
+<td>큼</td>
+<td>원형 고리 구조 (<span class="math inline">\(\beta_1 = 1\)</span>)</td>
+</tr>
+<tr class="even">
+<td>큼</td>
+<td>큼</td>
+<td>전체 연결 (<span class="math inline">\(\beta_0 = 1\)</span>, <span class="math inline">\(\beta_1 = 1\)</span>)</td>
+</tr>
+</tbody>
+</table>
+<p>이 표의 각 칸이 다른 위상적 정보를 주는 것이 bi-filtration의 힘입니다.</p>
+<hr>
+</section>
+</section>
+<section id="c.-약에르고드성이-보장하는-well-posedness" class="level2">
+<h2 class="anchored" data-anchor-id="c.-약에르고드성이-보장하는-well-posedness">C. 약에르고드성이 보장하는 Well-Posedness</h2>
+<section id="c.1-a와-b를-위한-세-가지-보장" class="level3">
+<h3 class="anchored" data-anchor-id="c.1-a와-b를-위한-세-가지-보장">C.1 A와 B를 위한 세 가지 보장</h3>
+<p><strong>보장 1: 수렴성 (A를 위해)</strong></p>
+<p><span class="math display">\[\forall \epsilon &gt; 0, \;\exists T : \;\forall t &gt; T, \quad \left|\frac{1}{t}SD^2_{ij}(t) - c_{ij}\right| &lt; \epsilon\]</span></p>
+<p>여기서 <span class="math inline">\(c_{ij}\)</span>는 <span class="math inline">\(\mathbf{y}\)</span>와 독립적인 상수. 이것은 Direction A의 “큰 <span class="math inline">\(t\)</span>에서 그래프 구조로 수렴”이 well-defined임을 보장합니다.</p>
+<p><strong>증명 핵심</strong>: Theorem A.5에서 <span class="math inline">\(\delta(\mathbf{P}(M_k)) = 0\)</span>이므로, 각 에포크 <span class="math inline">\([M_k, M_{k+1})\)</span>에서의 눈 동역학은 이전 에포크와 독립. 따라서 <span class="math inline">\(\frac{1}{t}\sum_{s}(h(v_i,s)-h(v_j,s))^2\)</span>은 에르고드 평균으로서 수렴합니다.</p>
+<p><strong>보장 2: 분해의 정당성 (B를 위해)</strong></p>
+<p><span class="math inline">\(t_0 &gt; t_0^*\)</span> (위상적 전환 이후)이면, <span class="math inline">\(d^E\)</span>와 <span class="math inline">\(d^G\)</span>가 실제로 “유클리드 정보”와 “그래프 정보”를 각각 반영한다는 것.</p>
+<p>더 정확히: <span class="math inline">\(\mathbf{y}' \neq \mathbf{y}\)</span>이지만 같은 <span class="math inline">\((\mathbf{E}, \mathbf{W})\)</span>인 두 데이터에 대해,</p>
+<p><span class="math display">\[d^E \neq d'^E \quad \text{(유클리드 성분은 다름)}\]</span> <span class="math display">\[d^G \approx d'^G \quad \text{(그래프 성분은 유사)} \quad \text{as } t \to \infty\]</span></p>
+<p>이것이 성립해야 bi-filtration의 두 축이 진짜로 다른 정보를 담고 있다고 말할 수 있습니다. 약에르고드성이 정확히 이것을 보장합니다.</p>
+<p><strong>보장 3: 안정성 (D, E를 위해)</strong></p>
+<p><span class="math display">\[d_B\big(\text{Dgm}(SD(t)), \text{Dgm}(SD'(t))\big) \leq C(t) \cdot \|\mathbf{y} - \mathbf{y}'\|_\infty\]</span></p>
+<p>여기서 <span class="math inline">\(C(t)\)</span>는 <strong>감소 함수</strong>. 왜 감소하는가:</p>
+<ul>
+<li><span class="math inline">\(SD^2_{ij}(t)\)</span>에서 <span class="math inline">\(\mathbf{y}\)</span>에 의존하는 부분은 <span class="math inline">\(SD^2(0, t_0^*)\)</span>에 집중</li>
+<li><span class="math inline">\(t\)</span>가 커질수록 <span class="math inline">\(SD^2(t_0^*+1, t)\)</span>가 지배적</li>
+<li>따라서 <span class="math inline">\(C(t) \sim \sqrt{t_0^*/t}\)</span></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="d.-새-노드-보간-n-n1" class="level2">
+<h2 class="anchored" data-anchor-id="d.-새-노드-보간-n-n1">D. 새 노드 보간 (N → N+1)</h2>
+<section id="d.1-문제-설정" class="level3">
+<h3 class="anchored" data-anchor-id="d.1-문제-설정">D.1 문제 설정</h3>
+<p>기존 <span class="math inline">\(N\)</span>개 노드의 <span class="math inline">\(\{\mathbf{y}, {\cal G}\}\)</span>에 HST를 적용해서 <span class="math inline">\(\mathbf{SD}(t)\)</span>를 얻고, 이를 <span class="math inline">\(d\)</span>-차원으로 임베딩해서 <span class="math inline">\(\{x_1, \ldots, x_N\} \subset \mathbb{R}^d\)</span>를 얻었습니다. (예: MDS 또는 diffusion map 스타일로.)</p>
+<p>이제 <strong>새 노드 <span class="math inline">\(v_{N+1}\)</span></strong>이 등장합니다. 이 노드의 연결 정보 <span class="math inline">\(\{W_{N+1,j}\}_{j=1}^{N}\)</span>은 알지만, <span class="math inline">\(y(v_{N+1})\)</span>은 모릅니다. 이 노드를 기존 임베딩 공간에서 어디에 놓을 것인가?</p>
+</section>
+<section id="d.2-제안하는-보간-공식" class="level3">
+<h3 class="anchored" data-anchor-id="d.2-제안하는-보간-공식">D.2 제안하는 보간 공식</h3>
+<p><strong>Barycentric Snow Interpolation:</strong></p>
+<p><span class="math display">\[\hat{x}_{N+1} = \sum_{j \in {\cal N}_{N+1}} \omega_j \cdot x_j, \qquad \omega_j = \frac{W_{N+1,j} \cdot \text{deg}(v_j)}{\sum_{k \in {\cal N}_{N+1}} W_{N+1,k} \cdot \text{deg}(v_k)}\]</span></p>
+<p>가중치가 <span class="math inline">\(W_{N+1,j} \cdot \text{deg}(v_j)\)</span>인 이유는, HST의 전이확률 자체가 <span class="math inline">\(\frac{\text{deg}(v_j)}{\sum_k \text{deg}(v_k)}\)</span>에 비례하기 때문입니다. 즉, <strong>HST의 눈 이동 확률과 일관된 보간</strong>입니다.</p>
+</section>
+<section id="d.3-이론적-정당화" class="level3">
+<h3 class="anchored" data-anchor-id="d.3-이론적-정당화">D.3 이론적 정당화</h3>
+<p><strong>Theorem D.1 (보간 일관성)</strong></p>
+<p><span class="math inline">\(N\)</span>개 노드에서 HST를 실행한 임베딩을 <span class="math inline">\(\phi_N: {\cal V}_N \to \mathbb{R}^d\)</span>라 하고, <span class="math inline">\(N+1\)</span>개 노드 모두에서 HST를 다시 실행한 임베딩을 <span class="math inline">\(\phi_{N+1}: {\cal V}_{N+1} \to \mathbb{R}^d\)</span>라 합니다.</p>
+<p><strong>주장</strong>: 적절한 조건 하에서, 위 보간 공식의 결과 <span class="math inline">\(\hat{x}_{N+1}\)</span>과 full recomputation의 결과 <span class="math inline">\(\phi_{N+1}(v_{N+1})\)</span> 사이의 오차가 bounded:</p>
+<p><span class="math display">\[\|\hat{x}_{N+1} - \phi_{N+1}(v_{N+1})\| \leq \epsilon(N, t)\]</span></p>
+<p><strong>왜 이것이 성립하는가 (핵심 논증):</strong></p>
+<p><strong>(1) 약에르고드성에 의한 국소 균일성:</strong> 충분히 큰 <span class="math inline">\(t\)</span>에서, 눈의 정상 분포는 degree에 비례합니다 (<span class="math inline">\(\boldsymbol{\mu}_0\)</span>). 새 노드 <span class="math inline">\(v_{N+1}\)</span>이 추가되어도, 기존 노드들 사이의 snow distance는 크게 변하지 않습니다. 이유: block 이벤트 이후의 눈 동역학은 이전 경로를 잊으므로, 새 노드가 “과거 기억”에 영향을 줄 수 없습니다.</p>
+<p><strong>(2) Snow distance의 가법성:</strong> <span class="math inline">\(v_{N+1}\)</span>에서의 눈 축적은 이웃 노드로부터의 흐름에 의해 결정됩니다:</p>
+<p><span class="math display">\[h(v_{N+1}, t+1) = h(v_{N+1}, t) + b \cdot I(X_{t+1} = N+1)\]</span></p>
+<p><span class="math inline">\(v_{N+1}\)</span>에 눈이 머무르는 빈도는 이웃의 높이와 degree에 의해 결정되므로, <span class="math inline">\(v_{N+1}\)</span>의 snow height trajectory는 이웃들의 trajectory의 <strong>가중 평균 + 노이즈</strong>입니다.</p>
+<p><strong>(3) Example 2에서의 구체적 보장:</strong> Ring data에서 <span class="math inline">\(N=60\)</span>이고, <span class="math inline">\(2N=120\)</span>으로 촘촘히 관측하면:</p>
+<ul>
+<li>기존 60개 노드의 임베딩이 원(반원) 위의 점들</li>
+<li>새로운 60개 노드 각각은 기존 인접 노드들 사이에 놓임</li>
+<li>보간 공식은 인접 두 점의 가중 평균 → <strong>원 위의 중간점</strong></li>
+<li>이것은 full recomputation (120개 노드에 HST 다시 실행)의 결과와 <strong>거의 일치</strong></li>
+</ul>
+<p>이 일치는 우연이 아닙니다: ring graph의 대칭성과 약에르고드성의 국소 균일성이 결합된 결과입니다.</p>
+</section>
+<section id="d.4-yv_n1-예측" class="level3">
+<h3 class="anchored" data-anchor-id="d.4-yv_n1-예측">D.4 <span class="math inline">\(y(v_{N+1})\)</span> 예측</h3>
+<p>보간으로 <span class="math inline">\(\hat{x}_{N+1}\)</span>을 얻은 뒤, 역방향으로 <span class="math inline">\(y\)</span> 값을 예측합니다:</p>
+<p><span class="math display">\[\hat{y}(v_{N+1}) = \sum_{j \in {\cal N}_{N+1}} \omega_j \cdot y(v_j)\]</span></p>
+<p>즉, <strong>연결 구조와 신호를 동시에 예측하는 프레임워크</strong>입니다. 이것이 이전 대화에서 논의한 “chicken-and-egg problem”의 해결입니다:</p>
+<ul>
+<li><span class="math inline">\(W_{N+1,j}\)</span> (연결) → 임베딩 공간에서의 위치 <span class="math inline">\(\hat{x}_{N+1}\)</span></li>
+<li>위치 + 이웃의 <span class="math inline">\(y\)</span> 값 → <span class="math inline">\(\hat{y}(v_{N+1})\)</span></li>
+</ul>
+</section>
+<section id="d.5-이-결과가-위상적으로-의미하는-것" class="level3">
+<h3 class="anchored" data-anchor-id="d.5-이-결과가-위상적으로-의미하는-것">D.5 이 결과가 위상적으로 의미하는 것</h3>
+<p>새 노드를 보간으로 추가해도, persistence diagram이 크게 변하지 않아야 합니다. 정확히:</p>
+<p><span class="math display">\[d_B\big(\text{Dgm}(SD_N(t)),\; \text{Dgm}(SD_{N+1}(t))\big) \leq \max_j \|\hat{x}_{N+1} - x_j\| \cdot C\]</span></p>
+<p>새 노드가 기존 이웃들 “사이에” 보간되므로, <span class="math inline">\(\|\hat{x}_{N+1} - x_j\|\)</span>는 기존 이웃 간 거리보다 작습니다. 따라서 <strong>새 노드 추가는 기존 위상 구조를 보존</strong>합니다 — 새로운 homology class를 만들거나 기존 것을 파괴하지 않습니다.</p>
+<hr>
+</section>
+</section>
+<section id="e.-parallel-hst와-앙상블-안정성" class="level2">
+<h2 class="anchored" data-anchor-id="e.-parallel-hst와-앙상블-안정성">E. Parallel HST와 앙상블 안정성</h2>
+<section id="e.1-문제" class="level3">
+<h3 class="anchored" data-anchor-id="e.1-문제">E.1 문제</h3>
+<p>HST는 <strong>확률적 프로세스</strong>입니다. 같은 <span class="math inline">\(\{\mathbf{y}, {\cal G}\}\)</span>에서 HST를 두 번 실행하면, 눈의 경로 <span class="math inline">\(\{X_t\}\)</span>가 다르므로 <span class="math inline">\(h(v,t)\)</span>도 다르고, 따라서 <span class="math inline">\(SD_{ij}(t)\)</span>도 다릅니다. 논문의 Discussion (d)에서 “small <span class="math inline">\(t\)</span>에서 결과가 불안정”하다고 언급한 것이 이 문제입니다.</p>
+<p>현재 해결법: <span class="math inline">\(t\)</span>를 크게 잡음 → 약에르고드성에 의해 안정화. 그러나 계산 비용이 <span class="math inline">\(O(t)\)</span>로 증가합니다.</p>
+</section>
+<section id="e.2-제안-batch-parallel-hst" class="level3">
+<h3 class="anchored" data-anchor-id="e.2-제안-batch-parallel-hst">E.2 제안: Batch-Parallel HST</h3>
+<p><strong>같은 <span class="math inline">\(\{\mathbf{y}, {\cal G}\}\)</span>에서 <span class="math inline">\(B\)</span>개의 독립적인 HST를 병렬로 실행합니다:</strong></p>
+<p><span class="math display">\[h^{(b)}(v, t), \quad b = 1, 2, \ldots, B\]</span></p>
+<p>각각은 독립적인 random walk 경로 <span class="math inline">\(\{X_t^{(b)}\}\)</span>를 따릅니다.</p>
+<p><strong>앙상블 Snow Distance:</strong></p>
+<p><span class="math display">\[\overline{SD}^2_{ij}(t; B) := \frac{1}{B} \sum_{b=1}^{B} SD^{(b)2}_{ij}(t) = \frac{1}{B} \sum_{b=1}^{B} \sum_{s=0}^{t} \left(h^{(b)}(v_i, s) - h^{(b)}(v_j, s)\right)^2\]</span></p>
+</section>
+<section id="e.3-이론적-보장" class="level3">
+<h3 class="anchored" data-anchor-id="e.3-이론적-보장">E.3 이론적 보장</h3>
+<p><strong>Theorem E.1 (앙상블 분산 감소)</strong></p>
+<p><span class="math inline">\(\overline{SD}^2_{ij}(t; B)\)</span>의 분산에 대해:</p>
+<p><span class="math display">\[\text{Var}\left[\overline{SD}^2_{ij}(t; B)\right] = \frac{1}{B} \text{Var}\left[SD^{(1)2}_{ij}(t)\right]\]</span></p>
+<p><span class="math inline">\(B\)</span>개의 HST가 <strong>독립</strong>이므로, 분산이 <span class="math inline">\(1/B\)</span>로 줄어듭니다. 이것은 자명해 보이지만, 핵심은 <strong>기대값이 보존되는지</strong>입니다.</p>
+<p><strong>Theorem E.2 (기대값 보존 — 약에르고드성 활용)</strong></p>
+<p>모든 <span class="math inline">\(b\)</span>에 대해:</p>
+<p><span class="math display">\[\mathbb{E}\left[SD^{(b)2}_{ij}(t)\right] = \mathbb{E}\left[SD^{(1)2}_{ij}(t)\right]\]</span></p>
+<p>이것은 동일한 <span class="math inline">\(\{\mathbf{y}, {\cal G}\}\)</span>에서 출발하는 독립 복사본이므로 trivially 성립합니다.</p>
+<p>더 중요한 결과: <strong>약에르고드성에 의해, 이 기대값 자체가 잘 정의되어 있습니다.</strong> 즉:</p>
+<p><span class="math display">\[\lim_{t \to \infty} \frac{1}{t} \mathbb{E}\left[SD^2_{ij}(t)\right] = c_{ij}\]</span></p>
+<p>가 존재하고, 이 극한은 <span class="math inline">\(\mathbf{y}\)</span>가 아니라 <span class="math inline">\((\mathbf{E}, \mathbf{W})\)</span>에만 의존합니다.</p>
+</section>
+<section id="e.4-핵심-결과-bias-variance-tradeoff" class="level3">
+<h3 class="anchored" data-anchor-id="e.4-핵심-결과-bias-variance-tradeoff">E.4 핵심 결과: Bias-Variance Tradeoff</h3>
+<p><span class="math display">\[\text{MSE}\left[\overline{SD}^2_{ij}(t; B)\right] = \underbrace{\text{Bias}^2(t)}_{\text{decreasing in } t} + \underbrace{\frac{1}{B}\text{Var}(t)}_{\text{decreasing in } B}\]</span></p>
+<ul>
+<li><strong>Bias</strong>: 초기 신호 <span class="math inline">\(\mathbf{y}\)</span>의 영향이 남아있는 정도. <span class="math inline">\(t\)</span>가 커지면 약에르고드성에 의해 감소.</li>
+<li><strong>Variance</strong>: 확률적 경로의 변동. <span class="math inline">\(B\)</span>가 커지면 앙상블 평균에 의해 감소.</li>
+</ul>
+<p><strong>핵심 통찰</strong>: 기존 논문에서는 Bias를 줄이기 위해 <span class="math inline">\(t\)</span>를 크게 잡아야 했고, 그러면 Var도 자연히 줄었지만 계산 비용이 <span class="math inline">\(O(t)\)</span>로 증가. <strong>Batch-Parallel은 <span class="math inline">\(B\)</span>를 키워서 Var를 독립적으로 줄일 수 있으므로, <span class="math inline">\(t\)</span>를 상대적으로 작게 유지하면서도 안정적인 결과</strong>를 얻습니다.</p>
+<p><strong>계산 비용 비교:</strong></p>
+<table class="table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 14%">
+<col style="width: 17%">
+<col style="width: 26%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>방법</th>
+<th><span class="math inline">\(t\)</span></th>
+<th>병렬</th>
+<th>총 계산</th>
+<th>안정성</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>원래 HST</td>
+<td><span class="math inline">\(T\)</span></td>
+<td>1</td>
+<td><span class="math inline">\(O(T)\)</span></td>
+<td>약에르고드성에 의존</td>
+</tr>
+<tr class="even">
+<td>Batch HST</td>
+<td><span class="math inline">\(T/B\)</span></td>
+<td><span class="math inline">\(B\)</span></td>
+<td><span class="math inline">\(O(T)\)</span> (병렬이면 <span class="math inline">\(O(T/B)\)</span>)</td>
+<td>앙상블 + 약에르고드성</td>
+</tr>
+</tbody>
+</table>
+<p><strong>동일한 총 계산량으로도, 병렬화하면 안정성이 향상됩니다.</strong></p>
+</section>
+<section id="e.5-b-to-infty에서의-극한" class="level3">
+<h3 class="anchored" data-anchor-id="e.5-b-to-infty에서의-극한">E.5 <span class="math inline">\(B \to \infty\)</span>에서의 극한</h3>
+<p><span class="math display">\[\overline{SD}^2_{ij}(t; B) \xrightarrow{B \to \infty} \mathbb{E}\left[SD^2_{ij}(t)\right] \quad \text{(almost surely, by LLN)}\]</span></p>
+<p>이 극한 <span class="math inline">\(\mathbb{E}[SD^2_{ij}(t)]\)</span>는 <strong>결정론적 양(deterministic quantity)</strong>입니다. 이것을 <strong>기대 snow distance</strong>라 부를 수 있습니다.</p>
+<p>이것의 놀라운 점: 기대 snow distance는 전이행렬 <span class="math inline">\(\mathbf{P}(t)\)</span>로부터 직접 계산 가능할 수도 있습니다. 만약 가능하다면, <strong>시뮬레이션 없이 해석적으로 SD를 계산</strong>하는 길이 열립니다. 이것은 논문의 Discussion (e)에서 “snow distance는 전이행렬로부터 직접 계산할 수 없다”고 한 limitation의 부분적 해결입니다.</p>
+</section>
+<section id="e.6-앙상블-snow-weight와-snow-laplacian" class="level3">
+<h3 class="anchored" data-anchor-id="e.6-앙상블-snow-weight와-snow-laplacian">E.6 앙상블 Snow Weight와 Snow Laplacian</h3>
+<p>앙상블 SD로부터:</p>
+<p><span class="math display">\[\overline{W}_{ij}(t;B) = \exp\left(-\frac{\overline{SD}^2_{ij}(t;B)}{2\theta^2 t}\right)\]</span></p>
+<p>이 <span class="math inline">\(\overline{\mathbf{W}}(t;B)\)</span>로 Snow Laplacian을 구성하면, <strong>spectral analysis (Section 4) 전체가 더 안정적</strong>이 됩니다.</p>
+<p><strong>Proposition E.3:</strong> 앙상블 Snow Laplacian의 고유값은 단일 HST의 고유값보다 <span class="math inline">\(B\)</span>에 비례해서 분산이 줄어듭니다:</p>
+<p><span class="math display">\[\text{Var}[\lambda_k(\overline{\mathbf{L}}(t;B))] \leq \frac{C}{B} \cdot \text{Var}[\lambda_k(\mathbf{L}(t))]\]</span></p>
+<p>이것은 논문의 MCU 분석 등에서 실질적으로 더 신뢰할 수 있는 spectral decomposition을 제공합니다.</p>
+<hr>
+</section>
+</section>
+<section id="개-방향의-관계도" class="level2">
+<h2 class="anchored" data-anchor-id="개-방향의-관계도">5개 방향의 관계도</h2>
+<pre><code>         C. Well-Posedness (약에르고드성)
+        ╱        |         ╲
+       ╱         |          ╲
+      ↓          ↓           ↓
+A. t-보간    B. Bi-Filtration   E. Batch-Parallel
+(t 변화)     (분해 후 동시 분석)   (B 복사본 앙상블)
+      ╲          |          ╱
+       ╲         ↓         ╱
+        ╲→ D. 새 노드 보간 ←╱
+           (N → N+1 예측)</code></pre>
+<ul>
+<li><strong>C</strong>는 나머지 모두의 이론적 기반</li>
+<li><strong>A</strong>와 <strong>B</strong>는 snow distance를 분석하는 두 가지 독립적 관점 (이동 vs 분해)</li>
+<li><strong>D</strong>는 A, B의 결과를 활용하는 응용 (임베딩 공간에서의 예측)</li>
+<li><strong>E</strong>는 C를 활용해서 A, B, D 모두의 실용적 안정성을 보장</li>
+</ul>
+<hr>
+</section>
+<section id="a.1-깊이-파기-snow-distance가-정의하는-거리공간의-구조" class="level2">
+<h2 class="anchored" data-anchor-id="a.1-깊이-파기-snow-distance가-정의하는-거리공간의-구조">A.1 깊이 파기: Snow Distance가 정의하는 거리공간의 구조</h2>
+<section id="a.1.1-sd_ijt는-pseudo-metric인가" class="level3">
+<h3 class="anchored" data-anchor-id="a.1.1-sd_ijt는-pseudo-metric인가">A.1.1 <span class="math inline">\(SD_{ij}(t)\)</span>는 (pseudo-)metric인가?</h3>
+<p>먼저 가장 기본적인 질문부터 엄밀하게 답해야 합니다.</p>
+<p><strong>Proposition A.1.1:</strong> 각 고정된 <span class="math inline">\(t \geq 0\)</span>와 고정된 realization <span class="math inline">\(\{X_s\}_{s=1}^{t}\)</span>에 대해, <span class="math inline">\(SD_{ij}(t)\)</span>는 <span class="math inline">\(\cal V\)</span> 위의 pseudo-metric입니다.</p>
+<p><strong>증명:</strong></p>
+<p>Snow distance를 다시 씁니다:</p>
+<p><span class="math display">\[SD_{ij}(t) = \|\boldsymbol{\eta}_i(t) - \boldsymbol{\eta}_j(t)\|_2\]</span></p>
+<p>여기서 <span class="math inline">\(\boldsymbol{\eta}_i(t) := \big(h(v_i, 0),\; h(v_i, 1),\; \ldots,\; h(v_i, t)\big) \in \mathbb{R}^{t+1}\)</span>는 노드 <span class="math inline">\(v_i\)</span>의 <strong>snow height trajectory</strong>입니다.</p>
+<p><span class="math inline">\(SD_{ij}(t)\)</span>는 <span class="math inline">\(\mathbb{R}^{t+1}\)</span>에서의 유클리드 거리이므로:</p>
+<ul>
+<li><strong>대칭성</strong>: <span class="math inline">\(\|\boldsymbol{\eta}_i - \boldsymbol{\eta}_j\|_2 = \|\boldsymbol{\eta}_j - \boldsymbol{\eta}_i\|_2\)</span> ✓</li>
+<li><strong>비음수성</strong>: <span class="math inline">\(\|\cdot\|_2 \geq 0\)</span> ✓<br>
+</li>
+<li><strong>삼각부등식</strong>: <span class="math inline">\(\mathbb{R}^{t+1}\)</span>에서의 삼각부등식 계승 ✓</li>
+<li><strong><span class="math inline">\(SD_{ij}(t) = 0 \Rightarrow v_i = v_j\)</span>?</strong>: 일반적으로 <strong>아닙니다</strong></li>
+</ul>
+<p><span class="math inline">\(SD_{ij}(t) = 0\)</span>이면 <span class="math inline">\(h(v_i, s) = h(v_j, s)\)</span> for all <span class="math inline">\(s = 0, \ldots, t\)</span>인데, <span class="math inline">\(h(v_i, 0) = y(v_i)\)</span>이므로 <span class="math inline">\(y(v_i) = y(v_j)\)</span>이고 이후 눈 방문 패턴도 동일해야 합니다. <span class="math inline">\(y(v_i) = y(v_j)\)</span>이면서 <span class="math inline">\(v_i \neq v_j\)</span>인 경우가 가능하므로, 일반적으로 pseudo-metric입니다.</p>
+<p><strong>Remark:</strong> 실제로 <span class="math inline">\(y(v_i)\)</span>가 모든 <span class="math inline">\(i\)</span>에서 distinct하면 <span class="math inline">\(t=0\)</span>에서 이미 <span class="math inline">\(SD_{ij}(0) = |y(v_i) - y(v_j)| &gt; 0\)</span>이므로 metric이 됩니다. Generic한 경우 metric이라고 할 수 있습니다. □</p>
+<hr>
+</section>
+<section id="a.1.2-snow-height-trajectory의-기하학적-해석" class="level3">
+<h3 class="anchored" data-anchor-id="a.1.2-snow-height-trajectory의-기하학적-해석">A.1.2 Snow Height Trajectory의 기하학적 해석</h3>
+<p><strong>핵심 관찰:</strong> HST는 각 노드 <span class="math inline">\(v_i\)</span>를 점점 높은 차원의 유클리드 공간에 embed하는 것으로 볼 수 있습니다.</p>
+<p><span class="math display">\[\eta_t: {\cal V} \to \mathbb{R}^{t+1}, \quad v_i \mapsto \boldsymbol{\eta}_i(t)\]</span></p>
+<p>이것은 <strong>시간이 지남에 따라 차원이 증가하는 임베딩</strong>입니다. 그리고 snow distance는 이 임베딩에서의 유클리드 거리입니다.</p>
+<p>각 시각 <span class="math inline">\(s\)</span>에서 하나의 좌표가 추가되는데, 그 좌표의 값은:</p>
+<p><span class="math display">\[h(v_i, s) = y(v_i) + b \cdot N_i(s)\]</span></p>
+<p>여기서 <span class="math inline">\(N_i(s) := \sum_{\ell=1}^{s} I(X_\ell = i)\)</span>는 시각 <span class="math inline">\(s\)</span>까지 눈이 <span class="math inline">\(v_i\)</span>에 머무른 총 횟수입니다.</p>
+<p>따라서 snow height trajectory의 좌표별 차이는:</p>
+<p><span class="math display">\[h(v_i, s) - h(v_j, s) = \underbrace{y(v_i) - y(v_j)}_{\text{초기 유클리드 차이}} + \underbrace{b\big(N_i(s) - N_j(s)\big)}_{\text{방문 빈도 차이 (그래프 구조)}}\]</span></p>
+<p>이것을 <span class="math inline">\(\Delta_{ij}(s)\)</span>로 쓰면:</p>
+<p><span class="math display">\[SD^2_{ij}(t) = \sum_{s=0}^{t} \Delta_{ij}(s)^2\]</span></p>
+<hr>
+</section>
+<section id="a.1.3-sd_ijt의-단조성과-그-의미" class="level3">
+<h3 class="anchored" data-anchor-id="a.1.3-sd_ijt의-단조성과-그-의미">A.1.3 <span class="math inline">\(SD_{ij}(t)\)</span>의 단조성과 그 의미</h3>
+<p><strong>Proposition A.1.2 (단조 증가):</strong> <span class="math inline">\(SD_{ij}(t)\)</span>는 <span class="math inline">\(t\)</span>에 대해 단조 비감소합니다:</p>
+<p><span class="math display">\[SD_{ij}(t+1)^2 = SD_{ij}(t)^2 + \Delta_{ij}(t+1)^2 \geq SD_{ij}(t)^2\]</span></p>
+<p>등호는 <span class="math inline">\(\Delta_{ij}(t+1) = 0\)</span>, 즉 <span class="math inline">\(h(v_i, t+1) = h(v_j, t+1)\)</span>일 때만 성립합니다.</p>
+<p><strong>위상적 함의:</strong> Vietoris-Rips complex를 생각합니다:</p>
+<p><span class="math display">\[VR_\epsilon(t) := \{\sigma \subseteq {\cal V} : SD_{ij}(t) \leq \epsilon, \;\forall v_i, v_j \in \sigma\}\]</span></p>
+<p><span class="math inline">\(SD_{ij}(t)\)</span>가 단조 증가하므로, <strong>고정된 <span class="math inline">\(\epsilon\)</span>에서 <span class="math inline">\(t\)</span>가 커질수록 complex는 작아집니다</strong> (simplex가 줄어듦). 이것은:</p>
+<p><span class="math display">\[t_1 \leq t_2 \implies VR_\epsilon(t_2) \subseteq VR_\epsilon(t_1)\]</span></p>
+<p>역으로 말하면, 시각 <span class="math inline">\(t\)</span>에서 같은 complex를 유지하려면 <span class="math inline">\(\epsilon\)</span>을 키워야 합니다. 이것이 논문에서 snow weight를 <span class="math inline">\(W_{ij}(t) = \exp\left(-\frac{SD^2_{ij}(t)}{2\theta^2 t}\right)\)</span>로 정의할 때 분모에 <span class="math inline">\(t\)</span>를 넣은 이유의 <strong>위상적 해석</strong>입니다 — <span class="math inline">\(t\)</span>로 나누는 것은 complex의 스케일을 정규화하여 <span class="math inline">\(t\)</span>에 따라 complex가 trivial하게 수축하는 것을 방지합니다.</p>
+<hr>
+</section>
+<section id="a.1.4-정규화된-snow-distance" class="level3">
+<h3 class="anchored" data-anchor-id="a.1.4-정규화된-snow-distance">A.1.4 정규화된 Snow Distance</h3>
+<p>논문의 snow weight 정의에서 <span class="math inline">\(t &gt; 0\)</span>일 때 <span class="math inline">\(2\theta^2 t\)</span>로 나누는 것을 반영하여, <strong>정규화된 snow distance</strong>를 정의합니다:</p>
+<p><span class="math display">\[\widetilde{SD}_{ij}(t) := \frac{SD_{ij}(t)}{\sqrt{t}} = \sqrt{\frac{1}{t}\sum_{s=0}^{t} \Delta_{ij}(s)^2}\]</span></p>
+<p>이것은 snow height 차이의 <strong>RMS (root mean square)</strong>입니다.</p>
+<p><strong>Proposition A.1.3:</strong> <span class="math inline">\(\widetilde{SD}_{ij}(t)\)</span>도 <span class="math inline">\(\cal V\)</span> 위의 pseudo-metric입니다. (<span class="math inline">\(1/\sqrt{t}\)</span>는 양의 상수이므로 삼각부등식 보존.)</p>
+<p><span class="math inline">\(\widetilde{SD}\)</span>의 장점: <span class="math inline">\(t\)</span>에 따른 스케일이 정규화되어, <span class="math inline">\(t\)</span>-간 비교가 의미 있습니다.</p>
+<hr>
+</section>
+<section id="a.1.5-delta_ijs의-점근적-행동-두-단계" class="level3">
+<h3 class="anchored" data-anchor-id="a.1.5-delta_ijs의-점근적-행동-두-단계">A.1.5 <span class="math inline">\(\Delta_{ij}(s)\)</span>의 점근적 행동 — 두 단계</h3>
+<p><span class="math inline">\(\Delta_{ij}(s)\)</span>의 행동을 시간대별로 나눠서 분석합니다.</p>
+<p><strong>Phase I: <span class="math inline">\(s \ll t_0^*\)</span> (초기 단계)</strong></p>
+<p>초기에는 <span class="math inline">\(h(v_i, s) \approx y(v_i) + b \cdot N_i(s)\)</span>에서 <span class="math inline">\(y(v_i) - y(v_j)\)</span> 항이 지배적입니다. 왜냐하면 <span class="math inline">\(b \cdot N_i(s)\)</span>는 <span class="math inline">\(O(bs)\)</span>이고, <span class="math inline">\(y(v_i) - y(v_j)\)</span>는 <span class="math inline">\(O(1)\)</span>이므로, <span class="math inline">\(s\)</span>가 작으면 유클리드 차이가 지배합니다.</p>
+<p>더 중요한 것: <strong>이 단계에서 전이확률 자체가 <span class="math inline">\(\mathbf{y}\)</span>에 강하게 의존합니다.</strong> <span class="math inline">\(p_{t, v_i \to v_j} = I(h(v_i,t) \geq h(v_j,t)) \cdot \frac{\text{deg}(v_j)}{\sum_{k \in {\cal N}_i}\text{deg}(v_k)}\)</span>에서 <span class="math inline">\(I(h(v_i,t) \geq h(v_j,t))\)</span>가 초기 <span class="math inline">\(\mathbf{y}\)</span>에 의해 결정됩니다. 높은 곳에서 낮은 곳으로만 눈이 흐르므로, 초기 지형이 눈의 경로를 강하게 제약합니다.</p>
+<p><strong>Phase II: <span class="math inline">\(s \gg t_0^*\)</span> (평탄화 이후)</strong></p>
+<p>논문의 Figure 7에서 보듯, 충분히 눈이 쌓이면 지형이 평탄해집니다. 정확히:</p>
+<p><span class="math display">\[\max_{i,j} |h(v_i, s) - h(v_j, s)| \to 0 \quad \text{relative to } \bar{h}(s) := \frac{1}{n}\sum_k h(v_k, s)\]</span></p>
+<p>지형이 평탄해지면 <span class="math inline">\(I(h(v_i,t) \geq h(v_j,t))\)</span> 조건이 거의 항상 성립하게 됩니다 (높이 차이가 거의 없으므로). 따라서:</p>
+<p><span class="math display">\[\mathbf{P}(s) \to \mathbf{P}^{\text{flat}} \quad \text{as } s \to \infty\]</span></p>
+<p>여기서 <span class="math inline">\(\mathbf{P}^{\text{flat}}\)</span>는 <strong><span class="math inline">\(\mathbf{y} = \mathbf{0}\)</span>인 경우의 (거의) 동차 전이행렬</strong>입니다. 이 행렬은 block 확률이 0에 가까워지므로 (모든 이웃이 downstream), 표준 random walk에 가까워집니다.</p>
+<p><strong>따라서 Phase II에서의 <span class="math inline">\(\Delta_{ij}(s)\)</span>는:</strong></p>
+<p><span class="math display">\[\Delta_{ij}(s) \approx b \cdot \big(N_i(s) - N_j(s)\big) + \text{const}\]</span></p>
+<p>이 차이 <span class="math inline">\(N_i(s) - N_j(s)\)</span>는 <strong>그래프 구조</strong>에 의해 결정됩니다. degree가 높은 노드는 더 자주 방문되므로 <span class="math inline">\(N_i(s)\)</span>가 크고, 이웃이 많은 노드들끼리는 <span class="math inline">\(N_i(s) - N_j(s)\)</span>가 작아집니다.</p>
+<hr>
+</section>
+<section id="a.1.6-정규화된-sd의-수렴" class="level3">
+<h3 class="anchored" data-anchor-id="a.1.6-정규화된-sd의-수렴">A.1.6 정규화된 SD의 수렴</h3>
+<p><strong>Theorem A.1.4 (정규화 SD의 점근 분해):</strong></p>
+<p><span class="math display">\[\widetilde{SD}^2_{ij}(t) = \frac{1}{t}\sum_{s=0}^{t}\Delta_{ij}(s)^2 = \underbrace{\frac{1}{t}\sum_{s=0}^{t_0^*}\Delta_{ij}(s)^2}_{O(t_0^*/t) \to 0} + \underbrace{\frac{1}{t}\sum_{s=t_0^*+1}^{t}\Delta_{ij}(s)^2}_{\to c_{ij}}\]</span></p>
+<p>첫 번째 항은 유클리드 기여로, <span class="math inline">\(t \to \infty\)</span>에서 <span class="math inline">\(O(t_0^*/t)\)</span>로 사라집니다.</p>
+<p>두 번째 항은 Phase II의 기여로, 약에르고드성에 의해 상수 <span class="math inline">\(c_{ij}\)</span>로 수렴합니다. 이 수렴의 정확한 메커니즘:</p>
+<ul>
+<li>Phase II에서 전이행렬이 거의 동차 → 눈의 방문 빈도가 ergodic average로 수렴</li>
+<li><span class="math inline">\(\frac{N_i(s)}{s} \to \pi_i\)</span> (방문 빈도의 극한)</li>
+<li><span class="math inline">\(\Delta_{ij}(s) \approx b \cdot s \cdot (\pi_i - \pi_j) + O(\sqrt{s})\)</span></li>
+<li>따라서 <span class="math inline">\(\frac{1}{t}\sum_{s} \Delta_{ij}(s)^2 \to\)</span> 상수</li>
+</ul>
+<p><strong><span class="math inline">\(c_{ij}\)</span>는 무엇에 의존하는가:</strong></p>
+<ul>
+<li><span class="math inline">\(c_{ij}\)</span>는 그래프 구조 <span class="math inline">\((\mathbf{E}, \mathbf{W})\)</span>와 파라미터 <span class="math inline">\(b\)</span>에만 의존</li>
+<li><span class="math inline">\(\mathbf{y}\)</span>에는 의존하지 않음 (첫 번째 항이 사라지므로)</li>
+<li><span class="math inline">\(\pi_i - \pi_j\)</span>가 클수록 <span class="math inline">\(c_{ij}\)</span>가 크다 → 방문 빈도가 다른 노드들은 큰 snow distance를 가짐</li>
+</ul>
+<hr>
+</section>
+<section id="a.1.7-metric-space의-gromov-hausdorff-수렴" class="level3">
+<h3 class="anchored" data-anchor-id="a.1.7-metric-space의-gromov-hausdorff-수렴">A.1.7 Metric Space의 Gromov-Hausdorff 수렴</h3>
+<p>이제 가장 핵심적인 위상적 진술을 할 수 있습니다.</p>
+<p><strong>두 개의 극한 거리공간:</strong></p>
+<p><span class="math display">\[{\cal M}_0 := ({\cal V}, d^E), \quad d^E_{ij} := |y(v_i) - y(v_j)| \quad \text{(유클리드 거리공간)}\]</span></p>
+<p><span class="math display">\[{\cal M}_\infty := ({\cal V}, d^G), \quad d^G_{ij} := \sqrt{c_{ij}} \quad \text{(그래프 거리공간)}\]</span></p>
+<p><strong>Proposition A.1.5 (Gromov-Hausdorff 보간):</strong></p>
+<p>정규화된 snow distance <span class="math inline">\(\widetilde{SD}_{ij}(t)\)</span>로 정의된 거리공간 <span class="math inline">\({\cal M}_t := ({\cal V}, \widetilde{SD}(\cdot, t))\)</span>에 대해:</p>
+<p><span class="math display">\[{\cal M}_t \xrightarrow{GH} {\cal M}_\infty \quad \text{as } t \to \infty\]</span></p>
+<p>여기서 <span class="math inline">\(\xrightarrow{GH}\)</span>는 Gromov-Hausdorff 수렴입니다. (유한 점 집합이므로 pointwise 수렴과 동치.)</p>
+<p><strong>증명 스케치:</strong> <span class="math inline">\(|{\cal V}| = n\)</span>이 유한이므로, <span class="math inline">\(\binom{n}{2}\)</span>개의 쌍별 거리가 모두 수렴하면 됩니다. Theorem A.1.4에 의해 <span class="math inline">\(\widetilde{SD}^2_{ij}(t) \to c_{ij}\)</span>이므로, <span class="math inline">\(\widetilde{SD}_{ij}(t) \to \sqrt{c_{ij}} = d^G_{ij}\)</span>. □</p>
+<p><strong><span class="math inline">\(t = 0\)</span>에서의 관계:</strong> <span class="math inline">\(\widetilde{SD}_{ij}(0) = SD_{ij}(0) = |y(v_i) - y(v_j)| = d^E_{ij}\)</span></p>
+<p>따라서 <strong><span class="math inline">\(t\)</span>를 <span class="math inline">\(0\)</span>에서 <span class="math inline">\(\infty\)</span>로 보내면, 거리공간이 <span class="math inline">\({\cal M}_0\)</span>에서 <span class="math inline">\({\cal M}_\infty\)</span>로 연속적으로 변형</strong>됩니다.</p>
+<hr>
+</section>
+<section id="a.1.8-persistence-diagram의-t-궤적-엄밀한-진술" class="level3">
+<h3 class="anchored" data-anchor-id="a.1.8-persistence-diagram의-t-궤적-엄밀한-진술">A.1.8 Persistence Diagram의 <span class="math inline">\(t\)</span>-궤적: 엄밀한 진술</h3>
+<p>고정된 homology 차수 <span class="math inline">\(k\)</span>에서, 각 <span class="math inline">\(t\)</span>마다 Vietoris-Rips filtration으로부터 persistence diagram <span class="math inline">\(\text{Dgm}_k(t)\)</span>를 얻습니다.</p>
+<p><strong>Theorem A.1.6 (Persistence의 점근적 안정화):</strong></p>
+<p><span class="math display">\[d_B\big(\text{Dgm}_k(t_1), \text{Dgm}_k(t_2)\big) \leq \max_{i,j} \left|\widetilde{SD}_{ij}(t_1) - \widetilde{SD}_{ij}(t_2)\right|\]</span></p>
+<p>(이것은 persistence diagram의 stability theorem의 직접 적용입니다.)</p>
+<p><span class="math inline">\(\widetilde{SD}_{ij}(t) \to d^G_{ij}\)</span>이므로, 우변은 <span class="math inline">\(t_1, t_2 \to \infty\)</span>에서 <span class="math inline">\(0\)</span>으로 수렴합니다. 따라서:</p>
+<p><span class="math display">\[\text{Dgm}_k(t) \to \text{Dgm}_k(\infty) \quad \text{in bottleneck distance}\]</span></p>
+<p>여기서 <span class="math inline">\(\text{Dgm}_k(\infty) := \text{Dgm}_k({\cal M}_\infty)\)</span>는 <strong>그래프 고유의 위상적 불변량</strong>입니다.</p>
+<p><strong>해석:</strong> 어떤 초기 신호 <span class="math inline">\(\mathbf{y}\)</span>를 넣든, 충분히 오래 HST를 실행하면 <strong>같은 persistence diagram에 수렴</strong>합니다. 이것은 HST가 그래프의 위상을 안정적으로 복원할 수 있다는 강력한 보장입니다.</p>
+<hr>
+</section>
+<section id="a.1.9-확률적-고려-기대값-vs-sample-path" class="level3">
+<h3 class="anchored" data-anchor-id="a.1.9-확률적-고려-기대값-vs-sample-path">A.1.9 확률적 고려: 기대값 vs Sample Path</h3>
+<p>지금까지의 논의에서 중요한 점: <span class="math inline">\(SD_{ij}(t)\)</span>는 <strong>랜덤 변수</strong>입니다. 같은 <span class="math inline">\(\{\mathbf{y}, {\cal G}\}\)</span>에서 HST를 두 번 실행하면 다른 <span class="math inline">\(SD_{ij}(t)\)</span>를 얻습니다.</p>
+<p>위의 수렴 결과들은 <strong>각 sample path에서</strong> 성립합니까, <strong>기대값에서</strong> 성립합니까?</p>
+<p><strong>두 가지 수준:</strong></p>
+<p><strong>(a) 기대값 수렴:</strong> <span class="math inline">\(\mathbb{E}[\widetilde{SD}^2_{ij}(t)] \to c_{ij}\)</span></p>
+<p>이것은 약에르고드성으로부터 직접 따릅니다. block 이벤트 이후 전이행렬이 <span class="math inline">\(\boldsymbol{\mu}_0\)</span>으로 리셋되므로, 각 에포크에서의 기여는 i.i.d.에 가까워지고, 대수의 법칙이 적용됩니다.</p>
+<p><strong>(b) Sample path 수렴 (almost sure):</strong> <span class="math inline">\(\widetilde{SD}^2_{ij}(t) \to c_{ij}\)</span> a.s.</p>
+<p>이것은 더 강한 진술입니다. 성립하려면 에르고드 정리의 stronger version이 필요합니다. 논문의 약에르고드성은 분포 수렴만 보장하므로, a.s. 수렴을 직접 주지는 않습니다.</p>
+<p>그러나 block 이벤트의 구조를 활용하면 부분적으로 주장할 수 있습니다: 에포크 <span class="math inline">\([M_k, M_{k+1})\)</span>들이 독립적이지는 않지만, block 시점에서의 “리셋” 성질이 mixing condition을 제공하므로, 에르고드 정리의 적절한 버전 (mixing ergodic theorem)을 적용할 여지가 있습니다.</p>
+<p><strong>실용적 결론:</strong> sample path 수렴이 안 되더라도, Direction E의 batch-parallel 앙상블로 <span class="math inline">\(\frac{1}{B}\sum_b SD^{(b)2}_{ij}(t) \to \mathbb{E}[SD^2_{ij}(t)]\)</span> (by LLN, a.s.)를 얻을 수 있습니다. 따라서 <strong>E가 A의 확률적 gap을 메꿉니다.</strong></p>
+<hr>
+</section>
+<section id="a.1.10-열린-문제와-추가-연구-방향" class="level3">
+<h3 class="anchored" data-anchor-id="a.1.10-열린-문제와-추가-연구-방향">A.1.10 열린 문제와 추가 연구 방향</h3>
+<p><strong>열린 문제 1: <span class="math inline">\(c_{ij}\)</span>의 해석적 표현</strong></p>
+<p><span class="math inline">\(c_{ij} = \lim_{t \to \infty} \frac{1}{t} \mathbb{E}[SD^2_{ij}(t)]\)</span>가 그래프의 어떤 spectral quantity로 표현될 수 있는가? 예를 들어, diffusion distance는 <span class="math inline">\(DD^2_{ij}(t) = \sum_k e^{-2\lambda_k t}(\psi_k(i) - \psi_k(j))^2\)</span>으로 Laplacian 고유값/고유벡터로 닫힌 형태를 가집니다. <span class="math inline">\(c_{ij}\)</span>도 비슷한 표현이 가능하면, HST와 spectral theory 사이의 깊은 연결이 드러납니다.</p>
+<p><strong>열린 문제 2: <span class="math inline">\(t_0^*\)</span>의 추정</strong></p>
+<p><span class="math inline">\(t_0^*\)</span> (위상적 전환 시각)를 사전에 추정할 수 있는가? <span class="math inline">\(t_0^*\)</span>는 <span class="math inline">\(\mathbf{y}\)</span>의 variation, 그래프의 conductance, <span class="math inline">\(b\)</span>의 크기에 의존할 것입니다. 대략적 추정:</p>
+<p><span class="math display">\[t_0^* \approx \frac{\max_{i,j} |y(v_i) - y(v_j)|}{b \cdot \text{gap}(\mathbf{P}^{\text{flat}})}\]</span></p>
+<p>여기서 gap은 평탄화된 전이행렬의 spectral gap입니다.</p>
+<p><strong>열린 문제 3: Betti curve의 전환 패턴 분류</strong></p>
+<p>다양한 그래프 유형 (tree, cycle, complete, random)에서 Betti curve <span class="math inline">\(\beta_k(\epsilon, t)\)</span>의 전환 패턴이 어떻게 다른가? 이것은 그래프 분류(graph classification)의 새로운 특성(feature)으로 사용될 수 있습니다.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
