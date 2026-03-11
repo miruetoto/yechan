@@ -189,8 +189,7 @@ window.Quarto = {
   <ul>
   <li><a href="#초록" id="toc-초록" class="nav-link active" data-scroll-target="#초록">초록</a></li>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">1 INTRODUCTION</a></li>
-  <li><a href="#recap-discontinuity-of-standard-mpnns-across-scales" id="toc-recap-discontinuity-of-standard-mpnns-across-scales" class="nav-link" data-scroll-target="#recap-discontinuity-of-standard-mpnns-across-scales">2 RECAP: DISCONTINUITY OF STANDARD MPNNS ACROSS SCALES</a></li>
-  <li><a href="#global-laplace-propagation-in-gnns" id="toc-global-laplace-propagation-in-gnns" class="nav-link" data-scroll-target="#global-laplace-propagation-in-gnns">3 GLOBAL LAPLACE PROPAGATION IN GNNS</a>
+  <li><a href="#recap-discontinuity-of-standard-mpnns-across-scales" id="toc-recap-discontinuity-of-standard-mpnns-across-scales" class="nav-link" data-scroll-target="#recap-discontinuity-of-standard-mpnns-across-scales">2 RECAP: DISCONTINUITY OF STANDARD MPNNS ACROSS SCALES</a>
   <ul class="collapse">
   <li><a href="#spectral-networks" id="toc-spectral-networks" class="nav-link" data-scroll-target="#spectral-networks">3.1 SPECTRAL NETWORKS</a></li>
   <li><a href="#message-passing-networks" id="toc-message-passing-networks" class="nav-link" data-scroll-target="#message-passing-networks">3.2 MESSAGE PASSING NETWORKS:</a></li>
@@ -236,6 +235,7 @@ window.Quarto = {
 </header>
 
 
+<p>https://openreview.net/pdf?id=RYl2VWfIRI</p>
 <section id="초록" class="level3">
 <h3 class="anchored" data-anchor-id="초록">초록</h3>
 <p>표준적인 메시지 패싱 그래프 신경망(Message Passing Graph Neural Networks, MPNNs)은 서로 다른 해상도(resolution)에서 동일한 기저 객체를 기술하는 그래프들에 대해 매우 서로 다른 잠재 임베딩(latent embedding)을 할당하는 경향이 있다. 그 결과, 메시지 패싱 그래프 신경망은 일반적으로 서로 다른 해상도 스케일 사이에서의 일반화에 실패한다. 기존 연구에서는 이러한 문제를 해결하기 위해 MPNN 대신 특정한 형태의 스펙트럴 그래프 신경망(spectral graph neural networks)을 사용하면 이를 극복할 수 있음을 보였다. 본 논문에서는 스케일 연속성(scale continuity)을 달성하는 데 스펙트럴 방법이 반드시 필요한 것은 아님을 보인다. 우리는 메시지 패싱 네트워크가 적절히 수정된다면 동일하게 스케일 연속성을 갖도록 만들 수 있음을 입증한다. 이를 위해 연속성을 보장하기 위한 구조적 요구조건을 규명하고, 해상도 스케일이 달라지더라도 임베딩을 안정적으로 보존할 가능성이 높은 메시지 패싱 아키텍처의 한 계열을 도출한다. 또한 실험적으로 이러한 모델들이 로컬 메시지 패싱 방법의 유연성과 확장성을 유지하면서도 스펙트럴 접근법과 유사한 수준의 <strong>스케일 간 일반화 성능(cross-scale generalization)</strong>을 달성함을 보인다.</p>
@@ -263,15 +263,14 @@ h_0 = \psi(L) X,
 A_{ij} = Z_i Z_j |\vec{x}_i - \vec{x}_j|^{-1},
 \]</span> 이는 원자 <span class="math inline">\(i\)</span>와 <span class="math inline">\(j\)</span> 사이의 쿨롱 상호작용 에너지를 나타낸다.</p>
 <p>물리적 관점에서 보면, 상호작용하는 원자 수준에서 분자를 기술하는 것은 특정한 해상도 스케일을 선택하는 것에 해당하며, 이때 개별 원자 내부에 존재하는 개별 양성자와 중성자 사이의 상호작용은 무시된다. GNN의 스케일 연속성을 시험하기 위해 우리는 해상도 스케일을 더 낮춘 QM7의 한 변형도 고려한다: 여기에서는 각 무거운 원자 핵을 그 주변의 (단일 양성자를 가진) 수소 원자들과 함께 하나의 슈퍼노드로 집계한다.</p>
-<p>GNN이 여러 스케일을 일관되게 통합하는 데 실패한다는 것을 보여주기 위해, 우리는 추론 단계에서 모델이 학습된 스케일과 다른 스케일의 QM7 버전을 사용하여 모델을 평가한다. Table 1에 요약된 것처럼, 모델을 동일 해상도 설정에서 교차 해상도 설정으로 옮기면 평균 절대 오차(mean absolute error)가 급격히 증가한다. <img src="attachments/260312_리뷰_그래프 학습에서의 스케일 연속성 (스펙트럴 방법을 넘어서)_01.png" class="img-fluid"> 풀링 기반 또는 멀티스케일 변형(SAG-M부터 PushNet까지)을 포함한 어떤 아키텍처도 여러 스케일을 신뢰성 있게 처리하지 못한다. 이는 원래 그래프 <span class="math inline">\(\{G\}\)</span>와 코어스닝된 그래프 <span class="math inline">\(\{\bar{G}\}\)</span>에 대해 생성되는 잠재 임베딩 <span class="math inline">\(\{F\}\)</span>와 <span class="math inline">\(\{\bar{F}\}\)</span>로 거슬러 올라가 설명할 수 있다: Table 1의 모델들에 대해 평균적으로 <span class="math display">\[
+<p>GNN이 여러 스케일을 일관되게 통합하는 데 실패한다는 것을 보여주기 위해, 우리는 추론 단계에서 모델이 학습된 스케일과 다른 스케일의 QM7 버전을 사용하여 모델을 평가한다. Table 1에 요약된 것처럼, 모델을 동일 해상도 설정에서 교차 해상도 설정으로 옮기면 평균 절대 오차(mean absolute error)가 급격히 증가한다.</p>
+<p><img src="attachments/260312_리뷰_그래프학습에서의 스케일 연속성_01.png" class="img-fluid"></p>
+<p>풀링 기반 또는 멀티스케일 변형(SAG-M부터 PushNet까지)을 포함한 어떤 아키텍처도 여러 스케일을 신뢰성 있게 처리하지 못한다. 이는 원래 그래프 <span class="math inline">\(\{G\}\)</span>와 코어스닝된 그래프 <span class="math inline">\(\{\bar{G}\}\)</span>에 대해 생성되는 잠재 임베딩 <span class="math inline">\(\{F\}\)</span>와 <span class="math inline">\(\{\bar{F}\}\)</span>로 거슬러 올라가 설명할 수 있다: Table 1의 모델들에 대해 평균적으로 <span class="math display">\[
 10 \lesssim \|F - \bar{F}\| \lesssim 10^3
 \]</span> 이다 (cf.&nbsp;또한 아래 Table 2 참조): 서로 다른 해상도에서 동일한 객체를 설명하는 그래프들의 잠재 표현은 상당히 크게 다르다.</p>
 <p>(Koke et al., 2024; 2025)에서 주장된 바와 같이 이러한 잠재 임베딩 차이의 근본적인 이유는 표준 GNN이 연속적이지 않기 때문이다. 이를 보기 위해 우리는 fine 해상도와 coarse 해상도 사이를 보간(interpolate)한다: QM7의 원래 그래프 <span class="math inline">\(\{G\}\)</span>는 수소 원자들을 대응되는 무거운 원자 쪽으로 <span class="math inline">\(\omega \ge 1\)</span>의 비율만큼 이동시켜 수정된 그래프 <span class="math inline">\(\{G_\omega\}\)</span>로 변형된다 (즉 <span class="math inline">\(\mathrm{dist}_{new} = \mathrm{dist}_{equilib.}/\omega\)</span>). <span class="math inline">\(\omega \to \infty\)</span>이면 이들은 각각의 무거운 원자에 도달하게 된다 (<span class="math inline">\(\{\bar{G}\}\)</span>). Fig. 2에서는 우리는 coarse 임베딩 <span class="math inline">\(\bar{F}\)</span>와 중간 그래프의 임베딩 <span class="math inline">\(F_\omega\)</span> 사이의 잠재 거리(latent distance)를 비교한다. 임베딩 <span class="math inline">\(F_\omega\)</span>는 coarse 임베딩 <span class="math inline">\(\bar{F}\)</span>로 수렴하지 않는다. 그래프 열(sequence) <span class="math inline">\(G_\omega\)</span>가 극한 그래프 <span class="math inline">\(\bar{G}\)</span>로 수렴함에도 불구하고 잠재 임베딩이 <span class="math inline">\(F_\omega \not\to \bar{F}\)</span>이므로 우리는 다음과 같이 결론 내린다: 이 설정에서 GNN은 연속적이지 않다. 이러한 불연속성은 왜 GNN이 유사한 그래프들(서로 다른 해상도에서 동일한 객체를 설명하는)을 서로 다른 잠재 표현으로 사상할 수 있는지를 설명한다.</p>
 <p>이러한 불연속성을 이해하기 위해, 예시적으로 GCN (Kipf &amp; Welling, 2017)을 살펴볼 수 있다. 여기서 층별 업데이트는 <span class="math inline">\(X \mapsto \hat{A}XW\)</span>로 작용하며, 특징 행렬 <span class="math inline">\(X \in \mathbb{R}^{N \times F}\)</span> (노드 수 <span class="math inline">\(N\)</span>; 잠재 차원 <span class="math inline">\(F\)</span>), 가중치 행렬 <span class="math inline">\(W \in \mathbb{R}^{F \times F}\)</span>, 그리고 재정규화된 인접 행렬 <span class="math inline">\(\hat{A} \in \mathbb{R}^{N \times N}\)</span>을 사용한다. 수소 원자들이 무거운 원자들에 더 가까이 이동함에 따라 <span class="math inline">\(\hat{A}_{ij} \sim A_{ij}/\sqrt{d_i d_j}\)</span>에서 <span class="math inline">\(\hat{A}_{\text{heavy},\text{heavy}}\)</span> 항은 0으로 수렴한다 (차수 <span class="math inline">\(d_{\text{heavy}}\)</span>는 무한대로 발산한다). 이는 그래프 전체에서의 정보 흐름을 방해하게 된다 (Fig 1 (d)).</p>
-<p><img src="attachments/260312_리뷰_그래프 학습에서의 스케일 연속성 (스펙트럴 방법을 넘어서)_02.png" class="img-fluid"></p>
-</section>
-<section id="global-laplace-propagation-in-gnns" class="level2">
-<h2 class="anchored" data-anchor-id="global-laplace-propagation-in-gnns">3 GLOBAL LAPLACE PROPAGATION IN GNNS</h2>
+<p><img src="attachments/260312_리뷰_그래프학습에서의 스케일 연속성_02.png" class="img-fluid"> ## 3 GLOBAL LAPLACE PROPAGATION IN GNNS</p>
 <p>Fig. 1 (d)와 같은 분리된(disconnected) 극한 전파를 피하기 위해, GCN의 전파 방식은 다음과 같이 수정된다:</p>
 <section id="spectral-networks" class="level3">
 <h3 class="anchored" data-anchor-id="spectral-networks">3.1 SPECTRAL NETWORKS</h3>
@@ -307,15 +306,20 @@ h_0 = \Psi(L)X,
 <p><strong>Scalability</strong>: 겉보기에는 Laplace 변환 행렬 <span class="math inline">\(\psi(L)\)</span>을 따라 전파하는 것은 확장성이 어려워 보일 수 있다. 왜냐하면 <span class="math inline">\(\psi(L)=e^{-tL}\)</span>과 같은 행렬은 보통 dense이기 때문이다. 따라서 단순 구현을 하면 <span class="math inline">\(N\)</span>개의 노드를 가진 그래프에서 <span class="math inline">\(N^2\)</span>개의 메시지를 전달해야 할 수도 있다. 그러나 실제로 이는 실용적인 병목이 되지 않는다: 대부분의 항들은 매우 작아 사실상 0에 가깝기 때문이다 (Bauer et al., 2017). 따라서 전파는 실제로는 효과적으로 sparse하게 유지되며, 매우 작은 값의 간선들은 실제 구현에서 안전하게 제거할 수 있다.</p>
 <p>Theoretical Guarantees: (3)에서 개요적으로 제시된 것과 정확히 동일한 방식으로 message-passing 기반 그래프 신경망을 수정하면 실제로 scale continuous한 네트워크가 얻어짐을 우리는 다음에서 보인다. 우리의 주요 Theorem(부록 Appendix C.2에서 증명됨)은 수정된 MPNN의 scale-continuity를 확립한다:</p>
 <p>Theorem 3.1. In the setting of Figure 2 let <span class="math inline">\(F_\omega\)</span> and <span class="math inline">\(\bar{F}\)</span> be the latent embeddings generated for graphs <span class="math inline">\(G_\omega\)</span> and <span class="math inline">\(\bar{G}\)</span> by a modified message passing network. For such latent embeddings we have <span class="math inline">\(\|F_\omega - \bar{F}\| \to 0\)</span> as <span class="math inline">\(\omega\)</span> increases.</p>
-<p><img src="attachments/260312_리뷰_그래프 학습에서의 스케일 연속성 (스펙트럴 방법을 넘어서)_03.png" class="img-fluid"> 따라서 (3)에서의 수정된 MPNN은 Section 2의 설정에서 실제로 연속적이며, 그 결과 서로 다른 해상도에서 동일한 객체를 설명하는 그래프 <span class="math inline">\(G\)</span>, <span class="math inline">\(\bar{G}\)</span>에 대해 유사한 잠재 임베딩 <span class="math inline">\(F \approx \bar{F}\)</span>을 할당한다.</p>
+<p><img src="attachments/260312_리뷰_그래프학습에서의 스케일 연속성_03.png" class="img-fluid"></p>
+<p>따라서 (3)에서의 수정된 MPNN은 Section 2의 설정에서 실제로 연속적이며, 그 결과 서로 다른 해상도에서 동일한 객체를 설명하는 그래프 <span class="math inline">\(G\)</span>, <span class="math inline">\(\bar{G}\)</span>에 대해 유사한 잠재 임베딩 <span class="math inline">\(F \approx \bar{F}\)</span>을 할당한다.</p>
 </section>
 </section>
 <section id="numerical-investigation-of-scale-continuity-for-mpnns" class="level2">
 <h2 class="anchored" data-anchor-id="numerical-investigation-of-scale-continuity-for-mpnns">4 NUMERICAL INVESTIGATION OF SCALE CONTINUITY FOR MPNNS</h2>
-<p>스케일 간 연속성: Theorem 3.1은 (3)과 같은 Laplace 변환 기반 전파 방식을 사용하는 MPNN이 그래프 공간에서 그 잠재 공간으로 가는 사상으로서 연속적임을 의미한다. 이를 수치적으로 검증하기 위해, 우리는 이 범주에 속하는 모델들에 대해 Figure 2의 실험을 반복한다 (resolvent 행렬과 exponential 행렬을 사용; cf.&nbsp;Section 3의 spectral 설정과 spatial 설정). Fig. 3에서 분명히 보이듯이, Laplace 변환 전파를 사용하는 모델들—수정된 MPNN 기반 방법을 포함하여—이 생성한 잠재 임베딩은 실제로 수렴한다 (<span class="math inline">\(\|F_\omega - \bar{F}\| \to 0\)</span>). <img src="attachments/260312_리뷰_그래프 학습에서의 스케일 연속성 (스펙트럴 방법을 넘어서)_04.png" class="img-fluid"> &gt; 규빈: 아래쪽 곡선이 (좋은거) MPNN-Res, MPNN-Exp, Spectral-Res, Spectral-Exp</p>
+<p>스케일 간 연속성: Theorem 3.1은 (3)과 같은 Laplace 변환 기반 전파 방식을 사용하는 MPNN이 그래프 공간에서 그 잠재 공간으로 가는 사상으로서 연속적임을 의미한다. 이를 수치적으로 검증하기 위해, 우리는 이 범주에 속하는 모델들에 대해 Figure 2의 실험을 반복한다 (resolvent 행렬과 exponential 행렬을 사용; cf.&nbsp;Section 3의 spectral 설정과 spatial 설정). Fig. 3에서 분명히 보이듯이, Laplace 변환 전파를 사용하는 모델들—수정된 MPNN 기반 방법을 포함하여—이 생성한 잠재 임베딩은 실제로 수렴한다 (<span class="math inline">\(\|F_\omega - \bar{F}\| \to 0\)</span>).</p>
+<p><img src="attachments/260312_리뷰_그래프학습에서의 스케일 연속성_04.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>규빈: 아래쪽 곡선이 (좋은거) MPNN-Res, MPNN-Exp, Spectral-Res, Spectral-Exp</p>
+</blockquote>
 <p>따라서 Section 3.2에서 구성한 message passing 모델들에 대해 우리는 원하는 스케일 간 연속성을 실제로 확인하였다.</p>
 <p>Resulting Generalization Ability: Section 2에서 우리는 스케일 간 일반화를 가로막는 원인이 연속성의 결여임을 확인하였다. 위에서 확인했듯이 Laplace 변환 기반 전파를 사용하는 MPNN은 연속적이다. 따라서 이러한 모델들은 유사한 그래프를 유사한 잠재 임베딩으로 사상할 것으로 기대된다. 이를 검증하기 위해 우리는 여기서 Section 2의 Table 1에서 수행한 일반화 실험을 다시 수행한다.</p>
-<p><img src="attachments/260312_리뷰_그래프 학습에서의 스케일 연속성 (스펙트럴 방법을 넘어서)_05.png" class="img-fluid"></p>
+<p><img src="attachments/260312_리뷰_그래프학습에서의 스케일 연속성_05.png" class="img-fluid"></p>
 <p>Table 2의 표준 GNN들과 비교하면, 서로 다른 해상도(cross-resolution) 설정에서 global Laplacian 전파 방식을 사용하는 방법들이 생성한 잠재 임베딩의 차이 <span class="math inline">\(\|F - \bar{F}\|\)</span>는 표준 그래프 학습 방법들에 비해 약 <span class="math inline">\(10^2\)</span>에서 <span class="math inline">\(10^4\)</span> 배 정도 더 작다는 것을 확인할 수 있다. 또한 spectral 방법들뿐만 아니라 Laplace 변환 기반 전파를 사용하는 MPNN이 생성한 임베딩 역시 안정적임을 확인할 수 있다 (<span class="math inline">\(\|F - \bar{F}\| \approx 0\)</span>).</p>
 <p>잠재 표현에서의 매우 작거나 무시할 수 있는 수준의 변화는 예측 성능에서도 매우 작거나 무시할 수 있는 수준의 변화로 이어진다: 아래 Table 3에서 확인할 수 있듯이, 서로 다른 해상도(cross-resolution) 설정에서 Laplace 변환 기반 GNN이 생성한 MAE는 동일 해상도 설정(same-resolution)에서의 값과 본질적으로 동일하다. Laplace 변환 전파 방식을 사용하는 GNN은 스케일 간 일반화(generalize across scales)가 가능하다. 이는 spectral 방법에만 국한되지 않는다: 수정된 MPNN 기반 방법 또한 스케일 간 일반화가 가능하다.</p>
 <section id="discussion" class="level3">
