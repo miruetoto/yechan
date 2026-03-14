@@ -229,6 +229,10 @@ window.Quarto = {
   <li><a href="#chapter-organization" id="toc-chapter-organization" class="nav-link" data-scroll-target="#chapter-organization">12.1.2 CHAPTER ORGANIZATION</a></li>
   <li><a href="#notation" id="toc-notation" class="nav-link" data-scroll-target="#notation">12.1.3 NOTATION</a></li>
   </ul></li>
+  <li><a href="#weakly-stationary-graph-processes" id="toc-weakly-stationary-graph-processes" class="nav-link" data-scroll-target="#weakly-stationary-graph-processes">12.2 WEAKLY STATIONARY GRAPH PROCESSES</a>
+  <ul class="collapse">
+  <li><a href="#power-spectral-density" id="toc-power-spectral-density" class="nav-link" data-scroll-target="#power-spectral-density">12.2.1 POWER SPECTRAL DENSITY</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -275,7 +279,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="random-graph-processes">12.1 RANDOM GRAPH PROCESSES</h2>
 <section id="introduction" class="level3">
 <h3 class="anchored" data-anchor-id="introduction">12.1.1 INTRODUCTION</h3>
-<p>그래프 신호처리의 대부분의 도구는 본질적으로 결정론적(deterministic)이다. 예를 들어, 확산(diffusion)을 이용한 그래프 신호 디노이징 [1], 그래프 신호의 샘플링 및 복원 [2–7], 그래프 필터 설계 [8–11] 등이 있다. 최근에야 비로소 그래프 신호에 맞춤화된 통계적 신호처리 방법이 도입되기 시작했다. 시공간(spatiotemporal) 신호에 초점을 맞춘 고전적 신호처리에서 알 수 있듯이, 통계적 방법은 최적의 샘플링 및 복원 기법을 설계할 때 통계적 정보를 고려할 수 있게 해준다. 예를 들어, 디노이징, 보간(interpolation), 예측(prediction) 등을 위한 위너 필터링(Wiener filtering)이 그러하다 [12]. 이는 일반적으로 결정론적 방법에 비해 더 나은 평균 성능을 제공한다. 대부분의 통계적 방법의 핵심은 약정상성(weak stationarity)의 개념으로, 이는 확률 과정의 1차 및 2차 통계량이 공간 및/또는 시간에 걸쳐 변하지 않는다는 것을 의미한다. 이 개념을 그래프 신호로 확장하는 것은 자명하지 않은데, 이는 그래프 신호가 비정규적(irregular) 구조를 가지며, 이 구조가 일반적으로 소위 그래프 시프트(graph shift, 시간 및/또는 공간에서의 시프트의 일반화)로 특성화되기 때문이다. 이것이 본 장에서 다룰 내용이다.</p>
+<p>그래프 신호처리의 대부분의 도구는 본질적으로 결정론적(deterministic)이다. 예를 들어, 확산(diffusion)을 이용한 그래프 신호 디노이징 [1], 그래프 신호의 샘플링 및 복원 [2–7], 그래프 필터 설계 [8–11] 등이 있다. 최근에야 비로소 그래프 신호에 맞춤화된 통계적 신호처리 방법이 도입되기 시작했다. 시공간(spatiotemporal) 신호에 초점을 맞춘 고전적 신호처리에서 알 수 있듯이, 통계적 방법은 최적의 샘플링 및 복원 기법을 설계할 때 통계적 정보를 고려할 수 있게 해준다. 예를 들어, 디노이징, 보간(interpolation), 예측(prediction) 등을 위한 비너(Wiener) 필터링이 그러하다 [12]. 이는 일반적으로 결정론적 방법에 비해 더 나은 평균 성능을 제공한다. 대부분의 통계적 방법의 핵심은 약정상성(weak stationarity)의 개념으로, 이는 확률 과정의 1차 및 2차 통계량이 공간 및/또는 시간에 걸쳐 변하지 않는다는 것을 의미한다. 이 개념을 그래프 신호로 확장하는 것은 자명하지 않은데, 이는 그래프 신호가 비정규적(irregular) 구조를 가지며, 이 구조가 일반적으로 소위 그래프 시프트(graph shift, 시간 및/또는 공간에서의 시프트의 일반화)로 특성화되기 때문이다. 이것이 본 장에서 다룰 내용이다.</p>
 <p>정상 그래프 과정(stationary graph processes)을 논의한 최초의 연구들은 시간 및/또는 공간에서의 시프트와 달리 그래프 시프트는 에너지를 보존하지 않는다는 점을 관찰하였다 [13,14].</p>
 <div class="callout callout-style-default callout-note callout-titled" title="에너지 보존이 깨지는 이유">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -415,9 +419,9 @@ window.Quarto = {
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>정상 시계열에서 공분산 행렬은 Toeplitz 구조를 갖는다. 즉 <span class="math inline">\([\mathbf{C}_{xx}]_{ij}\)</span>가 <span class="math inline">\(|i-j|\)</span>에만 의존하므로:</p>
+<p>정상 시계열에서 공분산 행렬은 토플리츠(Toeplitz) 구조를 갖는다. 즉 <span class="math inline">\([\mathbf{C}_{xx}]_{ij}\)</span>가 <span class="math inline">\(|i-j|\)</span>에만 의존하므로:</p>
 <p><span class="math display">\[\mathbf{C}_{xx} = \begin{pmatrix} c_0 &amp; c_1 &amp; c_2 &amp; \cdots \\ c_1 &amp; c_0 &amp; c_1 &amp; \cdots \\ c_2 &amp; c_1 &amp; c_0 &amp; \cdots \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots \end{pmatrix}\]</span></p>
-<p><span class="math inline">\(N \times N\)</span> 행렬이지만 독립 파라미터는 <span class="math inline">\(N\)</span>개뿐이다. 이 구조 덕분에 일부 측정값(서브샘플링)만으로도 전체 공분산을 복원할 수 있다. 그래프 과정에서는 노드 간에 시간처럼 자연스러운 순서가 없고 그래프 구조가 비정규적이므로, 공분산 행렬이 Toeplitz 같은 패턴 없이 일반적인 <span class="math inline">\(N \times N\)</span> 행렬이 된다. 그럼에도 불구하고 노드의 부분집합만으로 공분산/PSD를 추정할 수 있다는 것이 이 장의 요지이다.</p>
+<p><span class="math inline">\(N \times N\)</span> 행렬이지만 독립 파라미터는 <span class="math inline">\(N\)</span>개뿐이다. 이 구조 덕분에 일부 측정값(서브샘플링)만으로도 전체 공분산을 복원할 수 있다. 그래프 과정에서는 노드 간에 시간처럼 자연스러운 순서가 없고 그래프 구조가 비정규적이므로, 공분산 행렬이 토플리츠(Toeplitz) 같은 패턴 없이 일반적인 <span class="math inline">\(N \times N\)</span> 행렬이 된다. 그럼에도 불구하고 노드의 부분집합만으로 공분산/PSD를 추정할 수 있다는 것이 이 장의 요지이다.</p>
 </div>
 </div>
 </div>
@@ -522,13 +526,13 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="시계열 필터와의 비교">
+<div class="callout callout-style-default callout-note callout-titled" title="AR(2) 모형">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-시계열 필터와의 비교
+AR(2) 모형
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -641,7 +645,7 @@ window.Quarto = {
 </table>
 <p><span class="math inline">\(\mathbf{S}\)</span>를 시프트 연산자로 쓰면 <span class="math inline">\(h(\lambda_k) = h(e^{-j\omega_k}) = H(\omega_k)\)</span>이므로 GFT와 DFT가 일치한다.</p>
 <p>새 변환의 결과를 그림으로 비교하면:</p>
-<div id="806de340" class="cell" data-execution_count="1">
+<div id="d153b791" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -736,7 +740,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p><span class="math inline">\(\circ\)</span>, <span class="math inline">\(\otimes\)</span>, <span class="math inline">\(\odot\)</span> 표기는 각각 성분별 곱(elementwise), 크로네커 곱(Kronecker product), 카트리-라오 곱(Khatri-Rao product)을 나타낸다. <span class="math inline">\(\oplus\)</span> 표기는 크로네커 합(Kronecker sum)을 나타낸다.</p>
+<p><span class="math inline">\(\circ\)</span>, <span class="math inline">\(\otimes\)</span>, <span class="math inline">\(\odot\)</span> 표기는 각각 성분별 곱(elementwise), 크로네커(Kronecker) 곱, 카트리-라오(Khatri-Rao) 곱을 나타낸다. <span class="math inline">\(\oplus\)</span> 표기는 크로네커(Kronecker) 합을 나타낸다.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="행렬 곱/합 기호 예시">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -750,7 +754,7 @@ window.Quarto = {
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><span class="math inline">\(\mathbf{A} = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}\)</span>, <span class="math inline">\(\mathbf{B} = \begin{pmatrix} e &amp; f \\ g &amp; h \end{pmatrix}\)</span>일 때:</p>
-<p>성분별 곱 (Hadamard product) <span class="math inline">\(\circ\)</span>:</p>
+<p>성분별 곱 (아다마르(Hadamard) product) <span class="math inline">\(\circ\)</span>:</p>
 <p><span class="math display">\[\mathbf{A} \circ \mathbf{B} = \begin{pmatrix} ae &amp; bf \\ cg &amp; dh \end{pmatrix}\]</span></p>
 <p>크로네커 곱 <span class="math inline">\(\otimes\)</span>:</p>
 <p><span class="math display">\[\mathbf{A} \otimes \mathbf{B} = \begin{pmatrix} a\mathbf{B} &amp; b\mathbf{B} \\ c\mathbf{B} &amp; d\mathbf{B} \end{pmatrix} = \begin{pmatrix} ae &amp; af &amp; be &amp; bf \\ ag &amp; ah &amp; bg &amp; bh \\ ce &amp; cf &amp; de &amp; df \\ cg &amp; ch &amp; dg &amp; dh \end{pmatrix}\]</span></p>
@@ -761,6 +765,298 @@ window.Quarto = {
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="weakly-stationary-graph-processes" class="level2">
+<h2 class="anchored" data-anchor-id="weakly-stationary-graph-processes">12.2 WEAKLY STATIONARY GRAPH PROCESSES</h2>
+<p>시간에서의 약정상성(weak stationarity)의 세 가지 동치 정의를 그래프 영역으로 확장한다. 가장 흔한 정의는 1차 및 2차 모멘트가 시간 시프트에 불변이라는 것이다. 특정 조건 하에서 이 정의들이 그래프 영역에서도 동치가 됨을 보일 것이다. 직관적으로, 그래프 과정이 정상이라는 것은 본질적으로 불완전한 주장이다 — 어떤 그래프를 말하는지 명시해야 하기 때문이다. 따라서 제안하는 정의들은 GSO <span class="math inline">\(\mathbf{S}\)</span>에 의존하며, 과정 <span class="math inline">\(\mathbf{x}\)</span>가 <span class="math inline">\(\mathbf{S}\)</span>에 대해서는 정상이지만 <span class="math inline">\(\mathbf{S}' \neq \mathbf{S}\)</span>에 대해서는 정상이 아닐 수 있다.</p>
+<p>표준 영평균 백색 랜덤 과정 <span class="math inline">\(\mathbf{n}\)</span>을 평균 <span class="math inline">\(\mathbb{E}[\mathbf{n}] = \mathbf{0}\)</span>이고 공분산 <span class="math inline">\(\mathbb{E}[\mathbf{n}\mathbf{n}^H] = \mathbf{I}\)</span>인 과정으로 정의하면, 그래프 정상성의 첫 번째 정의는 다음과 같다.</p>
+<p><strong>Definition 12.1.</strong> 정규 시프트 연산자 <span class="math inline">\(\mathbf{S}\)</span>가 주어졌을 때, 영평균 랜덤 과정 <span class="math inline">\(\mathbf{x}\)</span>가 <span class="math inline">\(\mathbf{S}\)</span>에 대해 <strong>약정상(weakly stationary)</strong>이라 함은, <span class="math inline">\(\mathbf{x}\)</span>가 선형 시프트-불변 그래프 필터 <span class="math inline">\(\mathbf{H} = \sum_{l=0}^{N-1} h_l \mathbf{S}^l\)</span>의 영평균 백색 입력 <span class="math inline">\(\mathbf{n}\)</span>에 대한 응답으로 쓸 수 있을 때를 말한다.</p>
+<p>이 정의는 정상 그래프 과정이 백색 입력에 그래프 필터를 적용한 출력으로 쓸 수 있다고 말한다. 이는 시간에서 정상 과정이 백색 노이즈를 입력으로 한 선형 시불변 시스템의 출력으로 표현될 수 있다는 잘 알려진 사실의 일반화이다. <span class="math inline">\(\mathbf{x} = \mathbf{H}\mathbf{n}\)</span>으로 쓰면, 과정 <span class="math inline">\(\mathbf{x}\)</span>의 공분산 행렬 <span class="math inline">\(\mathbf{C}_x := \mathbb{E}[\mathbf{x}\mathbf{x}^H]\)</span>는:</p>
+<p><span class="math display">\[\mathbf{C}_x = \mathbb{E}\big[(\mathbf{H}\mathbf{n})(\mathbf{H}\mathbf{n})^H\big] = \mathbf{H}\,\mathbb{E}[\mathbf{n}\mathbf{n}^H]\,\mathbf{H}^H = \mathbf{H}\mathbf{H}^H \tag{12.2}\]</span></p>
+<p>이는 <span class="math inline">\(\mathbf{x}\)</span>의 색(color)이 필터 <span class="math inline">\(\mathbf{H}\)</span>에 의해 결정됨을 보여준다. Definition 12.1은 정상 과정이 어떻게 생성될 수 있는지를 기술하므로 <strong>구성적(constructive) 정의</strong>이다. 대안적으로, 꼭짓점 영역이나 주파수 영역에서 랜덤 그래프 과정의 모멘트에 조건을 부과하여 <strong>기술적(descriptive) 관점</strong>에서 정상성을 정의할 수도 있다.</p>
+<p><strong>Definition 12.2.</strong> 정규 시프트 연산자 <span class="math inline">\(\mathbf{S}\)</span>가 주어졌을 때, 영평균 랜덤 과정 <span class="math inline">\(\mathbf{x}\)</span>가 <span class="math inline">\(\mathbf{S}\)</span>에 대해 <strong>약정상</strong>이라 함은 다음 두 동치 성질이 성립할 때를 말한다:</p>
+<p><strong>(a)</strong> 임의의 비음정수 <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, 그리고 <span class="math inline">\(c \leq b\)</span>에 대해 다음이 성립한다:</p>
+<p><span class="math display">\[\mathbb{E}\Big[(\mathbf{S}^a\mathbf{x})\big((\mathbf{S}^H)^b\mathbf{x}\big)^H\Big] = \mathbb{E}\Big[(\mathbf{S}^{a+c}\mathbf{x})\big((\mathbf{S}^H)^{b-c}\mathbf{x}\big)^H\Big] \tag{12.3}\]</span></p>
+<p><strong>(b)</strong> 행렬 <span class="math inline">\(\mathbf{C}_x\)</span>와 <span class="math inline">\(\mathbf{S}\)</span>가 동시 대각화 가능(simultaneously diagonalizable)하다.</p>
+<p>Definition 12.2의 두 조건 (a)와 (b)는 실제로 동치임을 보일 수 있다 [15]. 이 두 조건은 시간에서의 정상성의 알려진 정의들을 일반화한다. Definition 12.2a는 정상 과정의 2차 모멘트가 시간 시프트에 불변이어야 한다는 조건의 일반화이고, Definition 12.2b는 시간 정상 과정의 공분산이 순환(circulant) 행렬이어야 한다는 조건의 확장이다.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definition 12.2b의 시간축 버전: 정상 과정의 공분산 = 순환 행렬">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definition 12.2b의 시간축 버전: 정상 과정의 공분산 = 순환 행렬
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Definition 12.2b는 “<span class="math inline">\(\mathbf{C}_x\)</span>와 <span class="math inline">\(\mathbf{S}\)</span>가 동시 대각화 가능”이라고 한다. 이것이 시간축에서 무슨 뜻인지 살펴보자.</p>
+<p><strong>Step 1. 순환 행렬.</strong> 각 행이 이전 행을 한 칸씩 순환 시프트한 행렬을 <strong>순환(circulant) 행렬</strong>이라 한다. 첫 행 <span class="math inline">\((c_0, c_1, \dots, c_{N-1})\)</span>이 주어지면 전체가 결정된다:</p>
+<p><span class="math display">\[\mathbf{C} = \begin{pmatrix} c_0 &amp; c_1 &amp; c_2 &amp; \cdots &amp; c_{N-1} \\ c_{N-1} &amp; c_0 &amp; c_1 &amp; \cdots &amp; c_{N-2} \\ c_{N-2} &amp; c_{N-1} &amp; c_0 &amp; \cdots &amp; c_{N-3} \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ c_1 &amp; c_2 &amp; c_3 &amp; \cdots &amp; c_0 \end{pmatrix}\]</span></p>
+<p><strong>Step 2. 정상 과정의 공분산은 순환 행렬이다.</strong> 정상 과정은 공분산이 시차(lag)에만 의존한다. 즉 <span class="math inline">\([\mathbf{C}_x]_{ij} = \rho_{|i-j|}\)</span>이므로, 자기상관계수 <span class="math inline">\((\rho_0, \rho_1, \dots)\)</span>만 알면 <span class="math inline">\(\mathbf{C}_x\)</span> 전체가 결정된다 (공분산은 대칭이므로 <span class="math inline">\(\rho_k = \rho_{N-k}\)</span>):</p>
+<p><span class="math display">\[\mathbf{C}_x = \begin{pmatrix} \rho_0 &amp; \rho_1 &amp; \rho_2 &amp; \cdots &amp; \rho_2 &amp; \rho_1 \\ \rho_1 &amp; \rho_0 &amp; \rho_1 &amp; \cdots &amp; \rho_3 &amp; \rho_2 \\ \rho_2 &amp; \rho_1 &amp; \rho_0 &amp; \cdots &amp; \rho_4 &amp; \rho_3 \\ \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\ \rho_2 &amp; \rho_3 &amp; \rho_4 &amp; \cdots &amp; \rho_0 &amp; \rho_1 \\ \rho_1 &amp; \rho_2 &amp; \rho_3 &amp; \cdots &amp; \rho_1 &amp; \rho_0 \end{pmatrix}\]</span></p>
+<p><strong>Step 3. 순환 행렬은 시프트 행렬의 다항식이다.</strong> 순환 행렬은 <span class="math inline">\(\mathbf{C} = \sum c_l \mathbf{S}^l\)</span>로 쓸 수 있다. <span class="math inline">\(\mathbf{C}_x\)</span>에 적용하면:</p>
+<p><span class="math display">\[\mathbf{C}_x = \rho_0\mathbf{I} + \rho_1\mathbf{S} + \rho_2\mathbf{S}^2 + \cdots = \sum_{l=0}^{N-1} \rho_l\, \mathbf{S}^l\]</span></p>
+<p><strong>Step 4. 따라서 <span class="math inline">\(\mathbf{S}\)</span>를 대각화하는 <span class="math inline">\(\mathbf{F}\)</span>가 <span class="math inline">\(\mathbf{C}_x\)</span>도 대각화한다.</strong> <span class="math inline">\(\mathbf{S} = \mathbf{F}^H\boldsymbol{\Lambda}\mathbf{F}\)</span>이므로 <span class="math inline">\(\mathbf{S}^l = \mathbf{F}^H\boldsymbol{\Lambda}^l\mathbf{F}\)</span>이다. 대입하면:</p>
+<p><span class="math display">\[\mathbf{C}_x = \sum_{l=0}^{N-1} \rho_l\, \mathbf{F}^H\boldsymbol{\Lambda}^l\mathbf{F} = \mathbf{F}^H\Big(\sum_{l=0}^{N-1} \rho_l\, \boldsymbol{\Lambda}^l\Big)\mathbf{F}\]</span></p>
+<p>괄호 안은 대각 행렬끼리의 합이므로 대각 행렬이고, <span class="math inline">\(k\)</span>번째 대각 성분은:</p>
+<p><span class="math display">\[p_k = \sum_{l=0}^{N-1} \rho_l\, \lambda_k^l = \sum_{l=0}^{N-1} \rho_l\, e^{-j2\pi kl/N}\]</span></p>
+<p>즉 <strong>자기상관계수 <span class="math inline">\((\rho_0, \rho_1, \dots)\)</span>의 DFT가 PSD</strong>이다. 이것이 <strong>비너-힌친(Wiener-Khinchin) 정리</strong>이다.</p>
+<p><strong>정리.</strong> “<span class="math inline">\(\mathbf{C}_x\)</span>와 <span class="math inline">\(\mathbf{S}\)</span>가 동시 대각화 가능”이란 결국 “<span class="math inline">\(\mathbf{C}_x\)</span>가 순환 행렬 = <span class="math inline">\(\mathbf{F}\)</span>로 대각화됨 = 자기상관의 DFT가 PSD”라는 뜻이다.</p>
+<ul>
+<li><strong>시간축</strong>: <span class="math inline">\(\mathbf{S}\)</span>와 <span class="math inline">\(\mathbf{C}_x\)</span>가 동시 대각화 가능 <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(\mathbf{C}_x\)</span>가 <span class="math inline">\(\mathbf{F}\)</span>로 대각화됨 <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(\mathbf{C}_x\)</span>가 순환 행렬</li>
+<li><strong>그래프</strong>: <span class="math inline">\(\mathbf{S}\)</span>와 <span class="math inline">\(\mathbf{C}_x\)</span>가 동시 대각화 가능 <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(\mathbf{C}_x = \mathbf{V}\operatorname{diag}(p_0,\dots,p_{N-1})\mathbf{V}^H\)</span> (순환 행렬의 일반화)</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="정상성의 세 가지 동치 정의 정리">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+정상성의 세 가지 동치 정의 정리
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>시간축에서 정상성을 정의하는 방법은 세 가지이며, 모두 동치이다.</p>
+<ol type="1">
+<li><strong>Definition 12.2a</strong> (2차 모멘트 불변): 정상 시계열이란 2차 모멘트가 시간 시프트에 불변인 시계열이다.</li>
+<li><strong>Definition 12.1</strong> (백색잡음의 필터링): 정상 시계열이란 백색잡음 <span class="math inline">\(\mathbf{n}\)</span>에 선형 시프트-불변 필터 <span class="math inline">\(\mathbf{H} = \sum h_l \mathbf{S}^l\)</span>을 적용하여 얻을 수 있는 시계열이다.</li>
+<li><strong>Definition 12.2b</strong> (동시 대각화): 정상 시계열이란 <span class="math inline">\(\mathbf{C}_x\)</span>와 <span class="math inline">\(\mathbf{S}\)</span>가 동시 대각화 가능한 시계열이다.</li>
+</ol>
+<p>세 번째 정의의 의미를 좀 더 풀어보자. 정상 과정의 공분산 <span class="math inline">\(\mathbf{C}_x\)</span>는 자기상관계수 <span class="math inline">\((\rho_0, \rho_1, \dots)\)</span>만으로 결정된다 — 이는 정의 1 (시차에만 의존)에서 당연하다. 그런데 정의 3이 추가로 말하는 것은, <span class="math inline">\(\mathbf{C}_x\)</span>가 <span class="math inline">\(\mathbf{F}\)</span> (또는 그래프에서는 <span class="math inline">\(\mathbf{V}\)</span>)로 대각화되므로, 자기상관계수를 직접 다룰 필요 없이 그것의 DFT인 <span class="math inline">\((p_0, p_1, \dots)\)</span>를 해석해도 무방하다는 것이다. 이 <span class="math inline">\((p_0, p_1, \dots)\)</span>를 <strong>파워 스펙트럼 밀도(PSD)</strong>라 정의한다.</p>
+<p>즉 정의 3의 핵심 메시지는: 정상 과정의 공분산 구조는 <strong>꼭짓점(시간) 영역</strong>의 자기상관계수 <span class="math inline">\((\rho_0, \rho_1, \dots)\)</span>로도, <strong>주파수 영역</strong>의 PSD <span class="math inline">\((p_0, p_1, \dots)\)</span>로도 동등하게 기술할 수 있다는 것이다.</p>
+</div>
+</div>
+</div>
+<p>Definition 12.2a에서는 상관이 신호를 <strong>어떻게</strong> 시프트하느냐 — 즉 전방 <span class="math inline">\(\mathbf{S}\mathbf{x}\)</span>이냐 후방 <span class="math inline">\(\mathbf{S}^H\mathbf{x}\)</span>이냐 — 에 무관하고, 총 시프트 횟수만 같으면 된다고 요구한다. 실제로 식 (12.3)의 양변에서 신호는 총 <span class="math inline">\(a+b\)</span>번 시프트된다. 이는 시간에서 정상 신호의 상관이 특정 시점이 아니라 총 시프트 횟수에만 의존하는 것을 일반화한 것이다. 구체적으로, 방향 순환 그래프에서는 <span class="math inline">\(\mathbf{S}^H = \mathbf{S}^{-1}\)</span>이고 <span class="math inline">\(\mathbf{S}^N = \mathbf{I}\)</span>이다. <span class="math inline">\(a = 0\)</span>, <span class="math inline">\(b = N\)</span>, <span class="math inline">\(c = l\)</span>로 놓으면 식 (12.3)은 <span class="math inline">\(\mathbb{E}[\mathbf{x}\mathbf{x}^H] = \mathbb{E}[\mathbf{S}^l\mathbf{x}(\mathbf{S}^l\mathbf{x})^H]\)</span>이 되어, 시간에서 정상 신호의 정의 그 자체이다. 직관적으로, 식 (12.3)에서 양변의 총 시프트 횟수를 맞추는 이유는, 일반적인 GSO <span class="math inline">\(\mathbf{S}\)</span>가 에너지를 보존하지 않기 때문이다. 따라서 단순히 <span class="math inline">\(\mathbb{E}[\mathbf{x}\mathbf{x}^H] = \mathbb{E}[\mathbf{S}^l\mathbf{x}(\mathbf{S}^l\mathbf{x})^H]\)</span>를 일반 GSO에 대해 요구하는 것은 실현 불가능하다. Definition 12.2a는 일반 정규 GSO에 대해 유효하면서도, <span class="math inline">\(\mathbf{S}\)</span>가 시간 시프트일 때 고전적 정의로 환원되는 적절한 균형점이다.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="왜 $\mathbb{E}[\mathbf{x}\mathbf{x}^H] = \mathbb{E}[\mathbf{S}^l\mathbf{x}(\mathbf{S}^l\mathbf{x})^H]$가 일반 GSO에서 실현 불가능한가?">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+왜 <span class="math inline">\(\mathbb{E}[\mathbf{x}\mathbf{x}^H] = \mathbb{E}[\mathbf{S}^l\mathbf{x}(\mathbf{S}^l\mathbf{x})^H]\)</span>가 일반 GSO에서 실현 불가능한가?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>우변을 전개하면:</p>
+<p><span class="math display">\[\mathbb{E}[\mathbf{S}^l\mathbf{x}(\mathbf{S}^l\mathbf{x})^H] = \mathbf{S}^l\,\mathbf{C}_x\,(\mathbf{S}^H)^l\]</span></p>
+<p>이것이 <span class="math inline">\(\mathbf{C}_x\)</span>와 같으려면 <span class="math inline">\(\mathbf{S}^l\,\mathbf{C}_x\,(\mathbf{S}^H)^l = \mathbf{C}_x\)</span>이어야 한다. <span class="math inline">\(\mathbf{S}\)</span>가 유니터리이면 <span class="math inline">\((\mathbf{S}^H)^l = \mathbf{S}^{-l}\)</span>이므로 <span class="math inline">\(\mathbf{S}^l\,\mathbf{C}_x\,\mathbf{S}^{-l} = \mathbf{C}_x\)</span>, 즉 교환 조건이 되어 문제없다. 그러나 <span class="math inline">\(\mathbf{S}\)</span>가 유니터리가 아니면 (즉 <span class="math inline">\(|\lambda_k| \neq 1\)</span>인 고유값이 있으면) <span class="math inline">\(\mathbf{S}^l\)</span>이 에너지를 증폭/감쇠시키므로, <span class="math inline">\(\mathbf{S}^l\,\mathbf{C}_x\,(\mathbf{S}^H)^l\)</span>은 <span class="math inline">\(\mathbf{C}_x\)</span>와 같을 수 없다. 즉 이 조건을 만족하는 비자명한 과정이 존재하지 않는다.</p>
+<p><strong>반면 식 (12.3)은 왜 실현 가능한가?</strong> 식 (12.3)의 양변을 전개하면:</p>
+<ul>
+<li>좌변: <span class="math inline">\(\mathbb{E}[(\mathbf{S}^a\mathbf{x})((\mathbf{S}^H)^b\mathbf{x})^H] = \mathbf{S}^a\,\mathbf{C}_x\,\mathbf{S}^b\)</span></li>
+<li>우변: <span class="math inline">\(\mathbb{E}[(\mathbf{S}^{a+c}\mathbf{x})((\mathbf{S}^H)^{b-c}\mathbf{x})^H] = \mathbf{S}^{a+c}\,\mathbf{C}_x\,\mathbf{S}^{b-c}\)</span></li>
+</ul>
+<p><span class="math inline">\(\mathbf{S}^a\,\mathbf{C}_x\,\mathbf{S}^b = \mathbf{S}^{a+c}\,\mathbf{C}_x\,\mathbf{S}^{b-c}\)</span>의 양변에 왼쪽에서 <span class="math inline">\(\mathbf{S}^{-a}\)</span>, 오른쪽에서 <span class="math inline">\(\mathbf{S}^{-(b-c)}\)</span>를 곱하면:</p>
+<p><span class="math display">\[\mathbf{C}_x\,\mathbf{S}^c = \mathbf{S}^c\,\mathbf{C}_x\]</span></p>
+<p>즉 <span class="math inline">\(\mathbf{C}_x\)</span>와 <span class="math inline">\(\mathbf{S}\)</span>가 <strong>교환</strong>하면 된다. 실현 불가능했던 버전은 <span class="math inline">\(\mathbf{S}\)</span>와 <span class="math inline">\(\mathbf{S}^H\)</span>가 양쪽에서 곱해져 에너지 변화가 문제였지만, 식 (12.3)은 <span class="math inline">\(\mathbf{S}\)</span>의 거듭제곱만 관여하므로 교환 조건으로 귀결되고, 이는 에너지 보존과 무관하게 성립할 수 있다.</p>
+</div>
+</div>
+</div>
+<p>Definition 12.2b는 공분산 <span class="math inline">\(\mathbf{C}_x\)</span>가 GFT 행렬 <span class="math inline">\(\mathbf{V}\)</span>로 대각화될 것을 요구하여, 그래프 주파수 관점에서 정상성을 특성화한다. 시간으로 특수화하면 <span class="math inline">\(\mathbf{C}_x\)</span>가 푸리에(DFT) 행렬로 대각화되어야 하므로 순환 행렬이어야 한다. 고전적 신호처리에서는 이 사실을 이용하여 정상 과정의 PSD를 순환 공분산 행렬의 고유값으로 정의하며, 이것이 Section 12.2.1에서의 PSD 정의를 동기부여한다.</p>
+<p>지금까지 정상성 개념을 그래프 과정으로 확장하는 세 가지 정의를 제시하였다. 이 중 둘은 동치이므로 Definition 12.2로 묶었다. 자연스러운 질문은: Definition 12.1과 12.2가 시간에서처럼 일반 그래프에서도 동치인가? 실제로, <span class="math inline">\(\mathbf{S}\)</span>가 정규 행렬이고 고유값이 모두 서로 다르면 Definition 12.1과 12.2는 동치임을 보일 수 있다 [15]. Fig. 12.1은 이 절에서 논의한 정의들의 관계를 요약한 것이다.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="attachments/image.png" class="img-fluid figure-img"></p>
+<figcaption>.</figcaption>
+</figure>
+</div>
+<p><strong>공존하는 접근법들.</strong> 정상 그래프 과정은 [13]에서 처음 정의되고 분석되었다. 거기서 확인된 근본 문제는 GSO가 일반적으로 에너지를 보존하지 않으므로 등거리(isometric)가 될 수 없다는 것이다 [21]. 이 문제는 [14]에서 라플라시안 GSO의 고유벡터 공간은 유지하되 고유값을 변경하는 등거리 그래프 시프트를 정의함으로써 해결되었다.</p>
+<p>정상 그래프 과정은 등거리 시프트(isometric shift)와의 곱에 대해 확률 분포가 불변인 것으로 정의된다. 이 접근법의 단점 중 하나는 등거리 시프트가 복소값 연산자이며, <span class="math inline">\(\mathbf{S}\)</span>와는 다른 희소 구조(sparsity structure)를 가진다는 것이다(만약 있다면). 반면, 식 (12.3)의 꼭짓점 기반 정의는 원래의 GSO S에 기반하며, 이는 국소적(local)이고 실수값(real-valued)이다. 결과적으로, 식 (12.3)은 정상성과 국소성 사이의 관계에 대한 직관을 제공하며, 이는 국소 정보만으로 작동하는 정상성 검정이나 추정 기법을 개발하는 데 활용될 수 있다. 그래프 정상성은 [16]에서도 연구되었는데, 여기서는 공분산 행렬이 라플라시안 GSO의 고유벡터로 대각화 가능하다는 요건이 정의로 채택되었다. 이 조건은 [22]에서 도입된 이동 연산자(translation operator)에 대한 통계적 불변성과 동치임이 보여진다. 시프트 <span class="math inline">\(\mathbf{S}\)</span>가 그래프의 라플라시안과 일치하고 <span class="math inline">\(\mathbf{S}\)</span>의 고유값이 모두 서로 다를 때, Definitions 12.1과 12.2는 [13,16]의 정의와 동치이다. 따라서, 여기서 제시된 정의는 [16]과 다른데, 우리는 라플라시안 대신 일반적인 정규 시프트(general normal shifts)를 고려하며, Definition 12.1을 성질(property)이 아닌 정의(definition)로 본다는 점에서 그렇다. 이는 수학적으로는 사소한 차이이지만 실제에서는 중요하다; 자세한 내용은 [15,23]을 참조하라.</p>
+<section id="power-spectral-density" class="level3">
+<h3 class="anchored" data-anchor-id="power-spectral-density">12.2.1 POWER SPECTRAL DENSITY</h3>
+<p>정상성은 랜덤 그래프 과정의 자유도를 줄여, 기술과 이해를 용이하게 한다. Definition 12.2b로부터 나머지 자유도를 주파수 영역에서 PSD의 개념을 통해 표현할 수 있으며, 이는 다음과 같이 정의된다.</p>
+<p>Definition 12.3. <span class="math inline">\(\mathbf{S} = \mathbf{V}\boldsymbol{\Lambda}\mathbf{V}^H\)</span>에 대해 정상인 랜덤 과정 <span class="math inline">\(\mathbf{x}\)</span>의 PSD는 비음(nonnegative) <span class="math inline">\(N \times 1\)</span> 벡터 <span class="math inline">\(\mathbf{p}\)</span>로서 다음과 같다:</p>
+<p><span class="math display">\[\mathbf{p} := \operatorname{diag}\left(\mathbf{V}^H\mathbf{C}_x\mathbf{V}\right). \tag{12.4}\]</span></p>
+<p><span class="math inline">\(\mathbf{C}_x\)</span>가 <span class="math inline">\(\mathbf{V}\)</span>에 의해 대각화되므로 (Definition 12.2b 참조) 행렬 <span class="math inline">\(\mathbf{V}^H\mathbf{C}_x\mathbf{V}\)</span>는 대각 행렬이고, 따라서 식 (12.4)의 PSD는 양반정치(positive semidefinite) 공분산 행렬 <span class="math inline">\(\mathbf{C}_x\)</span>의 고유값에 해당한다. 따라서 식 (12.4)는 다음과 동치이다:</p>
+<p><span class="math display">\[\mathbf{C}_x = \mathbf{V}\operatorname{diag}(\mathbf{p})\mathbf{V}^H. \tag{12.5}\]</span></p>
+<p>영평균 백색 노이즈는 임의의 그래프 시프트 <span class="math inline">\(\mathbf{S}\)</span>에 대해 정상인 랜덤 과정의 예이다. 공분산 <span class="math inline">\(\mathbb{E}[\mathbf{n}\mathbf{n}^H] = \sigma^2\mathbf{I}\)</span>인 백색 노이즈의 PSD는 <span class="math inline">\(\mathbf{p} = \sigma^2\mathbf{1}\)</span>이다. 또한, 정의에 의해 임의의 랜덤 과정 <span class="math inline">\(\mathbf{x}\)</span>는 자신의 공분산 행렬로 정의되는 시프트 <span class="math inline">\(\mathbf{S} = \mathbf{C}_x\)</span>에 대해 정상이며, 대응하는 PSD는 <span class="math inline">\(\mathbf{p} = \operatorname{diag}(\boldsymbol{\Lambda})\)</span>이다.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="$\mathbf{S} = \mathbf{C}_x$로 놓으면 왜 항상 정상인가?">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="math inline">\(\mathbf{S} = \mathbf{C}_x\)</span>로 놓으면 왜 항상 정상인가?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Definition 12.2b에 의하면 정상성은 “<span class="math inline">\(\mathbf{C}_x\)</span>와 <span class="math inline">\(\mathbf{S}\)</span>가 동시 대각화 가능”이다. <span class="math inline">\(\mathbf{S} = \mathbf{C}_x\)</span>로 놓으면 <span class="math inline">\(\mathbf{C}_x\)</span>와 <span class="math inline">\(\mathbf{C}_x\)</span>의 동시 대각화인데, 같은 행렬이므로 자명하게 성립한다. 즉 “정상인가 아닌가”는 과정 자체의 성질이 아니라 <strong>어떤 그래프(시프트)를 기준으로 보느냐</strong>에 달린 상대적 개념이다.</p>
+</div>
+</div>
+</div>
+<p>이는 네트워크 토폴로지 추론의 맥락에서 활용될 수 있다. 그래프 신호의 집합 <span class="math inline">\(\{\mathbf{x}_r\}_{r=1}^R\)</span>이 주어졌을 때, 신호들의 성분 간 교차상관(cross-correlation)에 해당하는 간선 가중치를 가진 그래프 <span class="math inline">\(\mathcal{G}_{corr}\)</span>를 구축하여 기저 토폴로지를 추론하는 것이 일반적이다. 이 경우, 그 신호들을 생성하는 과정은 <span class="math inline">\(\mathcal{G}_{corr}\)</span>의 인접 행렬로 주어지는 시프트에 대해 정상이다; 자세한 내용은 [23]을 참조하라.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="그러면 엣지 정보 없이 공분산만으로 그래프를 만들면 되지 않는가?">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+그러면 엣지 정보 없이 공분산만으로 그래프를 만들면 되지 않는가?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\mathbf{S} = \mathbf{C}_x\)</span>로 놓으면 항상 정상이 되므로, 굳이 별도의 그래프 구조가 필요 없어 보인다. 그러나 이렇게 만든 그래프는 실용적으로 문제가 있다.</p>
+<ol type="1">
+<li><p><strong>밀집(dense) 그래프가 된다.</strong> <span class="math inline">\(\mathbf{C}_x\)</span>는 직접 연결되지 않은 노드 간의 간접 상관도 포함하므로, 대부분의 성분이 비영이라 희소 구조를 잃는다. 따라서 도메인 지식으로 주어진 희소 그래프(도로망, 소셜 네트워크 등)를 GSO로 쓰는 것이 실용적으로 더 유리하다. (본문에서 정밀도 행렬 <span class="math inline">\(\boldsymbol{\Theta} = \mathbf{C}_x^\dagger\)</span>를 GSO로 쓰는 것도 이 의미에서는 비슷한 맥락이다)</p></li>
+<li><p><strong>여러 번 관측이 필요하다.</strong> <span class="math inline">\(\mathbf{C}_x = \mathbb{E}[\mathbf{x}\mathbf{x}^H]\)</span>를 추정하려면 충분한 수의 관측 <span class="math inline">\(\{\mathbf{x}_r\}_{r=1}^R\)</span>이 필요하다. 관측이 한 번뿐이면 <span class="math inline">\(\mathbf{C}_x\)</span>를 추정할 수 없다.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="노드 값 간 거리로 그래프를 구성하면?">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+노드 값 간 거리로 그래프를 구성하면?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>관측이 한 번뿐이라면 <span class="math inline">\(\mathbf{C}_x\)</span>를 추정할 수 없으므로, 대안으로 노드 값 간 거리로 그래프를 구성할 수 있다. 예를 들어 <span class="math inline">\(\mathbf{y} = (0, 0.1, 0, 1, 0.9, 1)^T\)</span>이 관측되었을 때, 가우시안 커널</p>
+<p><span class="math display">\[W_{ij} = \exp\left(-\frac{(y_i - y_j)^2}{2\theta^2}\right)\]</span></p>
+<p>로 유사도 행렬 <span class="math inline">\(\mathbf{W}\)</span>를 만들고, 임계값 이하의 성분을 0으로 잘라내면 kNN 그래프나 <span class="math inline">\(\epsilon\)</span>-그래프를 얻는다. 이 방법은 manifold learning, spectral clustering 등에서 널리 쓰인다.</p>
+<p>그러나 이 <span class="math inline">\(\mathbf{W}\)</span>는 <span class="math inline">\(\mathbf{C}_x\)</span>와 다른 행렬이다:</p>
+<ul>
+<li><span class="math inline">\(\mathbf{C}_x = \mathbb{E}[\mathbf{x}\mathbf{x}^H]\)</span>: 여러 실현(realization)에 걸친 통계적 상관</li>
+<li><span class="math inline">\(\mathbf{W}\)</span>: 단일 관측에서 노드 값 간 결정론적 거리</li>
+</ul>
+<p>따라서 <span class="math inline">\(\mathbf{C}_x\)</span>와 <span class="math inline">\(\mathbf{W}\)</span>의 동시 대각화가 보장되지 않고, <span class="math inline">\(\mathbf{W}\)</span>를 GSO로 썼을 때 과정이 정상이 아닐 수 있다. 또한 “값이 비슷하면 연결”이라는 가정은 그래프 신호가 smooth하다는 전제 하에서만 합리적이다. 반례로, 서울과 부산의 온도가 우연히 같다고 해서 두 도시를 연결하는 것은 물리적으로 의미가 없다.</p>
+</div>
+</div>
+</div>
+<p>랜덤 과정 <span class="math inline">\(\mathbf{x}\)</span>는 또한 (유사)역행렬 <span class="math inline">\(\boldsymbol{\Theta} = \mathbf{C}_x^\dagger\)</span>로 정의되는 정밀도 행렬(precision matrix)이 주어지는 시프트에 대해서도 정상이다.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="정밀도 행렬 $\boldsymbol{\Theta} = \mathbf{C}_x^{-1}$이란?">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+정밀도 행렬 <span class="math inline">\(\boldsymbol{\Theta} = \mathbf{C}_x^{-1}\)</span>이란?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>정밀도 행렬은 공분산 행렬의 (행렬) 역행렬이지, 성분별 역수가 아니다.</p>
+<ul>
+<li><span class="math inline">\(\mathbf{C}_x\)</span>의 <span class="math inline">\((i,j)\)</span> 성분: 노드 <span class="math inline">\(i\)</span>와 <span class="math inline">\(j\)</span>의 상관(correlation) — 다른 노드를 통한 간접 상관도 포함</li>
+<li><span class="math inline">\(\boldsymbol{\Theta}\)</span>의 <span class="math inline">\((i,j)\)</span> 성분: 노드 <span class="math inline">\(i\)</span>와 <span class="math inline">\(j\)</span>의 조건부 상관 — 나머지 모든 노드를 고정했을 때의 직접적 관계</li>
+</ul>
+<p>예를 들어 서울-대전-부산이 일렬로 연결되어 있다고 하자:</p>
+<p><span class="math display">\[\mathbf{C}_x = \begin{pmatrix} 1 &amp; 0.8 &amp; 0.5 \\ 0.8 &amp; 1 &amp; 0.8 \\ 0.5 &amp; 0.8 &amp; 1 \end{pmatrix}\]</span></p>
+<p>서울-부산의 상관이 0.5로 비영이다 (대전을 경유한 간접 상관). 그런데 역행렬을 구하면:</p>
+<p><span class="math display">\[\boldsymbol{\Theta} = \mathbf{C}_x^{-1} \approx \begin{pmatrix} * &amp; * &amp; \approx 0 \\ * &amp; * &amp; * \\ \approx 0 &amp; * &amp; * \end{pmatrix}\]</span></p>
+<p>대전을 고정하면 서울-부산의 직접적 관계가 사라지므로 <span class="math inline">\(\Theta_{13} \approx 0\)</span>이 된다. 이것이 “조건부 독립”이고, <span class="math inline">\(\boldsymbol{\Theta}\)</span>의 비영 패턴이 직접 연결만 반영하는 희소 그래프를 만들어내는 이유이다.</p>
+<p>정리하면:</p>
+<ul>
+<li><span class="math inline">\(\mathbf{S} = \mathbf{C}_x\)</span> → 상관 그래프: 밀집, 간접 연결도 포함</li>
+<li><span class="math inline">\(\mathbf{S} = \boldsymbol{\Theta}\)</span> → 조건부 의존 그래프: 희소, 직접 연결만</li>
+</ul>
+</div>
+</div>
+</div>
+<p>이 경우 PSD는 <span class="math inline">\(\mathbf{p} = \operatorname{diag}(\boldsymbol{\Lambda})^\dagger\)</span>이다. 이는 <span class="math inline">\(\mathbf{x}\)</span>가 마르코프 의존성이 비가중 그래프 <span class="math inline">\(\mathcal{G}_{MF}\)</span>로 포착되는 가우시안 마르코프 랜덤 필드(GMRF)일 때 특히 중요하다. 이러한 경우 <span class="math inline">\(\Theta_{i,j}\)</span>는 <span class="math inline">\((i,j)\)</span>가 <span class="math inline">\(\mathcal{G}_{MF}\)</span>의 간선이거나 대각 성분일 때만 비영이라는 것은 잘 알려져 있다 [24, Ch. 19]. 따라서 모든 GMRF는 <span class="math inline">\(\mathbf{x}\)</span>의 원소 간 조건부 의존성을 포착하는 희소(sparse) 시프트 <span class="math inline">\(\mathbf{S} = \boldsymbol{\Theta}\)</span>에 대해 정상이다.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="가우시안 마르코프 랜덤 필드(GMRF)와 정밀도 행렬">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+가우시안 마르코프 랜덤 필드(GMRF)와 정밀도 행렬
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>먼저 용어를 정리하자. <strong>비가중 그래프(unweighted graph)</strong>란 간선에 가중치가 없는 그래프, 즉 간선이 있으면 1, 없으면 0인 그래프이다. 인접 행렬이 0과 1로만 이루어진다. 반면 가중 그래프(weighted graph)는 간선마다 실수 가중치를 가진다. <span class="math inline">\(\mathcal{G}_{MF}\)</span>가 비가중이라는 것은, 이 그래프가 “연결 여부”만 나타내고 “연결 강도”는 나타내지 않는다는 뜻이다. 실제 조건부 의존의 강도는 <span class="math inline">\(\boldsymbol{\Theta}\)</span>의 값이 담당한다.</p>
+<p><strong>마르코프 랜덤 필드(MRF)</strong>란 그래프 위의 확률 변수들이 마르코프 성질을 만족하는 것이다. 마르코프 성질이란: 노드 <span class="math inline">\(i\)</span>의 값은, 이웃 노드들의 값이 주어지면, 나머지 모든 노드와 조건부 독립이라는 것이다. 수식으로 쓰면:</p>
+<p><span class="math display">\[x_i \perp\!\!\!\perp x_j \mid \mathbf{x}_{\mathcal{N} \setminus \{i,j\}} \quad \Longleftrightarrow \quad (i,j) \notin \mathcal{E}\]</span></p>
+<p>즉 간선이 없는 두 노드는, 나머지를 모두 알면 서로 독립이다.</p>
+<p><strong>GMRF</strong>는 <span class="math inline">\(\mathbf{x} \sim \mathcal{N}(\boldsymbol{\mu}, \mathbf{C}_x)\)</span>인 MRF이다. 가우시안 분포의 핵심 성질은: 조건부 독립이 정밀도 행렬 <span class="math inline">\(\boldsymbol{\Theta} = \mathbf{C}_x^{-1}\)</span>의 비영 패턴으로 직접 읽힌다는 것이다:</p>
+<p><span class="math display">\[x_i \perp\!\!\!\perp x_j \mid \mathbf{x}_{\mathcal{N} \setminus \{i,j\}} \quad \Longleftrightarrow \quad \Theta_{ij} = 0\]</span></p>
+<p>이는 가우시안의 조건부 분포 공식에서 유도된다. <span class="math inline">\(\mathbf{x} \sim \mathcal{N}(\mathbf{0}, \mathbf{C}_x)\)</span>의 확률밀도함수는:</p>
+<p><span class="math display">\[p(\mathbf{x}) \propto \exp\left(-\frac{1}{2}\mathbf{x}^T\mathbf{C}_x^{-1}\mathbf{x}\right) = \exp\left(-\frac{1}{2}\mathbf{x}^T\boldsymbol{\Theta}\mathbf{x}\right) = \exp\left(-\frac{1}{2}\sum_{i,j}\Theta_{ij}\,x_i\,x_j\right)\]</span></p>
+<p>지수 안의 합에서 <span class="math inline">\(\Theta_{ij} = 0\)</span>이면 <span class="math inline">\(x_i\)</span>와 <span class="math inline">\(x_j\)</span>의 교차항이 사라진다. 따라서 나머지 변수가 고정되었을 때 <span class="math inline">\(x_i\)</span>의 조건부 분포에 <span class="math inline">\(x_j\)</span>가 등장하지 않으므로 조건부 독립이 된다.</p>
+<p><strong>구체적 예.</strong> 4개 노드가 일렬로 연결된 비가중 그래프 1—2—3—4를 생각하자. 인접 행렬은 0과 1뿐이다:</p>
+<p><span class="math display">\[\mathbf{A} = \begin{pmatrix} 0 &amp; 1 &amp; 0 &amp; 0 \\ 1 &amp; 0 &amp; 1 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 1 &amp; 0 \end{pmatrix}\]</span></p>
+<p>정밀도 행렬 <span class="math inline">\(\boldsymbol{\Theta}\)</span>는 <span class="math inline">\(\mathbf{A}\)</span>와 같은 위치 + 대각에만 비영 값을 가지되, 구체적인 값은 자유롭게 정할 수 있다 (양정치만 만족하면 됨):</p>
+<p><span class="math display">\[\boldsymbol{\Theta} = \begin{pmatrix} 2 &amp; -0.5 &amp; 0 &amp; 0 \\ -0.5 &amp; 2 &amp; -0.3 &amp; 0 \\ 0 &amp; -0.3 &amp; 2 &amp; -0.5 \\ 0 &amp; 0 &amp; -0.5 &amp; 2 \end{pmatrix}\]</span></p>
+<p>즉 <span class="math inline">\(\mathcal{G}_{MF}\)</span>는 “어디가 0이 아닌가”(스파시티 패턴)만 결정하고, 구체적인 값(-0.5, -0.3 등)은 모델의 파라미터이다. <span class="math inline">\(\mathbf{C}_x = \boldsymbol{\Theta}^{-1}\)</span>을 구하면 밀집 행렬이 되어, 직접 연결이 없는 노드 1-3, 1-4 등의 간접 상관이 드러난다.</p>
+<p><strong>본문과의 연결.</strong> <span class="math inline">\(\boldsymbol{\Theta}\)</span>의 비영 패턴은 그래프 <span class="math inline">\(\mathcal{G}_{MF}\)</span>의 간선 구조와 정확히 일치한다. 따라서 <span class="math inline">\(\boldsymbol{\Theta}\)</span>는 희소 행렬이고 GSO의 요건 (“<span class="math inline">\(S_{j,i} \neq 0\)</span>이면 <span class="math inline">\(i=j\)</span>이거나 <span class="math inline">\((i,j) \in \mathcal{E}\)</span>”)을 만족한다. 그리고 <span class="math inline">\(\mathbf{C}_x\)</span>와 <span class="math inline">\(\boldsymbol{\Theta} = \mathbf{C}_x^{-1}\)</span>은 같은 고유벡터를 공유하므로 (<span class="math inline">\(\mathbf{C}_x = \mathbf{V}\boldsymbol{\Lambda}\mathbf{V}^H\)</span>이면 <span class="math inline">\(\boldsymbol{\Theta} = \mathbf{V}\boldsymbol{\Lambda}^{-1}\mathbf{V}^H\)</span>), <span class="math inline">\(\mathbf{C}_x\)</span>와 <span class="math inline">\(\boldsymbol{\Theta}\)</span>는 동시 대각화 가능하다. 즉 GMRF는 자신의 정밀도 행렬이라는 희소 GSO에 대해 항상 정상이다.</p>
+</div>
+</div>
+</div>
+<p>시간에서의 랜덤 과정에 성립하는 두 가지 중요한 성질이 그래프 과정의 PSD에 대해서도 성립함을 보일 수 있다.</p>
+<p>Property 12.1. <span class="math inline">\(\mathbf{x}\)</span>가 공분산 <span class="math inline">\(\mathbf{C}_x\)</span>와 PSD <span class="math inline">\(\mathbf{p}_x\)</span>를 가지고 <span class="math inline">\(\mathbf{S}\)</span>에 대해 정상이라 하자. 주파수 응답 <span class="math inline">\(\tilde{\mathbf{h}}\)</span>를 가진 필터 <span class="math inline">\(\mathbf{H}\)</span>를 생각하고 <span class="math inline">\(\mathbf{y} := \mathbf{H}\mathbf{x}\)</span>로 정의하자. 그러면 과정 <span class="math inline">\(\mathbf{y}\)</span>는:</p>
+<ol type="a">
+<li><p><span class="math inline">\(\mathbf{S}\)</span>에 대해 정상이며, 공분산은 <span class="math inline">\(\mathbf{C}_y = \mathbf{H}\mathbf{C}_x\mathbf{H}^H\)</span>이다.</p></li>
+<li><p>PSD는 <span class="math inline">\(\mathbf{p}_y = |\tilde{\mathbf{h}}|^2 \circ \mathbf{p}_x\)</span>이다. 여기서 <span class="math inline">\(|\cdot|^2\)</span>는 성분별로 적용된다.</p></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Property 12.1의 의미">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Property 12.1의 의미
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>(a)는 정상 과정에 그래프 필터를 통과시키면, 출력도 같은 <span class="math inline">\(\mathbf{S}\)</span>에 대해 정상이라는 것이다. 즉 정상성이 필터링에 의해 보존된다.</p>
+<p>(b)는 출력의 PSD가 주파수 영역에서 간단히 계산됨을 말한다:</p>
+<p><span class="math display">\[p_{y,k} = |\tilde{h}_k|^2 \cdot p_{x,k}\]</span></p>
+<p>각 주파수 성분의 파워가 필터의 주파수 응답의 제곱만큼 스케일된다. 이는 시간 영역에서 <span class="math inline">\(S_y(\omega) = |H(\omega)|^2 S_x(\omega)\)</span>인 것과 동일하다.</p>
+<p>(b)의 유도: <span class="math inline">\(\mathbf{H} = \mathbf{V}\operatorname{diag}(\tilde{\mathbf{h}})\mathbf{V}^H\)</span>이고 <span class="math inline">\(\mathbf{C}_x = \mathbf{V}\operatorname{diag}(\mathbf{p}_x)\mathbf{V}^H\)</span>이므로:</p>
+<p><span class="math display">\[\mathbf{C}_y = \mathbf{H}\mathbf{C}_x\mathbf{H}^H = \mathbf{V}\operatorname{diag}(\tilde{\mathbf{h}})\underbrace{\mathbf{V}^H\mathbf{V}}_{\mathbf{I}}\operatorname{diag}(\mathbf{p}_x)\underbrace{\mathbf{V}^H\mathbf{V}}_{\mathbf{I}}\operatorname{diag}(\tilde{\mathbf{h}})^H\mathbf{V}^H\]</span></p>
+<p><span class="math display">\[= \mathbf{V}\operatorname{diag}(\tilde{\mathbf{h}})\operatorname{diag}(\mathbf{p}_x)\operatorname{diag}(\tilde{\mathbf{h}})^H\mathbf{V}^H = \mathbf{V}\operatorname{diag}(|\tilde{\mathbf{h}}|^2 \circ \mathbf{p}_x)\mathbf{V}^H\]</span></p>
+<p>따라서 <span class="math inline">\(\mathbf{p}_y = \operatorname{diag}(\mathbf{V}^H\mathbf{C}_y\mathbf{V}) = |\tilde{\mathbf{h}}|^2 \circ \mathbf{p}_x\)</span>이다.</p>
+</div>
+</div>
+</div>
+<p>Property 12.2. <span class="math inline">\(\mathbf{S} = \mathbf{V}\boldsymbol{\Lambda}\mathbf{V}^H\)</span>에 대해 PSD <span class="math inline">\(\mathbf{p}\)</span>를 가지고 정상인 과정 <span class="math inline">\(\mathbf{x}\)</span>가 주어졌을 때, GFT 과정을 <span class="math inline">\(\tilde{\mathbf{x}} = \mathbf{V}^H\mathbf{x}\)</span>로 정의하자. 그러면 <span class="math inline">\(\tilde{\mathbf{x}}\)</span>는 비상관(uncorrelated)이며, 공분산 행렬은 다음과 같다:</p>
+<p><span class="math display">\[\mathbf{C}_{\tilde{x}} := \mathbb{E}\left[\tilde{\mathbf{x}}\tilde{\mathbf{x}}^H\right] = \mathbb{E}\left[(\mathbf{V}^H\mathbf{x})(\mathbf{V}^H\mathbf{x})^H\right] = \operatorname{diag}(\mathbf{p}). \tag{12.6}\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Property 12.2의 의미: 시간축에서의 대응">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Property 12.2의 의미: 시간축에서의 대응
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>시간축에서 정상 과정 <span class="math inline">\(x(t)\)</span>를 DFT하면 <span class="math inline">\(\tilde{X}(k) = \sum_t x(t)\,e^{-j2\pi kt/N}\)</span>이다. 잘 알려진 사실은: 서로 다른 주파수 성분 <span class="math inline">\(\tilde{X}(k)\)</span>와 <span class="math inline">\(\tilde{X}(l)\)</span> (<span class="math inline">\(k \neq l\)</span>)는 비상관이라는 것이다:</p>
+<p><span class="math display">\[\mathbb{E}[\tilde{X}(k)\,\tilde{X}(l)^*] = 0 \quad (k \neq l)\]</span></p>
+<p>그리고 각 주파수의 파워는:</p>
+<p><span class="math display">\[\mathbb{E}[|\tilde{X}(k)|^2] = p_k \quad \text{(PSD)}\]</span></p>
+<p>이를 행렬로 쓰면 <span class="math inline">\(\mathbf{C}_{\tilde{x}} = \mathbb{E}[\tilde{\mathbf{x}}\tilde{\mathbf{x}}^H] = \operatorname{diag}(p_0, p_1, \ldots, p_{N-1})\)</span>이다. Property 12.2는 이것을 그래프로 그대로 확장한 것이다: DFT를 GFT <span class="math inline">\(\mathbf{V}^H\)</span>로 바꾸면 동일한 결론이 성립한다.</p>
+<p>이것이 의미하는 바는: 정상 과정을 주파수 영역으로 변환하면 각 주파수 성분이 서로 독립적으로 행동한다는 것이다. 따라서 <span class="math inline">\(N\)</span>개 노드 간의 복잡한 상관 구조가, 주파수 영역에서는 <span class="math inline">\(N\)</span>개의 독립적인 스칼라 <span class="math inline">\((p_0, \ldots, p_{N-1})\)</span>로 완전히 기술된다. 이것이 PSD가 강력한 도구인 이유이다.</p>
+<p>또한 이는 카루넨-로에브(Karhunen-Loève) 전개와의 연결을 보여준다. KL 전개란 확률 과정을 비상관 성분으로 분해하는 것인데, 일반적으로는 <span class="math inline">\(\mathbf{C}_x\)</span>의 고유분해를 직접 구해야 한다. 그러나 과정이 <span class="math inline">\(\mathbf{S}\)</span>에 대해 정상이면, <span class="math inline">\(\mathbf{C}_x\)</span>의 고유벡터가 <span class="math inline">\(\mathbf{S}\)</span>의 고유벡터 <span class="math inline">\(\mathbf{V}\)</span>와 같으므로, GFT 자체가 KL 전개가 된다 — 별도로 <span class="math inline">\(\mathbf{C}_x\)</span>를 고유분해할 필요가 없다.</p>
+</div>
+</div>
+</div>
+<p>Property 12.1은 그래프 신호에 대한 스펙트럼 컨볼루션 정리(spectral convolution theorem)의 표현이다. Property 12.2는 본 장의 나머지에서 다룰 정상 그래프 과정의 주파수 영역 분석 및 모델링의 동기를 부여한다. 또한 과정 <span class="math inline">\(\mathbf{x}\)</span>가 시프트 <span class="math inline">\(\mathbf{S} = \mathbf{V}\boldsymbol{\Lambda}\mathbf{V}^H\)</span>에 대해 정상이면, GFT <span class="math inline">\(\mathbf{V}^H\)</span>가 그 과정의 카루넨-로에브(Karhunen-Loève) 전개를 제공함을 보여준다.</p>
 
 
 </section>
