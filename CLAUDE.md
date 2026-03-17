@@ -11,7 +11,7 @@
 yechan/
 ├── _quarto.yml           # Quarto 설정
 ├── index.qmd             # 메인 페이지
-├── posts/                # 블로그 포스트
+├── Posts/                # 블로그 포스트
 │   ├── *.md              # 마크다운 포스트 (YYMMDD_카테고리_제목.md)
 │   ├── *.qmd             # Quarto 문서
 │   ├── *.ipynb           # Jupyter 노트북

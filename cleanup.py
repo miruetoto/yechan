@@ -477,11 +477,11 @@ def main():
     print_color(f"작업 디렉토리: {current_dir}", Colors.YELLOW)
     print()
 
-    posts_dir = current_dir / "posts"
+    posts_dir = current_dir / "Posts"
     attachments_dir = posts_dir / "attachments"
 
     if not posts_dir.exists():
-        print_color("에러: posts 디렉토리를 찾을 수 없습니다.", Colors.RED)
+        print_color("에러: Posts 디렉토리를 찾을 수 없습니다.", Colors.RED)
         return 1
 
     # 모든 작업 실행
@@ -496,7 +496,7 @@ def main():
         print()
         rename_images(posts_dir, attachments_dir)
     else:
-        print_color("경고: posts/attachments 디렉토리가 없어 이미지 정리를 건너뜁니다.", Colors.YELLOW)
+        print_color("경고: Posts/attachments 디렉토리가 없어 이미지 정리를 건너뜁니다.", Colors.YELLOW)
 
     print()
     print("=" * 50)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 이미지 파일 정리 프로그램
-1. posts/attachments/ 폴더의 미사용 이미지 자동 삭제
+1. Posts/attachments/ 폴더의 미사용 이미지 자동 삭제
 2. 이미지 파일명을 MD 파일명 기준으로 정리 (파일명_01.png 형식)
 """
 
@@ -301,15 +301,15 @@ def main():
     print_color(f"작업 디렉토리: {current_dir}", Colors.YELLOW)
     print()
 
-    posts_dir = current_dir / "posts"
+    posts_dir = current_dir / "Posts"
     attachments_dir = posts_dir / "attachments"
 
     if not posts_dir.exists():
-        print_color("에러: posts 디렉토리를 찾을 수 없습니다.", Colors.RED)
+        print_color("에러: Posts 디렉토리를 찾을 수 없습니다.", Colors.RED)
         return 1
 
     if not attachments_dir.exists():
-        print_color("에러: posts/attachments 디렉토리를 찾을 수 없습니다.", Colors.RED)
+        print_color("에러: Posts/attachments 디렉토리를 찾을 수 없습니다.", Colors.RED)
         return 1
 
     # 메뉴 선택
