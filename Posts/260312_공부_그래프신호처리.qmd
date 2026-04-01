@@ -4,7 +4,6 @@ author: 신록예찬
 date: 03/12/2026
 draft: false
 ---
-
 # 12. STATISTICAL GRAPH SIGNAL PROCESSING: STATIONARITY AND SPECTRAL ESTIMATION
 
 Santiago Segarra*, Sundeep Prabhakar Chepuri†, Antonio G. Marques‡, Geert Leus†
@@ -668,3 +667,56 @@ $$\mathbb{E}[|\tilde{X}(k)|^2] = p_k \quad \text{(PSD)}$$
 :::
 
 Property 12.1은 그래프 신호에 대한 스펙트럼 컨볼루션 정리(spectral convolution theorem)의 표현이다. Property 12.2는 본 장의 나머지에서 다룰 정상 그래프 과정의 주파수 영역 분석 및 모델링의 동기를 부여한다. 또한 과정 $\mathbf{x}$가 시프트 $\mathbf{S} = \mathbf{V}\boldsymbol{\Lambda}\mathbf{V}^H$에 대해 정상이면, GFT $\mathbf{V}^H$가 그 과정의 카루넨-로에브(Karhunen-Loève) 전개를 제공함을 보여준다.
+
+정상성의 개념과 그에 따라 PSD의 개념은 그래프와 시간에 대해 결합적으로 정의된 과정으로 확장될 수 있다. 다음 절에서 이 확장을 검토하기 전에, 정상 그래프 과정의 일차 모멘트에 대한 요건을 논의한다.
+
+**정상 그래프 과정의 평균**. Definitions 12.1과 12.2는 랜덤 과정 $\mathbf{x}$가 평균 $\bar{\mathbf{x}} := \mathbb{E}[\mathbf{x}] = \mathbf{0}$을 가진다고 가정하는 반면, 전통적인 정상 시간 과정들은 (영이 아닌) 상수 평균 $\bar{x} = \alpha\mathbf{1}$을 가지도록 허용되며, 여기서 $\alpha$는 임의의 스칼라이다. 정상 그래프 과정들은 대조적으로 형태 $\bar{\mathbf{x}} = \alpha\mathbf{v}_k$의 일차 모멘트를 가지도록 요구되는데, 즉 $\mathbf{S}$의 고유벡터의 스케일된 버전이다. 이 선택은: (i) 밑바탕 그래프의 구조를 고려하고; (ii) Property 12.1의 타당성을 유지하며; (iii) $\mathbf{S}$가 방향 사이클의 인접 행렬이거나 임의 그래프의 라플라시안일 때 $\mathbf{v}_k = \mathbf{1}$인 경우를 포괄하여, 약 정상성에 대한 고전적인 일차 요건을 복원한다.
+
+::: {.callout-note collapse="true" title="왜 정상 그래프 과정의 평균은 $\\bar{\\mathbf{x}} = \\alpha\\mathbf{v}_k$ 형태여야 하나?"}
+
+시간 과정과의 비교:
+
+- 시간 과정: $\bar{x} = \alpha\mathbf{1} = [\alpha, \alpha, \alpha, \ldots, \alpha]^T$ (모든 시점에서 같은 평균)
+- 그래프 과정: $\bar{\mathbf{x}} = \alpha\mathbf{v}_k$ (각 노드마다 다를 수 있음)
+
+핵심 차이: 시간 과정에서 "모든 시점이 동등하다"는 것은 $\mathbf{1}$으로 표현되지만, 그래프에서는 "모든 노드가 동등하지 않을 수 있다". 따라서 평균도 그래프 구조를 반영해야 한다.
+
+$\mathbf{v}_k$가 자연스러운 이유:
+
+- $\mathbf{v}_k$는 GSO $\mathbf{S}$의 고유벡터 → 그래프의 고유 구조를 담고 있음
+- 정상성 정의($\mathbf{C}_x = \mathbf{V}\operatorname{diag}(\mathbf{p})\mathbf{V}^H$)와 일관성
+- 필터링 시에도 정상성이 보존됨
+
+세 가지 이유 상세 설명:
+
+\(i\) 밑바탕 그래프의 구조를 고려
+
+예시: 소셜 네트워크 그래프에서 노드 1은 중심 인물(연결 많음), 노드 2,3,4는 주변 인물(연결 적음)이라 하자. 시간 과정처럼 모든 노드가 같은 평균 $\alpha$를 가진다면, 이런 구조적 차이를 무시하는 것이다. 대신 $\mathbf{v}_k$를 사용하면 중심 인물과 주변 인물의 구조적 위치가 평균에 반영된다. 예를 들어 $\mathbf{v}_0 = [0.5, 0.3, 0.3, 0.3]^T$이면 중심 인물이 더 큰 평균값을 가진다.
+
+\(ii\) Property 12.1의 타당성을 유지
+
+Property 12.1은 정상 과정 $\mathbf{x}$에 필터 $\mathbf{H}$를 적용하면 출력 $\mathbf{y} = \mathbf{H}\mathbf{x}$도 정상임을 말한다. 만약 평균이 $\bar{\mathbf{x}} = \alpha\mathbf{v}_k$라면:
+
+$$\bar{\mathbf{y}} = \mathbb{E}[\mathbf{H}\mathbf{x}] = \mathbf{H}\bar{\mathbf{x}} = \mathbf{H}(\alpha\mathbf{v}_k) = \alpha\mathbf{H}\mathbf{v}_k = \alpha\tilde{h}_k\mathbf{v}_k$$
+
+여전히 고유벡터의 스케일된 버전이다 (단지 스케일이 $\alpha$에서 $\alpha\tilde{h}_k$로 바뀜). 만약 평균이 임의의 벡터라면 출력이 고유벡터 형태가 아닐 수 있어서 정상성이 깨진다.
+
+\(iii\) $\mathbf{v}_k = \mathbf{1}$인 경우를 포괄
+
+특수한 경우들:
+
+- 방향 사이클(directed cycle): 노드가 원형으로 배열된 1→2→3→...→N→1에서, 인접 행렬 $\mathbf{A}$의 한 고유벡터가 $\mathbf{v}_0 = \frac{1}{\sqrt{N}}\mathbf{1}$이다.
+- 라플라시안 행렬: 모든 연결 그래프의 라플라시안 $\mathbf{L}$은 고유값 0을 가지며 대응 고유벡터가 $\mathbf{v}_0 = \frac{1}{\sqrt{N}}\mathbf{1}$이다.
+
+이 경우들에서 $\bar{\mathbf{x}} = \alpha\mathbf{v}_0 = \frac{\alpha}{\sqrt{N}}\mathbf{1}$이며, 정규화를 풀면 $\bar{\mathbf{x}} = c\mathbf{1}$ (모든 성분이 같음)이 되어 시간 과정의 상수 평균과 동일하다.
+
+요약: $\alpha\mathbf{v}_k$ 형태는 그래프 구조를 존중하고, 필터링 시 정상성을 보존하며, 고전적인 시간 과정을 특수 케이스로 포함하는 자연스러운 확장이다.
+:::
+
+::: {.callout-note collapse="true" title="왜 라플라시안의 첫 번째 고유벡터는 항상 상수 벡터인가?"}
+
+모든 연결 그래프의 라플라시안 $\mathbf{L}$은 항상 고유값 0을 가지며, 대응하는 고유벡터가 $\mathbf{1}$ (모든 성분이 1인 벡터)이다. 이는 라플라시안의 구조적 성질에서 직접 유도된다. 라플라시안은 $\mathbf{L} = \mathbf{D} - \mathbf{A}$로 정의되며, 여기서 $\mathbf{D}$는 차수 행렬(대각 성분이 $D_{ii} = d_i$)이고 $\mathbf{A}$는 인접 행렬이다. $\mathbf{L}\mathbf{1}$의 $i$번째 성분을 계산하면, 라플라시안의 정의에 따라 
+
+$$[\mathbf{L}\mathbf{1}]_i = L_{ii} + \sum_{j \neq i} L_{ij} = d_i + \sum_{j \neq i} (-A_{ij}) = d_i - \sum_{j \neq i} A_{ij}$$
+가 된다. 그런데 노드 $i$의 차수 $d_i$는 정확히 인접한 노드의 개수 $\sum_{j \neq i} A_{ij}$와 같으므로, $[\mathbf{L}\mathbf{1}]_i = d_i - d_i = 0$이다. 이것이 모든 $i$에 대해 성립하므로 $\mathbf{L}\mathbf{1} = \mathbf{0}$이며, 이는 정확히 고유값 방정식 $\mathbf{L}\mathbf{v} = \lambda\mathbf{v}$의 형태로서 $\mathbf{v}_0 = \mathbf{1}$, $\lambda_0 = 0$을 의미한다. 결론적으로, 라플라시안의 각 행의 합이 항상 0이라는 구조적 성질로 인해 $\mathbf{1}$은 자동적으로 고유값 0에 대한 고유벡터가 되며, 이것이 최소 고유값에 대응한다. 이 성질 덕분에 라플라시안을 GSO로 사용하는 정상 그래프 과정은 상수 평균을 가질 수 있게 되어, 고전적인 시간 과정의 정상성 개념과 자연스럽게 연결된다.
+:::
