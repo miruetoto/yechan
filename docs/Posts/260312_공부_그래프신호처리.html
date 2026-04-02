@@ -233,6 +233,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#power-spectral-density" id="toc-power-spectral-density" class="nav-link" data-scroll-target="#power-spectral-density">12.2.1 POWER SPECTRAL DENSITY</a></li>
   </ul></li>
+  <li><a href="#joint-time-and-graph-stationarity" id="toc-joint-time-and-graph-stationarity" class="nav-link" data-scroll-target="#joint-time-and-graph-stationarity">12.2.2 JOINT TIME AND GRAPH STATIONARITY</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -645,7 +646,7 @@ AR(2) 모형
 </table>
 <p><span class="math inline">\(\mathbf{S}\)</span>를 시프트 연산자로 쓰면 <span class="math inline">\(h(\lambda_k) = h(e^{-j\omega_k}) = H(\omega_k)\)</span>이므로 GFT와 DFT가 일치한다.</p>
 <p>새 변환의 결과를 그림으로 비교하면:</p>
-<div id="5247a649" class="cell" data-execution_count="1">
+<div id="17e00ab0" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1057,13 +1058,258 @@ Property 12.2의 의미: 시간축에서의 대응
 </div>
 </div>
 <p>Property 12.1은 그래프 신호에 대한 스펙트럼 컨볼루션 정리(spectral convolution theorem)의 표현이다. Property 12.2는 본 장의 나머지에서 다룰 정상 그래프 과정의 주파수 영역 분석 및 모델링의 동기를 부여한다. 또한 과정 <span class="math inline">\(\mathbf{x}\)</span>가 시프트 <span class="math inline">\(\mathbf{S} = \mathbf{V}\boldsymbol{\Lambda}\mathbf{V}^H\)</span>에 대해 정상이면, GFT <span class="math inline">\(\mathbf{V}^H\)</span>가 그 과정의 카루넨-로에브(Karhunen-Loève) 전개를 제공함을 보여준다.</p>
+<p>정상성의 개념과 그에 따라 PSD의 개념은 그래프와 시간에 대해 결합적으로 정의된 과정으로 확장될 수 있다. 다음 절에서 이 확장을 검토하기 전에, 정상 그래프 과정의 일차 모멘트에 대한 요건을 논의한다.</p>
+<p><strong>정상 그래프 과정의 평균</strong>. Definitions 12.1과 12.2는 랜덤 과정 <span class="math inline">\(\mathbf{x}\)</span>가 평균 <span class="math inline">\(\bar{\mathbf{x}} := \mathbb{E}[\mathbf{x}] = \mathbf{0}\)</span>을 가진다고 가정하는 반면, 전통적인 정상 시간 과정들은 (영이 아닌) 상수 평균 <span class="math inline">\(\bar{x} = \alpha\mathbf{1}\)</span>을 가지도록 허용되며, 여기서 <span class="math inline">\(\alpha\)</span>는 임의의 스칼라이다. 정상 그래프 과정들은 대조적으로 형태 <span class="math inline">\(\bar{\mathbf{x}} = \alpha\mathbf{v}_k\)</span>의 일차 모멘트를 가지도록 요구되는데, 즉 <span class="math inline">\(\mathbf{S}\)</span>의 고유벡터의 스케일된 버전이다. 이 선택은: (i) 밑바탕 그래프의 구조를 고려하고; (ii) Property 12.1의 타당성을 유지하며; (iii) <span class="math inline">\(\mathbf{S}\)</span>가 방향 사이클의 인접 행렬이거나 임의 그래프의 라플라시안일 때 <span class="math inline">\(\mathbf{v}_k = \mathbf{1}\)</span>인 경우를 포괄하여, 약 정상성에 대한 고전적인 일차 요건을 복원한다.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="왜 정상 그래프 과정의 평균은 $\bar{\mathbf{x}} = \alpha\mathbf{v}_k$ 형태여야 하나?">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+왜 정상 그래프 과정의 평균은 <span class="math inline">\(\bar{\mathbf{x}} = \alpha\mathbf{v}_k\)</span> 형태여야 하나?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>고전적인 시간 신호 처리(Time Signal Processing)와 그래프 신호 처리(Graph Signal Processing)의 가장 큰 차이점 중 하나는 <strong>정상 과정(Stationary Process)에서 평균의 형태</strong>이다.</p>
+<ul>
+<li><strong>시간 과정:</strong> 모든 시점에서 평균이 동일한 상수 벡터 형태를 가짐. (<span class="math inline">\(\bar{\mathbf{x}} = \alpha\mathbf{1}\)</span>)</li>
+<li><strong>그래프 과정:</strong> 평균이 노드마다 다를 수 있으며, 그래프 시프트 연산자(GSO, <span class="math inline">\(\mathbf{S}\)</span>)의 고유벡터 형태를 가짐. (<span class="math inline">\(\bar{\mathbf{x}} = \alpha\mathbf{v}_k\)</span>)</li>
+</ul>
+<p><strong>본질적인 차이: 시간 축 vs 그래프 구조</strong></p>
+<p>시간 과정에서 “모든 시점이 동등하다”는 성질은 모든 성분이 동일한 벡터 <span class="math inline">\(\mathbf{1}\)</span>로 자연스럽게 표현된다. 반면, 그래프에서는 노드들이 구조적으로 전혀 다른 역할을 가질 수 있다.</p>
+<ul>
+<li><strong>소셜 네트워크:</strong> 중심 인물(허브)은 연결이 많고, 주변 인물은 연결이 적어 구조적 위치가 극명하게 다름.</li>
+<li><strong>온도 센서 네트워크:</strong> 건물 중앙에 위치한 센서와 외벽에 있는 센서는 근본적으로 다른 열적 환경에 노출됨.</li>
+</ul>
+<p>만약 그래프 신호에서도 모든 노드가 동일한 상수 평균 <span class="math inline">\(\alpha\)</span>를 가져야 한다고 강제한다면, 이는 그래프가 가진 고유의 구조적 정보를 완전히 무시하는 셈이 된다. 따라서 각 노드의 구조적 차이를 평균에 반영하는 것이 훨씬 자연스러운 접근이다.</p>
+<p><strong>평균이 <span class="math inline">\(\alpha\mathbf{v}_k\)</span> 형태여야 하는 3가지 핵심 이유</strong></p>
+<p>그래프 신호의 평균은 단순한 임의의 벡터가 아니라, GSO <span class="math inline">\(\mathbf{S}\)</span>의 고유 구조를 담고 있는 <strong>고유벡터의 스케일된 버전</strong>(<span class="math inline">\(\alpha\mathbf{v}_k\)</span>)이어야 한다. 그 이유는 다음과 같다.</p>
+<p><strong>1. 밑바탕 그래프의 구조 반영</strong> 고유벡터 <span class="math inline">\(\mathbf{v}_k\)</span>를 사용하면 노드의 구조적 위치가 평균값에 직접적으로 반영된다. 예를 들어 어떤 소셜 네트워크의 고유벡터가 <span class="math inline">\(\mathbf{v}_0 = [0.5, 0.3, 0.3, 0.3]^T\)</span>라면, 가장 값이 큰 첫 번째 노드가 중심 인물임을 나타내며 자연스럽게 더 큰 평균값을 할당받게 된다.</p>
+<p><strong>2. 필터링 후 정상성 보존 (Property 12.1)</strong> 정상 과정 <span class="math inline">\(\mathbf{x}\)</span>에 그래프 필터 <span class="math inline">\(\mathbf{H}\)</span>를 적용했을 때, 출력 신호 <span class="math inline">\(\mathbf{y} = \mathbf{H}\mathbf{x}\)</span> 역시 정상성을 유지해야 한다. 평균이 <span class="math inline">\(\bar{\mathbf{x}} = \alpha\mathbf{v}_k\)</span> 형태일 때 이 성질이 수학적으로 완벽히 성립한다.</p>
+<p><span class="math display">\[\bar{\mathbf{y}} = \mathbb{E}[\mathbf{H}\mathbf{x}] = \mathbf{H}\bar{\mathbf{x}} = \mathbf{H}(\alpha\mathbf{v}_k) = \alpha\mathbf{H}\mathbf{v}_k = \alpha\tilde{h}_k\mathbf{v}_k\]</span></p>
+<p>출력 신호의 평균 또한 스케일만 <span class="math inline">\(\alpha\)</span>에서 <span class="math inline">\(\alpha\tilde{h}_k\)</span>로 바뀌었을 뿐, 여전히 같은 고유벡터 형태를 유지한다다. 만약 평균이 임의의 벡터였다면, 필터링 후 출력 결과가 고유벡터 형태를 벗어나 정상성이 깨지게 된다.</p>
+<p><strong>3. 상수 평균(고전적 시간 과정)을 특수 케이스로 포괄</strong> 그래프 구조가 특수한 형태를 띨 경우, <span class="math inline">\(\bar{\mathbf{x}} = \alpha\mathbf{v}_k\)</span>는 자연스럽게 상수 평균으로 귀결된다.</p>
+<ul>
+<li><strong>방향 사이클 (Directed Cycle):</strong> 노드가 1→2→…→N→1로 원형 배열된 형태에서 인접 행렬 <span class="math inline">\(\mathbf{A}\)</span>의 한 고유벡터는 <span class="math inline">\(\mathbf{v}_0 = \frac{1}{\sqrt{N}}\mathbf{1}\)</span> 이다.</li>
+<li><strong>라플라시안 행렬 (Laplacian):</strong> 모든 연결 그래프의 라플라시안 <span class="math inline">\(\mathbf{L}\)</span>은 고유값 0을 가지며, 이에 대응하는 고유벡터 역시 <span class="math inline">\(\mathbf{v}_0 = \frac{1}{\sqrt{N}}\mathbf{1}\)</span>이다.</li>
+</ul>
+<p>이러한 특수한 조건들에서는 평균이 <span class="math inline">\(\bar{\mathbf{x}} = \frac{\alpha}{\sqrt{N}}\mathbf{1} = c\mathbf{1}\)</span> 형태가 되어, 모든 성분이 동일한 고전적 시간 과정의 상수 평균과 완벽하게 일치하게 된다.</p>
+<p><strong>요약</strong>: 그래프 신호 처리에서 평균이 상수가 아닌 것은 단순한 수학적 제약이 아니다. <span class="math inline">\(\alpha\mathbf{v}_k\)</span> 형태의 평균은 (1) 그래프의 위상 구조를 존중하고, (2) 필터링 연산에서도 정상성을 보존하며, (3) 기존의 시간 과정을 특수한 경우로 자연스럽게 포함하는 <strong>가장 논리적이고 우아한 일반화(Generalization)</strong>이다.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="왜 라플라시안의 첫 번째 고유벡터는 항상 상수 벡터인가?">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+왜 라플라시안의 첫 번째 고유벡터는 항상 상수 벡터인가?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>모든 연결 그래프의 라플라시안 <span class="math inline">\(\mathbf{L}\)</span>은 항상 고유값 0을 가지며, 대응하는 고유벡터가 <span class="math inline">\(\mathbf{1}\)</span> (모든 성분이 1인 벡터)이다. 이는 라플라시안의 구조적 성질에서 직접 유도된다. 라플라시안은 <span class="math inline">\(\mathbf{L} = \mathbf{D} - \mathbf{A}\)</span>로 정의되며, 여기서 <span class="math inline">\(\mathbf{D}\)</span>는 차수 행렬(대각 성분이 <span class="math inline">\(D_{ii} = d_i\)</span>)이고 <span class="math inline">\(\mathbf{A}\)</span>는 인접 행렬이다. <span class="math inline">\(\mathbf{L}\mathbf{1}\)</span>의 <span class="math inline">\(i\)</span>번째 성분을 계산하면, 라플라시안의 정의에 따라</p>
+<p><span class="math display">\[[\mathbf{L}\mathbf{1}]_i = L_{ii} + \sum_{j \neq i} L_{ij} = d_i + \sum_{j \neq i} (-A_{ij}) = d_i - \sum_{j \neq i} A_{ij}\]</span> 가 된다. 그런데 노드 <span class="math inline">\(i\)</span>의 차수 <span class="math inline">\(d_i\)</span>는 정확히 인접한 노드의 개수 <span class="math inline">\(\sum_{j \neq i} A_{ij}\)</span>와 같으므로, <span class="math inline">\([\mathbf{L}\mathbf{1}]_i = d_i - d_i = 0\)</span>이다. 이것이 모든 <span class="math inline">\(i\)</span>에 대해 성립하므로 <span class="math inline">\(\mathbf{L}\mathbf{1} = \mathbf{0}\)</span>이며, 이는 정확히 고유값 방정식 <span class="math inline">\(\mathbf{L}\mathbf{v} = \lambda\mathbf{v}\)</span>의 형태로서 <span class="math inline">\(\mathbf{v}_0 = \mathbf{1}\)</span>, <span class="math inline">\(\lambda_0 = 0\)</span>을 의미한다. 결론적으로, 라플라시안의 각 행의 합이 항상 0이라는 구조적 성질로 인해 <span class="math inline">\(\mathbf{1}\)</span>은 자동적으로 고유값 0에 대한 고유벡터가 되며, 이것이 최소 고유값에 대응한다. 이 성질 덕분에 라플라시안을 GSO로 사용하는 정상 그래프 과정은 상수 평균을 가질 수 있게 되어, 고전적인 시간 과정의 정상성 개념과 자연스럽게 연결된다.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="[중요] 그래프를 데이터에 맞춰 설계하면 안 되는 이유">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+[중요] 그래프를 데이터에 맞춰 설계하면 안 되는 이유
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>흔한 오해:</strong> “데이터의 평균 패턴이 <span class="math inline">\(\bar{\mathbf{x}} = [1,1,2,2]\)</span>라면, 이게 고유벡터가 되도록 GSO를 설계하면 정상 과정을 만들 수 있지 않나?”</p>
+<p><strong>답변:</strong> <span style="color:red;"><strong>수학적으로는 가능하지만, 통계적으로 완전히 잘못된 접근이다.</strong></span></p>
+<p>왜 잘못되었나?</p>
+<p><strong>이유 1: 그래프는 데이터가 아니라 구조를 표현한다</strong></p>
+<p>그래프는 문제의 본질적 구조를 나타낸다. 소셜 네트워크의 실제 친구 관계, 센서의 물리적 위치, 도로의 실제 연결 등은 데이터에 맞춰 “조작하는” 대상이 아니라 주어진 것이다.</p>
+<p>예시: 서울 온도 센서 네트워크에서 강북 센서들(평균 15도)과 강남 센서들(평균 18도)이 있다고 하자. 평균이 [15,15,15,18,18]이 되도록 그래프를 인위적으로 설계한다면, 센서들의 실제 물리적 거리나 열 확산 패턴은 무시되고 단지 “평균이 비슷한 것끼리 묶기”만 한다. 이는 그래프의 물리적 의미를 완전히 왜곡한다.</p>
+<p><strong>이유 2: 공분산 구조를 무시한다</strong></p>
+<p>평균만 보고 GSO를 설계하면 데이터의 상관 구조를 완전히 놓친다.</p>
+<p>구체적 예시: 4개 센서의 공분산 행렬이 <span class="math display">\[\mathbf{C}_x = \begin{pmatrix} 1 &amp; 0.8 &amp; 0.2 &amp; 0.1 \\ 0.8 &amp; 1 &amp; 0.1 &amp; 0.2 \\ 0.2 &amp; 0.1 &amp; 1 &amp; 0.9 \\ 0.1 &amp; 0.2 &amp; 0.9 &amp; 1 \end{pmatrix}\]</span> 라면, 센서 1-2가 강하게 상관(0.8), 센서 3-4가 강하게 상관(0.9)되어 있다. 올바른 그래프는 이 상관 구조를 반영해야 한다. 그런데 평균이 <span class="math inline">\([20,20,25,25]\)</span>라고 해서 “1-2를 묶고 3-4를 묶는” 그래프를 만든다면, 이는 우연히 공분산 구조와 일치할 수도 있지만 일반적으로는 아니다. <span style="color:red;"><strong>1차 통계량(평균)만 맞추고 2차 통계량(공분산)을 무시하는 것이다.</strong></span></p>
+<p><strong>Graph Learning과의 차이</strong></p>
+<p>“Graph learning도 데이터로부터 그래프를 학습하는 거 아닌가?”라고 생각할 수 있다. 하지만 graph learning은 데이터의 <strong>공분산 구조 <span class="math inline">\(\mathbf{C}_x\)</span></strong>를 잘 표현하는 그래프를 찾는 것이지, <strong>평균 <span class="math inline">\(\bar{\mathbf{x}}\)</span></strong>를 맞추는 것이 아니다.</p>
+<ul>
+<li>Graph learning: <span class="math inline">\(\min_{\mathbf{S}} \text{Loss}(\mathbf{C}_x, \mathbf{S})\)</span> — 2차 통계량 최적화</li>
+<li>평균 맞춤: <span class="math inline">\(\mathbf{S}\mathbf{v} = \lambda\mathbf{v}\)</span> where <span class="math inline">\(\mathbf{v} = \bar{\mathbf{x}}\)</span> — 1차 통계량만 맞춤</li>
+</ul>
+<p>더 중요한 것은, graph learning으로 찾은 그래프에 대해서도 데이터가 정상일 보장은 없다. 공분산은 잘 표현하지만 평균이 고유벡터 형태가 아니면 여전히 비정상이다. <span style="color:red;"><strong>이것은 실패가 아니라 “데이터가 비정상”이라는 중요한 발견이다.</strong></span></p>
+<p><strong>결론</strong></p>
+<p>GSO는 문제의 고유한 구조를 표현하는 것이지, 데이터를 억지로 정상으로 만들기 위해 조작하는 도구가 아니다. 데이터가 비정상이면 그냥 비정상 모델을 사용하면 된다. 정상성은 분석을 단순화하는 강력한 가정이지만, 데이터가 만족하지 않으면 억지로 만들 수 없고 만들어서도 안 된다.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="joint-time-and-graph-stationarity" class="level2">
+<h2 class="anchored" data-anchor-id="joint-time-and-graph-stationarity">12.2.2 JOINT TIME AND GRAPH STATIONARITY</h2>
+<p>많은 실제 네트워크 응용에서, 관측은 주기적으로 이루어져 그래프 신호들의 수열 <span class="math inline">\(\mathbf{X} = [\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_T] \in \mathbb{R}^{N \times T}\)</span>를 생성한다. 각 신호는 크기가 <span class="math inline">\(N\)</span> (네트워크의 노드 개수)이며 이러한 신호가 <span class="math inline">\(T\)</span>개 있다. 지금까지는 네트워크의 정점들에 걸친 통계적 변동에 초점을 맞춰왔다. 즉, <span class="math inline">\(\mathbf{X}\)</span>의 특정 열 하나를 취하여 서로 다른 정점들에서의 신호 값들 간의 통계적 관계를 분석했다. 이 절의 목적은 <span class="math inline">\(\mathbf{X}\)</span>의 행과 열 모두에 걸쳐 이러한 분석을 결합적으로 수행하는 것이다. 궁극적인 목표는 랜덤 과정이 정점 영역과 시간 영역 모두에서 결합적으로 정상(jointly stationary)으로 간주되는 조건을 제시하는 것이다.</p>
+<p><img src="attachments/Pasted image 20260401172425.png" class="img-fluid"></p>
+<p>정점-시간 과정 <span class="math inline">\(\mathbf{X}\)</span>의 통계적 성질을 분석하는 첫 번째 단계는, 편의상 <span class="math inline">\(\mathbf{x} = \text{vec}(\mathbf{X})\)</span>로 표현될 때, 그것의 그래프 support를 식별하는 것이다. Fig. 12.2에 나타난 바와 같이, 모든 시간 순간에 대해 <span class="math inline">\(\mathbf{X}\)</span>의 해당 열의 그래프 support를 설명하는 그래프를 그릴 수 있다. 이 표현으로, 그림에서 수평 경로는 서로 다른 시간 순간들에서의 특정 노드를 나타낸다. 시간 변동을 설명하기 위해, 시간 <span class="math inline">\(t\)</span>에서의 노드 <span class="math inline">\(n\)</span>은 그 후속자(시간 <span class="math inline">\(t+1\)</span>에서의 노드 <span class="math inline">\(n\)</span>)로 향하는 링크의 시작점이며, 동시에 그 전임자(시간 <span class="math inline">\(t-1\)</span>에서의 노드 <span class="math inline">\(n\)</span>)로부터의 링크의 도착점이다. 공간 그래프 <span class="math inline">\(\mathbf{S}_{\mathcal{V}} = \mathbf{V}_{\mathcal{V}}\boldsymbol{\Lambda}_{\mathcal{V}}\mathbf{V}_{\mathcal{V}}^H\)</span>가 모든 열에 대해 동일하다고 가정하자. 이는 Fig. 12.2의 경우이며, 방향 사이클의 인접 행렬인 <span class="math inline">\(\mathbf{S}_{\mathcal{T}} = \mathbf{V}_{\mathcal{T}}\boldsymbol{\Lambda}_{\mathcal{T}}\mathbf{V}_{\mathcal{T}}^H\)</span>를 사용하여 시간 영역의 support를 나타내자. 그러면 <span class="math inline">\(\mathbf{X}\)</span>의 그래프 support, 즉 <span class="math inline">\(\mathbf{S}_{\mathcal{J}}\)</span>로 표기될 것은 <span class="math inline">\(\mathbf{S}_{\mathcal{V}}\)</span>와 <span class="math inline">\(\mathbf{S}_{\mathcal{T}}\)</span>의 카르테시안 곱에 의해 주어진다. 수학적으로, 이는 결합 시프트 <span class="math inline">\(\mathbf{S}_{\mathcal{J}} \in \mathbb{R}^{NT \times NT}\)</span>가 다음과 같이 쓰일 수 있음을 의미한다:</p>
+<p><span class="math display">\[\mathbf{S}_{\mathcal{J}} = \mathbf{S}_{\mathcal{T}} \oplus \mathbf{S}_{\mathcal{V}} = \mathbf{I}_{\mathcal{T}} \otimes \mathbf{S}_{\mathcal{V}} + \mathbf{S}_{\mathcal{T}} \otimes \mathbf{I}_{\mathcal{V}}, \tag{12.7}\]</span></p>
+<p>여기서 <span class="math inline">\(\mathbf{I}_{\mathcal{T}}\)</span>와 <span class="math inline">\(\mathbf{I}_{\mathcal{V}}\)</span>는 적절한 크기의 항등 행렬이다. Kronecker 곱의 기본 성질을 사용하면, Eq. (12.7)로부터 결합 시프트의 고유분해가 <span class="math inline">\(\mathbf{S}_{\mathcal{J}} = (\mathbf{V}_{\mathcal{T}} \otimes \mathbf{V}_{\mathcal{V}})(\boldsymbol{\Lambda}_{\mathcal{T}} \oplus \boldsymbol{\Lambda}_{\mathcal{V}})(\mathbf{V}_{\mathcal{T}} \otimes \mathbf{V}_{\mathcal{V}})^H\)</span>로 주어짐을 알 수 있으며, 이는 <span class="math inline">\(\mathbf{S}_{\mathcal{J}}\)</span>와 연관된 GFT가 <span class="math inline">\(\mathbf{V}_{\mathcal{T}} \otimes \mathbf{V}_{\mathcal{V}}\)</span>임을, 즉 <span class="math inline">\(\mathbf{S}_{\mathcal{T}}\)</span>와 <span class="math inline">\(\mathbf{S}_{\mathcal{V}}\)</span>의 GFT들의 Kronecker 곱임을 드러낸다.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="노테이션 상세 설명 및 구체적 예시 ($N=3, T=4$)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+노테이션 상세 설명 및 구체적 예시 (<span class="math inline">\(N=3, T=4\)</span>)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>기본 설정</strong></p>
+<ul>
+<li><span class="math inline">\(N = 3\)</span>: 노드 개수 (공간 차원)</li>
+<li><span class="math inline">\(T = 4\)</span>: 시간 스텝 개수 (시간 차원)</li>
+<li><span class="math inline">\(\mathbf{X} \in \mathbb{R}^{N \times T} = \mathbb{R}^{3 \times 4}\)</span>: 데이터 행렬 (행=노드, 열=시간)</li>
+</ul>
+<p><span class="math display">\[\mathbf{X} = \begin{pmatrix} x_{1,1} &amp; x_{1,2} &amp; x_{1,3} &amp; x_{1,4} \\ x_{2,1} &amp; x_{2,2} &amp; x_{2,3} &amp; x_{2,4} \\ x_{3,1} &amp; x_{3,2} &amp; x_{3,3} &amp; x_{3,4} \end{pmatrix}\]</span></p>
+<p>여기서 <span class="math inline">\(x_{n,t}\)</span>는 시간 <span class="math inline">\(t\)</span>에서 노드 <span class="math inline">\(n\)</span>의 값이다.</p>
+<p><strong>Vectorization: <span class="math inline">\(\mathbf{x} = \text{vec}(\mathbf{X})\)</span></strong></p>
+<p><span class="math display">\[\mathbf{x} = \text{vec}(\mathbf{X}) = \begin{pmatrix} x_{1,1} \\ x_{2,1} \\ x_{3,1} \\ x_{1,2} \\ x_{2,2} \\ x_{3,2} \\ x_{1,3} \\ x_{2,3} \\ x_{3,3} \\ x_{1,4} \\ x_{2,4} \\ x_{3,4} \end{pmatrix} \in \mathbb{R}^{12}\]</span></p>
+<p><strong>공간 그래프 <span class="math inline">\(\mathbf{S}_{\mathcal{V}}\)</span> (3개 노드)</strong></p>
+<p>예: 경로 그래프 1—2—3</p>
+<p><span class="math display">\[\mathbf{S}_{\mathcal{V}} = \begin{pmatrix} 0 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 0 \end{pmatrix} \in \mathbb{R}^{3 \times 3}\]</span></p>
+<p><strong>시간 그래프 <span class="math inline">\(\mathbf{S}_{\mathcal{T}}\)</span> (4개 시간 스텝)</strong></p>
+<p>방향 사이클 (directed cycle): 1→2→3→4→1</p>
+<p><span class="math display">\[\mathbf{S}_{\mathcal{T}} = \begin{pmatrix} 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 \\ 1 &amp; 0 &amp; 0 &amp; 0 \end{pmatrix} \in \mathbb{R}^{4 \times 4}\]</span></p>
+<p><strong>Kronecker 합 <span class="math inline">\(\oplus\)</span>와 Kronecker 곱 <span class="math inline">\(\otimes\)</span></strong></p>
+<p>Kronecker 곱: <span class="math display">\[\mathbf{A} \otimes \mathbf{B} = \begin{pmatrix} a_{11}\mathbf{B} &amp; a_{12}\mathbf{B} &amp; \cdots \\ a_{21}\mathbf{B} &amp; a_{22}\mathbf{B} &amp; \cdots \\ \vdots &amp; \vdots &amp; \ddots \end{pmatrix}\]</span></p>
+<p>Kronecker 합: <span class="math display">\[\mathbf{A} \oplus \mathbf{B} = \mathbf{I}_m \otimes \mathbf{B} + \mathbf{A} \otimes \mathbf{I}_n\]</span></p>
+<p>여기서 <span class="math inline">\(\mathbf{A} \in \mathbb{R}^{m \times m}\)</span>, <span class="math inline">\(\mathbf{B} \in \mathbb{R}^{n \times n}\)</span>이다.</p>
+<p><strong>결합 시프트 <span class="math inline">\(\mathbf{S}_{\mathcal{J}}\)</span></strong></p>
+<p><span class="math display">\[\mathbf{S}_{\mathcal{J}} = \mathbf{S}_{\mathcal{T}} \oplus \mathbf{S}_{\mathcal{V}} = \mathbf{I}_{4} \otimes \mathbf{S}_{\mathcal{V}} + \mathbf{S}_{\mathcal{T}} \otimes \mathbf{I}_{3} \in \mathbb{R}^{12 \times 12}\]</span></p>
+<p>의미:</p>
+<ol type="1">
+<li><span class="math inline">\(\mathbf{I}_{4} \otimes \mathbf{S}_{\mathcal{V}}\)</span>: 각 시간 순간에서 공간 연결 (예: 시간 1에서 노드 1→2)</li>
+<li><span class="math inline">\(\mathbf{S}_{\mathcal{T}} \otimes \mathbf{I}_{3}\)</span>: 각 노드의 시간 진화 (예: 노드 1이 시간 1→2)</li>
+</ol>
+<p><strong>인덱스 순서</strong></p>
+<p><span class="math inline">\(\mathbf{S}_{\mathcal{J}}\)</span>의 행/열 인덱스는 다음 순서임.</p>
+<ul>
+<li>(노드1,시간1)</li>
+<li>(노드2,시간1)</li>
+<li>(노드3,시간1)</li>
+<li>(노드1,시간2)</li>
+<li>(노드2,시간2)</li>
+<li>(노드3,시간2)</li>
+<li>(노드1,시간3)</li>
+<li>(노드2,시간3)</li>
+<li>(노드3,시간3)</li>
+<li>(노드1,시간4)</li>
+<li>(노드2,시간4)</li>
+<li>(노드3,시간4)</li>
+</ul>
+<p><strong><span class="math inline">\(\mathbf{S}_{\mathcal{J}}\)</span>의 블록 구조</strong></p>
+<p><span class="math display">\[\mathbf{S}_{\mathcal{J}} = \begin{pmatrix}
+\mathbf{S}_{\mathcal{V}} &amp; \mathbf{I}_3 &amp; \mathbf{0} &amp; \mathbf{0} \\
+\mathbf{0} &amp; \mathbf{S}_{\mathcal{V}} &amp; \mathbf{I}_3 &amp; \mathbf{0} \\
+\mathbf{0} &amp; \mathbf{0} &amp; \mathbf{S}_{\mathcal{V}} &amp; \mathbf{I}_3 \\
+\mathbf{I}_3 &amp; \mathbf{0} &amp; \mathbf{0} &amp; \mathbf{S}_{\mathcal{V}}
+\end{pmatrix}\]</span></p>
+<p>각 블록은 <span class="math inline">\(3 \times 3\)</span> 행렬이다.</p>
+<ul>
+<li><strong>대각 블록</strong> (<span class="math inline">\(\mathbf{S}_{\mathcal{V}}\)</span>): 같은 시간에서의 공간 연결
+<ul>
+<li>1번 블록: 시간 1에서 노드 1↔︎2, 2↔︎3</li>
+<li>2번 블록: 시간 2에서 노드 1↔︎2, 2↔︎3</li>
+<li>…</li>
+</ul></li>
+<li><strong>부대각 블록</strong> (<span class="math inline">\(\mathbf{I}_3\)</span>): 시간 진화
+<ul>
+<li>1행-2열 블록: 시간 1 → 시간 2 (같은 노드)</li>
+<li>2행-3열 블록: 시간 2 → 시간 3 (같은 노드)</li>
+<li>…</li>
+</ul></li>
+<li><strong>왼쪽 아래 블록</strong> (<span class="math inline">\(\mathbf{I}_3\)</span>): 사이클 순환
+<ul>
+<li>4행-1열 블록: 시간 4 → 시간 1 (순환)</li>
+</ul></li>
+</ul>
+<p><strong>구체적 연결 예시</strong></p>
+<p><span class="math inline">\(\mathbf{S}_{\mathcal{J}}\)</span>의 일부 비영 원소들:</p>
+<ul>
+<li><span class="math inline">\([\mathbf{S}_{\mathcal{J}}]_{1,2} = 1\)</span>: (노드1,시간1) ↔︎ (노드2,시간1) — 공간 연결</li>
+<li><span class="math inline">\([\mathbf{S}_{\mathcal{J}}]_{2,3} = 1\)</span>: (노드2,시간1) ↔︎ (노드3,시간1) — 공간 연결</li>
+<li><span class="math inline">\([\mathbf{S}_{\mathcal{J}}]_{1,4} = 1\)</span>: (노드1,시간1) → (노드1,시간2) — 시간 진화</li>
+<li><span class="math inline">\([\mathbf{S}_{\mathcal{J}}]_{5,8} = 1\)</span>: (노드2,시간2) ↔︎ (노드3,시간2) — 공간 연결</li>
+<li><span class="math inline">\([\mathbf{S}_{\mathcal{J}}]_{10,1} = 1\)</span>: (노드1,시간4) → (노드1,시간1) — 순환</li>
+</ul>
+<p><strong>고유분해</strong></p>
+<p>만약: - <span class="math inline">\(\mathbf{S}_{\mathcal{T}} = \mathbf{V}_{\mathcal{T}}\boldsymbol{\Lambda}_{\mathcal{T}}\mathbf{V}_{\mathcal{T}}^H\)</span> (크기 <span class="math inline">\(4 \times 4\)</span>) - <span class="math inline">\(\mathbf{S}_{\mathcal{V}} = \mathbf{V}_{\mathcal{V}}\boldsymbol{\Lambda}_{\mathcal{V}}\mathbf{V}_{\mathcal{V}}^H\)</span> (크기 <span class="math inline">\(3 \times 3\)</span>)</p>
+<p>이면, Kronecker 곱의 성질에 의해:</p>
+<p><span class="math display">\[\mathbf{S}_{\mathcal{J}} = (\mathbf{V}_{\mathcal{T}} \otimes \mathbf{V}_{\mathcal{V}})(\boldsymbol{\Lambda}_{\mathcal{T}} \oplus \boldsymbol{\Lambda}_{\mathcal{V}})(\mathbf{V}_{\mathcal{T}} \otimes \mathbf{V}_{\mathcal{V}})^H\]</span></p>
+<p>여기서: - <span class="math inline">\(\mathbf{V}_{\mathcal{T}} \otimes \mathbf{V}_{\mathcal{V}} \in \mathbb{R}^{12 \times 12}\)</span>: 결합 고유벡터 (12개) - <span class="math inline">\(\boldsymbol{\Lambda}_{\mathcal{T}} \oplus \boldsymbol{\Lambda}_{\mathcal{V}} \in \mathbb{R}^{12 \times 12}\)</span>: 결합 고유값 (대각 행렬)</p>
+<p><strong>결합 GFT</strong></p>
+<p><span class="math display">\[\mathbf{V}_{\mathcal{J}} = \mathbf{V}_{\mathcal{T}} \otimes \mathbf{V}_{\mathcal{V}} \in \mathbb{R}^{12 \times 12}\]</span></p>
+<p>신호를 변환하면: <span class="math display">\[\tilde{\mathbf{x}} = \mathbf{V}_{\mathcal{J}}^H \mathbf{x} = (\mathbf{V}_{\mathcal{T}} \otimes \mathbf{V}_{\mathcal{V}})^H \mathbf{x}\]</span></p>
+<p>이것은 2D 푸리에 변환과 유사하지만, 한 축(공간)이 그래프 구조를 따른다.</p>
+<p><strong>물리적 해석</strong></p>
+<p>결합 시프트 <span class="math inline">\(\mathbf{S}_{\mathcal{J}}\)</span>는 “시공간 그래프”를 나타낸다: - 12개의 노드: (3개 공간 노드) × (4개 시간 스텝) - 각 노드는 (공간위치, 시간순간) 쌍 - 간선은 두 종류: 1. 같은 시간, 다른 공간 위치 (공간 확산) 2. 같은 공간, 다른 시간 (시간 진화)</p>
+<p>이를 통해 공간과 시간에 걸친 신호의 확산/전파를 하나의 통합된 프레임워크로 분석할 수 있다.</p>
+</div>
+</div>
+</div>
+<p>결합 과정의 그래프 support와 그에 대응하는 GFT가 식별되었으므로, <span class="math inline">\(\mathbf{X}\)</span>가 <span class="math inline">\(\mathbf{S}_{\mathcal{V}}\)</span>와 <span class="math inline">\(\mathbf{S}_{\mathcal{T}}\)</span>에 대해 결합적으로 정상(jointly stationary)이기 위해서는 이전 절에서 제시된 정의들을 시프트 <span class="math inline">\(\mathbf{S}_{\mathcal{J}}\)</span>에 대해 특수화하면 충분하며, 이는 다음의 결과를 낳는다.</p>
+<p><strong>Definition 12.4.</strong> 과정 <span class="math inline">\(\mathbf{X}\)</span>가 <span class="math inline">\(\mathbf{S}_{\mathcal{V}}\)</span>와 <span class="math inline">\(\mathbf{S}_{\mathcal{T}}\)</span>에 대해 결합적으로 정상(jointly stationary)이라는 것은, 공분산 행렬 <span class="math inline">\(\mathbf{C}_{\mathbf{x}} = \mathbb{E}[\text{vec}(\mathbf{X})\text{vec}(\mathbf{X})^T]\)</span>가 <span class="math inline">\(\mathbf{C}_{\mathbf{x}} = (\mathbf{V}_{\mathcal{T}} \otimes \mathbf{V}_{\mathcal{V}})\text{diag}(\mathbf{p}_{\mathbf{x}})(\mathbf{V}_{\mathcal{T}} \otimes \mathbf{V}_{\mathcal{V}})^H\)</span>로 쓰일 수 있음을 의미한다.</p>
+<p>명백히, 길이 <span class="math inline">\(NT\)</span>의 비음 벡터 <span class="math inline">\(\mathbf{p}_{\mathbf{x}}\)</span>는 <span class="math inline">\(\mathbf{X}\)</span>의 PSD를 나타낸다. <span class="math inline">\(\mathbf{S}_{\mathcal{J}}\)</span>의 고유값들이 반복되지 않는다면, 이 정의는 <span class="math inline">\(\mathbf{C}_{\mathbf{x}}\)</span>가 시프트 연산자 <span class="math inline">\(\mathbf{S}_{\mathcal{J}}\)</span>에 대한 (양의 준정부호) 그래프 필터로 쓰이도록 요구하는 것과 동치이다.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="$\mathbf{p}_\mathbf{x}$는 PSD, $\mathbf{C}_\mathbf{x}$는 그래프 필터">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="math inline">\(\mathbf{p}_\mathbf{x}\)</span>는 PSD, <span class="math inline">\(\mathbf{C}_\mathbf{x}\)</span>는 그래프 필터
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>“<span class="math inline">\(\mathbf{C}_{\mathbf{x}}\)</span>가 시프트 연산자 <span class="math inline">\(\mathbf{S}_{\mathcal{J}}\)</span>에 대한 (양의 준정부호) 그래프 필터”라는 것은 <span class="math inline">\(\mathbf{C}_{\mathbf{x}} = h(\mathbf{S}_{\mathcal{J}}) = \sum_{k=0}^{K} \alpha_k \mathbf{S}_{\mathcal{J}}^k\)</span> 형태로 쓸 수 있다는 의미다. 즉 <span class="math inline">\(\mathbf{C}_{\mathbf{x}}\)</span>가 <span class="math inline">\(\mathbf{S}_{\mathcal{J}}\)</span>와 같은 고유벡터를 공유한다는 의미. 즉 <span class="math inline">\(\text{vec}(\mathbf{X})\)</span>가 <span class="math inline">\({\bf S}_{\cal J}\)</span>에 대하여 정상이라는 의미.</p>
+</div>
+</div>
+</div>
+<p>Definition 12.4는 결합적으로 정상인 과정의 공분산의 spectral 성질들을 기술하지만, 정점(vertex)과 시간(time) 영역에서의 함의를 이해하는 것 또한 흥미롭다. 그 목적을 위해, <span class="math inline">\(\mathbf{e}_t\)</span>가 <span class="math inline">\(t\)</span>번째 표준 벡터(canonical vector)를 나타내고, 신호 <span class="math inline">\(\mathbf{x}_t = \mathbf{X}\mathbf{e}_t \in \mathbb{R}^N\)</span>은 시간 순간 <span class="math inline">\(t\)</span>에서 과정의 값들을 수집하며, 신호 <span class="math inline">\(\boldsymbol{\chi}_n = \mathbf{X}^T \mathbf{e}_n \in \mathbb{R}^T\)</span>는 노드 <span class="math inline">\(n\)</span>에서 과정의 값들을 수집한다는 것을 상기하라.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>서로 다른 시간 순간들에 대해서, <span class="math inline">\(\mathbf{C}_{\mathbf{x}}\)</span>의 submatrices는 <span class="math inline">\(\mathbf{X}\)</span>의 원소들의 subsets이 어떻게 상관되어 있는지를 기술하며, 다음에 진술되는 결과는 Definition 12.4로부터 따라 나온다.</p>
+<p><strong>Property 12.3.</strong> <span class="math inline">\(\mathbf{X}\)</span>가 <span class="math inline">\(\mathbf{S}_{\mathcal{V}}\)</span>와 <span class="math inline">\(\mathbf{S}_{\mathcal{T}}\)</span>에 대해 결합적으로 정상이면, 다음이 성립한다:</p>
+<ol type="1">
+<li><p><span class="math inline">\(\mathbf{C}_{\mathbf{x}}\)</span>의 임의의 부분행렬 <span class="math inline">\(\mathbf{C}_{t,t'}^{\mathcal{V}} = \mathbb{E}[\mathbf{x}_t \mathbf{x}_{t'}^T] = \mathbb{E}[\mathbf{X}\mathbf{e}_t \mathbf{e}_{t'}^T \mathbf{X}^T] \in \mathbb{R}^{N \times N}\)</span>은 <span class="math inline">\(\mathbf{S}_{\mathcal{V}}\)</span>와 결합적으로 대각화 가능(jointly diagonalizable)하다.</p></li>
+<li><p><span class="math inline">\(\mathbf{C}_{\mathbf{x}}\)</span>의 임의의 부분행렬 <span class="math inline">\(\mathbf{C}_{n,n'}^{\mathcal{T}} = \mathbb{E}[\boldsymbol{\chi}_n \boldsymbol{\chi}_{n'}^T] = \mathbb{E}[\mathbf{X}^T \mathbf{e}_n \mathbf{e}_{n'}^T \mathbf{X}] \in \mathbb{R}^{T \times T}\)</span>는 <span class="math inline">\(\mathbf{S}_{\mathcal{T}}\)</span>와 결합적으로 대각화 가능하며, 따라서 순환(circulant) 행렬이다.</p></li>
+</ol>
+<p>Property 12.3.2의 진술은 <span class="math inline">\(\mathbb{E}[X_{n,t}X_{n',t'}] = \mathbb{E}[X_{n,t+d}X_{n',t'+d}]\)</span>라고 말하는 것과 동치인데, 이는 multivariate 시계열이 정상으로 간주되기 위한 고전적 요구사항이다 [27, Sec. 2.1.3]. Property 12.3의 결과들을 <span class="math inline">\(t = t'\)</span> 및 <span class="math inline">\(n = n'\)</span>으로 특수화하면 다음의 후속 성질을 얻는다.</p>
+<p><strong>Property 12.4.</strong> <span class="math inline">\(\mathbf{X}\)</span>가 <span class="math inline">\(\mathbf{S}_{\mathcal{V}}\)</span>와 <span class="math inline">\(\mathbf{S}_{\mathcal{T}}\)</span>에 대해 결합적으로 정상이면, 다음이 성립한다:</p>
+<ol type="1">
+<li><p>모든 그래프 신호들 <span class="math inline">\(\mathbf{x}_t = \mathbf{X}\mathbf{e}_t\)</span>는 <span class="math inline">\(\mathbf{S}_{\mathcal{V}}\)</span>에 대해 정상이다.</p></li>
+<li><p>모든 시간 변화 신호들 <span class="math inline">\(\boldsymbol{\chi}_n = \mathbf{X}^T \mathbf{e}_n\)</span>은 <span class="math inline">\(\mathbf{S}_{\mathcal{T}}\)</span>에 대해 정상이다.</p></li>
+</ol>
+<p>위의 결과는 동치가 아니다. 즉, Property 12.4에 진술된 두 조건을 만족하지만 Definition 12.4의 구조를 가지지 않는 과정들이 존재할 수 있다. 그러한 과정들이 결합적으로 정상으로 간주될 수 없더라도, 그들은 실제로 발생할 가능성이 있으므로, 그들의 구조를 활용하는 신호 처리 기법들을 설계하는 것이 흥미롭다.</p>
+<p><strong>Remark.</strong> Definition 12.4는 결합 시프트 <span class="math inline">\(\mathbf{S}_{\mathcal{J}}\)</span>가 Kronecker 곱 또는 strong product [25]로 정의되더라도 여전히 유효하다. 그 이유는 이 세 가지 그래프 곱들 중 어느 것에 대해서도, 결합 시프트의 고유기저(eigenbasis)가 <span class="math inline">\(\mathbf{V}_{\mathcal{T}} \otimes \mathbf{V}_{\mathcal{V}}\)</span>이기 때문이다 [25,26].</p>
 
 
 </section>
 </section>
-</section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p><span class="math inline">\(\mathbf{S}_{\mathcal{T}}\)</span>가 directed cycle이라는 사실은 GFT <span class="math inline">\(\mathbf{V}_{\mathcal{T}}^H\)</span>가 <span class="math inline">\(T \times T\)</span> DFT 행렬이어서 <span class="math inline">\([\mathbf{V}_{\mathcal{T}}]_{k,k'} = \frac{1}{\sqrt{T}}\exp(i\frac{2\pi}{T}kk')\)</span>임을 함의한다는 것을 상기하라.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
