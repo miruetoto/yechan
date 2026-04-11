@@ -1,0 +1,1421 @@
+---
+title: 공부 ▷ 위너필터
+author: 신록예찬
+date: 03/12/2026
+draft: false
+---
+
+# 위너필터 (Wiener Filter)
+
+ref: Vertex-Frequency Analysis of Graph Signals, Chapter 12
+
+## 1. 위너필터란?
+
+`-` 위너필터는 MSE(Mean Squared Error)를 최소화하는 선형 추정기이다.
+
+`-` 노이즈가 섞인 관측 $\mathbf{y}$로부터 원래 신호 $\mathbf{x}$를 복원하는 문제를 생각하자.
+
+$$\mathbf{y} = \mathbf{x} + \boldsymbol{\epsilon}$$
+
+`-` 주파수 영역에서 위너필터는 다음과 같다:
+
+$$H(\omega) = \frac{P_{xx}(\omega)}{P_{xx}(\omega) + P_{nn}(\omega)}$$
+
+여기서 $P_{xx}(\omega)$는 신호의 PSD, $P_{nn}(\omega)$는 노이즈의 PSD이다.
+
+`-` PSD (Power Spectral Density)의 정의:
+
+$$P_{xx}(\omega) = \mathbb{E}\left[|\hat{X}(\omega)|^2\right]$$
+
+$\hat{X}(\omega)$는 신호 $\mathbf{x}$의 주파수 변환 계수이다. 그래프 신호의 경우 $\hat{X}(\omega) = \tilde{x}_k = (\mathbf{V}^T\mathbf{x})_k$이므로:
+
+$$P_k = \mathbb{E}\left[|\tilde{x}_k|^2\right]$$
+
+즉, $P_k$는 $k$번째 주파수 성분이 평균적으로 얼마나 에너지를 갖는지를 나타낸다.
+
+`-` 노이즈가 iid이면 $P_{nn}(\omega) = \sigma^2$ (상수)이므로 식이 간단해진다:
+
+$$H(\omega) = \frac{P_{xx}(\omega)}{P_{xx}(\omega) + \sigma^2}$$
+
+`-` 이 값은 항상 0과 1 사이이고, SNR이 높은 주파수는 거의 그대로 유지하고 SNR이 낮은 주파수는 0으로 축소(shrinkage)한다.
+
+## 2. 주파수 영역 추정기들
+
+`-` 디노이징 문제를 주파수 영역에서 보면 회귀(regression) 문제가 된다. 위너필터는 이 중 베이지안 회귀의 사후 평균에 해당한다.
+
+`-` 신호 $\mathbf{x}$를 어떤 기저(basis) $\mathbf{V}$의 선형결합으로 표현할 수 있다고 하자:
+
+$$\mathbf{x} = \mathbf{V}\tilde{\mathbf{x}}$$
+
+여기서 $\tilde{\mathbf{x}}$는 주파수 영역의 계수이다. 이를 관측 모델에 대입하면:
+
+$$\mathbf{y} = \mathbf{V}\tilde{\mathbf{x}} + \boldsymbol{\epsilon}$$
+
+`-` $\tilde{\mathbf{x}}$를 $\boldsymbol{\beta}$로 쓰면 익숙한 회귀 모형이 된다:
+
+$$\mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\epsilon}, \quad \mathbf{X} = \mathbf{V}$$
+
+### 2.1 OLS (Ordinary Least Squares)
+
+`-` 정규방정식:
+
+$$\hat{\boldsymbol{\beta}}_{\text{OLS}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$
+
+`-` $\mathbf{V}$가 직교행렬이면 $\mathbf{V}^T\mathbf{V} = \mathbf{I}$이므로:
+
+$$\hat{\boldsymbol{\beta}}_{\text{OLS}} = \mathbf{V}^T\mathbf{y} = \tilde{\mathbf{y}}$$
+
+`-` 즉, OLS는 그냥 주파수 변환(GFT)한 것과 같다. 노이즈를 전혀 고려하지 않는다.
+
+### 2.2 Ridge Regression (L2)
+
+`-` L2 정규화항 $\lambda$를 추가:
+
+$$\hat{\boldsymbol{\beta}}_{\text{Ridge}} = (\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}$$
+
+`-` $\mathbf{V}^T\mathbf{V} = \mathbf{I}$이면 성분별로:
+
+$$\hat{\beta}_k = \frac{1}{1 + \lambda}\tilde{y}_k$$
+
+`-` 모든 주파수에 동일한 비율로 shrinkage한다. 이것은 너무 단순하다.
+
+### 2.3 Lasso Regression (L1)
+
+`-` L1 정규화:
+
+$$\hat{\boldsymbol{\beta}}_{\text{Lasso}} = \arg\min_{\boldsymbol{\beta}} \|\mathbf{y} - \mathbf{V}\boldsymbol{\beta}\|^2 + \lambda\|\boldsymbol{\beta}\|_1$$
+
+`-` $\mathbf{V}^T\mathbf{V} = \mathbf{I}$이면 성분별로 soft thresholding:
+
+$$\hat{\beta}_k = \text{sign}(\tilde{y}_k)\max(|\tilde{y}_k| - \lambda, 0)$$
+
+`-` 작은 계수는 정확히 0으로 만든다 (sparsity). Ridge와 달리 변수 선택(variable selection) 효과가 있다.
+
+### 2.4 Hard Thresholding (Subset Selection)
+
+`-` 크기가 $\lambda$ 이하인 계수를 완전히 제거:
+
+$$\hat{\beta}_k = \tilde{y}_k \cdot \mathbf{1}(|\tilde{y}_k| > \lambda)$$
+
+`-` Lasso(soft thresholding)와 비교하면: Lasso는 큰 계수도 $\lambda$만큼 줄이지만, hard thresholding은 큰 계수를 그대로 유지한다.
+
+`-` 이것은 "상위 $k$개 주파수만 남기기"와 동일한 효과이다. 가장 직관적이지만, 불연속적이어서 불안정할 수 있다.
+
+### 2.5 Tikhonov Regularization (Graph)
+
+`-` 그래프 라플라시안 $\mathbf{L}$을 정규화항에 사용:
+
+$$\hat{\mathbf{x}} = \arg\min_{\mathbf{x}} \|\mathbf{y} - \mathbf{x}\|^2 + \lambda \mathbf{x}^T\mathbf{L}\mathbf{x}$$
+
+`-` 해: $\hat{\mathbf{x}} = (\mathbf{I} + \lambda\mathbf{L})^{-1}\mathbf{y}$
+
+`-` $\mathbf{L} = \mathbf{V}\boldsymbol{\Lambda}\mathbf{V}^T$이므로 주파수 영역에서:
+
+$$\hat{\beta}_k = \frac{1}{1 + \lambda\lambda_k}\tilde{y}_k$$
+
+`-` Ridge와의 차이: Ridge는 모든 성분에 $\frac{1}{1+\lambda}$로 동일한 shrinkage를 적용하지만, Tikhonov는 고유값 $\lambda_k$에 비례하여 **고주파일수록 더 많이** 축소한다. 그래프의 구조 정보를 활용하는 것이다.
+
+### 2.6 James-Stein Estimator
+
+`-` James-Stein 추정기는 데이터로부터 shrinkage 양을 자동 추정한다:
+
+$$\hat{\beta}_k^{JS} = \left(1 - \frac{(N-2)\sigma^2}{\|\tilde{\mathbf{y}}\|^2}\right)\tilde{y}_k$$
+
+`-` shrinkage factor $c = 1 - \frac{(N-2)\sigma^2}{\|\tilde{\mathbf{y}}\|^2}$는 모든 성분에 동일하게 적용된다 (Ridge와 유사). 그러나 $\lambda$를 직접 정하는 대신 **데이터가 알아서** 결정한다.
+
+`-` $N \geq 3$이면 OLS보다 MSE가 항상 작다 (Stein's paradox). 단, 음수가 되면 0으로 클리핑한다:
+
+$$c = \max\left(0,\; 1 - \frac{(N-2)\sigma^2}{\|\tilde{\mathbf{y}}\|^2}\right)$$
+
+### 2.7 Bayesian Regression (= Wiener Filter)
+
+`-` 회귀 계수에 prior를 준다: $\boldsymbol{\beta} \sim \mathcal{N}(0, \boldsymbol{\Sigma}_\beta)$, 여기서 $\boldsymbol{\Sigma}_\beta = \text{diag}(P_1, P_2, \ldots, P_N)$
+
+`-` 사후 평균(posterior mean):
+
+$$\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X} + \sigma^2\boldsymbol{\Sigma}_\beta^{-1})^{-1}\mathbf{X}^T\mathbf{y}$$
+
+`-` $\mathbf{V}^T\mathbf{V} = \mathbf{I}$이면 성분별로:
+
+$$\hat{\beta}_k = \frac{P_k}{P_k + \sigma^2}\tilde{y}_k$$
+
+`-` 이것이 바로 위너필터이다! 단, 다른 회귀 방법들과 달리 **prior(PSD)를 알아야** 하므로, 순수한 회귀 기법이라기보다는 베이지안 추정에 가깝다.
+
+`-` 정리하면:
+
+| 방법 | 추정식 ($k$번째 성분) | shrinkage |
+|------|----------------------|--------|
+| OLS | $\tilde{y}_k$ | 없음 |
+| Ridge | $\frac{1}{1+\lambda}\tilde{y}_k$ | 모든 성분 동일 (고정) |
+| Lasso | $\text{sign}(\tilde{y}_k)\max(\lvert\tilde{y}_k\rvert - \lambda, 0)$ | soft thresholding |
+| Hard Thresh. | $\tilde{y}_k \cdot \mathbf{1}(\lvert\tilde{y}_k\rvert > \lambda)$ | hard thresholding |
+| Tikhonov | $\frac{1}{1+\lambda\lambda_k}\tilde{y}_k$ | 고유값 비례 (그래프 구조) |
+| James-Stein | $\left(1 - \frac{(N-2)\sigma^2}{\lVert\tilde{\mathbf{y}}\rVert^2}\right)\tilde{y}_k$ | 데이터 기반 (자동) |
+| Wiener | $\frac{P_k}{P_k+\sigma^2}\tilde{y}_k$ | 성분별 다름 (PSD 기반) |
+
+## 3. 그래프 신호에서의 위너필터
+
+`-` 그래프에서 $\mathbf{V}$는 라플라시안 $\mathbf{L}$의 고유벡터 행렬(GFT 행렬)이다.
+
+`-` 그래프 정상(stationary) 신호의 공분산 행렬은 $\mathbf{C}_{xx} = \mathbf{V}\text{diag}(P_k)\mathbf{V}^T$로 대각화된다.
+
+`-` 따라서 GFT 영역에서 각 주파수 성분이 독립이 되고, 위너필터를 성분별로 적용할 수 있다:
+
+$$\hat{\tilde{x}}_k = \frac{P_k}{P_k + \sigma^2}\tilde{y}_k$$
+
+`-` 복원 신호: $\hat{\mathbf{x}} = \mathbf{V}\hat{\tilde{\mathbf{x}}}$
+
+## Ex1. 디노이징 (Denoising)
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.linalg import eigh
+import networkx as nx
+
+np.random.seed(42)
+```
+
+`-` $N=50$인 path graph (일렬로 연결된 체인)를 생각하자. 인접행렬 $\mathbf{A}$는 대각선 바로 옆만 1인 삼대각 행렬이다.
+
+```{python}
+N = 50
+G = nx.path_graph(N)
+A = nx.to_numpy_array(G)
+D = np.diag(A.sum(axis=1))
+L = D - A
+eigvals, V = eigh(L)
+
+nodes = np.arange(N)
+```
+
+```{python}
+plt.imshow(A, cmap='Blues')
+plt.title('Adjacency Matrix A')
+plt.show()
+```
+
+```{python}
+#| fig-height: 1.5
+fig, axes = plt.subplots(1, 2)
+
+axes[0].stem(nodes, V[:, 0], linefmt='C0-', markerfmt='C0o', basefmt='gray')
+axes[0].set_title('$v_0$ ($\lambda_0$={:.4f})'.format(eigvals[0]))
+axes[0].set_xlabel('Node')
+
+axes[1].stem(nodes, V[:, 1], linefmt='C1-', markerfmt='C1o', basefmt='gray')
+axes[1].set_title('$v_1$ ($\lambda_1$={:.4f})'.format(eigvals[1]))
+axes[1].set_xlabel('Node')
+
+plt.tight_layout()
+plt.show()
+```
+
+`-` path graph의 라플라시안 고유벡터 $\mathbf{v}_1$은 sin wave와 유사한 형태를 보인다. 이것을 클린 신호 $\mathbf{x}$로 사용하자.
+
+$$\mathbf{x} = 3 \cdot \mathbf{v}_1$$
+
+`-` GFT 계수: $\tilde{\mathbf{x}} = \mathbf{V}^T\mathbf{x}$를 계산하면 $\tilde{x}_1 = 3$이고 나머지는 모두 0이다. 즉, 순수하게 $k=1$ 주파수 성분만 갖는 신호이다.
+
+```{python}
+#| fig-height: 1.5
+x_clean = V[:, 1] * 3
+
+fig, ax = plt.subplots()
+ax.stem(nodes, x_clean, linefmt='C0-', markerfmt='C0o', basefmt='gray')
+ax.set_title('Clean Signal $x = 3 v_1$')
+ax.set_xlabel('Node')
+plt.tight_layout()
+plt.show()
+```
+
+`-` 노이즈 $\boldsymbol{\epsilon} \sim \mathcal{N}(0, \sigma_n^2 \mathbf{I})$를 추가하여 관측 신호 $\mathbf{y} = \mathbf{x} + \boldsymbol{\epsilon}$를 만든다.
+
+```{python}
+#| fig-height: 1.5
+sigma_n = 0.15
+noise = sigma_n * np.random.randn(N)
+y = x_clean + noise
+
+fig, axes = plt.subplots(1, 2)
+
+axes[0].stem(nodes, x_clean, linefmt='C0-', markerfmt='C0o', basefmt='gray')
+axes[0].set_title('Clean Signal')
+axes[0].set_xlabel('Node')
+
+axes[1].stem(nodes, y, linefmt='C1-', markerfmt='C1o', basefmt='gray')
+axes[1].set_title('Noisy Signal ($\sigma_n$ = {})'.format(sigma_n))
+axes[1].set_xlabel('Node')
+
+plt.tight_layout()
+plt.show()
+```
+
+`-` 이 신호의 PSD는 $P_1 = 9$이고 나머지 $P_k = 0$ ($k \neq 1$)이다. ($\because \tilde{x}_1 = 3$이므로 $P_1 = |\tilde{x}_1|^2 = 9$)
+
+`-` GFT 영역에서 각 추정기를 적용하자. $\tilde{\mathbf{y}} = \mathbf{V}^T\mathbf{y}$에 대해:
+
+| 추정기 | $\hat{\beta}_k$ | 이 예제에서 |
+|--------|-----------------|------------|
+| OLS | $\tilde{y}_k$ | 노이즈 그대로 통과 |
+| Ridge | $\frac{1}{1+\lambda}\tilde{y}_k$ | 모든 $k$에 동일 shrinkage |
+| Lasso | $\text{sign}(\tilde{y}_k)\max(\lvert\tilde{y}_k\rvert - \lambda, 0)$ | soft thresholding |
+| Hard Thresh. | $\tilde{y}_k \cdot \mathbf{1}(\lvert\tilde{y}_k\rvert > \lambda)$ | 큰 계수만 유지 |
+| Tikhonov | $\frac{1}{1+\lambda\lambda_k}\tilde{y}_k$ | 고주파 더 많이 축소 |
+| James-Stein | $c \cdot \tilde{y}_k$ | 데이터 기반 $c$ 자동 결정 |
+| Wiener | $\frac{P_k}{P_k + \sigma^2}\tilde{y}_k$ | $k=1$만 거의 유지, 나머지 ≈ 0 |
+
+```{python}
+# PSD
+psd = np.zeros(N)
+psd[1] = 9.0  # P_1 = |3|^2 = 9
+
+# GFT
+y_freq = V.T @ y
+
+# OLS
+x_hat_ols = V @ y_freq  # = y (no filtering)
+
+# Ridge (lambda = sigma_n^2)
+lam = sigma_n**2
+H_ridge = 1 / (1 + lam)
+x_hat_ridge = V @ (H_ridge * y_freq)
+
+# Lasso (soft thresholding, lambda = sigma_n)
+lam_lasso = sigma_n
+beta_lasso = np.sign(y_freq) * np.maximum(np.abs(y_freq) - lam_lasso, 0)
+x_hat_lasso = V @ beta_lasso
+
+# Hard Thresholding (lambda = sigma_n)
+lam_hard = sigma_n
+beta_hard = y_freq * (np.abs(y_freq) > lam_hard)
+x_hat_hard = V @ beta_hard
+
+# Tikhonov (lambda = sigma_n^2)
+lam_tik = sigma_n**2
+H_tikhonov = 1 / (1 + lam_tik * eigvals)
+x_hat_tikhonov = V @ (H_tikhonov * y_freq)
+
+# James-Stein
+c_js = max(0, 1 - (N - 2) * sigma_n**2 / np.sum(y_freq**2))
+x_hat_js = V @ (c_js * y_freq)
+
+# Wiener
+H_wiener = psd / (psd + sigma_n**2)
+x_hat_wiener = V @ (H_wiener * y_freq)
+
+# MSE
+for name, x_hat in [('OLS', x_hat_ols), ('Ridge', x_hat_ridge),
+                      ('Lasso', x_hat_lasso), ('Hard Thr.', x_hat_hard),
+                      ('Tikhonov', x_hat_tikhonov), ('James-Stein', x_hat_js),
+                      ('Wiener', x_hat_wiener)]:
+    mse = np.mean((x_clean - x_hat)**2)
+    print(f'{name:12s} MSE = {mse:.6f}')
+```
+
+`-` 복원 결과를 비교하자. 빨간선은 원래 클린 신호이다.
+
+```{python}
+#| fig-height: 1.5
+recoveries = [
+    ('Ridge', x_hat_ridge, 'C2'),
+    ('Lasso', x_hat_lasso, 'C4'),
+    ('Hard Thresholding', x_hat_hard, 'C5'),
+    ('Tikhonov', x_hat_tikhonov, 'C6'),
+    ('James-Stein', x_hat_js, 'C7'),
+    ('Wiener', x_hat_wiener, 'C3'),
+]
+
+for i in range(0, len(recoveries), 2):
+    pair = recoveries[i:i+2]
+    fig, axes = plt.subplots(1, 2)
+    for ax, (name, x_hat, color) in zip(axes, pair):
+        mse = np.mean((x_clean - x_hat)**2)
+        ax.stem(nodes, x_hat, linefmt=f'{color}-', markerfmt=f'{color}o', basefmt='gray')
+        ax.plot(nodes, x_clean, 'r-', alpha=0.5, linewidth=2, label='clean')
+        ax.set_title(f'{name} (MSE={mse:.4f})')
+        ax.set_xlabel('Node')
+        ax.legend()
+    plt.tight_layout()
+    plt.show()
+```
+
+`-` 위의 결과에서 Wiener가 압도적으로 좋은데, 이것은 **oracle PSD**($P_k$)와 **oracle $\sigma^2$**을 사용했기 때문이다. 실무에서는 둘 다 모르므로 데이터에서 추정해야 한다.
+
+`-` **$\sigma$ 추정**: 고주파 GFT 계수의 MAD(median absolute deviation)를 이용한다. 고주파 성분은 대부분 노이즈이므로:
+
+$$\hat{\sigma} = \frac{\text{median}(|\tilde{y}_k|,\ k \in \text{high freq})}{0.6745}$$
+
+여기서 0.6745는 $Z \sim N(0,1)$일 때 $\text{median}(|Z|) = 0.6745$인 것에서 온다. 고주파 계수가 $\tilde{y}_k \approx \epsilon_k \sim N(0, \sigma^2)$이면 $\text{median}(|\tilde{y}_k|) \approx 0.6745\sigma$이므로 이를 역으로 풀면 위 식이 된다. wavelet denoising에서 표준적으로 쓰이는 방법이다.
+
+`-` **PSD 추정**: spectral subtraction으로 추정한다. $\tilde{y}_k = \tilde{x}_k + \tilde{\epsilon}_k$이고 신호와 노이즈가 독립이면 $\mathbb{E}[|\tilde{y}_k|^2] = P_k + \sigma^2$이므로:
+
+$$\hat{P}_k = \max(|\tilde{y}_k|^2 - \hat{\sigma}^2,\ 0)$$
+
+음수가 될 수 있으므로 0으로 clipping한다.
+
+`-` 이 추정값들로 모든 방법을 다시 돌려보자.
+
+```{python}
+# Estimate sigma from data (MAD of high-frequency GFT coefficients)
+high_freq_coeffs = y_freq[N//2:]
+sigma_hat = np.median(np.abs(high_freq_coeffs)) / 0.6745
+
+# Estimate PSD (spectral subtraction)
+psd_hat = np.maximum(np.abs(y_freq)**2 - sigma_hat**2, 0)
+
+print(f'True sigma   = {sigma_n:.4f}')
+print(f'Est. sigma   = {sigma_hat:.4f}')
+print()
+
+# OLS (no change)
+x_hat_ols_p = x_hat_ols
+
+# Ridge
+lam_p = sigma_hat**2
+x_hat_ridge_p = V @ (1 / (1 + lam_p) * y_freq)
+
+# Lasso (soft thresholding)
+beta_lasso_p = np.sign(y_freq) * np.maximum(np.abs(y_freq) - sigma_hat, 0)
+x_hat_lasso_p = V @ beta_lasso_p
+
+# Hard Thresholding
+beta_hard_p = y_freq * (np.abs(y_freq) > sigma_hat)
+x_hat_hard_p = V @ beta_hard_p
+
+# Tikhonov
+H_tik_p = 1 / (1 + sigma_hat**2 * eigvals)
+x_hat_tikhonov_p = V @ (H_tik_p * y_freq)
+
+# James-Stein
+c_js_p = max(0, 1 - (N - 2) * sigma_hat**2 / np.sum(y_freq**2))
+x_hat_js_p = V @ (c_js_p * y_freq)
+
+# Wiener (estimated PSD)
+H_wiener_p = psd_hat / (psd_hat + sigma_hat**2)
+x_hat_wiener_p = V @ (H_wiener_p * y_freq)
+
+# Compare Oracle vs Practical
+print(f'{"Method":12s} {"Oracle MSE":>12s} {"Practical MSE":>14s}')
+print('-' * 42)
+for name, x_o, x_p in [('OLS', x_hat_ols, x_hat_ols_p),
+                         ('Ridge', x_hat_ridge, x_hat_ridge_p),
+                         ('Lasso', x_hat_lasso, x_hat_lasso_p),
+                         ('Hard Thr.', x_hat_hard, x_hat_hard_p),
+                         ('Tikhonov', x_hat_tikhonov, x_hat_tikhonov_p),
+                         ('James-Stein', x_hat_js, x_hat_js_p),
+                         ('Wiener', x_hat_wiener, x_hat_wiener_p)]:
+    mse_o = np.mean((x_clean - x_o)**2)
+    mse_p = np.mean((x_clean - x_p)**2)
+    print(f'{name:12s} {mse_o:12.6f} {mse_p:14.6f}')
+```
+
+`-` 추정값을 사용한 복원 결과를 비교하자.
+
+```{python}
+#| fig-height: 1.5
+recoveries_p = [
+    ('Ridge', x_hat_ridge_p, 'C2'),
+    ('Lasso', x_hat_lasso_p, 'C4'),
+    ('Hard Thresholding', x_hat_hard_p, 'C5'),
+    ('Tikhonov', x_hat_tikhonov_p, 'C6'),
+    ('James-Stein', x_hat_js_p, 'C7'),
+    ('Wiener', x_hat_wiener_p, 'C3'),
+]
+
+for i in range(0, len(recoveries_p), 2):
+    pair = recoveries_p[i:i+2]
+    fig, axes = plt.subplots(1, 2)
+    for ax, (name, x_hat, color) in zip(axes, pair):
+        mse = np.mean((x_clean - x_hat)**2)
+        ax.stem(nodes, x_hat, linefmt=f'{color}-', markerfmt=f'{color}o', basefmt='gray')
+        ax.plot(nodes, x_clean, 'r-', alpha=0.5, linewidth=2, label='clean')
+        ax.set_title(f'{name} (MSE={mse:.4f})')
+        ax.set_xlabel('Node')
+        ax.legend()
+    plt.tight_layout()
+    plt.show()
+```
+
+`-` Oracle에서는 Wiener가 PSD를 정확히 알고 있어 압도적이었지만, 추정 PSD를 쓰면 그 이점이 줄어든다. 반면 Lasso나 Hard Thresholding 같은 **비모수적 방법**은 PSD를 필요로 하지 않아 추정 오차의 영향을 덜 받는다.
+
+## Ex2. 보간 (Interpolation)
+
+`-` Ex1은 모든 노드에서 관측하고 노이즈를 제거하는 문제였다. Ex2는 **일부 노드에서만 관측**하고 나머지를 예측하는 문제이다.
+
+`-` Ex1과 동일한 $N=50$ path graph, 동일한 클린 신호 $\mathbf{x} = 3\mathbf{v}_1$을 사용한다. 단, 짝수 노드 25개만 관측한다. 이것은 "원래 $N=25$ path graph가 있었는데 사이사이를 채워 $N=50$으로 확장"하는 것과 같다.
+
+`-` 관측 모델:
+
+$$\mathbf{y}_S = \mathbf{M}\mathbf{x} + \boldsymbol{\epsilon}$$
+
+여기서 $\mathbf{M} \in \mathbb{R}^{|S| \times N}$은 관측 노드만 선택하는 샘플링 행렬이다 (항등행렬의 행 부분집합). 예를 들어 노드 0, 2, 4를 관측한다면:
+
+$$\mathbf{M} = \begin{pmatrix} 1 & 0 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 0 & 1 \end{pmatrix}$$
+
+`-` $\mathbf{x} = \mathbf{V}\boldsymbol{\beta}$를 대입하면 회귀 형태가 된다:
+
+$$\mathbf{y}_S = \mathbf{M}\mathbf{x} + \boldsymbol{\epsilon} = \mathbf{M}\mathbf{V}\boldsymbol{\beta} + \boldsymbol{\epsilon}$$
+
+여기서 $\boldsymbol{\beta} = \mathbf{V}^T\mathbf{x}$는 GFT 계수이고, $\mathbf{X} = \mathbf{M}\mathbf{V}$ ($25 \times 50$)가 design matrix 역할을 한다. Ex1에서는 $\mathbf{M} = \mathbf{I}$였으므로 $\mathbf{X} = \mathbf{V}$ (직교행렬)였지만, 여기서는 $\mathbf{X}^T\mathbf{X} \neq \mathbf{I}$이다.
+
+`-` 이 경우 **미지수(50개) > 관측(25개)**이므로 OLS는 해가 유일하지 않다. 정규화가 필수적이다!
+
+`-` 관측 셋업: 짝수 노드(0, 2, 4, ..., 48)에서만 신호를 관측한다.
+
+```{python}
+#| fig-height: 1.5
+# Observed nodes (even indices)
+obs_idx = np.arange(0, N, 2)   # 25 nodes
+miss_idx = np.arange(1, N, 2)  # 25 missing nodes
+n_obs = len(obs_idx)
+
+# Sampling matrix M (25 x 50)
+M = np.zeros((n_obs, N))
+for i, idx in enumerate(obs_idx):
+    M[i, idx] = 1.0
+
+# Observation with noise
+np.random.seed(123)
+y_obs = x_clean[obs_idx] + sigma_n * np.random.randn(n_obs)
+
+# Visualize
+fig, axes = plt.subplots(1, 2)
+
+axes[0].stem(nodes, x_clean, linefmt='C0-', markerfmt='C0o', basefmt='gray')
+axes[0].set_title('Clean Signal (all 50 nodes)')
+axes[0].set_xlabel('Node')
+
+axes[1].stem(obs_idx, y_obs, linefmt='C1-', markerfmt='C1o', basefmt='gray')
+axes[1].set_title('Observed Signal (25 nodes, with noise)')
+axes[1].set_xlabel('Node')
+axes[1].set_xlim(-1, N)
+
+plt.tight_layout()
+plt.show()
+```
+
+`-` 부분 관측에서의 각 추정기:
+
+`-` **Ridge**: $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}_S$, $\quad \mathbf{X} = \mathbf{M}\mathbf{V}$
+
+`-` **Tikhonov**: Ex1에서는 $\hat{\mathbf{x}} = (\mathbf{I} + \lambda\mathbf{L})^{-1}\mathbf{y}$였다. 이것은 $\min_{\mathbf{x}} \|\mathbf{y} - \mathbf{x}\|^2 + \lambda\mathbf{x}^T\mathbf{L}\mathbf{x}$의 해였는데, Ex2에서는 $\mathbf{y}$ 대신 부분 관측 $\mathbf{y}_S = \mathbf{Mx} + \boldsymbol{\epsilon}$이므로:
+
+$$\min_{\mathbf{x}} \|\mathbf{y}_S - \mathbf{Mx}\|^2 + \lambda\mathbf{x}^T\mathbf{Lx}$$
+
+미분하여 0으로 놓으면 $-2\mathbf{M}^T(\mathbf{y}_S - \mathbf{Mx}) + 2\lambda\mathbf{Lx} = 0$이므로:
+
+$$\hat{\mathbf{x}} = (\mathbf{M}^T\mathbf{M} + \lambda\mathbf{L})^{-1}\mathbf{M}^T\mathbf{y}_S$$
+
+`-` **Wiener (LMMSE)**: LMMSE는 $\mathbb{E}[\|\mathbf{x} - \hat{\mathbf{x}}\|^2]$를 최소화하는 선형 추정기이다. $\mathbf{x} \sim \mathcal{N}(\mathbf{0}, \mathbf{C}_{xx})$이고 $\mathbf{y}_S = \mathbf{Mx} + \boldsymbol{\epsilon}$, $\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2\mathbf{I})$일 때, 결합 분포에서:
+
+$$\text{Cov}(\mathbf{x}, \mathbf{y}_S) = \mathbf{C}_{xx}\mathbf{M}^T, \quad \text{Cov}(\mathbf{y}_S) = \mathbf{M}\mathbf{C}_{xx}\mathbf{M}^T + \sigma^2\mathbf{I}$$
+
+조건부 기댓값 $\hat{\mathbf{x}} = \mathbb{E}[\mathbf{x}|\mathbf{y}_S] = \text{Cov}(\mathbf{x}, \mathbf{y}_S)\text{Cov}(\mathbf{y}_S)^{-1}\mathbf{y}_S$이므로:
+
+$$\hat{\mathbf{x}} = \mathbf{C}_{xx}\mathbf{M}^T(\mathbf{M}\mathbf{C}_{xx}\mathbf{M}^T + \sigma^2\mathbf{I})^{-1}\mathbf{y}_S$$
+
+여기서 $\mathbf{C}_{xx} = \mathbf{V}\text{diag}(P_k)\mathbf{V}^T$는 신호의 공분산 행렬이다. Ex1에서는 $\mathbf{M} = \mathbf{I}$였으므로 성분별로 $H_k = P_k/(P_k + \sigma^2)$로 분리되었지만, 부분 관측에서는 행렬 역산이 필요하다.
+
+`-` **Lasso**: $\hat{\boldsymbol{\beta}} = \arg\min_{\boldsymbol{\beta}} \|\mathbf{y}_S - \mathbf{M}\mathbf{V}\boldsymbol{\beta}\|^2 + \lambda\|\boldsymbol{\beta}\|_1$
+
+Ex1에서는 $\mathbf{M} = \mathbf{I}$였기 때문에 주파수별로 분리되어 간단했지만, Ex2에서는 $\mathbf{M} \neq \mathbf{I}$이므로 행렬 연산이 필요하다.
+
+`-` **Hard Thresholding**과 **James-Stein**은 Ex2에서 적용할 수 없다:
+
+- Hard Thresholding: $\hat{\beta}_k = \tilde{y}_k \cdot \mathbf{1}(|\tilde{y}_k| > \lambda)$는 **관측 전체 $\tilde{\mathbf{y}} = \mathbf{V}^T\mathbf{y}$를 전제**로 한다. 부분 관측 $\mathbf{y}_S$로는 $\tilde{y}_k$를 직접 계산할 수 없다.
+- James-Stein: shrinkage factor $c = 1 - \frac{(N-2)\sigma^2}{\|\tilde{\mathbf{y}}\|^2}$ 역시 **전체 GFT 계수** $\tilde{\mathbf{y}}$가 필요하다. 부분 관측에서는 정의되지 않는다.
+- 이 두 방법은 "주파수 계수에 대한 성분별 연산"으로 정의되었기 때문에, $\mathbf{X}^T\mathbf{X} \neq \mathbf{I}$인 상황 (= 부분 관측)에서는 성분별 분리가 불가능하다.
+
+`-` $\sigma$와 PSD는 **부분 관측 데이터로부터 추정**해야 한다. Ex1에서 전체 관측으로 추정한 값을 가져다 쓸 수는 없다. 추정 전략:
+
+1. **예비 복원**: Tikhonov를 default $\lambda$로 적용하여 $\hat{\mathbf{x}}_{\text{pilot}}$을 구한다.
+2. **$\hat{\sigma}$**: 관측 노드에서의 잔차 표준편차로 추정한다.
+3. **$\hat{P}_k$**: 예비 복원의 GFT 계수에서 spectral subtraction한다.
+
+```{python}
+from sklearn.linear_model import Lasso as LassoSK
+
+X = M @ V  # design matrix (25 x 50)
+
+# Step 1: pilot Tikhonov reconstruction (default lambda)
+lam_pilot = 0.1
+x_pilot2 = np.linalg.solve(M.T @ M + lam_pilot * L, M.T @ y_obs)
+
+# Step 2: estimate sigma from residuals on observed nodes
+residuals2 = y_obs - M @ x_pilot2
+sigma_hat2 = np.std(residuals2)
+
+# Step 3: estimate PSD from pilot reconstruction
+pilot_freq2 = V.T @ x_pilot2
+psd_hat2 = np.maximum(np.abs(pilot_freq2)**2 - sigma_hat2**2, 0)
+
+print(f'True sigma   = {sigma_n:.4f}')
+print(f'Est. sigma   = {sigma_hat2:.4f}')
+print()
+
+# Ridge
+lam_ridge = sigma_hat2**2
+beta_ridge = np.linalg.solve(X.T @ X + lam_ridge * np.eye(N), X.T @ y_obs)
+x_hat_ridge2 = V @ beta_ridge
+
+# Lasso
+lasso = LassoSK(alpha=sigma_hat2 / (2 * n_obs), fit_intercept=False, max_iter=10000)
+lasso.fit(X, y_obs)
+x_hat_lasso2 = V @ lasso.coef_
+
+# Tikhonov (with estimated sigma)
+lam_tik = sigma_hat2**2
+x_hat_tik2 = np.linalg.solve(M.T @ M + lam_tik * L, M.T @ y_obs)
+
+# Wiener (LMMSE with estimated PSD + sigma)
+C_xx_hat2 = V @ np.diag(psd_hat2) @ V.T
+x_hat_wiener2 = C_xx_hat2 @ M.T @ np.linalg.solve(
+    M @ C_xx_hat2 @ M.T + sigma_hat2**2 * np.eye(n_obs), y_obs
+)
+
+# MSE
+for name, x_hat in [('Ridge', x_hat_ridge2), ('Lasso', x_hat_lasso2),
+                      ('Tikhonov', x_hat_tik2), ('Wiener', x_hat_wiener2)]:
+    mse_all = np.mean((x_clean - x_hat)**2)
+    mse_miss = np.mean((x_clean[miss_idx] - x_hat[miss_idx])**2)
+    print(f'{name:10s}  MSE(all)={mse_all:.6f}  MSE(missing)={mse_miss:.6f}')
+```
+
+`-` 복원 결과를 비교하자. 빨간선은 원래 클린 신호이다.
+
+```{python}
+#| fig-height: 1.5
+recoveries2 = [
+    ('Ridge', x_hat_ridge2, 'C2'),
+    ('Lasso', x_hat_lasso2, 'C4'),
+    ('Tikhonov', x_hat_tik2, 'C6'),
+    ('Wiener (LMMSE)', x_hat_wiener2, 'C3'),
+]
+
+# Ridge vs Lasso
+fig, axes = plt.subplots(1, 2)
+for ax, (name, x_hat, color) in zip(axes, recoveries2[:2]):
+    mse = np.mean((x_clean - x_hat)**2)
+    ax.stem(nodes, x_hat, linefmt=f'{color}-', markerfmt=f'{color}o', basefmt='gray')
+    ax.plot(nodes, x_clean, 'r-', alpha=0.5, linewidth=2, label='clean')
+    ax.set_title(f'{name} (MSE={mse:.4f})')
+    ax.set_xlabel('Node')
+    ax.legend()
+plt.tight_layout()
+plt.show()
+
+# Tikhonov vs Wiener
+fig, axes = plt.subplots(1, 2)
+for ax, (name, x_hat, color) in zip(axes, recoveries2[2:]):
+    mse = np.mean((x_clean - x_hat)**2)
+    ax.stem(nodes, x_hat, linefmt=f'{color}-', markerfmt=f'{color}o', basefmt='gray')
+    ax.plot(nodes, x_clean, 'r-', alpha=0.5, linewidth=2, label='clean')
+    ax.set_title(f'{name} (MSE={mse:.4f})')
+    ax.set_xlabel('Node')
+    ax.legend()
+plt.tight_layout()
+plt.show()
+```
+
+## Ex3. 비균일 샘플링에서의 디노이징
+
+`-` Ex1은 path graph ($N=50$)에서 디노이징을 했는데, path graph는 사실상 **균일 샘플링된 1D 신호**와 같다. 이 경우 GFT ≈ DFT이므로 고전적인 주파수 분석과 큰 차이가 없다.
+
+`-` 이번에는 $[0, 1]$ 구간에서 **비균일하게** 샘플된 50개 점에서 디노이징한다. 점들은 Beta(2, 5) 분포로 뽑아 왼쪽에 밀집시킨다.
+
+`-` 그래프 구성: 정렬된 점들을 순서대로 연결하는 path graph를 만든다. 이때 **edge weight를 어떻게 정의하느냐**에 따라 라플라시안이 달라지고, 따라서 GFT 기저와 디노이징 결과도 달라진다. 4가지 방식을 비교한다:
+
+| 방식 | $w_{i,i+1}$ | 의미 |
+|------|-------------|------|
+| $1/d$ | $1/\|t_{i+1}-t_i\|$ | 가까울수록 강한 연결 |
+| $1/d^2$ | $1/\|t_{i+1}-t_i\|^2$ | 더 강한 근접 선호 |
+| Gaussian | $\exp(-d^2/2h^2)$ | 부드러운 감소 ($h$ = median distance) |
+| Unweighted | $1$ | 거리 무시 (균일 path graph처럼 취급) |
+
+```{python}
+#| fig-height: 1.5
+np.random.seed(42)
+N3 = 50
+
+# Non-uniform sample points (clustered near 0)
+t = np.sort(np.random.beta(2, 5, N3))
+dists = np.diff(t)
+h_bw = np.median(dists)  # bandwidth for Gaussian kernel
+
+# Clean signal
+x_clean3 = np.sin(2 * np.pi * t)
+
+# Noisy signal
+sigma_n3 = 0.15
+y3 = x_clean3 + sigma_n3 * np.random.randn(N3)
+
+# Visualize
+fig, axes = plt.subplots(1, 2)
+
+axes[0].plot(t, x_clean3, 'r-', alpha=0.5, linewidth=2, label='clean')
+axes[0].scatter(t, x_clean3, c='C0', s=20, zorder=3)
+axes[0].set_title('Clean Signal (non-uniform)')
+axes[0].set_xlabel('t')
+axes[0].legend()
+
+axes[1].plot(t, x_clean3, 'r-', alpha=0.3, linewidth=2, label='clean')
+axes[1].scatter(t, y3, c='C1', s=20, zorder=3, label='noisy')
+axes[1].set_title(f'Noisy Signal (sigma={sigma_n3})')
+axes[1].set_xlabel('t')
+axes[1].legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+`-` 왼쪽 영역에 점이 밀집되어 있고, 오른쪽으로 갈수록 드물다.
+
+`-` 4가지 가중치 방식으로 그래프를 만들고, 각각에 대해 7가지 추정기를 적용한다.
+
+```{python}
+def build_path_laplacian(t, weight_fn):
+    """가중 path graph의 라플라시안을 구성한다."""
+    N = len(t)
+    W = np.zeros((N, N))
+    for i in range(N - 1):
+        d = t[i+1] - t[i]
+        w = weight_fn(d)
+        W[i, i+1] = w
+        W[i+1, i] = w
+    D = np.diag(W.sum(axis=1))
+    return D - W
+
+def denoise_all(y, L, x_clean):
+    """주어진 라플라시안으로 7가지 방법을 적용하고 MSE를 반환한다."""
+    N = len(y)
+    eigvals, V = np.linalg.eigh(L)
+    y_freq = V.T @ y
+
+    # Estimate sigma (MAD)
+    sigma_hat = np.median(np.abs(y_freq[N//2:])) / 0.6745
+
+    # Estimate PSD (spectral subtraction)
+    psd_hat = np.maximum(np.abs(y_freq)**2 - sigma_hat**2, 0)
+
+    results = {}
+    results['OLS'] = y.copy()
+    results['Ridge'] = V @ (1 / (1 + sigma_hat**2) * y_freq)
+    results['Lasso'] = V @ (np.sign(y_freq) * np.maximum(np.abs(y_freq) - sigma_hat, 0))
+    results['Hard Thr.'] = V @ (y_freq * (np.abs(y_freq) > sigma_hat))
+    results['Tikhonov'] = V @ (1 / (1 + sigma_hat**2 * eigvals) * y_freq)
+    c_js = max(0, 1 - (N - 2) * sigma_hat**2 / np.sum(y_freq**2))
+    results['James-Stein'] = V @ (c_js * y_freq)
+    H_w = psd_hat / (psd_hat + sigma_hat**2)
+    results['Wiener'] = V @ (H_w * y_freq)
+
+    mse = {name: np.mean((x_clean - x_hat)**2) for name, x_hat in results.items()}
+    return results, mse
+
+# 4 weight schemes
+weight_schemes = {
+    '1/d': lambda d: 1.0 / d,
+    '1/d²': lambda d: 1.0 / d**2,
+    'Gaussian': lambda d: np.exp(-d**2 / (2 * h_bw**2)),
+    'Unweighted': lambda d: 1.0,
+}
+
+all_results = {}
+all_mse = {}
+for wname, wfn in weight_schemes.items():
+    L3 = build_path_laplacian(t, wfn)
+    res, mse = denoise_all(y3, L3, x_clean3)
+    all_results[wname] = res
+    all_mse[wname] = mse
+
+# MSE comparison table
+methods = ['OLS', 'Ridge', 'Lasso', 'Hard Thr.', 'Tikhonov', 'James-Stein', 'Wiener']
+wnames = list(weight_schemes.keys())
+
+header = f'{"Method":12s}' + ''.join(f'{w:>12s}' for w in wnames)
+print(header)
+print('-' * len(header))
+for m in methods:
+    row = f'{m:12s}' + ''.join(f'{all_mse[w][m]:12.6f}' for w in wnames)
+    print(row)
+```
+
+`-` Wiener와 Tikhonov의 복원 결과를 가중치 방식별로 비교하자.
+
+```{python}
+#| fig-height: 1.5
+# Tikhonov: 4 weights
+fig, axes = plt.subplots(1, 2)
+for ax, wname in zip(axes, ['1/d', '1/d²']):
+    x_hat = all_results[wname]['Tikhonov']
+    mse = all_mse[wname]['Tikhonov']
+    ax.plot(t, x_clean3, 'r-', alpha=0.5, linewidth=2, label='clean')
+    ax.scatter(t, x_hat, c='C6', s=20, zorder=3)
+    ax.set_title(f'Tikhonov, w={wname} (MSE={mse:.4f})')
+    ax.set_xlabel('t')
+    ax.legend()
+plt.tight_layout()
+plt.show()
+
+fig, axes = plt.subplots(1, 2)
+for ax, wname in zip(axes, ['Gaussian', 'Unweighted']):
+    x_hat = all_results[wname]['Tikhonov']
+    mse = all_mse[wname]['Tikhonov']
+    ax.plot(t, x_clean3, 'r-', alpha=0.5, linewidth=2, label='clean')
+    ax.scatter(t, x_hat, c='C6', s=20, zorder=3)
+    ax.set_title(f'Tikhonov, w={wname} (MSE={mse:.4f})')
+    ax.set_xlabel('t')
+    ax.legend()
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+#| fig-height: 1.5
+# Wiener: 4 weights
+fig, axes = plt.subplots(1, 2)
+for ax, wname in zip(axes, ['1/d', '1/d²']):
+    x_hat = all_results[wname]['Wiener']
+    mse = all_mse[wname]['Wiener']
+    ax.plot(t, x_clean3, 'r-', alpha=0.5, linewidth=2, label='clean')
+    ax.scatter(t, x_hat, c='C3', s=20, zorder=3)
+    ax.set_title(f'Wiener, w={wname} (MSE={mse:.4f})')
+    ax.set_xlabel('t')
+    ax.legend()
+plt.tight_layout()
+plt.show()
+
+fig, axes = plt.subplots(1, 2)
+for ax, wname in zip(axes, ['Gaussian', 'Unweighted']):
+    x_hat = all_results[wname]['Wiener']
+    mse = all_mse[wname]['Wiener']
+    ax.plot(t, x_clean3, 'r-', alpha=0.5, linewidth=2, label='clean')
+    ax.scatter(t, x_hat, c='C3', s=20, zorder=3)
+    ax.set_title(f'Wiener, w={wname} (MSE={mse:.4f})')
+    ax.set_xlabel('t')
+    ax.legend()
+plt.tight_layout()
+plt.show()
+```
+
+`-` **Unweighted**(거리 무시)는 비균일 기하를 전혀 반영하지 못해 성능이 떨어진다. 반면 거리 기반 가중치($1/d$, $1/d^2$, Gaussian)는 비균일 샘플링 구조를 라플라시안에 반영하므로, 그래프 기반 방법(Tikhonov, Wiener)의 성능이 개선된다. 가중치 함수의 선택은 데이터의 특성에 따라 달라질 수 있다.
+
+## Ex4. 비균일 샘플링에서의 보간
+
+`-` Ex3의 비균일 그래프 위에서, Ex2처럼 **일부 노드만 관측하고 나머지를 예측**하는 문제이다. Ex3와 동일한 50개 비균일 점에서 랜덤하게 25개만 관측한다.
+
+`-` 가중치는 Ex3에서 비교했으므로, 여기서는 $w = 1/d$를 사용한다.
+
+```{python}
+#| fig-height: 1.5
+# Graph: weighted path graph (w = 1/d)
+L4 = build_path_laplacian(t, lambda d: 1.0 / d)
+eigvals4, V4 = np.linalg.eigh(L4)
+
+# Random 25 observed nodes
+np.random.seed(99)
+obs_idx4 = np.sort(np.random.choice(N3, 25, replace=False))
+miss_idx4 = np.array([i for i in range(N3) if i not in obs_idx4])
+n_obs4 = len(obs_idx4)
+
+# Sampling matrix M (25 x 50)
+M4 = np.zeros((n_obs4, N3))
+for i, idx in enumerate(obs_idx4):
+    M4[i, idx] = 1.0
+
+# Observation with noise
+np.random.seed(77)
+y_obs4 = x_clean3[obs_idx4] + sigma_n3 * np.random.randn(n_obs4)
+
+# Visualize
+fig, axes = plt.subplots(1, 2)
+
+axes[0].plot(t, x_clean3, 'r-', alpha=0.5, linewidth=2, label='clean')
+axes[0].scatter(t, x_clean3, c='C0', s=20, zorder=3)
+axes[0].set_title('Clean Signal (all 50 nodes)')
+axes[0].set_xlabel('t')
+axes[0].legend()
+
+axes[1].plot(t, x_clean3, 'r-', alpha=0.3, linewidth=2)
+axes[1].scatter(t[obs_idx4], y_obs4, c='C1', s=30, zorder=3, label='observed')
+axes[1].scatter(t[miss_idx4], np.zeros(len(miss_idx4)), c='gray', s=10, alpha=0.3, label='missing')
+axes[1].set_title('Observed (25 nodes, with noise)')
+axes[1].set_xlabel('t')
+axes[1].legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+`-` Ex2와 동일한 4가지 방법(Ridge, Lasso, Tikhonov, Wiener)을 적용한다. 단, $\sigma$와 PSD는 **부분 관측 데이터로부터 추정**해야 한다. 전체 노드를 관측한 Ex3의 값을 가져다 쓸 수는 없다.
+
+`-` 추정 전략 (2단계):
+
+1. **예비 복원**: Tikhonov를 default $\lambda$로 적용하여 $\hat{\mathbf{x}}_{\text{pilot}}$을 구한다.
+2. **$\hat{\sigma}$**: 관측 노드에서의 잔차 $\mathbf{y}_S - \mathbf{M}\hat{\mathbf{x}}_{\text{pilot}}$의 표준편차로 추정한다.
+3. **$\hat{P}_k$**: 예비 복원의 GFT 계수로 추정한다: $\hat{P}_k = \max(|(\mathbf{V}^T\hat{\mathbf{x}}_{\text{pilot}})_k|^2 - \hat{\sigma}^2, 0)$
+
+```{python}
+X4 = M4 @ V4  # design matrix (25 x 50)
+
+# Step 1: pilot Tikhonov reconstruction (default lambda)
+lam_pilot = 0.1
+x_pilot = np.linalg.solve(M4.T @ M4 + lam_pilot * L4, M4.T @ y_obs4)
+
+# Step 2: estimate sigma from residuals on observed nodes
+residuals = y_obs4 - M4 @ x_pilot
+sigma_hat4 = np.std(residuals)
+
+# Step 3: estimate PSD from pilot reconstruction
+pilot_freq = V4.T @ x_pilot
+psd_hat4 = np.maximum(np.abs(pilot_freq)**2 - sigma_hat4**2, 0)
+
+print(f'True sigma   = {sigma_n3:.4f}')
+print(f'Est. sigma   = {sigma_hat4:.4f}')
+print()
+
+# Ridge
+lam_r4 = sigma_hat4**2
+beta_ridge4 = np.linalg.solve(X4.T @ X4 + lam_r4 * np.eye(N3), X4.T @ y_obs4)
+x_hat_ridge4 = V4 @ beta_ridge4
+
+# Lasso
+lasso4 = LassoSK(alpha=sigma_hat4 / (2 * n_obs4), fit_intercept=False, max_iter=10000)
+lasso4.fit(X4, y_obs4)
+x_hat_lasso4 = V4 @ lasso4.coef_
+
+# Tikhonov (now with estimated sigma)
+lam_t4 = sigma_hat4**2
+x_hat_tik4 = np.linalg.solve(M4.T @ M4 + lam_t4 * L4, M4.T @ y_obs4)
+
+# Wiener (LMMSE)
+C_xx4 = V4 @ np.diag(psd_hat4) @ V4.T
+x_hat_wiener4 = C_xx4 @ M4.T @ np.linalg.solve(
+    M4 @ C_xx4 @ M4.T + sigma_hat4**2 * np.eye(n_obs4), y_obs4
+)
+
+# MSE
+for name, x_hat in [('Ridge', x_hat_ridge4), ('Lasso', x_hat_lasso4),
+                      ('Tikhonov', x_hat_tik4), ('Wiener', x_hat_wiener4)]:
+    mse_all = np.mean((x_clean3 - x_hat)**2)
+    mse_miss = np.mean((x_clean3[miss_idx4] - x_hat[miss_idx4])**2)
+    print(f'{name:10s}  MSE(all)={mse_all:.6f}  MSE(missing)={mse_miss:.6f}')
+```
+
+`-` 복원 결과를 비교하자.
+
+```{python}
+#| fig-height: 1.5
+recoveries4 = [
+    ('Ridge', x_hat_ridge4, 'C2'),
+    ('Lasso', x_hat_lasso4, 'C4'),
+    ('Tikhonov', x_hat_tik4, 'C6'),
+    ('Wiener (LMMSE)', x_hat_wiener4, 'C3'),
+]
+
+# Ridge vs Lasso
+fig, axes = plt.subplots(1, 2)
+for ax, (name, x_hat, color) in zip(axes, recoveries4[:2]):
+    mse = np.mean((x_clean3 - x_hat)**2)
+    ax.plot(t, x_clean3, 'r-', alpha=0.5, linewidth=2, label='clean')
+    ax.scatter(t, x_hat, c=color, s=20, zorder=3)
+    ax.scatter(t[miss_idx4], x_hat[miss_idx4], edgecolors='k', facecolors='none', s=40, zorder=4, label='predicted')
+    ax.set_title(f'{name} (MSE={mse:.4f})')
+    ax.set_xlabel('t')
+    ax.legend()
+plt.tight_layout()
+plt.show()
+
+# Tikhonov vs Wiener
+fig, axes = plt.subplots(1, 2)
+for ax, (name, x_hat, color) in zip(axes, recoveries4[2:]):
+    mse = np.mean((x_clean3 - x_hat)**2)
+    ax.plot(t, x_clean3, 'r-', alpha=0.5, linewidth=2, label='clean')
+    ax.scatter(t, x_hat, c=color, s=20, zorder=3)
+    ax.scatter(t[miss_idx4], x_hat[miss_idx4], edgecolors='k', facecolors='none', s=40, zorder=4, label='predicted')
+    ax.set_title(f'{name} (MSE={mse:.4f})')
+    ax.set_xlabel('t')
+    ax.legend()
+plt.tight_layout()
+plt.show()
+```
+
+`-` 비균일 그래프에서도 보간이 잘 작동한다. 특히 Tikhonov와 Wiener는 가중 라플라시안을 통해 "가까운 관측 노드에서 더 강하게 정보를 전파"하므로, 밀집 영역에서는 더 정확하고 희소 영역에서는 불확실성이 커지는 자연스러운 결과를 보여준다.
+
+## Ex5. 2D 그래프 신호 디노이징
+
+`-` Ex1–Ex4는 모두 1D(path graph)에서의 예제였다. 이제 본격적으로 **2D 그래프 신호**를 다룬다.
+
+`-` $[0,1]^2$에 100개 점을 랜덤 배치하고, $k$-NN 그래프($k=7$)를 가우시안 가중치로 구성한다:
+
+$$w_{ij} = \exp\left(-\frac{\|p_i - p_j\|^2}{2h^2}\right)$$
+
+`-` 클린 신호는 부드러운 공간 함수 $f(x,y) = \sin(2\pi x)\cos(\pi y)$를 노드 위치에서 평가한 것이다. 이 함수는 공간적으로 부드럽기 때문에 그래프 위에서도 저주파 성분이 지배적이다.
+
+```{python}
+from scipy.spatial.distance import pdist, squareform
+
+np.random.seed(2026)
+N5 = 100
+
+# Random 2D points
+pos5 = np.random.rand(N5, 2)
+
+# k-NN graph (symmetrized) with Gaussian weights
+k5 = 7
+dist_mat = squareform(pdist(pos5))
+h5 = np.median(dist_mat[dist_mat > 0]) / 3  # bandwidth
+
+W5 = np.zeros((N5, N5))
+for i in range(N5):
+    knn = np.argsort(dist_mat[i])[1:k5+1]
+    for j in knn:
+        w = np.exp(-dist_mat[i, j]**2 / (2 * h5**2))
+        W5[i, j] = w
+        W5[j, i] = w  # symmetrize
+
+D5 = np.diag(W5.sum(axis=1))
+L5 = D5 - W5
+eigvals5, V5 = np.linalg.eigh(L5)
+
+# Edge list for drawing
+edges5 = list(zip(*np.nonzero(np.triu(W5 > 0))))
+
+# Clean signal: smooth spatial function
+x_clean5 = np.sin(2 * np.pi * pos5[:, 0]) * np.cos(np.pi * pos5[:, 1])
+
+# Noisy signal
+sigma_n5 = 0.2
+y5 = x_clean5 + sigma_n5 * np.random.randn(N5)
+
+print(f'Nodes: {N5}, Edges: {len(edges5)}, k={k5}')
+print(f'Bandwidth h = {h5:.4f}')
+```
+
+```{python}
+def draw_graph_signal(pos, edges, signal, ax, title, vmin, vmax):
+    """그래프 위에 신호를 색상으로 표시한다."""
+    for i, j in edges:
+        ax.plot([pos[i,0], pos[j,0]], [pos[i,1], pos[j,1]],
+                'k-', alpha=0.05, linewidth=0.5)
+    sc = ax.scatter(pos[:, 0], pos[:, 1], c=signal, cmap='coolwarm',
+                    s=40, zorder=3, vmin=vmin, vmax=vmax,
+                    edgecolors='gray', linewidths=0.3)
+    ax.set_title(title)
+    ax.set_xticks([])
+    ax.set_yticks([])
+    return sc
+```
+
+`-` 클린 신호와 노이즈 신호를 비교하자.
+
+```{python}
+#| fig-height: 4
+vmin, vmax = x_clean5.min(), x_clean5.max()
+
+fig, axes = plt.subplots(1, 2)
+draw_graph_signal(pos5, edges5, x_clean5, axes[0], 'Clean Signal', vmin, vmax)
+draw_graph_signal(pos5, edges5, y5, axes[1], f'Noisy (sigma={sigma_n5})', vmin, vmax)
+plt.tight_layout()
+plt.show()
+```
+
+`-` Ex3에서 정의한 `denoise_all` 함수를 그대로 사용한다. 그래프만 다를 뿐 알고리즘은 동일하다.
+
+```{python}
+results5, mse5 = denoise_all(y5, L5, x_clean5)
+
+for name in ['OLS', 'Ridge', 'Lasso', 'Hard Thr.', 'Tikhonov', 'James-Stein', 'Wiener']:
+    print(f'{name:12s} MSE = {mse5[name]:.6f}')
+```
+
+`-` 복원 결과를 그래프 위에 시각화하자.
+
+```{python}
+#| fig-height: 4
+fig, axes = plt.subplots(1, 2)
+mse_r = mse5['Ridge']
+mse_l = mse5['Lasso']
+draw_graph_signal(pos5, edges5, results5['Ridge'], axes[0],
+                  f'Ridge (MSE={mse_r:.4f})', vmin, vmax)
+draw_graph_signal(pos5, edges5, results5['Lasso'], axes[1],
+                  f'Lasso (MSE={mse_l:.4f})', vmin, vmax)
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+#| fig-height: 4
+fig, axes = plt.subplots(1, 2)
+mse_h = mse5['Hard Thr.']
+mse_t = mse5['Tikhonov']
+draw_graph_signal(pos5, edges5, results5['Hard Thr.'], axes[0],
+                  f'Hard Thr. (MSE={mse_h:.4f})', vmin, vmax)
+draw_graph_signal(pos5, edges5, results5['Tikhonov'], axes[1],
+                  f'Tikhonov (MSE={mse_t:.4f})', vmin, vmax)
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+#| fig-height: 4
+fig, axes = plt.subplots(1, 2)
+mse_j = mse5['James-Stein']
+mse_w = mse5['Wiener']
+draw_graph_signal(pos5, edges5, results5['James-Stein'], axes[0],
+                  f'James-Stein (MSE={mse_j:.4f})', vmin, vmax)
+draw_graph_signal(pos5, edges5, results5['Wiener'], axes[1],
+                  f'Wiener (MSE={mse_w:.4f})', vmin, vmax)
+plt.tight_layout()
+plt.show()
+```
+
+`-` 1D path graph에서와 동일한 패턴이 나타난다: 그래프 구조를 활용하는 Tikhonov와 Wiener가 좋은 성능을 보인다. 핵심은 **그래프만 바꾸면 알고리즘은 동일하다**는 것이다. Path graph, 비균일 1D, 2D 센서 네트워크 — 어떤 그래프든 라플라시안의 고유벡터가 적절한 주파수 기저를 제공한다.
+
+## Ex6. Donoho-Johnstone 테스트 함수 디노이징
+
+`-` 다시 1D로 돌아와서, 디노이징 성능 비교의 고전인 **Donoho-Johnstone 4대 테스트 함수**를 사용한다 (Donoho & Johnstone, 1994, *Ideal spatial adaptation by wavelet shrinkage*, Biometrika).
+
+`-` 이 4가지 함수는 실제 신호에서 나타나는 다양한 특성을 모사한다:
+
+| 함수 | 특징 |
+|------|------|
+| **Blocks** | 계단 불연속 (piecewise constant) |
+| **Bumps** | 날카로운 스파이크 (NMR 스펙트럼 유사) |
+| **Doppler** | 변하는 주파수 (chirp-like) |
+| **HeaviSine** | 부드러운 곡선 + 점프 불연속 |
+
+```{python}
+def dj_doppler(t):
+    eps = 0.05
+    return np.sqrt(t * (1 - t)) * np.sin(2 * np.pi * (1 + eps) / (t + eps))
+
+def dj_heavisine(t):
+    return 4 * np.sin(4 * np.pi * t) - np.sign(t - 0.3) - np.sign(0.72 - t)
+
+def dj_bumps(t):
+    tj = [0.1, 0.13, 0.15, 0.23, 0.25, 0.40, 0.44, 0.65, 0.76, 0.78, 0.81]
+    hj = [4, 5, 3, 4, 5, 4.2, 2.1, 4.3, 3.1, 5.1, 4.2]
+    wj = [0.005, 0.005, 0.006, 0.01, 0.01, 0.03, 0.01, 0.01, 0.005, 0.008, 0.005]
+    result = np.zeros_like(t)
+    for ti, hi, wi in zip(tj, hj, wj):
+        result += hi * (1 + np.abs((t - ti) / wi))**(-4)
+    return result
+
+def dj_blocks(t):
+    tj = [0.1, 0.13, 0.15, 0.23, 0.25, 0.40, 0.44, 0.65, 0.76, 0.78, 0.81]
+    hj = [4, -5, 3, -4, 5, -4.2, 2.1, 4.3, -3.1, 2.1, -4.2]
+    result = np.zeros_like(t)
+    for ti, hi in zip(tj, hj):
+        result += hi * (1 + np.sign(t - ti)) / 2
+    return result
+```
+
+`-` $N=1024$ 균일 path graph에서 4가지 함수를 생성하고, 노이즈를 추가한다.
+
+```{python}
+#| fig-height: 1.5
+N6 = 1024
+t6 = np.linspace(0, 1, N6, endpoint=False)
+
+# Path graph Laplacian (unweighted)
+L6 = build_path_laplacian(t6, lambda d: 1.0)
+eigvals6, V6 = np.linalg.eigh(L6)
+
+# 4 test functions
+funcs = {
+    'Blocks': dj_blocks(t6),
+    'Bumps': dj_bumps(t6),
+    'Doppler': dj_doppler(t6),
+    'HeaviSine': dj_heavisine(t6),
+}
+
+# Normalize to unit variance
+for name in funcs:
+    f = funcs[name]
+    funcs[name] = f / np.std(f)
+
+# Plot clean functions
+fig, axes = plt.subplots(1, 2)
+for ax, (name, f) in zip(axes, list(funcs.items())[:2]):
+    ax.plot(t6, f, 'k-', linewidth=0.8)
+    ax.set_title(name)
+plt.tight_layout()
+plt.show()
+
+fig, axes = plt.subplots(1, 2)
+for ax, (name, f) in zip(axes, list(funcs.items())[2:]):
+    ax.plot(t6, f, 'k-', linewidth=0.8)
+    ax.set_title(name)
+plt.tight_layout()
+plt.show()
+```
+
+`-` 각 함수에 $\sigma = 0.1$의 노이즈를 추가하고, 7가지 방법으로 디노이징한다. `denoise_all` 함수를 그대로 사용한다.
+
+```{python}
+sigma_n6 = 0.1
+np.random.seed(2026)
+
+all_mse6 = {}
+all_results6 = {}
+all_noisy6 = {}
+
+for name, f_clean in funcs.items():
+    y6 = f_clean + sigma_n6 * np.random.randn(N6)
+    all_noisy6[name] = y6
+    results6, mse6 = denoise_all(y6, L6, f_clean)
+    all_results6[name] = results6
+    all_mse6[name] = mse6
+
+# MSE table
+methods6 = ['OLS', 'Ridge', 'Lasso', 'Hard Thr.', 'Tikhonov', 'James-Stein', 'Wiener']
+func_names = list(funcs.keys())
+
+header = f'{"Method":12s}' + ''.join(f'{fn:>12s}' for fn in func_names)
+print(header)
+print('-' * len(header))
+for m in methods6:
+    row = f'{m:12s}' + ''.join(f'{all_mse6[fn][m]:12.4f}' for fn in func_names)
+    print(row)
+```
+
+`-` 함수별로 각 방법의 복원 결과를 비교하자.
+
+```{python}
+#| fig-height: 1.5
+show_methods = [
+    ('Ridge', 'C2'), ('Lasso', 'C4'), ('Hard Thr.', 'C5'),
+    ('Tikhonov', 'C6'), ('James-Stein', 'C7'), ('Wiener', 'C3'),
+]
+
+for fname in func_names:
+    # Noisy
+    fig, ax = plt.subplots()
+    ax.plot(t6, funcs[fname], 'r-', alpha=0.5, linewidth=1.5, label='clean')
+    ax.plot(t6, all_noisy6[fname], 'gray', alpha=0.3, linewidth=0.5)
+    ax.set_title(f'{fname}: Noisy (OLS MSE={all_mse6[fname]["OLS"]:.4f})')
+    ax.legend(fontsize=7)
+    plt.tight_layout()
+    plt.show()
+
+    # Each method, 1x2 pairs
+    for i in range(0, len(show_methods), 2):
+        pair = show_methods[i:i+2]
+        fig, axes = plt.subplots(1, 2)
+        for ax, (mname, color) in zip(axes, pair):
+            mse = all_mse6[fname][mname]
+            ax.plot(t6, funcs[fname], 'r-', alpha=0.5, linewidth=1.5, label='clean')
+            ax.plot(t6, all_results6[fname][mname], color=color, linewidth=0.8)
+            ax.set_title(f'{mname} (MSE={mse:.4f})')
+            ax.legend(fontsize=7)
+        plt.tight_layout()
+        plt.show()
+```
+
+`-` 함수 특성에 따라 최적의 방법이 달라진다:
+
+- **Blocks** (불연속): Lasso/Hard Thresholding이 유리 — 불필요한 주파수를 0으로 제거
+- **Bumps** (스파이크): 모든 주파수가 활성화되어 어떤 방법도 어려움
+- **Doppler** (변주파수): Wiener/Tikhonov가 유리 — 주파수별 적응적 shrinkage
+- **HeaviSine** (부드러움+점프): Tikhonov/Wiener가 부드러운 부분을 잘 복원하지만 점프 근처에서 ringing 발생
+
+`-` **만능인 방법은 없다.** 이것이 Donoho-Johnstone이 이 4가지 함수를 테스트셋으로 제안한 이유이다.
+
+## Ex7. Step 함수 디노이징
+
+`-` 가장 단순한 불연속 신호인 **단일 step 함수**를 디노이징한다. Step 함수는 GFT 영역에서 모든 주파수 성분이 활성화되므로 (Gibbs 현상), 각 방법의 특성이 극명하게 드러난다.
+
+```{python}
+#| fig-height: 1.5
+N7 = 256
+t7 = np.linspace(0, 1, N7, endpoint=False)
+
+# Step function: 0 for t < 0.5, 1 for t >= 0.5
+x_clean7 = (t7 >= 0.5).astype(float)
+
+# Path graph Laplacian (unweighted)
+L7 = build_path_laplacian(t7, lambda d: 1.0)
+
+# Noisy signal
+sigma_n7 = 0.1
+np.random.seed(77)
+y7 = x_clean7 + sigma_n7 * np.random.randn(N7)
+
+# Visualize
+fig, axes = plt.subplots(1, 2)
+axes[0].plot(t7, x_clean7, 'k-', linewidth=1.5)
+axes[0].set_title('Clean: Step Function')
+
+axes[1].plot(t7, x_clean7, 'r-', alpha=0.5, linewidth=1.5, label='clean')
+axes[1].plot(t7, y7, 'gray', alpha=0.3, linewidth=0.5)
+axes[1].set_title(f'Noisy (sigma={sigma_n7})')
+axes[1].legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+`-` 7가지 방법으로 디노이징한다.
+
+```{python}
+results7, mse7 = denoise_all(y7, L7, x_clean7)
+
+for name in ['OLS', 'Ridge', 'Lasso', 'Hard Thr.', 'Tikhonov', 'James-Stein', 'Wiener']:
+    print(f'{name:12s} MSE = {mse7[name]:.6f}')
+```
+
+`-` 복원 결과를 비교하자.
+
+```{python}
+#| fig-height: 1.5
+recoveries7 = [
+    ('Ridge', results7['Ridge'], 'C2'),
+    ('Lasso', results7['Lasso'], 'C4'),
+    ('Hard Thresholding', results7['Hard Thr.'], 'C5'),
+    ('Tikhonov', results7['Tikhonov'], 'C6'),
+    ('James-Stein', results7['James-Stein'], 'C7'),
+    ('Wiener', results7['Wiener'], 'C3'),
+]
+
+for i in range(0, len(recoveries7), 2):
+    pair = recoveries7[i:i+2]
+    fig, axes = plt.subplots(1, 2)
+    for ax, (name, x_hat, color) in zip(axes, pair):
+        mse = np.mean((x_clean7 - x_hat)**2)
+        ax.plot(t7, x_clean7, 'r-', alpha=0.5, linewidth=1.5, label='clean')
+        ax.plot(t7, x_hat, color=color, linewidth=0.8)
+        ax.set_title(f'{name} (MSE={mse:.4f})')
+        ax.legend(fontsize=7)
+    plt.tight_layout()
+    plt.show()
+```
+
+`-` Step 함수에서 관찰되는 현상:
+
+- **Ridge / James-Stein**: 모든 주파수를 균일하게 축소하므로 전체적으로 흐릿해진다 (과도한 smoothing).
+- **Tikhonov**: 고주파를 더 많이 축소하므로 불연속점 근처에서 **Gibbs ringing**이 발생한다.
+- **Wiener**: 추정 PSD에 의존하는데, step 함수는 넓은 주파수 스펙트럼을 가지므로 PSD 추정이 어렵다.
+- **Lasso / Hard Thresholding**: 작은 주파수 성분을 0으로 제거하여 불연속을 비교적 잘 보존한다. 불연속 신호에서는 **sparsity 기반 방법이 유리**하다.
+
+## Ex8. 데이터 적응적 그래프 (Bilateral Weights)
+
+`-` Ex7에서 Tikhonov는 Gibbs ringing 문제가 있었다. 이것은 불연속점을 넘어서도 "smooth하게 만들려고" 하기 때문이다. 해결 아이디어: **관측값의 유사성**을 edge weight에 반영한다.
+
+`-` 기존 path graph는 이웃이면 무조건 동일한 weight를 준다. 대신, 이웃 노드의 값이 비슷할 때만 강하게 연결한다:
+
+$$w_{i,i+1} = \exp\left(-\frac{(\hat{x}_i - \hat{x}_{i+1})^2}{2\sigma_s^2}\right)$$
+
+불연속점에서는 $|\hat{x}_i - \hat{x}_{i+1}|$이 크므로 $w \approx 0$ → 라플라시안이 그 사이를 smooth하지 않는다.
+
+`-` 이것은 이미지 처리의 **bilateral filter** (Tomasi & Manduchi, 1998)를 그래프로 가져온 것이다. Bilateral filter는:
+
+$$\hat{x}_i = \frac{\sum_j w_{\text{spatial}}(i,j) \cdot w_{\text{signal}}(y_i, y_j) \cdot y_j}{\sum_j w_{\text{spatial}}(i,j) \cdot w_{\text{signal}}(y_i, y_j)}$$
+
+spatial weight(공간 근접성) × signal weight(값 유사성)의 곱으로 가중 평균한다. 값이 다른 픽셀은 무시하므로 **edge를 보존하면서 smoothing**한다. 사진 앱의 "피부 보정"이 대부분 이 원리이다.
+
+```{python}
+#| fig-height: 1.5
+# Adaptive graph: weight based on noisy signal similarity
+sigma_s = np.median(np.abs(np.diff(y7)))
+
+W7a = np.zeros((N7, N7))
+for i in range(N7 - 1):
+    w = np.exp(-(y7[i] - y7[i+1])**2 / (2 * sigma_s**2))
+    W7a[i, i+1] = w
+    W7a[i+1, i] = w
+
+D7a = np.diag(W7a.sum(axis=1))
+L7a = D7a - W7a
+
+# Visualize weights
+fig, axes = plt.subplots(1, 2)
+
+weights7a = np.array([W7a[i, i+1] for i in range(N7-1)])
+axes[0].plot(t7[:-1], weights7a, 'k-', linewidth=0.8)
+axes[0].set_title('Adaptive Edge Weights')
+axes[0].set_xlabel('t')
+
+axes[1].plot(t7, y7, 'gray', alpha=0.3, linewidth=0.5, label='noisy')
+axes[1].plot(t7, x_clean7, 'r-', alpha=0.5, linewidth=1.5, label='clean')
+axes[1].set_title('Noisy Signal')
+axes[1].legend(fontsize=7)
+
+plt.tight_layout()
+plt.show()
+```
+
+`-` 적응적 그래프로 디노이징한다. 불연속점에서 edge가 약해지므로 Tikhonov/Wiener의 ringing이 완화될 것이다.
+
+```{python}
+results7a, mse7a = denoise_all(y7, L7a, x_clean7)
+
+print(f'{"Method":12s} {"Unweighted":>12s} {"Adaptive":>12s}')
+print('-' * 38)
+for name in ['OLS', 'Ridge', 'Lasso', 'Hard Thr.', 'Tikhonov', 'James-Stein', 'Wiener']:
+    m1 = mse7[name]
+    m2 = mse7a[name]
+    print(f'{name:12s} {m1:12.6f} {m2:12.6f}')
+```
+
+`-` Tikhonov와 Wiener의 복원 결과를 비교하자: unweighted vs adaptive.
+
+```{python}
+#| fig-height: 1.5
+# Tikhonov comparison
+fig, axes = plt.subplots(1, 2)
+for ax, (label, res, mse_dict) in zip(axes, [
+    ('Tikhonov (unweighted)', results7['Tikhonov'], mse7),
+    ('Tikhonov (adaptive)', results7a['Tikhonov'], mse7a)]):
+    mse = mse_dict['Tikhonov']
+    ax.plot(t7, x_clean7, 'r-', alpha=0.5, linewidth=1.5, label='clean')
+    ax.plot(t7, res, 'C6-', linewidth=0.8)
+    ax.set_title(f'{label} ({mse:.4f})')
+    ax.legend(fontsize=7)
+plt.tight_layout()
+plt.show()
+
+# Wiener comparison
+fig, axes = plt.subplots(1, 2)
+for ax, (label, res, mse_dict) in zip(axes, [
+    ('Wiener (unweighted)', results7['Wiener'], mse7),
+    ('Wiener (adaptive)', results7a['Wiener'], mse7a)]):
+    mse = mse_dict['Wiener']
+    ax.plot(t7, x_clean7, 'r-', alpha=0.5, linewidth=1.5, label='clean')
+    ax.plot(t7, res, 'C3-', linewidth=0.8)
+    ax.set_title(f'{label} ({mse:.4f})')
+    ax.legend(fontsize=7)
+plt.tight_layout()
+plt.show()
+```
+
+`-` 적응적 그래프의 효과:
+
+- 불연속점에서 edge weight ≈ 0 → 라플라시안이 점프를 넘어 smoothing하지 않음
+- Tikhonov의 **Gibbs ringing이 크게 완화**됨
+- 단, 노이즈가 큰 경우 false edge가 생길 수 있다: 노이즈로 인한 큰 $|y_i - y_{i+1}|$도 edge를 끊어버리므로 $\sigma_s$ 선택이 중요하다
+- 이것은 아래의 **edge-preserving smoothing** 방법들과 같은 철학이다
+
+`-` 참고: edge-preserving smoothing의 주요 방법들
+
+`-` **Bilateral Filter** (Tomasi & Manduchi, 1998): 위에서 설명한 것처럼 spatial weight × signal weight의 곱으로 가중 평균한다. 장점은 직관적이고 구현이 쉽다는 것. 단점은 비선형이라 반복 적용 시 cartoon-like artifact가 생길 수 있다.
+
+`-` **Total Variation (TV) Denoising** (Rudin, Osher & Fatemi, 1992): 다음을 최소화한다:
+
+$$\hat{\mathbf{x}} = \arg\min_{\mathbf{x}} \frac{1}{2}\|\mathbf{y} - \mathbf{x}\|^2 + \lambda \sum_i |x_{i+1} - x_i|$$
+
+Tikhonov가 $(x_{i+1} - x_i)^2$을 쓰는 반면, TV는 $|x_{i+1} - x_i|$를 쓴다 (L1 vs L2). L1 벌점은 대부분의 차이를 0으로 만들면서 큰 점프는 보존한다. 그래프에서는 $\text{TV}(\mathbf{x}) = \sum_{(i,j) \in E} w_{ij}|x_i - x_j|$로 일반화된다. **piecewise constant** 신호 복원에 최적이다.
+
+`-` **Non-Local Means (NLM)** (Buades, Coll & Morel, 2005): bilateral filter의 확장. 단순히 이웃 픽셀이 아니라, **패치(patch) 유사성**으로 가중치를 결정한다:
+
+$$w_{ij} = \exp\left(-\frac{\|\mathbf{p}_i - \mathbf{p}_j\|^2}{h^2}\right)$$
+
+여기서 $\mathbf{p}_i$는 노드 $i$ 주변의 패치(이웃 값들의 벡터)이다. 공간적으로 멀어도 패치가 비슷하면 정보를 공유한다. 이것을 그래프로 보면: 패치 유사성으로 **새로운 그래프를 구성**하고 그 위에서 smoothing하는 것과 같다.
+
+`-` 세 방법의 비교:
+
+| 방법 | 정규화 | edge 보존 원리 |
+|------|--------|---------------|
+| Bilateral | weighted average | 값이 다르면 가중치 ↓ |
+| TV | $\sum\|x_i - x_j\|$ (L1) | 차이의 L1 → sparsity |
+| NLM | weighted average | 패치가 다르면 가중치 ↓ |
