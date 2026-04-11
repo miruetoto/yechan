@@ -139,8 +139,8 @@ $f(x,n) = \sum_{k=1}^{n} \frac{\sin(2\pi(2k-1)x)}{2k-1}$
 
 아무튼, 의미를 좀 더 확실하게 하게 위해서 아래의 함수를 고려하였다. 
 이함수는 
-![](attachments/250915_%EB%A6%AC%EB%B9%84%EC%A0%84_A%20Novel%20Multiscale%20Approach%20to%20Independence%20Testing_01.png)
-![](attachments/250915_%EB%A6%AC%EB%B9%84%EC%A0%84_A%20Novel%20Multiscale%20Approach%20to%20Independence%20Testing_02.png)
+![](attachments/250915_리비전_ANovelMultiscaleApproachtoIndependenceTesting_01.png)
+![](attachments/250915_리비전_ANovelMultiscaleApproachtoIndependenceTesting_02.png)
 
 introduction to nonparametric regression 의 1.5절의 함수를 참고하였다. Y1은 p3 equation2를 만족한다. 
 
@@ -319,7 +319,7 @@ $$
 로 정의된다. 그림 1에서 빨간 사각형은 이러한 조건부 상관이 0이 아닌 이웃의 사례들을 강조한 것이다.
 
 
-![](attachments/250915_%EB%A6%AC%EB%B9%84%EC%A0%84_A%20Novel%20Multiscale%20Approach%20to%20Independence%20Testing_03.png)
+![](attachments/250915_리비전_ANovelMultiscaleApproachtoIndependenceTesting_03.png)
 
 다음 예시로, Zhang (2019)에서 처음 제안된 $BEX_d$ 분포를 고려한다. 이는 다음과 같이 정의된 평행 및 교차하는 선들의 집합 위에서의 균등 분포이다:  
 
@@ -330,7 +330,7 @@ $$
 여기서 $c_i = (2i - 1)/2^d$. 그림 2는 $d = 1, 2, 3$일 때의 $BEX_d$ 분포를 보여준다.  
 
 $(X, Y)$가 $BEX_d$ 분포를 따른다면, 주변분포 $X$와 $Y$는 서로 종속적이지만 둘 다 $[0,1]$에서의 연속 균등 분포를 따른다. 또한 $X$와 $Y$는 식 (2)를 만족함을 보일 수 있다. $BEX_d$ 분포에서는 $\text{Cor}(X, Y) = 0$이지만, 지지점(support points) 주변의 특정 이웃에서는 조건부 상관이 매우 크게 나타난다. 그림 2의 빨간 사각형은 이러한 조건부 상관이 큰 이웃들을 강조한 것이다.  
-![](attachments/250915_%EB%A6%AC%EB%B9%84%EC%A0%84_A%20Novel%20Multiscale%20Approach%20to%20Independence%20Testing_04.png)
+![](attachments/250915_리비전_ANovelMultiscaleApproachtoIndependenceTesting_04.png)
 **그림 2**: $BEX_d$ 분포에서 조건부 상관이 큰 이웃들의 존재. $BEX_1$, $BEX_2$, $BEX_3$ 분포에서 높은 조건부 상관 값을 가진 영역이 나타난다.
 
 
@@ -359,7 +359,7 @@ $$
 
 $T_{[k]}$ 값이 얼마나 극단적인지를 판단하기 위해, 주변분포가 독립일 때의 분포를 알아야 한다. 이는 리샘플링(resampling) 기법을 통해 추정할 수 있다. 이에 대한 세부 논의는 다음 절에서 다룬다.
 
-![](attachments/250915_%EB%A6%AC%EB%B9%84%EC%A0%84_A%20Novel%20Multiscale%20Approach%20to%20Independence%20Testing_05.png)
+![](attachments/250915_리비전_ANovelMultiscaleApproachtoIndependenceTesting_05.png)
 
 주어진 표본 $\mathbf{xy}_{1:n}$으로부터 무작위 치환된 표본 $\mathbf{xy}^{(\tau)}_{1:n}$을 생성할 수 있다. 여기서 $\tau(1), \ldots, \tau(n)$은 $1, \ldots, n$의 임의 치환이며,  
 
@@ -399,16 +399,16 @@ $$
 
 
 이 예시에서는 두 가지 널리 사용되는 검정 통계량 $T$를 고려한다: 피어슨 상관계수의 절댓값과 거리 상관(distance correlation)이다. 이를 각각 $T^{cor}$와 $T^{dcor}$라 표기한다. 우리는 8개의 이변량 분포를 고려하며, 각 분포의 설명은 표 1에 제시되어 있다. 해당 분포들의 산점도는 그림 4에 나타난다.
-![](attachments/250915_%EB%A6%AC%EB%B9%84%EC%A0%84_A%20Novel%20Multiscale%20Approach%20to%20Independence%20Testing_06.png)
+![](attachments/250915_리비전_ANovelMultiscaleApproachtoIndependenceTesting_06.png)
 
 ‘Square’ 분포를 제외하면, 다른 모든 분포에서 $X$와 $Y$는 서로 종속적임을 쉽게 알 수 있다.  
-![](attachments/250915_%EB%A6%AC%EB%B9%84%EC%A0%84_A%20Novel%20Multiscale%20Approach%20to%20Independence%20Testing_07.png)
+![](attachments/250915_리비전_ANovelMultiscaleApproachtoIndependenceTesting_07.png)
 
 각 분포로부터 50개의 i.i.d. 표본을 생성하고, $z_1, \ldots, z_{49}$를 계산하였다. 이 과정을 1000번 독립적으로 반복하여, 평균값 $\bar{z}_1, \ldots, \bar{z}_{49}$를 얻었다. 그림 5에는 각 분포별 평균값을 시각화하였다.  
 
 독립성 하에서는 $z_k$의 기댓값이 0임이 분명하다. 따라서 $z_k$가 0에서 벗어난다면 이는 의존성이 존재함을 의미한다.
 
-![](attachments/250915_%EB%A6%AC%EB%B9%84%EC%A0%84_A%20Novel%20Multiscale%20Approach%20to%20Independence%20Testing_08.png)
+![](attachments/250915_리비전_ANovelMultiscaleApproachtoIndependenceTesting_08.png)
 
 그림 5에서 확인할 수 있듯이, ‘Square’ 분포의 경우 $X$와 $Y$가 독립이므로 평균 Z-점수 값이 0에 가깝다. 반면, ‘Straight line’ 및 ‘Noisy straight line’ 분포에서는 큰 이웃일수록 $T^{cor}$와 $T^{dcor}$ 모두에서 평균 Z-점수가 더 높게 나타난다. 그러나 ‘Noisy straight line’에서는 의존성 정보가 희석된다.
 
@@ -444,5 +444,5 @@ $$
 
 한편, 두 일변량 확률변수 간의 거리상관(distance correlation)은 $O(n \log n)$ 연산으로 계산될 수 있다 (Chaudhuri and Hu 2019 참조). 따라서 $T = T^{dcor}$일 때 $\Psi_n$을 계산하는 복잡도는 $O(n^3 \log n)$이다.
 
-![](attachments/250915_%EB%A6%AC%EB%B9%84%EC%A0%84_A%20Novel%20Multiscale%20Approach%20to%20Independence%20Testing_09.png)
+![](attachments/250915_리비전_ANovelMultiscaleApproachtoIndependenceTesting_09.png)
 
