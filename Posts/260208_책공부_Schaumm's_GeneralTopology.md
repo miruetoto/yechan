@@ -351,7 +351,7 @@ $p \in B \subset D_p \subset G$ or $p \in B \subset G$
 를 만족한다. 즉 그림에서 보이는 바와 같다. 다시 말해, $\mathcal{B}$는 위의 (ii)를 만족한다.
 
 
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_01.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_01.png)
 
 Example 1.3: 임의의 이산공간 $(X, \mathcal{D})$를 생각하자. 그러면 $X$의 모든 한원소 부분집합들의 족 $\mathcal{B} = \{\{p\} : p \in X\}$는 $X$ 위의 이산 위상 $\mathcal{D}$에 대한 기저이다. 각 한원소집합 $\{p\}$는 $\mathcal{D}$-열린이고, 모든 $A \subset X$가 $\mathcal{D}$-열린이므로, 모든 집합은 한원소집합들의 합집합이다. 사실 $X$의 부분집합들의 임의의 다른 족 $\mathcal{B}^*$가 $\mathcal{D}$에 대한 기저인 것은 $\mathcal{B}$의 상위족(superclass)인 것, 즉 $\mathcal{B}^* \supset \mathcal{B}$인 것과 동치이다.
 
@@ -377,7 +377,7 @@ $$\text{if} \quad a < c < b < d \quad \text{then} \quad (a, b] \cap (c, d] = (c,
 
 이는 아래 그림에서 보이는 바와 같다.
 
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_02.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_02.png)
 
 따라서 반열린-반닫힌 구간들의 합집합으로 이루어진 족 $\mathcal{T}$는 $\mathbf{R}$ 위의 위상이다, 즉 $\mathcal{B}$는 $\mathbf{R}$ 위의 위상 $\mathcal{T}$에 대한 기저이다. 이 위상 $\mathcal{T}$를 상극한 위상(upper limit topology)이라 부른다. $\mathcal{T} \neq \mathcal{U}$임을 관찰하라.
 
@@ -401,7 +401,7 @@ Example 2.1: 직선 $\mathbf{R}$에서 모든 열린구간 $(a, b)$는 두 무�
 
 Example 2.2: 평면 $\mathbf{R}^2$에서 수직 무한 열린 띠와 수평 무한 열린 띠의 교집합은 아래 그림에서 보이는 바와 같이 열린 직사각형이다.
 
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_03.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_03.png)
 
 그런데 앞서 언급한 바와 같이, 열린 직사각형들은 $\mathbf{R}^2$ 위의 보통 위상에 대한 기저를 이룬다. 따라서 모든 무한 열린 띠들의 족 $\mathcal{S}$는 $\mathbf{R}^2$에 대한 부분기저이다.
 
@@ -459,7 +459,7 @@ $p$를 위상공간 $X$에서 임의의 점이라 하자. $p$를 포함하는 �
 
 Example 4.1: 평면 $\mathbf{R}^2$ 위의 보통 위상과 임의의 점 $p \in \mathbf{R}^2$을 생각하자. 그러면 $p$를 중심으로 하는 모든 열린 원판의 모음 $\mathcal{B}_p$는 $p$에서의 국소 기저이다. 왜냐하면, 이전에 증명한 바와 같이, $p$를 포함하는 임의의 열린 집합 $G$는 중심이 $p$인 열린 원판 $D_p$를 포함하기 때문이다.
 
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_04.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_04.png)
 
 마찬가지로, 중심이 $a \in \mathbf{R}$인 모든 열린 구간 $(a - \delta, \, a + \delta)$의 모음은 직선 $\mathbf{R}$ 위의 점 $a$에서의 국소 기저이다.
 
@@ -511,7 +511,7 @@ $$\mathcal{T} = \{X, \varnothing, \{a\}, \{a,b\}, \{a,b,c\}\}, \quad \mathcal{T}
 또한 아래 다이어그램으로 정의되는 함수 $f: X \to Y$와 $g: X \to Y$를 생각하자:
 
 
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_05.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_05.png)
 
 
 함수 $f$는 연속이다. $Y$ 위의 위상 $\mathcal{T}^*$의 각 원소의 역상이 $X$ 위의 위상 $\mathcal{T}$의 원소이기 때문이다. 함수 $g$는 연속이 아니다. $\{y, z, w\} \in \mathcal{T}^*$, 즉 $Y$의 열린 부분집합이지만, 그 역상 $g^{-1}[\{y, z, w\}] = \{c, d\}$는 $X$의 열린 부분집합이 아니기 때문이다. 즉 $\mathcal{T}$에 속하지 않는다.
@@ -535,7 +535,7 @@ Theorem 7.2: Let $\mathcal{S}$ be a subbase for a topological space $Y$. Then a 
 Example 1.4: 평면 $\mathbf{R}^2$에서 직선 $\mathbf{R}$으로의 사영 사상들은 보통 위상에 대해 모두 연속이다. 예를 들어, $\pi(\langle x, y \rangle) = y$로 정의되는 사영 $\pi: \mathbf{R}^2 \to \mathbf{R}$을 생각하자. 그러면 임의의 열린 구간 $(a, b)$의 역상은 아래에 그려진 것과 같은 무한 열린 띠(strip)이다:
 
 
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_06.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_06.png)
 <$\pi^{-1}[(a, b)]$ is shaded>
 
 따라서 Proposition 7.1에 의해, $\mathbf{R}$의 모든 열린 부분집합의 역상은 $\mathbf{R}^2$에서 열린 집합이다. 즉 $\pi$는 연속이다.
@@ -546,7 +546,7 @@ $$f^{-1}[A] = \begin{cases} \varnothing & \text{if } a < b \leq 0 \\ (-b, b) & \
 
 아래 그림에서 보는 바와 같다. 각 경우에 $f^{-1}[A]$는 열린 집합이다. 따라서 $f$는 연속이다.
 
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_07.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_07.png)
 
 
 연속 함수는 닫힌 집합에 대한 행동으로도 특성화할 수 있다. 다음과 같다:
@@ -627,7 +627,7 @@ $$\langle f(a_n) \rangle = \langle f(a_1), \ldots, f(a_{n_0}), f(p), f(p), f(p),
 Example 2.1: 평면 $\mathbf{R}^2$에서 $x$-축으로의 사영 $\pi: \mathbf{R}^2 \to \mathbf{R}$, 즉 $\pi((x,y)) = x$를 생각하자. 임의의 열린 원판 $D \subset \mathbf{R}^2$의 사영 $\pi[D]$는 열린 구간임을 관찰하라. 따라서 열린집합 $G \subset \mathbf{R}^2$의 상 $\pi[G]$ 안의 임의의 점 $\pi(p)$는 $\pi[G]$에 포함된 어떤 열린 구간에 속하므로, $\pi[G]$는 열린집합이다. 따라서 $\pi$는 열린 함수이다. 반면에, $\pi$는 닫힌 함수가 아닌데, 집합 $A = \{(x,y) : xy \geq 1, \, x > 0\}$는 닫힌집합이지만 그 사영 $\pi[A] = (0, \infty)$는 닫힌집합이 아니기 때문이다. (아래 그림을 참조하라.)
 
 
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_08.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_08.png)
 
 > 규빈: 이런거 정리해보자
 
@@ -764,7 +764,7 @@ $$\pi_1(\langle x, y \rangle) = x \quad \text{and} \quad \pi_2(\langle x, y \ran
 
 아래 그림에서 보이듯이, $\mathbf{R}$에서의 열린구간 $(a, b)$의 역상은 $\mathbf{R}^2$에서의 무한 열린 띠(infinite open strip)임을 관찰하라.
 
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_09.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_09.png)
 
 이러한 무한 열린 띠들이 $\mathbf{R}^2$ 위의 보통위상에 대한 부분기저를 이룸을 상기하라. 따라서 $\mathbf{R}^2$ 위의 보통위상은 사영 $\pi_1$과 $\pi_2$가 연속이 되는 $\mathbf{R}^2$ 위의 가장 작은 위상이다.
 
@@ -807,7 +807,7 @@ $$d(f, g) = \int_0^1 |f(x) - g(x)|\, dx$$
 
 여기서 $d(f, g)$는 정확히 아래 그림에 보이듯이 두 함수 사이에 놓인 영역의 넓이이다.
 
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_10.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_10.png)
 Example 1.4: 다시 $\mathcal{C}[0,1]$을 $[0,1]$ 위의 연속함수들의 모임이라 하자. $\mathcal{C}[0,1]$ 위에 또 다른 거리함수가 다음과 같이 정의된다:
 
 $$d^*(f, g) = \sup\{|f(x) - g(x)| : x \in [0,1]\}$$
@@ -887,10 +887,10 @@ $S(p, \delta)$를 중심이 $p$이고 반지름이 $\delta$인 open sphere, 또�
 
 Example 3.1: 평면 $\mathbf{R}^2$에서 점 $p = (0,0)$와 실수 $\delta = 1$을 생각하자. $d$가 $\mathbf{R}^2$ 위의 usual metric이면, $S_d(p, \delta)$는 오른쪽에 그려진 open unit disc이다. 
 
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_11.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_11.png)
 
 반면에, Example 1.5에서 정의된 $\mathbf{R}^2$ 위의 metric $d_1$과 $d_2$에 대하여, $S_{d_1}(p, \delta)$와 $S_{d_2}(p, \delta)$는 아래에 그려진 $\mathbf{R}^2$의 부분집합들이다.
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_12.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_12.png)
 
 Example 3.2: 집합 $X$ 위의 trivial metric을 $d$라 하고, $p \in X$라 하자. $p$와 $X$의 다른 모든 점 사이의 거리는 정확히 1임을 기억하자. 따라서
 $$
@@ -910,13 +910,13 @@ $$
 (Example 1.4를 보라). $\delta > 0$과 함수 $f_0 \in C[0,1]$가 주어지면, open sphere $S(f_0, \delta)$는 아래 그림에 나타난 것처럼 $f_0 - \delta$와 $f_0 + \delta$로 둘러싸인 영역 안에 있는 모든 연속함수 $g$들의 집합이다.
 
 
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_13.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_13.png)
 
 metric space에서 open spheres의 한 가지 중요한 성질은 다음 lemma에 주어진다.
 
 Lemma 8.2: Let $S$ be an open sphere with center $p$ and radius $\delta$. Then for every point $q \in S$ there exists an open sphere $T$ centered at $q$ such that $T$ is contained in $S$. (See the adjacent Venn diagram.)
 
-![.](attachments/260208_책공부_Schaumm's_GeneralTopology_14.png)
+![.](attachments/260208_%EC%B1%85%EA%B3%B5%EB%B6%80_Schaumm%27s_GeneralTopology_14.png)
 METRIC TOPOLOGIES, METRIC SPACES
 
 일반적으로 두 open spheres의 교집합은 open sphere일 필요는 없다. 그러나 우리는 두 open spheres의 교집합에 있는 모든 점이 그 교집합 안에 포함된 어떤 open sphere에 속한다는 것을 보일 것이다. 즉,
