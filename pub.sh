@@ -3,6 +3,7 @@ set -e
 
 run_local() {
   cd ~/Dropbox/01-rsch/9999-Yechan
+  source .venv/bin/activate
   uv run python url_encode_images.py
   uv run python cleanup.py
   quarto render
@@ -17,7 +18,9 @@ if [ "$(whoami)" = "root" ]; then
 else
   # 로컬(Mac)에서 실행 → 186으로 SSH
   sshpass -p '123qwe' ssh -tt -p 43052 root@210.117.173.186 << 'ENDSSH'
+set -e
 cd ~/Dropbox/01-rsch/9999-Yechan
+source .venv/bin/activate
 uv run python url_encode_images.py
 uv run python cleanup.py
 quarto render

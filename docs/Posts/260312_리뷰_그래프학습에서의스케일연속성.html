@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="신록예찬">
+<meta name="dcterms.date" content="2026-03-12">
+
+<title>리뷰 ▷ 그래프학습에서의 스케일 연속성 – 신록예찬’s Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1d34b8b828554273fff31efe3144262d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">신록예찬’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DL2024/"> 
+<span class="menu-text">DL2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/AP2023/"> 
+<span class="menu-text">AP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/PP2024/"> 
+<span class="menu-text">PP2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DV2023/"> 
+<span class="menu-text">DV2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/MP2023/"> 
+<span class="menu-text">MP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SC2024/"> 
+<span class="menu-text">SC2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DS2022/"> 
+<span class="menu-text">DS2022</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SP2023/"> 
+<span class="menu-text">SP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/IR2021/"> 
+<span class="menu-text">IR2021</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan/"> 
+<span class="menu-text">yechan</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan2/"> 
+<span class="menu-text">yechan2</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/miruetoto/yechan"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#초록" id="toc-초록" class="nav-link active" data-scroll-target="#초록">초록</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">1 INTRODUCTION</a></li>
+  <li><a href="#recap-discontinuity-of-standard-mpnns-across-scales" id="toc-recap-discontinuity-of-standard-mpnns-across-scales" class="nav-link" data-scroll-target="#recap-discontinuity-of-standard-mpnns-across-scales">2 RECAP: DISCONTINUITY OF STANDARD MPNNS ACROSS SCALES</a></li>
+  <li><a href="#global-laplace-propagation-in-gnns" id="toc-global-laplace-propagation-in-gnns" class="nav-link" data-scroll-target="#global-laplace-propagation-in-gnns">3 GLOBAL LAPLACE PROPAGATION IN GNNS</a>
+  <ul class="collapse">
+  <li><a href="#spectral-networks" id="toc-spectral-networks" class="nav-link" data-scroll-target="#spectral-networks">3.1 SPECTRAL NETWORKS</a></li>
+  <li><a href="#message-passing-networks" id="toc-message-passing-networks" class="nav-link" data-scroll-target="#message-passing-networks">3.2 MESSAGE PASSING NETWORKS:</a></li>
+  </ul></li>
+  <li><a href="#numerical-investigation-of-scale-continuity-for-mpnns" id="toc-numerical-investigation-of-scale-continuity-for-mpnns" class="nav-link" data-scroll-target="#numerical-investigation-of-scale-continuity-for-mpnns">4 NUMERICAL INVESTIGATION OF SCALE CONTINUITY FOR MPNNS</a>
+  <ul class="collapse">
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">5 DISCUSSION</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">리뷰 ▷ 그래프학습에서의 스케일 연속성</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>신록예찬 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 12, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://openreview.net/pdf?id=RYl2VWfIRI" class="uri">https://openreview.net/pdf?id=RYl2VWfIRI</a></p>
+<section id="초록" class="level3">
+<h3 class="anchored" data-anchor-id="초록">초록</h3>
+<p>표준적인 메시지 패싱 그래프 신경망(Message Passing Graph Neural Networks, MPNNs)은 서로 다른 해상도(resolution)에서 동일한 기저 객체를 기술하는 그래프들에 대해 매우 서로 다른 잠재 임베딩(latent embedding)을 할당하는 경향이 있다. 그 결과, 메시지 패싱 그래프 신경망은 일반적으로 서로 다른 해상도 스케일 사이에서의 일반화에 실패한다. 기존 연구에서는 이러한 문제를 해결하기 위해 MPNN 대신 특정한 형태의 스펙트럴 그래프 신경망(spectral graph neural networks)을 사용하면 이를 극복할 수 있음을 보였다. 본 논문에서는 스케일 연속성(scale continuity)을 달성하는 데 스펙트럴 방법이 반드시 필요한 것은 아님을 보인다. 우리는 메시지 패싱 네트워크가 적절히 수정된다면 동일하게 스케일 연속성을 갖도록 만들 수 있음을 입증한다. 이를 위해 연속성을 보장하기 위한 구조적 요구조건을 규명하고, 해상도 스케일이 달라지더라도 임베딩을 안정적으로 보존할 가능성이 높은 메시지 패싱 아키텍처의 한 계열을 도출한다. 또한 실험적으로 이러한 모델들이 로컬 메시지 패싱 방법의 유연성과 확장성을 유지하면서도 스펙트럴 접근법과 유사한 수준의 <strong>스케일 간 일반화 성능(cross-scale generalization)</strong>을 달성함을 보인다.</p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">1 INTRODUCTION</h2>
+<p>그래프 신경망의 광범위한 채택을 뒷받침하는 핵심 이론적 기둥 중 하나는 그래프 신경망(Graph Neural Networks, GNNs)이 안정적이고 연속적인 사상(stable and continuous mappings)을 정의한다는 널리 공유된 믿음이다: 입력 그래프에서의 작은 변화는 학습된 표현에서도 그에 상응하는 작은 변화를 유도할 것으로 기대된다 (Ruiz et al., 2020; Maskey et al., 2021; Roddenberry et al., 2022; Le &amp; Jegelka, 2023).<br>
+최근 이러한 관점은 그래프 해상도 스케일 변화 하에서의 안정성 문제라는 맥락에서 도전받고 있다: Koke et al.&nbsp;(2024; 2025)에서는 메시지 패싱 층에 기반한 일반적인 그래프 신경망이 그래프 코어스닝(graph coarsening) 연산 하에서 연속적이지 않다는 것이 밝혀졌다. 그래프 <span class="math inline">\(G\)</span>와 그 코어스닝된 버전 <span class="math inline">\(\bar{G}\)</span>에 대해 MPNN이 생성한 잠재 임베딩 <span class="math inline">\(F, \bar{F}\)</span>는 매우 크게 다르다. 이러한 스케일 간 불연속성의 근본 원인은 표준 메시지 패싱 신경망의 근본적인 한계에 존재하는 것으로 확인되었다. 이러한 한계를 극복하고 스케일 간 일반화가 가능한 모델을 구축하기 위해 Koke et al.&nbsp;(2024; 2025)은 스펙트럴 접근을 취하였으며, spectral GNN 내부에서 노드 특징 행렬 <span class="math inline">\(X\)</span>의 층별 업데이트 규칙이 다음과 같이 구현될 경우</p>
+<p><span class="math display">\[
+X \mapsto \sum_{k=1}^{K} \psi_k(L) X W_k, \tag{1}
+\]</span></p>
+<p>그 결과 네트워크는 스케일 연속성을 가지게 된다는 것을 보였다; 즉 서로 다른 해상도에서 동일한 객체를 설명하는 그래프 <span class="math inline">\(G, \bar{G}\)</span>에 대해 유사한 잠재 임베딩 <span class="math inline">\((F \approx \bar{F})\)</span>을 할당한다. (1) 여기서 <span class="math inline">\(L\)</span>은 자연스러운(“비정규화된”) 그래프 라플라시안(graph Laplacian)이며 (cf.&nbsp;또한 Appendix A.1 참조), <span class="math inline">\(L\)</span>에 적용되는 함수 <span class="math inline">\(\psi_k\)</span>는 특정한 형태를 가진다 (라플라스 변환에서 유도됨; cf.&nbsp;아래 Section 3 참조).</p>
+<p>이러한 연구들 또한 (cf.&nbsp;예: Koke et al.&nbsp;(2025, Appendix B.1)) 표준 MPNN은 결코 스케일 연속적이지 않으며, 서로 다른 해상도에서 동일한 객체를 설명하는 유사한 그래프 <span class="math inline">\(G, \bar{G}\)</span>에 대해 매우 서로 다른 잠재 임베딩 <span class="math inline">\(F, \bar{F}\)</span>을 생성한다는 것을 보여주었다. 이러한 결과는 층별 업데이트가 (1)에서 정의된 형태를 따르는 스펙트럴 그래프 신경망만이 스케일 연속적일 수 있다고 가정하게 만들 수 있다. 그러나 여기서 우리는 이것이 사실이 아님을 보인다: 메시지 패싱이 적절하게 구현된다면 MPNN 또한 스케일 연속적으로 만들 수 있다. 구체적으로 우리는 다음과 같은 층별 업데이트를 갖는 MPNN이</p>
+<p><span class="math display">\[
+h_u^{(\ell+1)} = \sum_{v \in G} m_{uv}, \qquad
+m_{uv} = [\psi(L)]_{vu} \cdot \phi(h_u^{(\ell)}, h_v^{(\ell)}), \qquad
+h_0 = \psi(L) X,
+\tag{2}
+\]</span></p>
+<p>실제로 스케일 연속적임을 보인다. 여기서 <span class="math inline">\(h_u^{(\ell)}\)</span>는 층 <span class="math inline">\(\ell\)</span>에서 노드 <span class="math inline">\(u\)</span>의 잠재 표현이며, <span class="math inline">\(\phi(\cdot,\cdot)\)</span>는 학습 가능한 메시지 함수이고 <span class="math inline">\(\psi(L)\)</span>은 <span class="math inline">\(L\)</span>에 적용되는 특정한 (종류의; cf.&nbsp;Section 3) 함수이다.</p>
+</section>
+<section id="recap-discontinuity-of-standard-mpnns-across-scales" class="level2">
+<h2 class="anchored" data-anchor-id="recap-discontinuity-of-standard-mpnns-across-scales">2 RECAP: DISCONTINUITY OF STANDARD MPNNS ACROSS SCALES</h2>
+<p>서로 다른 해상도에서의 데이터를 일관되게 처리하는 데 기존 GNN 아키텍처가 어려움을 겪는다는 것을 보이기 위해, 우리는 (Koke et al., 2024; 2025)의 실험 설정을 채택하고 QM7 벤치마크 데이터셋(Rupp et al., 2012)을 사용한다. 이 데이터셋은 수소와 더 무거운 원소들로 구성된 작은 유기 분자들로 이루어져 있으며, 이들의 원자화 에너지를 예측하는 과제를 가진다. 각 분자는 가중 그래프로 인코딩되며, 그 인접 행렬은 다음과 같이 정의된다 <span class="math display">\[
+A_{ij} = Z_i Z_j |\vec{x}_i - \vec{x}_j|^{-1},
+\]</span> 이는 원자 <span class="math inline">\(i\)</span>와 <span class="math inline">\(j\)</span> 사이의 쿨롱 상호작용 에너지를 나타낸다.</p>
+<p>물리적 관점에서 보면, 상호작용하는 원자 수준에서 분자를 기술하는 것은 특정한 해상도 스케일을 선택하는 것에 해당하며, 이때 개별 원자 내부에 존재하는 개별 양성자와 중성자 사이의 상호작용은 무시된다. GNN의 스케일 연속성을 시험하기 위해 우리는 해상도 스케일을 더 낮춘 QM7의 한 변형도 고려한다: 여기에서는 각 무거운 원자 핵을 그 주변의 (단일 양성자를 가진) 수소 원자들과 함께 하나의 슈퍼노드로 집계한다.</p>
+<p>GNN이 여러 스케일을 일관되게 통합하는 데 실패한다는 것을 보여주기 위해, 우리는 추론 단계에서 모델이 학습된 스케일과 다른 스케일의 QM7 버전을 사용하여 모델을 평가한다. Table 1에 요약된 것처럼, 모델을 동일 해상도 설정에서 교차 해상도 설정으로 옮기면 평균 절대 오차(mean absolute error)가 급격히 증가한다.</p>
+<p><img src="attachments/260312_리뷰_그래프학습에서의스케일연속성_01.png" class="img-fluid"></p>
+<p>풀링 기반 또는 멀티스케일 변형(SAG-M부터 PushNet까지)을 포함한 어떤 아키텍처도 여러 스케일을 신뢰성 있게 처리하지 못한다. 이는 원래 그래프 <span class="math inline">\(\{G\}\)</span>와 코어스닝된 그래프 <span class="math inline">\(\{\bar{G}\}\)</span>에 대해 생성되는 잠재 임베딩 <span class="math inline">\(\{F\}\)</span>와 <span class="math inline">\(\{\bar{F}\}\)</span>로 거슬러 올라가 설명할 수 있다: Table 1의 모델들에 대해 평균적으로 <span class="math display">\[
+10 \lesssim \|F - \bar{F}\| \lesssim 10^3
+\]</span> 이다 (cf.&nbsp;또한 아래 Table 2 참조): 서로 다른 해상도에서 동일한 객체를 설명하는 그래프들의 잠재 표현은 상당히 크게 다르다.</p>
+<p>(Koke et al., 2024; 2025)에서 주장된 바와 같이 이러한 잠재 임베딩 차이의 근본적인 이유는 표준 GNN이 연속적이지 않기 때문이다. 이를 보기 위해 우리는 fine 해상도와 coarse 해상도 사이를 보간(interpolate)한다: QM7의 원래 그래프 <span class="math inline">\(\{G\}\)</span>는 수소 원자들을 대응되는 무거운 원자 쪽으로 <span class="math inline">\(\omega \ge 1\)</span>의 비율만큼 이동시켜 수정된 그래프 <span class="math inline">\(\{G_\omega\}\)</span>로 변형된다 (즉 <span class="math inline">\(\mathrm{dist}_{new} = \mathrm{dist}_{equilib.}/\omega\)</span>). <span class="math inline">\(\omega \to \infty\)</span>이면 이들은 각각의 무거운 원자에 도달하게 된다 (<span class="math inline">\(\{\bar{G}\}\)</span>). Fig. 2에서는 우리는 coarse 임베딩 <span class="math inline">\(\bar{F}\)</span>와 중간 그래프의 임베딩 <span class="math inline">\(F_\omega\)</span> 사이의 잠재 거리(latent distance)를 비교한다. 임베딩 <span class="math inline">\(F_\omega\)</span>는 coarse 임베딩 <span class="math inline">\(\bar{F}\)</span>로 수렴하지 않는다. 그래프 열(sequence) <span class="math inline">\(G_\omega\)</span>가 극한 그래프 <span class="math inline">\(\bar{G}\)</span>로 수렴함에도 불구하고 잠재 임베딩이 <span class="math inline">\(F_\omega \not\to \bar{F}\)</span>이므로 우리는 다음과 같이 결론 내린다: 이 설정에서 GNN은 연속적이지 않다. 이러한 불연속성은 왜 GNN이 유사한 그래프들(서로 다른 해상도에서 동일한 객체를 설명하는)을 서로 다른 잠재 표현으로 사상할 수 있는지를 설명한다.</p>
+<p>이러한 불연속성을 이해하기 위해, 예시적으로 GCN (Kipf &amp; Welling, 2017)을 살펴볼 수 있다. 여기서 층별 업데이트는 <span class="math inline">\(X \mapsto \hat{A}XW\)</span>로 작용하며, 특징 행렬 <span class="math inline">\(X \in \mathbb{R}^{N \times F}\)</span> (노드 수 <span class="math inline">\(N\)</span>; 잠재 차원 <span class="math inline">\(F\)</span>), 가중치 행렬 <span class="math inline">\(W \in \mathbb{R}^{F \times F}\)</span>, 그리고 재정규화된 인접 행렬 <span class="math inline">\(\hat{A} \in \mathbb{R}^{N \times N}\)</span>을 사용한다. 수소 원자들이 무거운 원자들에 더 가까이 이동함에 따라 <span class="math inline">\(\hat{A}_{ij} \sim A_{ij}/\sqrt{d_i d_j}\)</span>에서 <span class="math inline">\(\hat{A}_{\text{heavy},\text{heavy}}\)</span> 항은 0으로 수렴한다 (차수 <span class="math inline">\(d_{\text{heavy}}\)</span>는 무한대로 발산한다). 이는 그래프 전체에서의 정보 흐름을 방해하게 된다 (Fig 1 (d)).</p>
+<p><img src="attachments/260312_리뷰_그래프학습에서의스케일연속성_02.png" class="img-fluid"></p>
+</section>
+<section id="global-laplace-propagation-in-gnns" class="level2">
+<h2 class="anchored" data-anchor-id="global-laplace-propagation-in-gnns">3 GLOBAL LAPLACE PROPAGATION IN GNNS</h2>
+<p>Fig. 1 (d)와 같은 분리된(disconnected) 극한 전파를 피하기 위해, GCN의 전파 방식은 다음과 같이 수정된다:</p>
+<section id="spectral-networks" class="level3">
+<h3 class="anchored" data-anchor-id="spectral-networks">3.1 SPECTRAL NETWORKS</h3>
+<p><span class="math inline">\(G_\omega\)</span>와 <span class="math inline">\(\bar{G}\)</span>에서의 정보 흐름을 연결하기 위해, <span class="math inline">\(G_\omega\)</span>에서의 특징(feature)은 큰 엣지 가중치로 연결된 노드들 사이에서 더 빠르게 같아져야 한다는 점을 주목할 수 있다. 이러한 큰 가중치가 무한대로 수렴하면, 강하게 연결된 노드들 사이의 특징은 즉시 동일해지며, 그 결과 전체 강연결 클러스터는 <span class="math inline">\(\bar{G}\)</span>에서의 단일 노드처럼 정확히 동작하게 된다. 이는 그래프 위에서 열이 확산되는 현상과 동일한 거동이다. 따라서 우리는 그래프 위의 열 확산 방정식 <span class="math display">\[
+\frac{dX(t)}{dt} = -L \cdot X(t)
+\]</span> (그래프 라플라시안 <span class="math inline">\(L\)</span>과 시간 <span class="math inline">\(t\)</span>를 사용)과 그 해의 구조 <span class="math display">\[
+X(t) = e^{-Lt} \cdot X(0)
+\]</span> 를 활용하여 스케일 연속적인 그래프 네트워크를 설계할 수 있다: <span class="math inline">\(\hat{\psi}\)</span>를 <span class="math inline">\([0,\infty)\)</span> 위에서 정의된 유계(일반화된) 함수라고 하자. Global Laplacian Propagation Matrix <span class="math inline">\(\psi(L)\)</span>은 다음과 같이 정의되는 모든 행렬이다 <span class="math display">\[
+\psi(L) := \int_0^{\infty} e^{-tL} \hat{\psi}(t)\,dt .
+\]</span> 따라서 <span class="math inline">\(\psi(L)\)</span>은 서로 다른 시간 동안 진행된 확산 흐름들의 가중 합을 나타낸다. 구체적으로 가중 함수 <span class="math inline">\(\hat{\psi}_{\delta_{t_k}}(t) := \delta(t - t_k)\)</span>로 디랙 분포를 선택하면 우리는 지수 행렬 <span class="math display">\[
+\psi_k(L) = \int_0^{\infty} \delta(t - t_k)e^{-tL}dt = e^{-t_k L}
+\]</span> 을 얻고, 또한 <span class="math inline">\(\hat{\psi}_k := (-t)^{k-1} e^{-\lambda t}\)</span>를 선택하면 resolvent의 거듭제곱 <span class="math display">\[
+\psi_k(L) = [(z Id + L)^{-1}]^k
+\]</span> 을 얻게 된다.</p>
+<p>(Koke et al., 2024; 2025)에서는 GCN의 업데이트 규칙 <span class="math inline">\(X \mapsto \hat{A}XW\)</span>를 <span class="math inline">\(X \mapsto \psi(L)XW\)</span> (여기서 <span class="math inline">\(\psi(L)\)</span>은 Laplacian 전파 행렬)로 대체하면, 그 결과 네트워크가 스케일 연속적이 된다는 것이 증명되었다 (예: Fig. 2의 설정에서 <span class="math inline">\(\|F_\omega - \bar{F}\| \to 0\)</span>). 또한 GCN은 가장 단순한 형태의 spectral network로 볼 수 있으며, 이를 통해 스케일 연속성 결과를 보다 일반적인 spectral network로 확장할 수 있음이 지적되었다. 이때 층별 업데이트 규칙은 <span class="math display">\[
+X \mapsto \sum_{k=1}^{K} \psi_k(L) X W_k
+\]</span> 의 형태를 갖는다.</p>
+</section>
+<section id="message-passing-networks" class="level3">
+<h3 class="anchored" data-anchor-id="message-passing-networks">3.2 MESSAGE PASSING NETWORKS:</h3>
+<p>여기서 우리는 GCN이 가장 단순한 spectral GNN일 뿐만 아니라 가장 단순한 message-passing 기반 GNN이기도 하다는 점을 주목한다. 따라서 우리는 spectral GNN을 scale continuous하게 만드는 이전 결과들을 message passing 네트워크 영역으로도 확장하는 것을 목표로 한다.</p>
+<p>message passing 기반 네트워크를 scale continuous하게 만들기 위해 정확히 어떤 수정이 필요한지를 파악하기 위해, 우리는 binary edge 설정(인접 행렬 항목 <span class="math inline">\(A_{uv} \in \{0,1\}\)</span>)에서 직관을 얻는다: sum aggregation을 사용하는 네트워크의 경우 MPNN의 층별 업데이트는 다음과 같이 쓸 수 있다 <span class="math display">\[
+h_u^{(\ell+1)} = \sum_{v \in G} m_{uv},
+\]</span> 메시지 함수는 <span class="math display">\[
+m_{uv} = A_{uv} \cdot \phi(h_v^{(\ell)}, h_u^{(\ell)}).
+\]</span> Section 2에서 보았듯이, 이러한 adjacency 중심 전파 방식은 스케일에 대해 연속적이지 않은 네트워크를 만든다. 따라서 우리는 전파 구조에서 <span class="math inline">\(A \mapsto \psi(L)\)</span> 치환을 사용한다: <span class="math display">\[
+h_u^{(\ell+1)} = \sum_{v \in G} m_{vu}, \qquad
+m_{uv} = [\psi(L)]_{uv} \cdot \phi(h_u^{(\ell)}, h_v^{(\ell)}), \qquad
+h_0 = \Psi(L)X,
+\tag{3}
+\]</span></p>
+<p><span class="math inline">\(\phi(h_u^{(\ell)}, h_v^{(\ell)}) = W \cdot h_v^{(\ell)}\)</span>로 선택하면 이는 Section 3.1의 수정된 GCN 버전으로 환원된다.</p>
+<p><strong>Scalability</strong>: 겉보기에는 Laplace 변환 행렬 <span class="math inline">\(\psi(L)\)</span>을 따라 전파하는 것은 확장성이 어려워 보일 수 있다. 왜냐하면 <span class="math inline">\(\psi(L)=e^{-tL}\)</span>과 같은 행렬은 보통 dense이기 때문이다. 따라서 단순 구현을 하면 <span class="math inline">\(N\)</span>개의 노드를 가진 그래프에서 <span class="math inline">\(N^2\)</span>개의 메시지를 전달해야 할 수도 있다. 그러나 실제로 이는 실용적인 병목이 되지 않는다: 대부분의 항들은 매우 작아 사실상 0에 가깝기 때문이다 (Bauer et al., 2017). 따라서 전파는 실제로는 효과적으로 sparse하게 유지되며, 매우 작은 값의 간선들은 실제 구현에서 안전하게 제거할 수 있다.</p>
+<p>Theoretical Guarantees: (3)에서 개요적으로 제시된 것과 정확히 동일한 방식으로 message-passing 기반 그래프 신경망을 수정하면 실제로 scale continuous한 네트워크가 얻어짐을 우리는 다음에서 보인다. 우리의 주요 Theorem(부록 Appendix C.2에서 증명됨)은 수정된 MPNN의 scale-continuity를 확립한다:</p>
+<p>Theorem 3.1. In the setting of Figure 2 let <span class="math inline">\(F_\omega\)</span> and <span class="math inline">\(\bar{F}\)</span> be the latent embeddings generated for graphs <span class="math inline">\(G_\omega\)</span> and <span class="math inline">\(\bar{G}\)</span> by a modified message passing network. For such latent embeddings we have <span class="math inline">\(\|F_\omega - \bar{F}\| \to 0\)</span> as <span class="math inline">\(\omega\)</span> increases.</p>
+<p><img src="attachments/260312_리뷰_그래프학습에서의스케일연속성_03.png" class="img-fluid"></p>
+<p>따라서 (3)에서의 수정된 MPNN은 Section 2의 설정에서 실제로 연속적이며, 그 결과 서로 다른 해상도에서 동일한 객체를 설명하는 그래프 <span class="math inline">\(G\)</span>, <span class="math inline">\(\bar{G}\)</span>에 대해 유사한 잠재 임베딩 <span class="math inline">\(F \approx \bar{F}\)</span>을 할당한다.</p>
+</section>
+</section>
+<section id="numerical-investigation-of-scale-continuity-for-mpnns" class="level2">
+<h2 class="anchored" data-anchor-id="numerical-investigation-of-scale-continuity-for-mpnns">4 NUMERICAL INVESTIGATION OF SCALE CONTINUITY FOR MPNNS</h2>
+<p>스케일 간 연속성: Theorem 3.1은 (3)과 같은 Laplace 변환 기반 전파 방식을 사용하는 MPNN이 그래프 공간에서 그 잠재 공간으로 가는 사상으로서 연속적임을 의미한다. 이를 수치적으로 검증하기 위해, 우리는 이 범주에 속하는 모델들에 대해 Figure 2의 실험을 반복한다 (resolvent 행렬과 exponential 행렬을 사용; cf.&nbsp;Section 3의 spectral 설정과 spatial 설정). Fig. 3에서 분명히 보이듯이, Laplace 변환 전파를 사용하는 모델들—수정된 MPNN 기반 방법을 포함하여—이 생성한 잠재 임베딩은 실제로 수렴한다 (<span class="math inline">\(\|F_\omega - \bar{F}\| \to 0\)</span>).</p>
+<p><img src="attachments/260312_리뷰_그래프학습에서의스케일연속성_04.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>규빈: 아래쪽 곡선이 (좋은거) MPNN-Res, MPNN-Exp, Spectral-Res, Spectral-Exp</p>
+</blockquote>
+<p>따라서 Section 3.2에서 구성한 message passing 모델들에 대해 우리는 원하는 스케일 간 연속성을 실제로 확인하였다.</p>
+<p>Resulting Generalization Ability: Section 2에서 우리는 스케일 간 일반화를 가로막는 원인이 연속성의 결여임을 확인하였다. 위에서 확인했듯이 Laplace 변환 기반 전파를 사용하는 MPNN은 연속적이다. 따라서 이러한 모델들은 유사한 그래프를 유사한 잠재 임베딩으로 사상할 것으로 기대된다. 이를 검증하기 위해 우리는 여기서 Section 2의 Table 1에서 수행한 일반화 실험을 다시 수행한다.</p>
+<p><img src="attachments/260312_리뷰_그래프학습에서의스케일연속성_05.png" class="img-fluid"></p>
+<p>Table 2의 표준 GNN들과 비교하면, 서로 다른 해상도(cross-resolution) 설정에서 global Laplacian 전파 방식을 사용하는 방법들이 생성한 잠재 임베딩의 차이 <span class="math inline">\(\|F - \bar{F}\|\)</span>는 표준 그래프 학습 방법들에 비해 약 <span class="math inline">\(10^2\)</span>에서 <span class="math inline">\(10^4\)</span> 배 정도 더 작다는 것을 확인할 수 있다. 또한 spectral 방법들뿐만 아니라 Laplace 변환 기반 전파를 사용하는 MPNN이 생성한 임베딩 역시 안정적임을 확인할 수 있다 (<span class="math inline">\(\|F - \bar{F}\| \approx 0\)</span>).</p>
+<p>잠재 표현에서의 매우 작거나 무시할 수 있는 수준의 변화는 예측 성능에서도 매우 작거나 무시할 수 있는 수준의 변화로 이어진다: 아래 Table 3에서 확인할 수 있듯이, 서로 다른 해상도(cross-resolution) 설정에서 Laplace 변환 기반 GNN이 생성한 MAE는 동일 해상도 설정(same-resolution)에서의 값과 본질적으로 동일하다. Laplace 변환 전파 방식을 사용하는 GNN은 스케일 간 일반화(generalize across scales)가 가능하다. 이는 spectral 방법에만 국한되지 않는다: 수정된 MPNN 기반 방법 또한 스케일 간 일반화가 가능하다.</p>
+<section id="discussion" class="level3">
+<h3 class="anchored" data-anchor-id="discussion">5 DISCUSSION</h3>
+<p>우리는 스케일 연속성이 spectral graph neural networks에만 국한되지 않으며 message passing 모델에서도 달성될 수 있음을 보였다. adjacency 기반 전파를 Laplace 변환 기반 정보 흐름으로 대체함으로써 MPNN은 그래프 해상도 전반에 걸쳐 연속적임이 이론적으로 보장되도록 만들 수 있다. 이는 spectral 접근과 spatial 접근을 하나의 공통 원리 아래에서 통합한다: 연속성은 네트워크 계열이 아니라 전파 연산자(propagation operator)에 의해 결정된다. 실험적으로도 새롭게 제안된 message passing 기반 모델들은 spectral 방법과 동일한 수준의 스케일 간 일반화 능력을 보인다.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
