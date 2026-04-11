@@ -164,6 +164,12 @@ def get_new_filename(file_path: Path) -> str:
     # 새 파일명 생성
     actual_title = sanitize_filename(actual_title)
 
+    # .qmd, .ipynb 파일은 공백 제거
+    if ext in ['.qmd', '.ipynb']:
+        actual_title = actual_title.replace(' ', '')
+        if category:
+            category = category.replace(' ', '')
+
     if category:
         new_name = f"{date_prefix}_{category}_{actual_title}{ext}"
     else:
