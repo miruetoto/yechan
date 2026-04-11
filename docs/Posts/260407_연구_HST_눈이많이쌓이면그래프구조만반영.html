@@ -326,38 +326,50 @@ window.Quarto = {
 <section id="step-2.-높이차의-유계성" class="level2">
 <h2 class="anchored" data-anchor-id="step-2.-높이차의-유계성">Step 2. 높이차의 유계성</h2>
 <p><strong>Lemma 1 (Drift Condition).</strong> Lyapunov 함수를</p>
-<p><span class="math display">\[\Phi(t) := \sum_{i=1}^{n} \big(h(v_i, t) - \bar{h}(t)\big)^2, \quad \bar{h}(t) := \frac{1}{n}\sum_k h(v_k, t)\]</span></p>
+<p><span class="math display">\[V(t) := \sum_{i=1}^{n} \big(h(v_i, t) - \bar{h}(t)\big)^2, \quad \bar{h}(t) := \frac{1}{n}\sum_k h(v_k, t)\]</span></p>
 <p>로 정의한다. 시각 <span class="math inline">\(t+1\)</span>에서 노드 <span class="math inline">\(v_\ell\)</span>에 <span class="math inline">\(+b\)</span>가 쌓이면:</p>
-<p><span class="math display">\[\Phi(t+1) - \Phi(t) = 2b\big(h(v_\ell, t) - \bar{h}(t)\big) + \frac{(n-1)b^2}{n}\]</span></p>
-<p><strong>증명 (<span class="math inline">\(\Phi\)</span> 전개).</strong> <span class="math inline">\(h_i := h(v_i, t) - \bar{h}(t)\)</span>로 쓰자 (<span class="math inline">\(\sum_i h_i = 0\)</span>). 갱신 후:</p>
+<p><span class="math display">\[V(t+1) - V(t) = 2b\big(h(v_\ell, t) - \bar{h}(t)\big) + \frac{(n-1)b^2}{n}\]</span></p>
+<p><strong>증명 (<span class="math inline">\(V\)</span> 전개).</strong> <span class="math inline">\(h_i := h(v_i, t) - \bar{h}(t)\)</span>로 쓰자 (<span class="math inline">\(\sum_i h_i = 0\)</span>). 갱신 후:</p>
 <p><span class="math display">\[h_\ell \mapsto h_\ell + b - \frac{b}{n} = h_\ell + b\frac{n-1}{n}, \quad h_i \mapsto h_i - \frac{b}{n} \;\;(i \neq \ell)\]</span></p>
 <p>따라서:</p>
-<p><span class="math display">\[\Phi(t+1) = \left(h_\ell + b\frac{n-1}{n}\right)^2 + \sum_{i \neq \ell}\left(h_i - \frac{b}{n}\right)^2\]</span></p>
+<p><span class="math display">\[V(t+1) = \left(h_\ell + b\frac{n-1}{n}\right)^2 + \sum_{i \neq \ell}\left(h_i - \frac{b}{n}\right)^2\]</span></p>
 <p><span class="math display">\[= h_\ell^2 + 2h_\ell b\frac{n-1}{n} + b^2\frac{(n-1)^2}{n^2} + \sum_{i \neq \ell}\left(h_i^2 - 2h_i\frac{b}{n} + \frac{b^2}{n^2}\right)\]</span></p>
-<p><span class="math display">\[= \Phi(t) + 2b\frac{n-1}{n}h_\ell - \frac{2b}{n}\sum_{i\neq\ell}h_i + b^2\frac{(n-1)^2}{n^2} + (n-1)\frac{b^2}{n^2}\]</span></p>
+<p><span class="math display">\[= V(t) + 2b\frac{n-1}{n}h_\ell - \frac{2b}{n}\sum_{i\neq\ell}h_i + b^2\frac{(n-1)^2}{n^2} + (n-1)\frac{b^2}{n^2}\]</span></p>
 <p><span class="math inline">\(\sum_{i\neq\ell}h_i = -h_\ell\)</span>이므로:</p>
-<p><span class="math display">\[= \Phi(t) + 2b\frac{n-1}{n}h_\ell + \frac{2b}{n}h_\ell + b^2\frac{(n-1)^2 + (n-1)}{n^2}\]</span></p>
-<p><span class="math display">\[= \Phi(t) + 2bh_\ell + \frac{(n-1)b^2}{n} \quad \square\]</span></p>
-<p><strong>1-step <span class="math inline">\(\Phi\)</span> 변화.</strong> <span class="math inline">\(X^*_{t+1}\)</span>을 시각 <span class="math inline">\(t+1\)</span>에서 눈이 최종 쌓이는 노드라 하면:</p>
-<p><span class="math display">\[\mathbb{E}[\Phi(t+1) - \Phi(t) \mid S(t)] = 2b \cdot \mathbb{E}\big[h_{X^*_{t+1}} \mid S(t)\big] + \frac{(n-1)b^2}{n} \tag{$\dagger$}\]</span></p>
-<p><strong><span class="math inline">\(k\)</span>-step drift로의 전환.</strong> 1-step drift만으로는 모든 그래프 구조에서 음의 drift를 보장할 수 없다. 인접 노드들이 동일한 높이로 뭉쳐 거대한 ’고원(plateau)’을 형성하면, 1스텝의 flow 강하가 0이 되어 <span class="math inline">\(\boldsymbol{\mu}_0\)</span>의 편향(높이-차수 상관)을 상쇄하지 못한다 (비대칭 바벨 그래프가 대표적 반례). 그러나 HST의 flow 메커니즘은 다단계에 걸쳐 고원을 반드시 해소하므로, <strong>일반화된 <span class="math inline">\(k\)</span>-step Foster-Lyapunov 기준</strong>을 적용한다.</p>
+<p><span class="math display">\[= V(t) + 2b\frac{n-1}{n}h_\ell + \frac{2b}{n}h_\ell + b^2\frac{(n-1)^2 + (n-1)}{n^2}\]</span></p>
+<p><span class="math display">\[= V(t) + 2bh_\ell + \frac{(n-1)b^2}{n} \quad \square\]</span></p>
+<p><strong>1-step <span class="math inline">\(V\)</span> 변화.</strong> <span class="math inline">\(X^*_{t+1}\)</span>을 시각 <span class="math inline">\(t+1\)</span>에서 눈이 최종 쌓이는 노드라 하면:</p>
+<p><span class="math display">\[\mathbb{E}[V(t+1) - V(t) \mid S(t)] = 2b \cdot \mathbb{E}\big[h_{X^*_{t+1}} \mid S(t)\big] + \frac{(n-1)b^2}{n} \tag{$\dagger$}\]</span></p>
+<p><strong><span class="math inline">\(k\)</span>-step drift로의 전환.</strong> 1-step drift만으로는 모든 그래프 구조에서 음의 drift를 보장할 수 없다. 인접 노드들이 동일한 높이로 뭉쳐 거대한 ’고원(plateau)’을 형성하면, 1스텝의 flow 강하가 0이 되어 <span class="math inline">\(\boldsymbol{\mu}_0\)</span>의 편향(높이-차수 상관)을 상쇄하지 못한다 (비대칭 바벨 그래프가 대표적 반례). 그러나 HST의 flow 메커니즘은 다단계에 걸쳐 고원을 반드시 해소하므로, <strong><span class="math inline">\(k\)</span>-step Foster-Lyapunov 기준</strong>을 적용한다.</p>
 <blockquote class="blockquote">
-<p><strong>Theorem (Foster-Lyapunov Criterion; Meyn &amp; Tweedie, 1993, Theorem 11.3.4).</strong> <span class="math inline">\(\psi\)</span>-비가약 마르코프 체인 <span class="math inline">\(\{\Phi_t\}\)</span>에 대해, petite 집합 <span class="math inline">\(C\)</span>와 함수 <span class="math inline">\(V \geq 0\)</span>이 존재하여 drift 조건</p>
-<p><span class="math display">\[\Delta V(x) := \mathbb{E}_x[V(\Phi_1)] - V(x) \leq -1 + b\,\mathbb{1}_C(x) \tag{V2}\]</span></p>
-<p>를 만족하고, <span class="math inline">\(V\)</span>가 <span class="math inline">\(C\)</span> 위에서 유계이면, 체인은 <strong>양의 해리스 재귀(positive Harris recurrent)</strong>이다.</p>
-<p><strong><span class="math inline">\(k\)</span>-step 확장.</strong> 원래 체인 <span class="math inline">\(\{\Phi_t\}\)</span>이 <span class="math inline">\(k\)</span>-step drift 조건 <span class="math inline">\(\mathbb{E}[\Phi(t+k) - \Phi(t) \mid S(t)] \leq -\epsilon\)</span> (for <span class="math inline">\(S(t) \notin \mathcal{B}\)</span>)을 만족하면, <span class="math inline">\(k\)</span>-skeleton 체인 <span class="math inline">\(\{\Phi_{mk}\}_{m \geq 0}\)</span>에 Theorem 11.3.4를 적용하여 skeleton의 양의 재귀성을 얻고, 이로부터 원래 체인의 양의 재귀성이 따른다 (Meyn &amp; Tweedie, 1993, §5.5 및 §17.3 참조).</p>
+<p><strong>Theorem (Foster-Lyapunov Criterion; Meyn &amp; Tweedie, 1993, Theorem 11.3.4를 우리 기호로 재서술).</strong> 비가약 마르코프 체인 <span class="math inline">\(\{S(t)\}\)</span>에 대해, 유한 집합 <span class="math inline">\(\mathcal{B}\)</span>와 함수 <span class="math inline">\(V \geq 0\)</span>이 존재하여 drift 조건</p>
+<p><span class="math display">\[\mathbb{E}[V(t+1) - V(t) \mid S(t) = S] \leq -1 + \beta\,\mathbb{1}_{\mathcal{B}}(S) \tag{V2}\]</span></p>
+<p>를 만족하고 (<span class="math inline">\(\beta &lt; \infty\)</span>는 상수), <span class="math inline">\(V\)</span>가 <span class="math inline">\(\mathcal{B}\)</span> 위에서 유계이면, 체인은 <strong>양의 재귀(positive recurrent)</strong>이다.</p>
+<p><strong><span class="math inline">\(k\)</span>-step 확장.</strong> 원래 체인 <span class="math inline">\(\{S(t)\}\)</span>이 <span class="math inline">\(k\)</span>-step drift 조건 <span class="math inline">\(\mathbb{E}[V(t+k) - V(t) \mid S(t)] \leq -\epsilon\)</span> (for <span class="math inline">\(S(t) \notin \mathcal{B}\)</span>)을 만족하면, <span class="math inline">\(k\)</span>-skeleton 체인 <span class="math inline">\(\{S(mk)\}_{m \geq 0}\)</span>에 위 정리를 적용하여 skeleton의 양의 재귀성을 얻고, 이로부터 원래 체인의 양의 재귀성이 따른다 (Meyn &amp; Tweedie, 1993, §5.5 및 §17.3 참조).</p>
 </blockquote>
-<p><strong><span class="math inline">\(k\)</span> 스텝 동안의 <span class="math inline">\(\Phi\)</span> 변화.</strong> <span class="math inline">\((\dagger)\)</span>를 <span class="math inline">\(k\)</span> 스텝에 걸쳐 축적하면:</p>
-<p><span class="math display">\[\Phi(t+k) - \Phi(t) = \sum_{s=0}^{k-1} \Big[2b\, h_{X^*_{t+s+1}}(t+s) + \frac{(n-1)b^2}{n}\Big]\]</span></p>
+<p><strong><span class="math inline">\(k\)</span> 스텝 동안의 <span class="math inline">\(V\)</span> 변화.</strong> <span class="math inline">\((\dagger)\)</span>를 <span class="math inline">\(k\)</span> 스텝에 걸쳐 축적하면:</p>
+<p><span class="math display">\[V(t+k) - V(t) = \sum_{s=0}^{k-1} \Big[2b\, h_{X^*_{t+s+1}}(t+s) + \frac{(n-1)b^2}{n}\Big]\]</span></p>
 <p>여기서 <span class="math inline">\(h_{X^*_{t+s+1}}(t+s) := h(v_{X^*_{t+s+1}}, t+s) - \bar{h}(t+s)\)</span>이다. 따라서:</p>
-<p><span class="math display">\[\mathbb{E}[\Phi(t+k) - \Phi(t) \mid S(t)] = 2b \sum_{s=0}^{k-1} \mathbb{E}[h_{X^*_{t+s+1}}(t+s) \mid S(t)] + k \cdot \frac{(n-1)b^2}{n} \tag{$\dagger\dagger$}\]</span></p>
+<p><span class="math display">\[\mathbb{E}[V(t+k) - V(t) \mid S(t)] = 2b \sum_{s=0}^{k-1} \mathbb{E}[h_{X^*_{t+s+1}}(t+s) \mid S(t)] + k \cdot \frac{(n-1)b^2}{n} \tag{$\dagger\dagger$}\]</span></p>
 <p>음의 drift를 확보하기 위해, <span class="math inline">\(k\)</span> 스텝 중 최소 한 번은 눈이 <strong>높이 범위 <span class="math inline">\(M\)</span>에 비례하는 큰 낙차를 발생시키는 사건</strong>이 일어남을 보인다.</p>
-<p><strong>핵심 사건의 구성.</strong> <span class="math inline">\(\mathcal{G}\)</span>가 연결이므로, 최고점 <span class="math inline">\(v^+ = \arg\max_i h_i\)</span>에서 최저점 <span class="math inline">\(v^- = \arg\min_i h_i\)</span>로의 경로가 존재한다. 비둘기집 원리에 의해, 이 경로 위에 높이차가 <span class="math inline">\(M(t)/(n-1)\)</span> 이상인 간선 <span class="math inline">\((u, w)\)</span> (<span class="math inline">\(h_u &gt; h_w\)</span>)가 최소 하나 존재한다. 이를 <strong>경사 간선(steep edge)</strong>이라 한다.</p>
+<p><strong>핵심 사건의 구성.</strong> (아래 그림 참조)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fig_steep_edge.svg" class="img-fluid figure-img"></p>
+<figcaption>경사 간선과 큰 낙차 사건</figcaption>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p><strong>Figure.</strong> <span class="math inline">\(v^+\)</span>에서 <span class="math inline">\(v^-\)</span>로의 경로 위에서 비둘기집 원리에 의해 높이차가 <span class="math inline">\(M(t)/(n-1)\)</span> 이상인 경사 간선 <span class="math inline">\((u, w)\)</span>가 존재한다. 눈이 <span class="math inline">\(u\)</span>에 떨어지면(<span class="math inline">\(\mu_0(u)\)</span> 확률) flow를 통해 <span class="math inline">\(w\)</span> 이하로 내려간다.</p>
+</blockquote>
+<p><span class="math inline">\(\mathcal{G}\)</span>가 연결이므로, 최고점 <span class="math inline">\(v^+ = \arg\max_i h_i\)</span>에서 최저점 <span class="math inline">\(v^- = \arg\min_i h_i\)</span>로의 경로 <span class="math inline">\(v^+ = w_0, w_1, \ldots, w_m = v^-\)</span> (<span class="math inline">\(m \leq n-1\)</span>)가 존재한다. 경로를 따른 총 높이 낙차는:</p>
+<p><span class="math display">\[M(t) = h(w_0) - h(w_m) = \sum_{i=0}^{m-1}\big(h(w_i) - h(w_{i+1})\big)\]</span></p>
+<p>총합이 <span class="math inline">\(M(t)\)</span>이고 항의 개수가 <span class="math inline">\(m \leq n-1\)</span>이므로, 비둘기집 원리(pigeonhole principle)에 의해 평균 이상의 낙차를 가진 간선이 최소 하나 존재한다: 어떤 <span class="math inline">\(i\)</span>에서 <span class="math inline">\(h(w_i) - h(w_{i+1}) \geq M(t)/(n-1)\)</span>. 이 간선 <span class="math inline">\((w_i, w_{i+1})\)</span>을 <strong>경사 간선(steep edge)</strong> <span class="math inline">\((u, w)\)</span> (<span class="math inline">\(h_u &gt; h_w\)</span>)이라 한다.</p>
 <p><span class="math inline">\(\mu_{min} := \min_i \mu_0(v_i) &gt; 0\)</span> (<span class="math inline">\(\mathcal{G}\)</span>가 연결이고 <span class="math inline">\(\mu_0 \propto \deg\)</span>이므로)으로 놓고, 다음 정수를 정의한다:</p>
 <p><span class="math display">\[k := \left\lceil \frac{1}{\mu_{min}} \right\rceil\]</span></p>
 <p>이 <span class="math inline">\(k\)</span>는 <span class="math inline">\(\mathcal{G}\)</span>에만 의존하는 상수이다.</p>
-<p><strong>Lemma 1a (<span class="math inline">\(k\)</span>-step Drift).</strong> <span class="math inline">\(M(t) := \max_i h_i(t) - \min_i h_i(t)\)</span>라 할 때, 양의 상수 <span class="math inline">\(\gamma = \gamma(\mathcal{G}) &gt; 0\)</span>이 존재하여: <span class="math inline">\(M(t)\)</span>가 충분히 크면 (즉, <span class="math inline">\(\Phi(t) &gt; C_0\)</span> for some <span class="math inline">\(C_0\)</span>이면),</p>
-<p><span class="math display">\[\mathbb{E}[\Phi(t+k) - \Phi(t) \mid S(t)] \leq -\gamma \cdot b \cdot M(t) + k \cdot \frac{(n-1)b^2}{n}\]</span></p>
+<p><strong>Lemma 1a (<span class="math inline">\(k\)</span>-step Drift).</strong> <span class="math inline">\(M(t) := \max_i h_i(t) - \min_i h_i(t)\)</span>라 할 때, 양의 상수 <span class="math inline">\(\gamma = \gamma(\mathcal{G}) &gt; 0\)</span>이 존재하여: <span class="math inline">\(M(t)\)</span>가 충분히 크면 (즉, <span class="math inline">\(V(t) &gt; C_0\)</span> for some <span class="math inline">\(C_0\)</span>이면),</p>
+<p><span class="math display">\[\mathbb{E}[V(t+k) - V(t) \mid S(t)] \leq -\gamma \cdot b \cdot M(t) + k \cdot \frac{(n-1)b^2}{n}\]</span></p>
 <p><strong>증명.</strong> <span class="math inline">\(k\)</span> 스텝 동안 눈이 최종 정착하는 위치의 (중심화) 높이 합을 분석한다.</p>
 <p><strong>Step A: 큰 낙차 사건(Big Drop Event)의 확률 하한.</strong></p>
 <p>시각 <span class="math inline">\(t+s+1\)</span>에서 “큰 낙차 사건” <span class="math inline">\(E_s\)</span>를 다음과 같이 정의한다: 눈의 초기 낙하 지점 <span class="math inline">\(X_{fall}\)</span>이 현재 경사 간선의 높은 끝 <span class="math inline">\(u\)</span>에 떨어져, flow를 통해 높이가 최소 <span class="math inline">\(M(t)/(2(n-1))\)</span>만큼 하강하는 사건.</p>
@@ -369,10 +381,10 @@ window.Quarto = {
 <p><span class="math display">\[h_{X^*_{t+s+1}}(t+s) \leq h_w(t+s) \leq h_u(t+s) - \frac{M(t)}{2(n-1)} \leq \frac{M(t+s)}{2} - \frac{M(t)}{2(n-1)}\]</span></p>
 <p>큰 낙차 사건이 발생하지 않는 스텝에서는 자명한 상한 <span class="math inline">\(h_{X^*}(t+s) \leq M(t+s)/2 \leq M(t)/2\)</span>를 사용한다.</p>
 <p><strong>Step C: <span class="math inline">\(\mu_0\)</span>-편향과 flow 개선의 분리.</strong></p>
-<p>각 스텝의 <span class="math inline">\(\Phi\)</span> 변화를 두 성분으로 분해한다:</p>
+<p>각 스텝의 <span class="math inline">\(V\)</span> 변화를 두 성분으로 분해한다:</p>
 <p><span class="math display">\[h_{X^*(s)} = h_{X_{fall}(s)} + \underbrace{(h_{X^*(s)} - h_{X_{fall}(s)})}_{\leq\, 0 \text{ (flow는 항상 하향)}}\]</span></p>
 <p>따라서 <span class="math inline">\((\dagger\dagger)\)</span>는:</p>
-<p><span class="math display">\[\mathbb{E}[\Phi(t+k) - \Phi(t) \mid S(t)] = \underbrace{2b \sum_{s=0}^{k-1} \mathbb{E}[h_{X_{fall}(s)}(t+s)]}_{\text{(I): } \mu_0\text{-편향 누적}} + \underbrace{2b \sum_{s=0}^{k-1} \mathbb{E}[h_{X^*(s)} - h_{X_{fall}(s)}]}_{\text{(II): flow 개선 (}\leq 0\text{)}} + k \cdot \frac{(n-1)b^2}{n}\]</span></p>
+<p><span class="math display">\[\mathbb{E}[V(t+k) - V(t) \mid S(t)] = \underbrace{2b \sum_{s=0}^{k-1} \mathbb{E}[h_{X_{fall}(s)}(t+s)]}_{\text{(I): } \mu_0\text{-편향 누적}} + \underbrace{2b \sum_{s=0}^{k-1} \mathbb{E}[h_{X^*(s)} - h_{X_{fall}(s)}]}_{\text{(II): flow 개선 (}\leq 0\text{)}} + k \cdot \frac{(n-1)b^2}{n}\]</span></p>
 <p><strong>(I)의 상한 (<span class="math inline">\(\mu_0\)</span>-편향).</strong> <span class="math inline">\(\alpha := \|\boldsymbol{\mu}_0 - \mathbf{u}\|_1\)</span>로 놓자 (<span class="math inline">\(\mathbf{u}\)</span>는 균등 분포). 시각 <span class="math inline">\(t+s\)</span>에서:</p>
 <p><span class="math display">\[\mathbb{E}[h_{X_{fall}(s)}(t+s) \mid S(t+s)] = \sum_i \mu_0(v_i)\, h_i(t+s) = \sum_i (\mu_0(v_i) - \tfrac{1}{n})\, h_i(t+s) \leq \alpha \cdot M(t+s)\]</span></p>
 <p><span class="math inline">\(k\)</span> 스텝 동안 각 스텝마다 하나의 노드에만 <span class="math inline">\(+b\)</span>가 추가되므로 <span class="math inline">\(M(t+s) \leq M(t) + sb\)</span>이다. 따라서:</p>
@@ -382,11 +394,11 @@ window.Quarto = {
 <p><span class="math inline">\(k\)</span> 스텝 중 큰 낙차 사건이 최소 1회 발생할 확률은 <span class="math inline">\(q_0 := 1 - (1-p_0/2)^k &gt; 0\)</span>이고, 비큰낙차 스텝에서도 <span class="math inline">\(h_{X^*} - h_{X_{fall}} \leq 0\)</span>이므로:</p>
 <p><span class="math display">\[\text{(II)} \leq -2b \cdot q_0 \cdot \frac{M(t)}{2(n-1)} = -\frac{b\, q_0\, M(t)}{n-1}\]</span></p>
 <p><strong>결합.</strong> (I) + (II) + 상수항:</p>
-<p><span class="math display">\[\mathbb{E}[\Phi(t+k) - \Phi(t) \mid S(t)] \leq b\, M(t) \underbrace{\left[2k\alpha - \frac{q_0}{n-1}\right]}_{=:\, \Lambda} + C_3 \tag{$\star\star$}\]</span></p>
+<p><span class="math display">\[\mathbb{E}[V(t+k) - V(t) \mid S(t)] \leq b\, M(t) \underbrace{\left[2k\alpha - \frac{q_0}{n-1}\right]}_{=:\, \Lambda} + C_3 \tag{$\star\star$}\]</span></p>
 <p>여기서 <span class="math inline">\(C_3 := \alpha k(k-1)b^2 + k(n-1)b^2/n\)</span>은 <span class="math inline">\(M(t)\)</span>에 무관한 상수이다.</p>
 <p><strong><span class="math inline">\(\Lambda &lt; 0\)</span>의 충분 조건.</strong> <span class="math inline">\(k\)</span>-step drift가 <span class="math inline">\(M(t)\)</span>가 커질 때 확실히 음이 되려면:</p>
 <p><span class="math display">\[\Lambda = 2k\alpha - \frac{q_0}{n-1} &lt; 0 \quad \iff \quad \alpha &lt; \frac{q_0}{2k(n-1)} \tag{$\star\star\star$}\]</span></p>
-<p>이 조건이 성립하면 <span class="math inline">\(\Phi(t) \geq M(t)^2/n\)</span>에 의해, <span class="math inline">\(\Phi(t) &gt; C_1 := n\big(\frac{C_3}{|\Lambda| b}\big)^2\)</span>일 때 <span class="math inline">\(k\)</span>-step drift가 확실히 음이 된다.</p>
+<p>이 조건이 성립하면 <span class="math inline">\(V(t) \geq M(t)^2/n\)</span>에 의해, <span class="math inline">\(V(t) &gt; C_1 := n\big(\frac{C_3}{|\Lambda| b}\big)^2\)</span>일 때 <span class="math inline">\(k\)</span>-step drift가 확실히 음이 된다.</p>
 <p><strong>정칙 그래프에서의 무조건적 성립.</strong> <span class="math inline">\(\mathcal{G}\)</span>가 정칙(regular)이면 <span class="math inline">\(\mu_0(v_i) = 1/n\)</span> for all <span class="math inline">\(i\)</span>이므로 <span class="math inline">\(\alpha = 0\)</span>이다. 따라서 <span class="math inline">\(\Lambda = -q_0/(n-1) &lt; 0\)</span>이 무조건 성립하며, <span class="math inline">\(k\)</span>-step drift 조건이 어떤 추가 가정 없이 증명된다.</p>
 <p><strong>일반 연결 그래프로의 확장.</strong> 비정칙 그래프에서 <span class="math inline">\(\alpha &gt; 0\)</span>이면, <span class="math inline">\((\star\star\star)\)</span>는 그래프의 차수 균등도(degree uniformity)와 flow-through 확률 <span class="math inline">\(q_0\)</span>의 관계를 요구한다. 실질적으로 이 조건은 <strong>그래프의 병목(bottleneck)이 지나치게 극단적이지 않을 때</strong> 성립한다. 구체적으로:</p>
 <ul>
@@ -403,17 +415,17 @@ window.Quarto = {
 <p><span class="math display">\[\frac{\deg_{max}}{\deg_{min}} \leq 1 + \frac{q_0}{4k(n-1)} \cdot \frac{2|\mathcal{E}|}{\deg_{max}}\]</span></p>
 <p>이 조건은 차수 비율이 유계인 모든 그래프 족(family)에서 <span class="math inline">\(n\)</span>에 무관하게 성립한다.</p>
 </blockquote>
-<p><strong>Corollary (양의 재귀성).</strong> <span class="math inline">\((\star\star\star)\)</span>이 성립하는 연결 그래프에서, 일반화된 Foster-Lyapunov 정리에 의해 유한 집합 <span class="math inline">\(\mathcal{B}_\Phi := \{S : \Phi \leq C_1\}\)</span>은 양의 재귀(positive recurrent)이다. <span class="math inline">\(\Phi \leq C_1\)</span>이면 <span class="math inline">\(M \leq \sqrt{nC_1}\)</span>이므로 높이차가 유계이다.</p>
+<p><strong>Corollary (양의 재귀성).</strong> <span class="math inline">\((\star\star\star)\)</span>이 성립하는 연결 그래프에서, 일반화된 Foster-Lyapunov 정리에 의해 유한 집합 <span class="math inline">\(\mathcal{B}_V := \{S : V \leq C_1\}\)</span>은 양의 재귀(positive recurrent)이다. <span class="math inline">\(V \leq C_1\)</span>이면 <span class="math inline">\(M \leq \sqrt{nC_1}\)</span>이므로 높이차가 유계이다.</p>
 <hr>
 </section>
 <section id="step-3.-비가약성-irreducibility" class="level2">
 <h2 class="anchored" data-anchor-id="step-3.-비가약성-irreducibility">Step 3. 비가약성 (Irreducibility)</h2>
-<p><strong>Lemma 2.</strong> 체인이 움직이는 격자 <span class="math inline">\(\boldsymbol{\delta}(0) + b\mathbb{Z}^{n-1}\)</span> 위의 <span class="math inline">\(\mathcal{B}_\Phi\)</span>에서, <span class="math inline">\(\{S(t)\}\)</span>는 비가약(irreducible)이다.</p>
-<p><strong>증명.</strong> <span class="math inline">\(\mathcal{B}_\Phi\)</span> 내의 임의의 두 상태 <span class="math inline">\(S = (\boldsymbol{\delta}, X, Z)\)</span>, <span class="math inline">\(S' = (\boldsymbol{\delta}', X', Z')\)</span>를 잡는다.</p>
+<p><strong>Lemma 2.</strong> 체인이 움직이는 격자 <span class="math inline">\(\boldsymbol{\delta}(0) + b\mathbb{Z}^{n-1}\)</span> 위의 <span class="math inline">\(\mathcal{B}_V\)</span>에서, <span class="math inline">\(\{S(t)\}\)</span>는 비가약(irreducible)이다.</p>
+<p><strong>증명.</strong> <span class="math inline">\(\mathcal{B}_V\)</span> 내의 임의의 두 상태 <span class="math inline">\(S = (\boldsymbol{\delta}, X, Z)\)</span>, <span class="math inline">\(S' = (\boldsymbol{\delta}', X', Z')\)</span>를 잡는다.</p>
 <ol type="1">
 <li><p><strong>Block 유도:</strong> 현재 상태에서 유한 스텝 내에 block이 발생할 확률이 양이다 (이웃 중 더 높은 노드가 선택되면 block).</p></li>
 <li><p><strong>원하는 노드에 눈 쌓기:</strong> 재시작 시 <span class="math inline">\(\boldsymbol{\mu}_0\)</span>에 의해 임의의 노드 <span class="math inline">\(v_k\)</span>에 눈이 떨어질 확률 <span class="math inline">\(\boldsymbol{\mu}_0(v_k) &gt; 0\)</span>이다. 이후 flow/block 과정을 거쳐, 양의 확률로 특정 노드 <span class="math inline">\(v_\ell\)</span>에 <span class="math inline">\(+b\)</span>가 쌓인다.</p></li>
-<li><p><strong>높이차 조정:</strong> 위 절차를 반복한다. <span class="math inline">\(\boldsymbol{\delta}\)</span>의 각 성분은 격자 <span class="math inline">\(\boldsymbol{\delta}(0) + b\mathbb{Z}\)</span> 위에서 이동하며, <span class="math inline">\(\mathcal{B}_\Phi\)</span> 내에서 유한 개의 값만 취하므로, 유한 횟수의 block-restart 사이클을 통해 양의 확률로 <span class="math inline">\(\boldsymbol{\delta} \to \boldsymbol{\delta}'\)</span>에 도달 가능하다.</p></li>
+<li><p><strong>높이차 조정:</strong> 위 절차를 반복한다. <span class="math inline">\(\boldsymbol{\delta}\)</span>의 각 성분은 격자 <span class="math inline">\(\boldsymbol{\delta}(0) + b\mathbb{Z}\)</span> 위에서 이동하며, <span class="math inline">\(\mathcal{B}_V\)</span> 내에서 유한 개의 값만 취하므로, 유한 횟수의 block-restart 사이클을 통해 양의 확률로 <span class="math inline">\(\boldsymbol{\delta} \to \boldsymbol{\delta}'\)</span>에 도달 가능하다.</p></li>
 <li><p><strong><span class="math inline">\((X', Z')\)</span> 조정.</strong> <span class="math inline">\(\boldsymbol{\delta}'\)</span>에 도달한 후, 추가 flow/block 이벤트로 <span class="math inline">\((X', Z')\)</span>를 맞출 수 있다.</p></li>
 </ol>
 <p>각 단계의 확률이 양이고 단계 수가 유한이므로, <span class="math inline">\(P^{(m)}(S, S') &gt; 0\)</span> for some <span class="math inline">\(m &lt; \infty\)</span>. <span class="math inline">\(\square\)</span></p>
@@ -421,7 +433,7 @@ window.Quarto = {
 </section>
 <section id="step-4.-에르고드-정리와-결론" class="level2">
 <h2 class="anchored" data-anchor-id="step-4.-에르고드-정리와-결론">Step 4. 에르고드 정리와 결론</h2>
-<p><strong>Step 1–3의 결합:</strong> <span class="math inline">\(\{S(t)\}\)</span>는 격자 <span class="math inline">\(\boldsymbol{\delta}(0) + b\mathbb{Z}^{n-1}\)</span> 위에서 정의된 마르코프 체인이며, Step 2의 <span class="math inline">\(k\)</span>-step Foster-Lyapunov 조건에 의해 유한 집합 <span class="math inline">\(\mathcal{B}_\Phi\)</span>가 양의 재귀이고, Step 3에 의해 <span class="math inline">\(\mathcal{B}_\Phi\)</span> 위에서 비가약(irreducible)이다. 따라서 <span class="math inline">\(\{S(t)\}\)</span>는 비가약이고 양의 재귀적인(irreducible and positive recurrent) 마르코프 체인이다.</p>
+<p><strong>Step 1–3의 결합:</strong> <span class="math inline">\(\{S(t)\}\)</span>는 격자 <span class="math inline">\(\boldsymbol{\delta}(0) + b\mathbb{Z}^{n-1}\)</span> 위에서 정의된 마르코프 체인이며, Step 2의 <span class="math inline">\(k\)</span>-step Foster-Lyapunov 조건에 의해 유한 집합 <span class="math inline">\(\mathcal{B}_V\)</span>가 양의 재귀이고, Step 3에 의해 <span class="math inline">\(\mathcal{B}_V\)</span> 위에서 비가약(irreducible)이다. 따라서 <span class="math inline">\(\{S(t)\}\)</span>는 비가약이고 양의 재귀적인(irreducible and positive recurrent) 마르코프 체인이다.</p>
 <p>체인의 주기성(periodicity)과 무관하게, 양의 재귀성과 비가약성에 의해 유일한 정상분포(stationary distribution) <span class="math inline">\(\pi\)</span>가 존재하며, <strong>양의 해리스 체인에 대한 강대수 법칙(LLN for positive Harris chains; Meyn &amp; Tweedie, 1993, Theorem 17.1.7)</strong>에 의해 임의의 <span class="math inline">\(f \in L_1(\pi)\)</span>에 대해 시간 평균의 수렴이 보장된다:</p>
 <p><span class="math display">\[\frac{1}{t}\sum_{s=0}^{t} f(S(s)) \xrightarrow{t \to \infty} \mathbb{E}_\pi[f] \quad \text{a.s.}\]</span></p>
 <p><span class="math inline">\(f(S) = f(\boldsymbol{\delta}, X, Z) := (\delta_i - \delta_j)^2\)</span>로 놓으면:</p>
@@ -433,9 +445,9 @@ window.Quarto = {
 <section id="비고" class="level2">
 <h2 class="anchored" data-anchor-id="비고">비고</h2>
 <ol type="1">
-<li><p><strong>초기 과도기.</strong> <span class="math inline">\(\boldsymbol{\delta}(0)\)</span>가 <span class="math inline">\(\mathcal{B}_\Phi\)</span> 밖에 있으면, drift 조건에 의해 <span class="math inline">\(\mathcal{B}_\Phi\)</span> 진입까지의 시간은 a.s. 유한이며 대략 <span class="math inline">\(t_0^* \approx \frac{\max_{i,j}|y(v_i) - y(v_j)|}{b}\)</span>이다. 과도기의 기여는 <span class="math inline">\(O(t_0^*/t) \to 0\)</span>이므로 극한에 영향을 주지 않는다.</p></li>
+<li><p><strong>초기 과도기.</strong> <span class="math inline">\(\boldsymbol{\delta}(0)\)</span>가 <span class="math inline">\(\mathcal{B}_V\)</span> 밖에 있으면, drift 조건에 의해 <span class="math inline">\(\mathcal{B}_V\)</span> 진입까지의 시간은 a.s. 유한이며 대략 <span class="math inline">\(t_0^* \approx \frac{\max_{i,j}|y(v_i) - y(v_j)|}{b}\)</span>이다. 과도기의 기여는 <span class="math inline">\(O(t_0^*/t) \to 0\)</span>이므로 극한에 영향을 주지 않는다.</p></li>
 <li><p><strong><span class="math inline">\(b \to 0\)</span> 극한에서의 완전한 독립성.</strong> <span class="math inline">\(b\)</span>가 작아지면 격자가 조밀해져 <span class="math inline">\(\mathbf{y} \bmod b\)</span>의 영향이 무시 가능해진다. 극한 <span class="math inline">\(b \to 0\)</span>에서는 격자 구조가 사라지고 <span class="math inline">\(c_{ij}\)</span>가 <span class="math inline">\(\mathbf{y}\)</span>에 완전히 독립이 된다. 이것은 논문에서 <span class="math inline">\(b = 0.01, 0.05\)</span> 등 작은 값을 사용하는 실험과 일관적이다.</p></li>
-<li><p><strong>논문의 약에르고드성과의 관계.</strong> 원 논문은 전체 과정 <span class="math inline">\(\{h(v,t)\}\)</span>의 비동차 전이행렬 <span class="math inline">\(\mathbf{P}(t)\)</span>에 대해 약에르고드성을 증명하였다 (Theorem A.5). 본 증명은 높이차 과정으로의 변환을 통해 동차 마르코프 체인을 얻고, 표준 에르고드 정리를 직접 적용하는 상보적 접근이다. 두 결과는 서로를 강화한다: 약에르고드성은 전이행렬의 행 분포 수렴을 보장하고, 본 증명의 동차 에르고드성은 시간 평균의 a.s. 수렴을 보장한다.</p></li>
+<li><p><strong>논문의 약에르고드성과의 관계.</strong> 원 논문은 전체 과정 <span class="math inline">\(\{h(v,t)\}\)</span>의 비동차 전이행렬 <span class="math inline">\(\mathbf{P}(t)\)</span>에 대해 약에르고드성을 증명하였다 (Theorem A.5). 본 증명은 높이차 과정으로의 변환을 통해 동차 마르코프 체인을 얻고, 표준 에르고드 정리를 직접 적용하는 상보적 접근이다. 두 결과는 서로를 강화한다: 약에르고드성은 전이행렬의 행 분포 수렴을 보장하고, 본 증명의 동차 에르고드성은 시간 평균의 a.s. 수렴을 보장한다. s</p></li>
 </ol>
 
 
