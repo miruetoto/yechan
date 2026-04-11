@@ -1,5 +1,5 @@
 ---
-title: (리비전) A Novel Multiscale Approach to Independence Testing
+title: 리비전 ▷ A Novel Multiscale Approach to Independence Testing
 author: 신록예찬
 date: 09/15/2025
 draft: false

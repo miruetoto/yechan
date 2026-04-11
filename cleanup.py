@@ -91,8 +91,9 @@ def parse_date(date_str: str) -> str:
 def parse_title(title: str) -> tuple:
     """제목에서 카테고리와 실제 제목 추출
 
-    예: "**(리뷰) EbayesThresh**" -> ("리뷰", "EbayesThresh")
-    예: "**(공부) 토폴로지**" -> ("공부", "토폴로지")
+    예: "**리뷰 ▷** EbayesThresh" -> ("리뷰", "EbayesThresh")
+    예: "**공부 ▷** 토폴로지" -> ("공부", "토폴로지")
+    예: "**책공부 ▷ SLT ▷** 18. Stochastic Convergence" -> ("책공부_SLT", "18. Stochastic Convergence")
     """
     if not title:
         return None, None
@@ -100,7 +101,20 @@ def parse_title(title: str) -> tuple:
     # ** 제거
     title = title.replace('**', '').strip()
 
-    # (카테고리) 제목 패턴
+    # 카테고리 ▷ 제목 패턴 (새 형식)
+    # 마지막 ▷ 이후가 실제 제목
+    last_arrow_pos = title.rfind(' ▷ ')
+    if last_arrow_pos != -1:
+        # 마지막 ▷까지가 카테고리 부분
+        category_part = title[:last_arrow_pos].strip()
+        actual_title = title[last_arrow_pos + 3:].strip()
+
+        # 카테고리 부분의 " ▷ "를 "_"로 변환 (공백 제거)
+        category = category_part.replace(' ▷ ', '_')
+
+        return category, actual_title
+
+    # (카테고리) 제목 패턴 (하위 호환성)
     match = re.match(r'^\(([^)]+)\)\s*(.+)$', title)
     if match:
         category = match.group(1).strip()
