@@ -17,7 +17,7 @@ if [ "$(whoami)" = "root" ]; then
   run_local
 else
   # 로컬(Mac)에서 실행 → 186으로 SSH
-  sshpass -p '123qwe' ssh -tt -p 43052 root@210.117.173.186 << 'ENDSSH'
+  sshpass -p '123qwe' ssh -tt -p 7749 root@210.117.173.186 << 'ENDSSH'
 set -e
 cd ~/Dropbox/01-rsch/9999-Yechan
 source .venv/bin/activate
