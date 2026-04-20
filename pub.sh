@@ -57,10 +57,11 @@ fi
 #   - 리눅스에서 파일 생성·rename·commit·push를 하면 전 과정이 NFC.
 # 인증: SSH 공개키(~/.ssh/id_ed25519). 스크립트에 비번 없음.
 # ============================================================
-ssh -o BatchMode=yes "$SSH_HOST" bash <<'REMOTE'
+ssh -o BatchMode=yes "$SSH_HOST" bash -l <<'REMOTE'
 set -e
-# non-interactive SSH는 ~/.bashrc를 자동 로드하지 않으므로 직접 source
-# (uv, quarto 등의 PATH가 ~/.bashrc에 설정돼 있음)
+# bash -l (login shell)로 실행해야 .bash_profile/.profile/.bashrc 체인이 로드되어
+# uv·quarto PATH가 잡힌다. non-interactive SSH는 기본적으로 rc 파일을 건너뜀.
+# (fallback으로 .bashrc도 직접 source — guard로 early return하면 무시되니 무해)
 [ -f ~/.bashrc ] && source ~/.bashrc
 
 cd ~/Dropbox/01-rsch/9999-Yechan
