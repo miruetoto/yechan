@@ -1,18 +1,15 @@
 #!/bin/bash
 # ============================================================
-# Yechan 블로그 배포 스크립트 (186 서버 전용)
+# Yechan 블로그 배포 스크립트 (맥 로컬 실행)
 # ------------------------------------------------------------
-# 실행 위치: 210.117.173.186 (Linux)
-# 실행 방법: 사용자가 ssh로 접속해서 `bash pub.sh` 직접 실행
+# 맥에서 render·commit까지 하고, push만 Linux 서버(182)로 위임.
 #
-# 왜 맥이 아닌 186에서 돌리나?
-#   - macOS APFS는 한글 파일명을 NFD(자모 분해)로 저장하는데
-#     GitHub Pages(Linux)는 NFC로 요청함 → 맥에서 push하면 이미지 404
-#   - 리눅스에서 파일 생성·cleanup·render·commit·push를 전부 하면 NFC
-#
-# 왜 ssh 자동화를 안 쓰나?
-#   - 맥에서 ssh로 원격 실행하면 양쪽 git 조작으로 Dropbox `.git`
-#     동기화 충돌(`conflicted copy`)이 발생함. 전부 한 호스트에서.
+# 왜 push만 원격?
+#   macOS APFS는 한글 파일명을 NFD(자모 분해)로 저장한다.
+#   맥에서 push하면 NFD 바이트가 GitHub 리포에 그대로 올라가고,
+#   GitHub Pages(Linux)는 NFC로 요청하므로 URL↔파일 매칭 실패 → 404.
+#   Dropbox가 맥→182 동기화 시 파일명을 NFC로 정규화하므로,
+#   182에서 push하면 리포에 NFC 바이트가 기록됨.
 # ============================================================
 set -e
 
@@ -39,16 +36,41 @@ rollback_on_failure() {
 }
 trap rollback_on_failure ERR INT TERM
 
-# 2단계: 이미지 정리 + 블로그 렌더
+# 2단계: 이미지 정리 + 블로그 렌더 (맥에서)
 uv run python cleanup.py
 quarto render
 
-# 3단계: 최종 커밋 + push
+# 3단계: 최종 커밋 (맥에서)
 git add -A
 git diff --cached --quiet || git commit -m "."
-git push origin main
+LOCAL_HEAD=$(git rev-parse HEAD)
+echo "Local HEAD: $LOCAL_HEAD"
 
-echo "Done — rendered and pushed"
+# 4단계: Dropbox가 .git을 182로 동기화할 때까지 대기
+SSH_HOST="210.117.173.182"
+REPO_PATH='~/Dropbox/01-rsch/9999-Yechan'
+
+echo "Waiting for Dropbox sync to $SSH_HOST..."
+for i in $(seq 1 30); do
+  REMOTE_HEAD=$(ssh -o BatchMode=yes "$SSH_HOST" "cd $REPO_PATH && git rev-parse HEAD" 2>/dev/null || echo "")
+  if [ "$REMOTE_HEAD" = "$LOCAL_HEAD" ]; then
+    echo "Sync confirmed after ${i}x2s"
+    break
+  fi
+  sleep 2
+done
+
+if [ "$REMOTE_HEAD" != "$LOCAL_HEAD" ]; then
+  echo "ERROR: Dropbox sync not complete after 60s"
+  echo "  local : $LOCAL_HEAD"
+  echo "  182   : ${REMOTE_HEAD:-<none>}"
+  echo "직접 182에서 'git push origin main' 수동 실행하세요."
+  exit 1
+fi
+
+# 5단계: 182에서 push만 실행 (read + network)
+ssh -o BatchMode=yes "$SSH_HOST" "cd $REPO_PATH && git push origin main"
+echo "Pushed from $SSH_HOST"
 
 # 성공: 복원 트랩 해제
 trap - ERR INT TERM
