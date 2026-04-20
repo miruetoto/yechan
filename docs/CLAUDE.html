@@ -201,9 +201,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#포스트-파일" id="toc-포스트-파일" class="nav-link" data-scroll-target="#포스트-파일">포스트 파일</a></li>
   <li><a href="#이미지-파일" id="toc-이미지-파일" class="nav-link" data-scroll-target="#이미지-파일">이미지 파일</a></li>
   </ul></li>
-  <li><a href="#이미지-관리-도구" id="toc-이미지-관리-도구" class="nav-link" data-scroll-target="#이미지-관리-도구">이미지 관리 도구</a>
+  <li><a href="#블로그-관리-도구" id="toc-블로그-관리-도구" class="nav-link" data-scroll-target="#블로그-관리-도구">블로그 관리 도구</a>
   <ul class="collapse">
-  <li><a href="#image_cleanup.py" id="toc-image_cleanup.py" class="nav-link" data-scroll-target="#image_cleanup.py">image_cleanup.py</a></li>
+  <li><a href="#cleanup.py" id="toc-cleanup.py" class="nav-link" data-scroll-target="#cleanup.py">cleanup.py</a></li>
   </ul></li>
   <li><a href="#배포" id="toc-배포" class="nav-link" data-scroll-target="#배포">배포</a>
   <ul class="collapse">
@@ -240,9 +240,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 │   ├── *.md              # 마크다운 포스트 (YYMMDD_카테고리_제목.md)
 │   ├── *.qmd             # Quarto 문서
 │   ├── *.ipynb           # Jupyter 노트북
-│   └── attachments/      # 이미지 파일 (YYMMDD_NN.png 형식)
+│   └── attachments/      # 이미지 파일 ({MD파일명}_NN.png 형식)
 ├── docs/                 # 빌드 결과 (GitHub Pages 배포용)
-├── image_cleanup.py      # 이미지 정리 도구
+├── cleanup.py            # 블로그 관리 도구 (포스트/이미지 정리)
 └── styles.css            # 커스텀 스타일</code></pre>
 </section>
 <section id="파일-명명-규칙" class="level2">
@@ -254,22 +254,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="이미지-파일" class="level3">
 <h3 class="anchored" data-anchor-id="이미지-파일">이미지 파일</h3>
-<pre><code>YYMMDD_NN.png</code></pre>
+<pre><code>{MD파일명}_NN.png</code></pre>
 <ul>
-<li>YYMMDD: 참조하는 MD 파일의 날짜</li>
+<li>{MD파일명}: 참조하는 MD 파일의 stem (확장자 제외한 전체 이름)</li>
 <li>NN: 해당 문서 내 등장 순서 (01, 02, …)</li>
 </ul>
-<p>예: <code>250819_01.png</code>, <code>250819_02.png</code></p>
+<blockquote class="blockquote">
+<p>같은 날짜에 여러 포스트가 올라갈 수 있으므로 날짜만으로 구분하지 않고 MD 파일명 전체를 prefix로 사용한다.</p>
+</blockquote>
+<p>예: MD 파일이 <code>250819_책공부_확률변수의수렴.md</code> 이면 → <code>250819_책공부_확률변수의수렴_01.png</code>, <code>250819_책공부_확률변수의수렴_02.png</code></p>
 </section>
 </section>
-<section id="이미지-관리-도구" class="level2">
-<h2 class="anchored" data-anchor-id="이미지-관리-도구">이미지 관리 도구</h2>
-<section id="image_cleanup.py" class="level3">
-<h3 class="anchored" data-anchor-id="image_cleanup.py">image_cleanup.py</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python image_cleanup.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>기능:</strong> 1. <strong>미사용 이미지 정리</strong> - 참조되지 않는 이미지 자동 삭제 2. <strong>파일명 정리</strong> - 이미지 파일명을 <code>YYMMDD_NN.png</code> 형식으로 변환 3. <strong>모두 실행</strong> - 1 + 2 동시 실행</p>
+<section id="블로그-관리-도구" class="level2">
+<h2 class="anchored" data-anchor-id="블로그-관리-도구">블로그 관리 도구</h2>
+<section id="cleanup.py" class="level3">
+<h3 class="anchored" data-anchor-id="cleanup.py">cleanup.py</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python cleanup.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>기능:</strong> 1. <strong>포스트 파일명 정리</strong> - frontmatter(date, title) 기반으로 <code>YYMMDD_카테고리_제목.md</code> 형식으로 변환 2. <strong>미사용 이미지 삭제</strong> - 어떤 포스트에서도 참조되지 않는 이미지 자동 삭제 3. <strong>이미지 파일명 정리</strong> - 각 MD 파일이 참조하는 이미지를 등장 순서대로 <code>{MD파일명}_NN.png</code> 형식으로 리네임 + MD 내 참조 경로도 함께 업데이트</p>
 <p><strong>이미지 참조 방식:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](attachments/250819_01.png)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](attachments/250819_책공부_확률변수의수렴_01.png)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>macOS 주의사항:</strong> APFS는 한글 파일명을 NFD(자모 분해형)로 저장하므로, 스크립트는 내부적으로 NFC 정규화를 거쳐 MD 소스 문자열과 매칭한다.</p>
 </section>
 </section>
 <section id="배포" class="level2">
