@@ -59,6 +59,10 @@ fi
 # ============================================================
 ssh -o BatchMode=yes "$SSH_HOST" bash <<'REMOTE'
 set -e
+# non-interactive SSH는 ~/.bashrc를 자동 로드하지 않으므로 직접 source
+# (uv, quarto 등의 PATH가 ~/.bashrc에 설정돼 있음)
+[ -f ~/.bashrc ] && source ~/.bashrc
+
 cd ~/Dropbox/01-rsch/9999-Yechan
 [ -f .venv/bin/activate ] && source .venv/bin/activate
 
