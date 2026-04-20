@@ -18,6 +18,7 @@ yechan/
 │   └── attachments/      # 이미지 파일 ({MD파일명}_NN.png 형식)
 ├── docs/                 # 빌드 결과 (GitHub Pages 배포용)
 ├── cleanup.py            # 블로그 관리 도구 (포스트/이미지 정리)
+├── pub.sh                # 배포 스크립트 (render + commit + push)
 └── styles.css            # 커스텀 스타일
 ```
 
@@ -62,15 +63,24 @@ uv run python cleanup.py
 
 ## 배포
 
-### 수동 배포
+### 배포 흐름 (`pub.sh` 사용)
 ```bash
-quarto render
-git add -A
-git commit -m "Update"
-git push origin main
+bash pub.sh
 ```
 
-### 충돌 시
-```bash
-git push --force origin main
-```
+내부 동작:
+1. **맥 로컬**: 백업 커밋 → `cleanup.py` → `quarto render` → 최종 커밋
+2. **Dropbox**: `.git`을 210.117.173.182로 동기화 (맥↔서버 파일명 NFC 정규화는 Dropbox가 수행)
+3. **원격 (182)**: `ssh`로 `git push origin main`만 실행
+4. **실패 시**: 맥에서 자동으로 `git reset --hard <BACKUP_COMMIT>` + `git clean -fd`로 복원
+
+### 왜 push만 원격에서 하나?
+- **macOS APFS는 한글 파일명을 NFD(자모 분해형)로 저장**
+- 맥에서 그대로 `git push`하면 NFD 바이트가 GitHub 리포에 박힘
+- GitHub Pages(Linux)는 브라우저의 NFC 요청을 NFD 파일과 매칭 못 함 → 이미지 404
+- Dropbox가 맥→Linux 서버 동기화 시 파일명을 **NFC로 정규화**해 보내므로, Linux(182)에서 push하면 리포 바이트가 NFC가 되어 정상 배포됨
+- 전 과정을 원격에서 돌리지 않고 **push만** 원격에 두는 이유: git 조작을 한 호스트(맥)에서만 해야 Dropbox `.git` 양방향 충돌(`conflicted copy`)이 안 생김
+
+### 주의사항
+- 맥에서 직접 `git push origin main`은 위 이유로 금지. 항상 `pub.sh` 경유.
+- 충돌 시 `git push --force`는 원격(182)에서 실행.
