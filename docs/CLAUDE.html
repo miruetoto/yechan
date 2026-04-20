@@ -207,8 +207,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#배포" id="toc-배포" class="nav-link" data-scroll-target="#배포">배포</a>
   <ul class="collapse">
-  <li><a href="#수동-배포" id="toc-수동-배포" class="nav-link" data-scroll-target="#수동-배포">수동 배포</a></li>
-  <li><a href="#충돌-시" id="toc-충돌-시" class="nav-link" data-scroll-target="#충돌-시">충돌 시</a></li>
+  <li><a href="#배포-흐름-pub.sh-사용" id="toc-배포-흐름-pub.sh-사용" class="nav-link" data-scroll-target="#배포-흐름-pub.sh-사용">배포 흐름 (<code>pub.sh</code> 사용)</a></li>
+  <li><a href="#왜-push만-원격에서-하나" id="toc-왜-push만-원격에서-하나" class="nav-link" data-scroll-target="#왜-push만-원격에서-하나">왜 push만 원격에서 하나?</a></li>
+  <li><a href="#주의사항" id="toc-주의사항" class="nav-link" data-scroll-target="#주의사항">주의사항</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -243,6 +244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 │   └── attachments/      # 이미지 파일 ({MD파일명}_NN.png 형식)
 ├── docs/                 # 빌드 결과 (GitHub Pages 배포용)
 ├── cleanup.py            # 블로그 관리 도구 (포스트/이미지 정리)
+├── pub.sh                # 배포 스크립트 (render + commit + push)
 └── styles.css            # 커스텀 스타일</code></pre>
 </section>
 <section id="파일-명명-규칙" class="level2">
@@ -278,16 +280,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="배포" class="level2">
 <h2 class="anchored" data-anchor-id="배포">배포</h2>
-<section id="수동-배포" class="level3">
-<h3 class="anchored" data-anchor-id="수동-배포">수동 배포</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add <span class="at">-A</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Update"</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="배포-흐름-pub.sh-사용" class="level3">
+<h3 class="anchored" data-anchor-id="배포-흐름-pub.sh-사용">배포 흐름 (<code>pub.sh</code> 사용)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> pub.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>내부 동작: 1. <strong>맥 로컬</strong>: 백업 커밋 → <code>cleanup.py</code> → <code>quarto render</code> → 최종 커밋 2. <strong>Dropbox</strong>: <code>.git</code>을 210.117.173.182로 동기화 (맥↔︎서버 파일명 NFC 정규화는 Dropbox가 수행) 3. <strong>원격 (182)</strong>: <code>ssh</code>로 <code>git push origin main</code>만 실행 4. <strong>실패 시</strong>: 맥에서 자동으로 <code>git reset --hard &lt;BACKUP_COMMIT&gt;</code> + <code>git clean -fd</code>로 복원</p>
 </section>
-<section id="충돌-시" class="level3">
-<h3 class="anchored" data-anchor-id="충돌-시">충돌 시</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">--force</span> origin main</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="왜-push만-원격에서-하나" class="level3">
+<h3 class="anchored" data-anchor-id="왜-push만-원격에서-하나">왜 push만 원격에서 하나?</h3>
+<ul>
+<li><strong>macOS APFS는 한글 파일명을 NFD(자모 분해형)로 저장</strong></li>
+<li>맥에서 그대로 <code>git push</code>하면 NFD 바이트가 GitHub 리포에 박힘</li>
+<li>GitHub Pages(Linux)는 브라우저의 NFC 요청을 NFD 파일과 매칭 못 함 → 이미지 404</li>
+<li>Dropbox가 맥→Linux 서버 동기화 시 파일명을 <strong>NFC로 정규화</strong>해 보내므로, Linux(182)에서 push하면 리포 바이트가 NFC가 되어 정상 배포됨</li>
+<li>전 과정을 원격에서 돌리지 않고 <strong>push만</strong> 원격에 두는 이유: git 조작을 한 호스트(맥)에서만 해야 Dropbox <code>.git</code> 양방향 충돌(<code>conflicted copy</code>)이 안 생김</li>
+</ul>
+</section>
+<section id="주의사항" class="level3">
+<h3 class="anchored" data-anchor-id="주의사항">주의사항</h3>
+<ul>
+<li>맥에서 직접 <code>git push origin main</code>은 위 이유로 금지. 항상 <code>pub.sh</code> 경유.</li>
+<li>충돌 시 <code>git push --force</code>는 원격(182)에서 실행.</li>
+</ul>
 
 
 </section>
