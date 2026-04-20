@@ -15,9 +15,9 @@ yechan/
 │   ├── *.md              # 마크다운 포스트 (YYMMDD_카테고리_제목.md)
 │   ├── *.qmd             # Quarto 문서
 │   ├── *.ipynb           # Jupyter 노트북
-│   └── attachments/      # 이미지 파일 (YYMMDD_NN.png 형식)
+│   └── attachments/      # 이미지 파일 ({MD파일명}_NN.png 형식)
 ├── docs/                 # 빌드 결과 (GitHub Pages 배포용)
-├── image_cleanup.py      # 이미지 정리 도구
+├── cleanup.py            # 블로그 관리 도구 (포스트/이미지 정리)
 └── styles.css            # 커스텀 스타일
 ```
 
@@ -31,29 +31,34 @@ YYMMDD_카테고리_제목.md
 
 ### 이미지 파일
 ```
-YYMMDD_NN.png
+{MD파일명}_NN.png
 ```
-- YYMMDD: 참조하는 MD 파일의 날짜
+- {MD파일명}: 참조하는 MD 파일의 stem (확장자 제외한 전체 이름)
 - NN: 해당 문서 내 등장 순서 (01, 02, ...)
 
-예: `250819_01.png`, `250819_02.png`
+> 같은 날짜에 여러 포스트가 올라갈 수 있으므로 날짜만으로 구분하지 않고 MD 파일명 전체를 prefix로 사용한다.
 
-## 이미지 관리 도구
+예: MD 파일이 `250819_책공부_확률변수의수렴.md` 이면
+→ `250819_책공부_확률변수의수렴_01.png`, `250819_책공부_확률변수의수렴_02.png`
 
-### image_cleanup.py
+## 블로그 관리 도구
+
+### cleanup.py
 ```bash
-uv run python image_cleanup.py
+uv run python cleanup.py
 ```
 
 **기능:**
-1. **미사용 이미지 정리** - 참조되지 않는 이미지 자동 삭제
-2. **파일명 정리** - 이미지 파일명을 `YYMMDD_NN.png` 형식으로 변환
-3. **모두 실행** - 1 + 2 동시 실행
+1. **포스트 파일명 정리** - frontmatter(date, title) 기반으로 `YYMMDD_카테고리_제목.md` 형식으로 변환
+2. **미사용 이미지 삭제** - 어떤 포스트에서도 참조되지 않는 이미지 자동 삭제
+3. **이미지 파일명 정리** - 각 MD 파일이 참조하는 이미지를 등장 순서대로 `{MD파일명}_NN.png` 형식으로 리네임 + MD 내 참조 경로도 함께 업데이트
 
 **이미지 참조 방식:**
 ```markdown
-![](attachments/250819_01.png)
+![](attachments/250819_책공부_확률변수의수렴_01.png)
 ```
+
+**macOS 주의사항:** APFS는 한글 파일명을 NFD(자모 분해형)로 저장하므로, 스크립트는 내부적으로 NFC 정규화를 거쳐 MD 소스 문자열과 매칭한다.
 
 ## 배포
 

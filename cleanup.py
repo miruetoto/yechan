@@ -9,9 +9,15 @@
 import re
 import json
 import shutil
+import unicodedata
 from pathlib import Path
 from datetime import datetime
 from urllib.parse import unquote, quote
+
+
+def nfc(s: str) -> str:
+    """macOS(NFD) ↔ Linux(NFC) 파일명 혼용 환경에서 비교·치환용 표준형."""
+    return unicodedata.normalize('NFC', s)
 
 # 색상 코드
 class Colors:
@@ -269,7 +275,7 @@ def find_image_references_with_source(file_path: Path) -> dict:
                 if isinstance(match, tuple):
                     match = match[0]
                 filename = Path(match).name
-                filename = unquote(filename)
+                filename = nfc(unquote(filename))
                 if filename:
                     references[filename] = file_path
     except Exception:
@@ -288,7 +294,7 @@ def find_image_references_ordered(file_path: Path) -> list:
         matches = re.findall(image_pattern, content, re.IGNORECASE)
         for match in matches:
             filename = Path(match).name
-            filename = unquote(filename)
+            filename = nfc(unquote(filename))
             if filename and filename not in seen:
                 seen.add(filename)
                 references.append(filename)
@@ -297,17 +303,17 @@ def find_image_references_ordered(file_path: Path) -> list:
 
     return references
 
-def get_all_attachments(attachments_dir: Path) -> set:
-    """attachments 폴더의 모든 이미지 파일 목록"""
+def get_all_attachments(attachments_dir: Path) -> dict:
+    """attachments 폴더의 모든 이미지 파일 목록 (NFC 이름 → 실제 Path)."""
     image_extensions = {'.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg'}
-    images = set()
+    images = {}
 
     if not attachments_dir.exists():
         return images
 
     for file in attachments_dir.iterdir():
         if file.is_file() and file.suffix.lower() in image_extensions:
-            images.add(file.name)
+            images[nfc(file.name)] = file
 
     return images
 
@@ -334,7 +340,8 @@ def cleanup_unused_images(posts_dir: Path, attachments_dir: Path, current_dir: P
     print()
 
     print_color("2. attachments 폴더 스캔 중...", Colors.GREEN)
-    all_images = get_all_attachments(attachments_dir)
+    all_images_map = get_all_attachments(attachments_dir)  # nfc_name -> Path
+    all_images = set(all_images_map.keys())
     print(f"  ✓ 전체 이미지: {len(all_images)}개")
     print()
 
@@ -371,7 +378,7 @@ def cleanup_unused_images(posts_dir: Path, attachments_dir: Path, current_dir: P
         sorted_unused = sorted(unused_images)
         deleted = 0
         for img in sorted_unused:
-            file_path = attachments_dir / img
+            file_path = all_images_map.get(img, attachments_dir / img)
             try:
                 file_path.unlink()
                 print(f"  삭제: {img}")
@@ -386,15 +393,15 @@ def cleanup_unused_images(posts_dir: Path, attachments_dir: Path, current_dir: P
         print_color("✓ 모든 이미지가 사용 중입니다!", Colors.GREEN)
 
 def rename_images_for_file(md_path: Path, attachments_dir: Path) -> list:
-    """MD 파일의 이미지들을 파일명 기반으로 리네임"""
+    """MD 파일의 이미지들을 파일명 기반으로 리네임 (macOS NFD 대응)."""
     # MD 파일명에서 확장자 제거
-    base_name = md_path.stem  # e.g., "250910_책공부_The Book of Why"
+    base_name = nfc(md_path.stem)  # e.g., "250910_책공부_The Book of Why"
 
     # 이미 정리된 파일명 패턴 (파일명_NN.ext)
     escaped_base = re.escape(base_name)
     already_renamed_pattern = re.compile(rf'^{escaped_base}_\d{{2}}\.\w+$')
 
-    # 등장 순서대로 이미지 찾기
+    # 등장 순서대로 이미지 찾기 (NFC 정규화된 이름)
     images = find_image_references_ordered(md_path)
     if not images:
         return []
@@ -408,56 +415,58 @@ def rename_images_for_file(md_path: Path, attachments_dir: Path) -> list:
     if not images_to_rename:
         return []
 
+    # 파일시스템 스냅샷: NFC 이름 → 실제 Path (맥 NFD 원본도 NFC로 찾게 함)
+    fs_map = {nfc(f.name): f for f in attachments_dir.iterdir() if f.is_file()}
+
     # 기존에 해당 파일명으로 된 파일들 확인 (번호 이어서 부여)
     existing_nums = []
-    for f in attachments_dir.iterdir():
-        m = re.match(rf'^{escaped_base}_(\d{{2}})\.\w+$', f.name)
+    for name in fs_map:
+        m = re.match(rf'^{escaped_base}_(\d{{2}})\.\w+$', name)
         if m:
             existing_nums.append(int(m.group(1)))
 
     next_num = max(existing_nums) + 1 if existing_nums else 1
 
     # 리네임 계획 수립
-    rename_plan = []  # [(old_name, new_name), ...]
+    rename_plan = []  # [(old_name_nfc, new_name), ...]
 
     for old_name in images_to_rename:
-        old_path = attachments_dir / old_name
-        if not old_path.exists():
+        old_path = fs_map.get(old_name)
+        if old_path is None or not old_path.exists():
             continue
 
         ext = old_path.suffix.lower()
         new_name = f"{base_name}_{next_num:02d}{ext}"
 
         # 새 이름이 이미 존재하면 번호 증가
-        while (attachments_dir / new_name).exists():
+        while new_name in fs_map or (attachments_dir / new_name).exists():
             next_num += 1
             new_name = f"{base_name}_{next_num:02d}{ext}"
 
-        rename_plan.append((old_name, new_name))
+        rename_plan.append((old_name, new_name, old_path))
+        fs_map[new_name] = attachments_dir / new_name
         next_num += 1
 
     if not rename_plan:
         return []
 
-    # MD 파일 내용 업데이트
-    content = md_path.read_text(encoding='utf-8')
-    for old_name, new_name in rename_plan:
-        # 로컬 마크다운 링크는 인코딩하지 않은 파일명을 유지한다.
-        # 기존 문서에 인코딩된 경로가 있더라도 새 경로는 실제 파일명으로 정규화한다.
+    # MD 파일 내용 업데이트 (NFC 기준으로 치환)
+    raw = md_path.read_text(encoding='utf-8')
+    content = nfc(raw)
+    for old_name, new_name, _ in rename_plan:
         old_encoded = quote(old_name)
         content = content.replace(f"attachments/{old_encoded}", f"attachments/{new_name}")
         content = content.replace(f"attachments/{old_name}", f"attachments/{new_name}")
 
     md_path.write_text(content, encoding='utf-8')
 
-    # 실제 파일 리네임
-    for old_name, new_name in rename_plan:
-        old_path = attachments_dir / old_name
+    # 실제 파일 리네임 (맥 NFD 원본 → NFC 새이름)
+    for old_name, new_name, old_path in rename_plan:
         new_path = attachments_dir / new_name
         if old_path.exists():
             shutil.move(str(old_path), str(new_path))
 
-    return rename_plan
+    return [(old, new) for old, new, _ in rename_plan]
 
 def rename_images(posts_dir: Path, attachments_dir: Path):
     """이미지 파일명을 MD 파일명 기반으로 정리"""
