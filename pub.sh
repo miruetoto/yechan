@@ -4,13 +4,29 @@ set -e
 cd ~/Dropbox/01-rsch/9999-Yechan
 source .venv/bin/activate
 
-# 이미지 처리 스크립트 실행 전 현재 상태 백업 커밋
-# (url_encode_images.py 또는 cleanup.py가 파일 변경/삭제를 일으켜도
-#  이 시점으로 git reset --hard HEAD~1 하면 복구 가능)
+# 1단계: 백업 커밋 — 이후 어떤 단계에서 실패하든 이 시점으로 자동 복원
 git add -A
 git diff --cached --quiet || git commit -m "backup: before image processing"
+BACKUP_COMMIT=$(git rev-parse HEAD)
+echo "Backup commit: $BACKUP_COMMIT"
 
-uv run python url_encode_images.py
+# 에러/중단(Ctrl+C)/종료 시 백업 커밋으로 복원
+rollback_on_failure() {
+  local exit_code=$?
+  echo ""
+  echo "================================================================"
+  echo "pub.sh 실패 (exit $exit_code) — 백업 시점으로 자동 복원합니다"
+  echo "  target: $BACKUP_COMMIT"
+  echo "================================================================"
+  git reset --hard "$BACKUP_COMMIT" || true
+  git clean -fd || true
+  echo "복원 완료. HEAD=$(git rev-parse --short HEAD)"
+}
+trap rollback_on_failure ERR INT TERM
+
+# url_encode_images.py는 Obsidian 호환성 목적이었으나,
+# 퍼센트 인코딩이 긴 한글 파일명을 APFS 제한(255B) 초과로 만들어
+# quarto render를 깨뜨림. 이제 186 push로 NFC 정규화가 되므로 불필요.
 uv run python cleanup.py
 quarto render
 
@@ -52,3 +68,6 @@ fi
 # 186에서 push
 ssh -o BatchMode=yes "$SSH_HOST" "cd $REPO_PATH && git push origin main"
 echo "Pushed from $SSH_HOST"
+
+# 성공적으로 여기까지 오면 복구 트랩 해제
+trap - ERR INT TERM
