@@ -1,5 +1,5 @@
 ---
-title: 연구 ▷ HST ▷ 논문 기호 정리 (hst(guebinOHS)_ver2.pdf 기준)
+title: 연구 ▷ HST ▷ 논문 기호 정리
 author: 신록예찬
 date: 04/07/2026
 draft: false
