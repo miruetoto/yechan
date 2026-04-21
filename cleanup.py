@@ -9,6 +9,7 @@
 import re
 import json
 import shutil
+import hashlib
 import unicodedata
 from pathlib import Path
 from datetime import datetime
@@ -402,13 +403,26 @@ def cleanup_unused_images(posts_dir: Path, attachments_dir: Path, current_dir: P
         print()
         print_color("✓ 모든 이미지가 사용 중입니다!", Colors.GREEN)
 
-def rename_images_for_file(md_path: Path, attachments_dir: Path) -> list:
-    """MD 파일의 이미지들을 파일명 기반으로 리네임 (macOS NFD 대응)."""
-    # MD 파일명에서 확장자 제거
-    base_name = nfc(md_path.stem)  # e.g., "250910_책공부_The Book of Why"
+def compute_image_prefix(md_path: Path) -> str:
+    """이미지 파일명 prefix를 `{YYMMDD}_{hash6}` 형식으로 생성.
 
-    # 이미 정리된 파일명 패턴 (파일명_NN.ext)
-    escaped_base = re.escape(base_name)
+    - YYMMDD: MD 파일 stem 앞 6자리 (날짜). 형식 불일치 시 '000000'.
+    - hash6: MD stem의 SHA-256 앞 6자 (hex). 같은 날짜에 여러 포스트가
+      있어도 충돌 없이 구분됨.
+    """
+    stem = nfc(md_path.stem)
+    m = re.match(r'^(\d{6})', stem)
+    date_part = m.group(1) if m else '000000'
+    hash6 = hashlib.sha256(stem.encode('utf-8')).hexdigest()[:6]
+    return f"{date_part}_{hash6}"
+
+
+def rename_images_for_file(md_path: Path, attachments_dir: Path) -> list:
+    """MD 파일의 이미지들을 `{YYMMDD}_{hash6}_NN.ext` 형식으로 리네임."""
+    prefix = compute_image_prefix(md_path)
+
+    # 이미 정리된 파일명 패턴 (prefix_NN.ext)
+    escaped_base = re.escape(prefix)
     already_renamed_pattern = re.compile(rf'^{escaped_base}_\d{{2}}\.\w+$')
 
     # 등장 순서대로 이미지 찾기 (NFC 정규화된 이름)
@@ -446,12 +460,12 @@ def rename_images_for_file(md_path: Path, attachments_dir: Path) -> list:
             continue
 
         ext = old_path.suffix.lower()
-        new_name = f"{base_name}_{next_num:02d}{ext}"
+        new_name = f"{prefix}_{next_num:02d}{ext}"
 
         # 새 이름이 이미 존재하면 번호 증가
         while new_name in fs_map or (attachments_dir / new_name).exists():
             next_num += 1
-            new_name = f"{base_name}_{next_num:02d}{ext}"
+            new_name = f"{prefix}_{next_num:02d}{ext}"
 
         rename_plan.append((old_name, new_name, old_path))
         fs_map[new_name] = attachments_dir / new_name
