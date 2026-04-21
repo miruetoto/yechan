@@ -260,10 +260,11 @@ def rename_posts(posts_dir: Path):
 def find_image_references_with_source(file_path: Path) -> dict:
     """파일에서 이미지 참조 찾기 (이미지 -> 소스파일 매핑)"""
     image_extensions = r'\.(png|jpg|jpeg|gif|webp|svg|PNG|JPG|JPEG|GIF|WEBP|SVG)'
+    # 파일명에 괄호 포함 가능(예: `권영욱(초심)_01.png`) — lazy 매칭으로 확장자 anchor.
     patterns = [
-        rf'\!\[[^\]]*\]\(([^)]*{image_extensions})\)',
+        rf'\!\[[^\]]*\]\(([^\n]+?{image_extensions})\)',
         rf'<img[^>]+src=["\']([^"\']*{image_extensions})["\']',
-        rf'((?:\.?/)?attachments/[^\s\)\]"\']*{image_extensions})',
+        rf'((?:\.?/)?attachments/[^\s\]"\']*?{image_extensions})',
     ]
 
     references = {}
@@ -285,7 +286,8 @@ def find_image_references_with_source(file_path: Path) -> dict:
 
 def find_image_references_ordered(file_path: Path) -> list:
     """파일에서 이미지 참조를 등장 순서대로 찾기 (중복 제거)"""
-    image_pattern = r'\!\[[^\]]*\]\(([^)]*\.(?:png|jpg|jpeg|gif|webp|svg))\)'
+    # 파일명에 괄호 포함 가능 — lazy 매칭으로 확장자 anchor.
+    image_pattern = r'\!\[[^\]]*\]\(([^\n]+?\.(?:png|jpg|jpeg|gif|webp|svg))\)'
 
     references = []
     seen = set()
