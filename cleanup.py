@@ -375,21 +375,29 @@ def cleanup_unused_images(posts_dir: Path, attachments_dir: Path, current_dir: P
 
     if unused_images:
         print()
-        print_color("3. 미사용 이미지 삭제 중...", Colors.GREEN)
+        print_color("3. 미사용 이미지를 unused_bck로 이동 중...", Colors.GREEN)
+
+        # 삭제 대신 unused_bck/<timestamp>/ 하위로 이동 — regex 감지 실패로 인한
+        # 오탐 삭제 방지. get_all_attachments는 iterdir()이라 unused_bck/는
+        # 자동 제외됨 (재스캔 안 됨).
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        bck_dir = attachments_dir / "unused_bck" / timestamp
+        bck_dir.mkdir(parents=True, exist_ok=True)
 
         sorted_unused = sorted(unused_images)
-        deleted = 0
+        moved = 0
         for img in sorted_unused:
             file_path = all_images_map.get(img, attachments_dir / img)
+            dest = bck_dir / file_path.name
             try:
-                file_path.unlink()
-                print(f"  삭제: {img}")
-                deleted += 1
+                shutil.move(str(file_path), str(dest))
+                print(f"  이동: {img} → unused_bck/{timestamp}/")
+                moved += 1
             except Exception as e:
                 print_color(f"  실패: {img} - {e}", Colors.RED)
 
         print()
-        print_color(f"✓ {deleted}개 파일 삭제 완료", Colors.GREEN)
+        print_color(f"✓ {moved}개 파일 unused_bck/{timestamp}/으로 이동 완료", Colors.GREEN)
     else:
         print()
         print_color("✓ 모든 이미지가 사용 중입니다!", Colors.GREEN)
