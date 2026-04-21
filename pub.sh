@@ -2,19 +2,28 @@
 # ============================================================
 # Yechan 블로그 배포 스크립트 (맥 로컬 실행)
 # ------------------------------------------------------------
-# 맥에서 render·commit까지 하고, push만 Linux 서버(182)로 위임.
+# 맥에서 render·commit·push 전부 수행.
 #
-# 왜 push만 원격?
-#   macOS APFS는 한글 파일명을 NFD(자모 분해)로 저장한다.
-#   맥에서 push하면 NFD 바이트가 GitHub 리포에 그대로 올라가고,
-#   GitHub Pages(Linux)는 NFC로 요청하므로 URL↔파일 매칭 실패 → 404.
-#   Dropbox가 맥→182 동기화 시 파일명을 NFC로 정규화하므로,
-#   182에서 push하면 리포에 NFC 바이트가 기록됨.
+# 한글 파일명 NFC 처리:
+#   macOS APFS는 파일명을 NFD(자모 분해)로 저장. 그대로 push하면
+#   GitHub Pages(Linux)의 NFC 요청과 매칭 실패 → 404.
+#   해결: 이 리포에 `git config core.precomposeunicode true` 설정.
+#   이러면 맥 git이 `git add`/commit 시점에 NFD→NFC 자동 정규화하여
+#   커밋 오브젝트의 파일명 바이트가 NFC로 기록된다.
 # ============================================================
 set -e
 
 cd ~/Dropbox/01-rsch/9999-Yechan
 [ -f .venv/bin/activate ] && source .venv/bin/activate
+
+# 선제 가드: precomposeunicode가 true가 아니면 NFD로 커밋될 위험
+PRECOMPOSE=$(git config --get core.precomposeunicode || echo "")
+if [ "$PRECOMPOSE" != "true" ]; then
+  echo "ERROR: core.precomposeunicode is not 'true' (got: '${PRECOMPOSE:-<unset>}')"
+  echo "실행: git config core.precomposeunicode true"
+  echo "이 설정 없이 push하면 한글 파일명이 NFD로 기록되어 GitHub Pages에서 404."
+  exit 1
+fi
 
 # 1단계: 백업 커밋 — 실패 시 복원 지점
 git add -A
