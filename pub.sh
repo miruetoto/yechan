@@ -55,31 +55,9 @@ git diff --cached --quiet || git commit -m "."
 LOCAL_HEAD=$(git rev-parse HEAD)
 echo "Local HEAD: $LOCAL_HEAD"
 
-# 4단계: Dropbox가 .git을 182로 동기화할 때까지 대기
-SSH_HOST="210.117.173.182"
-REPO_PATH='~/Dropbox/01-rsch/9999-Yechan'
-
-echo "Waiting for Dropbox sync to $SSH_HOST..."
-for i in $(seq 1 30); do
-  REMOTE_HEAD=$(ssh -o BatchMode=yes "$SSH_HOST" "cd $REPO_PATH && git rev-parse HEAD" 2>/dev/null || echo "")
-  if [ "$REMOTE_HEAD" = "$LOCAL_HEAD" ]; then
-    echo "Sync confirmed after ${i}x2s"
-    break
-  fi
-  sleep 2
-done
-
-if [ "$REMOTE_HEAD" != "$LOCAL_HEAD" ]; then
-  echo "ERROR: Dropbox sync not complete after 60s"
-  echo "  local : $LOCAL_HEAD"
-  echo "  182   : ${REMOTE_HEAD:-<none>}"
-  echo "직접 182에서 'git push origin main' 수동 실행하세요."
-  exit 1
-fi
-
-# 5단계: 182에서 push만 실행 (read + network)
-ssh -o BatchMode=yes "$SSH_HOST" "cd $REPO_PATH && git push origin main"
-echo "Pushed from $SSH_HOST"
+# 4단계: push
+git push origin main
+echo "Pushed from local."
 
 # 성공: 복원 트랩 해제
 trap - ERR INT TERM

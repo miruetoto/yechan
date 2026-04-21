@@ -208,7 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#배포" id="toc-배포" class="nav-link" data-scroll-target="#배포">배포</a>
   <ul class="collapse">
   <li><a href="#배포-흐름-pub.sh-사용" id="toc-배포-흐름-pub.sh-사용" class="nav-link" data-scroll-target="#배포-흐름-pub.sh-사용">배포 흐름 (<code>pub.sh</code> 사용)</a></li>
-  <li><a href="#왜-push만-원격에서-하나" id="toc-왜-push만-원격에서-하나" class="nav-link" data-scroll-target="#왜-push만-원격에서-하나">왜 push만 원격에서 하나?</a></li>
+  <li><a href="#한글-파일명-nfc-처리" id="toc-한글-파일명-nfc-처리" class="nav-link" data-scroll-target="#한글-파일명-nfc-처리">한글 파일명 NFC 처리</a></li>
   <li><a href="#주의사항" id="toc-주의사항" class="nav-link" data-scroll-target="#주의사항">주의사항</a></li>
   </ul></li>
   </ul></li>
@@ -283,23 +283,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="배포-흐름-pub.sh-사용" class="level3">
 <h3 class="anchored" data-anchor-id="배포-흐름-pub.sh-사용">배포 흐름 (<code>pub.sh</code> 사용)</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> pub.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>내부 동작: 1. <strong>맥 로컬</strong>: 백업 커밋 → <code>cleanup.py</code> → <code>quarto render</code> → 최종 커밋 2. <strong>Dropbox</strong>: <code>.git</code>을 210.117.173.182로 동기화 (맥↔︎서버 파일명 NFC 정규화는 Dropbox가 수행) 3. <strong>원격 (182)</strong>: <code>ssh</code>로 <code>git push origin main</code>만 실행 4. <strong>실패 시</strong>: 맥에서 자동으로 <code>git reset --hard &lt;BACKUP_COMMIT&gt;</code> + <code>git clean -fd</code>로 복원</p>
+<p>내부 동작: 1. <strong>precomposeunicode 가드</strong>: <code>git config core.precomposeunicode</code>가 true인지 확인 (아니면 중단) 2. <strong>백업 커밋</strong> → <code>cleanup.py</code> → <code>quarto render</code> → 최종 커밋 → <code>git push origin main</code> 3. <strong>실패 시</strong>: <code>git reset --hard &lt;BACKUP_COMMIT&gt;</code> + <code>git clean -fd</code>로 자동 복원</p>
 </section>
-<section id="왜-push만-원격에서-하나" class="level3">
-<h3 class="anchored" data-anchor-id="왜-push만-원격에서-하나">왜 push만 원격에서 하나?</h3>
+<section id="한글-파일명-nfc-처리" class="level3">
+<h3 class="anchored" data-anchor-id="한글-파일명-nfc-처리">한글 파일명 NFC 처리</h3>
 <ul>
 <li><strong>macOS APFS는 한글 파일명을 NFD(자모 분해형)로 저장</strong></li>
 <li>맥에서 그대로 <code>git push</code>하면 NFD 바이트가 GitHub 리포에 박힘</li>
 <li>GitHub Pages(Linux)는 브라우저의 NFC 요청을 NFD 파일과 매칭 못 함 → 이미지 404</li>
-<li>Dropbox가 맥→Linux 서버 동기화 시 파일명을 <strong>NFC로 정규화</strong>해 보내므로, Linux(182)에서 push하면 리포 바이트가 NFC가 되어 정상 배포됨</li>
-<li>전 과정을 원격에서 돌리지 않고 <strong>push만</strong> 원격에 두는 이유: git 조작을 한 호스트(맥)에서만 해야 Dropbox <code>.git</code> 양방향 충돌(<code>conflicted copy</code>)이 안 생김</li>
+<li>해결책: 이 리포에 <code>git config core.precomposeunicode true</code> 설정. 맥 git이 <code>git add</code>/commit 시점에 NFD→NFC 자동 정규화하여 커밋 오브젝트의 바이트가 NFC로 기록됨.</li>
 </ul>
 </section>
 <section id="주의사항" class="level3">
 <h3 class="anchored" data-anchor-id="주의사항">주의사항</h3>
 <ul>
-<li>맥에서 직접 <code>git push origin main</code>은 위 이유로 금지. 항상 <code>pub.sh</code> 경유.</li>
-<li>충돌 시 <code>git push --force</code>는 원격(182)에서 실행.</li>
+<li><code>core.precomposeunicode</code>가 해제되면 다시 NFD 오염 위험. <code>pub.sh</code>가 진입 시점에 체크함.</li>
+<li>맥에서 직접 <code>git push origin main</code> 해도 OK (precomposeunicode 덕분). 다만 <code>pub.sh</code> 경유해야 백업/정리/렌더까지 일관.</li>
 </ul>
 
 

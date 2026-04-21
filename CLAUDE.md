@@ -69,18 +69,16 @@ bash pub.sh
 ```
 
 내부 동작:
-1. **맥 로컬**: 백업 커밋 → `cleanup.py` → `quarto render` → 최종 커밋
-2. **Dropbox**: `.git`을 210.117.173.182로 동기화 (맥↔서버 파일명 NFC 정규화는 Dropbox가 수행)
-3. **원격 (182)**: `ssh`로 `git push origin main`만 실행
-4. **실패 시**: 맥에서 자동으로 `git reset --hard <BACKUP_COMMIT>` + `git clean -fd`로 복원
+1. **precomposeunicode 가드**: `git config core.precomposeunicode`가 true인지 확인 (아니면 중단)
+2. **백업 커밋** → `cleanup.py` → `quarto render` → 최종 커밋 → `git push origin main`
+3. **실패 시**: `git reset --hard <BACKUP_COMMIT>` + `git clean -fd`로 자동 복원
 
-### 왜 push만 원격에서 하나?
+### 한글 파일명 NFC 처리
 - **macOS APFS는 한글 파일명을 NFD(자모 분해형)로 저장**
 - 맥에서 그대로 `git push`하면 NFD 바이트가 GitHub 리포에 박힘
 - GitHub Pages(Linux)는 브라우저의 NFC 요청을 NFD 파일과 매칭 못 함 → 이미지 404
-- Dropbox가 맥→Linux 서버 동기화 시 파일명을 **NFC로 정규화**해 보내므로, Linux(182)에서 push하면 리포 바이트가 NFC가 되어 정상 배포됨
-- 전 과정을 원격에서 돌리지 않고 **push만** 원격에 두는 이유: git 조작을 한 호스트(맥)에서만 해야 Dropbox `.git` 양방향 충돌(`conflicted copy`)이 안 생김
+- 해결책: 이 리포에 `git config core.precomposeunicode true` 설정. 맥 git이 `git add`/commit 시점에 NFD→NFC 자동 정규화하여 커밋 오브젝트의 바이트가 NFC로 기록됨.
 
 ### 주의사항
-- 맥에서 직접 `git push origin main`은 위 이유로 금지. 항상 `pub.sh` 경유.
-- 충돌 시 `git push --force`는 원격(182)에서 실행.
+- `core.precomposeunicode`가 해제되면 다시 NFD 오염 위험. `pub.sh`가 진입 시점에 체크함.
+- 맥에서 직접 `git push origin main` 해도 OK (precomposeunicode 덕분). 다만 `pub.sh` 경유해야 백업/정리/렌더까지 일관.
