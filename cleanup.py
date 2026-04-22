@@ -204,7 +204,9 @@ def rename_posts(posts_dir: Path):
 
     for file_path in all_files:
         new_name = get_new_filename(file_path)
-        if new_name and new_name != file_path.name:
+        # macOS APFS 는 파일명을 NFD 로 저장하고, frontmatter 기반 new_name 은
+        # NFC 이므로 — NFC 정규화 후 비교해야 거짓 양성이 안 생김.
+        if new_name and nfc(new_name) != nfc(file_path.name):
             rename_plan.append((file_path, new_name))
 
     if not rename_plan:
@@ -286,7 +288,11 @@ def find_image_references_with_source(file_path: Path) -> dict:
     return references
 
 def find_image_references_ordered(file_path: Path) -> list:
-    """파일에서 이미지 참조를 등장 순서대로 찾기 (중복 제거)"""
+    """파일에서 이미지 참조를 등장 순서대로 찾기 (중복 제거).
+
+    반환값은 `attachments/` 기준 상대 경로 (서브디렉터리 포함 가능).
+    예: 'papamarkou24a/page-002-fig-01.png' 또는 '250424_6a3acf_01.png'.
+    """
     # 파일명에 괄호 포함 가능 — lazy 매칭으로 확장자 anchor.
     image_pattern = r'\!\[[^\]]*\]\(([^\n]+?\.(?:png|jpg|jpeg|gif|webp|svg))\)'
 
@@ -296,11 +302,14 @@ def find_image_references_ordered(file_path: Path) -> list:
         content = file_path.read_text(encoding='utf-8', errors='ignore')
         matches = re.findall(image_pattern, content, re.IGNORECASE)
         for match in matches:
-            filename = Path(match).name
-            filename = nfc(unquote(filename))
-            if filename and filename not in seen:
-                seen.add(filename)
-                references.append(filename)
+            # attachments/ 이후의 전체 상대 경로 추출
+            rel_m = re.search(r'attachments/(.+)$', match)
+            if not rel_m:
+                continue
+            relpath = nfc(unquote(rel_m.group(1)))
+            if relpath and relpath not in seen:
+                seen.add(relpath)
+                references.append(relpath)
     except Exception:
         pass
 
@@ -417,80 +426,105 @@ def compute_image_prefix(md_path: Path) -> str:
     return f"{date_part}_{hash6}"
 
 
-def rename_images_for_file(md_path: Path, attachments_dir: Path) -> list:
-    """MD 파일의 이미지들을 `{YYMMDD}_{hash6}_NN.ext` 형식으로 리네임."""
-    prefix = compute_image_prefix(md_path)
+def _resolve_attachment_path(attachments_dir: Path, relpath: str) -> Path:
+    """`attachments/<relpath>` 상대 경로로 실제 파일 찾기.
 
-    # 이미 정리된 파일명 패턴 (prefix_NN.ext)
+    서브디렉터리 포함, NFD 대응. unused_bck/ 내부는 제외.
+    """
+    # 먼저 직접 경로 (APFS는 NFC 매칭 자동 대응)
+    direct = attachments_dir / relpath
+    if direct.exists() and direct.is_file():
+        return direct
+
+    # NFD 대응: rglob 로 재귀 탐색
+    target = nfc(relpath)
+    for p in attachments_dir.rglob('*'):
+        if 'unused_bck' in p.parts:
+            continue
+        if p.is_file() and nfc(str(p.relative_to(attachments_dir))) == target:
+            return p
+    return None
+
+
+def rename_images_for_file(md_path: Path, attachments_dir: Path) -> list:
+    """MD 파일의 이미지들을 `{YYMMDD}_{hash6}_NN.ext` 형식으로 정규화.
+
+    - flat level의 비표준 이름 → 표준 이름으로 rename
+    - attachments/ 하위 **서브디렉터리**에 있는 이미지 → flat level로 이동 + 표준 이름
+    - MD 내 참조 경로도 함께 업데이트
+    - 비워진 서브디렉터리는 자동 제거 (unused_bck 제외)
+    """
+    prefix = compute_image_prefix(md_path)
     escaped_base = re.escape(prefix)
+    # 이미 정리된: flat level 에서 정확히 {prefix}_NN.ext
     already_renamed_pattern = re.compile(rf'^{escaped_base}_\d{{2}}\.\w+$')
 
-    # 등장 순서대로 이미지 찾기 (NFC 정규화된 이름)
-    images = find_image_references_ordered(md_path)
-    if not images:
+    # 등장 순서대로 참조 수집 (attachments/ 기준 상대 경로)
+    relpaths = find_image_references_ordered(md_path)
+    if not relpaths:
         return []
 
-    # 이미 정리된 이미지는 제외
-    images_to_rename = []
-    for img in images:
-        if not already_renamed_pattern.match(img):
-            images_to_rename.append(img)
-
-    if not images_to_rename:
+    # 이미 표준 이름인 것은 제외 (상대 경로에 '/' 가 있으면 서브디렉터리 → 무조건 마이그레이션 대상)
+    paths_to_rename = [p for p in relpaths if not already_renamed_pattern.match(p)]
+    if not paths_to_rename:
         return []
 
-    # 파일시스템 스냅샷: NFC 이름 → 실제 Path (맥 NFD 원본도 NFC로 찾게 함)
-    fs_map = {nfc(f.name): f for f in attachments_dir.iterdir() if f.is_file()}
-
-    # 기존에 해당 파일명으로 된 파일들 확인 (번호 이어서 부여)
+    # 기존 flat 파일 중 이 prefix 에 해당하는 번호 수집 (번호 이어 부여)
     existing_nums = []
-    for name in fs_map:
-        m = re.match(rf'^{escaped_base}_(\d{{2}})\.\w+$', name)
-        if m:
-            existing_nums.append(int(m.group(1)))
-
+    for f in attachments_dir.iterdir():
+        if f.is_file():
+            m = re.match(rf'^{escaped_base}_(\d{{2}})\.\w+$', nfc(f.name))
+            if m:
+                existing_nums.append(int(m.group(1)))
     next_num = max(existing_nums) + 1 if existing_nums else 1
 
-    # 리네임 계획 수립
-    rename_plan = []  # [(old_name_nfc, new_name), ...]
+    # 계획 수립
+    rename_plan = []  # [(relpath, new_name, src_path), ...]
+    touched_dirs = set()  # 서브디렉터리에서 가져온 경우 나중에 비었는지 확인
 
-    for old_name in images_to_rename:
-        old_path = fs_map.get(old_name)
-        if old_path is None or not old_path.exists():
+    for relpath in paths_to_rename:
+        src = _resolve_attachment_path(attachments_dir, relpath)
+        if src is None:
             continue
 
-        ext = old_path.suffix.lower()
+        ext = src.suffix.lower()
         new_name = f"{prefix}_{next_num:02d}{ext}"
-
-        # 새 이름이 이미 존재하면 번호 증가
-        while new_name in fs_map or (attachments_dir / new_name).exists():
+        while (attachments_dir / new_name).exists():
             next_num += 1
             new_name = f"{prefix}_{next_num:02d}{ext}"
 
-        rename_plan.append((old_name, new_name, old_path))
-        fs_map[new_name] = attachments_dir / new_name
+        rename_plan.append((relpath, new_name, src))
+        if src.parent != attachments_dir:
+            touched_dirs.add(src.parent)
         next_num += 1
 
     if not rename_plan:
         return []
 
-    # MD 파일 내용 업데이트 (NFC 기준으로 치환)
+    # MD 내 참조 치환 (raw + URL-encoded 둘 다 대응)
     raw = md_path.read_text(encoding='utf-8')
     content = nfc(raw)
-    for old_name, new_name, _ in rename_plan:
-        old_encoded = quote(old_name)
-        content = content.replace(f"attachments/{old_encoded}", f"attachments/{new_name}")
-        content = content.replace(f"attachments/{old_name}", f"attachments/{new_name}")
-
+    for relpath, new_name, _ in rename_plan:
+        relpath_enc = quote(relpath, safe='/')
+        content = content.replace(f"attachments/{relpath_enc}", f"attachments/{new_name}")
+        content = content.replace(f"attachments/{relpath}", f"attachments/{new_name}")
     md_path.write_text(content, encoding='utf-8')
 
-    # 실제 파일 리네임 (맥 NFD 원본 → NFC 새이름)
-    for old_name, new_name, old_path in rename_plan:
-        new_path = attachments_dir / new_name
-        if old_path.exists():
-            shutil.move(str(old_path), str(new_path))
+    # 실제 파일 이동 (서브디렉터리/NFD 원본 → flat NFC 새 이름)
+    for _, new_name, src in rename_plan:
+        dest = attachments_dir / new_name
+        if src.exists():
+            shutil.move(str(src), str(dest))
 
-    return [(old, new) for old, new, _ in rename_plan]
+    # 비워진 서브디렉터리 정리 (unused_bck 제외)
+    for d in touched_dirs:
+        try:
+            if d.name != 'unused_bck' and d.exists() and not any(d.iterdir()):
+                d.rmdir()
+        except OSError:
+            pass
+
+    return [(r, n) for r, n, _ in rename_plan]
 
 def rename_images(posts_dir: Path, attachments_dir: Path):
     """이미지 파일명을 MD 파일명 기반으로 정리"""
@@ -737,11 +771,13 @@ def main():
     print("-" * 50)
     print()
     if attachments_dir.exists():
-        cleanup_unused_images(posts_dir, attachments_dir, current_dir)
+        # 서브디렉터리/비표준 이미지를 먼저 flat 표준 형식으로 정규화한 뒤
+        # 미사용 검사를 돌려야 오탐이 없다.
+        rename_images(posts_dir, attachments_dir)
         print()
         print("-" * 50)
         print()
-        rename_images(posts_dir, attachments_dir)
+        cleanup_unused_images(posts_dir, attachments_dir, current_dir)
         print()
         print("-" * 50)
         print()
