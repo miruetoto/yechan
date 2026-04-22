@@ -47,7 +47,9 @@ trap rollback_on_failure ERR INT TERM
 
 # 2단계: 이미지 정리 + 블로그 렌더 (맥에서)
 uv run python cleanup.py
+rm -rf docs
 quarto render
+uv run python cleanup.py --postrender
 
 # 3단계: 최종 커밋 (맥에서)
 git add -A

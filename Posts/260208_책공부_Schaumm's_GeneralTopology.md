@@ -3,6 +3,7 @@ title: 책공부 ▷ Schaumm's ▷ General Topology
 author: 신록예찬
 date: 02/08/2026
 draft: false
+output-file: 260208_7ba2e3.html
 ---
 
 ## Chap 5. Topological Spaces: Definitions

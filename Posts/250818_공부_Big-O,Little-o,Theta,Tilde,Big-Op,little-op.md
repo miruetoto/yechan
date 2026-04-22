@@ -3,6 +3,7 @@ title: 공부 ▷ Big-O, Little-o, Theta, Tilde, Big-Op, little-op
 author: 신록예찬
 date: 08/18/2025
 draft: false
+output-file: 250818_aa0abf.html
 ---
 
 # $O$, $o$, $\Theta$, $\sim$ 

@@ -516,10 +516,195 @@ def rename_images(posts_dir: Path, attachments_dir: Path):
         print_color("✓ 변경할 이미지가 없습니다 (이미 정리됨)", Colors.GREEN)
 
 # ============================================================
+# output-file frontmatter 주입 (배포물 ASCII 보장)
+# ============================================================
+
+def _inject_output_file_md(file_path: Path, expected: str) -> bool:
+    """MD/QMD frontmatter에 output-file 주입/갱신. 변경 시 True."""
+    content = file_path.read_text(encoding='utf-8')
+    m = re.match(r'^(---\s*\n)(.*?)(\n---)', content, re.DOTALL)
+    if not m:
+        return False
+
+    head, body, tail = m.group(1), m.group(2), m.group(3)
+    lines = body.split('\n')
+
+    for i, line in enumerate(lines):
+        if re.match(r'^\s*output-file\s*:', line):
+            current = line.split(':', 1)[1].strip().strip('"').strip("'")
+            if current == expected:
+                return False
+            lines[i] = f"output-file: {expected}"
+            break
+    else:
+        lines.append(f"output-file: {expected}")
+
+    new_content = head + '\n'.join(lines) + tail + content[m.end():]
+    file_path.write_text(new_content, encoding='utf-8')
+    return True
+
+
+def _inject_output_file_ipynb(file_path: Path, expected: str) -> bool:
+    """Jupyter notebook 첫 frontmatter 셀에 output-file 주입/갱신."""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            notebook = json.load(f)
+    except Exception:
+        return False
+
+    for cell in notebook.get('cells', []):
+        source_lines = cell.get('source', [])
+        source = ''.join(source_lines) if isinstance(source_lines, list) else source_lines
+        if not source.startswith('---'):
+            continue
+
+        m = re.match(r'^(---\s*\n)(.*?)(\n---)', source, re.DOTALL)
+        if not m:
+            continue
+
+        head, body, tail = m.group(1), m.group(2), m.group(3)
+        lines = body.split('\n')
+
+        for i, line in enumerate(lines):
+            if re.match(r'^\s*output-file\s*:', line):
+                current = line.split(':', 1)[1].strip().strip('"').strip("'")
+                if current == expected:
+                    return False
+                lines[i] = f"output-file: {expected}"
+                break
+        else:
+            lines.append(f"output-file: {expected}")
+
+        new_source = head + '\n'.join(lines) + tail + source[m.end():]
+        cell['source'] = new_source.splitlines(keepends=True)
+
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(notebook, f, ensure_ascii=False, indent=1)
+            f.write('\n')
+        return True
+
+    return False
+
+
+def inject_output_file(posts_dir: Path):
+    """각 포스트 frontmatter에 `output-file: {YYMMDD}_{hash6}.html` 주입.
+
+    Quarto가 한글 stem을 그대로 HTML 파일명으로 써내는 걸 막기 위함.
+    소스 파일명은 한글 유지(편집 편의), 배포물(docs/)만 ASCII.
+    """
+    print_color("output-file frontmatter 주입 중...", Colors.GREEN)
+    print()
+
+    patterns = ['*.md', '*.qmd', '*.ipynb']
+    all_files = []
+    for pattern in patterns:
+        all_files.extend(posts_dir.glob(pattern))
+    all_files = sorted(all_files)
+
+    # 충돌 검사
+    expected_map = {}  # expected_html -> file_path
+    collisions = []
+    for file_path in all_files:
+        expected = f"{compute_image_prefix(file_path)}.html"
+        if expected in expected_map:
+            collisions.append((expected, expected_map[expected], file_path))
+        else:
+            expected_map[expected] = file_path
+
+    if collisions:
+        print_color("⚠ output-file 충돌 감지:", Colors.RED)
+        for expected, a, b in collisions:
+            print(f"  {expected}: {a.name} <-> {b.name}")
+        print_color("충돌 해소 후 다시 실행하세요.", Colors.RED)
+        return
+
+    updated = 0
+    for file_path in all_files:
+        expected = f"{compute_image_prefix(file_path)}.html"
+        if file_path.suffix == '.ipynb':
+            changed = _inject_output_file_ipynb(file_path, expected)
+        else:
+            changed = _inject_output_file_md(file_path, expected)
+        if changed:
+            print(f"  ✓ {file_path.name} → output-file: {expected}")
+            updated += 1
+
+    print()
+    if updated:
+        print_color(f"✓ {updated}개 파일 output-file 주입/갱신", Colors.GREEN)
+    else:
+        print_color("✓ 모든 파일 output-file 최신 상태", Colors.GREEN)
+
+
+# ============================================================
+# 후처리: {한글stem}_files/ → {YYMMDD}_{hash6}_files/
+# ============================================================
+
+def postrender_rename_files_dirs(posts_dir: Path, docs_posts_dir: Path):
+    """Quarto 가 코드 실행 결과를 저장하는 `{stem}_files/` 디렉터리를
+    `{YYMMDD}_{hash6}_files/` 로 rename + 대응 HTML 내부 참조도 치환.
+
+    `output-file` 은 HTML 파일명만 바꾸므로, 이 후처리가 없으면
+    docs/ 에 한글 경로가 남는다 (asset 로딩 시 NFC/NFD 이슈 재발 위험).
+    """
+    if not docs_posts_dir.exists():
+        print_color(f"경고: {docs_posts_dir} 없음 — 후처리 건너뜀", Colors.YELLOW)
+        return
+
+    print_color("후처리: _files 디렉터리 ASCII 화", Colors.GREEN)
+    print()
+
+    # 소스 파일 stem → ASCII prefix 매핑
+    stem_to_prefix = {}
+    for pattern in ['*.md', '*.qmd', '*.ipynb']:
+        for src in posts_dir.glob(pattern):
+            stem_to_prefix[src.stem] = compute_image_prefix(src)
+
+    renamed = 0
+    for korean_stem, ascii_prefix in stem_to_prefix.items():
+        old_dir = docs_posts_dir / f"{korean_stem}_files"
+        new_dir = docs_posts_dir / f"{ascii_prefix}_files"
+
+        if not old_dir.exists():
+            continue
+        if korean_stem == ascii_prefix:
+            continue  # 이미 ASCII
+
+        if new_dir.exists():
+            print_color(f"  스킵 (이미 존재): {new_dir.name}", Colors.YELLOW)
+            continue
+
+        shutil.move(str(old_dir), str(new_dir))
+        print(f"  ✓ {old_dir.name}/ → {new_dir.name}/")
+
+        # 대응 HTML 내부 참조 치환 (raw + URL-encoded 둘 다)
+        html_path = docs_posts_dir / f"{ascii_prefix}.html"
+        if html_path.exists():
+            html = html_path.read_text(encoding='utf-8')
+            old_ref = f"{korean_stem}_files/"
+            new_ref = f"{ascii_prefix}_files/"
+            old_ref_enc = quote(korean_stem, safe='') + "_files/"
+            html2 = html.replace(old_ref, new_ref).replace(old_ref_enc, new_ref)
+            if html2 != html:
+                html_path.write_text(html2, encoding='utf-8')
+                print(f"    └ HTML 참조 치환: {html_path.name}")
+
+        renamed += 1
+
+    print()
+    if renamed:
+        print_color(f"✓ {renamed}개 _files 디렉터리 ASCII 화 완료", Colors.GREEN)
+    else:
+        print_color("✓ _files 디렉터리 ASCII 화 대상 없음", Colors.GREEN)
+
+
+# ============================================================
 # 메인 함수
 # ============================================================
 
 def main():
+    import sys
+
     print("=" * 50)
     print_color("블로그 관리 도구", Colors.BLUE)
     print("=" * 50)
@@ -536,6 +721,16 @@ def main():
         print_color("에러: Posts 디렉토리를 찾을 수 없습니다.", Colors.RED)
         return 1
 
+    # 렌더 후처리 전용 모드
+    if '--postrender' in sys.argv:
+        docs_posts_dir = current_dir / "docs" / "Posts"
+        postrender_rename_files_dirs(posts_dir, docs_posts_dir)
+        print()
+        print("=" * 50)
+        print_color("완료", Colors.BLUE)
+        print("=" * 50)
+        return 0
+
     # 모든 작업 실행
     rename_posts(posts_dir)
     print()
@@ -547,8 +742,16 @@ def main():
         print("-" * 50)
         print()
         rename_images(posts_dir, attachments_dir)
+        print()
+        print("-" * 50)
+        print()
     else:
         print_color("경고: Posts/attachments 디렉토리가 없어 이미지 정리를 건너뜁니다.", Colors.YELLOW)
+        print()
+        print("-" * 50)
+        print()
+
+    inject_output_file(posts_dir)
 
     print()
     print("=" * 50)
