@@ -34,7 +34,7 @@ Theodore Papamarkou$^1$ Tolga Birdal$^2$ Michael Bronstein$^3$ Gunnar Carlsson$^
 
 즉, "이 노드의 특징이 무엇인가"만큼 "**이 노드가 누구와 어떻게 연결되어 있는가**"가 중요하다. 데이터가 선형 벡터 공간에 깔끔히 놓이지 않고, 그래프/복합체 같은 **구조적 도메인** 위에 놓인다는 관점이다.
 
-### 관계는 주어지는가, 학습되는가?
+##### 관계는 주어지는가, 학습되는가?
 
 용어가 살짝 모호한데, 두 가지 경우가 있다:
 
@@ -53,7 +53,7 @@ Theodore Papamarkou$^1$ Tolga Birdal$^2$ Michael Bronstein$^3$ Gunnar Carlsson$^
 ::: {.callout-warning collapse="true"}
 ## 내 아이디어 ▷ HST는 이 분류에서 어디에 속하는가?
 
-### HST가 뭔지부터
+##### HST가 뭔지부터
 
 **HST(Heavy-Snow Transform)**는 내가 연구 중인 기법으로, 가중 그래프 $\mathcal{G}=(V, \mathbf{E}, \mathbf{W})$와 그 위의 신호 $\mathbf{y}$를 입력받아 **시간에 따라 변하는 새로운 가중치 행렬 $\mathbf{W}(t)$**를 유도하는 확률적 프로세스다. 직관은 이렇다:
 
@@ -69,7 +69,7 @@ $$SD_{ij}(t) = \sqrt{\sum_{s=0}^{t}\bigl(h(v_i,s) - h(v_j,s)\bigr)^2}$$
 - $t \to \infty$에서 $\mathbf{W}(t)$는 **그래프 구조 $(\mathbf{E},\mathbf{W})$만** 반영 (신호 무시)
 - 그 사이 $t$는 두 정보의 **연속 보간**
 
-### 관계를 "활용"하는가, "학습"하는가?
+##### 관계를 "활용"하는가, "학습"하는가?
 
 관계형 학습은 크게 두 갈래로 나뉜다 — **(A) 주어진 관계를 활용하는 학습** (대부분의 GNN 응용)과 **(B) 관계 자체를 학습/추론하는 학습** (링크 예측, 잠재 그래프 추론, 그래프 구조 학습 등).
 
@@ -81,17 +81,17 @@ HST는 이 둘의 **경계 지대**에 있다. 입력 그래프 $\mathcal{G}$는
 
 의 세 층위에 동시에 걸쳐 있다.
 
-### 본 논문과의 직접 연결점
+##### 본 논문과의 직접 연결점
 
 - **§2.2 그래프 리프팅** → HST는 쌍별 그래프에서 고차 구조를 합성하는 한 방식
 - **§6.1 생성적 TDL** 중 "데이터에 없는 고차 특징 생성"(Tang et al. 2023a,b) → HST의 bi-filtration이 원본 $\mathbf{y}$에 없던 혼합 구조를 노출
 - **§5.1 "표현의 위상적 성질 제어"** → HST의 well-posedness(Theorem A.1.6)가 "어떤 $\mathbf{y}$를 넣어도 같은 persistence diagram으로 수렴"을 보장
 
-### 포지셔닝 주의
+##### 포지셔닝 주의
 
 HST를 "생성적 TDL"로 포장하는 건 범위 남용에 가깝다. Vignac·Jing 계열의 확산/플로우 생성 모델이 아니기 때문. 차라리 **"Learnable Higher-Order Lifting"** 또는 **"신호-인지 필트레이션 설계"** 가 방어 가능한 프레이밍.
 
-### 잠재 그래프 추론과의 관계
+##### 잠재 그래프 추론과의 관계
 
 전형적 잠재 그래프 추론은 $A = f_\theta(X)$로 $\theta$를 **학습**한다. HST는 $\mathbf{W}(t) = g(\mathbf{y}, \mathcal{G}, t, b, \theta)$로 파라미터 전부가 **하이퍼파라미터 (학습 X, but 미분 가능)**. 그러나 $b, \theta, t$를 학습 가능하게 하면 잠재 그래프 추론의 결정론적 변종이 된다.
 :::
@@ -101,7 +101,7 @@ HST를 "생성적 TDL"로 포장하는 건 범위 남용에 가깝다. Vignac·J
 
 잠재 그래프 추론에서 구조 $A$와 GNN 파라미터 $\theta$를 어떻게 동시에 학습할 것인가는 고전적 난제다. 단순한 joint learning은 **chicken-and-egg 문제**를 낳는다: 나쁜 $A$ → 나쁜 GNN 출력 → $A$에 대한 noisy gradient → 나쁜 $A$ 업데이트. 그렇다고 순수 EM을 쓰면 **확률 모델 명시가 필요**하고 **oscillation 위험**이 있다.
 
-### 실제 연구는 스펙트럼 위에 있다
+##### 실제 연구는 스펙트럼 위에 있다
 
 ```
 순수 joint ──────── 하이브리드 ──────── 순수 EM
@@ -128,7 +128,7 @@ HST를 "생성적 TDL"로 포장하는 건 범위 남용에 가깝다. Vignac·J
 - **Neural EM**: E-step 자체를 RNN/신경망으로.
   - N-EM (Greff et al. 2017) — 지각적 그룹핑
 
-### HST를 이 스펙트럼에 얹으면?
+##### HST를 이 스펙트럼에 얹으면?
 
 HST는 현재 **순수 "구조 유도(deterministic structure inference)"** 쪽 끝에 있다 — 학습 가능 파라미터 없음. Direction D의 chicken-and-egg (연결 $W_{N+1,j}$ ↔ 신호 $\hat{y}(v_{N+1})$)는 barycentric interpolation으로 *한 번에* 해결.
 
@@ -138,7 +138,7 @@ HST는 현재 **순수 "구조 유도(deterministic structure inference)"** 쪽 
 - **M-step**: 갱신된 $\hat{x}_{N+1}$로부터 $\hat{y}(v_{N+1})$ 재추정
 - **Unrolled joint 버전**: 전체 HST 프로세스를 미분 가능하게 unroll해서 $b, \theta, t$와 다운스트림 파라미터를 end-to-end로 학습
 
-### 왜 HST가 이 프레임에서 독특한가
+##### 왜 HST가 이 프레임에서 독특한가
 
 대부분의 변분 EM / unrolled EM은 **수렴 보장 없이 경험적으로** 작동한다. 반면 HST는:
 
@@ -182,14 +182,14 @@ GRL은 **쌍별(pairwise) 관계**, 즉 "엣지 = 두 노드의 연결"이라는
 - **바코드(barcode)** — 각 위상적 특징이 **언제 생겨서 언제 사라지는가**를 선분으로 표시. 짧은 선분 = 노이즈, 긴 선분 = 본질적 구조.
 - **퍼시스턴스 다이어그램(persistence diagram)** — 바코드를 2D 평면에 점으로 찍은 것. $(b, d)$ = (birth, death). 대각선 근처 점 = 노이즈, 대각선에서 먼 점 = 유의미한 특징.
 
-### 구체적 예
+##### 구체적 예
 
 - **원(ring) 데이터**: $\beta_0 = 1$ (한 덩어리), $\beta_1 = 1$ (가운데 구멍 하나) → "이건 원이다"라는 시그니처
 - **두 클러스터**: $\beta_0 = 2$, $\beta_1 = 0$
 - **토러스(도넛)**: $\beta_0 = 1$, $\beta_1 = 2$, $\beta_2 = 1$
 - **MNIST 숫자 "8"**: $\beta_1 = 2$ (구멍 두 개) — 다른 숫자와 위상적으로 구별됨
 
-### 왜 "강건"한가 — 세 층위
+##### 왜 "강건"한가 — 세 층위
 
 **(1) 위상 자체의 성질**: 위상 불변량은 연속 변형(늘리기·구부리기)에 불변. 원을 찌그러뜨려도 $\beta_1 = 1$은 그대로. 벡터 특징은 좌표가 흔들리면 바로 변하지만 위상 특징은 버틴다.
 
@@ -199,13 +199,13 @@ $$d_B\bigl(\text{Dgm}(X),\; \text{Dgm}(X')\bigr) \leq \|X - X'\|_\infty$$
 
 **(3) 다중 스케일(multiscale)**: 퍼시스턴트 호몰로지는 **모든 해상도 $\epsilon$를 한꺼번에** 본다. 한 특정 해상도에서만 보이는 노이즈 vs 여러 해상도에서 지속되는 진짜 구조 → "persistence"가 길수록 본질적.
 
-### 전통 ML에 어떻게 녹아드는가
+##### 전통 ML에 어떻게 녹아드는가
 
 - **특징 벡터로 변환**: persistence image, persistence landscape 등으로 다이어그램을 고정 크기 벡터화해서 SVM·RF·MLP 입력으로 사용
 - **손실 함수로 사용**: 분할(segmentation)에서 "예측 맵의 위상을 정답과 같게" 강제하는 topological loss (Clough et al. 2022)
 - **정규화기**: 과적합 방지를 위해 결정 경계의 위상적 복잡도를 제약 (Chen et al. 2019)
 
-### "더 많은 종류의 의미 있는 구조"란 구체적으로
+##### "더 많은 종류의 의미 있는 구조"란 구체적으로
 
 - 기존 ML: 클러스터(partition), 거리(metric), 밀도(density) 정도만 다룸
 - TDA 추가: **루프**(주기적 행동, 자기 자신으로 돌아오는 궤적), **보이드**(고차원 구멍), **분기 구조**(Reeb 그래프), **계층(hierarchy)**(merge tree) 등
@@ -223,26 +223,26 @@ $$d_B\bigl(\text{Dgm}(X), \text{Dgm}(X')\bigr) \leq \|X - X'\|_\infty$$
 
 **HST는 이걸 세 층위로 확장한다:**
 
-### (1) 교차 시각 안정성 (Theorem A.1.6)
+##### (1) 교차 시각 안정성 (Theorem A.1.6)
 
 서로 다른 두 시각 $t_1, t_2$에서 HST가 만드는 persistence diagram 사이:
 $$d_B\bigl(\text{Dgm}_k(t_1),\; \text{Dgm}_k(t_2)\bigr) \leq \max_{i,j}\bigl|\widetilde{SD}_{ij}(t_1) - \widetilde{SD}_{ij}(t_2)\bigr|$$
 Cohen-Steiner 정리의 직접 적용. 시각 차이가 작으면 시그니처 차이도 작다.
 
-### (2) 신호 섭동에 대한 감소하는 상수 (Guarantee 3)
+##### (2) 신호 섭동에 대한 감소하는 상수 (Guarantee 3)
 
 같은 그래프 $(\mathbf{E},\mathbf{W})$지만 신호가 다른 $\mathbf{y}, \mathbf{y}'$에 대해:
 $$d_B\bigl(\text{Dgm}(SD(t)),\; \text{Dgm}(SD'(t))\bigr) \leq C(t) \cdot \|\mathbf{y} - \mathbf{y}'\|_\infty$$
 
 **핵심 차이**: $C(t) \sim \sqrt{t_0^*/t}$ — **$t$가 커질수록 감소**. 고전 안정성 정리의 상수는 $1$로 고정인데, HST는 시간이 흐를수록 안정성이 *강해진다*. 이유는 약에르고드성: block 이벤트 이후 초기 신호의 기여가 $O(t_0^*/t)$로 사라지기 때문.
 
-### (3) 극한에서의 신호 무관 수렴 (Proposition A.1.5)
+##### (3) 극한에서의 신호 무관 수렴 (Proposition A.1.5)
 
 $t \to \infty$에서 거리공간 자체가 Gromov–Hausdorff 의미로 **신호와 독립된 극한 거리공간** $\mathcal{M}_\infty$로 수렴:
 $$\mathcal{M}_t \xrightarrow{GH} \mathcal{M}_\infty$$
 극한에서는 $\|\mathbf{y} - \mathbf{y}'\|_\infty$가 얼마든 persistence diagram이 완전히 일치. "노이즈 불변"을 넘어 **"신호 초월"** 안정성.
 
-### 왜 이게 흥미로운가
+##### 왜 이게 흥미로운가
 
 | 구분 | 고전 TDA | HST |
 |---|---|---|
@@ -252,7 +252,7 @@ $$\mathcal{M}_t \xrightarrow{GH} \mathcal{M}_\infty$$
 
 고전 안정성은 "*조금 변하면 조금만 바뀐다*"는 수동적 보장이지만, HST 안정성은 "*시간이 흐르면 바뀌지 않게 만든다*"는 **능동적 강건화 메커니즘**에 가깝다. 이게 본 논문 §5.1 "표현의 위상적 성질 제어"와 §6.1 "TDL의 성질 연구"에 바로 연결되는 기여점.
 
-### 블로그 포스팅/논문 제목 후보
+##### 블로그 포스팅/논문 제목 후보
 
 - "Ergodic Stability for Topological Signatures"
 - "Time-Decaying Stability via Heavy-Snow Transform"
@@ -270,7 +270,7 @@ Figure 1. 위상 공간은 심층학습 방법을 다양한 관점에서 풍부�
 
 이 다섯 개는 전부 **"공간 위의 함수 $f$를 그래프/트리로 요약"** 하는 도구다. "산(공간) 위에 고도(함수)가 있을 때 지형을 간단한 그림으로 표현하는 법"이라 생각하면 한 덩어리로 묶인다.
 
-### 공통 설정
+##### 공통 설정
 
 - 공간 $X$ (예: 평면, 곡면, 3D 볼륨, 점군)
 - 스칼라 함수 $f: X \to \mathbb{R}$ (예: 고도, 밀도, 온도)
@@ -278,7 +278,7 @@ Figure 1. 위상 공간은 심층학습 방법을 다양한 관점에서 풍부�
 
 $c$를 변화시키면서 이 집합들이 어떻게 변하는지(나타나고, 합쳐지고, 사라지는지)를 추적하는 게 공통 아이디어.
 
-### 각각 뭔지
+##### 각각 뭔지
 
 **① 병합 트리 (Merge tree) — 가장 단순**
 
@@ -332,7 +332,7 @@ $f$의 **임계점**(critical points; gradient $\nabla f = 0$인 점들)을 골�
 
 → 용도: 유체 시뮬레이션 결과의 특징 추출, 기후 데이터의 사이클론/고기압 중심 검출, 뇌 영상의 랜드마크 식별.
 
-### 한눈 비교표
+##### 한눈 비교표
 
 | 도구 | 구조 | 포착하는 호몰로지 | 주 용도 |
 |---|---|---|---|
@@ -342,7 +342,7 @@ $f$의 **임계점**(critical points; gradient $\nabla f = 0$인 점들)을 골�
 | Mapper | 일반 그래프/복합체 | 근사적 전체 | 탐색적 데이터 분석(EDA) |
 | Morse–Smale | 셀 복합체 | $\beta_0, \beta_1, \beta_2, \ldots$ | 스칼라장 시각화 |
 
-### 퍼시스턴트 호몰로지와의 관계
+##### 퍼시스턴트 호몰로지와의 관계
 
 이 다섯 개는 **특정 함수 $f$에 대한 단일 요약**을 준다. 반면 **퍼시스턴트 호몰로지**는 "$f$의 모든 서브레벨셋을 한꺼번에" 보면서 각 위상 특징의 탄생·사멸 시각을 기록한다(persistence diagram). 즉 merge/contour tree가 **persistent $\beta_0$ 계산의 부산물**이라고 볼 수도 있다.
 :::
@@ -380,7 +380,7 @@ $f$의 **임계점**(critical points; gradient $\nabla f = 0$인 점들)을 골�
 
 용어가 꼬여 있지만, 핵심은 **"같은 객체를 다른 해상도로 이산화해도 모델은 같은 결론을 내려야 한다"** — 즉 **이산화 해상도(discretization resolution)에 대한 불변성**이다.
 
-### 구체적 상황
+##### 구체적 상황
 
 커피잔 표면을 컴퓨터로 다룬다고 하자. 두 가지 방식이 가능:
 
@@ -391,7 +391,7 @@ $f$의 **임계점**(critical points; gradient $\nabla f = 0$인 점들)을 골�
 
 해상도 변환(coarsening ↔ refinement)이 하나의 **군(group) 또는 범주(category)**를 이루는데, 모델 출력이 이 변환 아래서 **불변(invariant)** 또는 **등변(equivariant)**하면 "재정규화 대칭성을 가진다"고 한다.
 
-### 왜 이름이 "재정규화"인가 — 물리학 배경
+##### 왜 이름이 "재정규화"인가 — 물리학 배경
 
 물리학의 **재정규화 군(renormalization group, RG)**에서 용어를 빌려옴:
 
@@ -399,7 +399,7 @@ $f$의 **임계점**(critical points; gradient $\nabla f = 0$인 점들)을 골�
 - 해상도(관찰 스케일)를 바꾸면 적절한 물리 법칙도 스케일에 따라 변환됨 — 이게 RG 흐름(RG flow)
 - ML 맥락: 데이터의 해상도를 바꾸면 학습된 표현도 스케일에 맞게 변환되어야 한다는 요구
 
-### 정칙화 분해능(regularizing resolution) = 이산화 해상도
+##### 정칙화 분해능(regularizing resolution) = 이산화 해상도
 
 번역이 어려운 용어인데, 영어 원문은 **regularizing resolution**. 이건 "연속적인 다양체를 유한 개의 조각으로 쪼개서 다루기 위한 이산화" 자체를 의미. 연속 공간을 *유한한 메시로 근사(regularize)*한다는 뜻.
 
@@ -409,7 +409,7 @@ $f$의 **임계점**(critical points; gradient $\nabla f = 0$인 점들)을 골�
 
 해상도를 바꾼다는 건 이 이산화의 '촘촘함'을 조절한다는 것.
 
-### GDL vs TDL — 왜 TDL이 더 강한가
+##### GDL vs TDL — 왜 TDL이 더 강한가
 
 **GDL(기하 심층학습)**:
 
@@ -423,14 +423,14 @@ $f$의 **임계점**(critical points; gradient $\nabla f = 0$인 점들)을 골�
 - 위상은 연속 변형·이산화에 **공리적으로 불변** — 도넛은 메시가 어떻든 $\beta_1 = 1$
 - 따라서 해상도 독립성이 *수학적 공리*로 내장됨, 경험적 근사가 아니라
 
-### 실무적 예시
+##### 실무적 예시
 
 - **Mesh pooling / coarsening**: 그래프/메시를 계층적으로 단순화
 - **Hierarchical GNN**: DiffPool, MinCut pool — 학습된 방식으로 그래프 해상도를 조절
 - **Wavelet scattering**: 멀티스케일 불변성을 신경망에 박은 고전적 구현
 - **Equivariant networks**: 군 이론을 활용한 대칭성 강제
 
-### 엣지/노드 추론과의 관계
+##### 엣지/노드 추론과의 관계
 
 **완전히 다른 주제**다. 아래 표 참조:
 
@@ -450,7 +450,7 @@ $f$의 **임계점**(critical points; gradient $\nabla f = 0$인 점들)을 골�
 
 이 단락은 군론 용어가 5개 이상 동시에 쏟아져서 처음 읽으면 벽이다. 하나씩 풀어보자.
 
-### 1. 불변성(invariance)과 등변성(equivariance)
+##### 1. 불변성(invariance)과 등변성(equivariance)
 
 기계학습에서 가장 기본적인 두 대칭 개념:
 
@@ -461,12 +461,12 @@ $f$의 **임계점**(critical points; gradient $\nabla f = 0$인 점들)을 골�
 
 불변성은 등변성의 특수 경우(출력 공간에서 $g$가 항등원으로 작용). **CNN의 기본 성질**은 합성곱 연산이 평행이동에 등변.
 
-### 2. 왜 ML에서 중요한가
+##### 2. 왜 ML에서 중요한가
 
 - 대칭성을 아키텍처에 **내장**하면, 모델이 그 대칭을 처음부터 "알고" 시작 → 데이터 효율↑, 일반화↑
 - 대칭을 무시하고 **데이터로 학습**하려면 훨씬 많은 샘플 필요 (증강 학습)
 
-### 3. 각 모델 계열의 "표준 그룹"
+##### 3. 각 모델 계열의 "표준 그룹"
 
 | 모델 | 채택 그룹 | 불변성의 의미 |
 |---|---|---|
@@ -481,7 +481,7 @@ $f$의 **임계점**(critical points; gradient $\nabla f = 0$인 점들)을 골�
 
 **$SE(n)$ (특수 유클리드군)**: 회전 + 평행이동. 강체 운동(rigid motion)의 군. 로봇공학, 분자 구조에서 핵심.
 
-### 4. 안정자 그룹(stabilizer group)이란?
+##### 4. 안정자 그룹(stabilizer group)이란?
 
 군 $G$가 집합 $X$에 작용할 때, 원소 $x \in X$의 **안정자**:
 $$\text{Stab}(x) = \{g \in G : g \cdot x = x\}$$
@@ -492,7 +492,7 @@ $$\text{Stab}(x) = \{g \in G : g \cdot x = x\}$$
 
 **왜 ML에 쓰나**: 특정 객체 $x$의 본질적 대칭성이 곧 $\text{Stab}(x)$. 이 안정자의 원소들에 대해 모델이 불변하면, "$x$의 본질을 이해하는" 모델이라 할 수 있다.
 
-### 5. "보완(complement)의 위상"은 뭔 말인가
+##### 5. "보완(complement)의 위상"은 뭔 말인가
 
 논문 원문의 "classification of complement topology" — **매듭 이론(knot theory)**을 연상시키는 표현:
 
@@ -502,7 +502,7 @@ $$\text{Stab}(x) = \{g \in G : g \cdot x = x\}$$
 
 더 일반적으로, 어떤 객체 $A$를 분류할 때 $A$ 자체가 아니라 주변 공간 $X \setminus A$의 위상을 보는 것이 자연스러운 경우가 많다. 이때 해당 공간의 자기동형군에 대한 불변성이 유용하다는 얘기.
 
-### 6. TDL이 "더 복잡한 준동형 그룹"을 쓴다는 의미
+##### 6. TDL이 "더 복잡한 준동형 그룹"을 쓴다는 의미
 
 원문의 "homomorphism group"은 번역이 어색한데, 맥락상 **자동동형군(automorphism group)** 또는 **구조 보존 사상(structure-preserving map)의 군**으로 이해하는 것이 맞다.
 
@@ -513,14 +513,14 @@ $$\text{Stab}(x) = \{g \in G : g \cdot x = x\}$$
 
 **핵심**: 고차 구조가 풍부할수록 "자연스러운 대칭성"이 많아지고, 이걸 모델에 박아두면 더 풍부한 귀납적 편향(inductive bias) 획득.
 
-### 7. 실무 구현 예시
+##### 7. 실무 구현 예시
 
 - **EGNN** (Satorras et al. 2021) — $E(n)$-등변 GNN. 3D 분자에 쓰임.
 - **MACE** (Batatia et al. 2022) — 고차 등변 메시지 전달, 분자 동역학.
 - **Simplicial Neural Networks** (Ebli et al. 2020) — 단체 복합체 위에서 순열 등변성 확장.
 - **Cellular Sheaf Networks** (Bodnar et al. 2022) — 층 위의 등변 연산.
 
-### 정리
+##### 정리
 
 이 단락이 말하는 바를 한 문장으로: **"GNN은 노드 재배열, GDL은 회전·이동, TDL은 고차 구조를 보존하는 변환에 대해 등변이다. TDL의 군이 가장 풍부하므로 학습된 표현의 위상적 성질을 더 잘 모형화한다."**
 :::
@@ -528,7 +528,7 @@ $$\text{Stab}(x) = \{g \in G : g \cdot x = x\}$$
 ::: {.callout-warning collapse="true"}
 ## 내 아이디어 ▷ HST의 새 노드 보간 = 매듭 보완 아이디어의 이산 버전?
 
-### 놀라운 구조적 유사성
+##### 놀라운 구조적 유사성
 
 **매듭 보완 접근** (knot complement classification):
 
@@ -544,7 +544,7 @@ $$\text{Stab}(x) = \{g \in G : g \cdot x = x\}$$
 $$\hat{y}(v_{N+1}) = \sum_{j \in \mathcal{N}_{N+1}} \omega_j \cdot y(v_j), \quad \omega_j \propto W_{N+1,j} \cdot \deg(v_j)$$
 - 새 노드의 정체성이 **노드 자체가 아니라 연결 패턴에 담김**
 
-### 대응 관계
+##### 대응 관계
 
 | 매듭 보완 | HST 새 노드 보간 |
 |---|---|
@@ -556,7 +556,7 @@ $$\hat{y}(v_{N+1}) = \sum_{j \in \mathcal{N}_{N+1}} \omega_j \cdot y(v_j), \quad
 
 둘 다 **"객체를 직접 보지 말고, 객체가 만들어내는 '구멍'을 보라"**는 동일한 철학.
 
-### 더 일반적 패턴 — 관계형 학습의 원리
+##### 더 일반적 패턴 — 관계형 학습의 원리
 
 사실 이건 훨씬 깊은 패턴의 한 예시:
 
@@ -568,7 +568,7 @@ $$\hat{y}(v_{N+1}) = \sum_{j \in \mathcal{N}_{N+1}} \omega_j \cdot y(v_j), \quad
 
 이 모두가 **"사물은 내재적 속성이 아니라 관계망으로 정의된다"**는 관계형 존재론(relational ontology)의 구현. HST 새 노드 보간은 이 원리를 *지속적 가중 그래프 + 확산 동역학* 맥락에서 실현한 것.
 
-### 엄밀한 차이점
+##### 엄밀한 차이점
 
 비유가 완벽하지는 않다. 주요 차이:
 
@@ -579,11 +579,11 @@ $$\hat{y}(v_{N+1}) = \sum_{j \in \mathcal{N}_{N+1}} \omega_j \cdot y(v_j), \quad
 
 그래서 정확한 유사성은 **"객체를 주변으로 특성화"**라는 메타 원리 수준. 구체적 수학은 다름.
 
-### 포지셔닝 가능성
+##### 포지셔닝 가능성
 
 HST 새 노드 보간을 **"Discrete Complement-Based Embedding"** 또는 **"Relational Inductive Completion on Weighted Graphs"** 로 프레이밍할 수 있다. 본 논문 §6.3 "위상적 트랜스포머"에서 "위상적 편향을 주입한 inductive bias"를 언급하는데, 이런 종류의 "주변으로 객체를 정의하는" 원리가 inductive bias의 한 형태.
 
-### 추가로 탐구할 지점
+##### 추가로 탐구할 지점
 
 Gordon–Luecke의 **유일성 진술**(매듭 ↔ 보완이 일대일 대응)이 HST에서도 성립하는가? 즉, Theorem D.1의 $\|\hat{x}_{N+1} - \phi_{N+1}(v_{N+1})\| \leq \epsilon$ 에서 $\epsilon \to 0$의 조건은 무엇인가? 링 데이터에서는 대칭성 덕분에 거의 일치하지만, 일반 그래프에서는 언제 "이웃 가중치가 새 노드를 *유일하게* 결정"하는가? 이게 HST 보간의 identifiability 질문이고, 매듭 이론의 Gordon–Luecke과 수학적으로 유사한 구조의 증명이 가능할지도.
 
@@ -687,6 +687,266 @@ Open problem 7. 심층학습의 설명 가능성과 일반화에 관한 문제�
 최근 결과는 데이터의 위상, 학습 궤적, 신경망 가중치 및 내부 표현이 심층학습의 일반화 오차와 관련 있음을 보였다 (Rieck et al., 2019b; Hofer et al., 2020a; Birdal et al., 2021; Andreeva et al., 2023; Dupuis et al., 2023). 이러한 맥락에서, 일반화 오차를 예측하기 위한 실현 가능한 연구 시도로는 계산 그래프, 신경망의 학습 궤적에 대한 TDL 모델 학습, 또는 일반화와 연결된 내부 표현의 바람직한 위상적 성질을 촉진하는 것이 있다. 이러한 방향에서의 어떠한 진전도 TDL이 근본적인 심층학습 연구에 미치는 잠재적 영향을 고려할 때 TDL에 더 큰 주목을 끌 것이다.
 
 Research direction 7. 계산 그래프에 대한 TDL 모델 학습, 신경망의 확률적 최적화 과정에서 추적되는 가중치 궤적의 위상적 성질 제어, 또는 데이터에 대한 신경망의 내부 표현에 바람직한 위상적 성질을 적절히 강제하는 것은 심층학습에서 수수께끼 같은 일반화 행태를 이해하고 설명 가능한 AI에 한 걸음 더 다가가는 열쇠가 될 수 있다.
+
+::: {.callout-note collapse="true"}
+## 설명 가능성과 일반화 — 위상은 어떻게 끼어드는가
+
+이 섹션은 **심층학습의 두 가지 미해결 큰 질문**에 위상적 관점이 어떻게 기여할 수 있는지 이야기한다. 하나씩 풀어 본다.
+
+##### 1. 설명 가능성(Explainability)이란?
+
+"이 모델은 왜 이 결정을 내렸는가?"를 이해하려는 시도. 두 갈래로 나뉜다:
+
+- **해석 가능성(interpretability)**: 모델 자체가 이해하기 쉬운 구조. 결정 트리, 선형 회귀 등.
+- **사후 설명(post-hoc explainability)**: 블랙박스 모델에 대해 사후적으로 설명을 붙임. Saliency map, attention 시각화, SHAP, LIME, concept activation vectors 등.
+
+심층학습은 수억 파라미터의 블랙박스라서 **사후 설명**에 의존하는데, 이게 불완전하다는 게 커뮤니티의 오랜 고민.
+
+##### 2. 일반화 오차(Generalization error)란?
+
+정의: 훈련 오차와 테스트 오차의 차이.
+$$\text{Gen}(\theta) = \mathbb{E}_{x \sim P_{\text{test}}}[\ell(\theta; x)] - \mathbb{E}_{x \sim P_{\text{train}}}[\ell(\theta; x)]$$
+
+**수수께끼**: 현대 심층학습은 파라미터 수 ≫ 데이터 수인데도 일반화가 잘 됨. 고전 이론(VC dimension, PAC-Bayes, Rademacher complexity)은 이를 설명하지 못함 — 모두 너무 느슨한 상한만 줌.
+
+##### 3. 위상이 기여하는 세 가지 entry point
+
+논문이 인용하는 연구들을 분류하면:
+
+###### (a) 데이터의 위상 — 입력 공간의 모양
+
+- 데이터가 놓인 다양체의 위상적 복잡도가 학습 난이도를 결정
+- Olah (2014): 매듭 같은 위상적으로 복잡한 데이터는 얕은 신경망으로 분리 불가 (§1 Figure 1(d))
+- Naitzat et al. (2020): 신경망이 층을 거치며 **데이터의 위상을 단순화**한다는 실증. 입력의 $\beta_1, \beta_2$가 깊은 층에서 감소.
+
+###### (b) 학습 궤적의 위상 — SGD가 그리는 경로의 모양
+
+훈련 중 가중치 $\theta(t)$가 그리는 궤적을 하나의 기하 객체로 본다. 이 궤적의 위상이 일반화와 연관:
+
+- **Birdal et al. (2021, NeurIPS)**: 가중치 궤적의 **intrinsic dimension**을 persistent homology로 추정. 낮은 차원 = 좋은 일반화.
+- **Dupuis et al. (2023)**: 손실 경관(loss landscape)의 **프랙털 기하**와 일반화 한계 연결.
+- **Andreeva et al. (2023)**: Metric space **magnitude**(크기)로 일반화 예측.
+
+###### (c) 내부 표현의 위상 — 중간층 활성화의 모양
+
+각 층의 feature map/hidden state가 이루는 점군(point cloud)의 위상:
+
+- **Rieck et al. (2019b)** "Neural Persistence": 신경망 가중치 자체에 persistent homology 적용 → 각 층의 복잡도를 **하나의 숫자**로 요약. 이 수치가 조기 정지(early stopping) 지표로 작동.
+- **Hofer et al. (2020a)**: 표현 공간에 원하는 위상적 성질(connectedness 등)을 **정규화항으로 강제**. 일반화가 증명 가능하게 개선.
+- **Barannikov et al. (2022)** "Representation Topology Divergence": 두 신경망의 내부 표현을 위상적 거리로 비교.
+
+##### 4. 세 가지 Research Direction 풀어보기
+
+논문의 RD 7은 사실 **세 갈래의 연구 제안**이다:
+
+**(i) 계산 그래프에 TDL 적용**
+
+신경망 구조 자체를 하나의 그래프로 본다. 레이어·뉴런·연결이 노드·엣지. 이 그래프에 GNN이나 TDL을 돌려서 "이 신경망의 일반화 성능을 예측"하는 메타 모델을 만들자는 아이디어.
+
+실제 예: **Graph HyperNetwork** (Zhang et al. 2019), **NN-Mass** (Bhardwaj et al. 2021) — 신경망 구조의 그래프 속성으로 성능 예측. TDL 버전은 아직 미개척.
+
+**(ii) 가중치 궤적의 위상 제어**
+
+SGD 경로에 정규화기를 추가해서 궤적의 **persistence diagram이 특정 형태**가 되도록 제약. 예: persistence의 "짧은 막대"(노이즈)를 줄이고 "긴 막대"(본질적 구조)는 유지.
+
+→ 암시적으로 이미 널리 쓰이는 방법들(weight decay, stochastic weight averaging)이 사실 궤적 위상을 단순화하는 효과. TDL이 이걸 **명시적이고 제어 가능한** 형태로 만들자는 제안.
+
+**(iii) 내부 표현의 위상 강제**
+
+목표 위상 $\mathcal{T}^*$를 정해두고, 표현 학습 loss에 다음을 추가:
+$$\mathcal{L}_{\text{topo}} = d_B(\text{Dgm}(h(X)), \mathcal{T}^*)$$
+
+예시 응용:
+
+- 이미지 분할에서 "정답 마스크의 위상(구멍 개수 등)을 예측도 보존" (Clough et al. 2022, Hu et al. 2021)
+- 오토인코더에서 입력의 위상을 latent에 보존 (Moor et al. 2020, Trofimov et al. 2023)
+- 분류기 결정 경계의 위상적 복잡도 제한 (Chen et al. 2019)
+
+##### 5. 왜 이게 TDL의 역할인가
+
+- 기존 TDA는 "위상을 *계산*해서 특징으로 쓰는" 것에 초점 — 사후적
+- TDL은 "위상을 *학습 과정에 직접 주입*" — 사전적/능동적
+- 위상적 성질을 **훈련 중 역전파를 통해 강제**하려면 perisitent homology 계산이 미분 가능해야 함 → differentiable persistence (pytorch-topological, torch-ph 등)
+
+이게 논문이 "TDL이 근본적 심층학습 연구에 기여할 잠재력이 크다"고 주장하는 이유.
+
+##### 6. 블로그 독자 입장에서의 간단 요약
+
+- **설명 가능성**: 왜 모델이 이런 결정을 했나? → 위상으로 중간층의 **구조적 변화**를 시각화·측정 가능
+- **일반화**: 왜 잘 동작하나? → 가중치 궤적/내부 표현의 **위상적 복잡도**가 일반화 상한을 주는 새 지표
+- **관통하는 원리**: "숫자 하나로는 부족하지만, 위상적 시그니처(바코드·persistence)는 훨씬 풍부한 진단 도구를 제공"
+:::
+
+::: {.callout-important collapse="true"}
+## 비판 ▷ Naitzat 결과를 "긍정적 발견"으로 읽는 것은 위험하다
+
+##### 왜 약점인가
+
+데이터의 위상 불변량($\beta_k$)은 **구조적 의미를 담는 핵심 특징**이다:
+
+- **주기적 행동**: $\beta_1 = 1$ (루프)
+- **토러스 구조**: $\beta_1 = 2, \beta_2 = 1$ — 예: grid cells의 attractor manifold (Chaudhuri et al. 2019, Nature Neuroscience)
+- **고리 분자**: $\beta_1$이 약물 반응성에 직결
+- **자가 닫힌 궤적**: $\beta_1$으로 기억된 주기성이 downstream 예측에 필수
+
+신경망이 이 수치들을 **감소**시킨다는 것은 **본질적 구조 정보를 폐기**한다는 뜻. 분류 정확도 하나만을 위해 의미 있는 기하·위상을 환원주의적으로 버리는 것이다.
+
+구체적 피해 사례:
+
+- **주기적 생체 신호**: 심박 패턴의 $\beta_1$이 내부에서 소실 → 주기성 추론 불가
+- **신경과학**: grid cells의 토러스 구조가 은닉층에서 평탄화 → 공간 인지 메커니즘 재현 실패
+- **단백질 접힘**: 고리 구조의 $\beta_1$ 소실 → 기능 예측 저하
+
+##### 논문 자체가 이 긴장을 인지한다
+
+같은 §4.1 단락에서 저자들은 **Petri & Leitão (2020)**의 반박도 함께 인용한다:
+
+> 단순화되는 것이 반드시 데이터의 위상은 아니며 오히려 **결정 경계의 위상**이다.
+
+즉 Naitzat의 해석은 **과대 해석**일 수 있다. 재해석:
+
+| | Naitzat 해석 (표준) | Petri & Leitão 재해석 |
+|---|---|---|
+| 단순화 대상 | 데이터의 위상 | 결정 경계의 위상 |
+| NN의 역할 | 위상 파괴자 | 위상 선별자 |
+| TDL에 대한 함의 | NN은 부적합 → TDL 필요 | 맥락에 따라 NN도 OK |
+
+##### 결론: "긍정적"이라는 단어를 쓰지 말자
+
+본 논문이 Naitzat을 인용하며 "위상적 방법을 특성화하는 유력한 방법을 제공한다"라고 중립적으로 표현한 것은 사실 **비판적으로 읽어야** 한다. "NN이 위상을 정리한다" = 칭찬이 아니라 **TDL이 필요한 이유**다.
+
+정확한 포지셔닝은 이렇다:
+
+- **순수 NN**: 분류를 위해 위상을 폐기 → 구조적 정보 손실
+- **TDL**: 의미 있는 위상을 **명시적으로 보존·활용** → §5.1 RD (iii) "내부 표현의 위상 강제"가 바로 이 해결책
+
+##### 관련 솔루션 계열
+
+이미 TDL 진영은 대응책을 제시 중:
+
+- **Topological Autoencoder** (Moor et al. 2020): 입력의 위상을 latent 공간에 강제 보존
+- **Neural Persistence** (Rieck et al. 2019): 층별 위상 복잡도 모니터링 → 과도한 단순화 탐지
+- **Connectivity-Optimized Representation Learning** (Hofer et al. 2020a): 원하는 위상적 성질을 정규화항으로 강제
+
+따라서 Naitzat의 관찰은 "NN이 무엇을 잃는가"에 대한 **진단**이지, "NN이 잘하는 것"에 대한 **칭송**이 아니다.
+:::
+
+::: {.callout-warning collapse="true"}
+## 내 아이디어 ▷ HST의 $\mathbf{W}(t)$ 가족 = 그래프 공간의 SGD 궤적?
+
+본 논문 §5.1의 핵심 아이디어 중 하나는 **"학습 궤적의 위상으로 일반화를 예측한다"** (Birdal et al. 2021, Dupuis et al. 2023 등). 그런데 HST의 $\mathbf{W}(t)$ 가족 자체가 이 "궤적" 개념과 구조적으로 **정확히 같은 틀**에 들어간다.
+
+##### 궤적이란 관점의 통일
+
+- **SGD 궤적**: 가중치 $\theta$가 훈련 중 $\theta_0 \to \theta_1 \to \cdots \to \theta_T$로 움직인 경로. 고차원 공간 $\mathbb{R}^P$ 속의 점군(point cloud).
+- **HST 궤적**: 가중 그래프 $\mathbf{W}$가 시간에 따라 $\mathbf{W}(0) \to \mathbf{W}(1) \to \cdots \to \mathbf{W}(t)$로 움직인 경로. 가중 그래프 공간 속의 점군.
+
+둘 다 **시간-매개 점군(time-parameterized point cloud)**이며, 그 위에 persistent homology 같은 TDA 도구를 걸어 위상을 분석 가능.
+
+##### 대응 관계 표
+
+| | SGD 궤적 | HST 궤적 |
+|---|---|---|
+| 시작점 | $\theta_0$ (초기 가중치) | $\mathbf{y}$ (초기 신호) |
+| 진화 동역학 | Gradient flow | Snow flow (확률적) |
+| 살고 있는 공간 | 가중치 공간 $\mathbb{R}^P$ | 가중 그래프 공간 |
+| Mixing/에르고드성 | SGD noise mixing | HST 약에르고드성 |
+| 극한 행동 | $\theta^*$로 수렴 (최소점) | $\mathbf{W}(\infty)$로 수렴 (신호 무관) |
+| Persistence 분석 | 궤적 점군의 PD | $\text{Dgm}_k(t)$ (Theorem A.1.6) |
+| 일반화에 대한 함의 | intrinsic dim → gen bound | **미탐구 영역** |
+
+##### 주목해야 할 평행 구조
+
+**HST의 Theorem A.1.6** (어떤 초기 $\mathbf{y}$를 넣어도 같은 persistence diagram으로 수렴) 은 사실 **Birdal 계열 일반화 이론의 그래프 버전을 미리 구현**한 것:
+
+- Birdal: "SGD가 수렴하는 가중치의 *위상*이 일반화를 결정"
+- HST: "Snow flow가 수렴하는 $\mathbf{W}$의 *위상*이 그래프 구조를 결정"
+
+둘 다 "초기 조건에 독립적인 점근적 위상 객체가 존재하고, 그 복잡도가 하류 태스크 성능을 결정한다"는 동일한 템플릿.
+
+##### 왜 HST가 "첫 후보"인가 — 기존 이론의 공백
+
+궤적 기반 일반화 이론이 **왜 지금까지 그래프 데이터로 확장되지 못했는가**를 먼저 봐야 HST의 독특한 위치가 드러난다.
+
+**기존 이론의 전제**:
+
+- Birdal et al. (2021), Dupuis et al. (2023), Andreeva et al. (2023) 모두 **가중치 공간 $\mathbb{R}^P$의 궤적**만 다룸
+- 도구(persistent homology, Minkowski dim, magnitude)는 전부 **유클리드 메트릭 공간**을 전제
+- 점군(point cloud)은 $\mathbb{R}^P$ 속 점들의 집합 — 그래프처럼 구조화된 공간은 다루지 못함
+
+**그래프 데이터의 경우 어떻게 되나**:
+
+GNN을 그래프 $\mathcal{G}$에 훈련하면 물론 가중치 $\theta \in \mathbb{R}^P$가 있으니 기존 bound가 **형식적으로는** 적용됨. 그러나:
+
+- 이 bound는 $\theta$의 궤적만 봄 — **그래프 $\mathcal{G}$ 자체의 복잡도는 반영 안 함**
+- 같은 $\theta$ 궤적이어도 $\mathcal{G}$가 복잡하면 일반화가 달라져야 하는데, 포착 못 함
+- 즉 기존 이론은 **"모델 복잡도"**만 다루고 **"데이터 복잡도"**를 놓친다
+
+Petri & Leitão (2020)이 "단순화되는 건 데이터가 아니라 결정 경계"라고 지적한 문제와 동일한 맹점.
+
+**HST가 뚫어내는 지점**:
+
+HST는 궤적의 **공간 자체를 바꾼다**:
+
+- 기존: 궤적 ∈ $\mathbb{R}^P$ (모델 공간) → "모델이 어떻게 움직였나"
+- HST: 궤적 ∈ 가중 그래프 공간 → "**데이터 구조가** 어떻게 움직였나"
+
+즉 HST의 $\mathbf{W}(t)$ 가족은 **모델이 아니라 데이터 자체의 궤적**. 훈련과 무관하게 그래프 + 신호라는 입력만으로 결정론적-확률적으로 정의됨.
+
+**이게 왜 "첫 후보"인가**:
+
+대안 접근을 하나씩 보면 모두 결함이 있다:
+
+- **그래프 커널 방법**: 그래프 간 거리를 정의하지만, 하나의 그래프 *내부*의 시간 궤적은 없음
+- **다중 매개변수 persistence**: 그래프에 여러 filtration을 걸지만, 에르고드적 기반 결여 → 극한 행동에 대한 보장 없음
+- **그래프 확산 모델**: 시간 축이 있지만 전부 학습 기반 → "데이터의 내재적 궤적"이라 부르기 어려움
+- **Spectral embedding 가족**: 정적 — 시간 축 없음
+
+HST는:
+
+1. **시간 축 $t$** 보유 (궤적 성립)
+2. **결정론적-확률적 하이브리드** (측정 가능)
+3. **약에르고드성** (수렴 보장 — 기존 이론의 수학적 발판에 대응)
+4. **신호 $\mathbf{y}$와 구조 $(\mathbf{E},\mathbf{W})$의 분리 가능한 기여** (Guarantee 2)
+
+이 네 가지를 동시에 가진 그래프 궤적 구성은 **아직 문헌에 없다**. 그래서 "첫 후보".
+
+**이론적으로 무엇을 기대할 수 있나**:
+
+Birdal의 정리를 도식화하면:
+$$\text{Gen}_{\text{model}} \leq C \cdot \sqrt{\dim_{\text{int}}(\text{parameter trajectory}) / n}$$
+
+HST로 이식하려는 형태:
+$$\text{Gen}_{\text{graph-task}} \leq C \cdot \sqrt{\dim_{\text{int}}(\mathbf{W}(t)\text{ 궤적}) / n}$$
+
+여기서 intrinsic dim은 가중 그래프 공간에서 정의된 새로운 양 — 이게 **가장 어려운 미해결 수학 문제**. 가능한 접근:
+
+- Snow Laplacian의 스펙트럼을 통한 effective dim
+- $\mathbf{W}(t)$ 가족의 Gromov–Hausdorff 수렴률
+- Persistence diagram의 entropy
+
+이런 bound가 잡히면:
+
+- 그래프 데이터의 **본질적 난이도**를 데이터 자체에서 직접 측정 가능
+- GNN 학습 시작 전에 **일반화 성능 예측** 가능
+- 데이터 증강(graph rewiring, lifting)이 일반화에 주는 영향을 수학적으로 계량 가능
+
+##### 열린 연구 방향
+
+이 대응을 진지하게 받아들이면 다음 질문이 자연스럽게 뜬다:
+
+1. **HST 궤적의 intrinsic dimension**이 그래프 기반 학습의 일반화를 예측하는가?
+2. HST의 $\mathbf{W}(t)$ 궤적 위상으로부터 **그래프 데이터용 일반화 상한**을 유도할 수 있는가?
+3. SGD의 implicit regularization 메커니즘(궤적이 저차원에 살게 되는 현상)의 HST 대응물이 있는가? 약에르고드성이 implicit regularizer 역할?
+4. Birdal의 Minkowski dimension 추정을 HST에 이식해서 **"그래프 위 학습의 Birdal bound"**를 만들 수 있는가?
+
+##### 포지셔닝 아이디어
+
+- **"Heavy-Snow Transforms as Implicit Trajectories: A Generalization Bound for Graph Learning"**
+- **"Weak Ergodicity Meets Persistent Homology: Generalization Theory on Weighted Graphs"**
+
+기존 Birdal 등은 전부 **유클리드 가중치 공간**에서의 궤적을 다뤘고, **그래프 공간의 궤적**에 대한 대응 이론은 아직 없음. HST가 이 틈새를 메울 수 있는 강력한 후보.
+:::
 
 ### 5.2. 공정성
 
