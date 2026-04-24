@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ $W(t)$ 궤적과 자기 선형근사의 편차 — $\t
 author: 신록예찬
 date: 04/24/2026
 draft: false
-output-file: 260424_a5d784.html
+output-file: 260424_09cf43.html
 ---
 
 # 0. 동기: HST는 자기 자신의 선형근사에서 얼마나 벗어나 있는가

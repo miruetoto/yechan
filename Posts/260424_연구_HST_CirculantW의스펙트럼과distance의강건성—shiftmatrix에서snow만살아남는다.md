@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ Circulant W의 스펙트럼과 distance의 강건성 �
 author: 신록예찬
 date: 04/24/2026
 draft: false
-output-file: 260424_c1rc.html
+output-file: 260424_b6bfc6.html
 ---
 
 # 0. 동기: "순환행렬로 바꿔봐도 결과가 같을까?"
@@ -56,7 +56,7 @@ $n=60$에서 수치로 확인하면:
 | sym cycle | 2.00 | 0.00 | ✓ | $\lambda_k = 2\cos(2\pi k/n)$ — $[-2,2]$에 분산 |
 | shift $\mathbf{S}$ | 1.00 | 1.00 | ✗ | 단위원 위 $\omega^k$, 모두 크기 1 |
 
-![$n=60$에서 세 circulant의 고유값 크기 $|\hat{c}_k|$. Gaussian은 저주파(k=0, n)에 집중, sym cycle은 $2|\cos(2\pi k/n)|$ 곡선, shift는 모든 k에서 1.](attachments/260424_circulant_01_spectrum.png)
+![$n=60$에서 세 circulant의 고유값 크기 $|\hat{c}_k|$. Gaussian은 저주파(k=0, n)에 집중, sym cycle은 $2|\cos(2\pi k/n)|$ 곡선, shift는 모든 k에서 1.](attachments/260424_b6bfc6_01.png)
 
 **해석.** 세 스펙트럼은 "random walk의 smoothing 강도"를 결정한다. Random walk transition $\mathbf{P} = \mathbf{W}/\mathrm{rowsum}$도 circulant이므로 DFT로 대각화되며, $\mathbf{P}^t$의 고유값은 $\hat{p}_k^t$다.
 
@@ -124,7 +124,7 @@ Gaussian $\mathbf{W}$에서 $\hat{c}_k$는 $k$에 대해 Gaussian-decay, 따라�
 | sym cycle | **2** | 3 | 5 |
 | shift | **1** | 1 | 1 |
 
-![세 $\mathbf{W}$의 diffusion distance PCA 3D 임베딩을 $t=1,2,4$로 비교. Gaussian은 어떤 $t$에서도 링을 복원, sym cycle은 $t$가 커질수록 구조가 선명해짐, shift는 어떤 $t$에서도 무작위 scatter.](attachments/260424_circulant_02_diffusion.png)
+![세 $\mathbf{W}$의 diffusion distance PCA 3D 임베딩을 $t=1,2,4$로 비교. Gaussian은 어떤 $t$에서도 링을 복원, sym cycle은 $t$가 커질수록 구조가 선명해짐, shift는 어떤 $t$에서도 무작위 scatter.](attachments/260424_b6bfc6_02.png)
 
 - **shift**: $|\hat{p}_k| = 1$이 $t$-제곱으로도 그대로라 discriminating power가 근본적으로 0. $t$ 조절로 해결 불가.
 - **sym cycle at $t=1$**: 이웃 2개만 반영되므로 "바로 앞 2칸 떨어진 쌍 vs 나머지"의 이진 구분만 됨. $t$를 키워야 walker 분포가 더 퍼지며 링 거리가 세분화됨. 단, $t$가 짝수로 넘어가는 순간 parity 구조가 끼어들어 단순 ring이 아닌 이분 ring이 나타남($t=4$ 패널).

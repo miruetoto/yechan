@@ -3,6 +3,7 @@ title: 연구 ▷ HST ▷ 예제2의 diffusion distance 정의 오류 — 왜 �
 author: 신록예찬
 date: 04/25/2026
 draft: false
+output-file: 260425_9372b7.html
 ---
 
 # 0. 한 줄 요약
