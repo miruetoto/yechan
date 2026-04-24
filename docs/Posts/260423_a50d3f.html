@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="신록예찬">
+<meta name="dcterms.date" content="2026-04-23">
+
+<title>연구 ▷ HST ▷ Block Regeneration과 Walker 에르고딕 정리 – 신록예찬’s Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5b48ee63c5e90d651e19f9ead4b448f1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">신록예찬’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DL2024/"> 
+<span class="menu-text">DL2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/AP2023/"> 
+<span class="menu-text">AP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/PP2024/"> 
+<span class="menu-text">PP2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DV2023/"> 
+<span class="menu-text">DV2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/MP2023/"> 
+<span class="menu-text">MP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SC2024/"> 
+<span class="menu-text">SC2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DS2022/"> 
+<span class="menu-text">DS2022</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SP2023/"> 
+<span class="menu-text">SP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/IR2021/"> 
+<span class="menu-text">IR2021</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan/"> 
+<span class="menu-text">yechan</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan2/"> 
+<span class="menu-text">yechan2</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/miruetoto/yechan"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#lemma-1-walker-통계의-i.i.d.-재생" id="toc-lemma-1-walker-통계의-i.i.d.-재생" class="nav-link" data-scroll-target="#lemma-1-walker-통계의-i.i.d.-재생">Lemma 1 (Walker 통계의 i.i.d. 재생)</a></li>
+  <li><a href="#proposition-1-walker-marginal의-지수-mixing" id="toc-proposition-1-walker-marginal의-지수-mixing" class="nav-link" data-scroll-target="#proposition-1-walker-marginal의-지수-mixing">Proposition 1 (Walker Marginal의 지수 Mixing)</a></li>
+  <li><a href="#theorem-1-renewal-slln-clt-for-walker-statistics" id="toc-theorem-1-renewal-slln-clt-for-walker-statistics" class="nav-link" data-scroll-target="#theorem-1-renewal-slln-clt-for-walker-statistics">Theorem 1 (Renewal SLLN + CLT for Walker Statistics)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">연구 ▷ HST ▷ Block Regeneration과 Walker 에르고딕 정리</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>신록예찬 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 23, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="setup" class="level1">
+<h1>Setup</h1>
+<p><span class="math inline">\(\mathcal{G} = (V, \mathbf{E}, \mathbf{W})\)</span>을 연결 가중 그래프, <span class="math inline">\(n = |V|\)</span>, <span class="math inline">\(\mathbf{y} = (y(v_1), \ldots, y(v_n))^\top\)</span>을 초기 신호, <span class="math inline">\(b &gt; 0, T_{\max} \geq 1\)</span>을 알고리즘 파라미터라 하자. <span class="math inline">\(\{X_t\}\)</span>를 Algorithm 1(Heavy-Snow Process)로 생성된 walker 위치 과정, <span class="math inline">\(\boldsymbol{\mu}_0 \propto \deg\)</span>를 재시작 분포, <span class="math inline">\(\mu_{\min} := \min_i \mu_0(v_i) &gt; 0\)</span>으로 놓는다.</p>
+<p><strong>Block 시각.</strong> <span class="math inline">\(M_0 := 0\)</span>, <span class="math inline">\(M_k := \inf\{t &gt; M_{k-1} : Z_t = T_{\max}\}\)</span> (<span class="math inline">\(k \geq 1\)</span>). Algorithm 1에 의해 <span class="math inline">\(1 \leq M_{k+1} - M_k \leq T_{\max} + 1\)</span>.</p>
+<p><strong>재생 시각, 에포크, 에포크 길이.</strong></p>
+<p><span class="math display">\[R_k := M_k + 1, \qquad \mathcal{E}_k := [R_k, R_{k+1}), \qquad \xi_k := R_{k+1} - R_k\]</span></p>
+<p><span class="math inline">\(\xi_k \in \{1, 2, \ldots, T_{\max}+1\}\)</span>.</p>
+<p><strong>재생 성질 (알고리즘 정의에 의한).</strong></p>
+<p><span class="math display">\[\Pr\big(X_{R_k} = j \,\big|\, \mathcal{F}_{M_k}\big) = \mu_0(j) \qquad \forall\, k \geq 0,\, j \in V. \tag{R}\]</span></p>
+<hr>
+</section>
+<section id="lemma-1-walker-통계의-i.i.d.-재생" class="level1">
+<h1>Lemma 1 (Walker 통계의 i.i.d. 재생)</h1>
+<p><span class="math inline">\(f: V \to \mathbb{R}\)</span>를 bounded 함수라 하자. 에포크별 보상</p>
+<p><span class="math display">\[R_k^{(f)} \;:=\; \sum_{t \in \mathcal{E}_k} f(X_t)\]</span></p>
+<p>에 대해, 수열 <span class="math inline">\(\{(\xi_k,\, R_k^{(f)})\}_{k \geq 0}\)</span>은 <strong>i.i.d.</strong>이다.</p>
+<p><strong>증명.</strong> <span class="math inline">\(\mathbf{y} \bmod b\)</span>의 fractional part에 의해 결정되는 유효 상태공간 내에서 <span class="math inline">\(\boldsymbol{\delta}(t) - \boldsymbol{\delta}(0) \in b\mathbb{Z}^{n-1}\)</span>이므로, 쌍별 비교 <span class="math inline">\(\mathbb{1}(h(v_i, t) \geq h(v_j, t)) = \mathbb{1}(\delta_i(t) \geq \delta_j(t))\)</span>의 패턴은 <span class="math inline">\(\boldsymbol{\delta}(t) \bmod b = \boldsymbol{\delta}(0) \bmod b\)</span>에만 의존하고 <span class="math inline">\(k\)</span>에 독립이다.</p>
+<p>시점 <span class="math inline">\(R_k\)</span>에서의 walker-관점 전이는:</p>
+<ol type="1">
+<li><span class="math inline">\(X_{R_k} \sim \boldsymbol{\mu}_0\)</span> — <span class="math inline">\((\mathrm{R})\)</span>에 의해 이전 에포크들과 독립</li>
+<li>이후 <span class="math inline">\(\mathcal{E}_k\)</span> 내부 (<span class="math inline">\(\leq T_{\max}+1\)</span> 스텝) walker 궤적은 <span class="math inline">\((\boldsymbol{\delta}(R_k) \bmod b, X_{R_k}, Z_{R_k} = 0)\)</span>에서 출발하는 유한 길이의 random walk. 전이 결정이 <span class="math inline">\(\boldsymbol{\delta} \bmod b\)</span>와 walker 위치에만 의존하므로, <span class="math inline">\(\boldsymbol{\delta}(R_k) \bmod b\)</span>가 <span class="math inline">\(k\)</span>에 독립이라는 점과 결합하여 <strong>walker 궤적 <span class="math inline">\((X_{R_k}, \ldots, X_{R_{k+1}-1})\)</span>의 joint distribution은 <span class="math inline">\(k\)</span>에 독립</strong>이다.</li>
+</ol>
+<p><span class="math inline">\(\xi_k\)</span>와 <span class="math inline">\(R_k^{(f)}\)</span> 둘 다 walker 궤적의 결정론적 함수이므로 <span class="math inline">\((\xi_k, R_k^{(f)})\)</span>의 분포가 <span class="math inline">\(k\)</span>에 독립. 또한 <span class="math inline">\((\mathrm{R})\)</span>이 <span class="math inline">\(\mathcal{F}_{M_k}\)</span>-조건부 독립성을 주므로 이전 <span class="math inline">\((\xi_j, R_j^{(f)})\)</span>, <span class="math inline">\(j &lt; k\)</span>에 대해서도 독립. 따라서 i.i.d. <span class="math inline">\(\square\)</span></p>
+<hr>
+</section>
+<section id="proposition-1-walker-marginal의-지수-mixing" class="level1">
+<h1>Proposition 1 (Walker Marginal의 지수 Mixing)</h1>
+<p><span class="math inline">\(\boldsymbol{\pi}_X\)</span>를 walker 위치의 정상분포(존재는 Theorem 1 참조)라 하자. 임의의 초기분포 <span class="math inline">\(\boldsymbol{\nu}\)</span>에 대해:</p>
+<p><span class="math display">\[\big\|\mathcal{L}(X_t \mid X_0 \sim \boldsymbol{\nu}) - \boldsymbol{\pi}_X\big\|_{TV} \;\leq\; \big(1 - \mu_{\min}\big)^{\lfloor t / (T_{\max}+1)\rfloor} \qquad (t \geq 0).\]</span></p>
+<p><strong>증명.</strong> Coupling 논법. 두 독립 copy <span class="math inline">\(\{X_t\}, \{X_t'\}\)</span>를 같은 source of randomness 하에 다음과 같이 결합한다:</p>
+<ul>
+<li>Flow/block 판정과 flow 시 이웃 선택은 두 copy에서 독립적으로 수행.</li>
+<li><span class="math inline">\((\mathrm{R})\)</span>에 해당하는 매 <span class="math inline">\(\boldsymbol{\mu}_0\)</span> 재시작 시점에서는 동일 난수 <span class="math inline">\(U \sim \boldsymbol{\mu}_0\)</span>를 공유: <span class="math inline">\(X_{R_k} = X'_{R'_k} = V^{-1}(U)\)</span> (각 copy의 재시작이 동시가 아닐 수 있음에 주의).</li>
+</ul>
+<p>두 copy가 최초의 공통 재시작 시점 이후 동일한 궤적을 따른다 (동일한 <span class="math inline">\(\boldsymbol{\delta} \bmod b\)</span>에서 동일한 랜덤성 소비). 따라서 coupling time <span class="math inline">\(T^\ast\)</span>는 “두 copy 모두가 같은 <span class="math inline">\([t, t + T_{\max}+1)\)</span> 구간 내에서 block을 맞아 공통 재시작을 공유하는 최초 시점”으로 bounded.</p>
+<p>한 copy가 길이 <span class="math inline">\(T_{\max}+1\)</span>의 구간 내에서 적어도 한 번 block을 맞을 확률 <span class="math inline">\(\geq 1\)</span> (정의상 모든 에포크는 이 길이 이하). 두 copy 동시에 같은 block 이벤트에 정렬될 확률을 각 길이-<span class="math inline">\((T_{\max}+1)\)</span> 구간마다 <span class="math inline">\(\mu_{\min}\)</span> 이상으로 하한할 수 있다 (<span class="math inline">\(\boldsymbol{\mu}_0\)</span>에서의 단일 노드 뽑기 확률 하한). 따라서 각 구간마다 coupling 실패 확률 <span class="math inline">\(\leq 1 - \mu_{\min}\)</span>.</p>
+<p><span class="math inline">\(\lfloor t/(T_{\max}+1) \rfloor\)</span>개의 disjoint 구간을 연쇄적으로 적용:</p>
+<p><span class="math display">\[\Pr(T^\ast &gt; t) \;\leq\; (1 - \mu_{\min})^{\lfloor t/(T_{\max}+1)\rfloor}\]</span></p>
+<p>Coupling inequality에 의해 <span class="math inline">\(\|\mathcal{L}(X_t) - \boldsymbol{\pi}_X\|_{TV} \leq \Pr(T^\ast &gt; t)\)</span>. <span class="math inline">\(\square\)</span></p>
+<hr>
+</section>
+<section id="theorem-1-renewal-slln-clt-for-walker-statistics" class="level1">
+<h1>Theorem 1 (Renewal SLLN + CLT for Walker Statistics)</h1>
+<p><span class="math inline">\(f: V \to \mathbb{R}\)</span>를 bounded라 하고 <span class="math inline">\(\mathbb{E}[\xi_1] &lt; \infty\)</span> (Setup의 상한 <span class="math inline">\(\xi_1 \leq T_{\max}+1\)</span>에 의해 자동 성립)라 하자. 그러면</p>
+<p><span class="math display">\[\bar f_\pi \;:=\; \frac{\mathbb{E}[R_1^{(f)}]}{\mathbb{E}[\xi_1]}\]</span></p>
+<p>이 존재하고,</p>
+<p><span class="math display">\[\frac{1}{t}\sum_{s=1}^{t} f(X_s) \;\xrightarrow{a.s.}\; \bar f_\pi \qquad (t \to \infty). \tag{SLLN}\]</span></p>
+<p>또한 <span class="math inline">\(\mathrm{Var}[R_1^{(f)} - \bar f_\pi\, \xi_1] &lt; \infty\)</span>이면</p>
+<p><span class="math display">\[\sqrt{t}\left(\frac{1}{t}\sum_{s=1}^{t} f(X_s) - \bar f_\pi\right) \;\xrightarrow{d}\; N\!\left(0,\; \frac{\mathrm{Var}[R_1^{(f)} - \bar f_\pi\, \xi_1]}{\mathbb{E}[\xi_1]}\right). \tag{CLT}\]</span></p>
+<p><strong>증명.</strong> Lemma 1에 의해 <span class="math inline">\(\{(\xi_k, R_k^{(f)})\}_{k \geq 0}\)</span>은 i.i.d. 이고 <span class="math inline">\(\xi_k \leq T_{\max}+1\)</span>, <span class="math inline">\(|R_k^{(f)}| \leq (T_{\max}+1)\|f\|_\infty\)</span>이므로 1차 및 2차 모멘트 유한.</p>
+<p><span class="math inline">\(K(t) := \max\{k : R_k \leq t\}\)</span>. <span class="math inline">\(\xi_k \in [1, T_{\max}+1]\)</span>이므로</p>
+<p><span class="math display">\[\frac{t}{T_{\max}+1} - 1 \;\leq\; K(t) \;\leq\; t \tag{1}\]</span></p>
+<p>따라서 <span class="math inline">\(K(t) \to \infty\)</span> a.s. 이고 <span class="math inline">\(K(t)/t \to 1/\mathbb{E}[\xi_1]\)</span> a.s. (elementary renewal theorem).</p>
+<p><strong>(SLLN).</strong> 시간 <span class="math inline">\(t\)</span> 범위의 합을 에포크별로 분해:</p>
+<p><span class="math display">\[\sum_{s=1}^{t} f(X_s) \;=\; \sum_{k=0}^{K(t)-1} R_k^{(f)} \;+\; \underbrace{\sum_{s = R_{K(t)}}^{t} f(X_s)}_{=: E(t)}\]</span></p>
+<p>잔차 <span class="math inline">\(E(t)\)</span>는 길이 <span class="math inline">\(\leq \xi_{K(t)} \leq T_{\max}+1\)</span>의 합이므로 <span class="math inline">\(|E(t)| \leq (T_{\max}+1)\|f\|_\infty\)</span> bounded. 따라서</p>
+<p><span class="math display">\[\frac{1}{t}\sum_{s=1}^{t} f(X_s) \;=\; \frac{K(t)}{t}\cdot\frac{1}{K(t)}\sum_{k=0}^{K(t)-1} R_k^{(f)} \;+\; \frac{E(t)}{t}\]</span></p>
+<p>i.i.d. SLLN으로 <span class="math inline">\(\frac{1}{K(t)}\sum_{k=0}^{K(t)-1} R_k^{(f)} \to \mathbb{E}[R_1^{(f)}]\)</span> a.s., <span class="math inline">\(\frac{K(t)}{t} \to 1/\mathbb{E}[\xi_1]\)</span> a.s., <span class="math inline">\(E(t)/t \to 0\)</span>. 결합하여</p>
+<p><span class="math display">\[\frac{1}{t}\sum_{s=1}^t f(X_s) \;\xrightarrow{a.s.}\; \frac{\mathbb{E}[R_1^{(f)}]}{\mathbb{E}[\xi_1]} \;=\; \bar f_\pi. \qquad \square_{\text{SLLN}}\]</span></p>
+<p><strong>(CLT).</strong> 중심화하면 (분자 · 분모에 <span class="math inline">\(\bar f_\pi\)</span>를 각각 조정):</p>
+<p><span class="math display">\[\sum_{s=1}^{t} f(X_s) - \bar f_\pi \cdot t \;=\; \underbrace{\sum_{k=0}^{K(t)-1}(R_k^{(f)} - \bar f_\pi \xi_k)}_{=: S_{K(t)}} \;+\; \underbrace{E(t) - \bar f_\pi\,(t - R_{K(t)})}_{\text{bounded}}\]</span></p>
+<p><span class="math inline">\(Y_k := R_k^{(f)} - \bar f_\pi \xi_k\)</span>는 i.i.d., <span class="math inline">\(\mathbb{E}[Y_k] = 0\)</span>, <span class="math inline">\(\sigma^2 := \mathrm{Var}[Y_k] &lt; \infty\)</span>. 고전 CLT에 의해 <span class="math inline">\(S_m/\sqrt{m} \xrightarrow{d} N(0, \sigma^2)\)</span>. <span class="math inline">\(K(t)/t \to 1/\mathbb{E}[\xi_1]\)</span> a.s.와 Anscombe의 정리를 결합하면 <span class="math inline">\(S_{K(t)}/\sqrt{K(t)} \xrightarrow{d} N(0, \sigma^2)\)</span>, 따라서</p>
+<p><span class="math display">\[\frac{S_{K(t)}}{\sqrt{t}} \;=\; \sqrt{\frac{K(t)}{t}} \cdot \frac{S_{K(t)}}{\sqrt{K(t)}} \;\xrightarrow{d}\; N\!\left(0,\; \frac{\sigma^2}{\mathbb{E}[\xi_1]}\right)\]</span></p>
+<p>잔차 항은 bounded이므로 <span class="math inline">\(\sqrt{t}\)</span>로 나누면 확률 수렴으로 <span class="math inline">\(0\)</span>. Slutsky에 의해</p>
+<p><span class="math display">\[\frac{1}{\sqrt{t}}\Big(\sum_{s=1}^t f(X_s) - \bar f_\pi t\Big) \;\xrightarrow{d}\; N\!\left(0,\; \frac{\sigma^2}{\mathbb{E}[\xi_1]}\right). \qquad \square_{\text{CLT}}\]</span></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
