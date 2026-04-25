@@ -9,9 +9,9 @@ output-file: 260426_c05541.html
 
 **Theorem.** 연결 가중 그래프 $\mathcal{G}$와 파라미터 $(b, T_{max})$가 주어질 때, 다음 drift 조건이 성립한다고 하자:
 
-$$\Delta_{\mathrm{drift}} := (k+1)(T_{max}{+}1)\alpha - \frac{2q_0}{n-1} < 0 \tag{DC}$$
+$$\Delta_{\mathrm{drift}} := (T_{max}{+}1)\alpha - \frac{2p_0}{n-1} < 0 \tag{DC}$$
 
-여기서 $k = \lceil 1/\mu_{min} \rceil$, $\alpha = \|\boldsymbol{\mu}_0 - \mathbf{u}\|_1$ (차수 비균등도), $q_0 = 1-(1-p_0)^k$ (큰 낙차 사건 1회 이상 확률), $\mu_{min} = \min_i \mu_0(v_i)$이다. DC가 만족되면 상수 행렬 $C = [c_{ij}]_{n \times n}$, $c_{ij} = c_{ij}(\mathcal{G}, b, T_{max}, \mathbf{y} \bmod b) \geq 0$이 존재하여, 임의의 초기 신호 $\mathbf{y}$에 대해:
+여기서 $\alpha = \|\boldsymbol{\mu}_0 - \mathbf{u}\|_1$ (차수 비균등도), $\mu_{min} = \min_i \mu_0(v_i)$, $p_0 =\mu_{min}P_{RW,min}$ (1라운드 big-drop확률하한)이다. DC가 만족되면 상수 행렬 $C = [c_{ij}]_{n \times n}$, $c_{ij} = c_{ij}(\mathcal{G}, b, T_{max}, \mathbf{y} \bmod b) \geq 0$이 존재하여, 임의의 초기 신호 $\mathbf{y}$에 대해:
 
 $$\overline{\mathbf{SD}}^2(t) \xrightarrow{t \to \infty} C \quad \text{a.s.}$$
 
@@ -23,15 +23,15 @@ $$\overline{\mathbf{SD}}^2(t) \xrightarrow{t \to \infty} C \quad \text{a.s.}$$
 
 Proposition (Height Recurrence). 높이 범위 $M(t)$에 대해, **drift 조건**
 
-$$\Delta_{\mathrm{drift}} := (k+1)(T_{max}{+}1)\alpha - \frac{2q_0}{n-1} \;<\; 0 \tag{DC}$$
+$$\Delta_{\mathrm{drift}} := (T_{max}{+}1)\alpha - \frac{2p_0}{n-1} \;<\; 0 \tag{DC}$$
 
 이 성립하면 ($\mathcal{G}$가 정칙이면 $\alpha = 0$이므로 자동 성립), $(\mathcal{G}, b, T_{max})$에만 의존하는 상수 $C > 0$이 존재하여, **높이차 과정 $\{S(t)\}$는 유한 집합 $\mathcal{B}_\Phi$로 유한 기대 시간 내에 반복 복귀하는 양의 재귀 마르코프 체인**이다. 특히 $M(t)$는 $\{M \leq C\}$로 반복 복귀.
 
 > 질문: $\mathcal{B}_\Phi$ 은 뭐지?? 아무렇게나 잡으면 되나?? 유한기대시간내에 반복복귀하도록 하는 $\mathcal{B}_\Phi$가 존재한다는 것이지? $\{S(t)\}$가 $\mathcal{B}_\Phi$에 반복복귀한다는거랑 $M(t)$가 $\{M\leq C\}$로 반복복귀한다는건 같은 뜻아닌가? 다른거야?? 그리고 $M(t)$는 랜덤아니야? 따라서 $C$라고 쓰면안되고 $O_p(1)$ 이런식으로 바운드를 잡아야하지 않어?? 
 
-Proposition을 증명하기 위해서는 Foster-Lyapunov정리를 써야함. 그런데 이걸 위해서는 적당한 함수 $\Phi(t)$를 잡아서 그 함수가 $t$가 커질때 점점 작아진다는 느낌을 줘야함. 그러니까 $\Phi(t+1) - \Phi(t)$를 음수로 바운드하면 좋음. 그런데 그게 쉽진않음. 그래서 우리는 적당히 큰 윈도우 $T$를 잡아서 거기에서는  $\Phi(t+T) -\Phi(t)$ 이 평균적으로 음수값을 가짐을 보임. 즉 아래를 보이고자함. 
+Proposition을 증명하기 위해서는 Foster-Lyapunov정리를 써야함. 그런데 이걸 위해서는 적당한 함수 $\Phi(t)$를 잡아서 그 함수가 $t$가 커질때 점점 작아진다는 느낌을 줘야함. 그러니까 $\Phi(t+1) - \Phi(t)$를 음수로 바운드하면 좋음. 그런데 그게 쉽진않음. 그래서 우리는 적당히 round의 개념을 도입하여 1라운드 이후 $\Phi$의 값이 줄어듦을 보일것임. 
 
-$$\mathbb{E}[\Phi(t+T)-\Phi(t) | S(t)] \leq 0$$ 
+$$\mathbb{E}[\Phi(\tau_{n+1})-\Phi(\tau_n) | S(\tau_n)] \leq 0$$ 
 그런데 식을 전개하다보면 아래가 보여진다. 
 
 $$\mathbb{E}[\Phi(t+T)-\Phi(t) | S(t)] \leq bM(t)\left[(k+1)(T_{max}+1)\alpha - \frac{2q_0}{n-1}\right] +C_3$$
