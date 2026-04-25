@@ -63,7 +63,7 @@ $$\mathbb{E}[\Phi(t_{r+1})-\Phi(t_r) | S(t_r)] \leq bM(t_r)\left[(T_{max}+1)\alp
 - ... 
 - $\hbar(X_{t_r+m_r-1}, t_r+m_r-1)=\hbar(\tilde{X}_{m_r-1}, t_r+m_r-1)$
 
-> 질문: 근데 인덱싱이 안맞는거 아님?? $\mathbb{E}\big[\hbar(X_{t+1},\, t) \mid S(t)\big]$ 이거면 $\hbar(\star, \ast)$ 꼴에서 $\star$와 $\ast$는 한시점차이나는듯한데? 
+
 
 싹 더하면? 
 
