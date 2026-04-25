@@ -307,6 +307,87 @@ $$\mathcal{A}_{\mathrm{HST}}(\mathcal{G}, \mathbf{y}) \;\text{: HST가 } (\mathc
 
 ---
 
+## 5.7 ex2 첫 empirical 결과 — 신호 dominance regime의 발견
+
+§5.1 의 ring (cylinder $y=\pm 3$) 세팅에서 실제 시뮬레이션 ([260424_예제2_편차분석.py](../260424_예제2_편차분석.py), [260425_예제2_거리비교.py](../260425_예제2_거리비교.py), [260425_예제2_선형결합실험.py](../260425_예제2_선형결합실험.py)) 을 돌려본 결과, **본 포스트의 이론 frame 자체는 잘 작동하지만, ex2 가 frame 의 강점을 보이기엔 부적합**하다는 점이 드러났다.
+
+### 5.7.1 측정값 요약 ($\tau = 5 \times 10^5$, $b = 0.05$)
+
+세 metric 으로 잰 $\tau^*$ 와 $\mathcal{A}_{\mathrm{HST}}$:
+
+| metric | $\tau^*_{\mathrm{int}}$ | $\max \Delta^{\mathrm{int}}$ | $\mathcal{A}^{\mathrm{int}}_{\mathrm{HST}}$ |
+|:---|---:|---:|---:|
+| Frobenius (raw) | 598 | 75.18 | 46.15 |
+| Procrustes (shape) | 17 286 | 0.005 | 0.003 |
+| PD bottleneck ($H_1$) | 1 640 | 0.007 | 0.005 |
+
+해석:
+- **$\tau^*$ 자체는 존재한다 — Theorem 3.1 의 예측이 empirical 로 확인.**
+- **그러나 max $\Delta$ 가 작다.** 특히 Procrustes 와 PD 는 거의 0 에 가까움. 즉 HST path 가 linear path 위에서 *별로 벗어나지 않음*. §3.1 에서 가정한 "비퇴화 가정" 이 ex2 에서 **양적으로는 거의 퇴화에 가까운** 상태.
+- **세 metric 의 $\tau^*$ 가 한 자릿수~두 자릿수 차이로 다름.** "어느 metric 으로 정의된 $\tau^*$ 가 의미 있는가" 라는 질문이 새로 등장.
+
+### 5.7.2 결정적 발견 — Linear-combo path 가 HST 와 거의 같음
+
+별도 실험: $D_{\mathrm{lin}}(\alpha) = (1-\alpha)\hat D^E + \alpha \hat D^G$ 에 대해 $\alpha \in [0, 1]$ sweep, cMDS-3D 임베딩 후 HST 임베딩과 **Procrustes disparity** 를 계산.
+
+| $D^G$ 후보 | 최적 $\alpha^*$ | min Procrustes disparity to HST |
+|:---|---:|---:|
+| ring angular dist² | **0.02** | **0.0029** |
+| shortest path² | **0.02** | **0.0029** |
+| effective resistance | **0.04** | **0.0031** |
+
+세 후보 모두 $\alpha^* \approx 0$ — **거의 pure Euclidean ($\hat D^E$ 만)** 에서 HST shape 에 사실상 도달. ex2 에서는 HST cylinder 의 cMDS 임베딩이 **신호-only Euclidean 의 cMDS 임베딩과 좌표 수준에서 구분되지 않음**.
+
+### 5.7.3 왜 그런가 — 신호 dominance via eigenvalue gap
+
+cMDS 의 분산 분해:
+$$\text{Var}(\text{embedding}) \;=\; \sum_k \lambda_k(D_{\text{centered}})$$
+
+Cylinder 신호 ($y = \pm 3$) 의 squared scale = $36$, ring radius (=1) 의 squared scale = $\mathcal{O}(1)$. → $D^{\mathrm{HST}}$ 의 첫 eigenvalue $\lambda_1$ (signal split 축) 이 $\lambda_2, \lambda_3$ (ring 축) 을 **압도** ($\sim 36 : 1$).
+
+Procrustes 는 standardize (Frob 정규화) 후 비교하므로 $\sum \lambda_k$ 으로 나눔 → dominant axis 만 정렬되면 disparity 는 대략
+
+$$\text{disparity} \;\approx\; \frac{\lambda_2 + \lambda_3 + \cdots}{\sum_k \lambda_k} \;\ll\; 1$$
+
+**즉 $\Delta(t)$ 가 작은 것은 HST 의 비선형성이 작은 것이 아니라, signal-dominated regime 의 자연스러운 귀결**. Linear path 와의 편차가 magnitude 적으로 미미.
+
+### 5.7.4 그러나 Procrustes 가 잡지 못하는 차원 — HST 의 *남는* 가치
+
+위 disparity 0.003 은 좌표-수준의 닮음만 측정. Procrustes 가 무시하는 차원에서는 HST 와 pure Eucl 이 여전히 다름:
+
+- **위상 ($H_1$)**: HST 의 cylinder 안 ring 은 closed loop → $H_1 \neq 0$. Pure Eucl 은 두 cluster point → $H_1 = 0$. **위상적으로 다름**.
+- **Cluster 내부 정렬**: HST 는 같은 cluster 내 노드를 ring angle 순으로 매끄럽게 배치, Eucl 은 noise 수준 (~$0.04$) 로 무작위.
+- **Multi-scale 제어**: HST 는 $\tau$ 로 임베딩 차원성·복잡도 조절. Eucl 은 단일 scale.
+
+즉 ex2 에서 **HST 의 진정한 contribution 은 "small but qualitatively essential" 한 ring perturbation**. Δ-frame (Frobenius) 으로는 놓치고, **PD H1** 또는 **within-cluster ordering correlation** 같은 metric 으로만 보임.
+
+### 5.7.5 Regime A/B/C 분류
+
+본 결과를 일반화하면 신호 vs 그래프 스케일 비율로 3 개 regime:
+
+| regime | 조건 | HST 의 행동 | $\tau^*$ |
+|:---|:---|:---|:---|
+| **A** (신호 dominant) | $\|\mathbf y\|^2 \gg$ (graph scale) | $W^{\mathrm{HST}}(t) \approx W^E$ 부근에서 거의 안 움직임. Linear interpolation 잘 맞음. | 매우 작음, $\Delta$ 작음 |
+| **B** (그래프 dominant) | $\|\mathbf y\|^2 \ll$ (graph scale) | Pure $\mathbf y = 0$ 이면 §8.1 에서 본 commute-time 류로 환원. Linear path 도 그래프 metric 에 수렴. | 의미 있는 $\tau^*$, 그러나 HST 만의 가치 약함 |
+| **C** (균형 또는 이질결합) | $\|\mathbf y\|^2 \sim$ graph scale, 또는 신호와 구조가 *반대 방향* | 신호와 그래프가 진정으로 nonlinearly 결합. Linear path 로 도달 불가능한 shape. | 의미 있고, $\Delta$ 도 큼 — **Theorem 3.1 의 비퇴화 가정이 진짜 의미를 가짐** |
+
+ex2 ($y = \pm 3$, ring r=1) 는 **regime A** 에 속한다. §3.3 의 추측 $\tau^* \sim \mathrm{Var}(\mathbf y)^{1/2} / (b\gamma)$ 는 신호가 *상대적으로* 클수록 $\tau^*$ 가 *커진다* 고 예측하는데, regime A 에서는 *오히려 max $\Delta$ 가 작아져* HST path 가 trivial 해짐. 추측은 부분적으로만 옳고, **regime classification 이 더 근본적인 변수**임을 시사.
+
+### 5.7.6 ex2 의 demo 적격성 재고
+
+본 포스트 (Δ-frame) 와 [HST 와 외재 거리의 편차](260424_ext.html) 의 두 frame 모두에서 **ex2 ($y=\pm 3$) 는 HST 의 강점이 잘 드러나지 않는 example** 임이 확인됨. 향후 frame 의 power 를 보이려면:
+
+- regime C 인 example 로 이동: **예제5 (cliff), 예제6 (parity), 예제7 (twin rings), 예제8 (directed cycle)** ([260424 추가예제](260424_extra.html))
+- 또는 ex2 자체에서 신호 amplitude 를 $\pm 0.5 \sim \pm 1$ 로 낮춰 regime A → C 천이 관찰
+
+→ §6.1 에 새 열린 문제로 추가.
+
+### 5.7.7 별도 정리
+
+본 5.7 의 발견은 [예제2 재검토 — HST 는 Euclidean 과 얼마나 다른가?](260425_ex2review.html) 에 자세한 narrative 로 정리. 본 포스트의 frame 검증 관점에서는 위 요약으로 충분.
+
+---
+
 # 6. 열린 문제와 결론
 
 ## 6.1 열린 문제
@@ -324,6 +405,14 @@ $$\mathcal{A}_{\mathrm{HST}}(\mathcal{G}, \mathbf{y}) \;\text{: HST가 } (\mathc
 **O6. Computational tractability.** $\Delta(t)$와 $\tau^*$를 계산하려면 $W^{\mathrm{HST}}(t)$ trajectory 전체가 필요. Batch-parallel ([보충아이디어 B](260208_21543c.html))로 효율화 가능한가?
 
 **O7. $\tau^*$ 근처에서 HST 효과의 집중.** "cliff detection이 $\tau^*$ 근처에서 극대화"라는 §3.2의 가설의 실험적·이론적 검증.
+
+**O8. Regime classification.** §5.7.5 에서 도입한 A/B/C 분류 (신호 dominance vs 그래프 dominance vs 균형) 의 정량적 경계. 어떤 invariant — 예: dominance index $\rho := \lambda_1(D^{\mathrm{HST}}) / \sum_k \lambda_k$ — 가 regime 을 잡는가? $\rho$ 의 임계값은 무엇인가? Regime C 에서 추측 3.2 의 scaling 이 비로소 검증되는가.
+
+**O9. Norm 별 $\tau^*$ 의 일치/불일치.** §5.7.1 에서 Frob / Procrustes / PD 의 $\tau^*$ 가 한두 자릿수 차이 — 어느 norm 의 $\tau^*$ 가 "이론적으로 자연스러운가". 후보 비교: Frob (코드량 small), Procrustes (shape, regime A 에서 거의 0), PD (topology, signal-graph 결합 잡음). $\tau^*$ 들이 *언제* 일치하는가의 sufficient condition.
+
+**O10. ex2 외 예제들에서 frame 의 거동.** §5.7.6 의 후속 — 예제5–8 (cliff, parity, twin rings, directed) 에서 동일 sweep. Regime C 가 실현되는 example 의 분포. 본 frame 의 *적용 영역* 을 정의하는 문제.
+
+**O11. 신호 amplitude scan.** ex2 에서 $\mathbf y$ 의 amplitude 를 $0.1 \to 3$ 으로 변화시키며 $\tau^*, \mathcal{A}, \alpha^*$ (linear-combo 최적), Procrustes-min disparity 의 변화 추적. **Regime A → C 천이가 어디서 일어나는가** 의 구체적 수치 baseline.
 
 ## 6.2 결론
 
