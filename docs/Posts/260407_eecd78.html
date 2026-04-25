@@ -795,7 +795,7 @@ window.Quarto = {
 </blockquote>
 <p><strong>스텝별 <span class="math inline">\(+b\)</span> 축적.</strong> Algorithm 1에서 매 마르코프 체인 스텝 <span class="math inline">\(t\)</span>마다 현재 눈 위치 <span class="math inline">\(X_t\)</span>에 <span class="math inline">\(+b\)</span>가 쌓인다. Flow 중에도 방문하는 노드마다 <span class="math inline">\(+b\)</span>가 추가된다 (높이 <span class="math inline">\(h(v_i, t) = y(v_i) + b \cdot N_i(t)\)</span>에서 <span class="math inline">\(N_i(t) = \sum_{s=1}^t \mathbf{1}(X_s = i)\)</span>).</p>
 <p><strong>Round의 정의.</strong> <strong>라운드(round)</strong> <span class="math inline">\(n\)</span>은 block 발생 후 새 눈이 <span class="math inline">\(\tilde X_0 \sim \boldsymbol{\mu}_0\)</span>로 낙하하는 시점부터, flow chain을 거쳐 다음 block이 발생하는 시점까지이다. 한 라운드가 <span class="math inline">\(m_r\)</span> 스텝으로 구성되며 <span class="math inline">\(2 \leq m_r \leq T_{max}+1\)</span> (알고리즘 구조상). 라운드 <span class="math inline">\(n\)</span>의 시작 시각을 <span class="math inline">\(t_r\)</span>으로 쓴다 (= <span class="math inline">\(n\)</span>번째 <span class="math inline">\(\mu_0\)</span>-draw 시각).</p>
-<p>이하 Step 2의 drift 분석은 <strong>round-skeleton</strong> <span class="math inline">\(\{S^*_r := S(t_r)\}\)</span> 위에서 1-step (= 1라운드) drift를 계산한다.</p>
+<p>이하 Step 2의 drift 분석은 <strong>round-skeleton</strong> <span class="math inline">\(\{S(t_r)\}_{r \geq 0}\)</span> 위에서 1-step (= 1라운드) drift를 계산한다.</p>
 <hr>
 </section>
 <section id="step-2.-height-recurrence-높이차가-유한-영역으로-반복-복귀" class="level2">
@@ -872,19 +872,19 @@ window.Quarto = {
 <p><strong>강화된 Lyapunov: <span class="math inline">\(V := \Phi^2\)</span>.</strong> <span class="math inline">\(D := \Phi(t+T) - \Phi(t)\)</span>라 쓰면 <span class="math inline">\(V\)</span> 변화량은</p>
 <p><span class="math display">\[V(t+T) - V(t) = \Phi(t+T)^2 - \Phi(t)^2 = D^2 + 2\Phi(t)\,D.\]</span></p>
 <p>각 항 제어:</p>
-<p><strong>(a) <span class="math inline">\(\mathbb{E}[D^2 \mid S^*_r]\)</span>의 상한.</strong> Lemma 1로 <span class="math inline">\(|\Phi(s+1) - \Phi(s)| \leq 2b\,|\hbar(X_{s+1}, s)| + \tfrac{(n-1)b^2}{n} \leq 2bM(s) + b^2\)</span>. 한 라운드 <span class="math inline">\(m_r \leq T_{max}+1 =: \Lambda/b + 1\)</span> (여기서 <span class="math inline">\(\Lambda := (T_{max}+1)b\)</span>) 스텝에 걸친 누적은 <span class="math inline">\(|D| \leq 2(T_{max}+1)b\,M^* + (T_{max}+1)b^2\)</span>. <span class="math inline">\((\heartsuit)\)</span>로 <span class="math inline">\(M^* \leq M(t_r) + \Lambda\)</span>이므로:</p>
-<p><span class="math display">\[\mathbb{E}[D^2 \mid S^*_r] \;\leq\; O(b^2(T_{max}+1)^2\, M(t_r)^2) + O(1).\]</span></p>
+<p><strong>(a) <span class="math inline">\(\mathbb{E}[D^2 \mid S(t_r)]\)</span>의 상한.</strong> Lemma 1로 <span class="math inline">\(|\Phi(s+1) - \Phi(s)| \leq 2b\,|\hbar(X_{s+1}, s)| + \tfrac{(n-1)b^2}{n} \leq 2bM(s) + b^2\)</span>. 한 라운드 <span class="math inline">\(m_r \leq T_{max}+1 =: \Lambda/b + 1\)</span> (여기서 <span class="math inline">\(\Lambda := (T_{max}+1)b\)</span>) 스텝에 걸친 누적은 <span class="math inline">\(|D| \leq 2(T_{max}+1)b\,M^* + (T_{max}+1)b^2\)</span>. <span class="math inline">\((\heartsuit)\)</span>로 <span class="math inline">\(M^* \leq M(t_r) + \Lambda\)</span>이므로:</p>
+<p><span class="math display">\[\mathbb{E}[D^2 \mid S(t_r)] \;\leq\; O(b^2(T_{max}+1)^2\, M(t_r)^2) + O(1).\]</span></p>
 <p>여기서 <span class="math inline">\(D := \Phi(t_{r+1}) - \Phi(t_r)\)</span> (한 라운드 동안의 <span class="math inline">\(\Phi\)</span> 변화).</p>
-<p><strong>(b) <span class="math inline">\(2\Phi(t_r)\cdot \mathbb{E}[D \mid S^*_r]\)</span>의 상한.</strong> <span class="math inline">\((\star\star)\)</span>로 <span class="math inline">\(\mathbb{E}[D \mid S^*_r] \leq bM(t_r) \Delta_{\mathrm{drift}} + C_3 = -c\,M(t_r) + C_3\)</span> (여기서 <span class="math inline">\(c := b\,|\Delta_{\mathrm{drift}}| &gt; 0\)</span>). 또 항상 <span class="math inline">\(\Phi \geq M^2/2\)</span> (왜냐하면 <span class="math inline">\(\hbar_{\max}^2 + \hbar_{\min}^2 \geq M^2/2\)</span>)이므로:</p>
+<p><strong>(b) <span class="math inline">\(2\Phi(t_r)\cdot \mathbb{E}[D \mid S(t_r)]\)</span>의 상한.</strong> <span class="math inline">\((\star\star)\)</span>로 <span class="math inline">\(\mathbb{E}[D \mid S(t_r)] \leq bM(t_r) \Delta_{\mathrm{drift}} + C_3 = -c\,M(t_r) + C_3\)</span> (여기서 <span class="math inline">\(c := b\,|\Delta_{\mathrm{drift}}| &gt; 0\)</span>). 또 항상 <span class="math inline">\(\Phi \geq M^2/2\)</span> (왜냐하면 <span class="math inline">\(\hbar_{\max}^2 + \hbar_{\min}^2 \geq M^2/2\)</span>)이므로:</p>
 <p><span class="math display">\[2\Phi(t_r) \cdot (-cM(t_r)) \;\leq\; -c\,M(t_r)^3.\]</span></p>
 <p>한편 <span class="math inline">\(2\Phi(t_r) \cdot C_3 \leq 2nC_3\,M(t_r)^2\)</span> (<span class="math inline">\(\Phi \leq nM^2\)</span> 사용).</p>
 <p><strong>(c) 결합.</strong> Round-skeleton 위에서 <span class="math inline">\(V\)</span>-drift 전체는:</p>
 <p><span class="math display">\[\begin{aligned}
-&amp; \mathbb{E}[V(t_{r+1}) - V(t_r) \mid S^*_r] \\
+&amp; \mathbb{E}[V(t_{r+1}) - V(t_r) \mid S(t_r)] \\
 &amp; \qquad \leq\; \underbrace{O(b^2(T_{max}+1)^2)\,M(t_r)^2 + 2nC_3\,M(t_r)^2}_{=\,A_2\,M(t_r)^2} \;-\; c\,M(t_r)^3 \;+\; O(1)
 \end{aligned}\]</span></p>
 <p><span class="math inline">\(M(t_r)\)</span>이 충분히 크면 (정확히는 <span class="math inline">\(M(t_r) &gt; 2A_2/c\)</span>) <span class="math inline">\(-cM^3\)</span>이 <span class="math inline">\(A_2 M^2\)</span>를 압도하므로 <strong>유한 집합 <span class="math inline">\(\mathcal{B}_\Phi^\prime := \{M \leq 2A_2/c\}\)</span> 바깥에서</strong></p>
-<p><span class="math display">\[\mathbb{E}[V(t_{r+1}) - V(t_r) \mid S^*_r] \;\leq\; -\frac{c}{2}\,M(t_r)^3 + O(1).\]</span></p>
+<p><span class="math display">\[\mathbb{E}[V(t_{r+1}) - V(t_r) \mid S(t_r)] \;\leq\; -\frac{c}{2}\,M(t_r)^3 + O(1).\]</span></p>
 <p>Foster-Lyapunov의 <span class="math inline">\(f\)</span>-regular 버전 (M&amp;T Thm 14.0.1; drift <span class="math inline">\(\leq -f + O(1) \cdot \mathbf{1}_{\mathcal{B}^\prime}\)</span> ⇒ <span class="math inline">\(\mathbb{E}_\pi[f] &lt; \infty\)</span>)을 <span class="math inline">\(f = (c/2) M^3\)</span>에 적용:</p>
 <p><span class="math display">\[\mathbb{E}_\pi[M^3] \;&lt;\; \infty \quad \Longrightarrow \quad \mathbb{E}_\pi[M^2] &lt; \infty \quad (\text{Jensen}).\]</span></p>
 <p>이로써 (M2)가 확보되고, <span class="math inline">\((\delta_i - \delta_j)^2 \leq M^2\)</span>이 <span class="math inline">\(L_1(\pi)\)</span>임이 보장된다.</p>
@@ -969,13 +969,14 @@ window.Quarto = {
 </section>
 <section id="b.-proposition-height-recurrence의-증명" class="level2">
 <h2 class="anchored" data-anchor-id="b.-proposition-height-recurrence의-증명">B. Proposition (Height Recurrence)의 증명</h2>
-<p>Step 2의 Proposition을 증명한다. <strong>Round-skeleton</strong> <span class="math inline">\(\{S^*_r := S(t_r)\}\)</span> (<span class="math inline">\(t_r\)</span> = <span class="math inline">\(n\)</span>번째 <span class="math inline">\(\mu_0\)</span>-draw 시각) 위에서 한 라운드 동안의 Lyapunov 함수 <span class="math inline">\(\Phi\)</span>의 drift를 분석하여 <span class="math inline">\((\star\star)\)</span>을 도출한 뒤, Foster-Lyapunov를 skeleton에 적용하고 원 체인으로 양의 재귀성을 전이하는 구성.</p>
+<p>Step 2의 Proposition을 증명한다. <strong>Round-skeleton</strong> <span class="math inline">\(\{S(t_r)\}_{r \geq 0}\)</span> (<span class="math inline">\(t_r\)</span> = <span class="math inline">\(r\)</span>번째 라운드의 <span class="math inline">\(\mu_0\)</span>-draw 시각) 위에서 한 라운드 동안의 Lyapunov 함수 <span class="math inline">\(\Phi\)</span>의 drift를 분석하여 <span class="math inline">\((\star\star)\)</span>을 도출한 뒤, Foster-Lyapunov를 skeleton에 적용하고 원 체인으로 양의 재귀성을 전이하는 구성.</p>
 <section id="b.1.-lyapunov-함수-phi와-1-step-drift-lemma-1" class="level3">
 <h3 class="anchored" data-anchor-id="b.1.-lyapunov-함수-phi와-1-step-drift-lemma-1">B.1. Lyapunov 함수 <span class="math inline">\(\Phi\)</span>와 1-step drift (Lemma 1)</h3>
 <p><strong>Lemma 1 (Drift Condition).</strong> Lyapunov 함수를</p>
 <p><span class="math display">\[\Phi(t) := \sum_{i=1}^{n} \big(h(v_i, t) - \bar{h}(t)\big)^2, \quad \bar{h}(t) := \frac{1}{n}\sum_k h(v_k, t)\]</span></p>
-<p>로 정의한다. (여기서 <span class="math inline">\(\Phi\)</span>는 높이 분산을 나타내는 포텐셜 함수로, 논문의 노드 집합 <span class="math inline">\(V\)</span>와의 혼동을 피하기 위해 별도 기호를 사용한다.) 또한 <strong>중심화 높이</strong>를 노드 인덱스 <span class="math inline">\(i \in \{1,\ldots,n\}\)</span>에 대해 <span class="math inline">\(\hbar(i, t) := h(v_i, t) - \bar{h}(t)\)</span>로 쓴다. 시각 <span class="math inline">\(t+1\)</span>에서 노드 <span class="math inline">\(v_\ell\)</span>에 <span class="math inline">\(+b\)</span>가 쌓이면:</p>
-<p><span class="math display">\[\Phi(t+1) - \Phi(t) = 2b\,\hbar(\ell, t) + \frac{(n-1)b^2}{n}\]</span></p>
+<p>로 정의한다. (여기서 <span class="math inline">\(\Phi\)</span>는 높이 분산을 나타내는 포텐셜 함수로, 논문의 노드 집합 <span class="math inline">\(V\)</span>와의 혼동을 피하기 위해 별도 기호를 사용한다.) 또한 <strong>중심화 높이</strong>를 노드 인덱스 <span class="math inline">\(i \in \{1,\ldots,n\}\)</span>에 대해 <span class="math inline">\(\hbar(i, t) := h(v_i, t) - \bar{h}(t)\)</span>로 쓴다. 시각 <span class="math inline">\(t\)</span>에서 노드 <span class="math inline">\(v_\ell\)</span>에 <span class="math inline">\(+b\)</span>가 쌓이면 (즉 <span class="math inline">\(X_t = \ell\)</span>):</p>
+<p><span class="math display">\[\Phi(t) - \Phi(t-1) \;=\; 2b\,\hbar(\ell, t) - \frac{(n-1)b^2}{n} \tag{$\dagger$}\]</span></p>
+<p>(post-+b convention: <span class="math inline">\(\hbar(\ell, t)\)</span>는 +b 가 쌓인 직후의 중심화 높이.)</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Lemma 1 직관: 왜 이 식이 나오는가?">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -995,15 +996,12 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p><strong>증명 (<span class="math inline">\(\Phi\)</span> 전개).</strong> <span class="math inline">\(\sum_i \hbar(i, t) = 0\)</span>이다. <span class="math inline">\(v_\ell\)</span>에 <span class="math inline">\(+b\)</span>가 쌓이면:</p>
-<p><span class="math display">\[\hbar(\ell, t{+}1) = \hbar(\ell, t) + b\frac{n-1}{n}, \quad \hbar(i, t{+}1) = \hbar(i, t) - \frac{b}{n} \;\;(i \neq \ell)\]</span></p>
-<p>따라서:</p>
-<p><span class="math display">\[\Phi(t{+}1) = \left(\hbar(\ell, t) + b\frac{n-1}{n}\right)^2 + \sum_{i \neq \ell}\left(\hbar(i, t) - \frac{b}{n}\right)^2\]</span> <span class="math display">\[= \hbar(\ell, t)^2 + 2\hbar(\ell, t)\, b\frac{n-1}{n} + b^2\frac{(n-1)^2}{n^2} + \sum_{i \neq \ell}\left(\hbar(i, t)^2 - 2\hbar(i, t)\frac{b}{n} + \frac{b^2}{n^2}\right)\]</span> <span class="math display">\[= \Phi(t) + 2b\frac{n-1}{n}\hbar(\ell, t) - \frac{2b}{n}\sum_{i\neq\ell}\hbar(i, t) + b^2\frac{(n-1)^2}{n^2} + (n-1)\frac{b^2}{n^2}\]</span></p>
-<p><span class="math inline">\(\sum_{i\neq\ell}\hbar(i, t) = -\hbar(\ell, t)\)</span>이므로:</p>
-<p><span class="math display">\[= \Phi(t) + 2b\frac{n-1}{n}\hbar(\ell, t) + \frac{2b}{n}\hbar(\ell, t) + b^2\frac{(n-1)^2 + (n-1)}{n^2}\]</span></p>
-<p><span class="math display">\[= \Phi(t) + 2b\,\hbar(\ell, t) + \frac{(n-1)b^2}{n} \quad \square\]</span></p>
-<p><strong>1-step <span class="math inline">\(\Phi\)</span> 변화.</strong> Lemma 1에 기대값을 씌우면, 스텝 <span class="math inline">\(t+1\)</span>에서 <span class="math inline">\(+b\)</span>가 쌓이는 노드 <span class="math inline">\(X_{t+1}\)</span>에 대해:</p>
-<p><span class="math display">\[\mathbb{E}[\Phi(t+1) - \Phi(t) \mid S(t)] = 2b \cdot \mathbb{E}\big[\hbar(X_{t+1},\, t) \mid S(t)\big] + \frac{(n-1)b^2}{n} \tag{$\dagger$}\]</span></p>
+<p><strong>증명 (<span class="math inline">\(\Phi\)</span> 전개).</strong> <span class="math inline">\(\sum_i \hbar(i, t) = 0\)</span>이다. <span class="math inline">\(v_\ell\)</span>에 <span class="math inline">\(+b\)</span>가 쌓이면 (위치 <span class="math inline">\(X_t = \ell\)</span>):</p>
+<p><span class="math display">\[\hbar(\ell, t) = \hbar(\ell, t{-}1) + b\frac{n-1}{n}, \quad \hbar(i, t) = \hbar(i, t{-}1) - \frac{b}{n} \;\;(i \neq \ell)\]</span></p>
+<p>따라서 <span class="math inline">\(\Phi(t) - \Phi(t-1)\)</span>를 전개하면 <span class="math inline">\(2b\,\hbar(\ell, t-1) + \tfrac{(n-1)b^2}{n}\)</span> 가 나오고, <span class="math inline">\(\hbar(\ell, t-1) = \hbar(\ell, t) - b(n-1)/n\)</span>를 대입하면</p>
+<p><span class="math display">\[\Phi(t) - \Phi(t-1) \;=\; 2b\,\hbar(\ell, t) - \tfrac{(n-1)b^2}{n}. \quad \square\]</span></p>
+<p><strong>1-step <span class="math inline">\(\Phi\)</span> 변화.</strong> (<span class="math inline">\(\dagger\)</span>)에 기대값을 씌우면, 스텝 <span class="math inline">\(t\)</span>에서 <span class="math inline">\(+b\)</span>가 쌓이는 노드 <span class="math inline">\(X_t\)</span>에 대해:</p>
+<p><span class="math display">\[\mathbb{E}[\Phi(t) - \Phi(t-1) \mid S(t-1)] \;=\; 2b \cdot \mathbb{E}\big[\hbar(X_t,\, t) \mid S(t-1)\big] - \frac{(n-1)b^2}{n}\]</span></p>
 <div class="callout callout-style-default callout-tip callout-titled" title="($\dagger$) 직관: 이 식이 말하는 것">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1061,15 +1059,15 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p><strong>Remark (양의 재귀성이 필요한 이유).</strong> <span class="math inline">\(S(t) = (\boldsymbol{\delta}(t), X_t, Z(t))\)</span>에서 <span class="math inline">\(X_t \in \{1,\ldots,n\}\)</span>과 <span class="math inline">\(Z(t) \in \{0,\ldots,T_{max}\}\)</span>는 유한이지만, <span class="math inline">\(\boldsymbol{\delta}(t) \in b\mathbb{Z}^{n-1}\)</span>이 무한이므로 전체 상태 공간은 <strong>가산 무한</strong>이다. 가산 무한에서는 비가약성만으로 양의 재귀성이 따라오지 않으며, null recurrent 가능성이 있어 <span class="math inline">\(\mathbb{E}[\tau_\mathcal{B}] = \infty\)</span>일 수 있다. Foster-Lyapunov 기준을 통해 <span class="math inline">\(\mathbb{E}[\tau_\mathcal{B}] &lt; \infty\)</span>를 명시해야 한다.</p>
 </blockquote>
-<p><strong>Round-skeleton의 정의와 Markov 성질.</strong> <span class="math inline">\(t_r\)</span>을 <span class="math inline">\(r\)</span>번째 <span class="math inline">\(\mu_0\)</span>-draw가 일어나는 마르코프 체인 시각으로 정의하자 (<span class="math inline">\(t_0\)</span>는 첫 라운드 시작). 라운드 길이 <span class="math inline">\(m_r := t_{r+1} - t_r \in [2, T_{max}+1]\)</span>. <strong>Skeleton chain</strong> <span class="math inline">\(\{S^*_r\}_{r \geq 0}\)</span>를 <span class="math inline">\(S^*_r := S(t_r)\)</span>로 정의.</p>
-<p><strong><span class="math inline">\(\{S^*_r\}\)</span>은 마르코프 체인.</strong> <span class="math inline">\(S^*_r = (\boldsymbol{\delta}(t_r), X_{t_r}, 0)\)</span> (<span class="math inline">\(Z(t_r) = 0\)</span> 직전 상태). 라운드 <span class="math inline">\(r+1\)</span>의 trajectory는 <span class="math inline">\(S^*_r\)</span>에 의해서만 결정되는 random transition (μ_0 sampling + flow chain randomness) 의 함수이고, 다음 round-boundary 상태 <span class="math inline">\(S^*_{r+1}\)</span>도 라운드 trajectory의 함수이므로, <span class="math inline">\(S^*_{r+1}\)</span> 분포는 <span class="math inline">\(S^*_r\)</span>만으로 결정. 즉 strong Markov property에 의해 <span class="math inline">\(\{S^*_r\}\)</span>도 자체로 Markov chain.</p>
+<p><strong>Round-skeleton의 정의와 Markov 성질.</strong> <span class="math inline">\(t_r\)</span>을 <span class="math inline">\(r\)</span>번째 <span class="math inline">\(\mu_0\)</span>-draw가 일어나는 마르코프 체인 시각으로 정의하자 (<span class="math inline">\(t_0\)</span>는 첫 라운드 시작). 라운드 길이 <span class="math inline">\(m_r := t_{r+1} - t_r \in [2, T_{max}+1]\)</span>. <strong>Round-skeleton chain</strong>으로 <span class="math inline">\(\{S(t_r)\}_{r \geq 0}\)</span>을 사용한다 (원 체인 <span class="math inline">\(\{S(t)\}\)</span>를 <span class="math inline">\(\mu_0\)</span>-draw 시각들에서만 sample한 것).</p>
+<p><strong><span class="math inline">\(\{S(t_r)\}\)</span>은 마르코프 체인.</strong> <span class="math inline">\(S(t_r) = (\boldsymbol{\delta}(t_r), X_{t_r}, 0)\)</span> (<span class="math inline">\(Z(t_r) = 0\)</span> 직전 상태). 라운드 <span class="math inline">\(r+1\)</span>의 trajectory는 <span class="math inline">\(S(t_r)\)</span>에 의해서만 결정되는 random transition (μ_0 sampling + flow chain randomness) 의 함수이고, 다음 round-boundary 상태 <span class="math inline">\(S(t_{r+1})\)</span>도 라운드 trajectory의 함수이므로, <span class="math inline">\(S(t_{r+1})\)</span> 분포는 <span class="math inline">\(S(t_r)\)</span>만으로 결정. 즉 strong Markov property에 의해 <span class="math inline">\(\{S(t_r)\}\)</span>도 자체로 Markov chain.</p>
 <p><strong>핵심 이점: 부분 라운드가 없다.</strong> 고정 시간 window <span class="math inline">\([t, t+T)\)</span>로 분석하면 양 끝에서 최대 2개의 부분 라운드(앞쪽 꼬리 + 뒤쪽 머리)가 발생하여 추가 baseline 항 (αt-무관 <span class="math inline">\(T_{max}M(t)\)</span> 보정)을 야기한다. 반면 round-skeleton의 1-step (= <span class="math inline">\(t_r \to t_{r+1}\)</span>)은 정확히 한 완전 라운드와 일치하므로 <strong>부분 라운드 보정 항이 원천 봉쇄</strong>된다.</p>
 <p><strong>1-라운드 동안의 <span class="math inline">\(\Phi\)</span> 변화.</strong> <span class="math inline">\((\dagger)\)</span>의 per-step 등식에 <strong>tower property</strong> + telescoping을 라운드 길이 <span class="math inline">\(m_r\)</span> 만큼 적용:</p>
 <p><span class="math display">\[\begin{aligned}
-&amp; \mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S^*_r] \\
-&amp; \qquad =\; 2b \sum_{j=0}^{m_r - 1} \mathbb{E}\big[\hbar(X_{t_r + j + 1},\, t_r + j) \mid S^*_r\big] + m_r \cdot \tfrac{(n-1)b^2}{n}
+&amp; \mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] \\
+&amp; \qquad =\; 2b \sum_{j=0}^{m_r - 1} \mathbb{E}\big[\hbar(X_{t_r + j + 1},\, t_r + j) \mid S(t_r)\big] + m_r \cdot \tfrac{(n-1)b^2}{n}
 \end{aligned} \tag{$\dagger\dagger$}\]</span></p>
-<p>여기서 <span class="math inline">\(m_r\)</span>은 라운드 길이로 <span class="math inline">\(S^*_r\)</span> 조건부 확률변수 (단, <span class="math inline">\(\leq T_{max}+1\)</span> 결정적 상한).</p>
+<p>여기서 <span class="math inline">\(m_r\)</span>은 라운드 길이로 <span class="math inline">\(S(t_r)\)</span> 조건부 확률변수 (단, <span class="math inline">\(\leq T_{max}+1\)</span> 결정적 상한).</p>
 <p><strong>시간 스케일.</strong> 라운드 내 시간을 <span class="math inline">\(j \in \{0, 1, \ldots, m_r-1\}\)</span>로 매개화. 전역시각 <span class="math inline">\(t' = t_r + j\)</span>. 라운드 시작 노드 <span class="math inline">\(\tilde X_0 := X_{t_r}\)</span> (fresh <span class="math inline">\(\mu_0\)</span>-draw), <span class="math inline">\(\tilde X_j := X_{t_r + j}\)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="($\dagger\dagger$) 직관: 한 라운드의 +b 축적 합산">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
@@ -1134,7 +1132,7 @@ window.Quarto = {
 <p>라운드 <span class="math inline">\(n\)</span> (시작 시각 <span class="math inline">\(t_r\)</span>, 길이 <span class="math inline">\(m_r\)</span>) 의 시작 노드 <span class="math inline">\(\tilde X_0 := X_{t_r} \sim \boldsymbol{\mu}_0\)</span>. 현재 높이 <span class="math inline">\(\hbar(\cdot, t_r)\)</span>로부터 경사 간선 <span class="math inline">\((v_{i^\star}, v_{j^\star})\)</span> 구성 (비둘기집으로 높이차 <span class="math inline">\(\geq M(t_r)/(n-1)\)</span>). 경사 간선은 <strong>라운드마다 달라질 수 있지만</strong> 연결성으로 항상 존재.</p>
 <p><strong>큰 낙차 사건 <span class="math inline">\(E_r\)</span></strong>: 눈이 <span class="math inline">\(v_{i^\star}\)</span>에 떨어지고 (<span class="math inline">\(\tilde X_0 = i^\star\)</span>), 첫 flow 스텝에서 <span class="math inline">\(v_{j^\star}\)</span>로 이동.</p>
 <p>확률은 (경사 간선 선택과 무관하게) <strong>그래프-uniform 하한</strong> 가짐:</p>
-<p><span class="math display">\[\Pr(E_r \mid S^*_r) \;\geq\; \mu_{min} \cdot P_{RW,\min} \;=:\; p_0 \;&gt;\; 0\]</span></p>
+<p><span class="math display">\[\Pr(E_r \mid S(t_r)) \;\geq\; \mu_{min} \cdot P_{RW,\min} \;=:\; p_0 \;&gt;\; 0\]</span></p>
 <p>여기서 <span class="math inline">\(P_{RW,\min} := \min_{(u,w) \in \mathcal{E}} \deg(w)/\sum_{k \in \mathcal{N}_u}\deg(v_k) &gt; 0\)</span>는 간선-균일 전이확률 하한, <span class="math inline">\(\mu_{min} := \min_i \mu_0(v_i) &gt; 0\)</span>. 즉 <span class="math inline">\(p_0\)</span>는 상태에 무관하고 <span class="math inline">\(\mathcal{G}\)</span>에만 의존하는 <strong>결정적 상수</strong>.</p>
 <p>큰 낙차 라운드의 flow 개선: <span class="math inline">\(E_r\)</span> 발생 시 스텝 <span class="math inline">\(j=0\)</span>에서 <span class="math inline">\(\tilde X_0 = i^\star\)</span>, 스텝 <span class="math inline">\(j=1\)</span>에서 <span class="math inline">\(\tilde X_1 = j^\star\)</span>이다. 이때 <span class="math inline">\(j^\star\)</span>에는 스텝 1에서 <span class="math inline">\(+b\)</span>가 쌓이므로 평균 <span class="math inline">\(\bar{h}(\cdot)\)</span>의 <span class="math inline">\(b/n\)</span> 상승분을 빼주면</p>
 <p><span class="math display">\[\hbar(\tilde X_1, t_r{+}1) = \hbar(j^\star, t_r) + b\cdot\frac{n-1}{n} &lt; \hbar(j^\star, t_r) + b.\]</span></p>
@@ -1221,46 +1219,53 @@ window.Quarto = {
 </section>
 <section id="b.6.-결합-round-skeleton-1-step-drift-도출" class="level3">
 <h3 class="anchored" data-anchor-id="b.6.-결합-round-skeleton-1-step-drift-도출">B.6. 결합 — Round-skeleton 1-step drift 도출</h3>
-<p><span class="math inline">\((\dagger\dagger)\)</span>로부터 1-라운드 동안의 <span class="math inline">\(\Phi\)</span> 변화는</p>
-<p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S^*_r] \;=\; 2b\, \mathbb{E}\bigg[\sum_{j=0}^{m_r - 1} \hbar(X_{t_r + j + 1}, t_r + j)\,\Big|\,S^*_r\bigg] + \mathbb{E}[m_r \mid S^*_r]\cdot \tfrac{(n-1)b^2}{n}\]</span></p>
-<p>이고, 라운드 길이 <span class="math inline">\(m_r \leq T_{max}+1\)</span> 결정적 상한이므로 마지막 항 <span class="math inline">\(\leq (T_{max}+1)\,b^2(n-1)/n\)</span> 상수.</p>
+<p><strong>시간 구간 선택.</strong> 라운드 <span class="math inline">\(r\)</span>의 +b 적립은 시각 <span class="math inline">\(t_r, t_r{+}1, \ldots, t_r{+}m_r{-}1\)</span> (<span class="math inline">\(m_r\)</span>개)에서 일어난다. 따라서 라운드 <span class="math inline">\(r\)</span> 동안의 <span class="math inline">\(\Phi\)</span> 변화를 (post-+b convention <span class="math inline">\((\dagger)\)</span>에 의해) 깔끔하게 표현하려면 구간 <span class="math inline">\([t_r{-}1,\, t_{r+1}{-}1]\)</span>에서 합산:</p>
+<p><span class="math display">\[\Phi(t_{r+1}{-}1) - \Phi(t_r{-}1) \;=\; \sum_{s=t_r}^{t_{r+1}-1}[\Phi(s) - \Phi(s{-}1)] \;=\; 2b\sum_{j=0}^{m_r-1}\hbar(\tilde X_j,\, t_r{+}j) - m_r\,\tfrac{(n-1)b^2}{n}\]</span></p>
+<p>여기서 <span class="math inline">\(\tilde X_j = X_{t_r + j}\)</span> 위치와 시각이 모두 <span class="math inline">\(j\)</span>에 대응 (B.3 체이닝 bound 형태와 정확히 일치). 이를 round-skeleton 1-step drift로 사용:</p>
+<p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1}{-}1) - \Phi(t_r{-}1) \mid S(t_r{-}1)] \;=\; 2b\, \mathbb{E}\bigg[\sum_{j=0}^{m_r-1}\hbar(\tilde X_j,\, t_r{+}j)\,\Big|\,S(t_r{-}1)\bigg] - m_r\,\tfrac{(n-1)b^2}{n} \tag{$\dagger\dagger$}\]</span></p>
+<p>라운드 길이 <span class="math inline">\(m_r \leq T_{max}+1\)</span> 결정적 상한이므로 마지막 항 절댓값 <span class="math inline">\(\leq (T_{max}+1)\,b^2(n-1)/n\)</span> 상수.</p>
+<blockquote class="blockquote">
+<p><strong>Skeleton 시점에 대한 노트.</strong> 위에서 conditioning은 <span class="math inline">\(S(t_r{-}1)\)</span> (block-flag state, <span class="math inline">\(Z = T_{max}\)</span>, <span class="math inline">\(\mu_0\)</span>-draw <strong>직전</strong>)에 한다. 이 상태에서 다음 스텝 <span class="math inline">\(t_r\)</span>에 <span class="math inline">\(\tilde X_0 \sim \boldsymbol{\mu}_0\)</span> 가 fresh draw로 일어나므로 (I)의 Jordan 분해가 깔끔히 적용된다. (<span class="math inline">\(S(t_r)\)</span>에 conditioning하면 <span class="math inline">\(\tilde X_0\)</span>가 이미 결정된 값이 되어 Jordan을 못 씀.) Skeleton chain은 이렇게 block-flag 시각들 <span class="math inline">\(\{S(t_r{-}1)\}_{r\geq 1}\)</span> 으로 보면 됨 — Markov property는 동일.</p>
+</blockquote>
 <p><span class="math inline">\(\sum_{j=0}^{m_r-1}\hbar(\tilde X_j, t_r+j) = m_r \hbar(\tilde X_0, t_r) + \sum_{j=1}^{m_r-1}(\hbar(\tilde X_j) - \hbar(\tilde X_0))\)</span>로 분해해서 (I) + (II) 처리.</p>
-<p><strong>(I) <span class="math inline">\(\mu_0\)</span>-편향 baseline.</strong> <span class="math inline">\(\tilde X_0 = X_{t_r} \sim \boldsymbol{\mu}_0\)</span> (fresh draw)이므로 그 centered height의 평균은 <span class="math inline">\(\boldsymbol{\mu}_0\)</span> 가중치로 본 <span class="math inline">\(\hbar(\cdot, t_r)\)</span>의 평균:</p>
-<p><span class="math display">\[\mathbb{E}[\hbar(\tilde X_0, t_r) \mid S^*_r] = \sum_i \mu_0(i)\,\hbar(i, t_r)\]</span></p>
+<p><strong>(I) <span class="math inline">\(\mu_0\)</span>-편향 baseline.</strong> <span class="math inline">\(\tilde X_0 = X_{t_r} \sim \boldsymbol{\mu}_0\)</span> (fresh draw, <span class="math inline">\(S(t_r{-}1)\)</span> 조건부 독립)이므로 그 centered height의 평균은:</p>
+<p><span class="math display">\[\mathbb{E}[\hbar(\tilde X_0, t_r) \mid S(t_r{-}1)] = \sum_i \mu_0(i)\,\mathbb{E}[\hbar(i, t_r)\mid S(t_r{-}1), \tilde X_0 = i]\]</span></p>
+<p>Post-+b 변화 (<span class="math inline">\(v_\ell = \tilde X_0 = i\)</span>에 +b 쌓이면 <span class="math inline">\(\hbar(i, t_r) = \hbar(i, t_r{-}1) + b(n{-}1)/n\)</span>)를 대입:</p>
+<p><span class="math display">\[\mathbb{E}[\hbar(\tilde X_0, t_r) \mid S(t_r{-}1)] = \sum_i \mu_0(i)\,\hbar(i, t_r{-}1) + \tfrac{b(n-1)}{n}\]</span></p>
 <p><strong>기준점 (정칙 그래프).</strong> 만약 <span class="math inline">\(\boldsymbol{\mu}_0\)</span>가 <strong>균등분포</strong> <span class="math inline">\(\mathbf{u} = (1/n,\ldots,1/n)\)</span>이면</p>
-<p><span class="math display">\[\sum_i \tfrac{1}{n}\,\hbar(i, t_r) = \tfrac{1}{n}\underbrace{\sum_i \hbar(i, t_r)}_{=\,0} = 0\]</span></p>
-<p>즉 <strong>낙하 편향에 의한 <span class="math inline">\(\Phi\)</span> drift 기여가 없다.</strong> 이게 정칙 그래프에서 Theorem이 자동 성립하는 이유.</p>
+<p><span class="math display">\[\sum_i \tfrac{1}{n}\,\hbar(i, t_r{-}1) = \tfrac{1}{n}\underbrace{\sum_i \hbar(i, t_r{-}1)}_{=\,0} = 0\]</span></p>
+<p>즉 (상수 <span class="math inline">\(\tfrac{b(n-1)}{n}\)</span> 제외) <strong>낙하 편향에 의한 <span class="math inline">\(\Phi\)</span> drift 기여가 없다.</strong> 이게 정칙 그래프에서 Theorem이 자동 성립하는 이유.</p>
 <p><strong>편향 측정 (<span class="math inline">\(\alpha\)</span>).</strong> 일반 그래프에서는 <span class="math inline">\(\boldsymbol{\mu}_0 \neq \mathbf{u}\)</span>. <span class="math inline">\(L^1\)</span>-norm 편차:</p>
 <p><span class="math display">\[\alpha \;:=\; \|\boldsymbol{\mu}_0 - \mathbf{u}\|_1 \;=\; \sum_i |\mu_0(i) - 1/n|\]</span></p>
 <p>차이는 양의 초과분과 음의 부족분으로 나뉘는데, <span class="math inline">\(\sum_i(\mu_0(i) - 1/n) = 0\)</span>이므로 두 쪽이 정확히 <span class="math inline">\(\alpha/2\)</span>씩 차지.</p>
 <p><strong>상한 유도.</strong> Jordan 분해 (균등 빼기):</p>
-<p><span class="math display">\[\mathbb{E}[\hbar(\tilde X_0, t_r) \mid S^*_r] = \sum_i \big(\mu_0(i) - \tfrac{1}{n}\big)\,\hbar(i, t_r)\]</span></p>
+<p><span class="math display">\[\mathbb{E}[\hbar(\tilde X_0, t_r) \mid S(t_r{-}1)] - \tfrac{b(n-1)}{n} \;=\; \sum_i \big(\mu_0(i) - \tfrac{1}{n}\big)\,\hbar(i, t_r{-}1)\]</span></p>
 <p>최악의 경우 (초과 <span class="math inline">\(\alpha/2\)</span>를 max에, 부족 <span class="math inline">\(\alpha/2\)</span>를 min에서 차감):</p>
-<p><span class="math display">\[\boxed{\mathbb{E}[\hbar(\tilde X_0, t_r) \mid S^*_r] \;\leq\; \frac{\alpha}{2}\,M(t_r)}\]</span></p>
-<p>따라서 (I) baseline 합산 (<span class="math inline">\(m_r \leq T_{max}+1\)</span>):</p>
+<p><span class="math display">\[\boxed{\mathbb{E}[\hbar(\tilde X_0, t_r) \mid S(t_r{-}1)] \;\leq\; \frac{\alpha}{2}\,M(t_r{-}1) + \tfrac{b(n-1)}{n}}\]</span></p>
+<p>따라서 (I) baseline 합산 (<span class="math inline">\(m_r \leq T_{max}+1\)</span>, <span class="math inline">\(M(t_r{-}1) \leq M(t_r) + b\)</span>):</p>
 <p><span class="math display">\[\begin{aligned}
-\text{(I)} \;:=\;\; &amp; 2b\, \mathbb{E}[m_r \cdot \hbar(\tilde X_0, t_r) \mid S^*_r] \\
-\leq\;\; &amp; 2b \cdot (T_{max}+1) \cdot \frac{\alpha M(t_r)}{2} \\
-=\;\; &amp; b\,(T_{max}+1)\,\alpha\,M(t_r)
+\text{(I)} \;:=\;\; &amp; 2b\, \mathbb{E}[m_r \cdot \hbar(\tilde X_0, t_r) \mid S(t_r{-}1)] \\
+\leq\;\; &amp; 2b \cdot (T_{max}+1) \cdot \left[\frac{\alpha M(t_r)}{2} + O(b)\right] \\
+=\;\; &amp; b\,(T_{max}+1)\,\alpha\,M(t_r) + O(b^2)
 \end{aligned}\]</span></p>
-<p>(엄밀히는 <span class="math inline">\(m_r\)</span>과 <span class="math inline">\(\hbar(\tilde X_0)\)</span>이 같은 라운드 안에서 약간 의존성을 가질 수 있으나, <span class="math inline">\(m_r \leq T_{max}+1\)</span> 결정적 상한과 <span class="math inline">\(\hbar(\tilde X_0)\)</span> 기댓값 상한 <span class="math inline">\(\alpha M/2\)</span>를 곱해 worst-case 결합한 것.)</p>
-<p><strong>(II) 큰 낙차 개선.</strong> 라운드 <span class="math inline">\(n\)</span>에서 big-drop 사건 <span class="math inline">\(E_r\)</span>이 발생하면 (<span class="math inline">\(\Pr(E_r \mid S^*_r) \geq p_0\)</span>), B.4의 (<span class="math inline">\(\spadesuit\)</span>) 부등식에서 <span class="math inline">\(m_r \geq 2\)</span>이므로 <span class="math inline">\(-(m_r - 1) \leq -1\)</span>:</p>
+<p>(엄밀히는 <span class="math inline">\(m_r\)</span>과 <span class="math inline">\(\hbar(\tilde X_0)\)</span>이 같은 라운드 안에서 약간 의존성을 가질 수 있으나, <span class="math inline">\(m_r \leq T_{max}+1\)</span> 결정적 상한과 <span class="math inline">\(\hbar(\tilde X_0)\)</span> 기댓값 상한 <span class="math inline">\(\alpha M/2\)</span>를 곱해 worst-case 결합. <span class="math inline">\(O(b^2)\)</span> 상수는 <span class="math inline">\(C_3\)</span>에 흡수.)</p>
+<p><strong>(II) 큰 낙차 개선.</strong> 라운드 <span class="math inline">\(r\)</span>에서 big-drop 사건 <span class="math inline">\(E_r\)</span>이 발생하면 (<span class="math inline">\(\Pr(E_r \mid S(t_r{-}1)) \geq p_0\)</span>), B.4의 (<span class="math inline">\(\spadesuit\)</span>) 부등식에서 <span class="math inline">\(m_r \geq 2\)</span>이므로 <span class="math inline">\(-(m_r - 1) \leq -1\)</span>:</p>
 <p><span class="math display">\[\sum_{j=1}^{m_r-1}\big(\hbar(\tilde X_j) - \hbar(\tilde X_0)\big) \cdot \mathbf{1}_{E_r} \;\leq\; \left[-\frac{M(t_r)}{n-1} + C_{round}\right] \mathbf{1}_{E_r}\]</span></p>
 <p>(big-drop이 아닌 라운드의 개선 기여는 <span class="math inline">\(\leq 0\)</span>을 사용 — 즉 negative contribution을 잃을지언정 양의 기여는 없음, B.3의 (<span class="math inline">\(\spadesuit\)</span>) 없는 일반 형태 <span class="math inline">\(\sum (\hbar - \hbar_0) \leq C_{round}\)</span>가 가장 worst-case로 사용됨).</p>
 <p>기댓값 취하면:</p>
 <p><span class="math display">\[\begin{aligned}
-\text{(II)} \;=\;\; &amp; 2b\, \mathbb{E}\Big[\sum_{j=1}^{m_r-1}(\hbar(\tilde X_j) - \hbar(\tilde X_0))\,\Big|\,S^*_r\Big] \\
-\leq\;\; &amp; 2b \cdot \Pr(E_r \mid S^*_r) \cdot \left[-\frac{M(t_r)}{n-1} + C_{round}\right] + 2b\,(1-\Pr(E_r))\,C_{round} \\
+\text{(II)} \;=\;\; &amp; 2b\, \mathbb{E}\Big[\sum_{j=1}^{m_r-1}(\hbar(\tilde X_j) - \hbar(\tilde X_0))\,\Big|\,S(t_r{-}1)\Big] \\
+\leq\;\; &amp; 2b \cdot \Pr(E_r \mid S(t_r{-}1)) \cdot \left[-\frac{M(t_r)}{n-1} + C_{round}\right] + 2b\,(1-\Pr(E_r))\,C_{round} \\
 \leq\;\; &amp; -\frac{2bp_0\,M(t_r)}{n-1} + 2b\,C_{round}
 \end{aligned}\]</span></p>
 <p>(중간 단계에서 <span class="math inline">\(\Pr(E_r) \geq p_0\)</span>이므로 음의 항이 <span class="math inline">\(\geq -2bp_0 M/(n-1)\)</span> — 부등호 방향 주의.)</p>
 <p><strong>결합.</strong> (I) + (II) + <span class="math inline">\((\dagger\dagger)\)</span>의 상수항:</p>
 <p><span class="math display">\[\begin{aligned}
-&amp; \mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S^*_r] \\
+&amp; \mathbb{E}[\Phi(t_{r+1}{-}1) - \Phi(t_r{-}1) \mid S(t_r{-}1)] \\
 &amp; \qquad \leq\; b\, M(t_r) \underbrace{\left[(T_{max}{+}1)\alpha - \tfrac{2p_0}{n-1}\right]}_{=:\, \Delta_{\mathrm{drift}}} + C_3
 \end{aligned} \tag{$\star\star$}\]</span></p>
 <p>여기서</p>
-<p><span class="math display">\[C_3 \;:=\; 2b\,C_{round} \;+\; (T_{max}+1)\cdot \tfrac{(n-1)b^2}{n}\]</span></p>
+<p><span class="math display">\[C_3 \;:=\; 2b\,C_{round} \;+\; O(b^2)\text{-상수항들}\]</span></p>
 <p>는 <span class="math inline">\(M(t_r)\)</span>에 무관하고 <span class="math inline">\(\mathcal{G},\,b,\,T_{max}\)</span>에만 의존하는 <strong>결정적</strong> 상수. (부분 라운드 보정 항 <span class="math inline">\(4T_{max}\)</span>가 사라진 것에 주목 — round-skeleton 덕분.)</p>
 <p>(B.6 종료.)</p>
 </section>
@@ -1285,17 +1290,13 @@ window.Quarto = {
 <p><span class="math display">\[\mathbb{E}[\Phi(\text{1 step 후}) - \Phi \mid \text{현재}] \leq -1 + \beta\,\mathbb{1}_{\mathcal{B}}\]</span></p>
 <p>를 만족하면 (<span class="math inline">\(\beta &lt; \infty\)</span>), 체인은 양의 재귀이다.</p>
 <p><strong>(i) Round-skeleton에 적용.</strong> <span class="math inline">\((\star\star\star)\)</span>이 성립하면 <span class="math inline">\((\star\star)\)</span>의 drift를 다음과 같이 정규화 가능: <span class="math inline">\(M(t_r) &gt; C_3/(b|\Delta_{\mathrm{drift}}|) + 1/(b|\Delta_{\mathrm{drift}}|)\)</span>이면 <span class="math inline">\((\star\star)\)</span>의 우변 <span class="math inline">\(\leq -1\)</span>. 즉</p>
-<p><span class="math display">\[\mathcal{B}_\Phi^* \;:=\; \{S^* = (\boldsymbol{\delta}, X, 0) : \Phi(\boldsymbol{\delta}) \leq C_1\}\]</span></p>
-<p>로 놓으면 (<span class="math inline">\(C_1\)</span>은 위 임계값 이하의 <span class="math inline">\(\Phi\)</span> 영역) skeleton chain <span class="math inline">\(\{S^*_r\}\)</span>이 <span class="math inline">\(\mathcal{B}_\Phi^*\)</span> 바깥에서 1-step drift <span class="math inline">\(\leq -1\)</span> 만족.</p>
-<p><strong><span class="math inline">\(\mathcal{B}_\Phi^*\)</span>의 유한성.</strong> <span class="math inline">\(\boldsymbol{\delta} \in \boldsymbol{\delta}(0) + b\mathbb{Z}^{n-1}\)</span> 격자 + <span class="math inline">\(\Phi\)</span> coercive ⇒ <span class="math inline">\(\{\Phi \leq C_1\}\)</span> 격자 유한. <span class="math inline">\(X \in \{1,\ldots,n\}\)</span>, <span class="math inline">\(Z = 0\)</span> (round-boundary) 고정. 따라서 <span class="math inline">\(\mathcal{B}_\Phi^*\)</span> 유한.</p>
-<p>Foster-Lyapunov 적용으로 skeleton 체인 양의 재귀: <span class="math inline">\(\mathbb{E}[\tau^*_{\mathcal{B}^*_\Phi}] &lt; \infty\)</span>.</p>
-<p><strong>(ii) Skeleton ↔︎ 원 체인 전이.</strong> 라운드 길이 <span class="math inline">\(m_r \leq T_{max}+1\)</span> 결정적 상한이므로</p>
-<p><span class="math display">\[t_{r+1} - t_r \leq T_{max}+1.\]</span></p>
-<p>원 체인이 <span class="math inline">\(\mathcal{B}^*_\Phi\)</span> (<span class="math inline">\(\subseteq \mathcal{X}\)</span>로 자연스럽게 포함, 단 round-boundary 한정) 또는 그것을 “fattened”한 집합 <span class="math inline">\(\mathcal{B}_\Phi := \{S : \Phi(\boldsymbol{\delta}(S)) \leq C_1\}\)</span> (모든 <span class="math inline">\(X, Z\)</span> 허용) 으로 복귀하는 시각 <span class="math inline">\(\tau_{\mathcal{B}_\Phi}\)</span>는</p>
-<p><span class="math display">\[\tau_{\mathcal{B}_\Phi} \;\leq\; (T_{max}+1) \cdot \tau^*_{\mathcal{B}^*_\Phi}\]</span></p>
-<p>(skeleton이 <span class="math inline">\(r\)</span>번째 step에 <span class="math inline">\(\mathcal{B}^*_\Phi\)</span>에 도달했다면 원 체인은 늦어도 <span class="math inline">\(t_r \leq r(T_{max}+1)\)</span> 시점에 도달)</p>
-<p>따라서 <span class="math inline">\(\mathbb{E}[\tau_{\mathcal{B}_\Phi}] \leq (T_{max}+1)\,\mathbb{E}[\tau^*_{\mathcal{B}^*_\Phi}] &lt; \infty\)</span>. 즉 <strong>원 체인도 양의 재귀</strong>.</p>
-<p><strong><span class="math inline">\(\mathcal{B}_\Phi\)</span>의 유한성 (원 체인용).</strong> (i) <span class="math inline">\(\boldsymbol{\delta}\)</span> 격자 ∩ coercive <span class="math inline">\(\Phi\)</span> 사블레벨 = 유한, (ii) <span class="math inline">\(X \in \{1,\ldots,n\}\)</span>, <span class="math inline">\(Z \in \{0,\ldots,T_{max}\}\)</span> 유한. 따라서 <span class="math inline">\(\mathcal{B}_\Phi\)</span> 유한 집합.</p>
+<p><span class="math display">\[\mathcal{B}_\Phi \;:=\; \{S = (\boldsymbol{\delta}, X, Z) : \Phi(\boldsymbol{\delta}) \leq C_1\}\]</span></p>
+<p>로 놓으면 (<span class="math inline">\(C_1\)</span>은 위 임계값 이하의 <span class="math inline">\(\Phi\)</span> 영역) skeleton chain <span class="math inline">\(\{S(t_r)\}\)</span>이 <span class="math inline">\(\mathcal{B}_\Phi\)</span> 바깥에서 1-step drift <span class="math inline">\(\leq -1\)</span> 만족.</p>
+<p><strong><span class="math inline">\(\mathcal{B}_\Phi\)</span>의 유한성.</strong> (i) <span class="math inline">\(\boldsymbol{\delta} \in \boldsymbol{\delta}(0) + b\mathbb{Z}^{n-1}\)</span> 격자 ∩ coercive <span class="math inline">\(\Phi\)</span> 사블레벨 = 유한. (ii) <span class="math inline">\(X \in \{1,\ldots,n\}\)</span>, <span class="math inline">\(Z \in \{0,\ldots,T_{max}\}\)</span> 유한. 따라서 <span class="math inline">\(\mathcal{B}_\Phi\)</span> 유한 집합.</p>
+<p>Foster-Lyapunov 적용으로 skeleton 체인 양의 재귀: skeleton의 <span class="math inline">\(\mathcal{B}_\Phi\)</span> 도달 step 수의 기댓값 <span class="math inline">\(\mathbb{E}[R^*] &lt; \infty\)</span> (<span class="math inline">\(R^* := \min\{r \geq 1 : S(t_r) \in \mathcal{B}_\Phi\}\)</span>).</p>
+<p><strong>(ii) Skeleton ↔︎ 원 체인 전이.</strong> 라운드 길이 <span class="math inline">\(m_r \leq T_{max}+1\)</span> 결정적 상한이므로 <span class="math inline">\(t_{r+1} - t_r \leq T_{max}+1\)</span>. 원 체인의 <span class="math inline">\(\mathcal{B}_\Phi\)</span> 도달 시각 <span class="math inline">\(\tau_{\mathcal{B}_\Phi}\)</span>는 skeleton이 <span class="math inline">\(R^*\)</span> step에 도달했다면 원 체인 시각으로 늦어도 <span class="math inline">\(t_{R^*} \leq R^*(T_{max}+1)\)</span>:</p>
+<p><span class="math display">\[\tau_{\mathcal{B}_\Phi} \;\leq\; (T_{max}+1)\, R^*\]</span></p>
+<p>따라서 <span class="math inline">\(\mathbb{E}[\tau_{\mathcal{B}_\Phi}] \leq (T_{max}+1)\,\mathbb{E}[R^*] &lt; \infty\)</span>. 즉 <strong>원 체인도 양의 재귀</strong>.</p>
 <p><strong><span class="math inline">\(M\)</span>에 대한 명시적 상한.</strong> <span class="math inline">\(\sum_i\hbar^2 \geq \hbar_{\max}^2 + \hbar_{\min}^2 \geq (\hbar_{\max}-\hbar_{\min})^2/2 = M^2/2\)</span>로부터 <span class="math inline">\(\Phi \leq C_1 \Rightarrow M \leq \sqrt{2C_1} =: C\)</span>. 이로써 Proposition (Height Recurrence) 증명 완료. <span class="math inline">\(\blacksquare\)</span></p>
 
 
