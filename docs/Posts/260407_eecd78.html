@@ -661,8 +661,8 @@ window.Quarto = {
 <td><span class="math inline">\(T\)</span>-step drift의 스텝 수</td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(q_0 := 1 - (1 - p_0)^k\)</span></td>
-<td><span class="math inline">\(T\)</span> 스텝 내 완전 라운드 <span class="math inline">\(\geq k\)</span>개 중 큰 낙차 사건 ≥1회 확률</td>
+<td><span class="math inline">\(q_0 := kp_0\)</span></td>
+<td><span class="math inline">\(T\)</span> 스텝 내 완전 라운드 <span class="math inline">\(\geq k\)</span>개에서의 big-drop <strong>기대 개수의 하한</strong></td>
 </tr>
 </tbody>
 </table>
@@ -777,7 +777,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="정리-main-theorem">정리 (Main Theorem)</h2>
 <p><strong>Theorem.</strong> 연결 가중 그래프 <span class="math inline">\(\mathcal{G}\)</span>와 파라미터 <span class="math inline">\((b, T_{max})\)</span>가 주어질 때, 다음 drift 조건이 성립한다고 하자:</p>
 <p><span class="math display">\[\Delta_{\mathrm{drift}} := (k+1)(T_{max}{+}1)\alpha - \frac{2q_0}{n-1} &lt; 0 \tag{DC}\]</span></p>
-<p>여기서 <span class="math inline">\(k = \lceil 1/\mu_{min} \rceil\)</span>, <span class="math inline">\(\alpha = \|\boldsymbol{\mu}_0 - \mathbf{u}\|_1\)</span> (차수 비균등도), <span class="math inline">\(q_0 = 1-(1-p_0)^k\)</span> (큰 낙차 사건 1회 이상 확률), <span class="math inline">\(\mu_{min} = \min_i \mu_0(v_i)\)</span>이다. 특히 <strong>정칙(regular) 그래프에서는 <span class="math inline">\(\alpha = 0\)</span>이므로 (DC)가 자동으로 성립</strong>한다.</p>
+<p>여기서 <span class="math inline">\(k = \lceil 1/\mu_{min} \rceil\)</span>, <span class="math inline">\(\alpha = \|\boldsymbol{\mu}_0 - \mathbf{u}\|_1\)</span> (차수 비균등도), <span class="math inline">\(q_0 := kp_0\)</span> (big-drop 기대 개수의 하한), <span class="math inline">\(\mu_{min} = \min_i \mu_0(v_i)\)</span>이다. 특히 <strong>정칙(regular) 그래프에서는 <span class="math inline">\(\alpha = 0\)</span>이므로 (DC)가 자동으로 성립</strong>한다.</p>
 <p>이때, 상수 행렬 <span class="math inline">\(C = [c_{ij}]_{n \times n}\)</span>, <span class="math inline">\(c_{ij} = c_{ij}(\mathcal{G}, b, T_{max}, \mathbf{y} \bmod b) \geq 0\)</span>이 존재하여, 임의의 초기 신호 <span class="math inline">\(\mathbf{y}\)</span>에 대해:</p>
 <p><span class="math display">\[\overline{\mathbf{SD}}^2(t) \xrightarrow{t \to \infty} C \quad \text{a.s.}\]</span></p>
 <p>한계값 <span class="math inline">\(c_{ij}\)</span>는 초기 신호 <span class="math inline">\(\mathbf{y}\)</span>의 거시적인 절대 스케일에는 완전히 독립적이며, 오직 이산 업데이트 규칙의 격자 경계를 결정짓는 <span class="math inline">\(b\)</span> 단위의 미세한 위상차(fractional part modulo <span class="math inline">\(b\)</span>)에만 국소적으로 종속된다.</p>
@@ -820,7 +820,7 @@ window.Quarto = {
 </figure>
 </div>
 <blockquote class="blockquote">
-<p><strong>Figure.</strong> <span class="math inline">\(v_{i^\star}\)</span>에 눈이 떨어지고 첫 flow 스텝에서 <span class="math inline">\(v_{j^\star}\)</span>로 이동하면 <span class="math inline">\(M\)</span>에 비례한 개선 발생. 단일 라운드 big drop 확률 하한 <span class="math inline">\(p_0 := \mu_{min} \cdot P_{RW,\min} &gt; 0\)</span>, <span class="math inline">\(k\)</span> 라운드 중 1회 이상 발생 확률 <span class="math inline">\(q_0 := 1 - (1-p_0)^k &gt; 0\)</span>.</p>
+<p><strong>Figure.</strong> <span class="math inline">\(v_{i^\star}\)</span>에 눈이 떨어지고 첫 flow 스텝에서 <span class="math inline">\(v_{j^\star}\)</span>로 이동하면 <span class="math inline">\(M\)</span>에 비례한 개선 발생. 단일 라운드 big drop 확률 하한 <span class="math inline">\(p_0 := \mu_{min} \cdot P_{RW,\min} &gt; 0\)</span>, <span class="math inline">\(k\)</span> 라운드의 기대 big-drop 횟수 하한 <span class="math inline">\(q_0 := kp_0 &gt; 0\)</span>.</p>
 </blockquote>
 <p>이 설정 아래 다음 명제가 성립:</p>
 <p><strong>Proposition (Height Recurrence).</strong> 높이 범위 <span class="math inline">\(M(t)\)</span>에 대해, <strong>drift 조건</strong></p>
@@ -1142,7 +1142,7 @@ window.Quarto = {
 <p>확률은 (경사 간선 선택과 무관하게) <strong>그래프-uniform 하한</strong> 가짐:</p>
 <p><span class="math display">\[\Pr(E_r) \;\geq\; \mu_{min} \cdot P_{RW,\min} \;=:\; p_0 \;&gt;\; 0\]</span></p>
 <p>여기서 <span class="math inline">\(P_{RW,\min} := \min_{(u,w) \in \mathcal{E}} \deg(w)/\sum_{k \in \mathcal{N}_u}\deg(v_k) &gt; 0\)</span>는 간선-균일 전이확률 하한, <span class="math inline">\(\mu_{min} := \min_i \mu_0(v_i) &gt; 0\)</span>. 즉 <span class="math inline">\(p_0\)</span>는 상태에 무관하고 <span class="math inline">\(\mathcal{G}\)</span>에만 의존하는 <strong>결정적 상수</strong>.</p>
-<p><span class="math inline">\(k\)</span>개의 완전 라운드에서 각 라운드 시작 시 fresh <span class="math inline">\(\mu_0\)</span>-재시작이 일어나 라운드간 independent이므로, 큰 낙차 1회 이상 발생할 확률: <span class="math inline">\(q_0 := 1 - (1-p_0)^k &gt; 0\)</span>.</p>
+<p><span class="math inline">\(k\)</span>개의 완전 라운드에서 각 라운드의 big-drop 확률 <span class="math inline">\(\geq p_0\)</span>이므로, <strong>기대 big-drop 횟수 <span class="math inline">\(\mathbb{E}[N] = \sum_{r=1}^k \Pr(E_r) \geq kp_0 =: q_0\)</span></strong> (선형성, 라운드간 독립성 불필요).</p>
 <p>큰 낙차 라운드의 flow 개선: <span class="math inline">\(E_r\)</span> 발생 시 스텝 <span class="math inline">\(j=0\)</span>에서 <span class="math inline">\(\tilde X_0 = i^\star\)</span>, 스텝 <span class="math inline">\(j=1\)</span>에서 <span class="math inline">\(\tilde X_1 = j^\star\)</span>이다. 이때 <span class="math inline">\(j^\star\)</span>에는 스텝 1에서 <span class="math inline">\(+b\)</span>가 쌓이므로 평균 <span class="math inline">\(\bar{h}(\cdot)\)</span>의 <span class="math inline">\(b/n\)</span> 상승분을 빼주면</p>
 <p><span class="math display">\[\hbar(\tilde X_1, t_r{+}1) = \hbar(j^\star, t_r) + b\cdot\frac{n-1}{n} &lt; \hbar(j^\star, t_r) + b.\]</span></p>
 <p>이후 <span class="math inline">\(j \geq 2\)</span>에 대해서는 B.3과 동일한 체이닝으로 <span class="math inline">\(\hbar(\tilde X_j, t_r{+}j) &lt; \hbar(\tilde X_1, t_r{+}1) + (j-1)b\)</span>가 성립하므로, <span class="math inline">\(j \geq 1\)</span>에서 통일하여:</p>
@@ -1182,7 +1182,7 @@ window.Quarto = {
 <p><span class="math display">\[M(t+s) \;&gt;\; M(t) - Tb \;&gt;\; 2Tb - Tb \;=\; Tb \;=\; \tfrac{1}{2}M(t), \quad s = 0, 1, \ldots, T.\]</span></p>
 <p>즉 <strong><span class="math inline">\(M\)</span>이 window 내내 반토막은 나지 않는다.</strong> 따라서:</p>
 <ol type="1">
-<li>(<strong>확률</strong>) window 내 각 <strong>완전</strong> 라운드에서 큰 낙차 확률이 <span class="math inline">\(\geq p_0\)</span>로 유지되므로, <span class="math inline">\(k\)</span>개 이상의 완전 라운드 중 최소 1회 발생할 확률 <span class="math inline">\(\geq q_0 = 1-(1-p_0)^k\)</span>.</li>
+<li>(<strong>확률</strong>) window 내 각 <strong>완전</strong> 라운드에서 큰 낙차 확률이 <span class="math inline">\(\geq p_0\)</span>로 유지되므로, <span class="math inline">\(k\)</span>개 이상의 완전 라운드의 기대 big-drop 횟수 <span class="math inline">\(\geq kp_0 = q_0\)</span>.</li>
 <li>(<strong>개선량</strong>) 큰 낙차 라운드의 개선량 <span class="math inline">\(\geq M(t+s)/(n-1) \geq M(t)/(2(n-1))\)</span> — 즉 <strong><span class="math inline">\(M(t)\)</span>만으로 균일하게 하한</strong> 가능.</li>
 </ol>
 <div class="callout callout-style-default callout-tip callout-titled" title="왜 하필 $2Tb$? 그리고 $M(t) \leq 2Tb$ 영역은 어떻게 처리하나?">
@@ -1277,20 +1277,24 @@ window.Quarto = {
 <p>이었다. 모든 라운드에서 <span class="math inline">\(m_r \geq 2\)</span> 보장 (라운드 길이 범위 참조: <span class="math inline">\(\mu_0\)</span>-draw 스텝은 flow/block 시도 없으므로 최소 1 스텝이 추가로 필요)이므로 <span class="math inline">\(-(m_r{-}1) \leq -1\)</span>, 따라서 한 big-drop 라운드의 음의 기여는 <span class="math inline">\(\leq -M(t_r)/(n-1) + C_{round}\)</span>.</p>
 <p><strong><span class="math inline">\(M(t_r) \to M(t)\)</span> 환산.</strong> <span class="math inline">\((\heartsuit)\)</span>에 의해 <span class="math inline">\(M(t_r) \geq M(t) - Tb\)</span>이므로:</p>
 <p><span class="math display">\[-\frac{M(t_r)}{n-1} \;\leq\; -\frac{M(t) - Tb}{n-1} \;=\; -\frac{M(t)}{n-1} + \underbrace{\frac{Tb}{n-1}}_{\text{근사 오차}}\]</span></p>
-<p><strong>Big-drop 이벤트 확률과 기여.</strong> <span class="math inline">\(T = (k+1)(T_{max}+1)\)</span>의 버퍼 덕분에 window 내 <strong>완전</strong> 라운드는 최소 <span class="math inline">\(k\)</span>개 보장되므로, 큰 낙차 이벤트 1회 이상이 일어나는 사건 <span class="math inline">\(E := \bigcup_{r=1}^{k} E_r\)</span>의 확률은 <span class="math inline">\(\Pr(E) \geq 1-(1-p_0)^k = q_0\)</span>이다. <span class="math inline">\(E\)</span>가 일어나면 위 bound가 최소 한 라운드에 적용되므로:</p>
-<p><span class="math display">\[\begin{aligned}
-&amp; \mathbb{E}\!\left[\sum_{j\in\text{big-drop round}}\!\! (\hbar(\tilde X_j) - \hbar(\tilde X_0))\right] \\
-&amp; \qquad \leq\; q_0 \cdot \left[-\frac{M(t)}{n-1} + \frac{Tb}{n-1} + C_{round}\right] \;=\; -q_0\cdot\frac{M(t)}{n-1} + D_{II}
-\end{aligned}\]</span></p>
+<p><strong>Big-drop 이벤트 확률과 기여.</strong> <span class="math inline">\(T = (k+1)(T_{max}+1)\)</span>의 버퍼 덕분에 window 내 <strong>완전</strong> 라운드는 최소 <span class="math inline">\(k\)</span>개 보장. 각 라운드는 독립적으로 big-drop일 수 있으니, <strong>window 내 big-drop 발생 횟수 <span class="math inline">\(N := \sum_{r=1}^k \mathbf{1}_{E_r}\)</span>는 <span class="math inline">\(0, 1, \ldots, k\)</span>의 확률변수</strong>.</p>
+<p>big-drop 라운드들의 음의 기여를 indicator로 표현:</p>
+<p><span class="math display">\[S_{\text{big}} \;:=\; \sum_{r=1}^{k} \mathbf{1}_{E_r} \sum_{j=1}^{m_r-1}\big(\hbar(\tilde X_j, t_r{+}j) - \hbar(\tilde X_0, t_r)\big)\]</span></p>
+<p>여기서 <span class="math inline">\(\mathbf{1}_{E_r}\)</span>는 round <span class="math inline">\(r\)</span>이 big-drop인지 여부를 나타내는 확률변수. 한 big-drop 라운드 (<span class="math inline">\(\mathbf{1}_{E_r}=1\)</span>)의 기여는 <span class="math inline">\(\leq -M(t_r)/(n-1) + C_{round}\)</span>이고, <span class="math inline">\((\heartsuit)\)</span>로 <span class="math inline">\(M(t_r) \geq M(t) - Tb\)</span> 환산:</p>
+<p><span class="math display">\[S_{\text{big}} \;\leq\; \sum_{r=1}^k \mathbf{1}_{E_r}\left[-\frac{M(t)}{n-1} + \frac{Tb}{n-1} + C_{round}\right]\]</span></p>
+<p>기댓값 취하기:</p>
+<p><span class="math display">\[\mathbb{E}[S_{\text{big}}] \;\leq\; \mathbb{E}[N]\left[-\frac{M(t)}{n-1} + \frac{Tb}{n-1} + C_{round}\right]\]</span></p>
+<p>여기서 <strong>선형성 + 각 <span class="math inline">\(\Pr(E_r) \geq p_0\)</span></strong>로:</p>
+<p><span class="math display">\[\mathbb{E}[N] = \sum_{r=1}^k \Pr(E_r) \;\geq\; kp_0 \;=:\; q_0\]</span></p>
+<p>(라운드간 독립성 불필요, 단순 선형성.) 따라서:</p>
+<p><span class="math display">\[\mathbb{E}[S_{\text{big}}] \;\leq\; q_0 \cdot \left[-\frac{M(t)}{n-1} + \frac{Tb}{n-1} + C_{round}\right] \;=\; -q_0\cdot\frac{M(t)}{n-1} + D_{II}\]</span></p>
+<p>여기서 <span class="math inline">\(D_{II} := q_0(Tb/(n-1) + C_{round})\)</span>.</p>
 <p>여기서</p>
 <p><span class="math display">\[D_{II} \;:=\; q_0\left(\frac{Tb}{n-1} + C_{round}\right)\]</span></p>
 <p>는 <span class="math inline">\(M(t)\)</span>에 무관한 상수. 두 원천: (i) <span class="math inline">\(q_0 \cdot C_{round}\)</span>는 big-drop 라운드 자체의 additive 상수 (<span class="math inline">\(C_{round} = \tfrac{T_{max}(T_{max}+1)}{2} b\)</span>), (ii) <span class="math inline">\(q_0 \cdot Tb/(n-1)\)</span>는 <span class="math inline">\(M(t_r) \to M(t)\)</span> 근사 오차.</p>
-<p><strong>보수적 하한임을 두 관점에서 확인.</strong></p>
-<p><strong>(i) 이벤트 지표 vs.&nbsp;기댓값 수.</strong> <span class="math inline">\(q_0 = \Pr(\geq 1\text{회 big drop})\)</span>은 확률이지 기댓값이 아니다. 실제로 window에서 big drop 라운드의 <strong>기대 개수</strong>는 <span class="math inline">\(\mathbb{E}[\#\text{big drops}] \geq k p_0\)</span> (각 <span class="math inline">\(k\)</span> 라운드 독립 Bernoulli <span class="math inline">\(p_0\)</span>의 합). Big drop 라운드가 여러 번 발생하면 <strong>추가적 음의 기여</strong> (각각 <span class="math inline">\(-M/(n-1)\)</span>)가 누적되어 <span class="math inline">\(\sum\)</span>이 더욱 작아지지만, 우리가 사용하는 <span class="math inline">\(-q_0 M/(n-1)\)</span> 상한은 “최소 1회” 이벤트 하나만 감안. 추가 기여를 무시한 <strong>덜 공격적인 (=보수적인) 상한</strong>이라 여전히 정당한 upper bound.</p>
-<p><strong>(ii) Bernoulli 부등식으로 비교.</strong> <span class="math inline">\((1-p_0)^k \geq 1 - kp_0\)</span> (Bernoulli inequality)이므로</p>
-<p><span class="math display">\[q_0 = 1 - (1-p_0)^k \;\leq\; kp_0.\]</span></p>
-<p>따라서 <span class="math inline">\(-q_0 \cdot M/(n-1) \geq -kp_0 \cdot M/(n-1)\)</span>, 즉 우리 bound는 <span class="math inline">\(kp_0\)</span> 기반 bound보다 <strong>덜 음수</strong> (약한 하한). 하지만 <span class="math inline">\(q_0 &gt; 0\)</span>이기만 하면 drift 조건이 여전히 성립하므로 증명에 지장 없음 — 단순성과 <span class="math inline">\(q_0\)</span>의 깔끔한 해석(“적어도 1회 성공 확률”)을 택한 trade-off.</p>
-<p>정리하면 <span class="math inline">\(q_0 M/(n-1)\)</span>은 (i) 다중 big drop 추가 기여 무시 + (ii) Bernoulli 느슨 추정의 이중 보수적 근사이며, 그럼에도 <strong>양수이므로 drift 조건 유도에 충분</strong>.</p>
+<blockquote class="blockquote">
+<p><strong>Remark.</strong> 이 bound는 <span class="math inline">\(\mathbb{E}[N] \geq kp_0\)</span>를 사용한 결과로, 라운드간 독립성 가정이 불필요. 실제 <span class="math inline">\(\mathbb{E}[N]\)</span>이 <span class="math inline">\(kp_0\)</span>보다 더 큰 그래프에선 더 tight한 bound 가능. (참고로 “<span class="math inline">\(k\)</span> 라운드 중 1회 이상 발생할 확률”은 <span class="math inline">\(1-(1-p_0)^k\)</span>이며 Bernoulli로 <span class="math inline">\(\leq kp_0\)</span>이라 덜 tight.)</p>
+</blockquote>
 <p>따라서 (II)의 상한 (non-big-drop 라운드의 개선 <span class="math inline">\(\leq 0\)</span>을 사용):</p>
 <p><span class="math display">\[\begin{aligned}
 \text{(II)} \;=\;\; &amp; 2b \sum_r \sum_{j=1}^{m_r-1}\mathbb{E}[\hbar(\tilde X_j) - \hbar(\tilde X_0)] \\
