@@ -3,6 +3,7 @@ title: 연구 ▷ HST ▷ 예제2 재검토 — HST 는 Euclidean 과 얼마나 
 author: 신록예찬
 date: 04/25/2026
 draft: false
+output-file: 260425_6dc8c6.html
 ---
 
 # 0. 한 줄 요약

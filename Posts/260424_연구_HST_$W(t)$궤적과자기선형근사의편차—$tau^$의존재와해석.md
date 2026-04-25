@@ -428,13 +428,30 @@ ex2 ($y = \pm 3$, ring r=1) 는 **regime A** 에 속한다. §3.3 의 추측 $\t
 
 [보충아이디어 A.7](260208_21543c.html)에서 "매우 중요"로 표시된 이 주제가 본 포스트에서 본격 전개되었다. 다음 단계:
 
-- 실험 (§5)을 실제 코드로 구현하여 $\tau^*$·$\mathcal{A}$의 empirical behavior 확인
+- 실험 (§5)을 실제 코드로 구현하여 $\tau^*$·$\mathcal{A}$의 empirical behavior 확인 → §5.7 (ex2 첫 결과) 에서 부분 수행
 - 추측 3.2의 scaling을 random graph family에서 검증
 - cliff/bottleneck 사례에서 $\tau^*$가 실용 guideline과 일치하는지 검증
 
 이 결과들이 축적되면, HST의 "$t$ 선택 이론"이라는 실용 문제가 이론적 지지대를 얻는다.
 
-**External 관점과의 보완.** 본 포스트는 HST 자신의 비선형성(self-consistency)에 집중. HST를 **classical graph metric (diffusion, effective resistance 등)**과 비교하여 "HST가 기존 접근과 얼마나 다른가"를 묻는 External 관점은 별도 포스트 [HST와 외재 Graph Distance의 편차](260424_ext.html)에서 다룬다. 두 관점은 상보적이다 — Internal은 HST 내부 구조, External은 HST의 타자 대비 독창성.
+**6.3 ex2 첫 empirical 결과의 함의 (§5.7 요약 — 본 frame 자체에 대한 메시지).**
+
+§5.7 의 ex2 시뮬레이션에서 다음이 드러났다:
+
+1. **$\tau^*$ 자체는 잘 정의되고 측정된다** — Theorem 3.1 의 존재성 주장은 empirical 로 확인.
+2. **그러나 ex2 ($y=\pm 3$) 에서 $\Delta$ 가 양적으로 미미** — Procrustes 0.003, PD 0.007. **신호 dominance regime A** (§5.7.5) 의 자연스러운 귀결로, HST path 가 linear path 위에서 거의 안 벗어남.
+3. **Linear-combo path ($\alpha^* \approx 0$, 거의 pure Eucl) 가 HST shape 를 사실상 재현** — *좌표 수준* 에선. 위상·cluster 내 정렬 등 Procrustes 가 잡지 않는 차원에서만 HST 가 unique.
+
+**즉 본 frame ($\Delta$, $\tau^*$, $\mathcal{A}_{\mathrm{HST}}$) 의 *predictive power* 는 regime C (신호와 그래프가 이질적으로 결합) 에서만 충분히 발휘**된다. ex2 (regime A) 는 frame 의 demo 로 부적절. 향후 frame 의 의미를 보이려면 cliff/parity/twin/directed 같은 regime C example 로 옮겨가야 함 (O10).
+
+**또 한 가지 — Frame 의 *metric* 선택의 중요성.** §5.7.1 의 Frob / Procrustes / PD 의 $\tau^*$ 가 일치하지 않음 (O9). 본 포스트의 형식화는 Frobenius 를 묵시적 default 로 채택했지만, regime A 에서 Frobenius $\Delta$ 는 dominant signal axis 의 magnitude 를 반영하고, Procrustes/PD 는 더 미세한 shape/topology 를 본다. **각 norm 이 잡는 "비선형성" 의 종류가 다르다** — 이는 §6.1 O5 (다른 norm) 의 실증적 시작점.
+
+**External 관점과의 보완.** 본 포스트는 HST 자신의 비선형성(self-consistency)에 집중. HST를 **classical graph metric (diffusion, effective resistance 등)**과 비교하여 "HST가 기존 접근과 얼마나 다른가"를 묻는 External 관점은 별도 포스트 [HST와 외재 Graph Distance의 편차](260424_ext.html)에서 다룬다. 두 관점은 상보적이다 — Internal은 HST 내부 구조, External은 HST의 타자 대비 독창성. 흥미롭게도 ex2 의 regime A 발견은 두 frame 모두에 영향: *둘 다 ex2 에선 약하게 나옴*.
+
+**연결 포스트:**
+- [예제2 재검토 — HST 는 Euclidean 과 얼마나 다른가?](260425_ex2review.html) — regime A 발견의 단독 narrative
+- [그래프 도메인에서의 거리](260425_distancesurvey.html) — HST 가 위치 잡혀야 할 family 지형
+- [예제2의 diffusion distance 정의 오류](260425_diffusionbug.html) — 본 검토의 출발점
 
 ---
 
