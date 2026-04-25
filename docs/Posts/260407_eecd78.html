@@ -869,22 +869,21 @@ window.Quarto = {
 <p>LLN을 <span class="math inline">\(f(S) = (\delta_i - \delta_j)^2\)</span>에 적용하려면 <span class="math inline">\(f \in L_1(\pi)\)</span>, 즉 <span class="math inline">\(\mathbb{E}_\pi[f] &lt; \infty\)</span>가 필요하다. <span class="math inline">\((\delta_i - \delta_j)^2 = (\hbar(i) - \hbar(j))^2 \leq M(t)^2\)</span>이므로 충분조건은:</p>
 <p><span class="math display">\[\mathbb{E}_\pi[M^2] &lt; \infty. \tag{M2}\]</span></p>
 <p>하지만 Step 2의 drift <span class="math inline">\((\star\star)\)</span>는 <span class="math inline">\(M\)</span>에 <strong>선형</strong>이라 Foster-Lyapunov로부터 직접 도출되는 것은 <span class="math inline">\(\mathbb{E}_\pi[M] &lt; \infty\)</span>뿐이다 (이건 M&amp;T Thm 14.0.1 <span class="math inline">\(f\)</span>-regularity로 자동). <span class="math inline">\(M^2\)</span> moment까지 확보하려면 <strong>Lyapunov 함수를 강화</strong>해야 한다.</p>
-<p><strong>강화된 Lyapunov: <span class="math inline">\(V := \Phi^2\)</span>.</strong> <span class="math inline">\(D := \Phi(t+T) - \Phi(t)\)</span>라 쓰면 <span class="math inline">\(V\)</span> 변화량은</p>
-<p><span class="math display">\[V(t+T) - V(t) = \Phi(t+T)^2 - \Phi(t)^2 = D^2 + 2\Phi(t)\,D.\]</span></p>
+<p><strong>강화된 Lyapunov: <span class="math inline">\(V := \Phi^2\)</span>.</strong> Round-skeleton 위에서 <span class="math inline">\(D := \Phi(t_{r+1}{-}1) - \Phi(t_r{-}1)\)</span> (한 라운드 동안의 <span class="math inline">\(\Phi\)</span> 변화) 라 쓰면 <span class="math inline">\(V\)</span> 변화량은</p>
+<p><span class="math display">\[V(t_{r+1}{-}1) - V(t_r{-}1) = D^2 + 2\Phi(t_r{-}1)\,D.\]</span></p>
 <p>각 항 제어:</p>
-<p><strong>(a) <span class="math inline">\(\mathbb{E}[D^2 \mid S(t_r)]\)</span>의 상한.</strong> Lemma 1로 <span class="math inline">\(|\Phi(s+1) - \Phi(s)| \leq 2b\,|\hbar(X_{s+1}, s)| + \tfrac{(n-1)b^2}{n} \leq 2bM(s) + b^2\)</span>. 한 라운드 <span class="math inline">\(m_r \leq T_{max}+1 =: \Lambda/b + 1\)</span> (여기서 <span class="math inline">\(\Lambda := (T_{max}+1)b\)</span>) 스텝에 걸친 누적은 <span class="math inline">\(|D| \leq 2(T_{max}+1)b\,M^* + (T_{max}+1)b^2\)</span>. <span class="math inline">\((\heartsuit)\)</span>로 <span class="math inline">\(M^* \leq M(t_r) + \Lambda\)</span>이므로:</p>
-<p><span class="math display">\[\mathbb{E}[D^2 \mid S(t_r)] \;\leq\; O(b^2(T_{max}+1)^2\, M(t_r)^2) + O(1).\]</span></p>
-<p>여기서 <span class="math inline">\(D := \Phi(t_{r+1}) - \Phi(t_r)\)</span> (한 라운드 동안의 <span class="math inline">\(\Phi\)</span> 변화).</p>
-<p><strong>(b) <span class="math inline">\(2\Phi(t_r)\cdot \mathbb{E}[D \mid S(t_r)]\)</span>의 상한.</strong> <span class="math inline">\((\star\star)\)</span>로 <span class="math inline">\(\mathbb{E}[D \mid S(t_r)] \leq bM(t_r) \Delta_{\mathrm{drift}} + C_3 = -c\,M(t_r) + C_3\)</span> (여기서 <span class="math inline">\(c := b\,|\Delta_{\mathrm{drift}}| &gt; 0\)</span>). 또 항상 <span class="math inline">\(\Phi \geq M^2/2\)</span> (왜냐하면 <span class="math inline">\(\hbar_{\max}^2 + \hbar_{\min}^2 \geq M^2/2\)</span>)이므로:</p>
-<p><span class="math display">\[2\Phi(t_r) \cdot (-cM(t_r)) \;\leq\; -c\,M(t_r)^3.\]</span></p>
-<p>한편 <span class="math inline">\(2\Phi(t_r) \cdot C_3 \leq 2nC_3\,M(t_r)^2\)</span> (<span class="math inline">\(\Phi \leq nM^2\)</span> 사용).</p>
+<p><strong>(a) <span class="math inline">\(\mathbb{E}[D^2 \mid S(t_r{-}1)]\)</span>의 상한.</strong> Lemma 1 (post-+b 형태)로 <span class="math inline">\(|\Phi(s) - \Phi(s{-}1)| \leq 2b\,|\hbar(X_s, s)| + \tfrac{(n-1)b^2}{n} \leq 2bM(s) + b^2\)</span>. 한 라운드 <span class="math inline">\(m_r \leq T_{max}+1\)</span> 스텝에 걸친 누적은 <span class="math inline">\(|D| \leq 2(T_{max}+1)b\,M^* + (T_{max}+1)b^2\)</span>. <span class="math inline">\((\heartsuit)\)</span>로 <span class="math inline">\(M^* \leq M(t_r) + (T_{max}+1)b\)</span>이므로:</p>
+<p><span class="math display">\[\mathbb{E}[D^2 \mid S(t_r{-}1)] \;\leq\; O(b^2(T_{max}+1)^2\, M(t_r)^2) + O(1).\]</span></p>
+<p><strong>(b) <span class="math inline">\(2\Phi(t_r{-}1)\cdot \mathbb{E}[D \mid S(t_r{-}1)]\)</span>의 상한.</strong> <span class="math inline">\((\star\star)\)</span>로 <span class="math inline">\(\mathbb{E}[D \mid S(t_r{-}1)] \leq bM(t_r) \Delta_{\mathrm{drift}} + C_3 = -c\,M(t_r) + C_3\)</span> (여기서 <span class="math inline">\(c := b\,|\Delta_{\mathrm{drift}}| &gt; 0\)</span>). 또 항상 <span class="math inline">\(\Phi \geq M^2/2\)</span> (왜냐하면 <span class="math inline">\(\hbar_{\max}^2 + \hbar_{\min}^2 \geq M^2/2\)</span>)이므로:</p>
+<p><span class="math display">\[2\Phi(t_r{-}1) \cdot (-cM(t_r)) \;\leq\; -c\,M(t_r)^3 + O(b\,M(t_r)^2).\]</span></p>
+<p>한편 <span class="math inline">\(2\Phi(t_r{-}1) \cdot C_3 \leq 2nC_3\,M(t_r)^2 + O(b)\)</span> (<span class="math inline">\(\Phi \leq nM^2\)</span> 사용, <span class="math inline">\(M(t_r{-}1) \leq M(t_r) + b\)</span>).</p>
 <p><strong>(c) 결합.</strong> Round-skeleton 위에서 <span class="math inline">\(V\)</span>-drift 전체는:</p>
 <p><span class="math display">\[\begin{aligned}
-&amp; \mathbb{E}[V(t_{r+1}) - V(t_r) \mid S(t_r)] \\
-&amp; \qquad \leq\; \underbrace{O(b^2(T_{max}+1)^2)\,M(t_r)^2 + 2nC_3\,M(t_r)^2}_{=\,A_2\,M(t_r)^2} \;-\; c\,M(t_r)^3 \;+\; O(1)
+&amp; \mathbb{E}[V(t_{r+1}{-}1) - V(t_r{-}1) \mid S(t_r{-}1)] \\
+&amp; \qquad \leq\; A_2\,M(t_r)^2 \;-\; c\,M(t_r)^3 \;+\; O(1)
 \end{aligned}\]</span></p>
-<p><span class="math inline">\(M(t_r)\)</span>이 충분히 크면 (정확히는 <span class="math inline">\(M(t_r) &gt; 2A_2/c\)</span>) <span class="math inline">\(-cM^3\)</span>이 <span class="math inline">\(A_2 M^2\)</span>를 압도하므로 <strong>유한 집합 <span class="math inline">\(\mathcal{B}_\Phi^\prime := \{M \leq 2A_2/c\}\)</span> 바깥에서</strong></p>
-<p><span class="math display">\[\mathbb{E}[V(t_{r+1}) - V(t_r) \mid S(t_r)] \;\leq\; -\frac{c}{2}\,M(t_r)^3 + O(1).\]</span></p>
+<p>여기서 <span class="math inline">\(A_2 = O(b^2(T_{max}+1)^2 + nC_3)\)</span> 상수. <span class="math inline">\(M(t_r)\)</span>이 충분히 크면 (정확히는 <span class="math inline">\(M(t_r) &gt; 2A_2/c\)</span>) <span class="math inline">\(-cM^3\)</span>이 <span class="math inline">\(A_2 M^2\)</span>를 압도하므로 <strong>유한 집합 <span class="math inline">\(\mathcal{B}_\Phi^\prime := \{M \leq 2A_2/c\}\)</span> 바깥에서</strong></p>
+<p><span class="math display">\[\mathbb{E}[V(t_{r+1}{-}1) - V(t_r{-}1) \mid S(t_r{-}1)] \;\leq\; -\frac{c}{2}\,M(t_r)^3 + O(1).\]</span></p>
 <p>Foster-Lyapunov의 <span class="math inline">\(f\)</span>-regular 버전 (M&amp;T Thm 14.0.1; drift <span class="math inline">\(\leq -f + O(1) \cdot \mathbf{1}_{\mathcal{B}^\prime}\)</span> ⇒ <span class="math inline">\(\mathbb{E}_\pi[f] &lt; \infty\)</span>)을 <span class="math inline">\(f = (c/2) M^3\)</span>에 적용:</p>
 <p><span class="math display">\[\mathbb{E}_\pi[M^3] \;&lt;\; \infty \quad \Longrightarrow \quad \mathbb{E}_\pi[M^2] &lt; \infty \quad (\text{Jensen}).\]</span></p>
 <p>이로써 (M2)가 확보되고, <span class="math inline">\((\delta_i - \delta_j)^2 \leq M^2\)</span>이 <span class="math inline">\(L_1(\pi)\)</span>임이 보장된다.</p>
@@ -976,7 +975,7 @@ window.Quarto = {
 <p><span class="math display">\[\Phi(t) := \sum_{i=1}^{n} \big(h(v_i, t) - \bar{h}(t)\big)^2, \quad \bar{h}(t) := \frac{1}{n}\sum_k h(v_k, t)\]</span></p>
 <p>로 정의한다. (여기서 <span class="math inline">\(\Phi\)</span>는 높이 분산을 나타내는 포텐셜 함수로, 논문의 노드 집합 <span class="math inline">\(V\)</span>와의 혼동을 피하기 위해 별도 기호를 사용한다.) 또한 <strong>중심화 높이</strong>를 노드 인덱스 <span class="math inline">\(i \in \{1,\ldots,n\}\)</span>에 대해 <span class="math inline">\(\hbar(i, t) := h(v_i, t) - \bar{h}(t)\)</span>로 쓴다. 시각 <span class="math inline">\(t\)</span>에서 노드 <span class="math inline">\(v_\ell\)</span>에 <span class="math inline">\(+b\)</span>가 쌓이면 (즉 <span class="math inline">\(X_t = \ell\)</span>):</p>
 <p><span class="math display">\[\Phi(t) - \Phi(t-1) \;=\; 2b\,\hbar(\ell, t) - \frac{(n-1)b^2}{n} \tag{$\dagger$}\]</span></p>
-<p>(post-+b convention: <span class="math inline">\(\hbar(\ell, t)\)</span>는 +b 가 쌓인 직후의 중심화 높이.)</p>
+<p>(논문 정의 <span class="math inline">\(h(v_i, t) = y(v_i) + b\sum_{s=1}^{t}\mathbf{1}(X_s = i)\)</span> 에서 <span class="math inline">\(h(\cdot, t)\)</span> 가 시각 <span class="math inline">\(t\)</span>의 +b를 포함 <span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(\hbar(\ell, t)\)</span> 는 +b 직후의 중심화 높이. 위치 <span class="math inline">\(\ell = X_t\)</span> 와 시각 <span class="math inline">\(t\)</span>가 동일 인덱스로 정렬됨.)</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Lemma 1 직관: 왜 이 식이 나오는가?">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -989,10 +988,10 @@ window.Quarto = {
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(\Phi\)</span>는 “높이들이 평균에서 얼마나 퍼져 있는가”를 재는 분산이다. 한 노드 <span class="math inline">\(v_\ell\)</span>에 눈 <span class="math inline">\(b\)</span>가 쌓이면 <span class="math inline">\(\Phi\)</span>가 어떻게 변하는지 생각해보자.</p>
-<p><strong>항 1: <span class="math inline">\(2b\,\hbar(\ell, t)\)</span>.</strong> <span class="math inline">\(v_\ell\)</span>이 이미 평균보다 높으면 (<span class="math inline">\(\hbar(\ell, t) &gt; 0\)</span>) 눈이 쌓여서 더 높아지니까 분산이 <strong>증가</strong>한다. 반대로 평균보다 낮은 노드에 쌓이면 (<span class="math inline">\(\hbar(\ell, t) &lt; 0\)</span>) 평균 쪽으로 당겨지니까 분산이 <strong>감소</strong>한다. 즉, 낮은 곳에 눈이 쌓일수록 <span class="math inline">\(\Phi\)</span>가 줄어든다 — 이것이 flow가 <span class="math inline">\(\Phi\)</span>를 줄이는 핵심 메커니즘이다.</p>
-<p><strong>항 2: <span class="math inline">\(\frac{(n-1)b^2}{n}\)</span>.</strong> 어디에 쌓이든 한 노드만 <span class="math inline">\(+b\)</span>되고 나머지 <span class="math inline">\(n-1\)</span>개는 그대로이므로, 평균이 <span class="math inline">\(b/n\)</span>만큼 올라가면서 “한 놈만 튀는 효과”로 분산이 약간 증가한다. 이 항은 항상 양수이고 <span class="math inline">\(b^2\)</span>에 비례하는 작은 상수이다.</p>
-<p>요약하면: <strong><span class="math inline">\(\Phi\)</span>의 변화 = (눈이 어디에 쌓였나에 따른 큰 효과) + (무조건 붙는 작은 양의 보정)</strong>이다.</p>
+<p><span class="math inline">\(\Phi\)</span>는 “높이들이 평균에서 얼마나 퍼져 있는가”를 재는 분산이다. 한 노드 <span class="math inline">\(v_\ell\)</span>에 눈 <span class="math inline">\(b\)</span>가 쌓이면 <span class="math inline">\(\Phi\)</span>가 어떻게 변하는지 생각해보자. (post-+b convention: <span class="math inline">\(\hbar(\ell, t)\)</span> 는 +b가 쌓인 직후의 중심화 높이.)</p>
+<p><strong>항 1: <span class="math inline">\(2b\,\hbar(\ell, t)\)</span>.</strong> +b가 쌓인 직후 <span class="math inline">\(v_\ell\)</span>이 평균보다 높으면 (<span class="math inline">\(\hbar(\ell, t) &gt; 0\)</span>), <span class="math inline">\(v_\ell\)</span>이 평균에서 더 멀어진 위치에 있으니 분산이 <strong>증가</strong>한다. 반대로 +b 직후에도 평균보다 낮으면 (<span class="math inline">\(\hbar(\ell, t) &lt; 0\)</span>), <span class="math inline">\(v_\ell\)</span>이 여전히 평균 쪽에 가까워 분산이 <strong>감소</strong>한다. 즉, 낮은 곳에 눈이 쌓일수록 <span class="math inline">\(\Phi\)</span>가 줄어든다 — 이것이 flow가 <span class="math inline">\(\Phi\)</span>를 줄이는 핵심 메커니즘이다.</p>
+<p><strong>항 2: <span class="math inline">\(-\frac{(n-1)b^2}{n}\)</span>.</strong> 한 노드만 <span class="math inline">\(+b\)</span>되고 나머지 <span class="math inline">\(n-1\)</span>개는 그대로이므로 평균이 <span class="math inline">\(b/n\)</span>만큼 올라가는데, 이 평균 이동의 “재중심화 효과” 가 분산에 작은 음의 보정을 준다 (post-+b 형태에서). 이 항은 <span class="math inline">\(b^2\)</span>에 비례하는 작은 상수.</p>
+<p>요약하면: <strong><span class="math inline">\(\Phi\)</span>의 변화 = (눈이 어디에 쌓였나에 따른 큰 효과) + 작은 보정</strong>이다.</p>
 </div>
 </div>
 </div>
@@ -1014,9 +1013,9 @@ window.Quarto = {
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Lemma 1에서 <span class="math inline">\(v_\ell\)</span>은 “눈이 실제로 쌓이는 노드”였다. HST에서 매 스텝마다 현재 눈 위치 <span class="math inline">\(X_{t+1}\)</span>에 <span class="math inline">\(+b\)</span>가 쌓이므로, Lemma 1의 <span class="math inline">\(\hbar(\ell, t)\)</span>를 <span class="math inline">\(\hbar(X_{t+1}, t)\)</span>로 바꾸고 기대값을 씌운 것이 (<span class="math inline">\(\dagger\)</span>)이다.</p>
-<p>이 식의 핵심은 <span class="math inline">\(\mathbb{E}[\hbar(X_{t+1}, t) \mid S(t)]\)</span>, 즉 <strong>“다음 스텝에서 눈이 쌓이는 노드의 중심화 높이의 기대값”</strong>이다. 이 값이 음수면 — 평균적으로 낮은 곳에 눈이 쌓인다면 — 첫째 항이 음수가 되어 <span class="math inline">\(\Phi\)</span>가 감소한다. Flow 스텝에서는 높은 곳에서 낮은 곳으로 눈이 이동하므로 <span class="math inline">\(\hbar(X_{t+1}, t) \leq \hbar(X_t, t) + b\)</span>가 보장되고, 이것이 <span class="math inline">\(\Phi\)</span>를 줄이는 핵심 메커니즘이다.</p>
-<p><span class="math inline">\(\frac{(n-1)b^2}{n}\)</span> 양의 보정 항이 항상 붙지만, <span class="math inline">\(\Phi\)</span>가 제곱합이므로 높이차가 충분히 크면 <span class="math inline">\(|2b \cdot \hbar(X_{t+1}, t)|\)</span>이 이 보정을 압도한다 (아래 수치 예시 참조).</p>
+<p>Lemma 1에서 <span class="math inline">\(v_\ell\)</span>은 “눈이 쌓이는 노드”였다. HST에서 시각 <span class="math inline">\(t\)</span>의 +b 위치는 <span class="math inline">\(X_t\)</span>이므로 (<span class="math inline">\(\dagger\)</span>)는 Lemma 1의 <span class="math inline">\(\hbar(\ell, t)\)</span>를 <span class="math inline">\(\hbar(X_t, t)\)</span>로 바꾸고 기대값을 씌운 것.</p>
+<p>핵심은 <span class="math inline">\(\mathbb{E}[\hbar(X_t, t) \mid S(t-1)]\)</span>, 즉 <strong>“이번 스텝에서 +b가 쌓인 직후, 그 노드의 중심화 높이의 기대값”</strong>. 이 값이 음수면 — 평균적으로 낮은 곳에 눈이 쌓인다면 — 첫째 항이 음수가 되어 <span class="math inline">\(\Phi\)</span>가 감소. Flow 스텝에서는 높은 곳에서 낮은 곳으로 눈이 이동하므로 이 메커니즘이 작동.</p>
+<p><span class="math inline">\(-\frac{(n-1)b^2}{n}\)</span> 음의 상수 항이 항상 따라붙고, <span class="math inline">\(\Phi\)</span>가 제곱합이라 높이차가 클수록 <span class="math inline">\(|2b\hbar(X_t, t)|\)</span> 가 이 보정을 압도 (아래 수치 예시).</p>
 </div>
 </div>
 </div>
@@ -1033,14 +1032,18 @@ window.Quarto = {
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><span class="math inline">\(n = 2\)</span>, <span class="math inline">\(b = 1\)</span>로 놓자. 노드가 <span class="math inline">\(v_1, v_2\)</span> 두 개이고, 눈이 낮은 쪽 <span class="math inline">\(v_2\)</span>에 쌓이는 상황을 비교한다.</p>
-<p><strong>Case A: 높이차가 클 때.</strong> <span class="math inline">\(h(v_1) = 50\)</span>, <span class="math inline">\(h(v_2) = -50\)</span> (중심화 높이). <span class="math inline">\(v_2\)</span>에 <span class="math inline">\(+1\)</span> 쌓이면:</p>
-<p><span class="math display">\[\Phi_{\text{before}} = 50^2 + (-50)^2 = 5000\]</span> <span class="math display">\[\Phi_{\text{after}} = 50.5^2 + (-49.5)^2 = 2550.25 + 2450.25 = 5000.50\]</span></p>
-<p>잠깐 — 이건 중심화 높이가 바뀌는 걸 반영해야 한다. <span class="math inline">\(v_2\)</span>에 <span class="math inline">\(+1\)</span>이 쌓이면 평균이 <span class="math inline">\(0.5\)</span> 올라가므로:</p>
-<p><span class="math display">\[h_1' = 50 - 0.5 = 49.5, \quad h_2' = -50 + 1 - 0.5 = -49.5\]</span> <span class="math display">\[\Phi_{\text{after}} = 49.5^2 + (-49.5)^2 = 4900.50\]</span> <span class="math display">\[\Delta\Phi = 4900.50 - 5000 = \mathbf{-99.50}\]</span></p>
-<p><strong>Case B: 높이차가 작을 때.</strong> <span class="math inline">\(h(v_1) = 5\)</span>, <span class="math inline">\(h(v_2) = -5\)</span>. 같은 방식으로:</p>
-<p><span class="math display">\[\Phi_{\text{before}} = 5^2 + (-5)^2 = 50\]</span> <span class="math display">\[h_1' = 4.5, \quad h_2' = -4.5\]</span> <span class="math display">\[\Phi_{\text{after}} = 4.5^2 + (-4.5)^2 = 40.50\]</span> <span class="math display">\[\Delta\Phi = 40.50 - 50 = \mathbf{-9.50}\]</span></p>
-<p>둘 다 낮은 쪽에 <span class="math inline">\(b=1\)</span>이 쌓인 동일한 사건인데, Case A에서는 <span class="math inline">\(\Phi\)</span>가 <span class="math inline">\(99.50\)</span> 줄고 Case B에서는 <span class="math inline">\(9.50\)</span>밖에 안 줄었다. Lemma 1의 공식으로 검산하면 <span class="math inline">\(\Delta\Phi = 2b \cdot \hbar(\ell, t) + \frac{(n-1)b^2}{n} = 2(1)(-50) + \frac{1}{2} = -99.50\)</span> (Case A), <span class="math inline">\(2(1)(-5) + \frac{1}{2} = -9.50\)</span> (Case B)으로 정확히 일치한다.</p>
-<p>핵심: <strong>같은 <span class="math inline">\(b\)</span>가 쌓여도</strong>, <span class="math inline">\(\hbar(\ell, t)\)</span>이 <span class="math inline">\(-50\)</span>이냐 <span class="math inline">\(-5\)</span>이냐에 따라 <span class="math inline">\(\Phi\)</span> 감소량이 <strong>10배</strong> 차이난다. 이것이 “<span class="math inline">\(\Phi\)</span>가 제곱합이라서 높이차가 클수록 음의 drift가 강해지는” 메커니즘이다.</p>
+<p><strong>Case A: 높이차가 클 때.</strong> +b 직전 (<span class="math inline">\(t-1\)</span> 시각) 중심화 높이 <span class="math inline">\(\hbar(v_1, t-1) = 50\)</span>, <span class="math inline">\(\hbar(v_2, t-1) = -50\)</span>. <span class="math inline">\(v_2\)</span>에 <span class="math inline">\(+1\)</span> 쌓이면 평균이 <span class="math inline">\(0.5\)</span> 올라가므로 +b 직후 (<span class="math inline">\(t\)</span> 시각):</p>
+<p><span class="math display">\[\hbar(v_1, t) = 50 - 0.5 = 49.5, \quad \hbar(v_2, t) = -50 + 1 - 0.5 = -49.5\]</span></p>
+<p><span class="math display">\[\Phi(t-1) = 50^2 + (-50)^2 = 5000, \qquad \Phi(t) = 49.5^2 + (-49.5)^2 = 4900.50\]</span></p>
+<p><span class="math display">\[\Delta\Phi = \Phi(t) - \Phi(t-1) = \mathbf{-99.50}\]</span></p>
+<p><strong>Case B: 높이차가 작을 때.</strong> <span class="math inline">\(\hbar(v_1, t-1) = 5\)</span>, <span class="math inline">\(\hbar(v_2, t-1) = -5\)</span>. 같은 방식:</p>
+<p><span class="math display">\[\hbar(v_1, t) = 4.5, \quad \hbar(v_2, t) = -4.5\]</span> <span class="math display">\[\Phi(t-1) = 50, \quad \Phi(t) = 40.50, \quad \Delta\Phi = \mathbf{-9.50}\]</span></p>
+<p><strong>Lemma 1 검산</strong> (post-+b 형태 <span class="math inline">\(\Delta\Phi = 2b\hbar(\ell, t) - \tfrac{(n-1)b^2}{n}\)</span>, <span class="math inline">\(\ell = v_2\)</span>, <span class="math inline">\(n=2\)</span>이므로 <span class="math inline">\(\tfrac{(n-1)b^2}{n} = 0.5\)</span>):</p>
+<ul>
+<li>Case A: <span class="math inline">\(2(1)(-49.5) - 0.5 = -99.50\)</span> ✓</li>
+<li>Case B: <span class="math inline">\(2(1)(-4.5) - 0.5 = -9.50\)</span> ✓</li>
+</ul>
+<p>핵심: <strong>같은 <span class="math inline">\(b\)</span>가 쌓여도</strong>, <span class="math inline">\(\hbar(\ell, t)\)</span>이 <span class="math inline">\(-49.5\)</span> 이냐 <span class="math inline">\(-4.5\)</span> 이냐에 따라 <span class="math inline">\(\Phi\)</span> 감소량이 <strong>약 10배</strong> 차이. 이것이 “<span class="math inline">\(\Phi\)</span>가 제곱합이라 높이차가 클수록 음의 drift가 강해지는” 메커니즘.</p>
 </div>
 </div>
 </div>
@@ -1062,26 +1065,21 @@ window.Quarto = {
 <p><strong>Round-skeleton의 정의와 Markov 성질.</strong> <span class="math inline">\(t_r\)</span>을 <span class="math inline">\(r\)</span>번째 <span class="math inline">\(\mu_0\)</span>-draw가 일어나는 마르코프 체인 시각으로 정의하자 (<span class="math inline">\(t_0\)</span>는 첫 라운드 시작). 라운드 길이 <span class="math inline">\(m_r := t_{r+1} - t_r \in [2, T_{max}+1]\)</span>. <strong>Round-skeleton chain</strong>으로 <span class="math inline">\(\{S(t_r)\}_{r \geq 0}\)</span>을 사용한다 (원 체인 <span class="math inline">\(\{S(t)\}\)</span>를 <span class="math inline">\(\mu_0\)</span>-draw 시각들에서만 sample한 것).</p>
 <p><strong><span class="math inline">\(\{S(t_r)\}\)</span>은 마르코프 체인.</strong> <span class="math inline">\(S(t_r) = (\boldsymbol{\delta}(t_r), X_{t_r}, 0)\)</span> (<span class="math inline">\(Z(t_r) = 0\)</span> 직전 상태). 라운드 <span class="math inline">\(r+1\)</span>의 trajectory는 <span class="math inline">\(S(t_r)\)</span>에 의해서만 결정되는 random transition (μ_0 sampling + flow chain randomness) 의 함수이고, 다음 round-boundary 상태 <span class="math inline">\(S(t_{r+1})\)</span>도 라운드 trajectory의 함수이므로, <span class="math inline">\(S(t_{r+1})\)</span> 분포는 <span class="math inline">\(S(t_r)\)</span>만으로 결정. 즉 strong Markov property에 의해 <span class="math inline">\(\{S(t_r)\}\)</span>도 자체로 Markov chain.</p>
 <p><strong>핵심 이점: 부분 라운드가 없다.</strong> 고정 시간 window <span class="math inline">\([t, t+T)\)</span>로 분석하면 양 끝에서 최대 2개의 부분 라운드(앞쪽 꼬리 + 뒤쪽 머리)가 발생하여 추가 baseline 항 (αt-무관 <span class="math inline">\(T_{max}M(t)\)</span> 보정)을 야기한다. 반면 round-skeleton의 1-step (= <span class="math inline">\(t_r \to t_{r+1}\)</span>)은 정확히 한 완전 라운드와 일치하므로 <strong>부분 라운드 보정 항이 원천 봉쇄</strong>된다.</p>
-<p><strong>1-라운드 동안의 <span class="math inline">\(\Phi\)</span> 변화.</strong> <span class="math inline">\((\dagger)\)</span>의 per-step 등식에 <strong>tower property</strong> + telescoping을 라운드 길이 <span class="math inline">\(m_r\)</span> 만큼 적용:</p>
-<p><span class="math display">\[\begin{aligned}
-&amp; \mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] \\
-&amp; \qquad =\; 2b \sum_{j=0}^{m_r - 1} \mathbb{E}\big[\hbar(X_{t_r + j + 1},\, t_r + j) \mid S(t_r)\big] + m_r \cdot \tfrac{(n-1)b^2}{n}
-\end{aligned} \tag{$\dagger\dagger$}\]</span></p>
-<p>여기서 <span class="math inline">\(m_r\)</span>은 라운드 길이로 <span class="math inline">\(S(t_r)\)</span> 조건부 확률변수 (단, <span class="math inline">\(\leq T_{max}+1\)</span> 결정적 상한).</p>
 <p><strong>시간 스케일.</strong> 라운드 내 시간을 <span class="math inline">\(j \in \{0, 1, \ldots, m_r-1\}\)</span>로 매개화. 전역시각 <span class="math inline">\(t' = t_r + j\)</span>. 라운드 시작 노드 <span class="math inline">\(\tilde X_0 := X_{t_r}\)</span> (fresh <span class="math inline">\(\mu_0\)</span>-draw), <span class="math inline">\(\tilde X_j := X_{t_r + j}\)</span>.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="($\dagger\dagger$) 직관: 한 라운드의 +b 축적 합산">
+<p>라운드 drift의 정확한 형태 (<span class="math inline">\(\dagger\dagger\)</span>) 는 B.6에서 도출. 핵심: (<span class="math inline">\(\dagger\)</span>) 에 telescoping을 라운드 안 모든 +b 시점에 대해 적용한 것.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="라운드 drift 직관">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>(<span class="math inline">\(\dagger\dagger\)</span>) 직관: 한 라운드의 +b 축적 합산
+<span class="screen-reader-only">Tip</span>라운드 drift 직관
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>(<span class="math inline">\(\dagger\)</span>)는 “1스텝에서 <span class="math inline">\(\Phi\)</span>가 얼마나 변하는가”였다. (<span class="math inline">\(\dagger\dagger\)</span>)는 그것을 한 라운드(<span class="math inline">\(m_r\)</span> 스텝) 동안 합산한 것. 라운드 시작은 fresh <span class="math inline">\(\mu_0\)</span>-draw이므로 <span class="math inline">\(\hbar(\tilde X_0, t_r)\)</span>의 기댓값은 <span class="math inline">\(\mu_0\)</span>-bias로 평가 가능 ((I) 분석). 라운드 안에서 단 한 번이라도 큰 낙차 사건이 발생하면 ((II) 분석), 그 음의 기여가 baseline 양의 기여를 압도한다.</p>
+<p>(<span class="math inline">\(\dagger\)</span>)는 “1스텝에서 <span class="math inline">\(\Phi\)</span>가 얼마나 변하는가”였다. 라운드 drift는 그것을 한 라운드(<span class="math inline">\(m_r\)</span> 스텝) 동안 합산한 것. 라운드 시작은 fresh <span class="math inline">\(\mu_0\)</span>-draw이므로 <span class="math inline">\(\hbar(\tilde X_0, t_r)\)</span>의 기댓값은 <span class="math inline">\(\mu_0\)</span>-bias로 평가 가능 ((I) 분석). 라운드 안에서 단 한 번이라도 큰 낙차 사건이 발생하면 ((II) 분석), 그 음의 기여가 baseline 양의 기여를 압도한다.</p>
 </div>
 </div>
 </div>
