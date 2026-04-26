@@ -3,6 +3,7 @@ title: 연구 ▷ HST ▷ Round-skeleton 시간 인덱싱
 author: 신록예찬
 date: 04/26/2026
 draft: false
+output-file: 260426_c20222.html
 ---
 
 # 1. 들어가며
