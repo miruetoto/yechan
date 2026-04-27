@@ -53,53 +53,42 @@ $$\mathbb{E}[\Phi(t_{r+1})-\Phi(t_r) | S(t_r)] \leq bM(t_r)\left[(T_{max}+1)\alp
 
 `-`  ($\dagger$): $\mathbb{E}[\Phi(t+1) - \Phi(t) \mid S(t)] = 2b \cdot \mathbb{E}\big[\hbar(X_{t+1}, t+1) \mid S(t)\big] + \frac{(n-1)b^2}{n}$
 
-`-` $(\dagger\dagger)$: $\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)]  = 2b \sum_{j=0}^{m_r-1} \mathbb{E}\big[\hbar(X_{t_r+j+1}, t_r+j) \mid S(t_r) \big] + m_r \cdot \tfrac{(n-1)b^2}{n}$
-
-`-` 하나의 라운드에 빅드랍이 있는 경우와 없는 경우를 따지자. big-drop에 왜케 집착하느냐? big-drop이 일어나면 $\Phi(t)$가 드라마틱하게 변하기 때문이다. 직관적인 설명으로는 "수치예시: $\Phi$가 제곱합이라서 생기는 차이" 를 참고하자. 
-
-`-` 빅드랍이 없는 라운드 ($t_r$이 시작점이라고 하자): 아래를 각각 계산해서 
-
-- $\hbar(X_{t_r}, t_r)=\hbar(\tilde{X}_{0}, t_r)$
-- $\hbar(X_{t_{r+1}}-1, t_r-1)=\hbar(\tilde{X}_{1}, t_r+1)$
-- ... 
-- $\hbar(X_{t_r+m_r-1}, t_r+m_r-1)=\hbar(\tilde{X}_{m_r-1}, t_r+m_r-1)$
-
-
-
-싹 더하면? 
-
+`-` 라운드별 기여 상한
 $$\sum_{j=1}^{m_r}\hbar(\tilde{X}_{j}, t_r+j)<m_r \hbar(\tilde{X}_1,t_r+1)+C_{round}$$
 한번 정리하면 아래와 같이 쓸 수 있다. 
 
 $$\sum_{j=1}^{m_r}\left(\hbar(\tilde{X}_{j}, t_r+j) - \hbar(\tilde{X}_1,t_r+1)\right)<C_{round}$$
-
-
-그런데, 그 라운드에 만약에 큰 낙차가 포함되어있다?? 그러면 아래와 같이 됨. 
+`-` 그 라운드에 만약에 큰 낙차가 포함되어있다?? 그러면 아래와 같이 됨. 
 
 $$\sum_{j=1}^{m_r}\left(\hbar(\tilde{X}_{j}, t_r+j)-\hbar(\tilde{X}_{1}, t_r+1)\right)\leq -(m_r-1)\frac{M(t_r)}{n-1} +C_{round}$$
 이때 $m_r \geq 2$ 이므로 
 
-$$\sum_{j=0}^{m_r-1}\left(\hbar(\tilde{X}_{j}, t_r+j)-\hbar(\tilde{X}_{0}, t_r)\right)\leq -\frac{M(t_r)}{n-1} +C_{round}$$
+$$\sum_{j=1}^{m_r}\left(\hbar(\tilde{X}_{j}, t_r+j)-\hbar(\tilde{X}_{1}, t_r+1)\right)\leq -\frac{M(t_r)}{n-1} +C_{round}$$
 
 `-` 이제 아래에 관심을 가지자. 
 
-$$2b \sum_{s=0}^{T-1} \mathbb{E}\big[\hbar(X_{t{+}s{+}1},\, t{+}s) \mid S(t)\big] + T \cdot \tfrac{(n-1)b^2}{n}$$
-위의식은 아래와 같이 바꿀 수 있다. 
+$$\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] \;=\; 2b\, \mathbb{E}\bigg[\sum_{j=1}^{m_r}\hbar(\tilde X_j,\, t_r{+}j)\,\Big|\,S(t_r)\bigg] - m_r\,\tfrac{(n-1)b^2}{n} $$
+좀더 정리하면 아래와 같이 쓸 수 있다. 
 
-$$2b \sum_{r=1}^{R}\sum_{j=0}^{m_r-1} \mathbb{E}\big[\hbar(X_{t{+}s{+}1},\, t{+}s) \mid S(t)\big] + T \cdot \tfrac{(n-1)b^2}{n}$$
-여기에서 $R$은 $T$에 들어있는 라운드의 수이다. (확률변수) 그런데 $T$시간동안 최소 $k$개의 라운드가 있음은 무조건 보장되므로 
+$=\; 2b\, \mathbb{E}\bigg[\sum_{j=1}^{m_r}\big(\hbar(\tilde X_j, t_r{+}j) -\hbar(\tilde{X}_1,t_r+1)\big)\Big| S(t_r)\bigg] +2bm_r\mathbb{E}\left[\hbar(\tilde{X}_1,t_r+1) \mid S(t_r) \right]-  m_r\,\tfrac{(n-1)b^2}{n}$
+이때 $\mathbb{E}\left[\hbar(\tilde{X}_1, t_r+1) \mid S(t_r)\right]=\sum_{i=1}^{n}\mu_0(i)\hbar(i,t_r)+\frac{b(n-1)}{n}\leq \frac{\alpha}{2}M(t_r)+\frac{b(n-1)}{n}$를 쓰면 
 
+$\leq 2b\, \mathbb{E}\bigg[\sum_{j=1}^{m_r}\big(\hbar(\tilde X_j, t_r{+}j) -\hbar(\tilde{X}_1,t_r+1)\big)\Big| S(t_r)\bigg] +bm_r\alpha M(t_r)+m_r \frac{b^2(n-1)}{n}$
 
-`-` T시간 동안 최소한 완전한 $k$개의 라운드가 있다. 이 $k$개의 라운드에서 몇개의 라운드에서나 big-drop이 일어날까? 그 숫자는 $\sum_{r=1}^{k}{\bf 1}_{E_r}$로 표현할 수 있을 것이다. 그러면 이제 아래에 관심을 가져보자. 
+이 계산된다. 그런데 남은 부분에서
 
-$$\sum_{r=1}^{k}{\bf 1}_{E_r}\sum_{j=0}^{m_r-1}\left(\hbar(X_{t_r+j}, t_r+j)-\hbar(\tilde{X}_{0}, t_r)\right)$$
+$\mathbb{E}\bigg[\sum_{j=1}^{m_r}\big(\hbar(\tilde X_j, t_r{+}j) -\hbar(\tilde{X}_1,t_r+1)\big)\Big| S(t_r)\bigg] \leq - \frac{2n p_0 M(t_r)}{n-1} 2b C_{round}$
 
-그 빅드랍이 일어나는 여러가지 경우는 차치하고,  $i^\star$에 떨어져서 바로 $j^\star$로 가는 경우만 잡아도 라운드별로 $p_0$ 이다. $k$의 라운드가 최소한 완전하게 있으니까 기대값의 센스에서 $kp_0$번정도 그러한 라운드가 포함될 것이라 기대할 수 있다. 따라서 
-평균적인 센스에서 저값을 한번정리해주면 
+를 쓰면 결국 
 
-$$\mathbb{E}\left[\sum_{r=1}^{k}{\bf 1}_{E_r}\sum_{j=0}^{m_r-1}\left(\hbar(\tilde{X}_{j}, t_r+j)-\hbar(\tilde{X}_{0}, t_r)\right) \right]\leq kp_0 \left[ -\frac{M(t)}{n-1}+\frac{Tb}{n-1}+C_{round}\right]$$
+> 요청: {{이부분좀 깔끔하게 정리해서 다시 적어줘}}
 
-이제 $\sum_{r=1}^{k}\sum_{j=0}^{m_r-1} \hbar(\tilde{X}_0, t_r)=\sum_{r=1}^{k}m_r \hbar(\tilde{X}_0,t_r)$ 에 관심을 가지자. 기대값을 취하면 아래와 같다. 
+따라서 정리하면 
 
-$$\sum_{r=1}^km_r\mathbb{E}[\hbar(\tilde{X}_0,t_r)] \leq T\frac{\alpha M(t)}{2}+\frac{\alpha b T^2}{2}+ T C_{round}$$
+$$\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] \leq bM(t_r)\left[(T_{max}+1)\alpha -\frac{2p_0}{n-1} \right]+C_3$$
 
+---
+
+결국 DC아래에서 위의 $M(t_r)$이 충분히크면 음이되고, (충분히 크지 않으면??) Foster-Lyapunov정리를 쓸 수 있다. 
+
+> 질문: 아까 했던거랑 비슷한데 충분히 크지 않으면 어떻게 되지? 
