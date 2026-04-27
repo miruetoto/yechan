@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="신록예찬">
+<meta name="dcterms.date" content="2026-04-25">
+
+<title>연구 ▷ HST ▷ 예제2 재검토 — HST 는 Euclidean 과 얼마나 다른가? – 신록예찬’s Blog</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b80d4d0c6b5ed6a4cb4a000b691bbaf5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">신록예찬’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DL2024/"> 
+<span class="menu-text">DL2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/AP2023/"> 
+<span class="menu-text">AP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/PP2024/"> 
+<span class="menu-text">PP2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DV2023/"> 
+<span class="menu-text">DV2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/MP2023/"> 
+<span class="menu-text">MP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SC2024/"> 
+<span class="menu-text">SC2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DS2022/"> 
+<span class="menu-text">DS2022</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SP2023/"> 
+<span class="menu-text">SP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/IR2021/"> 
+<span class="menu-text">IR2021</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan/"> 
+<span class="menu-text">yechan</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan2/"> 
+<span class="menu-text">yechan2</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/miruetoto/yechan"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#한-줄-요약" id="toc-한-줄-요약" class="nav-link active" data-scroll-target="#한-줄-요약">0. 한 줄 요약</a></li>
+  <li><a href="#출발-diffusion-distance-정의-오류-발견-260425-a" id="toc-출발-diffusion-distance-정의-오류-발견-260425-a" class="nav-link" data-scroll-target="#출발-diffusion-distance-정의-오류-발견-260425-a">1. 출발 — diffusion distance 정의 오류 발견 (260425 a)</a></li>
+  <li><a href="#거리-metric-9-종-비교-260425_예제2_거리비교.py" id="toc-거리-metric-9-종-비교-260425_예제2_거리비교.py" class="nav-link" data-scroll-target="#거리-metric-9-종-비교-260425_예제2_거리비교.py">2. 거리 metric 9 종 비교 (260425_예제2_거리비교.py)</a></li>
+  <li><a href="#이-cylinder-가-진짜-hst-만의-것인가" id="toc-이-cylinder-가-진짜-hst-만의-것인가" class="nav-link" data-scroll-target="#이-cylinder-가-진짜-hst-만의-것인가">3. 이 cylinder 가 <em>진짜</em> HST 만의 것인가?</a>
+  <ul class="collapse">
+  <li><a href="#결과-충격적" id="toc-결과-충격적" class="nav-link" data-scroll-target="#결과-충격적">3.1 결과 — 충격적</a></li>
+  <li><a href="#왜-이렇게-나오나-eigenvalue-dominance" id="toc-왜-이렇게-나오나-eigenvalue-dominance" class="nav-link" data-scroll-target="#왜-이렇게-나오나-eigenvalue-dominance">3.2 왜 이렇게 나오나 — eigenvalue dominance</a></li>
+  <li><a href="#procrustes-가-놓치는-것" id="toc-procrustes-가-놓치는-것" class="nav-link" data-scroll-target="#procrustes-가-놓치는-것">3.3 Procrustes 가 <em>놓치는</em> 것</a></li>
+  </ul></li>
+  <li><a href="#ex2-가-hst-demo-로서-적합한가" id="toc-ex2-가-hst-demo-로서-적합한가" class="nav-link" data-scroll-target="#ex2-가-hst-demo-로서-적합한가">4. ex2 가 HST demo 로서 적합한가?</a>
+  <ul class="collapse">
+  <li><a href="#신호-약화-시뮬레이션-가설" id="toc-신호-약화-시뮬레이션-가설" class="nav-link" data-scroll-target="#신호-약화-시뮬레이션-가설">4.1 신호 약화 시뮬레이션 가설</a></li>
+  <li><a href="#다른-예제군" id="toc-다른-예제군" class="nav-link" data-scroll-target="#다른-예제군">4.2 다른 예제군</a></li>
+  </ul></li>
+  <li><a href="#통합-요약표-의-분류-재확인" id="toc-통합-요약표-의-분류-재확인" class="nav-link" data-scroll-target="#통합-요약표-의-분류-재확인">5. 9. 통합 요약표 의 분류 재확인</a></li>
+  <li><a href="#열린-질문-다음-단계" id="toc-열린-질문-다음-단계" class="nav-link" data-scroll-target="#열린-질문-다음-단계">6. 열린 질문 (다음 단계)</a></li>
+  <li><a href="#결론" id="toc-결론" class="nav-link" data-scroll-target="#결론">7. 결론</a></li>
+  <li><a href="#참고-cross-link" id="toc-참고-cross-link" class="nav-link" data-scroll-target="#참고-cross-link">참고 (cross-link)</a></li>
+  <li><a href="#부록-핵심-수치-재현-가능" id="toc-부록-핵심-수치-재현-가능" class="nav-link" data-scroll-target="#부록-핵심-수치-재현-가능">부록: 핵심 수치 (재현 가능)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">연구 ▷ HST ▷ 예제2 재검토 — HST 는 Euclidean 과 얼마나 다른가?</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>신록예찬 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 25, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="한-줄-요약" class="level1">
+<h1>0. 한 줄 요약</h1>
+<blockquote class="blockquote">
+<p>ex2 (Gaussian ring + cylinder 신호 <span class="math inline">\(y=\pm 3\)</span>) 에서 <strong>HST 의 cMDS 임베딩 모양이 pure Euclidean (<span class="math inline">\(|y_i - y_j|^2\)</span> 만) 의 임베딩과 Procrustes 거리 0.003 으로 거의 같다</strong>. 즉 신호가 ring 보다 훨씬 강한 이 세팅에서 HST 는 좌표 수준에서 Euclidean 과 사실상 구분이 안 됨. 이 사실은 ex2 가 HST 의 가치를 보이는 demo 로서 부적합할 수 있음을 시사.</p>
+</blockquote>
+<hr>
+</section>
+<section id="출발-diffusion-distance-정의-오류-발견-260425-a" class="level1">
+<h1>1. 출발 — diffusion distance 정의 오류 발견 (<a href="260425_*.html">260425 a</a>)</h1>
+<p>ex2 의 baseline 비교에 쓰던 <code>diffusion_distance</code> 가 표준 Coifman-Lafon 정의가 아니라는 것이 먼저 드러남. 정규그래프(Gaussian ring) 에서는 우연히 스케일만 다른 결과를 줘서 <strong>임베딩 모양은 보존</strong>, 그래서 ex2 그림 자체는 다행히 영향이 없었음. 다만 편차분석의 <strong>외재적 <span class="math inline">\(\Delta^{\text{ext}}\)</span> 절대값</strong> 은 영향. 이 발견 후 잠재적으로 ex2 전반의 해석을 다시 점검할 동기가 생김.</p>
+<p>→ 자연스럽게: “ex2 에서 그동안 그린 임베딩들이 정말 의미 있는가? 각 metric 이 어떻게 다르게 보이는가?” 라는 질문이 등장.</p>
+<hr>
+</section>
+<section id="거리-metric-9-종-비교-260425_예제2_거리비교.py" class="level1">
+<h1>2. 거리 metric 9 종 비교 (<a href="../260425_예제2_거리비교.py">260425_예제2_거리비교.py</a>)</h1>
+<p>9 개 metric 에서 각각 <strong>distance matrix 와 cMDS-3D 임베딩</strong> 을 한 그림에 정리:</p>
+<ol type="1">
+<li>Euclidean (signal-only) — <span class="math inline">\(|y_i - y_j|^2\)</span></li>
+<li>Shortest path² on Gaussian W</li>
+<li>Diffusion (π-weighted Coifman-Lafon, <span class="math inline">\(t=4\)</span>)</li>
+<li>Heat kernel (<span class="math inline">\(e^{-2L}\)</span>)</li>
+<li>PPR (<span class="math inline">\(\alpha=0.15\)</span>)</li>
+<li>Effective resistance</li>
+<li>Biharmonic</li>
+<li>Spectral embedding (top-5 nontrivial <span class="math inline">\(\psi_k\)</span>)</li>
+<li><strong>HST</strong> (<span class="math inline">\(\overline{\mathrm{SD}}^2(\tau)\)</span>, <span class="math inline">\(\tau=500{,}000\)</span>)</li>
+</ol>
+<p><strong>관찰</strong> (gauss W mode):</p>
+<ul>
+<li><strong>그래프-only metric 7 종</strong> (SP, Diffusion, Heat, PPR, Resistance, Biharmonic, Spectral) — 거의 동일한 <strong>ring 모양</strong>. 정규 ring 의 spectrum 이 단순해서 모든 spectral filter 가 비슷한 결과.</li>
+<li><strong>Euclidean</strong> — 두 cluster (y=±3) 만 분리된 1D 구조.</li>
+<li><strong>HST</strong> — cylinder 모양 (cluster 두 개 + 각각 안에 ring substructure).</li>
+</ul>
+<p>이 시점에서 결론은 명료해 보임: HST 만이 신호와 그래프를 <strong>결합</strong>해서 cylinder 모양을 만들어 내는 유일한 metric. → “HST 의 가치 = 이 cylinder shape” 라는 가설.</p>
+<p>결과: <a href="../results/figures/260425_예제2_거리비교.py/comparison_gauss.png">results/figures/260425_예제2_거리비교.py/comparison_gauss.png</a></p>
+<hr>
+</section>
+<section id="이-cylinder-가-진짜-hst-만의-것인가" class="level1">
+<h1>3. 이 cylinder 가 <em>진짜</em> HST 만의 것인가?</h1>
+<p>위 가설을 직접 검증: <strong>유클리드 + ring 의 가중합으로 cylinder 모양이 나오는가?</strong> (<a href="../260425_예제2_선형결합실험.py">260425_예제2_선형결합실험.py</a>)</p>
+<p><span class="math display">\[D_{\text{lin}}(\alpha) \;=\; (1-\alpha)\,\hat D^E + \alpha\,\hat D^G\]</span></p>
+<p>각 metric 은 max-normalize 후 결합. <span class="math inline">\(D^G\)</span> 후보 3 종: ring angular dist², shortest path², effective resistance. 51 개 <span class="math inline">\(\alpha \in [0, 1]\)</span> 에 대해 cMDS-3D 후 HST 임베딩과 <strong>Procrustes disparity</strong> 측정.</p>
+<section id="결과-충격적" class="level2">
+<h2 class="anchored" data-anchor-id="결과-충격적">3.1 결과 — 충격적</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">\(D^G\)</span></th>
+<th style="text-align: right;">최적 <span class="math inline">\(\alpha^*\)</span></th>
+<th style="text-align: right;">min disparity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ring angular dist²</td>
+<td style="text-align: right;"><strong>0.02</strong></td>
+<td style="text-align: right;"><strong>0.0029</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">shortest path²</td>
+<td style="text-align: right;"><strong>0.02</strong></td>
+<td style="text-align: right;"><strong>0.0029</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">effective resistance</td>
+<td style="text-align: right;"><strong>0.04</strong></td>
+<td style="text-align: right;"><strong>0.0031</strong></td>
+</tr>
+</tbody>
+</table>
+<p>세 후보 모두 <span class="math inline">\(\alpha^* \approx 0\)</span> 부근에서 최소. <strong><span class="math inline">\(\alpha = 0\)</span> 은 pure Euclidean</strong> 이다. 즉 <em>거의 신호 단독</em> 으로 HST cylinder shape 를 0.003 disparity (사실상 동일) 로 재현.</p>
+<p>결과: <a href="../results/figures/260425_예제2_선형결합실험.py/lincomb_to_hst.png">results/figures/260425_예제2_선형결합실험.py/lincomb_to_hst.png</a></p>
+</section>
+<section id="왜-이렇게-나오나-eigenvalue-dominance" class="level2">
+<h2 class="anchored" data-anchor-id="왜-이렇게-나오나-eigenvalue-dominance">3.2 왜 이렇게 나오나 — eigenvalue dominance</h2>
+<p>cMDS 의 분산 분해: <span class="math display">\[\text{Var}(\text{HST embedding}) = \sum_k \lambda_k(D^{\text{HST}}_{\text{centered}})\]</span></p>
+<p>신호 split (y=±3) 과 ring radius (=1) 의 squared 비율 <span class="math inline">\(\sim 36 : 1\)</span>. 따라서 <span class="math inline">\(D^{\text{HST}}\)</span> 의 첫 eigenvalue <span class="math inline">\(\lambda_1\)</span> (신호 축) 이 나머지 <span class="math inline">\(\lambda_2, \lambda_3\)</span> (ring 축들) 을 <strong>압도</strong>.</p>
+<p>Procrustes 는 standardize (Frob 정규화 = 모든 <span class="math inline">\(\lambda\)</span> 의 합으로 나눔) 후 비교 → dominant eigenvector 만 정렬되면 disparity 는:</p>
+<p><span class="math display">\[\text{disparity} \;\approx\; \frac{\lambda_2 + \lambda_3 + \cdots}{\sum_k \lambda_k}\]</span></p>
+<p>이게 작으면 disparity 도 작음. Pure Eucl 은 rank-1 (signal 축만), HST 는 dominant signal + 작은 ring perturbation. 두 임베딩 모두 <strong>signal split 이 좌표 분산의 95%+ 를 차지</strong> → Procrustes 가 둘을 사실상 같다고 판정.</p>
+</section>
+<section id="procrustes-가-놓치는-것" class="level2">
+<h2 class="anchored" data-anchor-id="procrustes-가-놓치는-것">3.3 Procrustes 가 <em>놓치는</em> 것</h2>
+<p>작은 disparity 가 “HST 가 가치 없다”는 결론으로 곧장 가지는 않음. Procrustes 는 좌표 잔차 metric 이므로 다음을 무시:</p>
+<ul>
+<li><strong>Topology (H1)</strong>: HST 의 ring substructure 는 closed loop → <span class="math inline">\(H_1 \neq 0\)</span>. Pure Eucl 은 두 점 cluster → <span class="math inline">\(H_1 = 0\)</span>. <strong>위상적으로 완전히 다름</strong>.</li>
+<li><strong>Cluster 내부 정렬</strong>: HST 는 같은 cluster 내 노드를 ring angle 순으로 배치, Eucl 은 noise 수준 (~0.04) 로 무작위.</li>
+<li><strong>Multi-scale 능력</strong>: HST 는 <span class="math inline">\(\tau\)</span> 로 scale 조절 (early transient vs Harris 극한), Eucl 은 단일 scale.</li>
+</ul>
+<p>→ <strong>“같은 모양”</strong> 이라고 말할 수 있는 metric 과 <strong>“의미 있게 다른 정보”</strong> 를 잡는 metric 은 다름.</p>
+<hr>
+</section>
+</section>
+<section id="ex2-가-hst-demo-로서-적합한가" class="level1">
+<h1>4. ex2 가 HST demo 로서 적합한가?</h1>
+<p>정직하게 말하면 <strong>이 세팅에선 부적합</strong> 으로 보임:</p>
+<ul>
+<li><span class="math inline">\(y = \pm 3\)</span> 은 ring radius 1 보다 신호 magnitude 가 압도적</li>
+<li>결과: HST embedding 의 분산이 <strong>신호 axis 가 절대 지배</strong></li>
+<li>→ cylinder shape 의 ring 부분이 <strong>시각적으론 보이지만 양적으론 미미</strong></li>
+<li>→ linear combination (사실상 pure Eucl) 으로 거의 재현 가능</li>
+</ul>
+<p>신호 magnitude 와 ring scale 이 <strong>비등</strong> 하거나, 신호와 그래프 정보가 <strong>이질적으로</strong> 결합해야만 HST 가 비자명한 가치를 가짐.</p>
+<section id="신호-약화-시뮬레이션-가설" class="level2">
+<h2 class="anchored" data-anchor-id="신호-약화-시뮬레이션-가설">4.1 신호 약화 시뮬레이션 가설</h2>
+<p><span class="math inline">\(y\)</span> 의 amplitude 를 <span class="math inline">\(\pm 3 \to \pm 0.5\)</span> 또는 <span class="math inline">\(\pm 1\)</span> 로 낮추면: - <span class="math inline">\(\lambda_1\)</span> (signal axis) 가 <span class="math inline">\(\lambda_2, \lambda_3\)</span> (ring) 와 비등 → cylinder shape 의 양 축이 비교 가능한 크기. - pure Eucl 만으론 cluster 분리도 약해짐 (signal split 이 작으니까). - HST 가 비로소 <em>intermediate</em> metric 으로 의미 있을 가능성. - <span class="math inline">\(\alpha^*\)</span> 가 <span class="math inline">\((0, 1)\)</span> 내부로 이동하고 disparity 가 충분히 커질 것.</p>
+<p>→ <strong>추가 실험 우선순위 #1</strong>.</p>
+</section>
+<section id="다른-예제군" class="level2">
+<h2 class="anchored" data-anchor-id="다른-예제군">4.2 다른 예제군</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">예제</th>
+<th style="text-align: left;">HST 가치 가능성</th>
+<th style="text-align: left;">이유</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">예제2 (<span class="math inline">\(y=\pm 3\)</span>)</td>
+<td style="text-align: left;"><strong>낮음</strong> (현재 결과)</td>
+<td style="text-align: left;">신호 dominance</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">예제2 (<span class="math inline">\(y=\pm 0.5\)</span>)</td>
+<td style="text-align: left;"><strong>미지</strong></td>
+<td style="text-align: left;">균형 regime 가능</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">예제5 / 논문 fig 5 cliff</td>
+<td style="text-align: left;"><strong>높음</strong></td>
+<td style="text-align: left;">신호 불연속 + 그래프 연속, 결합 정보 필수</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">예제6 parity (<span class="math inline">\(f=(-1)^i\)</span>)</td>
+<td style="text-align: left;"><strong>높음</strong></td>
+<td style="text-align: left;">신호·그래프가 <em>반대</em> — linear combo 는 평균</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">예제7 twin rings</td>
+<td style="text-align: left;"><strong>높음</strong></td>
+<td style="text-align: left;">phase shift 의 비선형 coupling</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">예제8 directed cycle</td>
+<td style="text-align: left;"><strong>높음</strong></td>
+<td style="text-align: left;">classical metric 이 방향성 무시, HST 만 기록</td>
+</tr>
+</tbody>
+</table>
+<p>ex2 만 보고 HST 를 평가하는 것은 위험. <strong>ex5–8 에서 동일 분석 (Procrustes sweep) 반복 필요</strong>.</p>
+<hr>
+</section>
+</section>
+<section id="통합-요약표-의-분류-재확인" class="level1">
+<h1>5. 9. 통합 요약표 의 분류 재확인</h1>
+<p><a href="260425_*.html">260425 그래프 도메인 거리 정리</a> 에서 만든 12 거리 표에서 HST 를 <strong>“signal + graph 동시”</strong> 카테고리에 단독 배치했었음. 본 검토를 통해 좀 더 정직한 위치 정리:</p>
+<ul>
+<li><strong>Regime A (신호 dominant)</strong>: HST 는 사실상 Euclidean.</li>
+<li><strong>Regime B (그래프 dominant)</strong>: HST 는 사실상 commute time / resistance.</li>
+<li><strong>Regime C (균형 또는 이질적 결합)</strong>: HST 가 unique. ← <em>이 영역에서만</em> HST 가 카테고리 단독 배치를 정당화함.</li>
+</ul>
+<p><strong>“signal + graph” 카테고리를 차지할 자격은 regime C 에서만 있다</strong>.</p>
+<p>→ 향후 모든 HST 결과를 보일 때 <em>어느 regime 에 속하는 example 인지</em> 명시해야 함. ex2 (y=±3) 는 명백히 regime A 였음에도 그동안 “signal-graph 결합” 의 demo 로 간주.</p>
+<hr>
+</section>
+<section id="열린-질문-다음-단계" class="level1">
+<h1>6. 열린 질문 (다음 단계)</h1>
+<p><strong>O1 (가장 시급).</strong> ex2 신호 amplitude scan: <span class="math inline">\(y\)</span> 의 amplitude 를 <span class="math inline">\(0.1, 0.3, 0.5, 1, 2, 3\)</span> 으로 변화시키며 (a) Procrustes(α) 곡선의 변화, (b) <span class="math inline">\(\alpha^*\)</span> 의 위치, (c) min disparity 의 변화 추적. <strong>regime A → C 천이가 어디서 일어나는가</strong>.</p>
+<p><strong>O2.</strong> 같은 sweep 실험을 예제5–8 에 적용. 어느 example 에서 <span class="math inline">\(\alpha^* \in (0.2, 0.8)\)</span> 이고 disparity 가 의미 있게 큰지.</p>
+<p><strong>O3.</strong> Procrustes 대체 metric: - <strong>PD H1 bottleneck</strong> — pure Eucl (<span class="math inline">\(H_1 = 0\)</span>) vs HST (<span class="math inline">\(H_1 \neq 0\)</span>) 의 위상 차이 정량화 - <strong>Spectral entropy of cMDS eigvals</strong> — 차원성 (1D vs 2D) 측정 - <strong>Within-cluster ordering correlation</strong> — Spearman/Kendall on cluster 내부 ring angle</p>
+<p><strong>O4.</strong> <span class="math inline">\(\overline{\mathrm{SD}}^2\)</span> 의 eigenvalue spectrum 직접 분석 — <span class="math inline">\(\lambda_1 / \sum \lambda_k\)</span> 비율로 “신호 dominance index” 정의. 이 index 가 작을 때만 HST 가 가치 있음을 정량 기준으로 제시.</p>
+<p><strong>O5.</strong> <a href="260424_a5d784.html">편차분석 포스트</a> 의 <span class="math inline">\(\tau^*\)</span> 결과를 본 검토 관점에서 재해석. ex2 에서 max <span class="math inline">\(\Delta_F\)</span> 가 작게 나왔던 것 (고작 75 정도) 이 사실 “HST 가 linear path 위에서 거의 못 벗어났다” 는 같은 현상의 다른 표현.</p>
+<hr>
+</section>
+<section id="결론" class="level1">
+<h1>7. 결론</h1>
+<ul>
+<li><strong>ex2 (y=±3) 는 HST 의 강점이 드러나기 어려운 setup</strong> — 신호 magnitude 가 ring scale 을 압도해서 cMDS 의 dominant axis 가 신호 split 으로 거의 독식. 결과적으로 <strong>pure Euclidean 임베딩과 Procrustes 거리 0.003</strong> 으로 사실상 같음.</li>
+<li><strong>HST 의 “cylinder shape” 도 pure Eucl + 작은 perturbation 으로 분해 가능</strong> — Procrustes 관점에선.</li>
+<li><strong>단, 위상 (H1 loop), cluster 내부 ordering, multi-scale 등 <em>Procrustes 가 잡지 않는 차원</em> 에서는 여전히 HST 가 unique</strong> — 이걸 정량화하려면 다른 metric 필요.</li>
+<li><strong>ex2 는 demo 로서 약함</strong> — HST 를 정당화하려면 regime C (균형/이질적 결합) example 로 옮겨가야 함. 예제5–8 은 후보.</li>
+<li>본 검토는 <strong>HST 무용론</strong> 이 아님. HST 가 가치 있는 <em>영역</em> 의 정의를 좁히고, demo example 의 적절성에 의문을 제기.</li>
+</ul>
+<hr>
+</section>
+<section id="참고-cross-link" class="level1">
+<h1>참고 (cross-link)</h1>
+<ul>
+<li><a href="260424_a5d784.html">260424 <span class="math inline">\(\tau^*\)</span> 편차분석</a> — 본 검토에서 재해석 필요한 ex2 편차 결과</li>
+<li><a href="260425_*.html">260425 diffusion distance 정의 오류</a> — 시작점이 된 오류 발견</li>
+<li><a href="260425_*.html">260425 그래프 도메인에서의 거리</a> — 9-12 거리 family 정리</li>
+<li><a href="260424_cdbaf0.html">260424 <span class="math inline">\(\overline{\mathrm{SD}}^2\)</span> 수렴 증명</a> — HST 의 Harris 극한</li>
+<li><a href="260208_21543c.html">보충아이디어</a> — 본 검토와 연결될 추후 방향들</li>
+</ul>
+<hr>
+</section>
+<section id="부록-핵심-수치-재현-가능" class="level1">
+<h1>부록: 핵심 수치 (재현 가능)</h1>
+<pre><code>Setup:  n=60, ring on unit circle, gauss W (θ=0.35)
+Signal: f2 cylinder, y = ±3 (noise 0.1)
+HST:    τ=500,000, b=0.05 → snowdistance² = D_HST
+
+Procrustes sweep (α: 0..1, 51 points):
+  D^G = ring angular dist²    : α* = 0.02, min disparity = 0.0029
+  D^G = shortest path²        : α* = 0.02, min disparity = 0.0029
+  D^G = effective resistance  : α* = 0.04, min disparity = 0.0031
+
+Pure Euclidean (α=0) Procrustes to HST: ≈ same as above
+Pure ring (α=1) Procrustes to HST: ≈ 0.93 (예상치, 향후 확인)</code></pre>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
