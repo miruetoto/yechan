@@ -1,6 +1,6 @@
 ---
 title: 연구 ▷ HST ▷ BR-Fraud 적용 미니 — 비지도로 $20 소액 사기 잡기
-author: 신록예찬
+author: claude
 date: 04/25/2026
 draft: false
 output-file: 260425_2c98e4.html

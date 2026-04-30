@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="신록예찬">
+<meta name="dcterms.date" content="2026-04-28">
+
+<title>연구 ▷ HST ▷ \overline{\operatorname{SD}}^2 수렴 증명 — 엄밀화 – 신록예찬's Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5b48ee63c5e90d651e19f9ead4b448f1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">신록예찬’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DL2024/"> 
+<span class="menu-text">DL2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/AP2023/"> 
+<span class="menu-text">AP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/PP2024/"> 
+<span class="menu-text">PP2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DV2023/"> 
+<span class="menu-text">DV2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/MP2023/"> 
+<span class="menu-text">MP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SC2024/"> 
+<span class="menu-text">SC2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DS2022/"> 
+<span class="menu-text">DS2022</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SP2023/"> 
+<span class="menu-text">SP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/IR2021/"> 
+<span class="menu-text">IR2021</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan/"> 
+<span class="menu-text">yechan</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan2/"> 
+<span class="menu-text">yechan2</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/miruetoto/yechan"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#메모" id="toc-메모" class="nav-link active" data-scroll-target="#메모">0. 메모</a></li>
+  <li><a href="#메인-정리" id="toc-메인-정리" class="nav-link" data-scroll-target="#메인-정리">1. 메인 정리</a></li>
+  <li><a href="#증명의-골격" id="toc-증명의-골격" class="nav-link" data-scroll-target="#증명의-골격">2. 증명의 골격</a></li>
+  <li><a href="#lemma-1-1-step-phi-drift-post-b" id="toc-lemma-1-1-step-phi-drift-post-b" class="nav-link" data-scroll-target="#lemma-1-1-step-phi-drift-post-b">3. Lemma 1 — 1-step <span class="math inline">\(\Phi\)</span> drift (post-+b)</a></li>
+  <li><a href="#lemma-2-round-drift-telescoping" id="toc-lemma-2-round-drift-telescoping" class="nav-link" data-scroll-target="#lemma-2-round-drift-telescoping">4. Lemma 2 — Round drift telescoping</a></li>
+  <li><a href="#lemma-3-mu_0-bias-baseline" id="toc-lemma-3-mu_0-bias-baseline" class="nav-link" data-scroll-target="#lemma-3-mu_0-bias-baseline">5. Lemma 3 — <span class="math inline">\(\mu_0\)</span>-bias baseline</a></li>
+  <li><a href="#lemma-4-flow-chain-inequality-no-big-drop" id="toc-lemma-4-flow-chain-inequality-no-big-drop" class="nav-link" data-scroll-target="#lemma-4-flow-chain-inequality-no-big-drop">6. Lemma 4 — Flow chain inequality (no big drop)</a></li>
+  <li><a href="#lemma-5-big-drop-event" id="toc-lemma-5-big-drop-event" class="nav-link" data-scroll-target="#lemma-5-big-drop-event">7. Lemma 5 — Big drop event</a></li>
+  <li><a href="#lemma-6-combined-expected-sum" id="toc-lemma-6-combined-expected-sum" class="nav-link" data-scroll-target="#lemma-6-combined-expected-sum">8. Lemma 6 — Combined expected sum</a></li>
+  <li><a href="#round-drift-부등식-starstar-유도" id="toc-round-drift-부등식-starstar-유도" class="nav-link" data-scroll-target="#round-drift-부등식-starstar-유도">9. Round drift 부등식 (<span class="math inline">\(\star\star\)</span>) 유도</a></li>
+  <li><a href="#fosterlyapunov-적용-proposition" id="toc-fosterlyapunov-적용-proposition" class="nav-link" data-scroll-target="#fosterlyapunov-적용-proposition">10. Foster–Lyapunov 적용 → Proposition</a></li>
+  <li><a href="#lemma-7-보조-phi-와-m-의-관계" id="toc-lemma-7-보조-phi-와-m-의-관계" class="nav-link" data-scroll-target="#lemma-7-보조-phi-와-m-의-관계">11. Lemma 7 (보조) — <span class="math inline">\(\Phi\)</span> 와 <span class="math inline">\(M\)</span> 의 관계</a></li>
+  <li><a href="#step-b-개요-정리-overlineoperatornamesd2-to-c-a.s.-완성" id="toc-step-b-개요-정리-overlineoperatornamesd2-to-c-a.s.-완성" class="nav-link" data-scroll-target="#step-b-개요-정리-overlineoperatornamesd2-to-c-a.s.-완성">12. Step B 개요 — 정리 (<span class="math inline">\(\overline{\operatorname{SD}}^2 \to C\)</span> a.s.) 완성</a></li>
+  <li><a href="#정리" id="toc-정리" class="nav-link" data-scroll-target="#정리">13. 정리</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">연구 ▷ HST ▷ <span class="math inline">\(\overline{\operatorname{SD}}^2\)</span> 수렴 증명 — 엄밀화</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>신록예찬 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 28, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="메모" class="level1">
+<h1>0. 메모</h1>
+<p><a href="260426_c05541.html">260426_연구_HST_<span class="math inline">\(\overline{\operatorname{SD}}^2\)</span>수렴증명—내가푼다</a> 에서 narrative 로 푼 증명을 재구성. 증명 없이 넘어간 단계 모두 <strong>Lemma</strong> 로 명시하고 각 lemma의 증명을 채운다.</p>
+<p>표기는 <a href="260407_eecd78.html">260407_연구_HST_눈이많이쌓이면그래프구조만반영</a> 과 동일 — Round-skeleton, <span class="math inline">\(t_r\)</span> = block-flag 시각, <span class="math inline">\(\tilde X_j := X_{t_r+j}\)</span> (<span class="math inline">\(j = 1, \ldots, m_r\)</span>).</p>
+<hr>
+</section>
+<section id="메인-정리" class="level1">
+<h1>1. 메인 정리</h1>
+<p><strong>Theorem (<span class="math inline">\(\overline{\operatorname{SD}}^2\)</span> 수렴).</strong> 연결 가중 그래프 <span class="math inline">\(\mathcal{G}\)</span>와 파라미터 <span class="math inline">\((b, T_{max})\)</span>가 주어질 때, 다음 drift 조건이 성립한다고 하자:</p>
+<p><span class="math display">\[\Delta_{\mathrm{drift}} := (T_{max}{+}1)\alpha - \frac{2p_0}{n-1} &lt; 0 \tag{DC}\]</span></p>
+<p>여기서</p>
+<ul>
+<li><span class="math inline">\(\alpha := \|\boldsymbol{\mu}_0 - \mathbf{u}\|_1\)</span> (차수 비균등도, <span class="math inline">\(\mathbf{u}\)</span>는 균등분포),</li>
+<li><span class="math inline">\(\mu_{min} := \min_i \mu_0(v_i)\)</span>,</li>
+<li><span class="math inline">\(P_{RW,\min} := \min_{(u,w)\in\mathcal{E}}\,\deg(w)/\sum_{k\in\mathcal{N}_u}\deg(v_k)\)</span>,</li>
+<li><span class="math inline">\(p_0 := \mu_{min}\cdot P_{RW,\min}\)</span> (1라운드 big-drop 확률 하한).</li>
+</ul>
+<p>DC 가 만족되면 상수 행렬 <span class="math inline">\(C = [c_{ij}]_{n\times n}\)</span>, <span class="math inline">\(c_{ij} = c_{ij}(\mathcal{G}, b, T_{max}, \mathbf{y}\bmod b) \geq 0\)</span> 이 존재하여, 임의의 초기 신호 <span class="math inline">\(\mathbf{y}\)</span> 에 대해</p>
+<p><span class="math display">\[\overline{\mathbf{SD}}^2(t) \;\xrightarrow{t\to\infty}\; C \quad \text{a.s.}\]</span></p>
+<p>한계값 <span class="math inline">\(c_{ij}\)</span> 는 초기 신호 <span class="math inline">\(\mathbf{y}\)</span> 의 거시적 절대 스케일에는 독립이고, <span class="math inline">\(b\)</span> 단위 미세 위상차 <span class="math inline">\(\mathbf{y}\bmod b\)</span> 에만 종속.</p>
+<hr>
+</section>
+<section id="증명의-골격" class="level1">
+<h1>2. 증명의 골격</h1>
+<p>본 정리 증명은 두 단계로 분해된다.</p>
+<p><strong>Step A (Height Recurrence).</strong> 높이차 마르코프 체인 <span class="math inline">\(\{S(t)\}\)</span> 가 양의 재귀(positive recurrent) 임을 보임. 즉 어떤 결정적 상수 <span class="math inline">\(C &gt; 0\)</span> 이 존재하여 <span class="math inline">\(\{M(t) \leq C\}\)</span> 영역으로 a.s. 무한히 자주 복귀.</p>
+<p><strong>Step B (Ergodic theorem).</strong> Step A + 비가약성(irreducibility) + 모멘트 조건 <span class="math inline">\(\mathbb{E}_\pi[(\delta_i-\delta_j)^2] &lt; \infty\)</span> 가 주어지면, 양의 Harris 재귀 마르코프 체인의 LLN (M&amp;T Thm 17.1.7) 으로 시간평균 <span class="math inline">\(\overline{\operatorname{SD}}^2_{ij}(t) \to c_{ij}\)</span> a.s.</p>
+<p>본 글은 <strong>Step A</strong> 의 엄밀화에 집중. Step B 는 대원리만 §10에서 짧게 정리.</p>
+<p>Step A 의 핵심은 다음 명제.</p>
+<p><strong>Proposition (Height Recurrence).</strong> DC 가 성립하면, <span class="math inline">\((\mathcal{G}, b, T_{max})\)</span> 에만 의존하는 결정적 상수 <span class="math inline">\(C &gt; 0\)</span> 이 존재하여 높이차 과정 <span class="math inline">\(\{S(t)\}\)</span> 가 유한 집합 <span class="math inline">\(\mathcal{B}_\Phi := \{S : \Phi(\boldsymbol{\delta}) \leq C_1\}\)</span> 으로 a.s. 양의 재귀이다 (즉 <span class="math inline">\(\mathbb{E}[\tau_{\mathcal{B}_\Phi}] &lt; \infty\)</span>). 특히 <span class="math inline">\(M(t)\)</span> 는 <span class="math inline">\(\{M \leq C\}\)</span> 로 무한 자주 복귀.</p>
+<p><strong>전략</strong>: Foster–Lyapunov 정리 (§9) 를 round-skeleton <span class="math inline">\(\{S(t_r)\}\)</span> 위에서 적용. Lyapunov 함수는 높이 분산 <span class="math inline">\(\Phi(t) := \sum_i \hbar(i,t)^2\)</span>. 핵심 산출물은 <strong>round drift 부등식</strong>:</p>
+<p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] \;\leq\; b\,M(t_r)\,\Delta_{\mathrm{drift}} + C_3 \tag{$\star\star$}\]</span></p>
+<p>이를 도출하기 위해 §3–§7 의 Lemma 들이 차례로 동원된다.</p>
+<hr>
+</section>
+<section id="lemma-1-1-step-phi-drift-post-b" class="level1">
+<h1>3. Lemma 1 — 1-step <span class="math inline">\(\Phi\)</span> drift (post-+b)</h1>
+<p><strong>Lemma 1.</strong> Lyapunov 함수 <span class="math inline">\(\Phi(t) := \sum_{i=1}^n \hbar(i,t)^2\)</span>, <span class="math inline">\(\hbar(i,t) := h(v_i,t) - \bar h(t)\)</span> 라 하자. 시각 <span class="math inline">\(t+1\)</span> 에 노드 <span class="math inline">\(\ell = X_{t+1}\)</span> 이 +b 를 받으면</p>
+<p><span class="math display">\[\Phi(t+1) - \Phi(t) \;=\; 2b\,\hbar(\ell, t+1) - \frac{(n-1)b^2}{n} \tag{$\dagger$}\]</span></p>
+<p><strong>Proof.</strong> <span class="math inline">\(X_{t+1} = \ell\)</span> 이면 노드별 변화는</p>
+<p><span class="math display">\[\hbar(\ell, t+1) = \hbar(\ell, t) + b\frac{n-1}{n}, \qquad \hbar(i, t+1) = \hbar(i, t) - \frac{b}{n} \;\;(i \neq \ell).\]</span></p>
+<p>이를 <strong>역방향</strong> 으로 풀어 +b 직전 값을 +b 직후 값으로 표현:</p>
+<p><span class="math display">\[\hbar(\ell, t) = \hbar(\ell, t+1) - b\frac{n-1}{n}, \qquad \hbar(i, t) = \hbar(i, t+1) + \frac{b}{n} \;\;(i \neq \ell). \tag{$*$}\]</span></p>
+<p>차분 <span class="math inline">\(\Phi(t+1) - \Phi(t) = \sum_i [\hbar(i, t+1)^2 - \hbar(i, t)^2]\)</span> 의 각 항에 (<span class="math inline">\(*\)</span>) 를 대입:</p>
+<ul>
+<li><span class="math inline">\(i = \ell\)</span>: <span class="math inline">\(\hbar(\ell, t+1)^2 - \big(\hbar(\ell, t+1) - \tfrac{b(n-1)}{n}\big)^2 = 2\hbar(\ell, t+1)\cdot\tfrac{b(n-1)}{n} - \tfrac{b^2(n-1)^2}{n^2}\)</span>.</li>
+<li><span class="math inline">\(i \neq \ell\)</span>: <span class="math inline">\(\hbar(i, t+1)^2 - \big(\hbar(i, t+1) + \tfrac{b}{n}\big)^2 = -2\hbar(i, t+1)\cdot\tfrac{b}{n} - \tfrac{b^2}{n^2}\)</span>.</li>
+</ul>
+<p><span class="math inline">\(\sum_i \hbar(i, t+1) = 0\)</span> 이므로 <span class="math inline">\(\sum_{i\neq\ell}\hbar(i, t+1) = -\hbar(\ell, t+1)\)</span>. 따라서 <span class="math inline">\(i \neq \ell\)</span> 항을 합산하면</p>
+<p><span class="math display">\[\sum_{i\neq\ell}[\,\cdot\,] = -\frac{2b}{n}\sum_{i\neq\ell}\hbar(i, t+1) - (n-1)\frac{b^2}{n^2} = \frac{2b}{n}\hbar(\ell, t+1) - \frac{(n-1)b^2}{n^2}.\]</span></p>
+<p>전체 합:</p>
+<p><span class="math display">\[\begin{aligned}
+\Phi(t+1) - \Phi(t) &amp;= \frac{2b(n-1)}{n}\hbar(\ell, t+1) - \frac{b^2(n-1)^2}{n^2} + \frac{2b}{n}\hbar(\ell, t+1) - \frac{(n-1)b^2}{n^2} \\
+&amp;= 2b\,\hbar(\ell, t+1)\cdot\Big[\frac{n-1}{n} + \frac{1}{n}\Big] - \frac{b^2(n-1)[(n-1)+1]}{n^2} \\
+&amp;= 2b\,\hbar(\ell, t+1) - \frac{(n-1)b^2}{n}. \quad\square
+\end{aligned}\]</span></p>
+<p><strong>Corollary (1-step 기댓값 형태):</strong></p>
+<p><span class="math display">\[\mathbb{E}[\Phi(t+1) - \Phi(t) \mid S(t)] = 2b\,\mathbb{E}[\hbar(X_{t+1}, t+1) \mid S(t)] - \frac{(n-1)b^2}{n} \tag{$\dagger'$}\]</span></p>
+<hr>
+</section>
+<section id="lemma-2-round-drift-telescoping" class="level1">
+<h1>4. Lemma 2 — Round drift telescoping</h1>
+<p>라운드 <span class="math inline">\(r\)</span> 의 +b 적립은 시각 <span class="math inline">\(t_r+1, \ldots, t_{r+1}\)</span> 에서 일어난다. 라운드 길이 <span class="math inline">\(m_r := t_{r+1} - t_r \in [1, T_{max}+1]\)</span>. 라운드 내 +b 위치를 <span class="math inline">\(\tilde X_j := X_{t_r+j}\)</span>, <span class="math inline">\(j = 1, \ldots, m_r\)</span> 로 둠.</p>
+<p><strong>Lemma 2.</strong> Round-skeleton 1-step drift (= 한 라운드 동안의 <span class="math inline">\(\Phi\)</span> 변화) 는</p>
+<p><span class="math display">\[\Phi(t_{r+1}) - \Phi(t_r) = 2b\sum_{j=1}^{m_r}\hbar(\tilde X_j, t_r+j) - m_r\,\frac{(n-1)b^2}{n}\]</span></p>
+<p><strong>Proof.</strong> Lemma 1 의 (<span class="math inline">\(\dagger\)</span>) 을 <span class="math inline">\(t = t_r, t_r+1, \ldots, t_{r+1}-1\)</span> 에 대해 적용 후 합산 (telescoping):</p>
+<p><span class="math display">\[\Phi(t_{r+1}) - \Phi(t_r) = \sum_{t=t_r}^{t_{r+1}-1}[\Phi(t+1) - \Phi(t)] = \sum_{t=t_r}^{t_{r+1}-1}\left[2b\,\hbar(X_{t+1}, t+1) - \frac{(n-1)b^2}{n}\right]\]</span></p>
+<p>변수치환 <span class="math inline">\(j := t - t_r + 1 \in \{1, \ldots, m_r\}\)</span>, <span class="math inline">\(X_{t+1} = X_{t_r+j} = \tilde X_j\)</span>:</p>
+<p><span class="math display">\[= 2b\sum_{j=1}^{m_r}\hbar(\tilde X_j, t_r+j) - m_r\,\frac{(n-1)b^2}{n}. \quad\square\]</span></p>
+<p>기댓값을 씌우면</p>
+<p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] = 2b\,\mathbb{E}\bigg[\sum_{j=1}^{m_r}\hbar(\tilde X_j, t_r+j)\,\Big|\,S(t_r)\bigg] - m_r\frac{(n-1)b^2}{n} \tag{$\dagger\dagger$}\]</span></p>
+<hr>
+</section>
+<section id="lemma-3-mu_0-bias-baseline" class="level1">
+<h1>5. Lemma 3 — <span class="math inline">\(\mu_0\)</span>-bias baseline</h1>
+<p><strong>Lemma 3.</strong> <span class="math inline">\(\tilde X_1 = X_{t_r+1} \sim \boldsymbol{\mu}_0\)</span> 가 <span class="math inline">\(S(t_r)\)</span> 와 독립인 fresh draw 라는 사실로부터:</p>
+<p><span class="math display">\[\mathbb{E}[\hbar(\tilde X_1, t_r+1) \mid S(t_r)] \;\leq\; \frac{\alpha}{2}\,M(t_r) + \frac{b(n-1)}{n}\]</span></p>
+<p>여기서 <span class="math inline">\(\alpha = \|\boldsymbol{\mu}_0 - \mathbf{u}\|_1\)</span>, <span class="math inline">\(\mathbf{u}\)</span> 는 균등분포.</p>
+<p><strong>Proof.</strong> <span class="math inline">\(\tilde X_1\)</span> 은 <span class="math inline">\(\boldsymbol{\mu}_0\)</span> fresh draw 이고, <span class="math inline">\(\tilde X_1 = i\)</span> 인 조건에서 <span class="math inline">\(v_i\)</span> 가 +b 를 받으므로 <span class="math inline">\(\hbar(i, t_r+1) = \hbar(i, t_r) + b(n-1)/n\)</span> (Lemma 1 의 첫 식). 전체 기댓값은</p>
+<p><span class="math display">\[\mathbb{E}[\hbar(\tilde X_1, t_r+1) \mid S(t_r)] = \sum_{i=1}^n \mu_0(i)\,\Big[\hbar(i, t_r) + \frac{b(n-1)}{n}\Big] = \sum_i \mu_0(i)\,\hbar(i, t_r) + \frac{b(n-1)}{n}.\]</span></p>
+<p><strong>Jordan 분해</strong> (<span class="math inline">\(\mu_0\)</span> 에서 균등 빼기). <span class="math inline">\(\sum_i \hbar(i, t_r) = 0\)</span> 이므로</p>
+<p><span class="math display">\[\sum_i \mu_0(i)\,\hbar(i, t_r) = \sum_i \big(\mu_0(i) - \tfrac{1}{n}\big)\,\hbar(i, t_r).\]</span></p>
+<p>차이 <span class="math inline">\(\mu_0(i) - 1/n\)</span> 의 양의 부분과 음의 부분은 각각 합이 <span class="math inline">\(\alpha/2\)</span> 씩 (<span class="math inline">\(\sum_i (\mu_0(i) - 1/n) = 0\)</span> + <span class="math inline">\(L^1\)</span> 노름 정의). 따라서</p>
+<p><span class="math display">\[\sum_i (\mu_0(i) - \tfrac{1}{n})\,\hbar(i, t_r) \leq \frac{\alpha}{2}\big(\max_i \hbar(i, t_r) - \min_i \hbar(i, t_r)\big) = \frac{\alpha}{2}\,M(t_r).\]</span></p>
+<p>(상한 달성: 양의 초과분 <span class="math inline">\(\alpha/2\)</span> 가 max 노드에, 음의 부족분 <span class="math inline">\(\alpha/2\)</span> 가 min 노드에 몰린 worst-case.)</p>
+<p>종합:</p>
+<p><span class="math display">\[\mathbb{E}[\hbar(\tilde X_1, t_r+1) \mid S(t_r)] \leq \frac{\alpha}{2} M(t_r) + \frac{b(n-1)}{n}. \quad\square\]</span></p>
+<hr>
+</section>
+<section id="lemma-4-flow-chain-inequality-no-big-drop" class="level1">
+<h1>6. Lemma 4 — Flow chain inequality (no big drop)</h1>
+<p><strong>Lemma 4.</strong> 라운드 <span class="math inline">\(r\)</span> 안에서 (<span class="math inline">\(j = 2, \ldots, m_r\)</span>):</p>
+<p><span class="math display">\[\hbar(\tilde X_j, t_r+j) - \hbar(\tilde X_1, t_r+1) \;\leq\; (j-1)b\cdot\frac{n-1}{n} \;&lt;\; (j-1)b\]</span></p>
+<p>따라서 합산하면</p>
+<p><span class="math display">\[\sum_{j=2}^{m_r}\big(\hbar(\tilde X_j, t_r+j) - \hbar(\tilde X_1, t_r+1)\big) \;\leq\; b\cdot\frac{n-1}{n}\cdot\frac{(m_r-1)m_r}{2} \;\leq\; C_{round} \tag{B.3}\]</span></p>
+<p>여기서 <span class="math inline">\(C_{round} := \frac{T_{max}(T_{max}+1)}{2}\,b\)</span>.</p>
+<p><strong>Proof.</strong> Flow 정의에 의해 <span class="math inline">\(X_{t+1}\)</span> 은 <span class="math inline">\(X_t\)</span> 의 다운스트림 이웃이며, 그 절대 높이 관계는</p>
+<p><span class="math display">\[h(v_{X_{t+1}}, t) \leq h(v_{X_t}, t).\]</span></p>
+<p>다음 스텝 +b 적립 후 <span class="math inline">\(h(v_{X_{t+1}}, t+1) = h(v_{X_{t+1}}, t) + b \leq h(v_{X_t}, t) + b\)</span>. 즉</p>
+<p><span class="math display">\[h(v_{\tilde X_j}, t_r+j) \;\leq\; h(v_{\tilde X_{j-1}}, t_r+j-1) + b, \qquad j \geq 2.\]</span></p>
+<p>체이닝:</p>
+<p><span class="math display">\[h(v_{\tilde X_j}, t_r+j) \;\leq\; h(v_{\tilde X_1}, t_r+1) + (j-1)b.\]</span></p>
+<p>평균값 차이는 <span class="math inline">\(\bar h(t_r+j) - \bar h(t_r+1) = (j-1)b/n\)</span>. 따라서</p>
+<p><span class="math display">\[\hbar(\tilde X_j, t_r+j) - \hbar(\tilde X_1, t_r+1) = [h(\tilde X_j, t_r+j) - h(\tilde X_1, t_r+1)] - \frac{(j-1)b}{n} \leq (j-1)b - \frac{(j-1)b}{n} = (j-1)b\cdot\frac{n-1}{n}.\]</span></p>
+<p>합산: <span class="math inline">\(\sum_{j=2}^{m_r}(j-1) = \frac{(m_r-1)m_r}{2}\)</span>, <span class="math inline">\(m_r \leq T_{max}+1\)</span>. <span class="math inline">\(\square\)</span></p>
+<hr>
+</section>
+<section id="lemma-5-big-drop-event" class="level1">
+<h1>7. Lemma 5 — Big drop event</h1>
+<p>라운드 <span class="math inline">\(r\)</span> 시작 시점 <span class="math inline">\(t_r\)</span> 에서 경사 간선 <span class="math inline">\((v_{i^\star}, v_{j^\star})\)</span> 을 다음과 같이 구성:</p>
+<ul>
+<li><span class="math inline">\(v^+ := \arg\max_i \hbar(i, t_r)\)</span>, <span class="math inline">\(v^- := \arg\min_i \hbar(i, t_r)\)</span></li>
+<li>연결성으로 <span class="math inline">\(v^+ \to v^-\)</span> 경로 <span class="math inline">\(w_0 = v^+, w_1, \ldots, w_m = v^-\)</span> (<span class="math inline">\(m \leq n-1\)</span>) 존재</li>
+<li>비둘기집: 어떤 <span class="math inline">\(\ell\)</span> 에서 <span class="math inline">\(\hbar(w_\ell, t_r) - \hbar(w_{\ell+1}, t_r) \geq M(t_r)/(n-1)\)</span></li>
+<li>이 간선 <span class="math inline">\((v_{i^\star}, v_{j^\star}) := (w_\ell, w_{\ell+1})\)</span> 을 <strong>경사 간선</strong>이라 함</li>
+</ul>
+<p><strong>Big drop 사건</strong> <span class="math inline">\(E_r\)</span>: <span class="math inline">\(\tilde X_1 = i^\star\)</span> (fresh draw 가 <span class="math inline">\(i^\star\)</span> 에 떨어짐) <strong>AND</strong> <span class="math inline">\(\tilde X_2 = j^\star\)</span> (다음 flow 스텝에서 <span class="math inline">\(j^\star\)</span> 로 이동).</p>
+<p><strong>Lemma 5(a) — Big drop 확률 하한.</strong></p>
+<p><span class="math display">\[\Pr(E_r \mid S(t_r)) \;\geq\; \mu_{min}\cdot P_{RW,\min} \;=:\; p_0 \;&gt;\; 0\]</span></p>
+<p><strong>Proof.</strong> 두 사건이 독립적인 두 random source (<span class="math inline">\(\mu_0\)</span> draw, flow target draw) 에서 결정되므로 곱확률.</p>
+<ul>
+<li><span class="math inline">\(\Pr(\tilde X_1 = i^\star \mid S(t_r)) = \mu_0(i^\star) \geq \mu_{min}\)</span>.</li>
+<li><span class="math inline">\(\Pr(\tilde X_2 = j^\star \mid \tilde X_1 = i^\star, S(t_r))\)</span>: <span class="math inline">\(j^\star\)</span> 가 <span class="math inline">\(i^\star\)</span> 의 다운스트림 이웃이고 (<span class="math inline">\(\hbar(j^\star) \leq \hbar(i^\star)\)</span> 보장 — 경사 간선 정의), flow probability <span class="math inline">\(P_{RW}(i^\star, j^\star) \geq P_{RW,\min}\)</span>.</li>
+</ul>
+<p>곱하면 <span class="math inline">\(\geq \mu_{min}\cdot P_{RW,\min} = p_0\)</span>. <span class="math inline">\(\square\)</span></p>
+<p><strong>Lemma 5(b) — Big drop 발생 시 합 bound.</strong> <span class="math inline">\(E_r\)</span> 에서</p>
+<p><span class="math display">\[\sum_{j=2}^{m_r}\big(\hbar(\tilde X_j, t_r+j) - \hbar(\tilde X_1, t_r+1)\big) \;\leq\; -(m_r-1)\,\frac{M(t_r)}{n-1} + C_{round} \tag{$\spadesuit$}\]</span></p>
+<p><strong>Proof.</strong> <span class="math inline">\(E_r\)</span> 발생 시 <span class="math inline">\(\tilde X_2 = j^\star\)</span>, <span class="math inline">\(\tilde X_1 = i^\star\)</span> 이고 <span class="math inline">\(\hbar(j^\star, t_r) \leq \hbar(i^\star, t_r) - M(t_r)/(n-1)\)</span> (경사 간선 정의).</p>
+<p>스텝 <span class="math inline">\(j = 2\)</span>: <span class="math inline">\(\tilde X_2 = j^\star\)</span> 가 +b 받음. Lemma 1 의 첫 식 + 평균 보정으로</p>
+<p><span class="math display">\[\hbar(\tilde X_2, t_r+2) = \hbar(j^\star, t_r) + b\frac{n-2}{n} \leq \hbar(i^\star, t_r) - \frac{M(t_r)}{n-1} + b.\]</span></p>
+<p>스텝 <span class="math inline">\(j \geq 3\)</span>: Lemma 4 와 동일한 체이닝 (<span class="math inline">\(\tilde X_2\)</span> 기준)</p>
+<p><span class="math display">\[\hbar(\tilde X_j, t_r+j) \leq \hbar(\tilde X_2, t_r+2) + (j-2)b \leq \hbar(i^\star, t_r) - \frac{M(t_r)}{n-1} + (j-1)b.\]</span></p>
+<p>한편 <span class="math inline">\(\hbar(\tilde X_1, t_r+1) = \hbar(i^\star, t_r+1) = \hbar(i^\star, t_r) + b(n-1)/n\)</span>. 따라서</p>
+<p><span class="math display">\[\hbar(\tilde X_j, t_r+j) - \hbar(\tilde X_1, t_r+1) \leq -\frac{M(t_r)}{n-1} + (j-1)b - b\frac{n-1}{n} \leq -\frac{M(t_r)}{n-1} + (j-1)b.\]</span></p>
+<p><span class="math inline">\(j=2\)</span> 부터 <span class="math inline">\(m_r\)</span> 까지 합하면 <span class="math inline">\(\sum_{j=2}^{m_r}(j-1) = (m_r-1)m_r/2 \leq C_{round}/b\)</span>, 따라서</p>
+<p><span class="math display">\[\sum_{j=2}^{m_r}\big(\hbar(\tilde X_j, t_r+j) - \hbar(\tilde X_1, t_r+1)\big) \leq -(m_r-1)\frac{M(t_r)}{n-1} + C_{round}. \quad\square\]</span></p>
+<p>특히 <span class="math inline">\(m_r \geq 2\)</span> 이므로 (big drop 은 flow 한 번 이상 필요)</p>
+<p><span class="math display">\[\sum_{j=2}^{m_r}(\hbar - \hbar_1) \leq -\frac{M(t_r)}{n-1} + C_{round}.\]</span></p>
+<hr>
+</section>
+<section id="lemma-6-combined-expected-sum" class="level1">
+<h1>8. Lemma 6 — Combined expected sum</h1>
+<p><strong>Lemma 6.</strong></p>
+<p><span class="math display">\[\mathbb{E}\bigg[\sum_{j=2}^{m_r}\big(\hbar(\tilde X_j, t_r+j) - \hbar(\tilde X_1, t_r+1)\big)\,\Big|\,S(t_r)\bigg] \;\leq\; -\frac{p_0\,M(t_r)}{n-1} + C_{round}\]</span></p>
+<p><strong>Proof.</strong> <span class="math inline">\(E_r\)</span> 와 <span class="math inline">\(E_r^c\)</span> 로 케이스 분해:</p>
+<ul>
+<li><span class="math inline">\(E_r\)</span> 발생 시 (Lemma 5(b)): <span class="math inline">\(\sum \leq -\frac{M(t_r)}{n-1} + C_{round}\)</span></li>
+<li><span class="math inline">\(E_r^c\)</span> (Lemma 4): <span class="math inline">\(\sum \leq C_{round}\)</span></li>
+</ul>
+<p>기댓값:</p>
+<p><span class="math display">\[\begin{aligned}
+\mathbb{E}[\sum \mid S(t_r)] &amp;= \Pr(E_r)\cdot\mathbb{E}[\sum \mid E_r, S(t_r)] + \Pr(E_r^c)\cdot\mathbb{E}[\sum \mid E_r^c, S(t_r)] \\
+&amp;\leq \Pr(E_r)\cdot\Big(-\frac{M(t_r)}{n-1} + C_{round}\Big) + \Pr(E_r^c)\cdot C_{round} \\
+&amp;= -\Pr(E_r)\cdot\frac{M(t_r)}{n-1} + C_{round}.
+\end{aligned}\]</span></p>
+<p>Lemma 5(a) 의 <span class="math inline">\(\Pr(E_r) \geq p_0\)</span> 적용 (음의 항이라 부등호 방향 주의: <span class="math inline">\(-\Pr(E_r)\cdot M/(n-1) \leq -p_0\cdot M/(n-1)\)</span>):</p>
+<p><span class="math display">\[\mathbb{E}[\sum \mid S(t_r)] \leq -\frac{p_0 M(t_r)}{n-1} + C_{round}. \quad\square\]</span></p>
+<blockquote class="blockquote">
+<p><strong>주의</strong>: Lemma 4/5(b) 는 <strong>점별(pointwise)</strong> 부등식 (random path 단위). 음의 항 <span class="math inline">\(-M/(n-1)\)</span> 은 <span class="math inline">\(E_r\)</span> 발생 시에만 등장. <strong>기댓값에서 비로소</strong> <span class="math inline">\(-p_0 M/(n-1)\)</span> 형태의 음의 drift 가 등장하는 것 — 이게 Foster-Lyapunov 의 “expected drift” 개념과 정확히 부합.</p>
+</blockquote>
+<hr>
+</section>
+<section id="round-drift-부등식-starstar-유도" class="level1">
+<h1>9. Round drift 부등식 (<span class="math inline">\(\star\star\)</span>) 유도</h1>
+<p>Lemma 2,3,6 결합.</p>
+<p>Lemma 2 (<span class="math inline">\(\dagger\dagger\)</span>) 에서 합을 분해:</p>
+<p><span class="math display">\[\sum_{j=1}^{m_r}\hbar(\tilde X_j, t_r+j) = m_r\,\hbar(\tilde X_1, t_r+1) + \sum_{j=2}^{m_r}\big(\hbar(\tilde X_j, t_r+j) - \hbar(\tilde X_1, t_r+1)\big)\]</span></p>
+<p>(원래 <span class="math inline">\(j=1\)</span> 항도 <span class="math inline">\(1\cdot\hbar(\tilde X_1, t_r+1) + 0\)</span> 이라 자명히 들어맞음.)</p>
+<p>기댓값 양변에 <span class="math inline">\(2b\)</span> 곱한 형태로 (<span class="math inline">\(\dagger\dagger\)</span>) 우변 첫 항 분해:</p>
+<p><span class="math display">\[\begin{aligned}
+&amp; \mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] \\
+&amp; \quad = \underbrace{2b\,m_r\,\mathbb{E}[\hbar(\tilde X_1, t_r+1) \mid S(t_r)]}_{\text{(I)}} + \underbrace{2b\,\mathbb{E}\bigg[\sum_{j=2}^{m_r}(\hbar(\tilde X_j) - \hbar(\tilde X_1)) \,\Big|\, S(t_r)\bigg]}_{\text{(II)}} - m_r\frac{(n-1)b^2}{n}
+\end{aligned}\]</span></p>
+<p><strong>(I) 처리</strong> (Lemma 3): <span class="math inline">\(\mathbb{E}[\hbar(\tilde X_1, t_r+1) \mid S(t_r)] \leq \frac{\alpha}{2}M(t_r) + \frac{b(n-1)}{n}\)</span>. 곱하기 <span class="math inline">\(2b\,m_r\)</span>:</p>
+<p><span class="math display">\[\text{(I)} \leq b\,m_r\,\alpha\,M(t_r) + m_r\cdot\frac{2b^2(n-1)}{n}\]</span></p>
+<p><strong>(II) 처리</strong> (Lemma 6): <span class="math inline">\(\mathbb{E}[\sum_{j=2}^{m_r}(\hbar - \hbar_1) \mid S(t_r)] \leq -\frac{p_0 M(t_r)}{n-1} + C_{round}\)</span>. 곱하기 <span class="math inline">\(2b\)</span>:</p>
+<p><span class="math display">\[\text{(II)} \leq -\frac{2b\,p_0\,M(t_r)}{n-1} + 2b\,C_{round}\]</span></p>
+<p><strong>결합</strong>: (I) + (II) + <span class="math inline">\(- m_r(n-1)b^2/n\)</span>:</p>
+<p><span class="math display">\[\begin{aligned}
+\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] &amp;\leq b\,m_r\,\alpha\,M(t_r) - \frac{2b\,p_0\,M(t_r)}{n-1} + 2b\,C_{round} + m_r\frac{2b^2(n-1)}{n} - m_r\frac{(n-1)b^2}{n} \\
+&amp;= b\,M(t_r)\Big[m_r\,\alpha - \frac{2p_0}{n-1}\Big] + 2b\,C_{round} + m_r\frac{(n-1)b^2}{n}
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(m_r \leq T_{max}+1\)</span> 으로 bound 하면 (<span class="math inline">\(\alpha \geq 0\)</span>, 양의 항):</p>
+<p><span class="math display">\[\boxed{\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] \;\leq\; b\,M(t_r)\,\Delta_{\mathrm{drift}} + C_3} \tag{$\star\star$}\]</span></p>
+<p>여기서</p>
+<p><span class="math display">\[\Delta_{\mathrm{drift}} := (T_{max}+1)\alpha - \frac{2p_0}{n-1}, \qquad C_3 := 2b\,C_{round} + (T_{max}+1)\frac{(n-1)b^2}{n}.\]</span></p>
+<p><span class="math inline">\(C_3\)</span> 는 <span class="math inline">\(M(t_r)\)</span> 에 무관하고 <span class="math inline">\((\mathcal{G}, b, T_{max})\)</span> 에만 의존하는 결정적 상수.</p>
+<hr>
+</section>
+<section id="fosterlyapunov-적용-proposition" class="level1">
+<h1>10. Foster–Lyapunov 적용 → Proposition</h1>
+<p><strong>Theorem (Foster–Lyapunov criterion; M&amp;T, 1993, Thm 11.3.4).</strong> 가산 상태공간 위의 비가약 마르코프 체인 <span class="math inline">\(\{Y_n\}\)</span> 에 대해, 함수 <span class="math inline">\(V: \mathcal{X} \to [0,\infty)\)</span> 와 유한 집합 <span class="math inline">\(\mathcal{B} \subset \mathcal{X}\)</span> 가 존재하여</p>
+<p><span class="math display">\[\mathbb{E}[V(Y_{n+1}) - V(Y_n) \mid Y_n = y] \leq -1 + \beta\,\mathbf{1}_{\mathcal{B}}(y), \qquad \beta &lt; \infty\]</span></p>
+<p>를 만족하면, 체인은 양의 재귀이며 <span class="math inline">\(\mathcal{B}\)</span> 도달 기대시간 <span class="math inline">\(\mathbb{E}[\tau_{\mathcal{B}}] \leq V(Y_0) + \beta &lt; \infty\)</span>.</p>
+<p><strong>Proposition 의 증명.</strong> Round-skeleton <span class="math inline">\(\{S(t_r)\}\)</span> 에 위 정리 적용. Lyapunov 함수 <span class="math inline">\(V := \Phi\)</span>.</p>
+<p><strong>Step 1 — refuge 정의.</strong> 경계 <span class="math inline">\(M^\star, C_1\)</span> 을 다음과 같이 잡는다:</p>
+<p><span class="math display">\[M^\star := \frac{C_3 + 1}{b\,|\Delta_{\mathrm{drift}}|}, \qquad C_1 := n(M^\star)^2.\]</span></p>
+<p><span class="math inline">\(\mathcal{B}_\Phi := \{S : \Phi(\boldsymbol{\delta}) \leq C_1\}\)</span> 로 둠.</p>
+<p><strong>Step 2 — refuge 유한성.</strong> <span class="math inline">\(\Phi(\boldsymbol{\delta})\)</span> 는 <span class="math inline">\(\boldsymbol{\delta}\)</span> 에 대한 coercive (proper) 함수 — 즉 <span class="math inline">\(\Phi \leq C_1\)</span> 사블레벨이 <span class="math inline">\(\mathbb{R}^{n-1}\)</span> 에서 유계. 격자 <span class="math inline">\(\boldsymbol{\delta}(0) + b\mathbb{Z}^{n-1}\)</span> 와의 교집합은 유한. <span class="math inline">\(X \in \{1,\ldots,n\}\)</span>, <span class="math inline">\(Z \in \{0,\ldots,T_{max}\}\)</span> 도 유한. 따라서 <span class="math inline">\(\mathcal{B}_\Phi\)</span> 유한.</p>
+<p><strong>Step 3 — refuge 밖에서 음의 drift.</strong> <span class="math inline">\(\Phi(\boldsymbol{\delta}) \leq nM^2\)</span> (Lemma 7 아래) 이므로 <span class="math inline">\(\Phi &gt; C_1 = n(M^\star)^2 \Longrightarrow M &gt; M^\star\)</span>. 그러면 (<span class="math inline">\(\star\star\)</span>) 의 우변</p>
+<p><span class="math display">\[bM(t_r)\Delta_{\mathrm{drift}} + C_3 \leq -bM^\star\,|\Delta_{\mathrm{drift}}| + C_3 = -(C_3 + 1) + C_3 = -1\]</span></p>
+<p>(둘째 등호: <span class="math inline">\(M^\star\)</span> 정의에서 <span class="math inline">\(b\,M^\star\,|\Delta_{\mathrm{drift}}| = C_3 + 1\)</span>.) 즉 <span class="math inline">\(S \notin \mathcal{B}_\Phi\)</span> 에서 drift <span class="math inline">\(\leq -1\)</span>.</p>
+<p><strong>Step 4 — refuge 안에서 유한 변화량.</strong> <span class="math inline">\(S \in \mathcal{B}_\Phi\)</span> 이면 <span class="math inline">\(\Phi(t_r) \leq C_1\)</span>, 한 라운드 <span class="math inline">\(\Phi\)</span> 변화량은 (<span class="math inline">\(\star\star\)</span>) 우변 <span class="math inline">\(\leq b\,M(t_r)\,\Delta_{\mathrm{drift}} + C_3 \leq C_3\)</span> (drift 가 양수일 때 worst-case). 즉 <span class="math inline">\(\beta := C_3 + 1 &lt; \infty\)</span>.</p>
+<p><strong>Step 5 — Foster–Lyapunov 적용.</strong> <span class="math inline">\(\{S(t_r)\}\)</span> 가 round-skeleton 위에서 비가약 (Section 3 of <a href="260407_eecd78.html">블로그 본문</a>, Lemma 2 — 본 글에선 인용으로 처리).</p>
+<p>조건 <span class="math inline">\(\mathbb{E}[\Phi(S(t_{r+1})) - \Phi(S(t_r)) \mid S(t_r)] \leq -1 + \beta\,\mathbf{1}_{\mathcal{B}_\Phi}\)</span> 충족 → skeleton chain 양의 재귀, <span class="math inline">\(\mathbb{E}[\tau_{\mathcal{B}_\Phi}^{\text{sk}}] &lt; \infty\)</span>.</p>
+<p><strong>Step 6 — 원 체인 양의 재귀 전이.</strong> 라운드 길이 <span class="math inline">\(m_r \leq T_{max}+1\)</span> 결정적 상한. 따라서 원 체인의 <span class="math inline">\(\tau_{\mathcal{B}_\Phi} \leq (T_{max}+1)\cdot\tau_{\mathcal{B}_\Phi}^{\text{sk}}\)</span>, 기댓값도 유한. 즉 <span class="math inline">\(\{S(t)\}\)</span> 양의 재귀.</p>
+<p><strong>Step 7 — <span class="math inline">\(M(t) \leq C\)</span> 표현.</strong> <span class="math inline">\(\Phi \leq C_1 \Longrightarrow M \leq \sqrt{2C_1}\)</span> (Lemma 7). <span class="math inline">\(C := \sqrt{2C_1}\)</span> 로 잡으면 <span class="math inline">\(\{S \in \mathcal{B}_\Phi\} \subset \{M \leq C\}\)</span>, 후자도 a.s. 무한 자주 방문. <span class="math inline">\(\square\)</span></p>
+<hr>
+</section>
+<section id="lemma-7-보조-phi-와-m-의-관계" class="level1">
+<h1>11. Lemma 7 (보조) — <span class="math inline">\(\Phi\)</span> 와 <span class="math inline">\(M\)</span> 의 관계</h1>
+<p><strong>Lemma 7.</strong> 임의 시각 <span class="math inline">\(t\)</span>에 대해</p>
+<p><span class="math display">\[\frac{M(t)^2}{2} \;\leq\; \Phi(t) \;\leq\; n\,M(t)^2\]</span></p>
+<p><strong>Proof.</strong> <span class="math inline">\(M(t) = \max_i \hbar(i,t) - \min_i \hbar(i,t)\)</span>, 두 극단점 <span class="math inline">\(\hbar_+, \hbar_-\)</span> 라 하면:</p>
+<p><strong>상한</strong>: 모든 <span class="math inline">\(i\)</span>에서 <span class="math inline">\(|\hbar(i,t)| \leq M(t)\)</span> (because <span class="math inline">\(\hbar_- \leq \hbar(i,t) \leq \hbar_+\)</span> and the range is <span class="math inline">\(M\)</span>, but actually we need a bit more care). 정확히는 <span class="math inline">\(\sum_i\hbar = 0\)</span> 에서 <span class="math inline">\(|\hbar(i,t)| \leq M(t)\)</span> 가 일반 성립 (<span class="math inline">\(\hbar_+ \geq 0 \geq \hbar_-\)</span>, 즉 <span class="math inline">\(|\hbar_+| + |\hbar_-| = M\)</span>, 각각 <span class="math inline">\(\leq M\)</span>). 따라서 <span class="math inline">\(\Phi = \sum_i \hbar^2 \leq n\cdot M^2\)</span>.</p>
+<p><strong>하한</strong>: <span class="math inline">\(\hbar_+^2 + \hbar_-^2 \geq (\hbar_+ - \hbar_-)^2/2 = M^2/2\)</span> (왜냐 <span class="math inline">\(a^2+b^2 \geq (a-b)^2/2\)</span>, AM-QM 또는 직접). 다른 항들은 비음. 따라서 <span class="math inline">\(\Phi \geq M^2/2\)</span>. <span class="math inline">\(\square\)</span></p>
+<hr>
+</section>
+<section id="step-b-개요-정리-overlineoperatornamesd2-to-c-a.s.-완성" class="level1">
+<h1>12. Step B 개요 — 정리 (<span class="math inline">\(\overline{\operatorname{SD}}^2 \to C\)</span> a.s.) 완성</h1>
+<p>Proposition 으로부터 다음이 따라옴.</p>
+<p><strong>Step B.1 — 비가약성.</strong> <span class="math inline">\(\{S(t)\}\)</span> 가 격자 <span class="math inline">\(\boldsymbol{\delta}(0) + b\mathbb{Z}^{n-1}\)</span> 위에서 비가약 (<span class="math inline">\(\mu_0\)</span> 의 support 가 <span class="math inline">\(V\)</span> 전체이고 연결성으로 모든 <span class="math inline">\(\delta\)</span>-격자점에 양의 확률로 도달). 본 글에선 인용.</p>
+<p><strong>Step B.2 — 양의 Harris 재귀.</strong> Proposition + 비가약성 + 가산 상태공간 → 양의 Harris 재귀 (M&amp;T Prop 10.1.1; 가산공간에서 <span class="math inline">\(\varphi\)</span>-비가약성 = Harris 비가약성).</p>
+<p><strong>Step B.3 — 모멘트 조건 확보.</strong> LLN 적용에 <span class="math inline">\(f(S) = (\delta_i - \delta_j)^2 \in L_1(\pi)\)</span> 가 필요. 즉 <span class="math inline">\(\mathbb{E}_\pi[M^2] &lt; \infty\)</span>. (<span class="math inline">\(\star\star\)</span>) 의 drift 는 <span class="math inline">\(M\)</span> 에 선형이라 <span class="math inline">\(\mathbb{E}_\pi[M] &lt; \infty\)</span> 만 보장 (M&amp;T Thm 14.0.1 <span class="math inline">\(f\)</span>-regularity). 한 차수 더 강화하려면 <span class="math inline">\(V := \Phi^2\)</span> 로 Lyapunov 함수 강화하여</p>
+<p><span class="math display">\[\mathbb{E}[V(t_{r+1}) - V(t_r) \mid S(t_r)] \leq -\tfrac{c}{4}M(t_r)^3 + C\cdot\mathbf{1}_{\mathcal{B}'}\]</span></p>
+<p>를 도출 → <span class="math inline">\(\mathbb{E}_\pi[M^3] &lt; \infty\)</span> → Jensen 으로 <span class="math inline">\(\mathbb{E}_\pi[M^2] &lt; \infty\)</span>. 자세한 도출은 <a href="260407_eecd78.html">블로그 본문 Step 4</a> 참조.</p>
+<p><strong>Step B.4 — LLN.</strong> 양의 Harris 재귀 + 비가약성으로 유일 정상분포 <span class="math inline">\(\pi\)</span> 존재. 양의 Harris 체인의 강대수 법칙 (M&amp;T Thm 17.1.7) 에서 <span class="math inline">\(f \in L_1(\pi)\)</span> 에 대해</p>
+<p><span class="math display">\[\frac{1}{t}\sum_{s=0}^t f(S(s)) \xrightarrow{t\to\infty} \mathbb{E}_\pi[f] \quad\text{a.s.}\]</span></p>
+<p><span class="math inline">\(f(S) = (\delta_i - \delta_j)^2\)</span> 적용:</p>
+<p><span class="math display">\[\overline{\operatorname{SD}}^2_{ij}(t) = \frac{1}{t}\sum_{s=0}^t (\delta_i(s) - \delta_j(s))^2 \xrightarrow{t\to\infty} \mathbb{E}_\pi[(\delta_i - \delta_j)^2] =: c_{ij} \quad\text{a.s.}\]</span></p>
+<p><strong><span class="math inline">\(\mathbf{y}\)</span>-종속성.</strong> 전이커널은 <span class="math inline">\((\mathcal{G}, b, T_{max})\)</span> 만 의존 (Step 1). 유효 상태공간이 <span class="math inline">\(\boldsymbol{\delta}(0) + b\mathbb{Z}^{n-1}\)</span> 격자에 제한되므로 <span class="math inline">\(\boldsymbol{\delta}(0) \bmod b = \mathbf{y} \bmod b\)</span> 에 의존. 즉 <span class="math inline">\(c_{ij} = c_{ij}(\mathcal{G}, b, T_{max}, \mathbf{y}\bmod b)\)</span>. <span class="math inline">\(\blacksquare\)</span></p>
+<hr>
+</section>
+<section id="정리" class="level1">
+<h1>13. 정리</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 28%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>단계</th>
+<th>결과</th>
+<th>핵심 도구</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lemma 1</td>
+<td>1-step <span class="math inline">\(\Phi\)</span> drift (<span class="math inline">\(\dagger\)</span>)</td>
+<td><span class="math inline">\(a^2 - c^2\)</span> 차분 + <span class="math inline">\(\sum\hbar = 0\)</span></td>
+</tr>
+<tr class="even">
+<td>Lemma 2</td>
+<td>Round telescoping (<span class="math inline">\(\dagger\dagger\)</span>)</td>
+<td>Lemma 1 합산</td>
+</tr>
+<tr class="odd">
+<td>Lemma 3</td>
+<td><span class="math inline">\(\mu_0\)</span>-bias baseline</td>
+<td>Jordan 분해</td>
+</tr>
+<tr class="even">
+<td>Lemma 4</td>
+<td>Flow chain bound</td>
+<td>Flow 정의 + 평균 보정</td>
+</tr>
+<tr class="odd">
+<td>Lemma 5</td>
+<td>Big drop 확률/bound (<span class="math inline">\(\spadesuit\)</span>)</td>
+<td>비둘기집 + 곱확률</td>
+</tr>
+<tr class="even">
+<td>Lemma 6</td>
+<td>Combined expected sum</td>
+<td>케이스 분해 + 기댓값</td>
+</tr>
+<tr class="odd">
+<td>§9</td>
+<td>Round drift (<span class="math inline">\(\star\star\)</span>)</td>
+<td>Lemma 2,3,6 결합</td>
+</tr>
+<tr class="even">
+<td>§10</td>
+<td>Proposition (Height Recurrence)</td>
+<td>Foster–Lyapunov + Lemma 7</td>
+</tr>
+<tr class="odd">
+<td>§12</td>
+<td>Theorem</td>
+<td>LLN (M&amp;T 17.1.7) + 모멘트 강화</td>
+</tr>
+</tbody>
+</table>
+<p>각 lemma 가 독립적으로 검증 가능 + 결합이 명시적. Foster–Lyapunov 의 “refuge 안 / 밖” 분리 덕에 “<span class="math inline">\(M\)</span> 충분히 크지 않은 영역” 을 별도 처리할 필요 없음 — 정리가 한 묶음으로 흡수.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

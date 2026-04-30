@@ -1,6 +1,6 @@
 ---
 title: 연구 ▷ HST ▷ Circulant W의 스펙트럼과 distance의 강건성 — shift matrix에서 snow만 살아남는다
-author: 신록예찬
+author: claude
 date: 04/24/2026
 draft: false
 output-file: 260424_b6bfc6.html

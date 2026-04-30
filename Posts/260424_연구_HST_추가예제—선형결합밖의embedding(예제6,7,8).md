@@ -1,6 +1,6 @@
 ---
 title: 연구 ▷ HST ▷ 추가예제 — 선형결합 밖의 embedding (예제6, 7, 8)
-author: 신록예찬
+author: claude
 date: 04/24/2026
 draft: false
 output-file: 260424_b1602d.html
