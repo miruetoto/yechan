@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="신록예찬">
+<meta name="author" content="codex">
 <meta name="dcterms.date" content="2026-04-29">
 
-<title>연구 ▷ HST ▷ Strongly connected에서도 full IRR는 깨진다 — 2노드 반례 – 신록예찬’s Blog</title>
+<title>연구 ▷ HST ▷ Appendix A 약한 에르고딕성 — Hajnal보다 reset coupling으로 쓰자 – 신록예찬’s Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -190,16 +190,23 @@ window.Quarto = {
    
   <ul>
   <li><a href="#결론" id="toc-결론" class="nav-link active" data-scroll-target="#결론">0. 결론</a></li>
-  <li><a href="#반례-setup" id="toc-반례-setup" class="nav-link" data-scroll-target="#반례-setup">1. 반례 setup</a></li>
-  <li><a href="#초기-상태" id="toc-초기-상태" class="nav-link" data-scroll-target="#초기-상태">2. 초기 상태</a></li>
-  <li><a href="#flag-to-flag-dynamics" id="toc-flag-to-flag-dynamics" class="nav-link" data-scroll-target="#flag-to-flag-dynamics">3. Flag-to-flag dynamics</a>
+  <li><a href="#appendix-a의-좋은-점" id="toc-appendix-a의-좋은-점" class="nav-link" data-scroll-target="#appendix-a의-좋은-점">1. Appendix A의 좋은 점</a></li>
+  <li><a href="#현재-appendix-증명의-약한-부분" id="toc-현재-appendix-증명의-약한-부분" class="nav-link" data-scroll-target="#현재-appendix-증명의-약한-부분">2. 현재 Appendix 증명의 약한 부분</a>
   <ul class="collapse">
-  <li><a href="#fresh가-v_1에-떨어지는-경우" id="toc-fresh가-v_1에-떨어지는-경우" class="nav-link" data-scroll-target="#fresh가-v_1에-떨어지는-경우">3.1 Fresh가 <span class="math inline">\(v_1\)</span>에 떨어지는 경우</a></li>
-  <li><a href="#fresh가-v_2에-떨어지는-경우" id="toc-fresh가-v_2에-떨어지는-경우" class="nav-link" data-scroll-target="#fresh가-v_2에-떨어지는-경우">3.2 Fresh가 <span class="math inline">\(v_2\)</span>에 떨어지는 경우</a></li>
+  <li><a href="#x_t-단독은-markov-chain이-아니다" id="toc-x_t-단독은-markov-chain이-아니다" class="nav-link" data-scroll-target="#x_t-단독은-markov-chain이-아니다">2.1 <span class="math inline">\(X_t\)</span> 단독은 Markov chain이 아니다</a></li>
+  <li><a href="#hajnal-theorem-적용이-너무-빠르다" id="toc-hajnal-theorem-적용이-너무-빠르다" class="nav-link" data-scroll-target="#hajnal-theorem-적용이-너무-빠르다">2.2 Hajnal theorem 적용이 너무 빠르다</a></li>
+  <li><a href="#stopping-timeindexing이-모호하다" id="toc-stopping-timeindexing이-모호하다" class="nav-link" data-scroll-target="#stopping-timeindexing이-모호하다">2.3 stopping time/indexing이 모호하다</a></li>
   </ul></li>
-  <li><a href="#불변성" id="toc-불변성" class="nav-link" data-scroll-target="#불변성">4. 불변성</a></li>
+  <li><a href="#더-깔끔한-대체-방향-reset-coupling" id="toc-더-깔끔한-대체-방향-reset-coupling" class="nav-link" data-scroll-target="#더-깔끔한-대체-방향-reset-coupling">3. 더 깔끔한 대체 방향 — reset coupling</a>
+  <ul class="collapse">
+  <li><a href="#flag-time-정의" id="toc-flag-time-정의" class="nav-link" data-scroll-target="#flag-time-정의">3.1 Flag time 정의</a></li>
+  <li><a href="#bounded-return-to-flag" id="toc-bounded-return-to-flag" class="nav-link" data-scroll-target="#bounded-return-to-flag">3.2 bounded return to flag</a></li>
+  <li><a href="#coupling" id="toc-coupling" class="nav-link" data-scroll-target="#coupling">3.3 Coupling</a></li>
+  </ul></li>
+  <li><a href="#논문용-정리-형태" id="toc-논문용-정리-형태" class="nav-link" data-scroll-target="#논문용-정리-형태">4. 논문용 정리 형태</a></li>
   <li><a href="#해석" id="toc-해석" class="nav-link" data-scroll-target="#해석">5. 해석</a></li>
-  <li><a href="#논문용-짧은-문장" id="toc-논문용-짧은-문장" class="nav-link" data-scroll-target="#논문용-짧은-문장">6. 논문용 짧은 문장</a></li>
+  <li><a href="#hajnal은-꼭-필요한가" id="toc-hajnal은-꼭-필요한가" class="nav-link" data-scroll-target="#hajnal은-꼭-필요한가">6. Hajnal은 꼭 필요한가?</a></li>
+  <li><a href="#최종-메모" id="toc-최종-메모" class="nav-link" data-scroll-target="#최종-메모">7. 최종 메모</a></li>
   </ul>
 </nav>
     </div>
@@ -208,7 +215,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">연구 ▷ HST ▷ Strongly connected에서도 full IRR는 깨진다 — 2노드 반례</h1>
+<h1 class="title">연구 ▷ HST ▷ Appendix A 약한 에르고딕성 — Hajnal보다 reset coupling으로 쓰자</h1>
 </div>
 
 
@@ -218,7 +225,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>신록예찬 </p>
+             <p>codex </p>
           </div>
   </div>
     
@@ -239,153 +246,213 @@ window.Quarto = {
 
 <section id="결론" class="level1">
 <h1>0. 결론</h1>
-<p>Strong connectivity를 가정해도 HST의 augmented chain</p>
+<p>HST 논문 Appendix A의 weak ergodicity 증명은 방향은 맞다. 핵심 직관은 다음이다.</p>
+<blockquote class="blockquote">
+<p>HST는 flow가 계속되더라도 <span class="math inline">\(T_{\max}\)</span>번 후에는 강제로 reset되고, block이 생겨도 reset된다. reset 직후 다음 위치는 <span class="math inline">\(\mu_0\)</span>에서 새로 뽑힌다. 따라서 어떤 시점들에서는 transition matrix의 모든 row가 같은 <span class="math inline">\(\mu_0\)</span>가 된다.</p>
+</blockquote>
+<p>이 아이디어는 좋다. 다만 현재 Appendix의 Hajnal/Dobrushin식 서술은 엄밀하게 쓰려면 손볼 부분이 있다. 더 깔끔한 방향은 <strong>Hajnal theorem을 길게 쓰는 것보다 reset step의 Doeblin/coupling 구조를 직접 쓰는 것</strong>이다.</p>
+<hr>
+</section>
+<section id="appendix-a의-좋은-점" class="level1">
+<h1>1. Appendix A의 좋은 점</h1>
+<p>Appendix A가 잡은 핵심은 정확하다.</p>
+<p>HST의 snow trace는 일반 random walk와 다르다. 일반 directed random walk에서는 graph가 reducible이면 한 component에 갇힐 수 있다. 하지만 HST는 막히거나 <span class="math inline">\(T_{\max}\)</span>번 흐르면 다음 round가 시작되고, 그때 위치가</p>
+<p><span class="math display">\[
+X_{t+1}\sim\mu_0
+\]</span></p>
+<p>로 다시 뽑힌다. 즉 path가 어디에 있었는지와 무관한 global refresh가 반복적으로 들어온다.</p>
+<p>따라서 <span class="math inline">\(X_t\)</span>의 초기 위치 의존성은 reset step에서 끊긴다. 이건 weak ergodicity를 얻기에 매우 강한 구조다.</p>
+<hr>
+</section>
+<section id="현재-appendix-증명의-약한-부분" class="level1">
+<h1>2. 현재 Appendix 증명의 약한 부분</h1>
+<section id="x_t-단독은-markov-chain이-아니다" class="level2">
+<h2 class="anchored" data-anchor-id="x_t-단독은-markov-chain이-아니다">2.1 <span class="math inline">\(X_t\)</span> 단독은 Markov chain이 아니다</h2>
+<p>HST의 transition은 <span class="math inline">\(X_t\)</span>만으로 정해지지 않는다. 다음 이동은</p>
+<p><span class="math display">\[
+h(\cdot,t),\qquad X_t,
+\qquad Z_t
+\]</span></p>
+<p>에 의존한다. 따라서 <span class="math inline">\(X_t\)</span> 단독은 homogeneous Markov chain이 아니다. 엄밀한 상태는 예컨대</p>
 <p><span class="math display">\[
 S_t=(\boldsymbol\delta_t,X_t,Z_t)
 \]</span></p>
-<p>이 full state space 전체에서 irreducible하다고 말할 수 없다. 가장 작은 strongly connected directed graph인 2-node 양방향 graph에서도 반례가 나온다.</p>
-<p>핵심은 이것이다.</p>
-<blockquote class="blockquote">
-<p>Strong connectivity는 walker의 directed path 존재를 보장하지만, HST의 height-dependent rule과 block/reset counter가 만드는 lattice invariant까지 없애주지는 않는다.</p>
-</blockquote>
-<hr>
-</section>
-<section id="반례-setup" class="level1">
-<h1>1. 반례 setup</h1>
-<p>두 노드 directed graph를 보자.</p>
+<p>또는</p>
 <p><span class="math display">\[
-V=\{v_1,v_2\},
-\qquad
-\mathcal E=\{(v_1,v_2),(v_2,v_1)\}.
-\]</span></p>
-<p>이 graph는 strongly connected이다. 두 노드 모두 서로에게 갈 수 있다.</p>
-<p>파라미터는</p>
-<p><span class="math display">\[
-b&gt;0,\qquad T_{\max}=1
-\]</span></p>
-<p>로 둔다. fresh distribution은 full support라고 하자.</p>
-<p><span class="math display">\[
-\mu_0(v_1)&gt;0,
-\qquad
-\mu_0(v_2)&gt;0.
-\]</span></p>
-<p>상태의 height-difference 좌표는 하나뿐이다.</p>
-<p><span class="math display">\[
-\delta_t:=h(v_2,t)-h(v_1,t).
-\]</span></p>
-<p>따라서 full lattice state space는 형식적으로</p>
-<p><span class="math display">\[
-(\delta_0+b\mathbb Z)\times V\times\{0,1\}
+S_t=(h_t,X_t,Z_t)
 \]</span></p>
 <p>이다.</p>
-<hr>
+<p>Appendix는 <span class="math inline">\(P(t)\)</span>를 <span class="math inline">\(X_t\)</span>의 non-homogeneous transition matrix처럼 쓰는데, 이 matrix는 deterministic time sequence라기보다 history-dependent/random environment에 가깝다. 이 부분은 명시해야 한다.</p>
 </section>
-<section id="초기-상태" class="level1">
-<h1>2. 초기 상태</h1>
-<p>초기 상태를</p>
+<section id="hajnal-theorem-적용이-너무-빠르다" class="level2">
+<h2 class="anchored" data-anchor-id="hajnal-theorem-적용이-너무-빠르다">2.2 Hajnal theorem 적용이 너무 빠르다</h2>
+<p>Hajnal/Dobrushin theorem은 보통 deterministic sequence of stochastic matrices</p>
 <p><span class="math display">\[
-S_0=(\delta=0,\;X=v_1,\;Z=1)
+P(0),P(1),P(2),\dots
 \]</span></p>
-<p>로 잡는다. 여기서 <span class="math inline">\(Z=1=T_{\max}\)</span>이므로 다음 step은 fresh draw이다.</p>
-<hr>
+<p>에 대해 서술된다. 그런데 HST에서 <span class="math inline">\(P(t)\)</span>는 <span class="math inline">\(h_t,Z_t\)</span>에 의존하고, 이는 sample path에 따라 달라진다.</p>
+<p>따라서 이 노선을 유지하려면 다음처럼 써야 한다.</p>
+<blockquote class="blockquote">
+<p>Sample path 또는 filtration을 고정하고, conditional transition matrices의 product에 대해 Dobrushin coefficient를 평가한다.</p>
+</blockquote>
+<p>이 문장이 없으면 theorem 적용이 약간 공중에 뜬다.</p>
 </section>
-<section id="flag-to-flag-dynamics" class="level1">
-<h1>3. Flag-to-flag dynamics</h1>
-<section id="fresh가-v_1에-떨어지는-경우" class="level2">
-<h2 class="anchored" data-anchor-id="fresh가-v_1에-떨어지는-경우">3.1 Fresh가 <span class="math inline">\(v_1\)</span>에 떨어지는 경우</h2>
-<p>Fresh draw가 <span class="math inline">\(v_1\)</span>을 고르면 <span class="math inline">\(h(v_1)\)</span>만 <span class="math inline">\(+b\)</span> 된다. 따라서</p>
+<section id="stopping-timeindexing이-모호하다" class="level2">
+<h2 class="anchored" data-anchor-id="stopping-timeindexing이-모호하다">2.3 stopping time/indexing이 모호하다</h2>
+<p>Appendix의 Theorem A.5는 block/reset 시점 <span class="math inline">\(M_k\)</span>를 잡고</p>
 <p><span class="math display">\[
-\delta=-b,
-\qquad
-X=v_1,
-\qquad
-Z=0.
+\delta(P(M_k,M_{k+1}))\le \delta(P(M_k))=0
 \]</span></p>
-<p>이제 유일한 이웃은 <span class="math inline">\(v_2\)</span>이다. 현재</p>
-<p><span class="math display">\[
-h(v_2) &lt; h(v_1)
-\]</span></p>
-<p>이므로 snow는 <span class="math inline">\(v_1\to v_2\)</span>로 flow한다. 그러면 <span class="math inline">\(h(v_2)\)</span>가 <span class="math inline">\(+b\)</span> 되고,</p>
-<p><span class="math display">\[
-\delta=0,
-\qquad
-X=v_2,
-\qquad
-Z=1.
-\]</span></p>
-<p>즉 flag time으로 돌아왔을 때 다시 <span class="math inline">\(\delta=0\)</span>이다.</p>
-</section>
-<section id="fresh가-v_2에-떨어지는-경우" class="level2">
-<h2 class="anchored" data-anchor-id="fresh가-v_2에-떨어지는-경우">3.2 Fresh가 <span class="math inline">\(v_2\)</span>에 떨어지는 경우</h2>
-<p>Fresh draw가 <span class="math inline">\(v_2\)</span>를 고르면 <span class="math inline">\(h(v_2)\)</span>만 <span class="math inline">\(+b\)</span> 된다. 따라서</p>
-<p><span class="math display">\[
-\delta=b,
-\qquad
-X=v_2,
-\qquad
-Z=0.
-\]</span></p>
-<p>이제 유일한 이웃은 <span class="math inline">\(v_1\)</span>이다. 현재</p>
-<p><span class="math display">\[
-h(v_1)&lt;h(v_2)
-\]</span></p>
-<p>이므로 snow는 <span class="math inline">\(v_2\to v_1\)</span>로 flow한다. 그러면 <span class="math inline">\(h(v_1)\)</span>가 <span class="math inline">\(+b\)</span> 되고,</p>
-<p><span class="math display">\[
-\delta=0,
-\qquad
-X=v_1,
-\qquad
-Z=1.
-\]</span></p>
-<p>역시 flag time으로 돌아왔을 때 <span class="math inline">\(\delta=0\)</span>이다.</p>
+<p>같은 식으로 닫는다. 이 결론은 <span class="math inline">\(M_k\)</span>가 정확히 “다음 step이 <span class="math inline">\(\mu_0\)</span> fresh draw인 flag time”이면 맞다. 그때 transition matrix의 모든 row가 <span class="math inline">\(\mu_0\)</span>라서 Dobrushin coefficient가 0이다.</p>
+<p>하지만 현재 stopping time 정의와 indexing은 읽기에 모호하다. <span class="math inline">\(M_k\)</span>가 block이 일어난 시간인지, block 직후 flag time인지, fresh draw 직전인지가 더 명확해야 한다.</p>
 <hr>
 </section>
 </section>
-<section id="불변성" class="level1">
-<h1>4. 불변성</h1>
-<p>위 두 경우가 전부다. 따라서 <span class="math inline">\(S_0\)</span>에서 출발하면 모든 block-flag time마다</p>
+<section id="더-깔끔한-대체-방향-reset-coupling" class="level1">
+<h1>3. 더 깔끔한 대체 방향 — reset coupling</h1>
+<p>Hajnal을 길게 쓰지 않고도 핵심을 바로 쓸 수 있다.</p>
+<section id="flag-time-정의" class="level2">
+<h2 class="anchored" data-anchor-id="flag-time-정의">3.1 Flag time 정의</h2>
+<p>다음처럼 flag time을 정의한다.</p>
 <p><span class="math display">\[
-Z=1\quad\Longrightarrow\quad \delta=0.
+\tau_0:=0,
+\qquad
+\tau_{r+1}:=\inf\{t&gt;\tau_r: Z_t=T_{\max}\}.
 \]</span></p>
-<p>즉 <span class="math inline">\(Z=1\)</span>인 상태 중에서 <span class="math inline">\(\delta\neq0\)</span>인 상태는 도달 불가능하다.</p>
-<p>예를 들어</p>
+<p>또는 논문 notation에 맞춰 “다음 step이 fresh draw인 시점”으로 잡아도 된다. 핵심은</p>
 <p><span class="math display">\[
-S'=(\delta=2b,\;X=v_1,\;Z=1)
+Z_{\tau_r}=T_{\max}
 \]</span></p>
-<p>는 형식적 full state space</p>
+<p>이면 다음 step에서</p>
 <p><span class="math display">\[
-(0+b\mathbb Z)\times V\times\{0,1\}
+X_{\tau_r+1}\sim\mu_0
 \]</span></p>
-<p>안에 있다. 하지만 <span class="math inline">\(S_0\)</span>에서 절대 도달할 수 없다.</p>
+<p>라는 점이다.</p>
+</section>
+<section id="bounded-return-to-flag" class="level2">
+<h2 class="anchored" data-anchor-id="bounded-return-to-flag">3.2 bounded return to flag</h2>
+<p>Algorithm 1의 구조상, 일단 어떤 시점에서든 다음 flag time까지의 시간은 deterministic하게 bounded된다.</p>
 <p><span class="math display">\[
-P^m(S_0,S')=0
-\qquad\text{for all }m\ge0.
+\tau_{r+1}-\tau_r\le T_{\max}+1.
 \]</span></p>
-<p>따라서 <span class="math inline">\(\{S_t\}\)</span>는 full state space 전체에서 irreducible하지 않다.</p>
+<p>이유는 간단하다. flow가 계속되면 <span class="math inline">\(Z\)</span>가 하나씩 증가하고, <span class="math inline">\(T_{\max}\)</span>에 도달하면 flag가 된다. 중간에 block이 생기면 즉시 <span class="math inline">\(Z=T_{\max}\)</span>가 된다.</p>
+</section>
+<section id="coupling" class="level2">
+<h2 class="anchored" data-anchor-id="coupling">3.3 Coupling</h2>
+<p>두 개의 HST trace를 생각하자. 서로 다른 초기 상태</p>
+<p><span class="math display">\[
+S_0,
+\qquad S_0'
+\]</span></p>
+<p>에서 출발하더라도, 각각 flag time에 도달하면 다음 위치는 모두 <span class="math inline">\(\mu_0\)</span>에서 뽑힌다. 이때 같은 uniform random variable을 써서 fresh draw를 coupling하면</p>
+<p><span class="math display">\[
+X_{\tau+1}=X'_{\tau'+1}
+\]</span></p>
+<p>이 되게 만들 수 있다.</p>
+<p>더 중요한 점은, fresh draw의 law가 과거 상태와 무관하다는 것이다. 따라서 reset step은 initial <span class="math inline">\(X_0\)</span> 정보를 완전히 지운다. Dobrushin 관점에서는 reset transition matrix가</p>
+<p><span class="math display">\[
+Q(i,\cdot)=\mu_0(\cdot)
+\qquad\text{for all }i
+\]</span></p>
+<p>이므로</p>
+<p><span class="math display">\[
+\delta(Q)=0.
+\]</span></p>
+<p>그런 reset kernel이 bounded gaps로 반복 등장하므로 weak ergodicity가 따라온다.</p>
+<hr>
+</section>
+</section>
+<section id="논문용-정리-형태" class="level1">
+<h1>4. 논문용 정리 형태</h1>
+<p>아래는 Appendix A를 대체할 수 있는 더 짧은 정리 형태다.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Proposition: reset contraction of the snow trace">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Proposition: reset contraction of the snow trace
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\{S_t\}\)</span> be the augmented HST process with state <span class="math display">\[
+S_t=(\boldsymbol\delta_t,X_t,Z_t).
+\]</span> Assume that <span class="math inline">\(T_{\max}&lt;\infty\)</span>. Let <span class="math display">\[
+\mathcal F:=\{S:Z=T_{\max}\}
+\]</span> be the block-flag set. If <span class="math inline">\(S_t\in\mathcal F\)</span>, then the next trace location satisfies <span class="math display">\[
+\mathcal L(X_{t+1}\mid S_t)=\mu_0.
+\]</span> Equivalently, the conditional transition kernel of <span class="math inline">\(X_{t+1}\)</span> from any two flag states has Dobrushin coefficient zero. Moreover, every sample path returns to <span class="math inline">\(\mathcal F\)</span> within at most <span class="math inline">\(T_{\max}+1\)</span> steps. Hence the trace process has repeated reset contractions with uniformly bounded gaps.</p>
+</div>
+</div>
+<p><strong>Proof.</strong> If <span class="math inline">\(S_t\in\mathcal F\)</span>, then <span class="math inline">\(Z_t=T_{\max}\)</span>. By the first branch of Algorithm 1, <span class="math inline">\(X_{t+1}\)</span> is drawn from <span class="math inline">\(\mu_0\)</span>, independently of the previous trace location and height profile. Thus the transition kernel from any flag state has identical rows equal to <span class="math inline">\(\mu_0\)</span>, and its Dobrushin coefficient is zero.</p>
+<p>It remains to note that flag states recur with bounded gaps. If the process does not block, then each flow step increases <span class="math inline">\(Z\)</span> by one. After at most <span class="math inline">\(T_{\max}\)</span> consecutive flow steps, <span class="math inline">\(Z\)</span> reaches <span class="math inline">\(T_{\max}\)</span>. If the process blocks earlier, then <span class="math inline">\(Z\)</span> is set to <span class="math inline">\(T_{\max}\)</span> immediately. Therefore the next visit to <span class="math inline">\(\mathcal F\)</span> occurs within at most <span class="math inline">\(T_{\max}+1\)</span> steps. <span class="math inline">\(\square\)</span></p>
 <hr>
 </section>
 <section id="해석" class="level1">
 <h1>5. 해석</h1>
-<p>이 반례는 이전 반례보다 강하다.</p>
+<p>이 명제는 Appendix A의 약한 에르고딕성 논의를 더 HST답게 만든다.</p>
 <ul>
-<li>이전 반례: non-strongly connected directed graph에서 incoming edge가 없어 <span class="math inline">\(X,Z\)</span> 좌표를 못 맞춤.</li>
-<li>이번 반례: graph는 strongly connected인데도, height-difference lattice에 invariant가 생겨 full IRR가 깨짐.</li>
+<li>Hajnal theorem을 쓰려면 random/history-dependent transition matrix 문제를 정리해야 한다.</li>
+<li>Reset coupling을 쓰면 핵심 구조가 바로 보인다.</li>
+<li>HST는 directed graph에서 path가 막혀도 reset으로 전역 재시작한다.</li>
+<li>따라서 weak forgetting은 graph connectivity보다 reset mechanism에서 나온다.</li>
 </ul>
-<p>즉 strongly connected는 full-state irreducibility의 충분조건이 아니다.</p>
-<p>HST의 block/reset은 여전히 강력하다. 하지만 그 효과는 full lattice state space 전체를 하나의 communicating class로 만든다는 뜻이 아니다. 더 정확한 방향은 다음이다.</p>
-<ol type="1">
-<li>full state space IRR를 주장하지 않는다.</li>
-<li>실제 reachable communicating class를 식별한다.</li>
-<li>수렴 증명은 regeneration + Foster–Lyapunov recurrence + petite/small set 구조로 진행한다.</li>
-<li>Lemma 1, 2는 lattice algebra/support 분석용으로 남긴다.</li>
-</ol>
+<p>다만 이 명제만으로 <span class="math inline">\(\overline{\mathrm{SD}}^2(t)\)</span> 수렴이 끝나는 것은 아니다. 이것은 trace <span class="math inline">\(X_t\)</span>의 초기 위치 망각에 관한 statement이고, height difference <span class="math inline">\(\boldsymbol\delta_t\)</span>의 positive recurrence나 moment bound는 별도 Foster–Lyapunov 논증이 필요하다.</p>
 <hr>
 </section>
-<section id="논문용-짧은-문장" class="level1">
-<h1>6. 논문용 짧은 문장</h1>
-<blockquote class="blockquote">
-<p>Even under strong connectivity, the augmented HST chain need not be irreducible on the formal lattice state space. Strong connectivity controls directed reachability of the walker, but it does not eliminate lattice invariants induced by the height-dependent flow and the block counter. Therefore the convergence proof should not rely on full-state irreducibility. A regeneration/small-set argument on the reachable class is the appropriate replacement.</p>
-</blockquote>
+<section id="hajnal은-꼭-필요한가" class="level1">
+<h1>6. Hajnal은 꼭 필요한가?</h1>
+<p>결론부터 말하면, Appendix A의 현재 목적만 놓고 보면 Hajnal은 거의 필요 없다.</p>
+<p>Hajnal/Dobrushin 이론이 유용한 전형적인 상황은 다음과 같다.</p>
+<p><span class="math display">\[
+P_1P_2P_3\cdots
+\]</span></p>
+<p>처럼 매 step의 transition matrix가 다르고, 각각의 block이 조금씩만 contraction을 줄 때, 그 product 전체가 초기분포를 잊는다는 것을 보이고 싶을 때다.</p>
+<p>그런데 HST는 더 강한 구조를 가진다. reset step에서는 transition kernel이 아예</p>
+<p><span class="math display">\[
+Q(i,\cdot)=\mu_0(\cdot)\qquad\text{for all }i
+\]</span></p>
+<p>가 된다. 즉 모든 row가 같다. 따라서 Dobrushin coefficient는</p>
+<p><span class="math display">\[
+\delta(Q)=0.
+\]</span></p>
+<p>이건 “조금씩 섞는다”가 아니라, <strong>한 번에 trace 위치의 초기 정보를 지운다</strong>는 뜻이다.</p>
+<p>비유하면 다음과 같다.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>방식</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hajnal</td>
+<td>매 step 또는 block마다 조금씩 섞어서 결국 잊는다</td>
+</tr>
+<tr class="even">
+<td>HST reset</td>
+<td>중간에 memory를 아예 reset한다</td>
+</tr>
+</tbody>
+</table>
+<p>따라서 Appendix A는 Hajnal theorem을 호출하지 않고도 다음 네 줄로 충분히 정리될 수 있다.</p>
+<ol type="1">
+<li><span class="math inline">\(Z=T_{\max}\)</span>이면 다음 <span class="math inline">\(X\)</span>는 <span class="math inline">\(\mu_0\)</span>에서 뽑힌다.</li>
+<li>이 reset kernel은 모든 row가 같으므로 Dobrushin coefficient가 0이다.</li>
+<li>이런 reset step은 최대 <span class="math inline">\(T_{\max}+1\)</span> 간격으로 반복된다.</li>
+<li>따라서 trace <span class="math inline">\(X_t\)</span>의 초기 위치 의존성은 reset step에서 사라진다.</li>
+</ol>
+<p>다만 이 결론은 어디까지나 <strong>trace <span class="math inline">\(X_t\)</span>의 weak forgetting</strong>에 관한 것이다. 논문의 진짜 어려운 부분인</p>
+<p><span class="math display">\[
+\overline{\mathrm{SD}}^2(t)
+\]</span></p>
+<p>수렴, 즉 height difference <span class="math inline">\(\boldsymbol\delta_t\)</span>의 positive recurrence와 moment bound는 여전히 별도 문제다. 거기에는 Hajnal보다 Foster–Lyapunov drift가 핵심이다.</p>
+<hr>
+</section>
+<section id="최종-메모" class="level1">
+<h1>7. 최종 메모</h1>
+<p>Appendix A는 방향을 잘 잡았다. 하지만 논문용으로는 “Hajnal을 적용한다”보다 “reset kernel의 Dobrushin coefficient가 0이고, 그런 reset이 bounded gaps로 반복된다”라고 쓰는 편이 더 짧고 강하다.</p>
 
 
 </section>

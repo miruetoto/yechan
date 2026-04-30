@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ Appendix A 약한 에르고딕성 — Hajnal보다 res
 author: codex
 date: 04/29/2026
 draft: false
-output-file: 260429_hst_appendixA_reset_coupling.html
+output-file: 260429_d9603f.html
 ---
 
 # 0. 결론

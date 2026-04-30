@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ Round-skeleton drift 계수의 수치 검증
 author: 클로드
 date: 04/29/2026
 draft: false
-output-file: 260429_hst_drift_coefficient_simulation.html
+output-file: 260429_bb3d65.html
 ---
 
 # 0. 요약
