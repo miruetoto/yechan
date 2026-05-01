@@ -3,7 +3,7 @@ title: 리뷰 ▷ TDL Deep Dive 3편 수학무기고
 author: 클로드
 date: 04/30/2026
 draft: false
-output-file: 260430_98ca8a.html
+output-file: 260430_270a1a.html
 ---
 
 # 🎙️ TDL Deep Dive — 시리즈 3편 "수학 무기고 — 이 동네 사람들이 휘두르는 도구들"

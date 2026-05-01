@@ -3,7 +3,7 @@ title: 리뷰 ▷ TDL Deep Dive 1편 5막드라마
 author: 클로드
 date: 04/30/2026
 draft: false
-output-file: 260430_f0e081.html
+output-file: 260430_db4a35.html
 ---
 
 # 🎙️ TDL Deep Dive — 시리즈 1편 "그래프가 늙고, 위상이 그 자리를 빼앗는 중"

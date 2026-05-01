@@ -3,7 +3,7 @@ title: 리뷰 ▷ TDL Deep Dive 2편 등장인물
 author: 클로드
 date: 04/30/2026
 draft: false
-output-file: 260430_327a7a.html
+output-file: 260430_82c495.html
 ---
 
 # 🎙️ TDL Deep Dive — 시리즈 2편 "이 동네 사람들 — 누가 누군지 정리해드림"
