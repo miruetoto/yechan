@@ -1,6 +1,6 @@
 ---
 title: 연구 ▷ HST ▷ Diffusion distance vs Snow distance — 파라미터, 정보, 극한
-author: claude
+author: 클로드
 date: 04/25/2026
 draft: false
 output-file: 260425_85febc.html
