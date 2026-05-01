@@ -1,0 +1,232 @@
+# 🎙️ TDL Deep Dive — 시리즈 1편 "그래프가 늙고, 위상이 그 자리를 빼앗는 중"
+
+> ⚠️ **면책**: 본 글은 **엔터테인먼트성 내러티브 분석**이다. 정량적 추세 표현("X배 증가", "쇠퇴", "봉기", "패전/승전")은 모두 **수집된 364편 데이터셋 안의 패턴**이지, 분야 전체의 출판량 통계가 아니다. 수집 시점에 따른 편향이 있을 수 있다. 단, **개별 논문의 저자·소속·arXiv ID·venue·요지**는 PDF 본문에서 직접 확인한 사실이다. 인용 번호 [n]은 글 끝 부록 표와 일치.
+
+> 364편의 논문이 1년 3개월간 어떻게 싸우고, 화해하고, 누가 누굴 먹어치우는지에 대한 이야기.
+> 진행: 박P (이론파), 김K (응용파)
+
+**📑 시리즈 인덱스**
+- **시리즈 1편 — 5막 드라마** ← 여기
+- [시리즈 2편 — 이 동네 사람들](2026-04-30_TDL-cast-of-characters.md)
+- [시리즈 3편 — 수학 무기고](2026-04-30_TDL-math-arsenal.md)
+
+---
+
+**박P**: 자, 김 선배. 이 분야는 지금 **전국시대**예요.
+
+**김K**: 또 시작이네. 이번엔 어떤 건데요?
+
+**박P**: 정리해드릴게요. 등장 진영이 다섯이에요. **GNN 구파, 스펙트럴 학파, 하이퍼그래프 신흥 세력, 위상 신호처리 학파(TSP), 그리고 트랜스포머 제국.** 이 다섯이 1년 3개월간 부딪혔어요.
+
+**김K**: 어디서부터 시작할까요?
+
+**박P**: 시간 순서대로 갑시다.
+
+---
+
+## 📜 1막. 2025년 봄 — "GNN, 늙기 시작하다"
+
+**박P**: 2025년 2월. 데이터셋 첫 달 3편. 분위기가 죽어 있었어요. 사람들이 **"GCN, GAT, GraphSAGE… 이 동네 더 짤 게 있나?"** 하던 시기.
+
+**김K**: Bronstein이 *Geometric Deep Learning* 책 낸 게 2021년이었죠. 거기서 멈춘 느낌?
+
+**박P**: 그렇죠. 그런데 그 와중에 **두 세력이 슬그머니 칼을 갈고 있었어요.**
+
+**첫 번째 — 스펙트럴 학파.** Vandergheynst(EPFL), Marques(Rice), Segarra(Rice), Frossard. 이 사람들은 원래 신호처리 출신이에요. 그래프를 푸리에 변환 가능한 도메인으로 봐요.
+
+**두 번째 — 위상학자들.** Bronstein(Oxford), Lió(Cambridge), Schaub(RWTH). 이 사람들은 **"이웃 평균 내는 짓 좀 그만하자"** 하는 쪽이에요.
+
+**김K**: 그래서 누가 먼저 칼을 뽑았어요?
+
+---
+
+## ⚔️ 2막. 2025년 여름 — "Hypergraph 봉기"
+
+**박P**: 2025년 6월부터 하이퍼그래프 논문이 쏟아져요.
+
+**김K**: 왜 갑자기?
+
+**박P**: 단순 그래프(엣지 = 노드 두 개)가 **단백질 상호작용, 유전자 조절 네트워크, 추천 시스템**에서 안 먹혀요. 거기선 노드 3개, 5개, 10개가 동시에 묶여요.
+
+**김K**: 그러면 그냥 hyperedge 만들면 되잖아요.
+
+**박P**: 그게 그렇게 안 풀려요. **Over-smoothing이 hypergraph에서 더 심해요.** 그래서 사람들이 별 짓을 다 시작합니다.
+
+> "**Sheaf**를 끌어와라." (Cambridge파)
+> "**Framelet**을 써라." (Rice파)
+> "**Ricci flow**로 곡률을 흘려라." (수학자 영입파)
+> "**Dirac operator**로 풀어라." (Bianconi 학파)
+
+**김K**: 페렐만이 무덤에서 일어나겠는데요. Ricci flow는 푸앵카레 추측 풀 때 쓴 거잖아요.
+
+**박P**: 정확해요. **2026년 3월 — RFHND** [2]. 미친 거죠. 같은 그룹이 다음 달엔 **PDE 기반 anisotropic diffusion**까지 갖다 붙입니다 [3].
+
+**김K**: 결과는요?
+
+**박P**: AAAI-2026에 sheaf 기반 hypergraph 논문이 **두 편 동시에 입성** [4, 5]. **하이퍼그래프 신흥 세력이 학회 인정을 받은 순간**입니다. 항저우-홍콩-싱가포르-케임브리지 라인이 두목.
+
+---
+
+## 🧠 3막. 2025년 가을 — "이탈리아 학파, 뇌를 들고 나오다"
+
+**박P**: 같은 시기, 로마와 런던에서 다른 세력이 무서운 걸 만들고 있었어요.
+
+**김K**: 누구요?
+
+**박P**: **Sergio Barbarossa, Stefania Sardellitti** (Sapienza/Mercatorum, 로마), **Ginestra Bianconi** (Queen Mary, 런던).
+
+이 사람들은 단순 그래프도, 하이퍼그래프도 아니고 **simplicial / cell complex** 위에서 신호를 본 사람들이에요. 즉 — **점, 선, 삼각형, 사면체**를 다 동등하게 데이터로 취급.
+
+**김K**: 그게 무슨 도움이 돼요?
+
+**박P**: 뇌 영상에 붙였어요. **HCP 데이터셋 100명, dMRI + fMRI**. 거기에 **Hodge decomposition**을 돌려요 [6].
+
+**김K**: Hodge decomposition이면…
+
+**박P**: 미분형식을 **gradient(발산) + curl(회전) + harmonic(보존)** 세 부분으로 쪼개는 거. **전자기학에서 전기장-자기장 분해할 때 쓰는 그거.**
+
+**김K**: 잠깐. 그러니까 **뇌 신호를 맥스웰 방정식 풀듯이 분해한다고요?**
+
+**박P**: 그렇게 보면 됩니다. 그리고 같은 시기 **Bianconi 그룹**이 **directed hypergraph + Dirac operator**로 ABIDE 자폐 데이터를 풀어냈어요 [7]. 톤이 거의 **Nature Communications**급. Sapienza-Queen Mary 합작으로 Dirac spectral transform도 정식화 [8].
+
+**김K**: 임상에 갈 수 있겠는데요.
+
+**박P**: 더 있어요. **Padova의 Suweis 그룹**이 **MICrONS 코넥톰(쥐 시각피질 1mm³ 전체 시냅스 지도)** 으로 **RNN의 timescale 다양성**을 위상학적으로 설명해버렸어요 [9]. **PRX 급.**
+
+**김K**: 이탈리아가 다 차지하네요.
+
+**박P**: 그리고 같은 학파가 **3D point cloud**에도 칼을 뽑았어요 [10]. Discrete Exterior Calculus까지 끌어옴. 응용 영역 확장.
+
+---
+
+## 💥 4막. 2026년 초 — "스펙트럴 vs 메시지 패싱, 10년 전쟁의 종전"
+
+**박P**: 자, 이제 분야 내부 화해 얘기 갑시다. 이게 진짜 큰 사건이에요.
+
+**김K**: 두 학파 싸우던 거요?
+
+**박P**: 네. 10년 가까이 따로 놀았어요.
+
+> **메시지 패싱 학파**: "이웃에서 메시지 받아서 합치면 됩니다. 직관적이고 빨라요." — Velickovic, Hamilton, Kipf
+>
+> **스펙트럴 학파**: "그건 그래프 라플라시안의 다항식일 뿐입니다. 우리는 푸리에 도메인에서 필터를 직접 설계합니다." — Vandergheynst, Defferrard, Bronstein 초기
+
+**김K**: 양쪽이 같은 걸 다른 언어로 말한 거 아니에요?
+
+**박P**: **정확히 그게 결론이었어요.** 2026년 2월, 폭탄이 떨어집니다 [11]. **Frossard, Vandergheynst, Schaub, Morris, Wolf, Levie** — 양 학파 거장 10인 공저 Position paper.
+
+**김K**: 어벤져스네요.
+
+**박P**: 어벤져스가 아니고요, **종전 협정문**이에요. "우리 둘은 같은 거였다, 통일 framework로 가자."
+
+**김K**: 그럼 이제 박사과정생들 뭘 연구해야 돼요?
+
+**박P**: 이게 핵심이에요. 두 학파가 통일되면서 **다음 전선이 명확해졌어요. — '고차(higher-order)'로 가야 한다.** 같은 시기 PAC-Bayes로 topology를 generalization bound에 직접 넣은 논문 [12], 논리학 관점 GNN 기초 invited paper [13]도 같이 들어왔어요.
+
+---
+
+## 🤖 5막. 2026년 봄 — "트랜스포머 제국에 도전장"
+
+**박P**: 그리고 가장 도발적인 사건. 2026년 4월.
+
+**김K**: 또 뭐가 터졌어요?
+
+**박P**: **Google DeepMind에서 폭탄** [14]. 제목이 — **"The Topological Trouble With Transformers"**.
+
+**김K**: 제목부터 시비조네.
+
+**박P**: 저자가 **Mike Mozer**예요. 옛날 RNN 시절 거장. 요지가 이래요.
+
+> "트랜스포머는 state tracking을 못 한다.
+> 이건 엔지니어링 문제가 아니라 **위상학적으로 불가능**하다.
+> 우리는 RNN, SSM(Mamba)으로 돌아가야 한다."
+
+**김K**: Mamba가 이거 보고 좋아하겠네요.
+
+**박P**: 그리고 같은 시기 ICLR 2026 워크샵에 또 한 발 들어가요 [15]. 하버드 의대의 **Asif Khan**이 **GPT-2의 레이어별로 Ollivier-Ricci curvature를 잰 거**예요.
+
+**김K**: GPT-2를… 곡률을 잰다고요?
+
+**박P**: 네. 레이어 깊어질수록 토큰 표현 공간이 contraction되는 걸 보여요.
+
+**김K**: 와, 이거 진짜 mechanistic interpretability랑 합쳐지면 무서운 도구가 되겠는데요.
+
+**박P**: 그리고 같은 워크샵에 **Bronstein 그룹**의 **"Can Graph Foundation Models Generalize Over Architecture?"** 가 있어요 [16]. **결론: 못 한다.** Bronstein이 본인이 띄운 GFM에 자기 손으로 균열을 낸 거예요. 그래서 architecture-adaptive GFM이 다음 시드 토픽이 될 거고요.
+
+**김K**: LLM-그래프 융합도 진행 중이죠?
+
+**박P**: 네. Ant Group이 **LLM을 message-passing aggregator로 재정의** [17], Cambridge가 **attention의 simplicial 일반화 + RoPE** [18].
+
+---
+
+## 🎭 막간 — "TDA의 견고함"
+
+**박P**: 트렌디한 거 다 빼고도 끝까지 살아남는 진영이 있어요. 고전 TDA / Persistent Homology. 한국 그룹이 노이즈 stability를 Poisson 모델로 증명한 RCLA [19], Sapienza-Cambridge의 polynomial sheaf diffusion [20].
+
+---
+
+## 🏁 결산 — 누가 이기고 누가 졌나
+
+**김K**: 정리 좀 해주세요.
+
+**박P**: 이렇습니다.
+
+| 진영 | 1년 전 | 지금 | 평가 | 핵심 인용 |
+|---|---|---|---|---|
+| 단순 GNN 구파 | 메인스트림 | 베이스라인 신세 | **패전** | (해당 진영의 새 SOTA 논문 없음) |
+| 스펙트럴 학파 | 비주류 | 메시지패싱과 통일 | **명예 회복** | [11] |
+| Hypergraph 신흥 | 듣보잡 | AAAI 입성 | **승전, 영토 확장 중** | [4, 5] |
+| TSP / Hodge-Dirac | 수학자 동네 | IEEE·Nature급 진입 | **압도적 승리** | [6, 7, 9] |
+| 트랜스포머 제국 | 무적 | 위상학적 균열 | **흔들리는 중** | [14, 15] |
+| **다음 강자 후보** | — | **고차 Foundation Model** | **2026 후반 등장 예상** | [16] |
+
+> "패전/승전"은 제 편집적 라벨. "Nature/PRX 톤"은 톤 추정이지 실제 게재는 아님.
+
+---
+
+## 🎯 그래서 박사과정생/연구자가 가야 할 곳
+
+**김K**: 마무리. 어디 비어 있어요?
+
+**박P**: 두 군데가 명확히 비어 있어요.
+
+1. **LLM-aware Topological Signal Processing.** TSP는 뇌 [6]는 잘 가는데 **텍스트·멀티모달**은 아직 비어 있음. RAMP [17]는 LLM→graph 방향이지, **graph/topology→LLM** 방향은 비어 있음. 누가 먼저 칠까요? 아마 Bronstein 그룹.
+2. **Hypergraph / Cell-complex Foundation Model.** 그래프 GFM은 한계가 드러남 [16]. 고차는 없음. **이건 6개월 안에 누가 칠 거예요.** 안 치면 김 선배가 치세요.
+
+**김K**: 알겠습니다. 1년 뒤에 다시 봅시다.
+
+**박P**: 콜. 1년 뒤 이 표 다시 그릴게요. 누가 살아남고 누가 죽었나.
+
+---
+
+## 📚 부록 — 인용된 논문 20편
+
+본 데이터셋 `data/TDL/downloaded_papers/`에서 PDF 본문 직접 확인. arXiv ID는 본문 헤더 기준.
+
+| # | 논문 | 저자 (소속) | venue / arXiv | 날짜 |
+|---|---|---|---|---|
+| 1 | Learning Sheaf Laplacian Optimizing Restriction Maps 외 (TDL repo seed 3편) | — | TDL repo seed | 2025-02-07 |
+| 2 | Tackling Over-smoothing on Hypergraphs: A Ricci Flow-guided Neural Diffusion (RFHND) | Mengyao Zhou, Zhiheng Zhou, Xiao Han, Xingqin Qi, Guanghui Wang, Guiying Yan | arXiv:2603.15696 [cs.LG], IEEE 제출 | 2026-03-16 |
+| 3 | Hypergraph Neural Diffusion: A PDE-Inspired Framework (HND) | Zhiheng Zhou, Mengyao Zhou, Xixun Lin, Xingqin Qi, Guiying Yan | arXiv:2604.10955 [cs.LG] | 2026-04-13 |
+| 4 | High-Pass Matters: Sheaflet-Based Design for HNN | Ming Li (Zhejiang Normal), Yujie Fang, Dongrui Shen, Han Feng, Xiaosheng Zhuang (CityU HK), Kelin Xia (NTU), Pietro Liò (Cambridge) | **AAAI-26** | 2026 |
+| 5 | Permutation Equivariant Framelet-based HNN (PEF-HNN) | Ming Li, Yi Wang, Chengling Gao, Lu Bai (Beijing Normal), Yujie Fang, Xiaosheng Zhuang, Pietro Liò | **AAAI-26** | 2026 |
+| 6 | Multimodal Higher-Order Brain Networks: A TSP Perspective | Breno C. Bispo, Stefania Sardellitti, Juliano B. Lima, Fernando A. N. Santos | arXiv:2603.29903 [q-bio.NC], IEEE 톤 | 2026-03-31 |
+| 7 | Topological cluster sync via Dirac spectral programming on directed hypergraphs | Yupeng Guo, Ahmed A. A. Zaid, Xueming Liu (HUST), Ginestra Bianconi (QMUL) | arXiv:2512.14729 [physics.soc-ph] | 2025-12-10 |
+| 8 | Learning Dirac Spectral Transforms for Topological Signals | Leonardo Di Nino, Tiziana Cattai, Sergio Barbarossa (Sapienza), Ginestra Bianconi (QMUL), Paolo Di Lorenzo | arXiv:2602.14590 [eess.SP] | 2026-02-16 |
+| 9 | Topological Origin of Diversity of Timescales in RNN Circuits | Marco Zenari, Luca Taffarello, Luca Mazzucato (Oregon), Amos Maritan, Samir Suweis (Padova) | arXiv:2603.04149 [q-bio.NC] | 2026-03-04 |
+| 10 | Topological Signal Processing for 3D Point Cloud Data | Tiziana Cattai, Stefania Sardellitti (Mercatorum), Sergio Barbarossa (Sapienza), Stefania Colonnese | arXiv:2602.19636 [eess.SP] | 2026-02-23 |
+| 11 | Position: Message-passing and Spectral GNNs are Two Sides of the Same Coin | A. Vasileiou (RWTH), J. Cervino (Penn), P. Frossard (EPFL), C. Kanatsoulis (Penn), C. Morris (RWTH), M. Schaub (RWTH), P. Vandergheynst (EPFL), Z. Wang (Florida), G. Wolf (Montreal), R. Levie (Technion) | arXiv:2602.10031 [cs.LG], Position paper | 2026-02-10 |
+| 12 | Topology-Aware PAC-Bayesian Generalization for GNNs | Xueliang Yi 외 | IEEE 톤 | 2026-04-17 |
+| 13 | Foundations of GNN (A Logician's View) | Egor V. Kostylev (Oslo) | OASIcs.RW.2024/2025.3 (Invited) | 2024/2025 |
+| 14 | The Topological Trouble With Transformers | Michael C. Mozer, Shoaib A. Siddiqui, Rosanne Liu (Google DeepMind) | arXiv:2604.17121 [cs.LG] | 2026-04-28 |
+| 15 | The Geometrical and Topological Signatures of Transformers | Asif Khan (Harvard Med) | **GRaM @ ICLR 2026** Tiny Paper | 2026 |
+| 16 | Can Graph Foundation Models Generalize Over Architecture? | Benjamin Gutteridge, Michael Bronstein, Xiaowen Dong (Oxford + AITHYRA) | **GRaM @ ICLR 2026** Proceedings | 2026 |
+| 17 | LLM as Graph Kernel: Rethinking MP on Text-Rich Graphs (RAMP) | Ying Zhang, Hang Yu, Haipeng Zhang, Peng Di (Ant Group + ShanghaiTech) | preprint | 2026-03-19 |
+| 18 | How Smoothing is N-simplicial Attention? | Alexandre Dussolle (Cambridge / ENPC), Pietro Liò (Cambridge) | arXiv:2512.15600 [cs.LG] | 2025-12-17 |
+| 19 | Denoising Data Reduction for TDA (RCLA) | Seonmi Choi, Semin Oh, Jeong Rye Park, Seung Yeop Yang | arXiv:2603.29248 [cs.CG] | 2026-03-31 |
+| 20 | Polynomial Neural Sheaf Diffusion | Alessio Borgi (Sapienza+Cambridge), Fabrizio Silvestri, Pietro Liò | arXiv:2512.00242 [cs.LG] | 2025-11-28 |
+
+---
+
+> 📁 출처: `data/TDL/downloaded_papers/` 364편
+> 📅 분석일: 2026-04-30
