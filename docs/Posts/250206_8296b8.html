@@ -2,15 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.527">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="신록예찬">
 <meta name="dcterms.date" content="2025-02-06">
 
-<title>신록예찬’s Blog - 공부 ▷ 통계적 추정</title>
+<title>공부 ▷ 통계적 추정 – 신록예찬’s Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -23,8 +26,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -66,15 +70,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b80d4d0c6b5ed6a4cb4a000b691bbaf5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -103,8 +108,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -117,7 +122,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -137,7 +142,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -149,7 +154,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -207,7 +212,7 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -224,6 +229,7 @@ window.Quarto = {
   <li><a href="#약속" id="toc-약속" class="nav-link active" data-scroll-target="#약속">약속</a></li>
   <li><a href="#추정이란" id="toc-추정이란" class="nav-link" data-scroll-target="#추정이란">추정이란?</a></li>
   <li><a href="#불편추정량" id="toc-불편추정량" class="nav-link" data-scroll-target="#불편추정량">불편추정량</a></li>
+  <li><a href="#blacksquare" id="toc-blacksquare" class="nav-link" data-scroll-target="#blacksquare"><span class="math inline">\(\blacksquare\)</span></a></li>
   <li><a href="#충분통계량" id="toc-충분통계량" class="nav-link" data-scroll-target="#충분통계량">충분통계량</a></li>
   <li><a href="#완비통계량" id="toc-완비통계량" class="nav-link" data-scroll-target="#완비통계량">완비통계량</a>
   <ul class="collapse">
@@ -269,7 +275,7 @@ window.Quarto = {
 </header>
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode bibtex code-with-copy"><code class="sourceCode bibtex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">@book</span>{<span class="ot">bickel2015mathematical</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bibtex code-with-copy"><code class="sourceCode bibtex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">@book</span>{<span class="ot">bickel2015mathematical</span>,</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>={Mathematical statistics: basic ideas and selected topics, volumes I-II package},</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>={Bickel, Peter J and Doksum, Kjell A},</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>={2015},</span>
@@ -288,7 +294,7 @@ window.Quarto = {
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>={Casella, George and Berger, Roger},</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>={2024},</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="dt">publisher</span>={CRC press}</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>-</code> ref: <a href="http://www2.math.ou.edu/~cremling/teaching/lecturenotes/stat/ln5.pdf" class="uri">http://www2.math.ou.edu/~cremling/teaching/lecturenotes/stat/ln5.pdf</a></p>
 <section id="약속" class="level2">
 <h2 class="anchored" data-anchor-id="약속">약속</h2>
@@ -313,19 +319,19 @@ window.Quarto = {
 <ul>
 <li><span class="math inline">\(f_{\bf X}({\boldsymbol x}; {\boldsymbol \theta})\)</span>: 호그 앤 크레이그 스타일 (<span class="citation" data-cites="hogg2013introduction">@hogg2013introduction</span>)</li>
 <li><span class="math inline">\(f_{\bf X}({\boldsymbol x}, {\boldsymbol \theta})\)</span>: 비켈 앤 닥섬 스타일 (<span class="citation" data-cites="bickel2015mathematical">@bickel2015mathematical</span>)</li>
-<li><span class="math inline">\(f_{\bf X}({\boldsymbol x} | {\boldsymbol \theta})\)</span>: 카셀라 앤 버거 스타일<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>(<span class="citation" data-cites="casella2024statistical">@casella2024statistical</span>)</li>
+<li><span class="math inline">\(f_{\bf X}({\boldsymbol x} | {\boldsymbol \theta})\)</span>: 카셀라 앤 버거 스타일^<a href="@casella2024statistical">조건부밀도처럼 보일 수 있어 오해의 소지가 있음</a></li>
 <li><span class="math inline">\(f_{\bf X}({\boldsymbol x})\)</span>: 단순함수가 아니라 확률변수벡터 <span class="math inline">\({\bf X}\)</span>의 pdf임을 명시하는 수준.</li>
 <li><span class="math inline">\(f({\boldsymbol x})\)</span>: 그냥 다변수 함수정도로 보겠다는 입장.</li>
 </ul>
 </blockquote>
 <p><code>-</code> <span class="math inline">\({\cal P}_{\Theta}=\{\mathbb{P}_{\boldsymbol \theta}: {\boldsymbol \theta} \in {\bf \Theta}\}\)</span> 의 모든 원소에 대하여 어떠한 state가 성립한다는 것은 <span class="math inline">\(\forall {\boldsymbol \theta} \in {\bf \Theta}\)</span> 에 대하여 어떠한 state가 성립한다는 말과 같음.</p>
-<p><code>-</code> <span class="math inline">\(\mathbb{P}_{\boldsymbol \theta}\)</span>가 더이상 <span class="math inline">\({\boldsymbol \theta}\)</span>에 대한 함수가 아니라면 간단하게 <span class="math inline">\(\mathbb{P}\)</span>라고 쓴다.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
-<p><code>-</code> <span class="math inline">\(\mathbb{E}_{\boldsymbol \theta}(X)\)</span>는 <span class="math inline">\(\mathbb{E}_{\boldsymbol \theta}(X)=\int_{X \in {\cal X}} X d\mathbb{P}_{\boldsymbol\theta}\)</span> 을 의미한다.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
-<p><code>-</code> <span class="math inline">\({\cal X}\)</span>는 density function의 정의역을 의미한다.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+<p><code>-</code> <span class="math inline">\(\mathbb{P}_{\boldsymbol \theta}\)</span>가 더이상 <span class="math inline">\({\boldsymbol \theta}\)</span>에 대한 함수가 아니라면 간단하게 <span class="math inline">\(\mathbb{P}\)</span>라고 쓴다.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<p><code>-</code> <span class="math inline">\(\mathbb{E}_{\boldsymbol \theta}(X)\)</span>는 <span class="math inline">\(\mathbb{E}_{\boldsymbol \theta}(X)=\int_{X \in {\cal X}} X d\mathbb{P}_{\boldsymbol\theta}\)</span> 을 의미한다.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<p><code>-</code> <span class="math inline">\({\cal X}\)</span>는 density function의 정의역을 의미한다.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
 </section>
 <section id="추정이란" class="level2">
 <h2 class="anchored" data-anchor-id="추정이란">추정이란?</h2>
-<p><code>-</code> 통계학에서 말하는 추정이라는 것은 기본적으로 미지의 모수 <span class="math inline">\({\boldsymbol \theta}\)</span> 를 하나의 수로 미루어 짐작하는 행위를 의미한다.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<p><code>-</code> 통계학에서 말하는 추정이라는 것은 기본적으로 미지의 모수 <span class="math inline">\({\boldsymbol \theta}\)</span> 를 하나의 수로 미루어 짐작하는 행위를 의미한다.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
 <p><code>-</code> 추정에서 전개하는 많은 논의는 확률측도들의 집합 <span class="math inline">\({\cal P}_{\Theta}=\big\{\mathbb{P}_{\boldsymbol\theta}: {\boldsymbol\theta} \in {\bf \Theta} \big\}\)</span> 을 우선적으로 상상해 놓아야 정확한 이해를 할 수 있다. 예를들어 <span class="math inline">\(\boldsymbol\theta\)</span> 를 잘 추정한다는 말의 의미는 <span class="math inline">\({\cal P}_{\Theta}\)</span>에서 적절한 원소를 잘 선택한다는 것을 뜻한다. 또한 추정량이 가져야 하는 여러가지 좋은 성질에 대한 의미도 다시 생각해볼 수 있다. 추정량이 가져야할 좋은 성질은 어떠한 수식의 형태로 나타나는데, 그러한 수식은 true 가 <span class="math inline">\({\cal P}_{\Theta}\)</span> 중 어떠한 원소라고 할지라도 항상 성립해야 한다. 즉 임의의 <span class="math inline">\(\mathbb{P}_{\boldsymbol\theta}\)</span> 에 대하여 성립해야 함을 의미한다. 예를 들어 불편성의 경우 <span class="math inline">\(\mathbb{E}(\hat{\boldsymbol \theta})=\boldsymbol\theta\)</span> 라는 수식이 떠오를텐데, 이 수식은 임의의 <span class="math inline">\(\mathbb{P}_{\boldsymbol\theta} \in {\cal P}_{\Theta}\)</span> 혹은 임의의 <span class="math inline">\({\boldsymbol \theta} \in {\bf \Theta}\)</span> 에 대하여 성립해야 한다. 아래는 호그 앤 크레이그의 수리통계학에서 발췌한 부분이다.</p>
 <blockquote class="blockquote">
 <p><strong>Hogg and Craig 5e 에서 발췌</strong></p>
@@ -394,8 +400,10 @@ window.Quarto = {
 <section id="definition-1" class="level4">
 <h4 class="anchored" data-anchor-id="definition-1">Definition</h4>
 <p>최소분산불편추정량에 대한 정의는 아래와 같다. <span class="math display">\[\hat{\boldsymbol\theta} \text{ is MVUE} \Leftrightarrow ~ (1) ~\hat{\boldsymbol\theta} \text{ is UB} ~~(2) ~\forall \hat{\boldsymbol \theta}^{UB}:\mathbb{V}_{\boldsymbol\theta}[\hat{\boldsymbol\theta}]\leq\mathbb{V}_{\boldsymbol\theta}[\hat{\boldsymbol\theta}^{UB}] \]</span> 여기에서 <span class="math inline">\(\leq\)</span> 는 positive semi-definite ordering을 의미한다.</p>
-<p><span class="math inline">\(\blacksquare\)</span></p>
-<hr>
+</section>
+</section>
+<section id="blacksquare" class="level2">
+<h2 class="anchored" data-anchor-id="blacksquare"><span class="math inline">\(\blacksquare\)</span></h2>
 <p><code>-</code> 따라서 정의를 순진하게 적용한다면 최소분산불편추정량을 구하는 방법을 아래와 같이 요약할 수 있다.</p>
 <ol type="1">
 <li>고정된 <span class="math inline">\(\boldsymbol\theta\)</span> 에 대한 모든 비편향추정량을 구한다.</li>
@@ -404,10 +412,9 @@ window.Quarto = {
 </ol>
 <p>그런데 사실상 정의 그대로 MVUE를 구하는건 거의 불가능에 가깝다. 따라서 이를 쉽게 하기 위한 적당한 이론이 필요하다.</p>
 <hr>
-</section>
 <section id="theorem-crb" class="level4">
 <h4 class="anchored" data-anchor-id="theorem-crb">Theorem – CRB</h4>
-<p>크래머라오 하한값(편의상 <span class="math inline">\({\bf L}^\star\)</span>이라고 하자)이라고 있는데, 이는 <span class="math inline">\(\hat{\bf \Theta}^{UB}\)</span> 에 존재하는 모든 추정량에 대한 분산의 하한값을 제공한다.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> 즉 아래가 성립한다.</p>
+<p>크래머라오 하한값(편의상 <span class="math inline">\({\bf L}^\star\)</span>이라고 하자)이라고 있는데, 이는 <span class="math inline">\(\hat{\bf \Theta}^{UB}\)</span> 에 존재하는 모든 추정량에 대한 분산의 하한값을 제공한다.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> 즉 아래가 성립한다.</p>
 <ul>
 <li><span class="math inline">\({\bf L}^\star\)</span> is Cramer-Rao lower bound <span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(\forall \hat{\boldsymbol \theta} \in \hat{\bf \Theta}^{UB}:~ \mathbb{V}_{\boldsymbol \theta}(\hat{\boldsymbol\theta}) \geq {\bf L}^\star\)</span></li>
 </ul>
@@ -598,7 +605,7 @@ window.Quarto = {
 <p>따라서 얽힌부분이 <span class="math inline">\(({\boldsymbol x}, a,b)\)</span>의 함수에서 <span class="math inline">\((x_{(1)},x_{(n)},a,b)\)</span>의 함수로 재표현되었으므로 <span class="math inline">\(\vec{T}({\bf X})=(X_{(1)}, X_{(n)})\)</span>는 <span class="math inline">\((a,b)\)</span>에 대한 충분통계량이다.</p>
 <p><code>-</code> 만약에 얽힌부분을 재표현하기 어렵다면 그냥 순서통계량이 충분통계량이 된다. 예를들어 코시분포, 로그로지스틱, 파레토분포가 그러한 예시이다.</p>
 <p><code>-</code> 지금까지 살펴본 분포들을 정리하면 아래와 같다.</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 20%">
 <col style="width: 20%">
@@ -648,7 +655,7 @@ window.Quarto = {
 </table>
 <p>여기에서 이산균등, 연속균등은 요약이 잘 되는 경우이며 코시,로그로지스틱,파레토는 요약이 잘 안되는 경우이다. 위의 분포들은 모두 지수족이 아니다. (참고로 지수족이어야 충분통계량으로 요약이 된다는가 그런 이론이 있을걸? 확실치 않음)</p>
 <p><code>-</code> 몇 가지 (교과서에 잘 나오지 않는) 분포에 대한 충분통계량을 조사해보자.</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 20%">
 <col style="width: 20%">
@@ -722,14 +729,14 @@ window.Quarto = {
 </ol>
 <p>따라서 1의 얽힘은 <span class="math inline">\(\sum_{i=1}^{n}\log x_i\)</span> 를 기억하면 충분하다. 2의 얽힘은 <span class="math inline">\(\sum_{i=1}^{n}x_i^k\)</span>를 기억하면 충분해 보인다. 따라서 이때 충분통계량은 <span class="math inline">\(\vec{T}({\bf X})=(\sum_{i=1}^{n}\log X_i, \sum_{i=1}^{n}X_i^k)\)</span> 인듯 보인다. 그렇지만</p>
 <p><span class="math display">\[\sum_{i=1}^{n}X_i^k\]</span></p>
-<p>는 통계량이 아니므로<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> <span class="math inline">\(\vec{T}({\bf X})=(\sum_{i=1}^{n}\log X_i, \sum_{i=1}^{n}X_i^k)\)</span>는 충분통계량이라고 주장할 수 없다. 어쩌면 좋을까? 결국 별 수 없이 이 경우 충분통계량은 순서통계량벡터가 되어야한다. 즉 아래가 충분통계량이다. <span class="math display">\[\vec{T}({\bf X})=(X_{(1)},\dots,X_{(n)})\]</span> 만약에 <span class="math inline">\(k\)</span>가 알려진 경우라면 어떨까?</p>
+<p>는 통계량이 아니므로<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> <span class="math inline">\(\vec{T}({\bf X})=(\sum_{i=1}^{n}\log X_i, \sum_{i=1}^{n}X_i^k)\)</span>는 충분통계량이라고 주장할 수 없다. 어쩌면 좋을까? 결국 별 수 없이 이 경우 충분통계량은 순서통계량벡터가 되어야한다. 즉 아래가 충분통계량이다. <span class="math display">\[\vec{T}({\bf X})=(X_{(1)},\dots,X_{(n)})\]</span> 만약에 <span class="math inline">\(k\)</span>가 알려진 경우라면 어떨까?</p>
 <ol type="1">
 <li><span class="math inline">\(x_1^{k-1}\cdots x_n^{k-1}\)</span></li>
 <li><span class="math inline">\(e^{-(x_1^k/\lambda^k + \cdots +x_n^k/\lambda^k) }\)</span></li>
 </ol>
-<p>에서 1은 얽힌부분이 아니게 되고 2만 얽힌부분이된다. 따라서 이 경우 충분통계량은 <span class="math inline">\(T({\bf X})=\sum_{i=1}^n X_i^k\)</span>가 된다.</p>
+<p>에서 1은 얽힌부분이 아니게 되고 2만 얽힌부분이된다. 따라서 이 경우 충분통계량은 <span class="math inline">\(T({\bf  X})=\sum_{i=1}^n X_i^k\)</span>가 된다.</p>
 <p><code>-</code> 아래의 표를 다시 관찰하자.</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 13%">
 <col style="width: 50%">
@@ -776,18 +783,18 @@ window.Quarto = {
 <p>꼴로 표현되는지인데 (그것 이외에도 까다로운 조건이 있어보이지만 잘 모르겠음) 각 분포의 <span class="math inline">\(\log f(x)\)</span>에 대한 얽힘부분을 표현하면 아래와 같다.</p>
 <ul>
 <li>역감마: <span class="math inline">\((-\alpha-1) \log x + (-\beta) \frac{1}{x}\)</span>,</li>
-<li>로그정규: <span class="math inline">\(\frac{1}{2\sigma^2} (\log x)^2 + \frac{-\mu}{\sigma^2}\log x\)</span></li>
+<li>로그정규: <span class="math inline">\(\frac{1}{2\sigma^2} (\log x)^2  + \frac{-\mu}{\sigma^2}\log x\)</span></li>
 <li>와이블(<span class="math inline">\(k\)</span> is unknown): <span class="math inline">\((k-1)\log x + \frac{-1}{\lambda^k} x^k\)</span></li>
 <li>와이블(<span class="math inline">\(k\)</span> is known): <span class="math inline">\(\frac{-1}{\lambda^k} x^k\)</span></li>
 </ul>
 <p>보면 <span class="math inline">\(k\)</span>가 알려지지 않은 와이블의 경우 <span class="math inline">\(x^k\)</span> 때문에 <span class="math inline">\(\vec{T}({\boldsymbol x}) \cdot \vec{\eta}({\boldsymbol \theta})\)</span>로 표현이 안된다. <span class="math inline">\(k\)</span>가 알려진 와이블의 경우 얽힌부분이 단순히 <span class="math inline">\(\frac{-1}{\lambda^k}x^k\)</span>로만 정리되고 이때는 지수족이라 볼 수 있다. 사실 지수족의 경우 충분통계량을 매우 쉽게 구할 수 있다.</p>
 <ol type="1">
-<li><span class="math inline">\(\log f_{\boldsymbol \theta}(x)\)</span>에서 얽힌부분을 추출한다.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></li>
-<li>1의 결과로 나온 얽힌부분에서 <span class="math inline">\(d\)</span>차원 벡터 <span class="math inline">\(\vec{T}(x)=(T_1(x),\dots,T_d(x))\)</span>를 추출한다.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></li>
+<li><span class="math inline">\(\log f_{\boldsymbol \theta}(x)\)</span>에서 얽힌부분을 추출한다.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></li>
+<li>1의 결과로 나온 얽힌부분에서 <span class="math inline">\(d\)</span>차원 벡터 <span class="math inline">\(\vec{T}(x)=(T_1(x),\dots,T_d(x))\)</span>를 추출한다.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></li>
 <li>충분통계량(벡터) <span class="math inline">\(\vec{T}({\bf X}):=(\sum_{i=1}^{n}T_1(X_i),\dots,\sum_{i=1}^{n}T_d(X_i))\)</span></li>
 </ol>
-<p>위에서 <span class="math inline">\(\vec{T}(x)\)</span>를 이용하여 <span class="math inline">\(\vec{T}({\bf X})\)</span>를 만드는 것은 수식으로 보면 어려워보이지만 몇번 연습해보면 매우 쉽다.<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> 아래의 표를 살펴보면서 연습해보자.</p>
-<table class="table">
+<p>위에서 <span class="math inline">\(\vec{T}(x)\)</span>를 이용하여 <span class="math inline">\(\vec{T}({\bf X})\)</span>를 만드는 것은 수식으로 보면 어려워보이지만 몇번 연습해보면 매우 쉽다.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> 아래의 표를 살펴보면서 연습해보자.</p>
+<table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
 <col style="width: 33%">
@@ -864,7 +871,7 @@ window.Quarto = {
 </tbody>
 </table>
 <p><code>-</code> 이제 좀 다른 예제들을 살펴보자.</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
 <col style="width: 33%">
@@ -1079,14 +1086,14 @@ window.Quarto = {
 <p><code>-</code> 이번절에서는 충분통계량의 축약에 대해서 다룬다. 먼저 최소충분통계량이라는 개념이 있는데 이는 함수를 이용한 직관적인 방법으로 축약된 통계량을 따진다. (구체적으로 최소충분통계량은 모든 다른 충분통계량의 함수인 충분통계량으로 정의한다)</p>
 <p><code>-</code> 언뜻 생각하면 최소충분통계량이 유용해보이지만 완비충분통계의 존재로 인해서 최소충분통계량은 그다지 유용하지 않다. 완비충분통계량이 더 자주 쓰이는 이유는 아래와 같다.</p>
 <ol type="1">
-<li>최소충분통계량이 존재하는 경우는 완비성이 최소충분성을 imply한다. <a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a> ((<span class="citation" data-cites="casella2024statistical">@casella2024statistical</span>)</li>
+<li>최소충분통계량이 존재하는 경우는 완비성이 최소충분성을 imply한다. <a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> ((<span class="citation" data-cites="casella2024statistical">@casella2024statistical</span>)</li>
 <li>지수족에서는 완비충분통계량을 구하는 것이 상대적으로 쉽다</li>
-<li>완비충분통계량은 (최소충분통계량과 달리) 여러가지 이론과<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a> 직접적으로 연결된다.</li>
+<li>완비충분통계량은 (최소충분통계량과 달리) 여러가지 이론과<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a> 직접적으로 연결된다.</li>
 </ol>
 <blockquote class="blockquote">
 <p>완비통계량을 살펴보기전에 함수공간이라는 개념을 살펴보자. 두 집합 <span class="math inline">\({\cal X}, {\cal Y}\)</span> 에 대하여 <span class="math inline">\(g: {\cal X} \to {\cal Y}\)</span> 인 모든 함수들의 집합을 <span class="math inline">\({\cal Y}^{\cal X}\)</span> 라고 정의하자. 이때 집합 <span class="math inline">\({\cal Y}^{\cal X}\)</span>를 함수공간이라고 한다. 예를들어 <span class="math inline">\({\cal X}=\{0,1\}\)</span> 이고 <span class="math inline">\({\cal Y}=\mathbb{R}\)</span> 이라고 하자. <span class="math inline">\(g:{\cal X} \to {\cal Y}\)</span>의 예시는 함수 <span class="math inline">\(g\)</span>의 예시는 아래와 같다. <span class="math display">\[g(x)=\sqrt{x+1},\quad x=0,1\]</span> 사실 위와 같은 함수 <span class="math inline">\(g\)</span>는 아래와 같은 순서쌍 <span class="math inline">\((x,g(x))\)</span>들의 집합으로 표현할 수 있다. 즉 아래는 함수 <span class="math inline">\(g\)</span>를 정의할 수 있다. <span class="math display">\[\big\{(0,g(0)), (1,g(1))\big\} = \big\{(0,1), (1,\sqrt{2})\big\}\]</span> 이뿐만 아니라 임의의 <span class="math inline">\(\{0,1\} \to \mathbb{R}\)</span> 인 함수는 모두 위와 같은 순서쌍으로 정의가능하다. 이러한 순서쌍들(=함수들)을 모두 모은 집합은 아래와 같이 기호로 정의한다. <span class="math display">\[{\cal Y}^{\cal X}=\mathbb{R}^{\{0,1\}}\]</span> 그런데 사실 어떠한 함수 <span class="math inline">\(g\)</span>를 <span class="math inline">\(\big\{(0,g(0)), (1,g(1))\big\}\)</span>와 같이 4개의 숫자로 표현하지 않고 <span class="math inline">\((g(0),g(1))\)</span> 2개의 숫자로 표현해도 충분할 것 같다. (왜냐하면 정의역은 뻔하니까) 예를들어 <span class="math inline">\(g(x)=\sqrt{x+1}\)</span>는 <span class="math inline">\((1,\sqrt{2})\)</span>로.. <span class="math inline">\(g(x)=\log(x+1)\)</span>은 <span class="math inline">\((0,\log2)\)</span>와 같은 식으로 말이다. 이런식의 표기법을 적용하면 <span class="math inline">\(\{0,1\} \to \mathbb{R}\)</span>의 모든 함수는 <span class="math inline">\(\mathbb{R}^2\)</span>의 모든 원소로 표현가능하다. 따라서 모든 <span class="math inline">\(g\)</span>들의 집합은 아래와 같이 표현가능하다. <span class="math display">\[{\cal Y}^{\cal X}=\mathbb{R}^{\{0,1\}}\cong \mathbb{R}^2\]</span> 이러한 논의를 적용하면 <span class="math inline">\(\{0,1,2,\dots,n\} \to \mathbb{R}\)</span> 인 모든 함수의 집합은 <span class="math inline">\(\mathbb{R}^{n+1}\)</span> 로 표현할 수 있고, <span class="math inline">\(\mathbb{N} \to \mathbb{R}\)</span>인 모든 함수들의 집합은 <span class="math inline">\(\mathbb{R}^{\mathbb{N}}\)</span>으로 표현할 수 있다. 또한 집합 <span class="math inline">\(X\)</span>의 모든 부분집합들의 집합은 <span class="math inline">\(X \to \{0,1\}\)</span>와 같은 함수로 생각할 수 있으므로 <span class="math inline">\(2^X\)</span>와 같이 표현할 수 있다. 또 <span class="math inline">\(\mathbb{R} \to \mathbb{R}\)</span> 인 모든 함수들의 집합은 <span class="math inline">\(\mathbb{R}^{\mathbb{R}}\)</span>로 표현할 수 있다.</p>
 </blockquote>
-<p><code>-</code> <span class="math inline">\(X_1,\dots, X_n \sim F_{\boldsymbol \theta}\)</span>, 이고 <span class="math inline">\(\vec{T}({\bf X})\)</span>는 통계량이라고 하자. 이제 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>으로 만들 수 있는 다른 모든 2차통계량<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a>을 모은 집합을 상상하자. 이때 <span class="math inline">\(\vec{T}({\bf X})\)</span>로 만들 수 있는 2차통계량은 <span class="math inline">\(g(\vec{T}({\bf X}))\)</span>와 같이 <span class="math inline">\(\vec{T}({\bf X})\)</span>의 함수형태로 표현할 수 있다. 함수 <span class="math inline">\(g\)</span>는 단순히 그냥 원래 통게량 <span class="math inline">\(\vec{T}({\bf X})\)</span>를 다른 2차통계량으로 바꾸는 변환이라고 생각하면 된다. 예를들어 <span class="math inline">\(\vec{T}({\bf X})=(X_1,\dots, X_n)\)</span>이라고 하고 2차통계량을 <span class="math inline">\((X_{(1)}, X_{(n)})\)</span> 이라고 한다면 <span class="math inline">\(g\)</span>는 <span class="math inline">\((X_1,\dots,X_n) \to (X_{(1)},X_{(n)})\)</span>와 같은 변환이라 생각할 수 있다. 여기에서 <span class="math inline">\(g\)</span>가 가져야할 최소한의 조건은 (1) <span class="math inline">\(\vec{T}({\bf X})\)</span>는 입력으로 받을 수 있을것 (2) <span class="math inline">\(g(\vec{T}({\bf X}))\)</span> 자체도 통계량일것 정도이다. (책에 나온건 아니지만 그래야할 것 같음. 나중에 찾아볼 생각) 이정도만 보장하면 <span class="math inline">\(g\)</span>의 형태는 마음대로 설정해도 되겠다. 아무튼 이러한 <span class="math inline">\(g: {\cal T} \to {\cal G}\)</span>를 모두 모은 집합 (즉 함수공간)을 <span class="math inline">\({\cal G}^{\cal T}\)</span> 라고 하자. 여기에서 <span class="math inline">\({\cal T}\)</span>는 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>이 가질 수 있는 값들의 집합이며 <span class="math inline">\({\cal G}\)</span>는 통계량 <span class="math inline">\(g(\vec{T}({\bf X}))\)</span>가 가질수 있는 값들의 집합이다.</p>
+<p><code>-</code> <span class="math inline">\(X_1,\dots, X_n \sim F_{\boldsymbol \theta}\)</span>, 이고 <span class="math inline">\(\vec{T}({\bf X})\)</span>는 통계량이라고 하자. 이제 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>으로 만들 수 있는 다른 모든 2차통계량<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a>을 모은 집합을 상상하자. 이때 <span class="math inline">\(\vec{T}({\bf X})\)</span>로 만들 수 있는 2차통계량은 <span class="math inline">\(g(\vec{T}({\bf X}))\)</span>와 같이 <span class="math inline">\(\vec{T}({\bf X})\)</span>의 함수형태로 표현할 수 있다. 함수 <span class="math inline">\(g\)</span>는 단순히 그냥 원래 통게량 <span class="math inline">\(\vec{T}({\bf X})\)</span>를 다른 2차통계량으로 바꾸는 변환이라고 생각하면 된다. 예를들어 <span class="math inline">\(\vec{T}({\bf X})=(X_1,\dots, X_n)\)</span>이라고 하고 2차통계량을 <span class="math inline">\((X_{(1)}, X_{(n)})\)</span> 이라고 한다면 <span class="math inline">\(g\)</span>는 <span class="math inline">\((X_1,\dots,X_n) \to (X_{(1)},X_{(n)})\)</span>와 같은 변환이라 생각할 수 있다. 여기에서 <span class="math inline">\(g\)</span>가 가져야할 최소한의 조건은 (1) <span class="math inline">\(\vec{T}({\bf X})\)</span>는 입력으로 받을 수 있을것 (2) <span class="math inline">\(g(\vec{T}({\bf X}))\)</span> 자체도 통계량일것 정도이다. (책에 나온건 아니지만 그래야할 것 같음. 나중에 찾아볼 생각) 이정도만 보장하면 <span class="math inline">\(g\)</span>의 형태는 마음대로 설정해도 되겠다. 아무튼 이러한 <span class="math inline">\(g: {\cal T} \to {\cal G}\)</span>를 모두 모은 집합 (즉 함수공간)을 <span class="math inline">\({\cal G}^{\cal T}\)</span> 라고 하자. 여기에서 <span class="math inline">\({\cal T}\)</span>는 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>이 가질 수 있는 값들의 집합이며 <span class="math inline">\({\cal G}\)</span>는 통계량 <span class="math inline">\(g(\vec{T}({\bf X}))\)</span>가 가질수 있는 값들의 집합이다.</p>
 <p><code>-</code> 올바른 공부순서는 아닐 수 있으나 완비통계량의 정의를 살펴보기전에 예제를 먼저 살펴보자. 즉 어떠한 문제에서 “완비통계량”임을 판단하는 예시를 몇개 풀어보자. 아래와 같은 방식으로 풀면된다.</p>
 <ol start="0" type="1">
 <li>(가정) <span class="math inline">\(X_1,\dots, X_n \sim F_{\boldsymbol \theta}\)</span>, <span class="math inline">\(\vec{T}({\bf X})\)</span>, <span class="math inline">\(g(\vec{T}({\bf X}))\)</span>의 존재를 일단 상상해두자.</li>
@@ -1111,7 +1118,7 @@ window.Quarto = {
 <ol start="3" type="1">
 <li><span class="math inline">\(n=3\)</span> 일 경우:</li>
 </ol>
-<p>이때 <span class="math inline">\(T\)</span>가 가질 수 있는 값은 4개이며<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a> 확률벡밀도함수는 아래와 같이 4차원의 벡터로 나타낼 수 있다.</p>
+<p>이때 <span class="math inline">\(T\)</span>가 가질 수 있는 값은 4개이며<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a> 확률벡밀도함수는 아래와 같이 4차원의 벡터로 나타낼 수 있다.</p>
 <p><span class="math display">\[f_{T}(t; \theta): = \begin{pmatrix} (1-\theta)^3 \\ 3\theta(1-\theta)^2 \\3\theta^2(1-\theta) \\\theta^3 \end{pmatrix}\]</span></p>
 <p>따라서 <span class="math display">\[{\cal P}_{\Theta}=\left\{\begin{pmatrix} 1\\0\\0 \\ 0\end{pmatrix},  \begin{pmatrix} 1/8\\ 3/8 \\3/8 \\ 1/8\end{pmatrix}, \begin{pmatrix} 0\\0\\0 \\ 1\end{pmatrix} \right\}\]</span> 이 된다. <span class="math inline">\({\cal P}_{\Theta}\)</span>는 <span class="math inline">\({\cal G}^{\cal T}=\mathbb{R}^4\)</span> 기저집합이 아니므로 이때 <span class="math inline">\(T\)</span>는 <span class="math inline">\(\theta \in \Theta\)</span>에 대한 완비통계량이 아니다.</p>
 <p><span class="math inline">\(\blacksquare\)</span></p>
@@ -1159,7 +1166,7 @@ window.Quarto = {
 <p><span class="math display">\[B \textup{ is complete basis on } {\cal G} \quad\Longleftrightarrow \quad\big(\forall f \in B:  \langle g,f\rangle=0 \big) \Rightarrow g=0\]</span></p>
 <p><code>-</code> 이 논의를 확장하자. 랜덤샘플 <span class="math inline">\(X_1,\dots,X_n \sim F_{\boldsymbol \theta}\)</span> 의 함수인 어떠한 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>를 고려하자. 그리고 아래를 상상하자.</p>
 <ul>
-<li>집합1: 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>으로 만들 수 있는 다른 모든 2차통계량<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a>을 모은 집합</li>
+<li>집합1: 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>으로 만들 수 있는 다른 모든 2차통계량<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>을 모은 집합</li>
 <li>집합2: 집합1에서 생각한 2차통계량에 대응하는 확률밀도 함수들을 모은 집합</li>
 </ul>
 <blockquote class="blockquote">
@@ -1175,7 +1182,7 @@ window.Quarto = {
 </ul>
 <p><code>-</code> 이제 “complete”의 의미를 정의해보자. 먼저 이전의 셋팅을 복습하자. 벡터공간 <span class="math inline">\({\cal G}\)</span>와 그 벡터공간의 원소 <span class="math inline">\(g\)</span>, 그리고 <span class="math inline">\({\cal G}\)</span>의 완비기저집합 <span class="math inline">\(B\)</span>와 완비기저집합의 원소 <span class="math inline">\(f\)</span>를 고려했었다. 그리고 아래의 수식을 논의한 바 있다. <span class="math display">\[B \textup{ is complete basis on } {\cal G} \quad\Longleftrightarrow \quad\big(\forall f \in B:  \langle g,f\rangle=0 \big) \Rightarrow g=0\]</span></p>
 <p>이제 완비통계량을 정의하기 위해서 위의 개념을 확장할 것이다. 대응되는 요소를 표로 만들어 정리해보자.</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 6%">
 <col style="width: 26%">
@@ -1233,7 +1240,7 @@ window.Quarto = {
 <li>(채워짐위반) <span class="math inline">\(\vec{T}({\bf X})\)</span>로 만들어지는 어떠한 임의의 통계량 <span class="math inline">\({\bf Y}=g(\vec{T}({\bf X}))\)</span>를 고려하자.</li>
 </ol>
 <p><code>-</code></p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 5%">
 </colgroup>
@@ -1388,61 +1395,75 @@ window.Quarto = {
 <li id="fn2"><p>통계량 자체가 벡터를 의미할수도있어서 이럴경우는 통계량벡터라고 명시해도되고 그냥 단순히 통계량이라고 해도된다.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p>이 경우 역시 단순<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>레만&amp;카살라의 Point Estimation 에서는 단순히 <span class="math inline">\({\cal P}\)</span>로 표현함. 그런데 <span class="math inline">\({\cal P}\)</span>는 <span class="math inline">\(\Theta\)</span>에 따라 달라질 수 도 있으므로 <span class="math inline">\({\cal P}_\Theta\)</span>라고 표현하는게 더 좋은 것 같다.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>조건부밀도처럼 보일 수 있어 오해의 소지가 있음<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>카셀라 앤 버거 스타일(<span class="citation" data-cites="casella2024statistical">@casella2024statistical</span>)<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p>카셀라 앤 버거 스타일(<span class="citation" data-cites="casella2024statistical">@casella2024statistical</span>)<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7"><p>카셀라 앤 버거 스타일(<span class="citation" data-cites="casella2024statistical">@casella2024statistical</span>)<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>카셀라 앤 버거 스타일(<span class="citation" data-cites="casella2024statistical">@casella2024statistical</span>)<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9"><p>엄밀하게 말하면 점추정일 경우를 의미한다. 이 문서에서 추정은 점추정을 의미한다<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10"><p>사실 <span class="math inline">\({\bf \Theta}^{UB}\)</span>가 아닌 집합에 대해서도 하한값을 제공함<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11"><p>모수 <span class="math inline">\(k\)</span>에 대한 식으로 표현되어 있으므로 통계량이 아님. 그냥 확률변수이긴 해서 분포는 가짐. 유사한 것으로 정규분포에서 쓰는 <span class="math inline">\(Z=\frac{X-\mu}{\sigma}\)</span>역시 통계량은 아님. 그렇지만 분포는 가짐.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn12"><p>확률변수벡터의 결합확률밀도함수를 애써 상상할 필요가 없는 것이 포인트이다. 그냥 <span class="math inline">\(\log f_{\boldsymbol \theta}(x)\)</span>를 가지고 바로 얽힌부분을 추출하면 된다. <a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn13"><p>지수족에서는 항상 모수의 차원과 동일한 길의의 벡터 <span class="math inline">\(\vec{T}(x)\)</span>가 만들어짐<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn14"><p><span class="math inline">\(\vec{T}(x)\)</span>에서 <span class="math inline">\(\vec{T}({\bf X})\)</span>로 바꾸는 과정을 단순하게 기억하고 싶다면, “(1) <span class="math inline">\(x \to X_i\)</span> 로 바꾼다. (2) 벡터의 각 원소에 <span class="math inline">\(\sum_i\)</span>를 붙인다”고 기억하자.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn15"><p>즉 완비성이 최소충분성보다 더 강한 조건이다. 따라랏 최소비충분통계량을 찾는 문제가 나올 경우 그냥 완비충분통계량을 구하면 된다.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn16"><p>이를테면 레만쉐페정리<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn17"><p>2차통계량은 정식용어는 아님<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn18"><p><span class="math inline">\(T=0,1,2,3\)</span><a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn19"><p>2차통계량은 정식용어는 아님<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>엄밀하게 말하면 점추정일 경우를 의미한다. 이 문서에서 추정은 점추정을 의미한다<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>사실 <span class="math inline">\({\bf \Theta}^{UB}\)</span>가 아닌 집합에 대해서도 하한값을 제공함<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>모수 <span class="math inline">\(k\)</span>에 대한 식으로 표현되어 있으므로 통계량이 아님. 그냥 확률변수이긴 해서 분포는 가짐. 유사한 것으로 정규분포에서 쓰는 <span class="math inline">\(Z=\frac{X-\mu}{\sigma}\)</span>역시 통계량은 아님. 그렇지만 분포는 가짐.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>확률변수벡터의 결합확률밀도함수를 애써 상상할 필요가 없는 것이 포인트이다. 그냥 <span class="math inline">\(\log f_{\boldsymbol \theta}(x)\)</span>를 가지고 바로 얽힌부분을 추출하면 된다. <a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>지수족에서는 항상 모수의 차원과 동일한 길의의 벡터 <span class="math inline">\(\vec{T}(x)\)</span>가 만들어짐<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p><span class="math inline">\(\vec{T}(x)\)</span>에서 <span class="math inline">\(\vec{T}({\bf X})\)</span>로 바꾸는 과정을 단순하게 기억하고 싶다면, “(1) <span class="math inline">\(x \to X_i\)</span> 로 바꾼다. (2) 벡터의 각 원소에 <span class="math inline">\(\sum_i\)</span>를 붙인다”고 기억하자.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p>즉 완비성이 최소충분성보다 더 강한 조건이다. 따라랏 최소비충분통계량을 찾는 문제가 나올 경우 그냥 완비충분통계량을 구하면 된다.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p>이를테면 레만쉐페정리<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16"><p>2차통계량은 정식용어는 아님<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17"><p><span class="math inline">\(T=0,1,2,3\)</span><a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18"><p>2차통계량은 정식용어는 아님<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
@@ -1450,157 +1471,184 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
       return codeEl.innerText;
     }
-  });
-  clipboard.on('success', function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  });
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      return note.innerHTML;
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
-        return container.innerHTML
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      return note.innerHTML;
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -1608,185 +1656,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 
 
