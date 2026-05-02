@@ -1,6 +1,6 @@
 ---
 title: 연구 ▷ HST ▷ 그래프 구조로의 점근적 환원 — Appendix A.6 초안
-author: 클로드
+author: claude
 date: 04/26/2026
 draft: false
 output-file: 260426_92d9fb.html

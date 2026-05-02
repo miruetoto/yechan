@@ -1,6 +1,6 @@
 ---
 title: 연구 ▷ HST ▷ $W(t)$ 궤적과 자기 선형근사의 편차 — $\tau^*$의 존재와 해석
-author: 클로드
+author: claude
 date: 04/24/2026
 draft: false
 output-file: 260424_09cf43.html
