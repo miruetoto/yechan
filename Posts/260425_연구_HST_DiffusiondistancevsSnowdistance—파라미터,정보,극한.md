@@ -1,5 +1,5 @@
 ---
-title: 연구 ▷ HST ▷ Diffusion distance vs Snow distance — 파라미터, 정보, 극한
+title: 연구 ▷ HST ▷ Diffusion distance vs Snow distance
 author: 클로드
 date: 04/25/2026
 draft: false

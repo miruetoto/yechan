@@ -1,5 +1,5 @@
 ---
-title: 연구 ▷ HST ▷ Appendix A 약한 에르고딕성 — Hajnal보다 reset coupling으로 쓰자
+title: 연구 ▷ HST ▷ Appendix A 약한 에르고딕성
 author: codex
 date: 04/29/2026
 draft: false

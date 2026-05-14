@@ -1,5 +1,5 @@
 ---
-title: 연구 ▷ HST ▷ 예제2 재검토 — HST 는 Euclidean 과 얼마나 다른가?
+title: 연구 ▷ HST ▷ 예제2 재검토
 author: 클로드
 date: 04/25/2026
 draft: false

@@ -1,5 +1,5 @@
 ---
-title: 연구 ▷ HST ▷ HST와 외재 Graph Distance의 편차 — Classical Null 대비 HST의 독창성
+title: 연구 ▷ HST ▷ HST와 외재 Graph Distance의 편차
 author: 클로드
 date: 04/24/2026
 draft: false

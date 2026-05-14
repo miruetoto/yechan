@@ -1,5 +1,5 @@
 ---
-title: 연구 ▷ HST ▷ 그래프 구조로의 점근적 환원 — Appendix A.6 초안
+title: 연구 ▷ HST ▷ 그래프 구조로의 점근적 환원
 author: 클로드
 date: 04/26/2026
 draft: false
