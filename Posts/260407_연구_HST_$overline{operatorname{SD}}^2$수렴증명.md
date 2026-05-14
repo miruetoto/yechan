@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ $\overline{\operatorname{SD}}^2$ 수렴 증명
 author: 클로드
 date: 04/07/2026
 draft: false
-output-file: 260407_eecd78.html
+output-file: 260407_469f43.html
 ---
 # 1. 논문 기호 정리 (Notation Reference)
 
@@ -231,7 +231,7 @@ $$S(5) = \big((2,\, 1),\; 2,\; 0\big)$$
 2. **Round-skeleton**: $t_r :=$ $r$번째 block-flag 시각 ($Z = T_{max}$, $\mu_0$-draw 직전). $\{S(t_r)\}_{r\geq 0}$는 자체로 마르코프 체인. 이 skeleton 위에서 1-step drift = "한 라운드 동안의 $\Phi$ 변화" $\Phi(t_{r+1}) - \Phi(t_r)$ 를 분석한다.
 3. **Big drop**: 한 라운드 동안 **높이 범위 $M(t) := \max_i \hbar - \min_i \hbar$에 비례하는 큰 낙차** 사건이 양의 확률 ($\geq p_0$) 발생. 연결 그래프에서 비둘기집으로 경사 간선 $(v_{i^\star}, v_{j^\star})$ (높이차 $\geq M/(n-1)$) 존재:
 
-![경사 간선과 큰 낙차 사건](attachments/260407_eecd78_02.svg)
+![경사 간선과 큰 낙차 사건](attachments/260407_469f43_01.svg)
 
 > **Figure.** $v_{i^\star}$에 눈이 떨어지고 첫 flow 스텝에서 $v_{j^\star}$로 이동하면 $M$에 비례한 개선 발생. 단일 라운드 big drop 확률 하한 $p_0 := \mu_{min} \cdot P_{RW,\min} > 0$.
 
@@ -398,7 +398,7 @@ $$\Phi(\boldsymbol{\delta}) = \sum_{i=1}^{n} \hbar(i, t)^2$$
 
 ### 직관
 
-![Foster-Lyapunov Criterion의 직관](attachments/260407_eecd78_04.svg)
+![Foster-Lyapunov Criterion의 직관](attachments/260407_469f43_02.svg)
 
 $\Phi$를 "고도"로 생각하자. $\mathcal{B} = \{S : \Phi(S) \leq C_1\}$은 저지대(refuge)이고, $\mathcal{B}$ 바깥에서는 매 스텝마다 고도가 **평균적으로 최소 $1$씩 하강**한다. $\Phi \geq 0$이라는 바닥이 있으므로, 무한히 하강할 수는 없다 — 결국 유한 시간 안에 $\mathcal{B}$에 도달해야 한다. 더 정확히는, 출발점의 고도가 $\Phi(S(0))$이면 $\mathcal{B}$에 도달하는 기대 시간이 **최대 $\Phi(S(0))$ 스텝**이다. 고도를 매번 $1$씩 깎으면 $\Phi(S(0))$번이면 바닥에 닿는다는 것이다.
 
@@ -533,7 +533,7 @@ $$\Phi(t) = 50, \quad \Phi(t{+}1) = 40.50, \quad \Delta\Phi = \mathbf{-9.50}$$
 
 **왜 1-step drift만으로는 부족한가.** 다음의 비대칭 바벨 그래프가 보여주듯, 1-step drift는 모든 그래프 구조에서 음의 부호를 보장하지 못한다.
 
-![비대칭 바벨 그래프와 고원 현상](attachments/260407_eecd78_01.svg)
+![비대칭 바벨 그래프와 고원 현상](attachments/260407_469f43_03.svg)
 
 **Example (비대칭 바벨 그래프).** $K_4$와 $K_2$를 하나의 bridge 간선 $(v_4, v_5)$으로 연결한 그래프. $\mu_0 \propto \deg$이므로 $K_4$ 쪽 노드(차수 $3$~$4$)에 눈이 떨어질 확률이 $K_2$ 쪽 노드(차수 $1$~$2$)보다 크다. 단기적으로 보면, 눈이 $K_4$ 내부에서 떨어지고 $K_4$ 안에서 흡수되는 경우가 지배적이다. Bridge를 통한 $K_2$ 쪽 flow는 상대적으로 드물다. 그러나 **한 라운드 전체**에 걸쳐 보면, 높이차가 충분히 커진 상태에서는 경사 간선 $(v_4, v_5)$을 통한 flow가 양의 확률로 발생하여 큰 낙차를 만들고, 이 음의 기여가 $\mu_0$ 편향의 양의 기여를 압도한다.
 

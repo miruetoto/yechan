@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ $\overline{\operatorname{SD}}^2$ 수렴 증명 - 내�
 author: 신록예찬
 date: 04/26/2026
 draft: false
-output-file: 260426_b2eee7.html
+output-file: 260426_03a7dc.html
 ---
 ---
 
