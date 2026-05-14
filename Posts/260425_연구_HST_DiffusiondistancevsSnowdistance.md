@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ Diffusion distance vs Snow distance
 author: 클로드
 date: 04/25/2026
 draft: false
-output-file: 260425_85febc.html
+output-file: 260425_019d6f.html
 ---
 
 # 0. 동기
@@ -147,7 +147,7 @@ $$c_{ij} = \lim_{\tau \to \infty} \overline{SD}^2_{ij}(\tau) = \mathbb{E}_\pi\bi
 
 ## 5.1 예제6 — homogeneous cycle + $(-1)^i$
 
-![](attachments/260425_85febc_01.png)
+![](attachments/260425_019d6f_01.png)
 
 - $t$ 에 따라 **구조 완전 뒤바뀜**: $t=1$ 두 parity 원 분리 → $t=8$ 한 원 융합 → $t=32$ 선형 붕괴.
 - $\pi$-가중/비가중 차이 거의 없음 (homogeneous).
@@ -157,7 +157,7 @@ $$c_{ij} = \lim_{\tau \to \infty} \overline{SD}^2_{ij}(\tau) = \mathbb{E}_\pi\bi
 
 동일 $W, f$ 에서 **diffusion 의 여러 $t$** 와 **snow ($\tau = 10^6$)** 를 한 줄에 놓고 비교:
 
-![](attachments/260425_85febc_02.png)
+![](attachments/260425_019d6f_02.png)
 
 코드: `260425_예제6_diffusion_param.py`. Euclidean 은 뻔해서 제외. 관찰:
 
@@ -180,7 +180,7 @@ snow ($\tau = 10^6$) 는 **두 parity class 가 각자 따로 곡선을 그리�
 
 ## 5.2 예제7 — twin rings (heterogeneous)
 
-![](attachments/260425_85febc_03.png)
+![](attachments/260425_019d6f_03.png)
 
 - $\pi$-가중 (위): 균형 잡힌 동심원.
 - 비가중 (아래): outer ring scale 축소 artefact.
@@ -188,7 +188,7 @@ snow ($\tau = 10^6$) 는 **두 parity class 가 각자 따로 곡선을 그리�
 
 ## 5.3 예제8 — directed cycle
 
-![](attachments/260425_85febc_04.png)
+![](attachments/260425_019d6f_04.png)
 
 - 모든 $t$, 두 mode 에서 **blob**. shift matrix $P^t$ 가 permutation 이라 모든 non-diagonal 쌍 거리 동일 → **diffusion 은 방향성 정보에 원천 접근 불가**.
 - Snow distance 는 동일 setup 에서 깨끗한 U-curve 생성 ([선형결합 밖 embedding §3](260424_e45e10.html)).

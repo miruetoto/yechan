@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ HST와 외재 Graph Distance의 편차
 author: 클로드
 date: 04/24/2026
 draft: false
-output-file: 260424_6ae2dc.html
+output-file: 260424_c175c4.html
 ---
 
 # 0. 동기: HST는 classical graph metric과 어떻게 다른가

@@ -2,18 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="신록예찬">
-<meta name="dcterms.date" content="2026-05-14">
+<meta name="author" content="클로드">
+<meta name="dcterms.date" content="2026-04-26">
 
-<title>연구 ▷ HST ▷ 예제2를 100억 번 돌리면 — 유클리드에서 그래프로 – 신록예찬’s Blog</title>
+<title>연구 ▷ HST ▷ 그래프 구조로의 점근적 환원 – 신록예찬’s Blog</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -24,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -37,14 +69,15 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b80d4d0c6b5ed6a4cb4a000b691bbaf5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-5b48ee63c5e90d651e19f9ead4b448f1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -74,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -186,15 +219,34 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#메모" id="toc-메모" class="nav-link active" data-scroll-target="#메모">0. 메모</a></li>
+  <li><a href="#정리-theorem-a.6" id="toc-정리-theorem-a.6" class="nav-link" data-scroll-target="#정리-theorem-a.6">1. 정리 (Theorem A.6)</a></li>
+  <li><a href="#증명" id="toc-증명" class="nav-link" data-scroll-target="#증명">2. 증명</a>
+  <ul class="collapse">
+  <li><a href="#step-1-markovian-reduction" id="toc-step-1-markovian-reduction" class="nav-link" data-scroll-target="#step-1-markovian-reduction">Step 1 — Markovian reduction</a></li>
+  <li><a href="#step-2-차분과정의-안정성-fosterlyapunov" id="toc-step-2-차분과정의-안정성-fosterlyapunov" class="nav-link" data-scroll-target="#step-2-차분과정의-안정성-fosterlyapunov">Step 2 — 차분과정의 안정성 (Foster–Lyapunov)</a></li>
+  <li><a href="#step-3-pi-의-mathbfy-비의존성" id="toc-step-3-pi-의-mathbfy-비의존성" class="nav-link" data-scroll-target="#step-3-pi-의-mathbfy-비의존성">Step 3 — <span class="math inline">\(\pi^*\)</span> 의 <span class="math inline">\(\mathbf{y}\)</span>-비의존성</a></li>
+  <li><a href="#step-4-birkhoff-에르고딕-정리" id="toc-step-4-birkhoff-에르고딕-정리" class="nav-link" data-scroll-target="#step-4-birkhoff-에르고딕-정리">Step 4 — Birkhoff 에르고딕 정리</a></li>
+  <li><a href="#step-5-snow-weight-의-극한" id="toc-step-5-snow-weight-의-극한" class="nav-link" data-scroll-target="#step-5-snow-weight-의-극한">Step 5 — Snow weight 의 극한</a></li>
+  </ul></li>
+  <li><a href="#remark" id="toc-remark" class="nav-link" data-scroll-target="#remark">3. Remark</a></li>
+  <li><a href="#추가할-bibliography-항목" id="toc-추가할-bibliography-항목" class="nav-link" data-scroll-target="#추가할-bibliography-항목">4. 추가할 bibliography 항목</a></li>
+  <li><a href="#삽입-위치-확정-시" id="toc-삽입-위치-확정-시" class="nav-link" data-scroll-target="#삽입-위치-확정-시">5. 삽입 위치 (확정 시)</a></li>
+  <li><a href="#미해결체크-포인트" id="toc-미해결체크-포인트" class="nav-link" data-scroll-target="#미해결체크-포인트">6. 미해결/체크 포인트</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">연구 ▷ HST ▷ 예제2를 100억 번 돌리면 — 유클리드에서 그래프로</h1>
+<h1 class="title">연구 ▷ HST ▷ 그래프 구조로의 점근적 환원</h1>
 </div>
 
 
@@ -204,14 +256,14 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>신록예찬 </p>
+             <p>클로드 </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 14, 2026</p>
+      <p class="date">April 26, 2026</p>
     </div>
   </div>
   
@@ -223,24 +275,97 @@ window.Quarto = {
 </header>
 
 
-<p>아래는 논문의 Example 2 원본 그림이다. 위쪽이 원래 세팅 — (a) 신호 없는 thin ring, (b) <span class="math inline">\(y=\pm3\)</span> cylinder 신호 — 이고, 아래 3행이 각각 Euclidean / diffusion / snow distance 임베딩이다.</p>
-<p><img src="attachments/260514_b19d92_00.png" class="img-fluid"></p>
-<p>이 논문 그림의 아래쪽 snow distance 세팅에서 시뮬레이션을 훨씬 더 오래 진행해 보았다. 눈량을 <span class="math inline">\(b_t \sim \mathrm{Uniform}(0, 0.05)\)</span> 로 랜덤 추출하면서 <span class="math inline">\(\tau\)</span> 를 100번부터 100억번까지 늘려 본 것이다. 이걸 끝까지 돌려본 이유는 (1) 정말로 유클리드 거리에서 출발해서 그래프 거리로 수렴하는지 (2) 눈의양을 고정적인 <span class="math inline">\(b\)</span>로 하든 <span class="math inline">\(U(0,b)\)</span>로 하든 같은 결과를 주는지 확인하고 싶었기 때문.</p>
-<p><code>-</code> <span class="math inline">\(\tau \approx 47{,}000\)</span> (약 5만번): 논문그림과 비슷한 상황</p>
-<p><img src="attachments/260514_b19d92_03.png" class="img-fluid"></p>
-<p><code>-</code> <span class="math inline">\(\tau \approx 100\)</span>만번 (백만번): 약 5만번의 결과와 비슷. 전체적으로 디노이징된 상태</p>
-<p><img src="attachments/260514_b19d92_04.png" class="img-fluid"></p>
-<p><code>-</code> <span class="math inline">\(\tau \approx 5\)</span>억번: 클리프 소멸. 거의 닫힌 링.</p>
-<p><img src="attachments/260514_b19d92_05.png" class="img-fluid"></p>
-<p><code>-</code> <span class="math inline">\(\tau = 100\)</span>억번: 초기효과 소멸. (a) 와 (b) 모두 완전한 링으로 수렴.</p>
-<p><img src="attachments/260514_b19d92_06.png" class="img-fluid"></p>
-<p><code>-</code> 전체 애니메이션 (100번 <span class="math inline">\(\to\)</span> 100억번, 로그 스케일 300 프레임):</p>
-<p><img src="attachments/260514_b19d92_07.gif" class="img-fluid"></p>
+<section id="메모" class="level1">
+<h1>0. 메모</h1>
+<p><code>hst.tex</code> (paper/260423_guebin) Appendix A.2 (<code>Further Remark on Snow Distance</code>) 의 비공식 서술</p>
 <blockquote class="blockquote">
-<p>이 결과는 눈을 <span class="math inline">\(U(0,b)\)</span>에서 추출한 경우이며, 눈을 고정값 <span class="math inline">\(b\)</span>로 뿌렸을 경우도 같은 결과를 얻을 수 있었음.</p>
+<p>“If there exists sufficiently large <span class="math inline">\(t_0\)</span> such that <span class="math inline">\(h(v_i,t_0) \approx h(v_j,t_0)\)</span> …, then matrix <span class="math inline">\(\mathbf{SD}(t_0+1,t)\)</span> is similar to <span class="math inline">\(\widetilde{\mathbf{SD}}(0,t-t_0)\)</span>, which does not hold Euclidean information. Thus, the graph domain information is only contained in <span class="math inline">\(\mathbf{SD}(t_0+1,t)\)</span>.”</p>
 </blockquote>
+<p>를 Theorem 형태로 바로 꽂을 수 있게 정형화한 초안. 별도 파일 <code>260426_연구_HST_$overline{operatorname{SD}}^2$수렴증명—내가푼다.md</code> 의 round/big-drop 기반 미시 증명과 보완 관계 — 이 글은 “Appendix에 그대로 들어가는 추상-레벨 서술”이고, 그쪽이 “drift 상수 <span class="math inline">\(\Delta_{\mathrm{drift}}\)</span>의 명시적 계산을 포함한 자체 증명”이다. Meyn–Tweedie / Brémaud 의 일반 결과를 블랙박스로 인용하는 버전.</p>
+<p>ref/ 추가 PDF:</p>
+<ul>
+<li><code>BOOK_PierreBremaud_MarkovChain.pdf</code> — Brémaud (2013). Ch. 3 (Recurrence and Ergodicity), Ch. 12 (Non-homogeneous Markov Chains). 이미 <code>\cite{Bremaud2013}</code> 로 인용 중.</li>
+<li><code>BOOK_MarkovChainsAndStochasticStability.pdf</code> — Meyn &amp; Tweedie (2009). Ch. 11 (Foster–Lyapunov drift), Ch. 17 (Sample paths and limit theorems).</li>
+<li><code>BOOK_GSP_Cooperative and graph signal processing principles and applications.pdf</code> — Djurić &amp; Richard (Eds.), 2018. GSP의 graph filter / spectral filter 일반론.</li>
+</ul>
+<hr>
+</section>
+<section id="정리-theorem-a.6" class="level1">
+<h1>1. 정리 (Theorem A.6)</h1>
+<blockquote class="blockquote">
+<p><strong>Theorem A.6</strong> (Asymptotic Reduction to the Graph Structure). <span class="math inline">\(\mathcal{G} = (V, \mathbf{E}, \mathbf{W})\)</span> 를 <span class="math inline">\(|V| = n &lt; \infty\)</span> 인 연결 가중 그래프, <span class="math inline">\(\mathbf{y}, \widetilde{\mathbf{y}}\)</span> 를 <span class="math inline">\(\mathcal{G}\)</span> 위의 임의의 두 초기 graph-valued 데이터, <span class="math inline">\(\mathbf{h}(\cdot, t), \widetilde{\mathbf{h}}(\cdot, t)\)</span> 를 동일 파라미터 <span class="math inline">\((b, T_{max})\)</span> 하의 heavy-snow transform 이라 하자. 그러면 모든 <span class="math inline">\(i, j \in V\)</span> 에 대해 <span class="math display">\[\lim_{t \uparrow \infty} \frac{\operatorname{SD}^2_{ij}(t)}{t} \;=\; \lim_{t \uparrow \infty} \frac{\widetilde{\operatorname{SD}}^2_{ij}(t)}{t} \;=:\; s^*_{ij} \quad \text{a.s.,}\]</span> 여기서 <span class="math inline">\(s^*_{ij} \geq 0\)</span> 은 <span class="math inline">\(\mathcal{G}\)</span> (와 <span class="math inline">\(b, T_{max}\)</span>) 만의 함수. 결과적으로 snow weight 는 결정론적 극한 <span class="math display">\[W^*_{ij} \;:=\; \lim_{t \uparrow \infty} W_{ij}(t) \;=\; \exp\!\Big(-\frac{s^*_{ij}}{2\theta^2}\Big), \quad i \neq j\]</span> 을 갖고, 이 또한 <span class="math inline">\(\mathcal{G}\)</span> 만으로 결정된다.</p>
+</blockquote>
+<hr>
+</section>
+<section id="증명" class="level1">
+<h1>2. 증명</h1>
+<p>차분과정 <span class="math inline">\(D_{ij}(t) := h(v_i, t) - h(v_j, t)\)</span> 를 도입. Table 1 (<code>tb:notation</code>) 의 갱신규칙 <span class="math inline">\(h(v, t) = h(v, t-1) + b \, I(X_t = v)\)</span> 로부터</p>
+<p><span class="math display">\[D_{ij}(0) = y(v_i) - y(v_j), \qquad D_{ij}(t+1) - D_{ij}(t) = b \big[I(X_{t+1} = i) - I(X_{t+1} = j)\big].\]</span></p>
+<section id="step-1-markovian-reduction" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-markovian-reduction">Step 1 — Markovian reduction</h2>
+<p>Definition 3.1 (<code>dfn:hst</code>) 의 전이확률을 살펴보면, <span class="math inline">\(P(X_{t+1} = j \mid X_t = i, h(\cdot, t))\)</span> 가 높이를 통해 의존하는 부분은 모두 지시함수 <span class="math inline">\(I(h(v_i, t) \geq h(v_k, t)) = I(D_{ik}(t) \geq 0)\)</span> 와 결정론적 보조변수 <span class="math inline">\(Z_t, \mathcal{D}_t\)</span> 만을 통한다. 따라서 확장과정</p>
+<p><span class="math display">\[\mathbf{U}_t \;:=\; \big( (D_{ij}(t))_{i,j \in V}, \, X_t, \, Z_t \big)\]</span></p>
+<p>는 가산 상태공간 위의 <strong>시간동질</strong> 마르코프 체인이고, 그 전이커널은 그래프 <span class="math inline">\(\mathcal{G}\)</span> (와 <span class="math inline">\(b, T_{max}\)</span>) 만의 함수. 특히 <span class="math inline">\(\mathbf{y} \mapsto \mathbf{y} + c \mathbf{1}\)</span> 인 평행이동에 불변 (모든 <span class="math inline">\(D_{ij}\)</span> 가 그대로).</p>
+</section>
+<section id="step-2-차분과정의-안정성-fosterlyapunov" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-차분과정의-안정성-fosterlyapunov">Step 2 — 차분과정의 안정성 (Foster–Lyapunov)</h2>
+<p><span class="math inline">\(\{D_{ij}(t)\}\)</span> 가 tight family임을 보임. 인접쌍 <span class="math inline">\(i \sim j\)</span> 와 큰 <span class="math inline">\(M &gt; 0\)</span> 에 대해 <span class="math inline">\(\{D_{ij}(t) \geq M\}\)</span> 사건을 잡으면, <span class="math inline">\(\mathcal{G}\)</span> 의 연결성으로 경로 <span class="math inline">\(v_i = v_{k_0} \sim v_{k_1} \sim \cdots \sim v_{k_r} = v_j\)</span> 가 존재하고, 이 경로에서 어떤 인접쌍 <span class="math inline">\((v_{k_\ell}, v_{k_{\ell+1}})\)</span> 은 <span class="math inline">\(D_{k_\ell, k_{\ell+1}}(t) \geq M / r\)</span> 을 만족. Definition 3.1 의 <span class="math inline">\(p_{t, v_{k_\ell} \to v_{k_{\ell+1}}}\)</span> 정의로부터, 높이 순서가 맞을 때 flow 확률은 양의 그래프 상수로 하향 유계. 이를 Theorem A.5 (<code>thm:a5</code>, <span class="math inline">\(\{X_t\}\)</span> 의 weak ergodicity) 와 결합하면 Foster–Lyapunov drift 부등식</p>
+<p><span class="math display">\[\mathbb{E}\!\left[ V(\mathbf{U}_{t+1}) \,\big|\, \mathbf{U}_t = \mathbf{u} \right] - V(\mathbf{u}) \;\leq\; -\varepsilon V(\mathbf{u}) + c_0 \, \mathbf{1}_C(\mathbf{u}), \qquad V(\mathbf{u}) := \sum_{i,j} D_{ij}^2\]</span></p>
+<p>를 얻음 (어떤 <span class="math inline">\(\varepsilon, c_0 &gt; 0\)</span> 와 유한 small set <span class="math inline">\(C\)</span> 에 대해). 일반적인 Foster–Lyapunov 안정성 이론은 Meyn &amp; Tweedie (2009, Ch. 11) 참조.</p>
+<p>이 drift 부등식과 <span class="math inline">\(\{\mathbf{U}_t\}\)</span> 의 essential class 에서의 기약성 (모든 reset 시각에서 <span class="math inline">\(\boldsymbol{\mu}_0(v) &gt; 0\)</span> 인 모든 <span class="math inline">\(v \in V\)</span> 에 눈이 떨어짐) 으로부터 <span class="math inline">\(\{\mathbf{U}_t\}\)</span> 는 양의 Harris 재귀이고 유일한 정상분포 <span class="math inline">\(\pi^*\)</span> 를 갖는다.</p>
+<blockquote class="blockquote">
+<p><strong>주석</strong>: 이 step 의 <span class="math inline">\(\Delta_{\mathrm{drift}}\)</span> 명시적 계산은 별도 글 <code>260426_연구_HST_$overline{operatorname{SD}}^2$수렴증명—내가푼다.md</code> 참조. 거기서는 <span class="math inline">\(\Phi(t) = \sum_i \hbar(i,t)^2\)</span>, round-skeleton, big-drop 사건 <span class="math inline">\(E_r\)</span> 등을 명시적으로 도입하여 drift 상수 <span class="math display">\[\Delta_{\mathrm{drift}} = (T_{max}+1)\alpha - \frac{2 p_0}{n-1}\]</span> 의 부호조건 <span class="math inline">\(\Delta_{\mathrm{drift}} &lt; 0\)</span> 을 명시. 정칙 그래프에서는 <span class="math inline">\(\alpha = 0\)</span> 이라 자동.</p>
+</blockquote>
+</section>
+<section id="step-3-pi-의-mathbfy-비의존성" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-pi-의-mathbfy-비의존성">Step 3 — <span class="math inline">\(\pi^*\)</span> 의 <span class="math inline">\(\mathbf{y}\)</span>-비의존성</h2>
+<p>Step 1 에 의해 <span class="math inline">\(\mathbf{U}_t\)</span> 의 커널은 <span class="math inline">\(\mathcal{G}\)</span> 만에 의존. <span class="math inline">\(\mathbf{y}\)</span> 가 다르면 <span class="math inline">\(\mathbf{U}_0\)</span> 의 초기상태만 달라지지만, 양의 Harris 재귀성으로부터 <span class="math inline">\(\mathbf{U}_t\)</span> 의 분포는 초기상태와 무관하게 <span class="math inline">\(\pi^*\)</span> 로 total variation 수렴. 따라서 <span class="math inline">\(\pi^*\)</span> 는 <span class="math inline">\(\mathcal{G}\)</span> (와 <span class="math inline">\(b, T_{max}\)</span>) 만의 함수.</p>
+</section>
+<section id="step-4-birkhoff-에르고딕-정리" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-birkhoff-에르고딕-정리">Step 4 — Birkhoff 에르고딕 정리</h2>
+<p>양의 Harris 재귀 마르코프 체인의 에르고딕 정리 (Brémaud 2013, Theorem 3.3.1; Meyn &amp; Tweedie 2009, Theorem 17.0.1) 를 유계 함수 <span class="math inline">\(f(\mathbf{u}) = D_{ij}^2\)</span> 에 적용 (Step 2 로부터 <span class="math inline">\(\pi^*\)</span> 하의 <span class="math inline">\(D_{ij}^2\)</span> 유계성 확보). 임의의 초기분포에서</p>
+<p><span class="math display">\[\frac{1}{t+1} \sum_{s=0}^{t} D_{ij}(s)^2 \;\xrightarrow[t \uparrow \infty]{a.s.}\; \mathbb{E}_{\pi^*}\!\big[D_{ij}^2\big] \;=:\; s^*_{ij},\]</span></p>
+<p>우변은 <span class="math inline">\(\mathcal{G}\)</span> 만의 함수. <span class="math inline">\(\operatorname{SD}^2_{ij}(t) = \sum_{s=0}^{t} D_{ij}(s)^2\)</span> 이므로 <span class="math inline">\(\operatorname{SD}^2_{ij}(t) / t \to s^*_{ij}\)</span> a.s. <span class="math inline">\(\widetilde{\mathbf{y}}\)</span> 에도 동일 논리로 같은 극한. 첫 번째 주장 증명 완료.</p>
+</section>
+<section id="step-5-snow-weight-의-극한" class="level2">
+<h2 class="anchored" data-anchor-id="step-5-snow-weight-의-극한">Step 5 — Snow weight 의 극한</h2>
+<p><span class="math inline">\(t &gt; 0\)</span> 과 <span class="math inline">\(i \neq j\)</span> 에 대해 Definition 3.2 로부터</p>
+<p><span class="math display">\[W_{ij}(t) \;=\; \exp\!\Big(-\frac{\operatorname{SD}^2_{ij}(t)}{2\theta^2 \, t}\Big) \;\xrightarrow[t \uparrow \infty]{a.s.}\; \exp\!\Big(-\frac{s^*_{ij}}{2\theta^2}\Big) \;=\; W^*_{ij},\]</span></p>
+<p>이는 <span class="math inline">\(\mathcal{G}\)</span> 만의 함수. <span class="math inline">\(\square\)</span></p>
+<hr>
+</section>
+</section>
+<section id="remark" class="level1">
+<h1>3. Remark</h1>
+<p>Theorem A.6 은 본 절 서두의 휴리스틱 분해</p>
+<p><span class="math display">\[\mathbf{SD}^2(t) = \mathbf{SD}^2(0, t_0) + \mathbf{SD}^2(t_0+1, t)\]</span></p>
+<p>를 정형화한다. 임의의 고정된 <span class="math inline">\(t_0\)</span> 에 대해 <span class="math inline">\(\mathbf{SD}^2(0, t_0)\)</span> 은 유계 행렬, 따라서 <span class="math inline">\(\mathbf{SD}^2(0, t_0) / t \to \mathbf{0}\)</span> (<span class="math inline">\(t \uparrow \infty\)</span>). 결과적으로 <span class="math inline">\(\mathbf{SD}^2(t)\)</span> 의 단위시간당 증가율은 전적으로 <span class="math inline">\(\mathbf{SD}^2(t_0+1, t)\)</span> 가 담당하며, 그 비율 <span class="math inline">\(s^*_{ij}\)</span> 는 그래프만의 함수. 이 점근적 영역에서 snow-weighted matrix <span class="math inline">\(\mathbf{W}(t)\)</span> 는 graph-only filter 처럼 작동 — graph signal processing 에서 다루는 spectral graph filter 의 heavy-snow 유사체 (Djurić &amp; Richard 2018, Ch. 3 참조).</p>
+<hr>
+</section>
+<section id="추가할-bibliography-항목" class="level1">
+<h1>4. 추가할 bibliography 항목</h1>
+<p><code>hst.tex</code> 의 <code>\begin{thebibliography}{}</code> 블록에 추가:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode latex code-with-copy"><code class="sourceCode latex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">\bibitem</span>{MeynTweedie2009} Meyn, S. and Tweedie, R. L. (2009). {<span class="fu">\it</span> Markov Chains and Stochastic Stability} (2nd ed.). Cambridge University Press.</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">\bibitem</span>{DjuricRichard2018} Djuri<span class="fu">\'</span>c, P. M. and Richard, C. (Eds.) (2018). {<span class="fu">\it</span> Cooperative and Graph Signal Processing: Principles and Applications}. Academic Press.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>Bremaud2013</code> 은 이미 등록되어 있으므로 그대로 사용.</p>
+<hr>
+</section>
+<section id="삽입-위치-확정-시" class="level1">
+<h1>5. 삽입 위치 (확정 시)</h1>
+<p><code>paper/260423_guebin/hst.tex</code> 의 line 973 (<code>\end{figure}</code> 직후, line 975 의 <code>\subsubsection*{A.3 ...}</code> 직전) 에 본문 (Theorem + Proof + Remark 부분) 을 삽입.</p>
+<hr>
+</section>
+<section id="미해결체크-포인트" class="level1">
+<h1>6. 미해결/체크 포인트</h1>
+<ul>
+<li>Step 2 의 drift 부등식은 일반론 인용으로 처리. 명시적 상수 (앞서 언급한 <span class="math inline">\(\Delta_{\mathrm{drift}}\)</span>) 가 필요한 reviewer 가 있을 수 있음 → 그 경우 <code>내가푼다</code> 글의 결과를 lemma 로 분리해서 추가 가능.</li>
+<li>격자 상태공간에서의 기약성 — <span class="math inline">\(\boldsymbol{\mu}_0(v) &gt; 0\)</span> 인 모든 <span class="math inline">\(v\)</span> 에서 reset 가 일어난다는 것으로부터 essential class 단일성 주장. 비연결 그래프나 <span class="math inline">\(\mu_0\)</span> 의 support 가 <span class="math inline">\(V\)</span> 전체가 아닌 경우는 별도 조건 필요.</li>
+<li><span class="math inline">\(W_{ij}(t)\)</span> 정의에서 분모가 <span class="math inline">\(t\)</span> 인 점이 핵심. 만약 분모가 <span class="math inline">\(t - t_0\)</span> 였으면 더 자연스러웠겠지만, 현재 정의로도 <span class="math inline">\(\operatorname{SD}^2(0, t_0) / t \to 0\)</span> 이므로 동일 극한 성립.</li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

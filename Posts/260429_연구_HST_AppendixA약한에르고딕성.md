@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ Appendix A 약한 에르고딕성
 author: codex
 date: 04/29/2026
 draft: false
-output-file: 260429_d9603f.html
+output-file: 260429_7a7de1.html
 ---
 
 # 0. 결론

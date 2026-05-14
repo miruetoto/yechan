@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ BR-Fraud 적용 미니
 author: 클로드
 date: 04/25/2026
 draft: false
-output-file: 260425_2c98e4.html
+output-file: 260425_8ae0dd.html
 ---
 
 # 0. 동기
@@ -49,7 +49,7 @@ Michael Rodriguez (단일 `cc_num`) — 거래 827건 (2019-01-01 ~ 2020-03-10),
 
 전체 거래의 amt 분포를 보면, Michael 의 정상 거래 평균 $49, 사기 평균 $713 — 즉 amt 만 보면 거의 자명하지만, **$20.02 거래 한 건이 amt 분포 안쪽에 깊이 들어가 있음**.
 
-![](attachments/260425_2c98e4_01.png)
+![](attachments/260425_8ae0dd_01.png)
 
 ## 1.2 그래프 ${\cal G}=(V, E, {\bf W})$
 
@@ -122,11 +122,11 @@ amt-z 는 *고액 사기* 를, Δh 는 *낮은 신호값 sink* 를 잡는다. �
 
 ## 3.2 Oct 11–15 줌
 
-![](attachments/260425_2c98e4_02.png)
+![](attachments/260425_8ae0dd_02.png)
 
 위 그림에서 사기 9건은 두 클러스터 + 한 외톨이 + 한 소액 ($20) 으로 보인다. 다음 그림은 4종 점수의 시간추이.
 
-![](attachments/260425_2c98e4_03.png)
+![](attachments/260425_8ae0dd_03.png)
 
 `amt z-score` 패널의 $20 (왼쪽 두 번째 클러스터 부근, fraud 인데 score 가 거의 0) 가 amt-기반 탐지의 한계를 보여준다. 같은 위치를 `HST Δh (축적)` 패널에서 보면 사기 봉우리 중 하나로 잡힌다. `HST 이웃 발산` 패널에서는 $20 사기가 score 520 으로 *가장 높은 봉우리* 를 그린다 — 다만 다른 사기들은 묻혀 있어 지표로는 약함. `결합` 패널이 가장 균질하게 모든 사기를 들어올린다.
 
@@ -154,13 +154,13 @@ amt-z 는 *고액 사기* 를, Δh 는 *낮은 신호값 sink* 를 잡는다. �
 
 윈도우 Oct 8–17 ($n=19$, 사기 9 + 정상 10) 에서 snow distance 기반 $k=3$-NN 그래프를 $\tau = 0, 1, 2, \dots, 20000$ 에 대해 그렸다. 노드 좌표는 (timestamp, log10 amt), 노드 크기는 그 시점까지의 $\Delta h_i(\tau)$.
 
-![](attachments/260425_2c98e4_04.gif)
+![](attachments/260425_8ae0dd_04.gif)
 
 비교 — $\tau=0$ (snow distance = 신호 L2 거리) 와 $\tau=20000$:
 
 | $\tau=0$ | $\tau=20000$ |
 |---|---|
-| ![](attachments/260425_2c98e4_05.png) | ![](attachments/260425_2c98e4_06.png) |
+| ![](attachments/260425_8ae0dd_05.png) | ![](attachments/260425_8ae0dd_06.png) |
 
 $\tau=0$ 에서는 모든 노드가 같은 크기 — 아직 축적이 없다. 엣지는 amt 가 비슷한 노드끼리 (당연함, 신호 차이만 보고 있으니). $20 사기는 같은 양 (~$20-50) 의 정상거래들과 강하게 묶인다.
 
