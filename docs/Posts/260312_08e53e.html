@@ -256,7 +256,10 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">공부 ▷ 위너필터</h1>
-</div>
+  <div class="quarto-categories">
+    <div class="quarto-category">공부</div>
+  </div>
+  </div>
 
 
 
@@ -433,7 +436,7 @@ window.Quarto = {
 </section>
 <section id="ex1.-디노이징-denoising" class="level2">
 <h2 class="anchored" data-anchor-id="ex1.-디노이징-denoising">Ex1. 디노이징 (Denoising)</h2>
-<div id="5d84f6ab" class="cell" data-execution_count="1">
+<div id="0c69dd3a" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
@@ -442,7 +445,7 @@ window.Quarto = {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><code>-</code> <span class="math inline">\(N=50\)</span>인 path graph (일렬로 연결된 체인)를 생각하자. 인접행렬 <span class="math inline">\(\mathbf{A}\)</span>는 대각선 바로 옆만 1인 삼대각 행렬이다.</p>
-<div id="01bd15bc" class="cell" data-execution_count="2">
+<div id="4d6ef327" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">50</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.path_graph(N)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> nx.to_numpy_array(G)</span>
@@ -452,19 +455,19 @@ window.Quarto = {
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>nodes <span class="op">=</span> np.arange(N)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="ad5dac83" class="cell" data-execution_count="3">
+<div id="d215fa89" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>plt.imshow(A, cmap<span class="op">=</span><span class="st">'Blues'</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Adjacency Matrix A'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-4-output-1.png" width="415" height="431" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-4-output-1.png" width="415" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="2b09e435" class="cell" data-fig-height="1.5" data-execution_count="4">
+<div id="574843fd" class="cell" data-fig-height="1.5" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].stem(nodes, V[:, <span class="dv">0</span>], linefmt<span class="op">=</span><span class="st">'C0-'</span>, markerfmt<span class="op">=</span><span class="st">'C0o'</span>, basefmt<span class="op">=</span><span class="st">'gray'</span>)</span>
@@ -480,7 +483,7 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-5-output-1.png" width="663" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-5-output-1.png" width="663" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -488,7 +491,7 @@ window.Quarto = {
 <p><code>-</code> path graph의 라플라시안 고유벡터 <span class="math inline">\(\mathbf{v}_1\)</span>은 sin wave와 유사한 형태를 보인다. 이것을 클린 신호 <span class="math inline">\(\mathbf{x}\)</span>로 사용하자.</p>
 <p><span class="math display">\[\mathbf{x} = 3 \cdot \mathbf{v}_1\]</span></p>
 <p><code>-</code> GFT 계수: <span class="math inline">\(\tilde{\mathbf{x}} = \mathbf{V}^T\mathbf{x}\)</span>를 계산하면 <span class="math inline">\(\tilde{x}_1 = 3\)</span>이고 나머지는 모두 0이다. 즉, 순수하게 <span class="math inline">\(k=1\)</span> 주파수 성분만 갖는 신호이다.</p>
-<div id="d0a10f20" class="cell" data-fig-height="1.5" data-execution_count="5">
+<div id="333fff5e" class="cell" data-fig-height="1.5" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x_clean <span class="op">=</span> V[:, <span class="dv">1</span>] <span class="op">*</span> <span class="dv">3</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
@@ -500,13 +503,13 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-6-output-1.png" width="662" height="469" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-6-output-1.png" width="662" height="469" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><code>-</code> 노이즈 <span class="math inline">\(\boldsymbol{\epsilon} \sim \mathcal{N}(0, \sigma_n^2 \mathbf{I})\)</span>를 추가하여 관측 신호 <span class="math inline">\(\mathbf{y} = \mathbf{x} + \boldsymbol{\epsilon}\)</span>를 만든다.</p>
-<div id="c7c4c808" class="cell" data-fig-height="1.5" data-execution_count="6">
+<div id="2f878e8d" class="cell" data-fig-height="1.5" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sigma_n <span class="op">=</span> <span class="fl">0.15</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>noise <span class="op">=</span> sigma_n <span class="op">*</span> np.random.randn(N)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x_clean <span class="op">+</span> noise</span>
@@ -526,7 +529,7 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-7-output-1.png" width="663" height="469" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-7-output-1.png" width="663" height="469" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -584,7 +587,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<div id="c9446638" class="cell" data-execution_count="7">
+<div id="906fb906" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># PSD</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>psd <span class="op">=</span> np.zeros(N)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>psd[<span class="dv">1</span>] <span class="op">=</span> <span class="fl">9.0</span>  <span class="co"># P_1 = |3|^2 = 9</span></span>
@@ -641,7 +644,7 @@ Wiener       MSE = 0.000442</code></pre>
 </div>
 </div>
 <p><code>-</code> 복원 결과를 비교하자. 빨간선은 원래 클린 신호이다.</p>
-<div id="4714d00a" class="cell" data-fig-height="1.5" data-execution_count="8">
+<div id="bc60b09b" class="cell" data-fig-height="1.5" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>recoveries <span class="op">=</span> [</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Ridge'</span>, x_hat_ridge, <span class="st">'C2'</span>),</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Lasso'</span>, x_hat_lasso, <span class="st">'C4'</span>),</span>
@@ -666,21 +669,21 @@ Wiener       MSE = 0.000442</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-9-output-1.png" width="663" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-9-output-1.png" width="663" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-9-output-2.png" width="663" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-9-output-2.png" width="663" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-9-output-3.png" width="663" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-9-output-3.png" width="663" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -693,7 +696,7 @@ Wiener       MSE = 0.000442</code></pre>
 <p><span class="math display">\[\hat{P}_k = \max(|\tilde{y}_k|^2 - \hat{\sigma}^2,\ 0)\]</span></p>
 <p>음수가 될 수 있으므로 0으로 clipping한다.</p>
 <p><code>-</code> 이 추정값들로 모든 방법을 다시 돌려보자.</p>
-<div id="f3bf9f55" class="cell" data-execution_count="9">
+<div id="32db8385" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate sigma from data (MAD of high-frequency GFT coefficients)</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>high_freq_coeffs <span class="op">=</span> y_freq[N<span class="op">//</span><span class="dv">2</span>:]</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sigma_hat <span class="op">=</span> np.median(np.<span class="bu">abs</span>(high_freq_coeffs)) <span class="op">/</span> <span class="fl">0.6745</span></span>
@@ -761,7 +764,7 @@ Wiener           0.000442       0.002321</code></pre>
 </div>
 </div>
 <p><code>-</code> 추정값을 사용한 복원 결과를 비교하자.</p>
-<div id="a4b3e99c" class="cell" data-fig-height="1.5" data-execution_count="10">
+<div id="9ad19e6b" class="cell" data-fig-height="1.5" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>recoveries_p <span class="op">=</span> [</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Ridge'</span>, x_hat_ridge_p, <span class="st">'C2'</span>),</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Lasso'</span>, x_hat_lasso_p, <span class="st">'C4'</span>),</span>
@@ -786,21 +789,21 @@ Wiener           0.000442       0.002321</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-11-output-1.png" width="663" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-11-output-1.png" width="663" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-11-output-2.png" width="663" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-11-output-2.png" width="663" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-11-output-3.png" width="663" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-11-output-3.png" width="663" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -820,7 +823,7 @@ Wiener           0.000442       0.002321</code></pre>
 <p>여기서 <span class="math inline">\(\boldsymbol{\beta} = \mathbf{V}^T\mathbf{x}\)</span>는 GFT 계수이고, <span class="math inline">\(\mathbf{X} = \mathbf{M}\mathbf{V}\)</span> (<span class="math inline">\(25 \times 50\)</span>)가 design matrix 역할을 한다. Ex1에서는 <span class="math inline">\(\mathbf{M} = \mathbf{I}\)</span>였으므로 <span class="math inline">\(\mathbf{X} = \mathbf{V}\)</span> (직교행렬)였지만, 여기서는 <span class="math inline">\(\mathbf{X}^T\mathbf{X} \neq \mathbf{I}\)</span>이다.</p>
 <p><code>-</code> 이 경우 <strong>미지수(50개) &gt; 관측(25개)</strong>이므로 OLS는 해가 유일하지 않다. 정규화가 필수적이다!</p>
 <p><code>-</code> 관측 셋업: 짝수 노드(0, 2, 4, …, 48)에서만 신호를 관측한다.</p>
-<div id="f141ee60" class="cell" data-fig-height="1.5" data-execution_count="11">
+<div id="ac7fa301" class="cell" data-fig-height="1.5" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Observed nodes (even indices)</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>obs_idx <span class="op">=</span> np.arange(<span class="dv">0</span>, N, <span class="dv">2</span>)   <span class="co"># 25 nodes</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>miss_idx <span class="op">=</span> np.arange(<span class="dv">1</span>, N, <span class="dv">2</span>)  <span class="co"># 25 missing nodes</span></span>
@@ -852,7 +855,7 @@ Wiener           0.000442       0.002321</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-12-output-1.png" width="683" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-12-output-1.png" width="683" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -882,7 +885,7 @@ Wiener           0.000442       0.002321</code></pre>
 <li><strong><span class="math inline">\(\hat{\sigma}\)</span></strong>: 관측 노드에서의 잔차 표준편차로 추정한다.</li>
 <li><strong><span class="math inline">\(\hat{P}_k\)</span></strong>: 예비 복원의 GFT 계수에서 spectral subtraction한다.</li>
 </ol>
-<div id="8f55d782" class="cell" data-execution_count="12">
+<div id="8bc05417" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Lasso <span class="im">as</span> LassoSK</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> M <span class="op">@</span> V  <span class="co"># design matrix (25 x 50)</span></span>
@@ -940,7 +943,7 @@ Wiener      MSE(all)=0.028885  MSE(missing)=0.025418</code></pre>
 </div>
 </div>
 <p><code>-</code> 복원 결과를 비교하자. 빨간선은 원래 클린 신호이다.</p>
-<div id="10caba69" class="cell" data-fig-height="1.5" data-execution_count="13">
+<div id="ea0f25a3" class="cell" data-fig-height="1.5" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>recoveries2 <span class="op">=</span> [</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Ridge'</span>, x_hat_ridge2, <span class="st">'C2'</span>),</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Lasso'</span>, x_hat_lasso2, <span class="st">'C4'</span>),</span>
@@ -974,14 +977,14 @@ Wiener      MSE(all)=0.028885  MSE(missing)=0.025418</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-14-output-1.png" width="663" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-14-output-1.png" width="663" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-14-output-2.png" width="663" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-14-output-2.png" width="663" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1023,7 +1026,7 @@ Wiener      MSE(all)=0.028885  MSE(missing)=0.025418</code></pre>
 </tr>
 </tbody>
 </table>
-<div id="7153ce16" class="cell" data-fig-height="1.5" data-execution_count="14">
+<div id="93c13a99" class="cell" data-fig-height="1.5" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>N3 <span class="op">=</span> <span class="dv">50</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1059,14 +1062,14 @@ Wiener      MSE(all)=0.028885  MSE(missing)=0.025418</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-15-output-1.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-15-output-1.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><code>-</code> 왼쪽 영역에 점이 밀집되어 있고, 오른쪽으로 갈수록 드물다.</p>
 <p><code>-</code> 4가지 가중치 방식으로 그래프를 만들고, 각각에 대해 7가지 추정기를 적용한다.</p>
-<div id="d0c1388e" class="cell" data-execution_count="15">
+<div id="a42a19c3" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build_path_laplacian(t, weight_fn):</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""가중 path graph의 라플라시안을 구성한다."""</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(t)</span>
@@ -1144,7 +1147,7 @@ Wiener          0.010304    0.008810    0.015170    0.016135</code></pre>
 </div>
 </div>
 <p><code>-</code> Wiener와 Tikhonov의 복원 결과를 가중치 방식별로 비교하자.</p>
-<div id="37d74acb" class="cell" data-fig-height="1.5" data-execution_count="16">
+<div id="e81840f3" class="cell" data-fig-height="1.5" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tikhonov: 4 weights</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, wname <span class="kw">in</span> <span class="bu">zip</span>(axes, [<span class="st">'1/d'</span>, <span class="st">'1/d²'</span>]):</span>
@@ -1172,19 +1175,19 @@ Wiener          0.010304    0.008810    0.015170    0.016135</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-17-output-1.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-17-output-1.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-17-output-2.png" width="689" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-17-output-2.png" width="689" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="86440d17" class="cell" data-fig-height="1.5" data-execution_count="17">
+<div id="6bc53c89" class="cell" data-fig-height="1.5" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wiener: 4 weights</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, wname <span class="kw">in</span> <span class="bu">zip</span>(axes, [<span class="st">'1/d'</span>, <span class="st">'1/d²'</span>]):</span>
@@ -1212,14 +1215,14 @@ Wiener          0.010304    0.008810    0.015170    0.016135</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-18-output-1.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-18-output-1.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-18-output-2.png" width="685" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-18-output-2.png" width="685" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1230,7 +1233,7 @@ Wiener          0.010304    0.008810    0.015170    0.016135</code></pre>
 <h2 class="anchored" data-anchor-id="ex4.-비균일-샘플링에서의-보간">Ex4. 비균일 샘플링에서의 보간</h2>
 <p><code>-</code> Ex3의 비균일 그래프 위에서, Ex2처럼 <strong>일부 노드만 관측하고 나머지를 예측</strong>하는 문제이다. Ex3와 동일한 50개 비균일 점에서 랜덤하게 25개만 관측한다.</p>
 <p><code>-</code> 가중치는 Ex3에서 비교했으므로, 여기서는 <span class="math inline">\(w = 1/d\)</span>를 사용한다.</p>
-<div id="f6a3c616" class="cell" data-fig-height="1.5" data-execution_count="18">
+<div id="84e99007" class="cell" data-fig-height="1.5" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graph: weighted path graph (w = 1/d)</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>L4 <span class="op">=</span> build_path_laplacian(t, <span class="kw">lambda</span> d: <span class="fl">1.0</span> <span class="op">/</span> d)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>eigvals4, V4 <span class="op">=</span> np.linalg.eigh(L4)</span>
@@ -1271,7 +1274,7 @@ Wiener          0.010304    0.008810    0.015170    0.016135</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-19-output-1.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-19-output-1.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1283,7 +1286,7 @@ Wiener          0.010304    0.008810    0.015170    0.016135</code></pre>
 <li><strong><span class="math inline">\(\hat{\sigma}\)</span></strong>: 관측 노드에서의 잔차 <span class="math inline">\(\mathbf{y}_S - \mathbf{M}\hat{\mathbf{x}}_{\text{pilot}}\)</span>의 표준편차로 추정한다.</li>
 <li><strong><span class="math inline">\(\hat{P}_k\)</span></strong>: 예비 복원의 GFT 계수로 추정한다: <span class="math inline">\(\hat{P}_k = \max(|(\mathbf{V}^T\hat{\mathbf{x}}_{\text{pilot}})_k|^2 - \hat{\sigma}^2, 0)\)</span></li>
 </ol>
-<div id="65536240" class="cell" data-execution_count="19">
+<div id="9bdb8455" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>X4 <span class="op">=</span> M4 <span class="op">@</span> V4  <span class="co"># design matrix (25 x 50)</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: pilot Tikhonov reconstruction (default lambda)</span></span>
@@ -1339,7 +1342,7 @@ Wiener      MSE(all)=0.007068  MSE(missing)=0.009587</code></pre>
 </div>
 </div>
 <p><code>-</code> 복원 결과를 비교하자.</p>
-<div id="adfadcad" class="cell" data-fig-height="1.5" data-execution_count="20">
+<div id="1aa47b89" class="cell" data-fig-height="1.5" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>recoveries4 <span class="op">=</span> [</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Ridge'</span>, x_hat_ridge4, <span class="st">'C2'</span>),</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Lasso'</span>, x_hat_lasso4, <span class="st">'C4'</span>),</span>
@@ -1375,14 +1378,14 @@ Wiener      MSE(all)=0.007068  MSE(missing)=0.009587</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-21-output-1.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-21-output-1.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-21-output-2.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-21-output-2.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1395,7 +1398,7 @@ Wiener      MSE(all)=0.007068  MSE(missing)=0.009587</code></pre>
 <p><code>-</code> <span class="math inline">\([0,1]^2\)</span>에 100개 점을 랜덤 배치하고, <span class="math inline">\(k\)</span>-NN 그래프(<span class="math inline">\(k=7\)</span>)를 가우시안 가중치로 구성한다:</p>
 <p><span class="math display">\[w_{ij} = \exp\left(-\frac{\|p_i - p_j\|^2}{2h^2}\right)\]</span></p>
 <p><code>-</code> 클린 신호는 부드러운 공간 함수 <span class="math inline">\(f(x,y) = \sin(2\pi x)\cos(\pi y)\)</span>를 노드 위치에서 평가한 것이다. 이 함수는 공간적으로 부드럽기 때문에 그래프 위에서도 저주파 성분이 지배적이다.</p>
-<div id="bca62690" class="cell" data-execution_count="21">
+<div id="5adbd52f" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial.distance <span class="im">import</span> pdist, squareform</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">2026</span>)</span>
@@ -1438,7 +1441,7 @@ Wiener      MSE(all)=0.007068  MSE(missing)=0.009587</code></pre>
 Bandwidth h = 0.1815</code></pre>
 </div>
 </div>
-<div id="960240d0" class="cell" data-execution_count="22">
+<div id="ae541c38" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> draw_graph_signal(pos, edges, signal, ax, title, vmin, vmax):</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""그래프 위에 신호를 색상으로 표시한다."""</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, j <span class="kw">in</span> edges:</span>
@@ -1453,7 +1456,7 @@ Bandwidth h = 0.1815</code></pre>
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><code>-</code> 클린 신호와 노이즈 신호를 비교하자.</p>
-<div id="dee52321" class="cell" data-fig-height="4" data-execution_count="23">
+<div id="96006ab5" class="cell" data-fig-height="4" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>vmin, vmax <span class="op">=</span> x_clean5.<span class="bu">min</span>(), x_clean5.<span class="bu">max</span>()</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
@@ -1464,13 +1467,13 @@ Bandwidth h = 0.1815</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-24-output-1.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-24-output-1.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><code>-</code> Ex3에서 정의한 <code>denoise_all</code> 함수를 그대로 사용한다. 그래프만 다를 뿐 알고리즘은 동일하다.</p>
-<div id="2fdd6d0e" class="cell" data-execution_count="24">
+<div id="e45e3883" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>results5, mse5 <span class="op">=</span> denoise_all(y5, L5, x_clean5)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name <span class="kw">in</span> [<span class="st">'OLS'</span>, <span class="st">'Ridge'</span>, <span class="st">'Lasso'</span>, <span class="st">'Hard Thr.'</span>, <span class="st">'Tikhonov'</span>, <span class="st">'James-Stein'</span>, <span class="st">'Wiener'</span>]:</span>
@@ -1486,7 +1489,7 @@ Wiener       MSE = 0.020931</code></pre>
 </div>
 </div>
 <p><code>-</code> 복원 결과를 그래프 위에 시각화하자.</p>
-<div id="f4d6e040" class="cell" data-fig-height="4" data-execution_count="25">
+<div id="87a35afe" class="cell" data-fig-height="4" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>mse_r <span class="op">=</span> mse5[<span class="st">'Ridge'</span>]</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>mse_l <span class="op">=</span> mse5[<span class="st">'Lasso'</span>]</span>
@@ -1499,12 +1502,12 @@ Wiener       MSE = 0.020931</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-26-output-1.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-26-output-1.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="15e0266c" class="cell" data-fig-height="4" data-execution_count="26">
+<div id="7587aeed" class="cell" data-fig-height="4" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>mse_h <span class="op">=</span> mse5[<span class="st">'Hard Thr.'</span>]</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>mse_t <span class="op">=</span> mse5[<span class="st">'Tikhonov'</span>]</span>
@@ -1517,12 +1520,12 @@ Wiener       MSE = 0.020931</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-27-output-1.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-27-output-1.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="05fd17fb" class="cell" data-fig-height="4" data-execution_count="27">
+<div id="7ffbfa4e" class="cell" data-fig-height="4" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>mse_j <span class="op">=</span> mse5[<span class="st">'James-Stein'</span>]</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>mse_w <span class="op">=</span> mse5[<span class="st">'Wiener'</span>]</span>
@@ -1535,7 +1538,7 @@ Wiener       MSE = 0.020931</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-28-output-1.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-28-output-1.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1572,7 +1575,7 @@ Wiener       MSE = 0.020931</code></pre>
 </tr>
 </tbody>
 </table>
-<div id="3827c6b8" class="cell" data-execution_count="28">
+<div id="cf558a9b" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dj_doppler(t):</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    eps <span class="op">=</span> <span class="fl">0.05</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.sqrt(t <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> t)) <span class="op">*</span> np.sin(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> eps) <span class="op">/</span> (t <span class="op">+</span> eps))</span>
@@ -1598,7 +1601,7 @@ Wiener       MSE = 0.020931</code></pre>
 <span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><code>-</code> <span class="math inline">\(N=1024\)</span> 균일 path graph에서 4가지 함수를 생성하고, 노이즈를 추가한다.</p>
-<div id="0aa145b7" class="cell" data-fig-height="1.5" data-execution_count="29">
+<div id="fe19be54" class="cell" data-fig-height="1.5" data-execution_count="29">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>N6 <span class="op">=</span> <span class="dv">1024</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>t6 <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, N6, endpoint<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1636,20 +1639,20 @@ Wiener       MSE = 0.020931</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-30-output-1.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-30-output-1.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-30-output-2.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-30-output-2.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><code>-</code> 각 함수에 <span class="math inline">\(\sigma = 0.1\)</span>의 노이즈를 추가하고, 7가지 방법으로 디노이징한다. <code>denoise_all</code> 함수를 그대로 사용한다.</p>
-<div id="8703288a" class="cell" data-execution_count="30">
+<div id="d40a69cf" class="cell" data-execution_count="30">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>sigma_n6 <span class="op">=</span> <span class="fl">0.1</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">2026</span>)</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1687,7 +1690,7 @@ Wiener            0.0103      0.0122      0.0073      0.0045</code></pre>
 </div>
 </div>
 <p><code>-</code> 함수별로 각 방법의 복원 결과를 비교하자.</p>
-<div id="5bb47d28" class="cell" data-fig-height="1.5" data-execution_count="31">
+<div id="c04d655e" class="cell" data-fig-height="1.5" data-execution_count="31">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>show_methods <span class="op">=</span> [</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Ridge'</span>, <span class="st">'C2'</span>), (<span class="st">'Lasso'</span>, <span class="st">'C4'</span>), (<span class="st">'Hard Thr.'</span>, <span class="st">'C5'</span>),</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Tikhonov'</span>, <span class="st">'C6'</span>), (<span class="st">'James-Stein'</span>, <span class="st">'C7'</span>), (<span class="st">'Wiener'</span>, <span class="st">'C3'</span>),</span>
@@ -1718,112 +1721,112 @@ Wiener            0.0103      0.0122      0.0073      0.0045</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-1.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-1.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-2.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-2.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-3.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-3.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-4.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-4.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-5.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-5.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-6.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-6.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-7.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-7.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-8.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-8.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-9.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-9.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-10.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-10.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-11.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-11.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-12.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-12.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-13.png" width="662" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-13.png" width="662" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-14.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-14.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-15.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-15.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-32-output-16.png" width="658" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-32-output-16.png" width="658" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1840,7 +1843,7 @@ Wiener            0.0103      0.0122      0.0073      0.0045</code></pre>
 <section id="ex7.-step-함수-디노이징" class="level2">
 <h2 class="anchored" data-anchor-id="ex7.-step-함수-디노이징">Ex7. Step 함수 디노이징</h2>
 <p><code>-</code> 가장 단순한 불연속 신호인 <strong>단일 step 함수</strong>를 디노이징한다. Step 함수는 GFT 영역에서 모든 주파수 성분이 활성화되므로 (Gibbs 현상), 각 방법의 특성이 극명하게 드러난다.</p>
-<div id="7bb39473" class="cell" data-fig-height="1.5" data-execution_count="32">
+<div id="5678fa74" class="cell" data-fig-height="1.5" data-execution_count="32">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>N7 <span class="op">=</span> <span class="dv">256</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>t7 <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, N7, endpoint<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1870,13 +1873,13 @@ Wiener            0.0103      0.0122      0.0073      0.0045</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-33-output-1.png" width="657" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-33-output-1.png" width="657" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><code>-</code> 7가지 방법으로 디노이징한다.</p>
-<div id="9edddcf2" class="cell" data-execution_count="33">
+<div id="badae73d" class="cell" data-execution_count="33">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>results7, mse7 <span class="op">=</span> denoise_all(y7, L7, x_clean7)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name <span class="kw">in</span> [<span class="st">'OLS'</span>, <span class="st">'Ridge'</span>, <span class="st">'Lasso'</span>, <span class="st">'Hard Thr.'</span>, <span class="st">'Tikhonov'</span>, <span class="st">'James-Stein'</span>, <span class="st">'Wiener'</span>]:</span>
@@ -1892,7 +1895,7 @@ Wiener       MSE = 0.004559</code></pre>
 </div>
 </div>
 <p><code>-</code> 복원 결과를 비교하자.</p>
-<div id="2c9e6d1e" class="cell" data-fig-height="1.5" data-execution_count="34">
+<div id="94361b2a" class="cell" data-fig-height="1.5" data-execution_count="34">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>recoveries7 <span class="op">=</span> [</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Ridge'</span>, results7[<span class="st">'Ridge'</span>], <span class="st">'C2'</span>),</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'Lasso'</span>, results7[<span class="st">'Lasso'</span>], <span class="st">'C4'</span>),</span>
@@ -1916,21 +1919,21 @@ Wiener       MSE = 0.004559</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-35-output-1.png" width="657" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-35-output-1.png" width="657" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-35-output-2.png" width="657" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-35-output-2.png" width="657" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-35-output-3.png" width="657" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-35-output-3.png" width="657" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1952,7 +1955,7 @@ Wiener       MSE = 0.004559</code></pre>
 <p><code>-</code> 이것은 이미지 처리의 <strong>bilateral filter</strong> (Tomasi &amp; Manduchi, 1998)를 그래프로 가져온 것이다. Bilateral filter는:</p>
 <p><span class="math display">\[\hat{x}_i = \frac{\sum_j w_{\text{spatial}}(i,j) \cdot w_{\text{signal}}(y_i, y_j) \cdot y_j}{\sum_j w_{\text{spatial}}(i,j) \cdot w_{\text{signal}}(y_i, y_j)}\]</span></p>
 <p>spatial weight(공간 근접성) × signal weight(값 유사성)의 곱으로 가중 평균한다. 값이 다른 픽셀은 무시하므로 <strong>edge를 보존하면서 smoothing</strong>한다. 사진 앱의 “피부 보정”이 대부분 이 원리이다.</p>
-<div id="18e937e7" class="cell" data-fig-height="1.5" data-execution_count="35">
+<div id="22afe9c5" class="cell" data-fig-height="1.5" data-execution_count="35">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adaptive graph: weight based on noisy signal similarity</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>sigma_s <span class="op">=</span> np.median(np.<span class="bu">abs</span>(np.diff(y7)))</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1983,13 +1986,13 @@ Wiener       MSE = 0.004559</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-36-output-1.png" width="657" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-36-output-1.png" width="657" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><code>-</code> 적응적 그래프로 디노이징한다. 불연속점에서 edge가 약해지므로 Tikhonov/Wiener의 ringing이 완화될 것이다.</p>
-<div id="258912f4" class="cell" data-execution_count="36">
+<div id="62d12e8b" class="cell" data-execution_count="36">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>results7a, mse7a <span class="op">=</span> denoise_all(y7, L7a, x_clean7)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span><span class="st">"Method"</span><span class="sc">:12s}</span><span class="ss"> </span><span class="sc">{</span><span class="st">"Unweighted"</span><span class="sc">:&gt;12s}</span><span class="ss"> </span><span class="sc">{</span><span class="st">"Adaptive"</span><span class="sc">:&gt;12s}</span><span class="ss">'</span>)</span>
@@ -2011,7 +2014,7 @@ Wiener           0.004559     0.007701</code></pre>
 </div>
 </div>
 <p><code>-</code> Tikhonov와 Wiener의 복원 결과를 비교하자: unweighted vs adaptive.</p>
-<div id="932094f2" class="cell" data-fig-height="1.5" data-execution_count="37">
+<div id="d1b8afa0" class="cell" data-fig-height="1.5" data-execution_count="37">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tikhonov comparison</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (label, res, mse_dict) <span class="kw">in</span> <span class="bu">zip</span>(axes, [</span>
@@ -2040,14 +2043,14 @@ Wiener           0.004559     0.007701</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-38-output-1.png" width="657" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-38-output-1.png" width="657" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260312_08e53e_files/figure-html/cell-38-output-2.png" width="657" height="470" class="figure-img"></p>
+<p><img src="260312_공부_위너필터_files/figure-html/cell-38-output-2.png" width="657" height="470" class="figure-img"></p>
 </figure>
 </div>
 </div>

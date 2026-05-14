@@ -45,8 +45,9 @@ rollback_on_failure() {
 }
 trap rollback_on_failure ERR INT TERM
 
-# 2단계: 이미지 정리 + 블로그 렌더 (맥에서)
+# 2단계: 이미지 정리 + index.qmd 자동생성 + 블로그 렌더 (맥에서)
 uv run python cleanup.py
+uv run python gen_index.py
 rm -rf docs
 quarto render
 uv run python cleanup.py --postrender
