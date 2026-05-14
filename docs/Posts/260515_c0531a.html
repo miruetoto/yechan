@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>연구 ▷ HST ▷ Snow 거리는 발산할 수도 있다 – 신록예찬’s Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -34,15 +37,14 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5b48ee63c5e90d651e19f9ead4b448f1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b80d4d0c6b5ed6a4cb4a000b691bbaf5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -226,9 +228,23 @@ window.Quarto = {
 <p><code>-</code> <strong>Balanced</strong> (<span class="math inline">\(\rho_i = 1/n\)</span>): <span class="math inline">\(SD^2/t\)</span> 가 유한 상수로 수렴. 극한은 그래프-신호 상호작용을 반영.</p>
 <p><code>-</code> <strong>Drift</strong> (<span class="math inline">\(\rho_i \neq \rho_j\)</span>): <span class="math inline">\(SD^2/t\)</span> 는 발산. 대신 <span class="math inline">\(SD^2/t^3\)</span> 이 수렴한다:</p>
 <p><span class="math display">\[\frac{SD^2_{ij}(t)}{t^3} \;\to\; \frac{\bar{b}^2(\rho_i - \rho_j)^2}{3}\]</span></p>
-<p>증명은 간단하다. <span class="math inline">\(\rho_i \neq \rho_j\)</span>이면 높이 차이가 선형으로 벌어진다: <span class="math inline">\(h_i(t) - h_j(t) \approx \bar{b}(\rho_i - \rho_j) \cdot t\)</span>. 이걸 제곱해서 더하면 <span class="math inline">\(\sum s^2 \sim t^3/3\)</span>. 끝. 강대수법칙 하나로 된다.</p>
+<p><strong>Drift regime 증명.</strong> 노드 <span class="math inline">\(v_i\)</span>의 누적 높이는</p>
+<p><span class="math display">\[h(v_i, t) = h(v_i, 0) + \sum_{s=1}^t b'_s \cdot \mathbf{1}\{X_s = v_i\}\]</span></p>
+<p>여기서 <span class="math inline">\(b'_s \sim \mathrm{Unif}(0, b)\)</span>는 매 스텝의 눈량이고 <span class="math inline">\(X_s\)</span>는 눈이 쌓이는 노드이다. <span class="math inline">\(b'_s\)</span>와 <span class="math inline">\(X_s\)</span>는 독립이므로 합을 분리할 수 있다:</p>
+<p><span class="math display">\[\sum_{s=1}^t b'_s \cdot \mathbf{1}\{X_s = v_i\} = \bar{b}\sum_{s=1}^t \mathbf{1}\{X_s = v_i\} + \sum_{s=1}^t (b'_s - \bar{b})\cdot\mathbf{1}\{X_s = v_i\}\]</span></p>
+<p>첫째 항: <span class="math inline">\(\rho_i\)</span>의 정의에 의해 <span class="math inline">\(\frac{1}{t}\sum \mathbf{1}\{X_s = v_i\} \to \rho_i\)</span> (a.s.)이므로 <span class="math inline">\(\bar{b}\rho_i \cdot t\)</span> 로 성장.</p>
+<p>둘째 항: <span class="math inline">\((b'_s - \bar{b})\)</span>는 평균 0이므로 마팅게일 강대수법칙에 의해 <span class="math inline">\(o(t)\)</span>.</p>
+<p>따라서 두 노드의 높이 차이는</p>
+<p><span class="math display">\[h(v_i, t) - h(v_j, t) = \bar{b}(\rho_i - \rho_j)\cdot t + o(t)\]</span></p>
+<p>이걸 제곱해서 더하면:</p>
+<p><span class="math display">\[SD^2_{ij}(t) = \sum_{s=0}^t \left[\bar{b}(\rho_i - \rho_j)\cdot s + o(s)\right]^2 = \bar{b}^2(\rho_i - \rho_j)^2 \sum_{s=0}^t s^2 + \text{(작은 항들)}\]</span></p>
+<p>주항에서 <span class="math inline">\(\sum_{s=0}^t s^2 = \frac{t(t+1)(2t+1)}{6} \sim \frac{t^3}{3}\)</span> 이고, 나머지 교차항 <span class="math inline">\(\sum s \cdot o(s)\)</span>과 잔차항 <span class="math inline">\(\sum o(s)^2\)</span>은 모두 <span class="math inline">\(o(t^3)\)</span>이다. <span class="math inline">\(t^3\)</span>으로 나누면:</p>
+<p><span class="math display">\[\frac{SD^2_{ij}(t)}{t^3} \;\to\; \frac{\bar{b}^2(\rho_i - \rho_j)^2}{3} \qquad \square\]</span></p>
+<hr>
 <p>regime을 결정하는 건 <span class="math inline">\(\mu_0\)</span>이다. 정규 그래프에서는 degree-proportional이든 uniform이든 <span class="math inline">\(\rho_i = 1/n\)</span>이라 balanced. 비정규 그래프에서 degree-proportional <span class="math inline">\(\mu_0\)</span>를 쓰면 높은 차수 노드에 눈이 더 자주 쌓여서 drift에 빠진다.</p>
-<p>Star <span class="math inline">\(S_{13}\)</span>에서 degree-prop <span class="math inline">\(\mu_0\)</span>로 검증. <span class="math inline">\(SD^2/t^3\)</span>이 이론값(점선)으로 수렴하는 과정:</p>
+<p>아래 Star 그래프로 검증해보았다.</p>
+<p><img src="attachments/260515_c0531a_05.png" class="img-fluid"></p>
+<p>hub의 degree는 12, leaf는 1이다. degree-proportional <span class="math inline">\(\mu_0\)</span>를 쓰면 hub에 눈이 절반 확률로 쌓여서 <span class="math inline">\(\rho_{\text{hub}} = 0.33\)</span>, <span class="math inline">\(\rho_{\text{leaf}} = 0.056\)</span> → drift regime. <span class="math inline">\(SD^2/t^3\)</span>이 이론값(점선)으로 수렴하는 과정:</p>
 <p><img src="attachments/260515_c0531a_04.gif" class="img-fluid"></p>
 <p>결국 두 regime 모두 <span class="math inline">\(\tau \to \infty\)</span>에서 초기 신호 <span class="math inline">\(\mathbf{y}\)</span>는 씻겨나간다. 차이는 <strong>어떤 그래프 정보가 남느냐</strong>: balanced는 flow/block dynamics의 세밀한 구조, drift는 단순히 적립률 격차.</p>
 
