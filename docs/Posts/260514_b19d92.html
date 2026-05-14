@@ -221,21 +221,22 @@ window.Quarto = {
 </header>
 
 
-<p>Example 2 의 Gaussian ring (<span class="math inline">\(n=60\)</span>, <span class="math inline">\(y=\pm3\)</span>) 위에서 눈량을 <span class="math inline">\(b_t \sim \mathrm{Uniform}(0, 0.05)\)</span> 로 랜덤 추출하며 <span class="math inline">\(\tau = 10^{10}\)</span> (100억) 까지 돌려 보았다. 아래는 원본 세팅이다.</p>
+<p>아래는 논문의 Example 2 원본 그림이다. 위쪽이 원래 세팅 — (a) 신호 없는 thin ring, (b) <span class="math inline">\(y=\pm3\)</span> cylinder 신호 — 이고, 아래 3행이 각각 Euclidean / diffusion / snow distance 임베딩이다.</p>
 <p><img src="attachments/260514_b19d92_00.png" class="img-fluid"></p>
-<p><span class="math inline">\(\tau\)</span> 가 작을 때는 초기 신호 <span class="math inline">\(y = \pm 3\)</span> 의 차이가 지배적이라 사실상 유클리드 거리만 본다. (b) cylinder 에서 두 덩어리가 직선으로 갈라져 있을 뿐이다.</p>
-<p><img src="attachments/260514_b19d92_01.png" class="img-fluid"></p>
-<p><img src="attachments/260514_b19d92_02.png" class="img-fluid"></p>
-<p>눈이 쌓이면서 그래프 구조가 슬슬 섞여 들어온다. 링이 드러나기 시작하지만 아직 끊겨 있고, cylinder 쪽은 두 클러스터가 각각 반원으로 펼쳐지는 — 신호와 그래프가 공존하는 과도기다.</p>
+<p>이 논문 그림의 아래쪽 snow distance 세팅에서 시뮬레이션을 훨씬 더 오래 진행해 보았다. 눈량을 <span class="math inline">\(b_t \sim \mathrm{Uniform}(0, 0.05)\)</span> 로 랜덤 추출하면서 <span class="math inline">\(\tau\)</span> 를 100번부터 100억번까지 늘려 본 것이다. 이걸 끝까지 돌려본 이유는 (1) 정말로 유클리드 거리에서 출발해서 그래프 거리로 수렴하는지 (2) 눈의양을 고정적인 <span class="math inline">\(b\)</span>로 하든 <span class="math inline">\(U(0,b)\)</span>로 하든 같은 결과를 주는지 확인하고 싶었기 때문.</p>
+<p><code>-</code> <span class="math inline">\(\tau \approx 47{,}000\)</span> (약 5만번): 논문그림과 비슷한 상황</p>
 <p><img src="attachments/260514_b19d92_03.png" class="img-fluid"></p>
+<p><code>-</code> <span class="math inline">\(\tau \approx 100\)</span>만번 (백만번): 약 5만번의 결과와 비슷. 전체적으로 디노이징된 상태</p>
 <p><img src="attachments/260514_b19d92_04.png" class="img-fluid"></p>
-<p><span class="math inline">\(\tau\)</span> 를 충분히 키우면 에르고딕 평균이 초기 신호를 씻어낸다. thin ring 이든 cylinder 든 결국 <strong>같은 완전한 링</strong>으로 수렴한다. 이 극한 거리는 <span class="math inline">\(\mathbf{y}\)</span> 와 무관하고 오직 그래프 구조만 반영하는 비유클리드 거리다.</p>
+<p><code>-</code> <span class="math inline">\(\tau \approx 5\)</span>억번: 클리프 소멸. 거의 닫힌 링.</p>
 <p><img src="attachments/260514_b19d92_05.png" class="img-fluid"></p>
+<p><code>-</code> <span class="math inline">\(\tau = 100\)</span>억번: 초기효과 소멸. (a) 와 (b) 모두 완전한 링으로 수렴.</p>
 <p><img src="attachments/260514_b19d92_06.png" class="img-fluid"></p>
-<p>전체 애니메이션 (<span class="math inline">\(\tau: 10^2 \to 10^{10}\)</span>, 로그 스케일 300 프레임):</p>
+<p><code>-</code> 전체 애니메이션 (100번 <span class="math inline">\(\to\)</span> 100억번, 로그 스케일 300 프레임):</p>
 <p><img src="attachments/260514_b19d92_07.gif" class="img-fluid"></p>
-<p>한 줄로 정리하면: <strong>유클리드 → 잘린 링 (혼합) → 그래프-only 링.</strong> 이론이 예고한 전이 (<span class="math inline">\(\overline{\mathrm{SD}}^2 \to c_{ij}\)</span>, <span class="math inline">\(c_{ij}\)</span> 는 <span class="math inline">\(\mathbf{y}\)</span>-무관 그래프 상수) 를 100억 스텝 스케일에서 눈으로 확인한 셈이다.</p>
-<p>소스: <a href="../260430_예제2재현_tau애니메이션_unifb.py"><code>260430_예제2재현_tau애니메이션_unifb.py</code></a>.</p>
+<blockquote class="blockquote">
+<p>이 결과는 눈을 <span class="math inline">\(U(0,b)\)</span>에서 추출한 경우이며, 눈을 고정값 <span class="math inline">\(b\)</span>로 뿌렸을 경우도 같은 결과를 얻을 수 있었음.</p>
+</blockquote>
 
 
 
