@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="신록예찬">
-<meta name="dcterms.date" content="2026-04-26">
 
-<title>연구 ▷ HST ▷ \overline{\operatorname{SD}}^2 수렴 증명 - 내가푼다 (2) – 신록예찬's Blog</title>
+<title>claude – 신록예찬's Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,27 +20,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5b48ee63c5e90d651e19f9ead4b448f1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5b48ee63c5e90d651e19f9ead4b448f1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,37 +104,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="../styles.css">
 <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -112,7 +115,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">신록예찬’s Blog</span>
     </a>
   </div>
@@ -184,102 +187,155 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#yechan-blog" id="toc-yechan-blog" class="nav-link active" data-scroll-target="#yechan-blog">Yechan Blog</a>
+  <ul class="collapse">
+  <li><a href="#프로젝트-개요" id="toc-프로젝트-개요" class="nav-link" data-scroll-target="#프로젝트-개요">프로젝트 개요</a></li>
+  <li><a href="#프로젝트-구조" id="toc-프로젝트-구조" class="nav-link" data-scroll-target="#프로젝트-구조">프로젝트 구조</a></li>
+  <li><a href="#콘텐츠-작성-규칙" id="toc-콘텐츠-작성-규칙" class="nav-link" data-scroll-target="#콘텐츠-작성-규칙">콘텐츠 작성 규칙</a>
+  <ul class="collapse">
+  <li><a href="#헤딩-위계-룰" id="toc-헤딩-위계-룰" class="nav-link" data-scroll-target="#헤딩-위계-룰">헤딩 위계 룰</a></li>
+  </ul></li>
+  <li><a href="#파일-명명-규칙" id="toc-파일-명명-규칙" class="nav-link" data-scroll-target="#파일-명명-규칙">파일 명명 규칙</a>
+  <ul class="collapse">
+  <li><a href="#포스트-파일" id="toc-포스트-파일" class="nav-link" data-scroll-target="#포스트-파일">포스트 파일</a></li>
+  <li><a href="#이미지-파일" id="toc-이미지-파일" class="nav-link" data-scroll-target="#이미지-파일">이미지 파일</a></li>
+  </ul></li>
+  <li><a href="#블로그-관리-도구" id="toc-블로그-관리-도구" class="nav-link" data-scroll-target="#블로그-관리-도구">블로그 관리 도구</a>
+  <ul class="collapse">
+  <li><a href="#cleanup.py" id="toc-cleanup.py" class="nav-link" data-scroll-target="#cleanup.py">cleanup.py</a></li>
+  </ul></li>
+  <li><a href="#배포" id="toc-배포" class="nav-link" data-scroll-target="#배포">배포</a>
+  <ul class="collapse">
+  <li><a href="#배포-흐름-pub.sh-사용" id="toc-배포-흐름-pub.sh-사용" class="nav-link" data-scroll-target="#배포-흐름-pub.sh-사용">배포 흐름 (<code>pub.sh</code> 사용)</a></li>
+  <li><a href="#한글-파일명-nfc-처리" id="toc-한글-파일명-nfc-처리" class="nav-link" data-scroll-target="#한글-파일명-nfc-처리">한글 파일명 NFC 처리</a></li>
+  <li><a href="#주의사항" id="toc-주의사항" class="nav-link" data-scroll-target="#주의사항">주의사항</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">연구 ▷ HST ▷ <span class="math inline">\(\overline{\operatorname{SD}}^2\)</span> 수렴 증명 - 내가푼다 (2)</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>신록예찬 </p>
-          </div>
-  </div>
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">April 26, 2026</p>
-    </div>
-  </div>
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<hr>
-<p><strong>Theorem.</strong> 연결 가중 그래프 <span class="math inline">\(\mathcal{G}\)</span>와 파라미터 <span class="math inline">\((b, T_{max})\)</span>가 주어질 때, 다음 drift 조건이 성립한다고 하자:</p>
-<p><span class="math display">\[\Delta_{\mathrm{drift}} := (T_{max}{+}1)\alpha - \frac{2p_0}{n-1} &lt; 0 \tag{DC}\]</span></p>
-<p>여기서 <span class="math inline">\(\alpha = \|\boldsymbol{\mu}_0 - \mathbf{u}\|_1\)</span> (차수 비균등도), <span class="math inline">\(\mu_{min} = \min_i \mu_0(v_i)\)</span>, <span class="math inline">\(p_0 =\mu_{min}P_{RW,min}\)</span> (1라운드 big-drop확률하한)이다. DC가 만족되면 상수 행렬 <span class="math inline">\(C = [c_{ij}]_{n \times n}\)</span>, <span class="math inline">\(c_{ij} = c_{ij}(\mathcal{G}, b, T_{max}, \mathbf{y} \bmod b) \geq 0\)</span>이 존재하여, 임의의 초기 신호 <span class="math inline">\(\mathbf{y}\)</span>에 대해:</p>
-<p><span class="math display">\[\overline{\mathbf{SD}}^2(t) \xrightarrow{t \to \infty} C \quad \text{a.s.}\]</span></p>
-<p>이때 한계값 <span class="math inline">\(c_{ij}\)</span>는 초기 신호 <span class="math inline">\(\mathbf{y}\)</span>의 거시적인 절대 스케일에는 완전히 독립적이며, 오직 이산 업데이트 규칙의 격자 경계를 결정짓는 <span class="math inline">\(b\)</span> 단위의 미세한 위상차(fractional part modulo <span class="math inline">\(b\)</span>)에만 국소적으로 종속된다.</p>
-<hr>
-<p>이걸 증명하기 위해 가장 도전적인 부분은 아래를 보이는것임.</p>
-<p>Proposition (Height Recurrence). 높이 범위 <span class="math inline">\(M(t)\)</span>에 대해, <strong>drift 조건</strong></p>
-<p><span class="math display">\[\Delta_{\mathrm{drift}} := (T_{max}{+}1)\alpha - \frac{2p_0}{n-1} \;&lt;\; 0 \tag{DC}\]</span></p>
-<p>이 성립하면 (<span class="math inline">\(\mathcal{G}\)</span>가 정칙이면 <span class="math inline">\(\alpha = 0\)</span>이므로 자동 성립), <span class="math inline">\((\mathcal{G}, b, T_{max})\)</span>에만 의존하는 상수 <span class="math inline">\(C &gt; 0\)</span>이 존재하여, <strong>높이차 과정 <span class="math inline">\(\{S(t)\}\)</span>는 유한 집합 <span class="math inline">\(\mathcal{B}_\Phi\)</span>로 유한 기대 시간 내에 반복 복귀하는 양의 재귀 마르코프 체인</strong>이다. 특히 <span class="math inline">\(M(t)\)</span>는 <span class="math inline">\(\{M \leq C\}\)</span>로 반복 복귀.</p>
-<blockquote class="blockquote">
-<p>여기에서 <span class="math inline">\(C_1 := n\big(C_3/(b|\Delta_{\mathrm{drift}}|)\big)^2\)</span></p>
-</blockquote>
-<p>Proposition을 증명하기 위해서는 Foster-Lyapunov정리를 써야함. 그런데 이걸 위해서는 적당한 함수 <span class="math inline">\(\Phi(t)\)</span>를 잡아서 그 함수가 <span class="math inline">\(t\)</span>가 커질때 점점 작아진다는 느낌을 줘야함. 그러니까 <span class="math inline">\(\Phi(t+1) - \Phi(t)\)</span>를 음수로 바운드하면 좋음. 그런데 그게 쉽진않음. 그래서 우리는 적당히 round의 개념을 도입하여 1라운드 이후 <span class="math inline">\(\Phi\)</span>의 값이 줄어듦을 보일것임.</p>
-<p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1})-\Phi(t_r) | S(t_r)] \leq 0\]</span></p>
-<p>그런데 식을 전개하다보면 아래가 보여진다.</p>
-<p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1})-\Phi(t_r) | S(t_r)] \leq bM(t_r)\left[(T_{max}+1)\alpha - \frac{2p_0}{n-1}\right] +C_3\]</span></p>
-<p>대괄호속에있는게 <span class="math inline">\(\Delta_{\text{drift}}\)</span>인데 이것이 음수라고 가정했으므로 <span class="math inline">\(bM(t_r)\)</span>가 충분히 크면 음수가 나온다. 여기가 헷갈리는 부분인데</p>
-<ol type="1">
-<li><span class="math inline">\(M(t_r)\)</span>이 충분히 크면 <span class="math inline">\(\Phi(t_r)\)</span> 가 천천히 줄어든다는 논리전개가 가능</li>
-<li><span class="math inline">\(M(t_r)\)</span>가 충분히 크지 않으면 원래 잘 수렴하므로 상관없다(? )</li>
-</ol>
-<p>이런식임. 사실 이런식의 논리전개가 가능한지 모르겠음. 딱 1과 2의 경계가 되는 <span class="math inline">\(M(t)\)</span>가 있었으면 좋겠지?</p>
-<blockquote class="blockquote">
-<p>질문1: 이거 이런논리전개가 가능해? 2의 경우 충분히 크지 않아도 잘 수렴하는지 체크해야하지않어 질문2: 경계가 되는 <span class="math inline">\(M(t)\)</span>는?</p>
-</blockquote>
-<blockquote class="blockquote">
-<p><strong>답</strong>:</p>
-<p><strong>(a) “충분히 크지 않으면 어떻게 되나?” — Foster-Lyapunov가 우아하게 처리.</strong> 핵심: Foster-Lyapunov 정리는 <strong>refuge <span class="math inline">\(\mathcal{B}_\Phi\)</span> 바깥에서만</strong> 음의 drift 를 요구함. refuge 안에서는 drift 가 양수든 음수든 상관없음 (단, 한 스텝 변화량이 유한이면 됨). 직관: - <span class="math inline">\(M(t_r)\)</span> 큼 (<span class="math inline">\(\Rightarrow\)</span> refuge 밖): 음의 drift, <span class="math inline">\(\Phi\)</span> 가 평균적으로 줄어듦 → 결국 refuge 들어감. - <span class="math inline">\(M(t_r)\)</span> 작음 (<span class="math inline">\(\Rightarrow\)</span> refuge 안): drift 가 양수일 수 있어도 무한 발산 못함. 왜냐하면 (i) 한 스텝에 <span class="math inline">\(|\Phi\)</span> 변화량<span class="math inline">\(|\)</span> 유한 (<span class="math inline">\(\leq O(b M_{\text{round}}) + O(b^2)\)</span>), (ii) 어떤 양수 변화로 refuge 를 빠져나가면 그 다음부터 다시 음의 drift 가 작용해 끌어당김. 즉 “refuge 밖으로 나가도 다시 끌려들어오는” 메커니즘이 자동.</p>
-<p>그래서 “2의 경우” 를 별도로 체크할 필요 없음 — Foster-Lyapunov 가 한 묶음으로 처리. (경로 단위 a.s. 양의 재귀가 정리의 결론.)</p>
-<p><strong>(b) 경계 <span class="math inline">\(M^\star\)</span> 의 명시적 식.</strong> Drift 부등식 <span class="math display">\[\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] \leq bM(t_r)\Delta_{\mathrm{drift}} + C_3\]</span> 의 우변이 <span class="math inline">\(\leq -1\)</span> 이 되려면 <span class="math display">\[bM(t_r)\Delta_{\mathrm{drift}} + C_3 \leq -1 \;\iff\; M(t_r) \;\geq\; \frac{C_3 + 1}{b\,|\Delta_{\mathrm{drift}}|} \;=:\; M^\star.\]</span> 따라서 refuge <span class="math inline">\(\mathcal{B}_\Phi := \{\Phi \leq C_1\}\)</span> 에서 <span class="math inline">\(C_1\)</span> 을 잡을 때 <span class="math inline">\(\Phi \leq C_1 \Rightarrow M \leq M^\star\)</span> 이 되도록, <span class="math inline">\(\Phi \leq nM^2\)</span> 관계에서 <span class="math inline">\(C_1 := n(M^\star)^2\)</span> 정도 잡으면 됨. 정확히는 <span class="math display">\[M^\star := \frac{C_3 + 1}{b\,|\Delta_{\mathrm{drift}}|}, \qquad C_1 := n(M^\star)^2.\]</span> 이 두 값이 모두 <span class="math inline">\((\mathcal{G}, b, T_{max})\)</span> 에만 의존하는 결정적 상수.</p>
-</blockquote>
-<p>암튼 이 식까지 나오면 나머지는 나름대로 자명해보임. 이 식을 유도하는 과정이 문제가 있는지 살펴보자. 증명을 위해서 아래를 계산한다.</p>
-<p><code>-</code> Lemma1: <span class="math inline">\(\Phi(t) - \Phi(t-1) = 2b\,\hbar(\ell, t) + \frac{(n-1)b^2}{n}\)</span></p>
-<p><code>-</code> (<span class="math inline">\(\dagger\)</span>): <span class="math inline">\(\mathbb{E}[\Phi(t+1) - \Phi(t) \mid S(t)] = 2b \cdot \mathbb{E}\big[\hbar(X_{t+1}, t+1) \mid S(t)\big] + \frac{(n-1)b^2}{n}\)</span></p>
-<p><code>-</code> 이제 아래에 관심을 가지자.</p>
-<p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] \;=\; 2b\, \mathbb{E}\bigg[\sum_{j=1}^{m_r}\hbar(\tilde X_j,\, t_r{+}j)\,\Big|\,S(t_r)\bigg] - m_r\,\tfrac{(n-1)b^2}{n} \]</span> 좀더 정리하면 아래와 같이 쓸 수 있다.</p>
-<p><span class="math inline">\(=\; 2b\, \mathbb{E}\bigg[\sum_{j=1}^{m_r}\big(\hbar(\tilde X_j, t_r{+}j) -\hbar(\tilde{X}_1,t_r+1)\big)\Big| S(t_r)\bigg] +2bm_r\mathbb{E}\left[\hbar(\tilde{X}_1,t_r+1) \mid S(t_r) \right]-  m_r\,\tfrac{(n-1)b^2}{n}\)</span> 이때 <span class="math inline">\(\mathbb{E}\left[\hbar(\tilde{X}_1, t_r+1) \mid S(t_r)\right]=\sum_{i=1}^{n}\mu_0(i)\hbar(i,t_r)+\frac{b(n-1)}{n}\leq \frac{\alpha}{2}M(t_r)+\frac{b(n-1)}{n}\)</span>를 쓰면</p>
-<p><span class="math inline">\(\leq 2b\, \mathbb{E}\bigg[\sum_{j=1}^{m_r}\big(\hbar(\tilde X_j, t_r{+}j) -\hbar(\tilde{X}_1,t_r+1)\big)\Big| S(t_r)\bigg] +bm_r\alpha M(t_r)+m_r \frac{b^2(n-1)}{n}\)</span></p>
-<p>이 계산된다. 그런데 <span class="math inline">\(\sum_{j=1}^{m_r}\big(\hbar(\tilde X_j, t_r{+}j) -\hbar(\tilde{X}_1,t_r+1)\big)=\bigstar\)</span> 에 대하여 아래의 식을 유도할 수 있다.</p>
+<section id="yechan-blog" class="level1">
+<h1>Yechan Blog</h1>
+<section id="프로젝트-개요" class="level2">
+<h2 class="anchored" data-anchor-id="프로젝트-개요">프로젝트 개요</h2>
 <ul>
-<li>라운드내 낙차가 없는 경우: <span class="math inline">\(\bigstar&lt;C_{round}\)</span></li>
-<li>라운드내 낙차가 있는 경우:<span class="math inline">\(\bigstar \leq -\frac{M(t_r)}{n-1} +C_{round}\)</span></li>
+<li><strong>프로젝트명</strong>: 신록예찬’s Blog</li>
+<li><strong>기술스택</strong>: Quarto 기반 정적 블로그</li>
+<li><strong>배포</strong>: GitHub Pages</li>
+<li><strong>저장소</strong>: https://github.com/miruetoto/yechan</li>
 </ul>
-<p>이를 이용하여 정리하면</p>
-<p><span class="math display">\[\;\leq\; 2bC_{round} - \frac{2b p_0 M(t_r)}{n-1} +bm_r\alpha M(t_r)+m_r \frac{b^2(n-1)}{n}\]</span> 정리하면</p>
-<p><span class="math display">\[=bM(t_r)\left[m_r \alpha -\frac{2p_0}{n-1}\right]+\left[2bC_{round}+m_r\frac{b^2(n-1)}{n} \right]\]</span></p>
-<p><span class="math inline">\(m_r \leq T_{max}+1\)</span>로 바운드치면</p>
-<p><span class="math display">\[\leq bM(t_r)\left[(T_{max}+1) \alpha -\frac{2p_0}{n-1}\right]+\left[2bC_{round}+(T_{max}+1)\frac{b^2(n-1)}{n} \right]\]</span> 따라서</p>
-<p><span class="math display">\[\begin{aligned}
-\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] &amp;\leq -\frac{2b\,p_0\,M(t_r)}{n-1} + 2b\,C_{round} + b(T_{max}+1)\,\alpha\,M(t_r) + (T_{max}+1)\frac{b^2(n-1)}{n} \\
-&amp;= b\,M(t_r)\underbrace{\Big[(T_{max}+1)\alpha - \frac{2p_0}{n-1}\Big]}_{=\,\Delta_{\mathrm{drift}}} + \underbrace{\Big[2b\,C_{round} + (T_{max}+1)\frac{b^2(n-1)}{n}\Big]}_{=:\,C_3}
-\end{aligned}\]</span></p>
-<p>여기서 <span class="math inline">\(C_3 := 2bC_{round} + (T_{max}+1)b^2(n-1)/n\)</span> 은 <span class="math inline">\(M(t_r)\)</span> 에 무관하고 <span class="math inline">\((\mathcal{G}, b, T_{max})\)</span> 에만 의존하는 결정적 상수.</p>
-<hr>
-<p>결국 DC아래에서 위의 <span class="math inline">\(M(t_r)\)</span>이 충분히크면 음이되고, (충분히 크지 않으면??) Foster-Lyapunov정리를 쓸 수 있다.</p>
+</section>
+<section id="프로젝트-구조" class="level2">
+<h2 class="anchored" data-anchor-id="프로젝트-구조">프로젝트 구조</h2>
+<pre><code>yechan/
+├── _quarto.yml           # Quarto 설정
+├── index.qmd             # 메인 페이지
+├── Posts/                # 블로그 포스트
+│   ├── *.md              # 마크다운 포스트 (YYMMDD_카테고리_제목.md)
+│   ├── *.qmd             # Quarto 문서
+│   ├── *.ipynb           # Jupyter 노트북
+│   └── attachments/      # 이미지 파일 ({MD파일명}_NN.png 형식)
+├── docs/                 # 빌드 결과 (GitHub Pages 배포용)
+├── cleanup.py            # 블로그 관리 도구 (포스트/이미지 정리)
+├── pub.sh                # 배포 스크립트 (render + commit + push)
+└── styles.css            # 커스텀 스타일</code></pre>
+</section>
+<section id="콘텐츠-작성-규칙" class="level2">
+<h2 class="anchored" data-anchor-id="콘텐츠-작성-규칙">콘텐츠 작성 규칙</h2>
+<section id="헤딩-위계-룰" class="level3">
+<h3 class="anchored" data-anchor-id="헤딩-위계-룰">헤딩 위계 룰</h3>
+<p>블로그 포스트 전체의 헤딩은 다음 위계로 통일:</p>
+<p><code>-</code> <strong>본문 (callout 밖)</strong>: <code>#</code> ~ <code>####</code> (h1 ~ h4) 까지만 사용.</p>
+<p><code>-</code> <strong>Callout 내부</strong>: <code>#####</code> ~ <code>######</code> (h5 ~ h6) 만 사용. - 기본은 <code>#####</code> (h5). - callout 안에서 더 작은 보조 헤딩이 필요한 경우만 <code>######</code> (h6).</p>
+<p><code>-</code> 이유 — callout 박스 안 내용은 본문의 보조 정보. <code>##</code>/<code>###</code> 같은 큰 헤딩은 callout 박스 안에서 시각적으로 산만하므로, callout 안에서는 본문 헤딩 수준 (<code>####</code> 까지) 보다 명백히 작게 (<code>#####</code> 부터).</p>
+<p>예시:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># 1. 본문 큰 절</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1.1 본문 부속 절</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true" title="제목"}</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">##### 1. callout 안 첫 절</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>내용...</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">##### 2. callout 안 두 번째 절</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">###### 2.1 더 깊은 보조 헤딩</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="파일-명명-규칙" class="level2">
+<h2 class="anchored" data-anchor-id="파일-명명-규칙">파일 명명 규칙</h2>
+<section id="포스트-파일" class="level3">
+<h3 class="anchored" data-anchor-id="포스트-파일">포스트 파일</h3>
+<pre><code>YYMMDD_카테고리_제목.md</code></pre>
+<p>예: <code>250819_책공부_확률변수의 수렴.md</code></p>
+</section>
+<section id="이미지-파일" class="level3">
+<h3 class="anchored" data-anchor-id="이미지-파일">이미지 파일</h3>
+<pre><code>{YYMMDD}_{hash6}_NN.ext</code></pre>
+<ul>
+<li><code>YYMMDD</code>: MD 파일 stem 앞 6자리 (날짜)</li>
+<li><code>hash6</code>: MD 파일 stem의 SHA-256 앞 6자 (hex) — 같은 날 여러 포스트도 충돌 없이 구분</li>
+<li><code>NN</code>: 해당 문서 내 등장 순서 (01, 02, …)</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>ASCII 전용</strong>. Unicode 정규화(NFC/NFD) 이슈를 원천 차단하기 위해 한글 파일명을 쓰지 않는다. 파일명만 봐도 동일 MD 소속 이미지인지 바로 식별 가능 (<code>hash6</code> 공유).</p>
+</blockquote>
+<p>예: MD 파일이 <code>250819_책공부_확률변수의수렴.md</code> 이면 → stem 해싱 → <code>a1b2c3</code> (예시) → <code>250819_a1b2c3_01.png</code>, <code>250819_a1b2c3_02.png</code>, …</p>
+</section>
+</section>
+<section id="블로그-관리-도구" class="level2">
+<h2 class="anchored" data-anchor-id="블로그-관리-도구">블로그 관리 도구</h2>
+<section id="cleanup.py" class="level3">
+<h3 class="anchored" data-anchor-id="cleanup.py">cleanup.py</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python cleanup.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>기능:</strong> 1. <strong>포스트 파일명 정리</strong> - frontmatter(date, title) 기반으로 <code>YYMMDD_카테고리_제목.md</code> 형식으로 변환 2. <strong>미사용 이미지 삭제</strong> - 어떤 포스트에서도 참조되지 않는 이미지 자동 삭제 3. <strong>이미지 파일명 정리</strong> - 각 MD 파일이 참조하는 이미지를 등장 순서대로 <code>{MD파일명}_NN.png</code> 형식으로 리네임 + MD 내 참조 경로도 함께 업데이트</p>
+<p><strong>이미지 참조 방식:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](attachments/250819_a1b2c3_01.png)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>macOS 주의사항:</strong> APFS는 한글 파일명을 NFD(자모 분해형)로 저장하므로, 스크립트는 내부적으로 NFC 정규화를 거쳐 MD 소스 문자열과 매칭한다.</p>
+</section>
+</section>
+<section id="배포" class="level2">
+<h2 class="anchored" data-anchor-id="배포">배포</h2>
+<section id="배포-흐름-pub.sh-사용" class="level3">
+<h3 class="anchored" data-anchor-id="배포-흐름-pub.sh-사용">배포 흐름 (<code>pub.sh</code> 사용)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> pub.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>내부 동작: 1. <strong>precomposeunicode 가드</strong>: <code>git config core.precomposeunicode</code>가 true인지 확인 (아니면 중단) 2. <strong>백업 커밋</strong> → <code>cleanup.py</code> → <code>quarto render</code> → 최종 커밋 → <code>git push origin main</code> 3. <strong>실패 시</strong>: <code>git reset --hard &lt;BACKUP_COMMIT&gt;</code> + <code>git clean -fd</code>로 자동 복원</p>
+</section>
+<section id="한글-파일명-nfc-처리" class="level3">
+<h3 class="anchored" data-anchor-id="한글-파일명-nfc-처리">한글 파일명 NFC 처리</h3>
+<ul>
+<li><strong>macOS APFS는 한글 파일명을 NFD(자모 분해형)로 저장</strong></li>
+<li>맥에서 그대로 <code>git push</code>하면 NFD 바이트가 GitHub 리포에 박힘</li>
+<li>GitHub Pages(Linux)는 브라우저의 NFC 요청을 NFD 파일과 매칭 못 함 → 이미지 404</li>
+<li>해결책: 이 리포에 <code>git config core.precomposeunicode true</code> 설정. 맥 git이 <code>git add</code>/commit 시점에 NFD→NFC 자동 정규화하여 커밋 오브젝트의 바이트가 NFC로 기록됨.</li>
+</ul>
+</section>
+<section id="주의사항" class="level3">
+<h3 class="anchored" data-anchor-id="주의사항">주의사항</h3>
+<ul>
+<li><code>core.precomposeunicode</code>가 해제되면 다시 NFD 오염 위험. <code>pub.sh</code>가 진입 시점에 체크함.</li>
+<li>맥에서 직접 <code>git push origin main</code> 해도 OK (precomposeunicode 덕분). 다만 <code>pub.sh</code> 경유해야 백업/정리/렌더까지 일관.</li>
+</ul>
 
 
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
