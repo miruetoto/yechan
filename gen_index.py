@@ -77,12 +77,14 @@ def build_index(tree):
         slug = slugify(main)
         subs = {k: v for k, v in tree[main].items() if k != "__total__"}
 
+        # "공부"가 "책공부"를 매칭하지 않도록 "▷" 포함 패턴 사용
+        title_pat = f"{main} ▷*"
         listings.append({
             "id": f"{slug}-all",
             "contents": "Posts",
             "sort": "date desc",
             "type": "table",
-            "include": {"title": f"*{main}*"},
+            "include": {"title": title_pat},
             "max-items": 999,
         })
 
@@ -93,7 +95,7 @@ def build_index(tree):
                 "contents": "Posts",
                 "sort": "date desc",
                 "type": "table",
-                "include": {"title": f"*{main}*{sub}*"},
+                "include": {"title": f"{main} ▷ {sub}*"},
                 "max-items": 999,
             })
 
