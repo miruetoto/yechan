@@ -26,7 +26,15 @@ $$\sum_{s=1}^t b'_s \cdot \mathbf{1}\{X_s = v_i\} = \bar{b}\sum_{s=1}^t \mathbf{
 
 첫째 항: $\rho_i$의 정의에 의해 $\frac{1}{t}\sum \mathbf{1}\{X_s = v_i\} \to \rho_i$ (a.s.)이므로 $\bar{b}\rho_i \cdot t$ 로 성장.
 
-둘째 항: $(b'_s - \bar{b})$는 평균 0이므로 마팅게일 강대수법칙에 의해 $o(t)$.
+둘째 항은 마팅게일 강대수법칙으로 처리한다. $M_t^{(i)} := \sum_{s=1}^t (b'_s - \bar{b}) \cdot \mathbf{1}\{X_s = v_i\}$ 라 놓으면, $b'_s - \bar{b}$는 평균 0이고 $\mathcal{F}_{s-1}$ (시점 $s-1$까지의 정보)과 독립이므로
+
+$$\mathbb{E}[M_t^{(i)} - M_{t-1}^{(i)} \mid \mathcal{F}_{t-1}] = \mathbb{E}[(b'_t - \bar{b}) \mid \mathcal{F}_{t-1}] \cdot \mathbf{1}\{X_t = v_i\} = 0$$
+
+즉 $\{M_t^{(i)}\}$는 마팅게일이다. 마팅게일 강대수법칙은 **각 증분의 분산이 bounded이면 $M_t/t \to 0$ a.s.** 를 말한다. 정확히는:
+
+> $\{M_t\}$가 마팅게일이고 $\sum_{t=1}^\infty \frac{\mathrm{Var}(M_t - M_{t-1})}{t^2} < \infty$ 이면 $\frac{M_t}{t} \to 0$ a.s.
+
+우리 경우 $\mathrm{Var}(M_t^{(i)} - M_{t-1}^{(i)}) = \mathrm{Var}((b'_t - \bar{b}) \cdot \mathbf{1}\{X_t = v_i\}) \leq \mathrm{Var}(b'_t) = b^2/12$ 로 상수에 bounded. $\sum_{t=1}^\infty \frac{b^2/12}{t^2} < \infty$ ($p$-급수, $p=2$) 이므로 조건이 만족되어 $M_t^{(i)}/t \to 0$ a.s., 즉 둘째 항은 $o(t)$.
 
 따라서 두 노드의 높이 차이는
 
@@ -48,7 +56,7 @@ regime을 결정하는 건 $\mu_0$이다. 정규 그래프에서는 degree-propo
 
 ![](attachments/260515_c0531a_05.png)
 
-hub의 degree는 12, leaf는 1이다. degree-proportional $\mu_0$를 쓰면 hub에 눈이 절반 확률로 쌓여서 $\rho_{\text{hub}} = 0.33$, $\rho_{\text{leaf}} = 0.056$ → drift regime. $SD^2/t^3$이 이론값(점선)으로 수렴하는 과정:
+hub의 degree는 12, leaf는 1이다. degree-proportional $\mu_0$를 쓰면 $\mu_0(\text{hub}) = 12/24 = 0.5$로 hub에 reset이 집중된다. 실측 적립률은 $\rho_{\text{hub}} = 0.33$, $\rho_{\text{leaf}} = 0.056$ ($\mu_0$와 정확히 같지는 않다 — block/flow dynamics가 재분배하기 때문). $\rho$가 균등하지 않으므로 drift regime. $SD^2/t^3$이 이론값(점선)으로 수렴하는 과정:
 
 ![](attachments/260515_c0531a_04.gif)
 

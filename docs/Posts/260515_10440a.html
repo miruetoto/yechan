@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="신록예찬">
+<meta name="dcterms.date" content="2026-05-15">
+
+<title>연구 ▷ HST ▷ 적립률 존재성과 마팅게일 분해 – 신록예찬’s Blog</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b80d4d0c6b5ed6a4cb4a000b691bbaf5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">신록예찬’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DL2024/"> 
+<span class="menu-text">DL2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/AP2023/"> 
+<span class="menu-text">AP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/PP2024/"> 
+<span class="menu-text">PP2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DV2023/"> 
+<span class="menu-text">DV2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/MP2023/"> 
+<span class="menu-text">MP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SC2024/"> 
+<span class="menu-text">SC2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DS2022/"> 
+<span class="menu-text">DS2022</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SP2023/"> 
+<span class="menu-text">SP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/IR2021/"> 
+<span class="menu-text">IR2021</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan/"> 
+<span class="menu-text">yechan</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan2/"> 
+<span class="menu-text">yechan2</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/miruetoto/yechan"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#문제" id="toc-문제" class="nav-link active" data-scroll-target="#문제">문제</a></li>
+  <li><a href="#마팅게일-분해-unconditional" id="toc-마팅게일-분해-unconditional" class="nav-link" data-scroll-target="#마팅게일-분해-unconditional">마팅게일 분해 (unconditional)</a></li>
+  <li><a href="#높이-차이도-마팅게일로-분해된다" id="toc-높이-차이도-마팅게일로-분해된다" class="nav-link" data-scroll-target="#높이-차이도-마팅게일로-분해된다">높이 차이도 마팅게일로 분해된다</a></li>
+  <li><a href="#왜-일반-증명이-안-되는가" id="toc-왜-일반-증명이-안-되는가" class="nav-link" data-scroll-target="#왜-일반-증명이-안-되는가">왜 일반 증명이 안 되는가</a></li>
+  <li><a href="#조건부-결과-downstream-stabilization-ds" id="toc-조건부-결과-downstream-stabilization-ds" class="nav-link" data-scroll-target="#조건부-결과-downstream-stabilization-ds">조건부 결과: Downstream Stabilization (DS)</a></li>
+  <li><a href="#검증된-예시" id="toc-검증된-예시" class="nav-link" data-scroll-target="#검증된-예시">검증된 예시</a></li>
+  <li><a href="#상태-정리" id="toc-상태-정리" class="nav-link" data-scroll-target="#상태-정리">상태 정리</a></li>
+  <li><a href="#의미" id="toc-의미" class="nav-link" data-scroll-target="#의미">의미</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">연구 ▷ HST ▷ 적립률 존재성과 마팅게일 분해</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>신록예찬 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 15, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="문제" class="level2">
+<h2 class="anchored" data-anchor-id="문제">문제</h2>
+<p>HST 알고리즘에서 각 노드의 장기 적립률</p>
+<p><span class="math display">\[\rho_i := \lim_{t\to\infty} \frac{1}{t}\sum_{s=1}^t \mathbf{1}\{X_s = v_i\}\]</span></p>
+<p>가 a.s. 존재하는가? <a href="260515_c0531a.html">어제 포스트</a>에서 two-regime 이론 (balanced vs drift)은 “<span class="math inline">\(\rho_i\)</span>가 존재한다”를 <strong>가정</strong>했다. 이 가정 자체를 증명할 수 있는가?</p>
+</section>
+<section id="마팅게일-분해-unconditional" class="level2">
+<h2 class="anchored" data-anchor-id="마팅게일-분해-unconditional">마팅게일 분해 (unconditional)</h2>
+<p>핵심 아이디어: 방문 indicator를 conditional probability + noise로 분해한다.</p>
+<p><span class="math display">\[\mathbf{1}\{X_s = v_i\} = p_i(s) + \underbrace{[\mathbf{1}\{X_s = v_i\} - p_i(s)]}_{\text{martingale increment}}\]</span></p>
+<p>여기서 <span class="math inline">\(p_i(s) := \mathbb{P}(X_s = v_i \mid \mathcal{F}_{s-1})\)</span> 은 이전 history가 주어졌을 때의 조건부 방문 확률이다.</p>
+<p><strong>Lemma.</strong> <span class="math inline">\(M_t^{(i)} := \sum_{s=1}^t [\mathbf{1}\{X_s=v_i\} - p_i(s)]\)</span> 는 bounded-increment 마팅게일이고, <span class="math inline">\(M_t^{(i)}/t \to 0\)</span> a.s.</p>
+<p>증명은 간단하다: <span class="math inline">\(|\Delta M_s| \leq 1\)</span>이고, conditional variance가 <span class="math inline">\(p_i(1-p_i) \leq 1\)</span>이므로 <span class="math inline">\(\sum \mathbb{E}[(\Delta M_s)^2 | \mathcal{F}_{s-1}]/s^2 \leq \sum 1/s^2 &lt; \infty\)</span>. 마팅게일 강대수법칙 (Hall–Heyde Thm 2.18) 적용.</p>
+<p>따라서:</p>
+<p><span class="math display">\[\frac{1}{t}\sum_{s=1}^t \mathbf{1}\{X_s = v_i\} = \frac{1}{t}\sum_{s=1}^t p_i(s) + o(1) \quad \text{a.s.}\]</span></p>
+<p><strong>이게 주는 것</strong>: <span class="math inline">\(\rho_i\)</span> 존재 문제가 <strong>Cesàro 평균 <span class="math inline">\(\frac{1}{t}\sum p_i(s)\)</span>의 수렴</strong> 문제로 환원된다. 마팅게일 noise는 <span class="math inline">\(1/t\)</span> 스케일에서 사라진다.</p>
+<p><strong>이게 안 주는 것</strong>: <span class="math inline">\(\frac{1}{t}\sum p_i(s)\)</span>가 수렴하는지 여부. 이건 height-visit feedback loop 때문에 자명하지 않다.</p>
+</section>
+<section id="높이-차이도-마팅게일로-분해된다" class="level2">
+<h2 class="anchored" data-anchor-id="높이-차이도-마팅게일로-분해된다">높이 차이도 마팅게일로 분해된다</h2>
+<p>높이 차이 <span class="math inline">\(D_{ij}(t) = h(v_i,t) - h(v_j,t)\)</span>도 비슷하게:</p>
+<p><span class="math display">\[D_{ij}(t) = D_{ij}(0) + \frac{b}{2}\sum_{s=1}^t [\mathbf{1}_i(s) - \mathbf{1}_j(s)] + \widetilde{M}_{ij}(t)\]</span></p>
+<p>여기서 <span class="math inline">\(\widetilde{M}_{ij}(t) = \sum (b'_s - b/2)[\mathbf{1}_i - \mathbf{1}_j]\)</span>는 또 다른 마팅게일 (<span class="math inline">\(b'_s\)</span>가 <span class="math inline">\(X_s\)</span> 결정 이후에 독립 추출되므로). LIL에 의해 <span class="math inline">\(|\widetilde{M}_{ij}| = O(\sqrt{t\log\log t})\)</span>.</p>
+<p>따라서 <strong>높이 차이 <span class="math inline">\(\approx\)</span> 적립률 차이 <span class="math inline">\(\times\)</span> 시간</strong>:</p>
+<p><span class="math display">\[D_{ij}(t) = \frac{b}{2} \cdot t \cdot [\hat\rho_i(t) - \hat\rho_j(t)] + O(\sqrt{t\log\log t})\]</span></p>
+</section>
+<section id="왜-일반-증명이-안-되는가" class="level2">
+<h2 class="anchored" data-anchor-id="왜-일반-증명이-안-되는가">왜 일반 증명이 안 되는가</h2>
+<p>문제의 핵심은 feedback loop:</p>
+<p><span class="math display">\[\text{높이} \xrightarrow{\text{flow rule}} \text{방문} \xrightarrow{\text{적립}} \text{높이}\]</span></p>
+<p><span class="math inline">\(p_i(s)\)</span>가 높이에 의존하고, 높이는 과거 방문에 의존한다. Subsequential limit으로 해결하려 해도, <span class="math inline">\(\hat\rho_i(t) - \hat\rho_j(t)\)</span>가 어떤 subsequence에서는 <span class="math inline">\(+\gamma\)</span>, 다른 subsequence에서는 <span class="math inline">\(-\gamma\)</span>로 갈 수 있다. 그러면 <span class="math inline">\(D_{ij}\)</span>가 <span class="math inline">\(+\Theta(t)\)</span>와 <span class="math inline">\(-\Theta(t)\)</span> 사이를 오가며 ranking이 영구히 고정되지 않는다.</p>
+</section>
+<section id="조건부-결과-downstream-stabilization-ds" class="level2">
+<h2 class="anchored" data-anchor-id="조건부-결과-downstream-stabilization-ds">조건부 결과: Downstream Stabilization (DS)</h2>
+<p><strong>DS 가설</strong>: 모든 인접 node pair <span class="math inline">\((u,w)\)</span>에 대해, 어느 시점 이후 <span class="math inline">\(w\)</span>가 <span class="math inline">\(u\)</span>의 downstream에 속하는지 여부가 영구히 고정된다.</p>
+<p>DS는 “ranking이 고정된다” (RS)보다 <strong>강한</strong> 조건이다. Ranking이 고정되어도 height gap이 <span class="math inline">\(O(b)\)</span>로 bounded하면, round 내 snowfall 축적으로 downstream membership이 바뀔 수 있기 때문.</p>
+<p><strong>Theorem.</strong> DS가 성립하면 <span class="math inline">\(\rho_i\)</span>가 a.s. 존재한다.</p>
+<p>증명 골격:</p>
+<p><code>1.</code> DS 이후 flow kernel <span class="math inline">\(P_\infty(u,w)\)</span>가 고정됨 (downstream set이 안 바뀌므로)</p>
+<p><code>2.</code> 각 round는 fresh <span class="math inline">\(\mu_0\)</span>-draw로 시작 (regeneration)</p>
+<p><code>3.</code> 따라서 DS 이후 round들은 i.i.d.</p>
+<p><code>4.</code> Renewal-reward SLLN → <span class="math inline">\(\hat\rho_i(t) \to \rho_i^\infty\)</span> a.s.</p>
+</section>
+<section id="검증된-예시" class="level2">
+<h2 class="anchored" data-anchor-id="검증된-예시">검증된 예시</h2>
+<p><code>-</code> <strong><span class="math inline">\(K_n\)</span> + uniform <span class="math inline">\(\mu_0\)</span></strong>: DS 필요 없음. 대칭성 + Harris recurrence로 <span class="math inline">\(\rho_i = 1/n\)</span>.</p>
+<p><code>-</code> <strong>Star <span class="math inline">\(S_n\)</span> + degree-prop <span class="math inline">\(\mu_0\)</span></strong> (sketch): Hub이 충분히 높아지면 leaf에서 hub으로 flow 불가 (<span class="math inline">\(\mathcal{D} = \emptyset\)</span>) → <span class="math inline">\(\mu_0\)</span> fallback. Hub이 <span class="math inline">\(\mu_0\)</span>의 절반을 받으므로 <span class="math inline">\(\rho_{\text{hub}} &gt; 1/n\)</span>. Self-reinforcing → DS 성립.</p>
+</section>
+<section id="상태-정리" class="level2">
+<h2 class="anchored" data-anchor-id="상태-정리">상태 정리</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>명제</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>마팅게일 noise removal</td>
+<td><strong>증명됨</strong></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\rho_i\)</span> 존재 <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(\frac{1}{t}\sum p_i(s)\)</span> 수렴</td>
+<td><strong>증명됨</strong></td>
+</tr>
+<tr class="odd">
+<td>높이–적립률 link</td>
+<td><strong>증명됨</strong></td>
+</tr>
+<tr class="even">
+<td>DS 하에서 <span class="math inline">\(\rho_i\)</span> 존재</td>
+<td><strong>증명됨</strong></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(K_n\)</span> + uniform에서 <span class="math inline">\(\rho_i = 1/n\)</span></td>
+<td><strong>증명됨</strong> (Harris)</td>
+</tr>
+<tr class="even">
+<td>Star + deg-prop에서 DS</td>
+<td><strong>sketch</strong></td>
+</tr>
+<tr class="odd">
+<td>일반 그래프에서 <span class="math inline">\(\rho_i\)</span> 존재</td>
+<td><strong>open</strong></td>
+</tr>
+<tr class="even">
+<td>Thm B (drift <span class="math inline">\(SD^2/t^3\)</span>) without “<span class="math inline">\(\rho_i\)</span> exists”</td>
+<td><strong>DS 하에서 증명됨</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="의미" class="level2">
+<h2 class="anchored" data-anchor-id="의미">의미</h2>
+<p>마팅게일 분해 자체는 무조건적이고 어떤 그래프에서든 성립한다. 이걸로 문제가 “Cesàro 평균의 수렴”으로 환원된다는 것이 핵심 기여. 일반 증명은 아직 open이지만, DS라는 checkable한 조건 아래에서는 닫힌다.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
