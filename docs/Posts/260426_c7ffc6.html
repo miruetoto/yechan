@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="신록예찬">
-<meta name="dcterms.date" content="2019-04-26">
+<meta name="dcterms.date" content="2026-04-26">
 
-<title>공부 ▷ 퓨리에변환 – 신록예찬’s Blog</title>
+<title>연구 ▷ HST ▷ \overline{\operatorname{SD}}^2 수렴 증명 - 내가푼다 – 신록예찬's Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -184,23 +184,15 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#about-this-doc" id="toc-about-this-doc" class="nav-link active" data-scroll-target="#about-this-doc">About this doc</a></li>
-  <li><a href="#들어가며" id="toc-들어가며" class="nav-link" data-scroll-target="#들어가며">들어가며</a></li>
-  <li><a href="#퓨리에표현들" id="toc-퓨리에표현들" class="nav-link" data-scroll-target="#퓨리에표현들">퓨리에표현들</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">공부 ▷ 퓨리에변환</h1>
+<h1 class="title">연구 ▷ HST ▷ <span class="math inline">\(\overline{\operatorname{SD}}^2\)</span> 수렴 증명 - 내가푼다</h1>
 </div>
 
 
@@ -217,7 +209,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 26, 2019</p>
+      <p class="date">April 26, 2026</p>
     </div>
   </div>
   
@@ -229,124 +221,67 @@ window.Quarto = {
 </header>
 
 
-<section id="about-this-doc" class="level2">
-<h2 class="anchored" data-anchor-id="about-this-doc">About this doc</h2>
-<p><code>-</code> 이번에는 퓨리에 표현들을 정리하도록 하겠다. 내생각엔 퓨리에 표현들도 벡터의 미분만큼 복잡한 것 같다. 정의가 너무 많고 그게 그거 같아서 그렇다. 이번기회에 깔끔하게 정리하도록 하자. 참고한 문헌은 아래와 같다.</p>
-<ul>
-<li>Haykin, S., &amp; Van Veen, B. (2007). Signals and systems. John Wiley &amp; Sons.</li>
-</ul>
-</section>
-<section id="들어가며" class="level2">
-<h2 class="anchored" data-anchor-id="들어가며">들어가며</h2>
-<p><code>-</code> 우선 신호와 하나의 신호값을 구분하는 notation을 생각하자. 우리가 다루는 신호 즉 데이터는 값들의 집합이다. 우리가 시계열자료를 다룬다면 데이터는 아래와 같이 표현한다.</p>
-<ul>
-<li><span class="math inline">\(\{x_i: i \in \mathbb{Z}\}\)</span></li>
-</ul>
-<p>이와 유시하게 우리가 다루는 자료가 <span class="math inline">\(t \in \mathbb{R}\)</span>인 연속신호라면 아래와 같이 표현한다.</p>
-<ul>
-<li><span class="math inline">\(\{x(t): t \in \mathbb{R}\}\)</span></li>
-</ul>
-<p>우리가 모든 <span class="math inline">\(i \in \mathbb{Z}\)</span> 혹은 모든 <span class="math inline">\(t \in \mathbb{R}\)</span>에서 신호를 다룰 생각이 없다면 아래와 같은 표현도 얼마든지 가능하다.</p>
-<ul>
-<li><span class="math inline">\(\{x_i: i=0,1,\dots, \xi-1 \}\)</span></li>
-<li><span class="math inline">\(\{x(t):t \in (0,\zeta) \}\)</span></li>
-</ul>
-<p><code>-</code> 위와 같이 집합의 표현 없이 단독으로 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>와 같이 쓰면 하나의 고정된 값 <span class="math inline">\(i,t\)</span>에 대한 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>로 이해하자. 솔직히 이렇게 꼭 신호를 엄밀하게 집합으로 정의하는게 유별나 보일수도 있다. 일반적으로 사람들은 <span class="math inline">\(\{x(t): ~t \in \mathbb{R} \}\)</span> 대신에 보통 <span class="math inline">\(x(t)\)</span>로 간단하게 줄여서 쓰곤한다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 하지만 이 포스팅에 한정하여 위와 같이 집합의 형태로 엄밀하게 구분해 쓰도록 하자. 처음에는 익숙하지 않지만 나중에는 편리하다.</p>
-</section>
-<section id="퓨리에표현들" class="level2">
-<h2 class="anchored" data-anchor-id="퓨리에표현들">퓨리에표현들</h2>
-<p><code>-</code> 지금부터 우리가 고려하는 모든 신호들은 기본적으로 <strong>(1)</strong> <strong>infinity range</strong>에서 정의된 신호라고 가정한다. 즉 연속신호이면 <span class="math inline">\(\mathbb{R}\)</span>에서 정의된다고 가정하고 이산신호면 <span class="math inline">\(\mathbb{Z}\)</span>에서 정의된다고 가정한다. 또한 우리가 분석하고자 하는 신호는 <strong>(2)</strong> <strong>integrable</strong> 하다고 가정한다. 이건 퓨리에표현들이 적분 혹은 무한합의 형태로 표현된다는 것을 상기하면 타당하여 보인다.</p>
-<p><code>-</code> 즉 우리가 고려하는 신호는 <strong>인피니티-레인지</strong>에서 정의되며 <strong>인피니티-레인지</strong>에서 적분값이 유한한 연속신호 혹은 이산신호 임을 알 수 있다. 이러한 신호는 구체적으로는 아래와 같이 쓸 수 있다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span></li>
-<li><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></li>
-</ul>
-<p><code>-</code> 그런데 <strong>integrable</strong> 한 함수들만을 고려하다 보면 우리가 다룰 수 있는 신호의 범위가 확 줄어들게 된다. 가령 예를 들어서 아래와 같은 신호는 적분을 하면 무한대가 나오기 때문에 <strong>intergrable</strong> 하지 않다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in \mathbb{R} \right\}\)</span></li>
-</ul>
-<p>이것은 좀 불합리해 보이는데 위의 신호는 주기신호라서 한 주기의 패턴만 분석하면 될것 같이 보이기 때문이다. 위의 신호는 <strong>intergrable</strong> 하지않지만 아래의 신호는 <strong>intergrable</strong> 하다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in (0,2\pi) \right\}\)</span></li>
-</ul>
-<p>우리는 이런신호까지 분석하기로 한다. 이런신호를 분석할 수 있는 이유는 해석학 교재를 참고하면 된다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<p><code>-</code> 아무튼 우리는 <strong>(1) 인피니티-레인지에서 정의되는 가지는 신호 (2) 인피니티-레인지에서 적분값이 잘 정의되는 신호, 혹은 한 주기만 적분해 보았을때 그 값이 잘 정의되는 주기신호</strong> 를 타겟팅해 분석한다. 즉 분석하는 신호는 구체적으로 아래의 4가지이다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}.\)</span></p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty, ~ , x(t)=x(t+\zeta), ~ t \in \mathbb{R},  \right\}.\)</span></p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ i, x_i=x_{i+\xi},~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><code>-</code> 표현들을 정리하기에 앞서서 몇 가지 알아두어야 할 사항이 있다. <strong>(1)</strong> 시간축에서 연속인 신호는 주파수측에서는 비주기신호가 나온다. <strong>(2)</strong> 시간축에서 디스크릿한 신호는 주파수측에서는 주기신호이다. <strong>(3)</strong> 시간축에서 주기인 신호는 주파수에서는 디스크릿하다. <strong>(4)</strong> 시간축에서 비주기신호는 주파수에서 연속이다. 이 사실들을 종합하면 각각의 경우에 해당하는 퓨리에 표현들은 아래와 같은 특징을 가지고 있음을 알 수 있다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong> <span class="math inline">\(\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{-\infty}^{\infty} |\hat x(\omega)| d\omega &lt;\infty,~ \omega \in \mathbb{R} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty,~ x(t)=x(t+\zeta),~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=-\infty}^{\infty} |\hat x_k| &lt;\infty,~ k \in \mathbb{Z} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{0}^{2\pi} |\hat x(\omega)| d\omega &lt;\infty,~ \hat x(\omega)=\hat x(\omega+2\pi),~  \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code> <span class="math inline">\(\star\)</span></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ x_i=x_{i+\xi},~ i \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=0}^{\xi-1} |\hat x_k| &lt;\infty,~\hat x_k = \hat x_{k+\xi} ,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 여기에서 <span class="math inline">\(\zeta\)</span>는 (시간축에서) 연속신호의 주기라고 정의하고 <span class="math inline">\(\xi\)</span>는 (시간축에서) 이산신호의 주기라고 약속하자. 주파수영역이 디스크릿하게 나오면 FS라고 부르고 주파수영역이 컨티뉴어스하게 나오면 FT라고 부른다. 특이한점은 비주기-이산신호에 대한 FS <span class="math inline">\(\hat x(\omega)\)</span>는 주파수 영역에서 주기가 <span class="math inline">\(2\pi\)</span>임을 파악할 수 있다. 이유는 궁금해하지말자. (내생각에 그냥 <span class="math inline">\(\omega\)</span>를 적당히 스케일링하여 주기를 <span class="math inline">\(2\pi\)</span>로 맞췄을 거다.)</p>
-<p><code>-</code> 이제 짜증나는 적분가능조건따위는 버리도록 하자. 대신에 각 경우에 퓨리에변환(혹은series)과 그 역이 어떻게 정의되는지 알아보자. 그리고 외우자. 각 신호가 어떠한 도메인에서 정의되는지만 잘 파악하면 <strong>의외로</strong> 외우기 쉽다.</p>
-<p><strong><code>case 1. 연속/비주기</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): x(t)=\frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\int_{-\infty}^{\infty} x(t)e^{-j\omega t} dt,~ \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \sum_{k=-\infty}^{\infty} \hat x_k e^{j \frac{2\pi}{\zeta} t} ,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 3. 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i:  x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega, ~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\sum_{i=-\infty}^{\infty}x_ie^{-j\omega i}, ~\omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\sum_{k=0}^{\xi-1} \hat x_k e^{-j\frac{2\pi k}{\xi}i},~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i},~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주기함수는 (그것이 이산이든 연속이든) 주파수영역에서의 값이 디스크릿하다. 즉 위에서 case2와 case4인 경우는 주파수영역에서 값이 디스크릿하다. 이것을 연속함수인것처럼 바꿔보면 아래와 같이 쓸 수 있다.</p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt\right]\delta\left(\omega-\frac{2\pi k}{\zeta}\right), ~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega,,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad\overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i}\right]\delta\left(\omega-\frac{2\pi k}{\xi}\right),~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주목할것은 주기가 <span class="math inline">\(\zeta\)</span> 혹은 <span class="math inline">\(\xi\)</span> 인 함수의 주파수 응답은 오로지</p>
-<ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\zeta}, k \in \mathbb{Z}\right\}\)</span></li>
-</ul>
-<p>혹은</p>
-<ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\xi}, k \in \mathbb{Z}\right\}\)</span></li>
-</ul>
-<p>에서만 존재한다는 점이다. 또한 이산신호의 경우 <span class="math inline">\(x_i\)</span>의 주기가 <span class="math inline">\(\xi\)</span> 이면 <span class="math inline">\(\hat{x}(\omega)\)</span>의 주기역시 <span class="math inline">\(\xi\)</span> 라는점 역시 주목할만한 부분이다.</p>
-<p><code>-</code> 주파수영역에서 디스크릿한 함수를 연속인것처럼 표현했듯이 시간영역에서 디스크릿한 함수 역시 연속인것처럼 표현할 수 있다. 예를들면 <span class="math inline">\(\{x_i: x_i=x(iT),~i \in \mathbb{Z}\}\)</span> 와 같은 관계가 있는 경우 아래와 같이 표현 가능하다.</p>
-<p><span class="math display">\[x_{\delta}(t)=\sum_{i=-\infty}^{\infty}x_i\delta(t-iT).\]</span></p>
-<p>이거 엄청 중요하다.</p>
-
-
-</section>
-
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>나도 그렇다.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>사실 나도 잘 모름 (뭐 <strong>quotient group</strong>이런거 알아야 하는데 공부하려면 꽤 걸릴듯)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<hr>
+<p><strong>Theorem.</strong> 연결 가중 그래프 <span class="math inline">\(\mathcal{G}\)</span>와 파라미터 <span class="math inline">\((b, T_{max})\)</span>가 주어질 때, 다음 drift 조건이 성립한다고 하자:</p>
+<p><span class="math display">\[\Delta_{\mathrm{drift}} := (T_{max}{+}1)\alpha - \frac{2p_0}{n-1} &lt; 0 \tag{DC}\]</span></p>
+<p>여기서 <span class="math inline">\(\alpha = \|\boldsymbol{\mu}_0 - \mathbf{u}\|_1\)</span> (차수 비균등도), <span class="math inline">\(\mu_{min} = \min_i \mu_0(v_i)\)</span>, <span class="math inline">\(p_0 =\mu_{min}P_{RW,min}\)</span> (1라운드 big-drop확률하한)이다. DC가 만족되면 상수 행렬 <span class="math inline">\(C = [c_{ij}]_{n \times n}\)</span>, <span class="math inline">\(c_{ij} = c_{ij}(\mathcal{G}, b, T_{max}, \mathbf{y} \bmod b) \geq 0\)</span>이 존재하여, 임의의 초기 신호 <span class="math inline">\(\mathbf{y}\)</span>에 대해:</p>
+<p><span class="math display">\[\overline{\mathbf{SD}}^2(t) \xrightarrow{t \to \infty} C \quad \text{a.s.}\]</span></p>
+<p>이때 한계값 <span class="math inline">\(c_{ij}\)</span>는 초기 신호 <span class="math inline">\(\mathbf{y}\)</span>의 거시적인 절대 스케일에는 완전히 독립적이며, 오직 이산 업데이트 규칙의 격자 경계를 결정짓는 <span class="math inline">\(b\)</span> 단위의 미세한 위상차(fractional part modulo <span class="math inline">\(b\)</span>)에만 국소적으로 종속된다.</p>
+<hr>
+<p>이걸 증명하기 위해 가장 도전적인 부분은 아래를 보이는것임.</p>
+<p>Proposition (Height Recurrence). 높이 범위 <span class="math inline">\(M(t)\)</span>에 대해, <strong>drift 조건</strong></p>
+<p><span class="math display">\[\Delta_{\mathrm{drift}} := (T_{max}{+}1)\alpha - \frac{2p_0}{n-1} \;&lt;\; 0 \tag{DC}\]</span></p>
+<p>이 성립하면 (<span class="math inline">\(\mathcal{G}\)</span>가 정칙이면 <span class="math inline">\(\alpha = 0\)</span>이므로 자동 성립), <span class="math inline">\((\mathcal{G}, b, T_{max})\)</span>에만 의존하는 상수 <span class="math inline">\(C &gt; 0\)</span>이 존재하여, <strong>높이차 과정 <span class="math inline">\(\{S(t)\}\)</span>는 유한 집합 <span class="math inline">\(\mathcal{B}_\Phi\)</span>로 유한 기대 시간 내에 반복 복귀하는 양의 재귀 마르코프 체인</strong>이다. 특히 <span class="math inline">\(M(t)\)</span>는 <span class="math inline">\(\{M \leq C\}\)</span>로 반복 복귀.</p>
+<blockquote class="blockquote">
+<p>여기에서 <span class="math inline">\(C_1 := n\big(C_3/(b|\Delta_{\mathrm{drift}}|)\big)^2\)</span></p>
+</blockquote>
+<p>Proposition을 증명하기 위해서는 Foster-Lyapunov정리를 써야함. 그런데 이걸 위해서는 적당한 함수 <span class="math inline">\(\Phi(t)\)</span>를 잡아서 그 함수가 <span class="math inline">\(t\)</span>가 커질때 점점 작아진다는 느낌을 줘야함. 그러니까 <span class="math inline">\(\Phi(t+1) - \Phi(t)\)</span>를 음수로 바운드하면 좋음. 그런데 그게 쉽진않음. 그래서 우리는 적당히 round의 개념을 도입하여 1라운드 이후 <span class="math inline">\(\Phi\)</span>의 값이 줄어듦을 보일것임.</p>
+<p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1})-\Phi(t_r) | S(t_r)] \leq 0\]</span></p>
+<p>그런데 식을 전개하다보면 아래가 보여진다.</p>
+<p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1})-\Phi(t_r) | S(t_r)] \leq bM(t_r)\left[(T_{max}+1)\alpha - \frac{2p_0}{n-1}\right] +C_3\]</span></p>
+<p>대괄호속에있는게 <span class="math inline">\(\Delta_{\text{drift}}\)</span>인데 이것이 음수라고 가정했으므로 <span class="math inline">\(bM(t_r)\)</span>가 충분히 크면 음수가 나온다. 여기가 헷갈리는 부분인데</p>
+<ol type="1">
+<li><span class="math inline">\(M(t_r)\)</span>이 충분히 크면 <span class="math inline">\(\Phi(t_r)\)</span> 가 천천히 줄어든다는 논리전개가 가능</li>
+<li><span class="math inline">\(M(t_r)\)</span>가 충분히 크지 않으면 원래 잘 수렴하므로 상관없다(? )</li>
 </ol>
-</section></div></main> <!-- /main -->
+<p>이런식임. 사실 이런식의 논리전개가 가능한지 모르겠음. 딱 1과 2의 경계가 되는 <span class="math inline">\(M(t)\)</span>가 있었으면 좋겠지?</p>
+<blockquote class="blockquote">
+<p>질문1: 이거 이런논리전개가 가능해? 2의 경우 충분히 크지 않아도 잘 수렴하는지 체크해야하지않어 질문2: 경계가 되는 <span class="math inline">\(M(t)\)</span>는?</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>답</strong>:</p>
+<p><strong>(a) “충분히 크지 않으면 어떻게 되나?” — Foster-Lyapunov가 우아하게 처리.</strong> 핵심: Foster-Lyapunov 정리는 <strong>refuge <span class="math inline">\(\mathcal{B}_\Phi\)</span> 바깥에서만</strong> 음의 drift 를 요구함. refuge 안에서는 drift 가 양수든 음수든 상관없음 (단, 한 스텝 변화량이 유한이면 됨). 직관: - <span class="math inline">\(M(t_r)\)</span> 큼 (<span class="math inline">\(\Rightarrow\)</span> refuge 밖): 음의 drift, <span class="math inline">\(\Phi\)</span> 가 평균적으로 줄어듦 → 결국 refuge 들어감. - <span class="math inline">\(M(t_r)\)</span> 작음 (<span class="math inline">\(\Rightarrow\)</span> refuge 안): drift 가 양수일 수 있어도 무한 발산 못함. 왜냐하면 (i) 한 스텝에 <span class="math inline">\(|\Phi\)</span> 변화량<span class="math inline">\(|\)</span> 유한 (<span class="math inline">\(\leq O(b M_{\text{round}}) + O(b^2)\)</span>), (ii) 어떤 양수 변화로 refuge 를 빠져나가면 그 다음부터 다시 음의 drift 가 작용해 끌어당김. 즉 “refuge 밖으로 나가도 다시 끌려들어오는” 메커니즘이 자동.</p>
+<p>그래서 “2의 경우” 를 별도로 체크할 필요 없음 — Foster-Lyapunov 가 한 묶음으로 처리. (경로 단위 a.s. 양의 재귀가 정리의 결론.)</p>
+<p><strong>(b) 경계 <span class="math inline">\(M^\star\)</span> 의 명시적 식.</strong> Drift 부등식 <span class="math display">\[\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] \leq bM(t_r)\Delta_{\mathrm{drift}} + C_3\]</span> 의 우변이 <span class="math inline">\(\leq -1\)</span> 이 되려면 <span class="math display">\[bM(t_r)\Delta_{\mathrm{drift}} + C_3 \leq -1 \;\iff\; M(t_r) \;\geq\; \frac{C_3 + 1}{b\,|\Delta_{\mathrm{drift}}|} \;=:\; M^\star.\]</span> 따라서 refuge <span class="math inline">\(\mathcal{B}_\Phi := \{\Phi \leq C_1\}\)</span> 에서 <span class="math inline">\(C_1\)</span> 을 잡을 때 <span class="math inline">\(\Phi \leq C_1 \Rightarrow M \leq M^\star\)</span> 이 되도록, <span class="math inline">\(\Phi \leq nM^2\)</span> 관계에서 <span class="math inline">\(C_1 := n(M^\star)^2\)</span> 정도 잡으면 됨. 정확히는 <span class="math display">\[M^\star := \frac{C_3 + 1}{b\,|\Delta_{\mathrm{drift}}|}, \qquad C_1 := n(M^\star)^2.\]</span> 이 두 값이 모두 <span class="math inline">\((\mathcal{G}, b, T_{max})\)</span> 에만 의존하는 결정적 상수.</p>
+</blockquote>
+<p>암튼 이 식까지 나오면 나머지는 나름대로 자명해보임. 이 식을 유도하는 과정이 문제가 있는지 살펴보자. 증명을 위해서 아래를 계산한다.</p>
+<p><code>-</code> Lemma1: <span class="math inline">\(\Phi(t) - \Phi(t-1) = 2b\,\hbar(\ell, t) + \frac{(n-1)b^2}{n}\)</span></p>
+<p><code>-</code> (<span class="math inline">\(\dagger\)</span>): <span class="math inline">\(\mathbb{E}[\Phi(t+1) - \Phi(t) \mid S(t)] = 2b \cdot \mathbb{E}\big[\hbar(X_{t+1}, t+1) \mid S(t)\big] + \frac{(n-1)b^2}{n}\)</span></p>
+<p><code>-</code> 이제 아래에 관심을 가지자.</p>
+<p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] \;=\; 2b\, \mathbb{E}\bigg[\sum_{j=1}^{m_r}\hbar(\tilde X_j,\, t_r{+}j)\,\Big|\,S(t_r)\bigg] - m_r\,\tfrac{(n-1)b^2}{n} \]</span> 좀더 정리하면 아래와 같이 쓸 수 있다.</p>
+<p><span class="math inline">\(=\; 2b\, \mathbb{E}\bigg[\sum_{j=1}^{m_r}\big(\hbar(\tilde X_j, t_r{+}j) -\hbar(\tilde{X}_1,t_r+1)\big)\Big| S(t_r)\bigg] +2bm_r\mathbb{E}\left[\hbar(\tilde{X}_1,t_r+1) \mid S(t_r) \right]-  m_r\,\tfrac{(n-1)b^2}{n}\)</span> 이때 <span class="math inline">\(\mathbb{E}\left[\hbar(\tilde{X}_1, t_r+1) \mid S(t_r)\right]=\sum_{i=1}^{n}\mu_0(i)\hbar(i,t_r)+\frac{b(n-1)}{n}\leq \frac{\alpha}{2}M(t_r)+\frac{b(n-1)}{n}\)</span>를 쓰면</p>
+<p><span class="math inline">\(\leq 2b\, \mathbb{E}\bigg[\sum_{j=1}^{m_r}\big(\hbar(\tilde X_j, t_r{+}j) -\hbar(\tilde{X}_1,t_r+1)\big)\Big| S(t_r)\bigg] +bm_r\alpha M(t_r)+m_r \frac{b^2(n-1)}{n}\)</span></p>
+<p>이 계산된다. 그런데 <span class="math inline">\(\sum_{j=1}^{m_r}\big(\hbar(\tilde X_j, t_r{+}j) -\hbar(\tilde{X}_1,t_r+1)\big)=\bigstar\)</span> 에 대하여 아래의 식을 유도할 수 있다.</p>
+<ul>
+<li>라운드내 낙차가 없는 경우: <span class="math inline">\(\bigstar&lt;C_{round}\)</span></li>
+<li>라운드내 낙차가 있는 경우:<span class="math inline">\(\bigstar \leq -\frac{M(t_r)}{n-1} +C_{round}\)</span></li>
+</ul>
+<p>이를 이용하여 정리하면</p>
+<p><span class="math display">\[\;\leq\; 2bC_{round} - \frac{2b p_0 M(t_r)}{n-1} +bm_r\alpha M(t_r)+m_r \frac{b^2(n-1)}{n}\]</span> 정리하면</p>
+<p><span class="math display">\[=bM(t_r)\left[m_r \alpha -\frac{2p_0}{n-1}\right]+\left[2bC_{round}+m_r\frac{b^2(n-1)}{n} \right]\]</span></p>
+<p><span class="math inline">\(m_r \leq T_{max}+1\)</span>로 바운드치면</p>
+<p><span class="math display">\[\leq bM(t_r)\left[(T_{max}+1) \alpha -\frac{2p_0}{n-1}\right]+\left[2bC_{round}+(T_{max}+1)\frac{b^2(n-1)}{n} \right]\]</span> 따라서</p>
+<p><span class="math display">\[\begin{aligned}
+\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] &amp;\leq -\frac{2b\,p_0\,M(t_r)}{n-1} + 2b\,C_{round} + b(T_{max}+1)\,\alpha\,M(t_r) + (T_{max}+1)\frac{b^2(n-1)}{n} \\
+&amp;= b\,M(t_r)\underbrace{\Big[(T_{max}+1)\alpha - \frac{2p_0}{n-1}\Big]}_{=\,\Delta_{\mathrm{drift}}} + \underbrace{\Big[2b\,C_{round} + (T_{max}+1)\frac{b^2(n-1)}{n}\Big]}_{=:\,C_3}
+\end{aligned}\]</span></p>
+<p>여기서 <span class="math inline">\(C_3 := 2bC_{round} + (T_{max}+1)b^2(n-1)/n\)</span> 은 <span class="math inline">\(M(t_r)\)</span> 에 무관하고 <span class="math inline">\((\mathcal{G}, b, T_{max})\)</span> 에만 의존하는 결정적 상수.</p>
+<hr>
+<p>결국 DC아래에서 위의 <span class="math inline">\(M(t_r)\)</span>이 충분히크면 음이되고, (충분히 크지 않으면??) Foster-Lyapunov정리를 쓸 수 있다.</p>
+
+
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

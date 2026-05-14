@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="신록예찬">
-<meta name="dcterms.date" content="2019-04-26">
+<meta name="dcterms.date" content="2026-01-31">
 
-<title>공부 ▷ 퓨리에변환 – 신록예찬’s Blog</title>
+<title>공부 ▷ 토폴로지 큰그림 – 신록예찬’s Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -184,23 +184,15 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#about-this-doc" id="toc-about-this-doc" class="nav-link active" data-scroll-target="#about-this-doc">About this doc</a></li>
-  <li><a href="#들어가며" id="toc-들어가며" class="nav-link" data-scroll-target="#들어가며">들어가며</a></li>
-  <li><a href="#퓨리에표현들" id="toc-퓨리에표현들" class="nav-link" data-scroll-target="#퓨리에표현들">퓨리에표현들</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">공부 ▷ 퓨리에변환</h1>
+<h1 class="title">공부 ▷ 토폴로지 큰그림</h1>
 </div>
 
 
@@ -217,7 +209,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 26, 2019</p>
+      <p class="date">January 31, 2026</p>
     </div>
   </div>
   
@@ -229,124 +221,20 @@ window.Quarto = {
 </header>
 
 
-<section id="about-this-doc" class="level2">
-<h2 class="anchored" data-anchor-id="about-this-doc">About this doc</h2>
-<p><code>-</code> 이번에는 퓨리에 표현들을 정리하도록 하겠다. 내생각엔 퓨리에 표현들도 벡터의 미분만큼 복잡한 것 같다. 정의가 너무 많고 그게 그거 같아서 그렇다. 이번기회에 깔끔하게 정리하도록 하자. 참고한 문헌은 아래와 같다.</p>
-<ul>
-<li>Haykin, S., &amp; Van Veen, B. (2007). Signals and systems. John Wiley &amp; Sons.</li>
-</ul>
-</section>
-<section id="들어가며" class="level2">
-<h2 class="anchored" data-anchor-id="들어가며">들어가며</h2>
-<p><code>-</code> 우선 신호와 하나의 신호값을 구분하는 notation을 생각하자. 우리가 다루는 신호 즉 데이터는 값들의 집합이다. 우리가 시계열자료를 다룬다면 데이터는 아래와 같이 표현한다.</p>
-<ul>
-<li><span class="math inline">\(\{x_i: i \in \mathbb{Z}\}\)</span></li>
-</ul>
-<p>이와 유시하게 우리가 다루는 자료가 <span class="math inline">\(t \in \mathbb{R}\)</span>인 연속신호라면 아래와 같이 표현한다.</p>
-<ul>
-<li><span class="math inline">\(\{x(t): t \in \mathbb{R}\}\)</span></li>
-</ul>
-<p>우리가 모든 <span class="math inline">\(i \in \mathbb{Z}\)</span> 혹은 모든 <span class="math inline">\(t \in \mathbb{R}\)</span>에서 신호를 다룰 생각이 없다면 아래와 같은 표현도 얼마든지 가능하다.</p>
-<ul>
-<li><span class="math inline">\(\{x_i: i=0,1,\dots, \xi-1 \}\)</span></li>
-<li><span class="math inline">\(\{x(t):t \in (0,\zeta) \}\)</span></li>
-</ul>
-<p><code>-</code> 위와 같이 집합의 표현 없이 단독으로 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>와 같이 쓰면 하나의 고정된 값 <span class="math inline">\(i,t\)</span>에 대한 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>로 이해하자. 솔직히 이렇게 꼭 신호를 엄밀하게 집합으로 정의하는게 유별나 보일수도 있다. 일반적으로 사람들은 <span class="math inline">\(\{x(t): ~t \in \mathbb{R} \}\)</span> 대신에 보통 <span class="math inline">\(x(t)\)</span>로 간단하게 줄여서 쓰곤한다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 하지만 이 포스팅에 한정하여 위와 같이 집합의 형태로 엄밀하게 구분해 쓰도록 하자. 처음에는 익숙하지 않지만 나중에는 편리하다.</p>
-</section>
-<section id="퓨리에표현들" class="level2">
-<h2 class="anchored" data-anchor-id="퓨리에표현들">퓨리에표현들</h2>
-<p><code>-</code> 지금부터 우리가 고려하는 모든 신호들은 기본적으로 <strong>(1)</strong> <strong>infinity range</strong>에서 정의된 신호라고 가정한다. 즉 연속신호이면 <span class="math inline">\(\mathbb{R}\)</span>에서 정의된다고 가정하고 이산신호면 <span class="math inline">\(\mathbb{Z}\)</span>에서 정의된다고 가정한다. 또한 우리가 분석하고자 하는 신호는 <strong>(2)</strong> <strong>integrable</strong> 하다고 가정한다. 이건 퓨리에표현들이 적분 혹은 무한합의 형태로 표현된다는 것을 상기하면 타당하여 보인다.</p>
-<p><code>-</code> 즉 우리가 고려하는 신호는 <strong>인피니티-레인지</strong>에서 정의되며 <strong>인피니티-레인지</strong>에서 적분값이 유한한 연속신호 혹은 이산신호 임을 알 수 있다. 이러한 신호는 구체적으로는 아래와 같이 쓸 수 있다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span></li>
-<li><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></li>
-</ul>
-<p><code>-</code> 그런데 <strong>integrable</strong> 한 함수들만을 고려하다 보면 우리가 다룰 수 있는 신호의 범위가 확 줄어들게 된다. 가령 예를 들어서 아래와 같은 신호는 적분을 하면 무한대가 나오기 때문에 <strong>intergrable</strong> 하지 않다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in \mathbb{R} \right\}\)</span></li>
-</ul>
-<p>이것은 좀 불합리해 보이는데 위의 신호는 주기신호라서 한 주기의 패턴만 분석하면 될것 같이 보이기 때문이다. 위의 신호는 <strong>intergrable</strong> 하지않지만 아래의 신호는 <strong>intergrable</strong> 하다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in (0,2\pi) \right\}\)</span></li>
-</ul>
-<p>우리는 이런신호까지 분석하기로 한다. 이런신호를 분석할 수 있는 이유는 해석학 교재를 참고하면 된다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<p><code>-</code> 아무튼 우리는 <strong>(1) 인피니티-레인지에서 정의되는 가지는 신호 (2) 인피니티-레인지에서 적분값이 잘 정의되는 신호, 혹은 한 주기만 적분해 보았을때 그 값이 잘 정의되는 주기신호</strong> 를 타겟팅해 분석한다. 즉 분석하는 신호는 구체적으로 아래의 4가지이다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}.\)</span></p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty, ~ , x(t)=x(t+\zeta), ~ t \in \mathbb{R},  \right\}.\)</span></p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ i, x_i=x_{i+\xi},~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><code>-</code> 표현들을 정리하기에 앞서서 몇 가지 알아두어야 할 사항이 있다. <strong>(1)</strong> 시간축에서 연속인 신호는 주파수측에서는 비주기신호가 나온다. <strong>(2)</strong> 시간축에서 디스크릿한 신호는 주파수측에서는 주기신호이다. <strong>(3)</strong> 시간축에서 주기인 신호는 주파수에서는 디스크릿하다. <strong>(4)</strong> 시간축에서 비주기신호는 주파수에서 연속이다. 이 사실들을 종합하면 각각의 경우에 해당하는 퓨리에 표현들은 아래와 같은 특징을 가지고 있음을 알 수 있다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong> <span class="math inline">\(\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{-\infty}^{\infty} |\hat x(\omega)| d\omega &lt;\infty,~ \omega \in \mathbb{R} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty,~ x(t)=x(t+\zeta),~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=-\infty}^{\infty} |\hat x_k| &lt;\infty,~ k \in \mathbb{Z} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{0}^{2\pi} |\hat x(\omega)| d\omega &lt;\infty,~ \hat x(\omega)=\hat x(\omega+2\pi),~  \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code> <span class="math inline">\(\star\)</span></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ x_i=x_{i+\xi},~ i \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=0}^{\xi-1} |\hat x_k| &lt;\infty,~\hat x_k = \hat x_{k+\xi} ,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 여기에서 <span class="math inline">\(\zeta\)</span>는 (시간축에서) 연속신호의 주기라고 정의하고 <span class="math inline">\(\xi\)</span>는 (시간축에서) 이산신호의 주기라고 약속하자. 주파수영역이 디스크릿하게 나오면 FS라고 부르고 주파수영역이 컨티뉴어스하게 나오면 FT라고 부른다. 특이한점은 비주기-이산신호에 대한 FS <span class="math inline">\(\hat x(\omega)\)</span>는 주파수 영역에서 주기가 <span class="math inline">\(2\pi\)</span>임을 파악할 수 있다. 이유는 궁금해하지말자. (내생각에 그냥 <span class="math inline">\(\omega\)</span>를 적당히 스케일링하여 주기를 <span class="math inline">\(2\pi\)</span>로 맞췄을 거다.)</p>
-<p><code>-</code> 이제 짜증나는 적분가능조건따위는 버리도록 하자. 대신에 각 경우에 퓨리에변환(혹은series)과 그 역이 어떻게 정의되는지 알아보자. 그리고 외우자. 각 신호가 어떠한 도메인에서 정의되는지만 잘 파악하면 <strong>의외로</strong> 외우기 쉽다.</p>
-<p><strong><code>case 1. 연속/비주기</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): x(t)=\frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\int_{-\infty}^{\infty} x(t)e^{-j\omega t} dt,~ \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \sum_{k=-\infty}^{\infty} \hat x_k e^{j \frac{2\pi}{\zeta} t} ,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 3. 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i:  x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega, ~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\sum_{i=-\infty}^{\infty}x_ie^{-j\omega i}, ~\omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\sum_{k=0}^{\xi-1} \hat x_k e^{-j\frac{2\pi k}{\xi}i},~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i},~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주기함수는 (그것이 이산이든 연속이든) 주파수영역에서의 값이 디스크릿하다. 즉 위에서 case2와 case4인 경우는 주파수영역에서 값이 디스크릿하다. 이것을 연속함수인것처럼 바꿔보면 아래와 같이 쓸 수 있다.</p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt\right]\delta\left(\omega-\frac{2\pi k}{\zeta}\right), ~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega,,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad\overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i}\right]\delta\left(\omega-\frac{2\pi k}{\xi}\right),~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주목할것은 주기가 <span class="math inline">\(\zeta\)</span> 혹은 <span class="math inline">\(\xi\)</span> 인 함수의 주파수 응답은 오로지</p>
-<ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\zeta}, k \in \mathbb{Z}\right\}\)</span></li>
-</ul>
-<p>혹은</p>
-<ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\xi}, k \in \mathbb{Z}\right\}\)</span></li>
-</ul>
-<p>에서만 존재한다는 점이다. 또한 이산신호의 경우 <span class="math inline">\(x_i\)</span>의 주기가 <span class="math inline">\(\xi\)</span> 이면 <span class="math inline">\(\hat{x}(\omega)\)</span>의 주기역시 <span class="math inline">\(\xi\)</span> 라는점 역시 주목할만한 부분이다.</p>
-<p><code>-</code> 주파수영역에서 디스크릿한 함수를 연속인것처럼 표현했듯이 시간영역에서 디스크릿한 함수 역시 연속인것처럼 표현할 수 있다. 예를들면 <span class="math inline">\(\{x_i: x_i=x(iT),~i \in \mathbb{Z}\}\)</span> 와 같은 관계가 있는 경우 아래와 같이 표현 가능하다.</p>
-<p><span class="math display">\[x_{\delta}(t)=\sum_{i=-\infty}^{\infty}x_i\delta(t-iT).\]</span></p>
-<p>이거 엄청 중요하다.</p>
+<p><code>-</code> 정의의 다이어그램 - <span class="math inline">\(X\)</span> → 위상 → 열린집합 - 열린집합 → 근방, 내점, 내부, 닫힌집합 - 닫힌집합 → 폐포 | 근방 → 극한점 → 폐포 - 내부 + 폐포 → 경계 - 폐포 → 조밀집합 - 극한점 → 고립점 - <span class="math inline">\(X\)</span> → 부분기저 → 기저 → 위상 | <span class="math inline">\(X\)</span> → 위상 → 열린집합 → 기저 - 열린집합 → 연속함수 → 동형사상 - 열린집합 → 열린덮개 → 컴팩트 - 근방 + 컴팩트 → 국소컴팩트 - 열린집합 → 부분공간 - <span class="math inline">\(X\)</span> → 거리함수 → 열린공 → 기저 → 위상 - 거리함수 → 코시수열 → 완비성 - 열린집합 → 분리 → 연결 - 열린집합, 동치관계 → 상위상 - 연속함수 → 경로 → 경로연결 - 기저 + 근방 → 가산성 공리 - 근방 → 수열의 수렴 - 근방 → <span class="math inline">\(T_0\)</span>, <span class="math inline">\(T_1\)</span>, <span class="math inline">\(T_2\)</span> (Hausdorff), <span class="math inline">\(T_3\)</span> (정칙), <span class="math inline">\(T_4\)</span> (정규) - 열린집합 + 사영함수 → 곱위상 - 연속함수 → 호모토피</p>
+<p><code>-</code> 성질 - 내점들의 모임 = 내부 - (<span class="math inline">\(A\)</span>의 폐포 =<span class="math inline">\(A\)</span>) <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(A\)</span>는 닫힌집합 - (<span class="math inline">\(A\)</span>의 내부 = <span class="math inline">\(A\)</span>) <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(A\)</span>는 열린집합 - Hausdorff + 제2가산 + 국소유클리드 → 위상다양체 - 위상다양체 + 좌표변환 → 미분다양체 - 연속함수 → 단체 (simplex) → 단체복체 → 체인복체 → 호몰로지군 <span class="math inline">\(H_n(X)\)</span></p>
+<p><code>-</code> 어떠한 집합 <span class="math inline">\(X\)</span>가 있을때 <span class="math inline">\(X\)</span>의 부분집합들의 모임 <span class="math inline">\({\cal T}\)</span>가 어떠한 조건을 만족한다면 <span class="math inline">\({\cal T}\)</span>를 <span class="math inline">\(X\)</span>에 대한 위상이라고 한다. 위상을 정의하는 일은 매우 중요한데, 위상을 정의해야 열린집합을 정의할 수 있고, 열린집합을 정의해야 근방을 정의할 수 있고, 근방을 정의해야</p>
+<p><code>-</code> 위상 <span class="math inline">\({\cal T}\)</span>와는 별개로 집합 <span class="math inline">\(X\)</span>의 임의의 두 원소에 대한 거리 <span class="math inline">\(d\)</span>를 정의할 수 있다.</p>
+<p><code>-</code> 집합 <span class="math inline">\(X\)</span>에서 거리<span class="math inline">\(d\)</span>를 정의할 수 있다면 <span class="math inline">\(d\)</span>를 이용하여 ball을 만들 수 있다. (샴 Chap8 참고할것)</p>
+<p><code>-</code> 거리공간 = (집합, 거리함수) - 거리함수가 가져야할 조건 1,2,3은 거리가 가지는 본질적인 속성, 즉 거리의 헌법이라고 비유 할 수 있음. 따라서 어떠한 함수가 거리함수의 조건 1,2,3을 만족하지 않는다면 그 함수는 거리가 가지는 본질적 속성이 없음을 의미함. - 거리의 본질적 속성1: A와 B사이의 거리는 B와 A사이의 거리와 같아야한다. - 거리의 본질적 속성2: 자기자신과의 거리는 0이어야 한다. - 거리의 본질적 속성3: 두 점 사이의 거리는 두 점 사이의 가장 짧은 경로임을 의미해야 한다. - 머신러닝에서의 모델링은, 모델들의 집합에서 정답과 가장 가까운 하나의 모델을 고르는 작업이라 해석해 볼 수 있다. 즉 <span class="math inline">\(y=f(x)+\epsilon\)</span> 일때 <span class="math inline">\(d(f,g)\)</span>를 최소로 만드는 <span class="math inline">\(g\)</span>를 고르는 과정이라 볼 수 있다. 여기에서의 <span class="math inline">\(d\)</span>는 손실함수의 느낌. - 거리의 동치성: 동치인 거리들은 수렴성, 열린집합등의 위상적 성질을 완벽하게 공유한다. 유클리드 거리와 택시거리는 <span class="math inline">\(\mathbb{R}^n\)</span>에서는 동치이지만 무한차원에서는 항상 성립하지 않음.</p>
+<p><code>-</code> 위상적성질 - 내부, 경계, 폐포, 조밀성</p>
+<p><code>-</code> 거리공간의 좋은성질들 - 완비성: 공간에 구멍이 없고 꽉찬공간. - 코시수열이 수렴하는 공간 (코시수열을 정의하려면 거리가 정의되어야하니까, 결국 완비성은 거리공간에서만 따질 수 있는 성질임) - 유리수집합은 완비하지 않음.<br>
+- 점묘화는 완비가 아님. - 무한차원 유클리드 공간은 완비공간임. - compact: 퍼져나가지 않는 공간. - <span class="math inline">\((0,\infty)\)</span> 이런건 퍼져나가는 공간임. - compact에서 정의한 연속함수는 항상 최대값과 최소값을 가짐.</p>
+<p><code>-</code> 함수공간 (=모델공간=분포공간) - 아르첼라-아스콜리정리: 함수공간에서의 compact 판단도구. - 집합의 원소가 도형이라면? –&gt; 도형사이의 거리를 재야함 –&gt; 하우스도로프거리. (한 집합에 다른집합까지 가장 먼 거리, 각 집합의 불만대장 2개를 찾아서 맥스를 취하는 방식임)</p>
 
 
-</section>
 
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>나도 그렇다.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>사실 나도 잘 모름 (뭐 <strong>quotient group</strong>이런거 알아야 하는데 공부하려면 꽤 걸릴듯)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

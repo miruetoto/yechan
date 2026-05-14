@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="신록예찬">
-<meta name="dcterms.date" content="2019-04-26">
+<meta name="author" content="codex">
+<meta name="dcterms.date" content="2026-04-29">
 
-<title>공부 ▷ 퓨리에변환 – 신록예찬’s Blog</title>
+<title>연구 ▷ HST ▷ Appendix A 약한 에르고딕성 – 신록예찬’s Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -189,9 +189,24 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about-this-doc" id="toc-about-this-doc" class="nav-link active" data-scroll-target="#about-this-doc">About this doc</a></li>
-  <li><a href="#들어가며" id="toc-들어가며" class="nav-link" data-scroll-target="#들어가며">들어가며</a></li>
-  <li><a href="#퓨리에표현들" id="toc-퓨리에표현들" class="nav-link" data-scroll-target="#퓨리에표현들">퓨리에표현들</a></li>
+  <li><a href="#결론" id="toc-결론" class="nav-link active" data-scroll-target="#결론">0. 결론</a></li>
+  <li><a href="#appendix-a의-좋은-점" id="toc-appendix-a의-좋은-점" class="nav-link" data-scroll-target="#appendix-a의-좋은-점">1. Appendix A의 좋은 점</a></li>
+  <li><a href="#현재-appendix-증명의-약한-부분" id="toc-현재-appendix-증명의-약한-부분" class="nav-link" data-scroll-target="#현재-appendix-증명의-약한-부분">2. 현재 Appendix 증명의 약한 부분</a>
+  <ul class="collapse">
+  <li><a href="#x_t-단독은-markov-chain이-아니다" id="toc-x_t-단독은-markov-chain이-아니다" class="nav-link" data-scroll-target="#x_t-단독은-markov-chain이-아니다">2.1 <span class="math inline">\(X_t\)</span> 단독은 Markov chain이 아니다</a></li>
+  <li><a href="#hajnal-theorem-적용이-너무-빠르다" id="toc-hajnal-theorem-적용이-너무-빠르다" class="nav-link" data-scroll-target="#hajnal-theorem-적용이-너무-빠르다">2.2 Hajnal theorem 적용이 너무 빠르다</a></li>
+  <li><a href="#stopping-timeindexing이-모호하다" id="toc-stopping-timeindexing이-모호하다" class="nav-link" data-scroll-target="#stopping-timeindexing이-모호하다">2.3 stopping time/indexing이 모호하다</a></li>
+  </ul></li>
+  <li><a href="#더-깔끔한-대체-방향-reset-coupling" id="toc-더-깔끔한-대체-방향-reset-coupling" class="nav-link" data-scroll-target="#더-깔끔한-대체-방향-reset-coupling">3. 더 깔끔한 대체 방향 — reset coupling</a>
+  <ul class="collapse">
+  <li><a href="#flag-time-정의" id="toc-flag-time-정의" class="nav-link" data-scroll-target="#flag-time-정의">3.1 Flag time 정의</a></li>
+  <li><a href="#bounded-return-to-flag" id="toc-bounded-return-to-flag" class="nav-link" data-scroll-target="#bounded-return-to-flag">3.2 bounded return to flag</a></li>
+  <li><a href="#coupling" id="toc-coupling" class="nav-link" data-scroll-target="#coupling">3.3 Coupling</a></li>
+  </ul></li>
+  <li><a href="#논문용-정리-형태" id="toc-논문용-정리-형태" class="nav-link" data-scroll-target="#논문용-정리-형태">4. 논문용 정리 형태</a></li>
+  <li><a href="#해석" id="toc-해석" class="nav-link" data-scroll-target="#해석">5. 해석</a></li>
+  <li><a href="#hajnal은-꼭-필요한가" id="toc-hajnal은-꼭-필요한가" class="nav-link" data-scroll-target="#hajnal은-꼭-필요한가">6. Hajnal은 꼭 필요한가?</a></li>
+  <li><a href="#최종-메모" id="toc-최종-메모" class="nav-link" data-scroll-target="#최종-메모">7. 최종 메모</a></li>
   </ul>
 </nav>
     </div>
@@ -200,7 +215,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">공부 ▷ 퓨리에변환</h1>
+<h1 class="title">연구 ▷ HST ▷ Appendix A 약한 에르고딕성</h1>
 </div>
 
 
@@ -210,14 +225,14 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>신록예찬 </p>
+             <p>codex </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 26, 2019</p>
+      <p class="date">April 29, 2026</p>
     </div>
   </div>
   
@@ -229,124 +244,220 @@ window.Quarto = {
 </header>
 
 
-<section id="about-this-doc" class="level2">
-<h2 class="anchored" data-anchor-id="about-this-doc">About this doc</h2>
-<p><code>-</code> 이번에는 퓨리에 표현들을 정리하도록 하겠다. 내생각엔 퓨리에 표현들도 벡터의 미분만큼 복잡한 것 같다. 정의가 너무 많고 그게 그거 같아서 그렇다. 이번기회에 깔끔하게 정리하도록 하자. 참고한 문헌은 아래와 같다.</p>
-<ul>
-<li>Haykin, S., &amp; Van Veen, B. (2007). Signals and systems. John Wiley &amp; Sons.</li>
-</ul>
+<section id="결론" class="level1">
+<h1>0. 결론</h1>
+<p>HST 논문 Appendix A의 weak ergodicity 증명은 방향은 맞다. 핵심 직관은 다음이다.</p>
+<blockquote class="blockquote">
+<p>HST는 flow가 계속되더라도 <span class="math inline">\(T_{\max}\)</span>번 후에는 강제로 reset되고, block이 생겨도 reset된다. reset 직후 다음 위치는 <span class="math inline">\(\mu_0\)</span>에서 새로 뽑힌다. 따라서 어떤 시점들에서는 transition matrix의 모든 row가 같은 <span class="math inline">\(\mu_0\)</span>가 된다.</p>
+</blockquote>
+<p>이 아이디어는 좋다. 다만 현재 Appendix의 Hajnal/Dobrushin식 서술은 엄밀하게 쓰려면 손볼 부분이 있다. 더 깔끔한 방향은 <strong>Hajnal theorem을 길게 쓰는 것보다 reset step의 Doeblin/coupling 구조를 직접 쓰는 것</strong>이다.</p>
+<hr>
 </section>
-<section id="들어가며" class="level2">
-<h2 class="anchored" data-anchor-id="들어가며">들어가며</h2>
-<p><code>-</code> 우선 신호와 하나의 신호값을 구분하는 notation을 생각하자. 우리가 다루는 신호 즉 데이터는 값들의 집합이다. 우리가 시계열자료를 다룬다면 데이터는 아래와 같이 표현한다.</p>
-<ul>
-<li><span class="math inline">\(\{x_i: i \in \mathbb{Z}\}\)</span></li>
-</ul>
-<p>이와 유시하게 우리가 다루는 자료가 <span class="math inline">\(t \in \mathbb{R}\)</span>인 연속신호라면 아래와 같이 표현한다.</p>
-<ul>
-<li><span class="math inline">\(\{x(t): t \in \mathbb{R}\}\)</span></li>
-</ul>
-<p>우리가 모든 <span class="math inline">\(i \in \mathbb{Z}\)</span> 혹은 모든 <span class="math inline">\(t \in \mathbb{R}\)</span>에서 신호를 다룰 생각이 없다면 아래와 같은 표현도 얼마든지 가능하다.</p>
-<ul>
-<li><span class="math inline">\(\{x_i: i=0,1,\dots, \xi-1 \}\)</span></li>
-<li><span class="math inline">\(\{x(t):t \in (0,\zeta) \}\)</span></li>
-</ul>
-<p><code>-</code> 위와 같이 집합의 표현 없이 단독으로 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>와 같이 쓰면 하나의 고정된 값 <span class="math inline">\(i,t\)</span>에 대한 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>로 이해하자. 솔직히 이렇게 꼭 신호를 엄밀하게 집합으로 정의하는게 유별나 보일수도 있다. 일반적으로 사람들은 <span class="math inline">\(\{x(t): ~t \in \mathbb{R} \}\)</span> 대신에 보통 <span class="math inline">\(x(t)\)</span>로 간단하게 줄여서 쓰곤한다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 하지만 이 포스팅에 한정하여 위와 같이 집합의 형태로 엄밀하게 구분해 쓰도록 하자. 처음에는 익숙하지 않지만 나중에는 편리하다.</p>
+<section id="appendix-a의-좋은-점" class="level1">
+<h1>1. Appendix A의 좋은 점</h1>
+<p>Appendix A가 잡은 핵심은 정확하다.</p>
+<p>HST의 snow trace는 일반 random walk와 다르다. 일반 directed random walk에서는 graph가 reducible이면 한 component에 갇힐 수 있다. 하지만 HST는 막히거나 <span class="math inline">\(T_{\max}\)</span>번 흐르면 다음 round가 시작되고, 그때 위치가</p>
+<p><span class="math display">\[
+X_{t+1}\sim\mu_0
+\]</span></p>
+<p>로 다시 뽑힌다. 즉 path가 어디에 있었는지와 무관한 global refresh가 반복적으로 들어온다.</p>
+<p>따라서 <span class="math inline">\(X_t\)</span>의 초기 위치 의존성은 reset step에서 끊긴다. 이건 weak ergodicity를 얻기에 매우 강한 구조다.</p>
+<hr>
 </section>
-<section id="퓨리에표현들" class="level2">
-<h2 class="anchored" data-anchor-id="퓨리에표현들">퓨리에표현들</h2>
-<p><code>-</code> 지금부터 우리가 고려하는 모든 신호들은 기본적으로 <strong>(1)</strong> <strong>infinity range</strong>에서 정의된 신호라고 가정한다. 즉 연속신호이면 <span class="math inline">\(\mathbb{R}\)</span>에서 정의된다고 가정하고 이산신호면 <span class="math inline">\(\mathbb{Z}\)</span>에서 정의된다고 가정한다. 또한 우리가 분석하고자 하는 신호는 <strong>(2)</strong> <strong>integrable</strong> 하다고 가정한다. 이건 퓨리에표현들이 적분 혹은 무한합의 형태로 표현된다는 것을 상기하면 타당하여 보인다.</p>
-<p><code>-</code> 즉 우리가 고려하는 신호는 <strong>인피니티-레인지</strong>에서 정의되며 <strong>인피니티-레인지</strong>에서 적분값이 유한한 연속신호 혹은 이산신호 임을 알 수 있다. 이러한 신호는 구체적으로는 아래와 같이 쓸 수 있다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span></li>
-<li><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></li>
-</ul>
-<p><code>-</code> 그런데 <strong>integrable</strong> 한 함수들만을 고려하다 보면 우리가 다룰 수 있는 신호의 범위가 확 줄어들게 된다. 가령 예를 들어서 아래와 같은 신호는 적분을 하면 무한대가 나오기 때문에 <strong>intergrable</strong> 하지 않다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in \mathbb{R} \right\}\)</span></li>
-</ul>
-<p>이것은 좀 불합리해 보이는데 위의 신호는 주기신호라서 한 주기의 패턴만 분석하면 될것 같이 보이기 때문이다. 위의 신호는 <strong>intergrable</strong> 하지않지만 아래의 신호는 <strong>intergrable</strong> 하다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in (0,2\pi) \right\}\)</span></li>
-</ul>
-<p>우리는 이런신호까지 분석하기로 한다. 이런신호를 분석할 수 있는 이유는 해석학 교재를 참고하면 된다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<p><code>-</code> 아무튼 우리는 <strong>(1) 인피니티-레인지에서 정의되는 가지는 신호 (2) 인피니티-레인지에서 적분값이 잘 정의되는 신호, 혹은 한 주기만 적분해 보았을때 그 값이 잘 정의되는 주기신호</strong> 를 타겟팅해 분석한다. 즉 분석하는 신호는 구체적으로 아래의 4가지이다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}.\)</span></p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty, ~ , x(t)=x(t+\zeta), ~ t \in \mathbb{R},  \right\}.\)</span></p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ i, x_i=x_{i+\xi},~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><code>-</code> 표현들을 정리하기에 앞서서 몇 가지 알아두어야 할 사항이 있다. <strong>(1)</strong> 시간축에서 연속인 신호는 주파수측에서는 비주기신호가 나온다. <strong>(2)</strong> 시간축에서 디스크릿한 신호는 주파수측에서는 주기신호이다. <strong>(3)</strong> 시간축에서 주기인 신호는 주파수에서는 디스크릿하다. <strong>(4)</strong> 시간축에서 비주기신호는 주파수에서 연속이다. 이 사실들을 종합하면 각각의 경우에 해당하는 퓨리에 표현들은 아래와 같은 특징을 가지고 있음을 알 수 있다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong> <span class="math inline">\(\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{-\infty}^{\infty} |\hat x(\omega)| d\omega &lt;\infty,~ \omega \in \mathbb{R} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty,~ x(t)=x(t+\zeta),~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=-\infty}^{\infty} |\hat x_k| &lt;\infty,~ k \in \mathbb{Z} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{0}^{2\pi} |\hat x(\omega)| d\omega &lt;\infty,~ \hat x(\omega)=\hat x(\omega+2\pi),~  \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code> <span class="math inline">\(\star\)</span></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ x_i=x_{i+\xi},~ i \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=0}^{\xi-1} |\hat x_k| &lt;\infty,~\hat x_k = \hat x_{k+\xi} ,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 여기에서 <span class="math inline">\(\zeta\)</span>는 (시간축에서) 연속신호의 주기라고 정의하고 <span class="math inline">\(\xi\)</span>는 (시간축에서) 이산신호의 주기라고 약속하자. 주파수영역이 디스크릿하게 나오면 FS라고 부르고 주파수영역이 컨티뉴어스하게 나오면 FT라고 부른다. 특이한점은 비주기-이산신호에 대한 FS <span class="math inline">\(\hat x(\omega)\)</span>는 주파수 영역에서 주기가 <span class="math inline">\(2\pi\)</span>임을 파악할 수 있다. 이유는 궁금해하지말자. (내생각에 그냥 <span class="math inline">\(\omega\)</span>를 적당히 스케일링하여 주기를 <span class="math inline">\(2\pi\)</span>로 맞췄을 거다.)</p>
-<p><code>-</code> 이제 짜증나는 적분가능조건따위는 버리도록 하자. 대신에 각 경우에 퓨리에변환(혹은series)과 그 역이 어떻게 정의되는지 알아보자. 그리고 외우자. 각 신호가 어떠한 도메인에서 정의되는지만 잘 파악하면 <strong>의외로</strong> 외우기 쉽다.</p>
-<p><strong><code>case 1. 연속/비주기</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): x(t)=\frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\int_{-\infty}^{\infty} x(t)e^{-j\omega t} dt,~ \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \sum_{k=-\infty}^{\infty} \hat x_k e^{j \frac{2\pi}{\zeta} t} ,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 3. 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i:  x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega, ~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\sum_{i=-\infty}^{\infty}x_ie^{-j\omega i}, ~\omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\sum_{k=0}^{\xi-1} \hat x_k e^{-j\frac{2\pi k}{\xi}i},~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i},~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주기함수는 (그것이 이산이든 연속이든) 주파수영역에서의 값이 디스크릿하다. 즉 위에서 case2와 case4인 경우는 주파수영역에서 값이 디스크릿하다. 이것을 연속함수인것처럼 바꿔보면 아래와 같이 쓸 수 있다.</p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt\right]\delta\left(\omega-\frac{2\pi k}{\zeta}\right), ~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega,,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad\overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i}\right]\delta\left(\omega-\frac{2\pi k}{\xi}\right),~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주목할것은 주기가 <span class="math inline">\(\zeta\)</span> 혹은 <span class="math inline">\(\xi\)</span> 인 함수의 주파수 응답은 오로지</p>
-<ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\zeta}, k \in \mathbb{Z}\right\}\)</span></li>
-</ul>
-<p>혹은</p>
-<ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\xi}, k \in \mathbb{Z}\right\}\)</span></li>
-</ul>
-<p>에서만 존재한다는 점이다. 또한 이산신호의 경우 <span class="math inline">\(x_i\)</span>의 주기가 <span class="math inline">\(\xi\)</span> 이면 <span class="math inline">\(\hat{x}(\omega)\)</span>의 주기역시 <span class="math inline">\(\xi\)</span> 라는점 역시 주목할만한 부분이다.</p>
-<p><code>-</code> 주파수영역에서 디스크릿한 함수를 연속인것처럼 표현했듯이 시간영역에서 디스크릿한 함수 역시 연속인것처럼 표현할 수 있다. 예를들면 <span class="math inline">\(\{x_i: x_i=x(iT),~i \in \mathbb{Z}\}\)</span> 와 같은 관계가 있는 경우 아래와 같이 표현 가능하다.</p>
-<p><span class="math display">\[x_{\delta}(t)=\sum_{i=-\infty}^{\infty}x_i\delta(t-iT).\]</span></p>
-<p>이거 엄청 중요하다.</p>
-
-
+<section id="현재-appendix-증명의-약한-부분" class="level1">
+<h1>2. 현재 Appendix 증명의 약한 부분</h1>
+<section id="x_t-단독은-markov-chain이-아니다" class="level2">
+<h2 class="anchored" data-anchor-id="x_t-단독은-markov-chain이-아니다">2.1 <span class="math inline">\(X_t\)</span> 단독은 Markov chain이 아니다</h2>
+<p>HST의 transition은 <span class="math inline">\(X_t\)</span>만으로 정해지지 않는다. 다음 이동은</p>
+<p><span class="math display">\[
+h(\cdot,t),\qquad X_t,
+\qquad Z_t
+\]</span></p>
+<p>에 의존한다. 따라서 <span class="math inline">\(X_t\)</span> 단독은 homogeneous Markov chain이 아니다. 엄밀한 상태는 예컨대</p>
+<p><span class="math display">\[
+S_t=(\boldsymbol\delta_t,X_t,Z_t)
+\]</span></p>
+<p>또는</p>
+<p><span class="math display">\[
+S_t=(h_t,X_t,Z_t)
+\]</span></p>
+<p>이다.</p>
+<p>Appendix는 <span class="math inline">\(P(t)\)</span>를 <span class="math inline">\(X_t\)</span>의 non-homogeneous transition matrix처럼 쓰는데, 이 matrix는 deterministic time sequence라기보다 history-dependent/random environment에 가깝다. 이 부분은 명시해야 한다.</p>
 </section>
-
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>나도 그렇다.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>사실 나도 잘 모름 (뭐 <strong>quotient group</strong>이런거 알아야 하는데 공부하려면 꽤 걸릴듯)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<section id="hajnal-theorem-적용이-너무-빠르다" class="level2">
+<h2 class="anchored" data-anchor-id="hajnal-theorem-적용이-너무-빠르다">2.2 Hajnal theorem 적용이 너무 빠르다</h2>
+<p>Hajnal/Dobrushin theorem은 보통 deterministic sequence of stochastic matrices</p>
+<p><span class="math display">\[
+P(0),P(1),P(2),\dots
+\]</span></p>
+<p>에 대해 서술된다. 그런데 HST에서 <span class="math inline">\(P(t)\)</span>는 <span class="math inline">\(h_t,Z_t\)</span>에 의존하고, 이는 sample path에 따라 달라진다.</p>
+<p>따라서 이 노선을 유지하려면 다음처럼 써야 한다.</p>
+<blockquote class="blockquote">
+<p>Sample path 또는 filtration을 고정하고, conditional transition matrices의 product에 대해 Dobrushin coefficient를 평가한다.</p>
+</blockquote>
+<p>이 문장이 없으면 theorem 적용이 약간 공중에 뜬다.</p>
+</section>
+<section id="stopping-timeindexing이-모호하다" class="level2">
+<h2 class="anchored" data-anchor-id="stopping-timeindexing이-모호하다">2.3 stopping time/indexing이 모호하다</h2>
+<p>Appendix의 Theorem A.5는 block/reset 시점 <span class="math inline">\(M_k\)</span>를 잡고</p>
+<p><span class="math display">\[
+\delta(P(M_k,M_{k+1}))\le \delta(P(M_k))=0
+\]</span></p>
+<p>같은 식으로 닫는다. 이 결론은 <span class="math inline">\(M_k\)</span>가 정확히 “다음 step이 <span class="math inline">\(\mu_0\)</span> fresh draw인 flag time”이면 맞다. 그때 transition matrix의 모든 row가 <span class="math inline">\(\mu_0\)</span>라서 Dobrushin coefficient가 0이다.</p>
+<p>하지만 현재 stopping time 정의와 indexing은 읽기에 모호하다. <span class="math inline">\(M_k\)</span>가 block이 일어난 시간인지, block 직후 flag time인지, fresh draw 직전인지가 더 명확해야 한다.</p>
+<hr>
+</section>
+</section>
+<section id="더-깔끔한-대체-방향-reset-coupling" class="level1">
+<h1>3. 더 깔끔한 대체 방향 — reset coupling</h1>
+<p>Hajnal을 길게 쓰지 않고도 핵심을 바로 쓸 수 있다.</p>
+<section id="flag-time-정의" class="level2">
+<h2 class="anchored" data-anchor-id="flag-time-정의">3.1 Flag time 정의</h2>
+<p>다음처럼 flag time을 정의한다.</p>
+<p><span class="math display">\[
+\tau_0:=0,
+\qquad
+\tau_{r+1}:=\inf\{t&gt;\tau_r: Z_t=T_{\max}\}.
+\]</span></p>
+<p>또는 논문 notation에 맞춰 “다음 step이 fresh draw인 시점”으로 잡아도 된다. 핵심은</p>
+<p><span class="math display">\[
+Z_{\tau_r}=T_{\max}
+\]</span></p>
+<p>이면 다음 step에서</p>
+<p><span class="math display">\[
+X_{\tau_r+1}\sim\mu_0
+\]</span></p>
+<p>라는 점이다.</p>
+</section>
+<section id="bounded-return-to-flag" class="level2">
+<h2 class="anchored" data-anchor-id="bounded-return-to-flag">3.2 bounded return to flag</h2>
+<p>Algorithm 1의 구조상, 일단 어떤 시점에서든 다음 flag time까지의 시간은 deterministic하게 bounded된다.</p>
+<p><span class="math display">\[
+\tau_{r+1}-\tau_r\le T_{\max}+1.
+\]</span></p>
+<p>이유는 간단하다. flow가 계속되면 <span class="math inline">\(Z\)</span>가 하나씩 증가하고, <span class="math inline">\(T_{\max}\)</span>에 도달하면 flag가 된다. 중간에 block이 생기면 즉시 <span class="math inline">\(Z=T_{\max}\)</span>가 된다.</p>
+</section>
+<section id="coupling" class="level2">
+<h2 class="anchored" data-anchor-id="coupling">3.3 Coupling</h2>
+<p>두 개의 HST trace를 생각하자. 서로 다른 초기 상태</p>
+<p><span class="math display">\[
+S_0,
+\qquad S_0'
+\]</span></p>
+<p>에서 출발하더라도, 각각 flag time에 도달하면 다음 위치는 모두 <span class="math inline">\(\mu_0\)</span>에서 뽑힌다. 이때 같은 uniform random variable을 써서 fresh draw를 coupling하면</p>
+<p><span class="math display">\[
+X_{\tau+1}=X'_{\tau'+1}
+\]</span></p>
+<p>이 되게 만들 수 있다.</p>
+<p>더 중요한 점은, fresh draw의 law가 과거 상태와 무관하다는 것이다. 따라서 reset step은 initial <span class="math inline">\(X_0\)</span> 정보를 완전히 지운다. Dobrushin 관점에서는 reset transition matrix가</p>
+<p><span class="math display">\[
+Q(i,\cdot)=\mu_0(\cdot)
+\qquad\text{for all }i
+\]</span></p>
+<p>이므로</p>
+<p><span class="math display">\[
+\delta(Q)=0.
+\]</span></p>
+<p>그런 reset kernel이 bounded gaps로 반복 등장하므로 weak ergodicity가 따라온다.</p>
+<hr>
+</section>
+</section>
+<section id="논문용-정리-형태" class="level1">
+<h1>4. 논문용 정리 형태</h1>
+<p>아래는 Appendix A를 대체할 수 있는 더 짧은 정리 형태다.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Proposition: reset contraction of the snow trace">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Proposition: reset contraction of the snow trace
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\{S_t\}\)</span> be the augmented HST process with state <span class="math display">\[
+S_t=(\boldsymbol\delta_t,X_t,Z_t).
+\]</span> Assume that <span class="math inline">\(T_{\max}&lt;\infty\)</span>. Let <span class="math display">\[
+\mathcal F:=\{S:Z=T_{\max}\}
+\]</span> be the block-flag set. If <span class="math inline">\(S_t\in\mathcal F\)</span>, then the next trace location satisfies <span class="math display">\[
+\mathcal L(X_{t+1}\mid S_t)=\mu_0.
+\]</span> Equivalently, the conditional transition kernel of <span class="math inline">\(X_{t+1}\)</span> from any two flag states has Dobrushin coefficient zero. Moreover, every sample path returns to <span class="math inline">\(\mathcal F\)</span> within at most <span class="math inline">\(T_{\max}+1\)</span> steps. Hence the trace process has repeated reset contractions with uniformly bounded gaps.</p>
+</div>
+</div>
+<p><strong>Proof.</strong> If <span class="math inline">\(S_t\in\mathcal F\)</span>, then <span class="math inline">\(Z_t=T_{\max}\)</span>. By the first branch of Algorithm 1, <span class="math inline">\(X_{t+1}\)</span> is drawn from <span class="math inline">\(\mu_0\)</span>, independently of the previous trace location and height profile. Thus the transition kernel from any flag state has identical rows equal to <span class="math inline">\(\mu_0\)</span>, and its Dobrushin coefficient is zero.</p>
+<p>It remains to note that flag states recur with bounded gaps. If the process does not block, then each flow step increases <span class="math inline">\(Z\)</span> by one. After at most <span class="math inline">\(T_{\max}\)</span> consecutive flow steps, <span class="math inline">\(Z\)</span> reaches <span class="math inline">\(T_{\max}\)</span>. If the process blocks earlier, then <span class="math inline">\(Z\)</span> is set to <span class="math inline">\(T_{\max}\)</span> immediately. Therefore the next visit to <span class="math inline">\(\mathcal F\)</span> occurs within at most <span class="math inline">\(T_{\max}+1\)</span> steps. <span class="math inline">\(\square\)</span></p>
+<hr>
+</section>
+<section id="해석" class="level1">
+<h1>5. 해석</h1>
+<p>이 명제는 Appendix A의 약한 에르고딕성 논의를 더 HST답게 만든다.</p>
+<ul>
+<li>Hajnal theorem을 쓰려면 random/history-dependent transition matrix 문제를 정리해야 한다.</li>
+<li>Reset coupling을 쓰면 핵심 구조가 바로 보인다.</li>
+<li>HST는 directed graph에서 path가 막혀도 reset으로 전역 재시작한다.</li>
+<li>따라서 weak forgetting은 graph connectivity보다 reset mechanism에서 나온다.</li>
+</ul>
+<p>다만 이 명제만으로 <span class="math inline">\(\overline{\mathrm{SD}}^2(t)\)</span> 수렴이 끝나는 것은 아니다. 이것은 trace <span class="math inline">\(X_t\)</span>의 초기 위치 망각에 관한 statement이고, height difference <span class="math inline">\(\boldsymbol\delta_t\)</span>의 positive recurrence나 moment bound는 별도 Foster–Lyapunov 논증이 필요하다.</p>
+<hr>
+</section>
+<section id="hajnal은-꼭-필요한가" class="level1">
+<h1>6. Hajnal은 꼭 필요한가?</h1>
+<p>결론부터 말하면, Appendix A의 현재 목적만 놓고 보면 Hajnal은 거의 필요 없다.</p>
+<p>Hajnal/Dobrushin 이론이 유용한 전형적인 상황은 다음과 같다.</p>
+<p><span class="math display">\[
+P_1P_2P_3\cdots
+\]</span></p>
+<p>처럼 매 step의 transition matrix가 다르고, 각각의 block이 조금씩만 contraction을 줄 때, 그 product 전체가 초기분포를 잊는다는 것을 보이고 싶을 때다.</p>
+<p>그런데 HST는 더 강한 구조를 가진다. reset step에서는 transition kernel이 아예</p>
+<p><span class="math display">\[
+Q(i,\cdot)=\mu_0(\cdot)\qquad\text{for all }i
+\]</span></p>
+<p>가 된다. 즉 모든 row가 같다. 따라서 Dobrushin coefficient는</p>
+<p><span class="math display">\[
+\delta(Q)=0.
+\]</span></p>
+<p>이건 “조금씩 섞는다”가 아니라, <strong>한 번에 trace 위치의 초기 정보를 지운다</strong>는 뜻이다.</p>
+<p>비유하면 다음과 같다.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>방식</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hajnal</td>
+<td>매 step 또는 block마다 조금씩 섞어서 결국 잊는다</td>
+</tr>
+<tr class="even">
+<td>HST reset</td>
+<td>중간에 memory를 아예 reset한다</td>
+</tr>
+</tbody>
+</table>
+<p>따라서 Appendix A는 Hajnal theorem을 호출하지 않고도 다음 네 줄로 충분히 정리될 수 있다.</p>
+<ol type="1">
+<li><span class="math inline">\(Z=T_{\max}\)</span>이면 다음 <span class="math inline">\(X\)</span>는 <span class="math inline">\(\mu_0\)</span>에서 뽑힌다.</li>
+<li>이 reset kernel은 모든 row가 같으므로 Dobrushin coefficient가 0이다.</li>
+<li>이런 reset step은 최대 <span class="math inline">\(T_{\max}+1\)</span> 간격으로 반복된다.</li>
+<li>따라서 trace <span class="math inline">\(X_t\)</span>의 초기 위치 의존성은 reset step에서 사라진다.</li>
 </ol>
-</section></div></main> <!-- /main -->
+<p>다만 이 결론은 어디까지나 <strong>trace <span class="math inline">\(X_t\)</span>의 weak forgetting</strong>에 관한 것이다. 논문의 진짜 어려운 부분인</p>
+<p><span class="math display">\[
+\overline{\mathrm{SD}}^2(t)
+\]</span></p>
+<p>수렴, 즉 height difference <span class="math inline">\(\boldsymbol\delta_t\)</span>의 positive recurrence와 moment bound는 여전히 별도 문제다. 거기에는 Hajnal보다 Foster–Lyapunov drift가 핵심이다.</p>
+<hr>
+</section>
+<section id="최종-메모" class="level1">
+<h1>7. 최종 메모</h1>
+<p>Appendix A는 방향을 잘 잡았다. 하지만 논문용으로는 “Hajnal을 적용한다”보다 “reset kernel의 Dobrushin coefficient가 0이고, 그런 reset이 bounded gaps로 반복된다”라고 쓰는 편이 더 짧고 강하다.</p>
+
+
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

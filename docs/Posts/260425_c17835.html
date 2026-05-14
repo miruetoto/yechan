@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="신록예찬">
-<meta name="dcterms.date" content="2019-04-26">
+<meta name="author" content="클로드">
+<meta name="dcterms.date" content="2026-04-25">
 
-<title>공부 ▷ 퓨리에변환 – 신록예찬’s Blog</title>
+<title>연구 ▷ HST ▷ 예제2 재검토 – 신록예찬’s Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -189,9 +189,25 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about-this-doc" id="toc-about-this-doc" class="nav-link active" data-scroll-target="#about-this-doc">About this doc</a></li>
-  <li><a href="#들어가며" id="toc-들어가며" class="nav-link" data-scroll-target="#들어가며">들어가며</a></li>
-  <li><a href="#퓨리에표현들" id="toc-퓨리에표현들" class="nav-link" data-scroll-target="#퓨리에표현들">퓨리에표현들</a></li>
+  <li><a href="#한-줄-요약" id="toc-한-줄-요약" class="nav-link active" data-scroll-target="#한-줄-요약">0. 한 줄 요약</a></li>
+  <li><a href="#출발-diffusion-distance-정의-오류-발견-260425-a" id="toc-출발-diffusion-distance-정의-오류-발견-260425-a" class="nav-link" data-scroll-target="#출발-diffusion-distance-정의-오류-발견-260425-a">1. 출발 — diffusion distance 정의 오류 발견 (260425 a)</a></li>
+  <li><a href="#거리-metric-9-종-비교-260425_예제2_거리비교.py" id="toc-거리-metric-9-종-비교-260425_예제2_거리비교.py" class="nav-link" data-scroll-target="#거리-metric-9-종-비교-260425_예제2_거리비교.py">2. 거리 metric 9 종 비교 (260425_예제2_거리비교.py)</a></li>
+  <li><a href="#이-cylinder-가-진짜-hst-만의-것인가" id="toc-이-cylinder-가-진짜-hst-만의-것인가" class="nav-link" data-scroll-target="#이-cylinder-가-진짜-hst-만의-것인가">3. 이 cylinder 가 <em>진짜</em> HST 만의 것인가?</a>
+  <ul class="collapse">
+  <li><a href="#결과-충격적" id="toc-결과-충격적" class="nav-link" data-scroll-target="#결과-충격적">3.1 결과 — 충격적</a></li>
+  <li><a href="#왜-이렇게-나오나-eigenvalue-dominance" id="toc-왜-이렇게-나오나-eigenvalue-dominance" class="nav-link" data-scroll-target="#왜-이렇게-나오나-eigenvalue-dominance">3.2 왜 이렇게 나오나 — eigenvalue dominance</a></li>
+  <li><a href="#procrustes-가-놓치는-것" id="toc-procrustes-가-놓치는-것" class="nav-link" data-scroll-target="#procrustes-가-놓치는-것">3.3 Procrustes 가 <em>놓치는</em> 것</a></li>
+  </ul></li>
+  <li><a href="#ex2-가-hst-demo-로서-적합한가" id="toc-ex2-가-hst-demo-로서-적합한가" class="nav-link" data-scroll-target="#ex2-가-hst-demo-로서-적합한가">4. ex2 가 HST demo 로서 적합한가?</a>
+  <ul class="collapse">
+  <li><a href="#신호-약화-시뮬레이션-가설" id="toc-신호-약화-시뮬레이션-가설" class="nav-link" data-scroll-target="#신호-약화-시뮬레이션-가설">4.1 신호 약화 시뮬레이션 가설</a></li>
+  <li><a href="#다른-예제군" id="toc-다른-예제군" class="nav-link" data-scroll-target="#다른-예제군">4.2 다른 예제군</a></li>
+  </ul></li>
+  <li><a href="#통합-요약표-의-분류-재확인" id="toc-통합-요약표-의-분류-재확인" class="nav-link" data-scroll-target="#통합-요약표-의-분류-재확인">5. 9. 통합 요약표 의 분류 재확인</a></li>
+  <li><a href="#열린-질문-다음-단계" id="toc-열린-질문-다음-단계" class="nav-link" data-scroll-target="#열린-질문-다음-단계">6. 열린 질문 (다음 단계)</a></li>
+  <li><a href="#결론" id="toc-결론" class="nav-link" data-scroll-target="#결론">7. 결론</a></li>
+  <li><a href="#참고-cross-link" id="toc-참고-cross-link" class="nav-link" data-scroll-target="#참고-cross-link">참고 (cross-link)</a></li>
+  <li><a href="#부록-핵심-수치-재현-가능" id="toc-부록-핵심-수치-재현-가능" class="nav-link" data-scroll-target="#부록-핵심-수치-재현-가능">부록: 핵심 수치 (재현 가능)</a></li>
   </ul>
 </nav>
     </div>
@@ -200,7 +216,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">공부 ▷ 퓨리에변환</h1>
+<h1 class="title">연구 ▷ HST ▷ 예제2 재검토</h1>
 </div>
 
 
@@ -210,14 +226,14 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>신록예찬 </p>
+             <p>클로드 </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 26, 2019</p>
+      <p class="date">April 25, 2026</p>
     </div>
   </div>
   
@@ -229,124 +245,227 @@ window.Quarto = {
 </header>
 
 
-<section id="about-this-doc" class="level2">
-<h2 class="anchored" data-anchor-id="about-this-doc">About this doc</h2>
-<p><code>-</code> 이번에는 퓨리에 표현들을 정리하도록 하겠다. 내생각엔 퓨리에 표현들도 벡터의 미분만큼 복잡한 것 같다. 정의가 너무 많고 그게 그거 같아서 그렇다. 이번기회에 깔끔하게 정리하도록 하자. 참고한 문헌은 아래와 같다.</p>
-<ul>
-<li>Haykin, S., &amp; Van Veen, B. (2007). Signals and systems. John Wiley &amp; Sons.</li>
-</ul>
+<section id="한-줄-요약" class="level1">
+<h1>0. 한 줄 요약</h1>
+<blockquote class="blockquote">
+<p>ex2 (Gaussian ring + cylinder 신호 <span class="math inline">\(y=\pm 3\)</span>) 에서 <strong>HST 의 cMDS 임베딩 모양이 pure Euclidean (<span class="math inline">\(|y_i - y_j|^2\)</span> 만) 의 임베딩과 Procrustes 거리 0.003 으로 거의 같다</strong>. 즉 신호가 ring 보다 훨씬 강한 이 세팅에서 HST 는 좌표 수준에서 Euclidean 과 사실상 구분이 안 됨. 이 사실은 ex2 가 HST 의 가치를 보이는 demo 로서 부적합할 수 있음을 시사.</p>
+</blockquote>
+<hr>
 </section>
-<section id="들어가며" class="level2">
-<h2 class="anchored" data-anchor-id="들어가며">들어가며</h2>
-<p><code>-</code> 우선 신호와 하나의 신호값을 구분하는 notation을 생각하자. 우리가 다루는 신호 즉 데이터는 값들의 집합이다. 우리가 시계열자료를 다룬다면 데이터는 아래와 같이 표현한다.</p>
-<ul>
-<li><span class="math inline">\(\{x_i: i \in \mathbb{Z}\}\)</span></li>
-</ul>
-<p>이와 유시하게 우리가 다루는 자료가 <span class="math inline">\(t \in \mathbb{R}\)</span>인 연속신호라면 아래와 같이 표현한다.</p>
-<ul>
-<li><span class="math inline">\(\{x(t): t \in \mathbb{R}\}\)</span></li>
-</ul>
-<p>우리가 모든 <span class="math inline">\(i \in \mathbb{Z}\)</span> 혹은 모든 <span class="math inline">\(t \in \mathbb{R}\)</span>에서 신호를 다룰 생각이 없다면 아래와 같은 표현도 얼마든지 가능하다.</p>
-<ul>
-<li><span class="math inline">\(\{x_i: i=0,1,\dots, \xi-1 \}\)</span></li>
-<li><span class="math inline">\(\{x(t):t \in (0,\zeta) \}\)</span></li>
-</ul>
-<p><code>-</code> 위와 같이 집합의 표현 없이 단독으로 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>와 같이 쓰면 하나의 고정된 값 <span class="math inline">\(i,t\)</span>에 대한 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>로 이해하자. 솔직히 이렇게 꼭 신호를 엄밀하게 집합으로 정의하는게 유별나 보일수도 있다. 일반적으로 사람들은 <span class="math inline">\(\{x(t): ~t \in \mathbb{R} \}\)</span> 대신에 보통 <span class="math inline">\(x(t)\)</span>로 간단하게 줄여서 쓰곤한다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 하지만 이 포스팅에 한정하여 위와 같이 집합의 형태로 엄밀하게 구분해 쓰도록 하자. 처음에는 익숙하지 않지만 나중에는 편리하다.</p>
+<section id="출발-diffusion-distance-정의-오류-발견-260425-a" class="level1">
+<h1>1. 출발 — diffusion distance 정의 오류 발견 (<a href="260425_*.html">260425 a</a>)</h1>
+<p>ex2 의 baseline 비교에 쓰던 <code>diffusion_distance</code> 가 표준 Coifman-Lafon 정의가 아니라는 것이 먼저 드러남. 정규그래프(Gaussian ring) 에서는 우연히 스케일만 다른 결과를 줘서 <strong>임베딩 모양은 보존</strong>, 그래서 ex2 그림 자체는 다행히 영향이 없었음. 다만 편차분석의 <strong>외재적 <span class="math inline">\(\Delta^{\text{ext}}\)</span> 절대값</strong> 은 영향. 이 발견 후 잠재적으로 ex2 전반의 해석을 다시 점검할 동기가 생김.</p>
+<p>→ 자연스럽게: “ex2 에서 그동안 그린 임베딩들이 정말 의미 있는가? 각 metric 이 어떻게 다르게 보이는가?” 라는 질문이 등장.</p>
+<hr>
 </section>
-<section id="퓨리에표현들" class="level2">
-<h2 class="anchored" data-anchor-id="퓨리에표현들">퓨리에표현들</h2>
-<p><code>-</code> 지금부터 우리가 고려하는 모든 신호들은 기본적으로 <strong>(1)</strong> <strong>infinity range</strong>에서 정의된 신호라고 가정한다. 즉 연속신호이면 <span class="math inline">\(\mathbb{R}\)</span>에서 정의된다고 가정하고 이산신호면 <span class="math inline">\(\mathbb{Z}\)</span>에서 정의된다고 가정한다. 또한 우리가 분석하고자 하는 신호는 <strong>(2)</strong> <strong>integrable</strong> 하다고 가정한다. 이건 퓨리에표현들이 적분 혹은 무한합의 형태로 표현된다는 것을 상기하면 타당하여 보인다.</p>
-<p><code>-</code> 즉 우리가 고려하는 신호는 <strong>인피니티-레인지</strong>에서 정의되며 <strong>인피니티-레인지</strong>에서 적분값이 유한한 연속신호 혹은 이산신호 임을 알 수 있다. 이러한 신호는 구체적으로는 아래와 같이 쓸 수 있다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span></li>
-<li><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></li>
-</ul>
-<p><code>-</code> 그런데 <strong>integrable</strong> 한 함수들만을 고려하다 보면 우리가 다룰 수 있는 신호의 범위가 확 줄어들게 된다. 가령 예를 들어서 아래와 같은 신호는 적분을 하면 무한대가 나오기 때문에 <strong>intergrable</strong> 하지 않다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in \mathbb{R} \right\}\)</span></li>
-</ul>
-<p>이것은 좀 불합리해 보이는데 위의 신호는 주기신호라서 한 주기의 패턴만 분석하면 될것 같이 보이기 때문이다. 위의 신호는 <strong>intergrable</strong> 하지않지만 아래의 신호는 <strong>intergrable</strong> 하다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in (0,2\pi) \right\}\)</span></li>
-</ul>
-<p>우리는 이런신호까지 분석하기로 한다. 이런신호를 분석할 수 있는 이유는 해석학 교재를 참고하면 된다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<p><code>-</code> 아무튼 우리는 <strong>(1) 인피니티-레인지에서 정의되는 가지는 신호 (2) 인피니티-레인지에서 적분값이 잘 정의되는 신호, 혹은 한 주기만 적분해 보았을때 그 값이 잘 정의되는 주기신호</strong> 를 타겟팅해 분석한다. 즉 분석하는 신호는 구체적으로 아래의 4가지이다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}.\)</span></p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty, ~ , x(t)=x(t+\zeta), ~ t \in \mathbb{R},  \right\}.\)</span></p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ i, x_i=x_{i+\xi},~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><code>-</code> 표현들을 정리하기에 앞서서 몇 가지 알아두어야 할 사항이 있다. <strong>(1)</strong> 시간축에서 연속인 신호는 주파수측에서는 비주기신호가 나온다. <strong>(2)</strong> 시간축에서 디스크릿한 신호는 주파수측에서는 주기신호이다. <strong>(3)</strong> 시간축에서 주기인 신호는 주파수에서는 디스크릿하다. <strong>(4)</strong> 시간축에서 비주기신호는 주파수에서 연속이다. 이 사실들을 종합하면 각각의 경우에 해당하는 퓨리에 표현들은 아래와 같은 특징을 가지고 있음을 알 수 있다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong> <span class="math inline">\(\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{-\infty}^{\infty} |\hat x(\omega)| d\omega &lt;\infty,~ \omega \in \mathbb{R} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty,~ x(t)=x(t+\zeta),~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=-\infty}^{\infty} |\hat x_k| &lt;\infty,~ k \in \mathbb{Z} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{0}^{2\pi} |\hat x(\omega)| d\omega &lt;\infty,~ \hat x(\omega)=\hat x(\omega+2\pi),~  \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code> <span class="math inline">\(\star\)</span></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ x_i=x_{i+\xi},~ i \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=0}^{\xi-1} |\hat x_k| &lt;\infty,~\hat x_k = \hat x_{k+\xi} ,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 여기에서 <span class="math inline">\(\zeta\)</span>는 (시간축에서) 연속신호의 주기라고 정의하고 <span class="math inline">\(\xi\)</span>는 (시간축에서) 이산신호의 주기라고 약속하자. 주파수영역이 디스크릿하게 나오면 FS라고 부르고 주파수영역이 컨티뉴어스하게 나오면 FT라고 부른다. 특이한점은 비주기-이산신호에 대한 FS <span class="math inline">\(\hat x(\omega)\)</span>는 주파수 영역에서 주기가 <span class="math inline">\(2\pi\)</span>임을 파악할 수 있다. 이유는 궁금해하지말자. (내생각에 그냥 <span class="math inline">\(\omega\)</span>를 적당히 스케일링하여 주기를 <span class="math inline">\(2\pi\)</span>로 맞췄을 거다.)</p>
-<p><code>-</code> 이제 짜증나는 적분가능조건따위는 버리도록 하자. 대신에 각 경우에 퓨리에변환(혹은series)과 그 역이 어떻게 정의되는지 알아보자. 그리고 외우자. 각 신호가 어떠한 도메인에서 정의되는지만 잘 파악하면 <strong>의외로</strong> 외우기 쉽다.</p>
-<p><strong><code>case 1. 연속/비주기</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): x(t)=\frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\int_{-\infty}^{\infty} x(t)e^{-j\omega t} dt,~ \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \sum_{k=-\infty}^{\infty} \hat x_k e^{j \frac{2\pi}{\zeta} t} ,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 3. 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i:  x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega, ~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\sum_{i=-\infty}^{\infty}x_ie^{-j\omega i}, ~\omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\sum_{k=0}^{\xi-1} \hat x_k e^{-j\frac{2\pi k}{\xi}i},~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i},~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주기함수는 (그것이 이산이든 연속이든) 주파수영역에서의 값이 디스크릿하다. 즉 위에서 case2와 case4인 경우는 주파수영역에서 값이 디스크릿하다. 이것을 연속함수인것처럼 바꿔보면 아래와 같이 쓸 수 있다.</p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt\right]\delta\left(\omega-\frac{2\pi k}{\zeta}\right), ~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega,,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad\overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i}\right]\delta\left(\omega-\frac{2\pi k}{\xi}\right),~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주목할것은 주기가 <span class="math inline">\(\zeta\)</span> 혹은 <span class="math inline">\(\xi\)</span> 인 함수의 주파수 응답은 오로지</p>
-<ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\zeta}, k \in \mathbb{Z}\right\}\)</span></li>
-</ul>
-<p>혹은</p>
-<ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\xi}, k \in \mathbb{Z}\right\}\)</span></li>
-</ul>
-<p>에서만 존재한다는 점이다. 또한 이산신호의 경우 <span class="math inline">\(x_i\)</span>의 주기가 <span class="math inline">\(\xi\)</span> 이면 <span class="math inline">\(\hat{x}(\omega)\)</span>의 주기역시 <span class="math inline">\(\xi\)</span> 라는점 역시 주목할만한 부분이다.</p>
-<p><code>-</code> 주파수영역에서 디스크릿한 함수를 연속인것처럼 표현했듯이 시간영역에서 디스크릿한 함수 역시 연속인것처럼 표현할 수 있다. 예를들면 <span class="math inline">\(\{x_i: x_i=x(iT),~i \in \mathbb{Z}\}\)</span> 와 같은 관계가 있는 경우 아래와 같이 표현 가능하다.</p>
-<p><span class="math display">\[x_{\delta}(t)=\sum_{i=-\infty}^{\infty}x_i\delta(t-iT).\]</span></p>
-<p>이거 엄청 중요하다.</p>
-
-
-</section>
-
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>나도 그렇다.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>사실 나도 잘 모름 (뭐 <strong>quotient group</strong>이런거 알아야 하는데 공부하려면 꽤 걸릴듯)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<section id="거리-metric-9-종-비교-260425_예제2_거리비교.py" class="level1">
+<h1>2. 거리 metric 9 종 비교 (<a href="../260425_예제2_거리비교.py">260425_예제2_거리비교.py</a>)</h1>
+<p>9 개 metric 에서 각각 <strong>distance matrix 와 cMDS-3D 임베딩</strong> 을 한 그림에 정리:</p>
+<ol type="1">
+<li>Euclidean (signal-only) — <span class="math inline">\(|y_i - y_j|^2\)</span></li>
+<li>Shortest path² on Gaussian W</li>
+<li>Diffusion (π-weighted Coifman-Lafon, <span class="math inline">\(t=4\)</span>)</li>
+<li>Heat kernel (<span class="math inline">\(e^{-2L}\)</span>)</li>
+<li>PPR (<span class="math inline">\(\alpha=0.15\)</span>)</li>
+<li>Effective resistance</li>
+<li>Biharmonic</li>
+<li>Spectral embedding (top-5 nontrivial <span class="math inline">\(\psi_k\)</span>)</li>
+<li><strong>HST</strong> (<span class="math inline">\(\overline{\mathrm{SD}}^2(\tau)\)</span>, <span class="math inline">\(\tau=500{,}000\)</span>)</li>
 </ol>
-</section></div></main> <!-- /main -->
+<p><strong>관찰</strong> (gauss W mode):</p>
+<ul>
+<li><strong>그래프-only metric 7 종</strong> (SP, Diffusion, Heat, PPR, Resistance, Biharmonic, Spectral) — 거의 동일한 <strong>ring 모양</strong>. 정규 ring 의 spectrum 이 단순해서 모든 spectral filter 가 비슷한 결과.</li>
+<li><strong>Euclidean</strong> — 두 cluster (y=±3) 만 분리된 1D 구조.</li>
+<li><strong>HST</strong> — cylinder 모양 (cluster 두 개 + 각각 안에 ring substructure).</li>
+</ul>
+<p>이 시점에서 결론은 명료해 보임: HST 만이 신호와 그래프를 <strong>결합</strong>해서 cylinder 모양을 만들어 내는 유일한 metric. → “HST 의 가치 = 이 cylinder shape” 라는 가설.</p>
+<p>결과: <a href="../results/figures/260425_예제2_거리비교.py/comparison_gauss.png">results/figures/260425_예제2_거리비교.py/comparison_gauss.png</a></p>
+<hr>
+</section>
+<section id="이-cylinder-가-진짜-hst-만의-것인가" class="level1">
+<h1>3. 이 cylinder 가 <em>진짜</em> HST 만의 것인가?</h1>
+<p>위 가설을 직접 검증: <strong>유클리드 + ring 의 가중합으로 cylinder 모양이 나오는가?</strong> (<a href="../260425_예제2_선형결합실험.py">260425_예제2_선형결합실험.py</a>)</p>
+<p><span class="math display">\[D_{\text{lin}}(\alpha) \;=\; (1-\alpha)\,\hat D^E + \alpha\,\hat D^G\]</span></p>
+<p>각 metric 은 max-normalize 후 결합. <span class="math inline">\(D^G\)</span> 후보 3 종: ring angular dist², shortest path², effective resistance. 51 개 <span class="math inline">\(\alpha \in [0, 1]\)</span> 에 대해 cMDS-3D 후 HST 임베딩과 <strong>Procrustes disparity</strong> 측정.</p>
+<section id="결과-충격적" class="level2">
+<h2 class="anchored" data-anchor-id="결과-충격적">3.1 결과 — 충격적</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">\(D^G\)</span></th>
+<th style="text-align: right;">최적 <span class="math inline">\(\alpha^*\)</span></th>
+<th style="text-align: right;">min disparity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ring angular dist²</td>
+<td style="text-align: right;"><strong>0.02</strong></td>
+<td style="text-align: right;"><strong>0.0029</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">shortest path²</td>
+<td style="text-align: right;"><strong>0.02</strong></td>
+<td style="text-align: right;"><strong>0.0029</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">effective resistance</td>
+<td style="text-align: right;"><strong>0.04</strong></td>
+<td style="text-align: right;"><strong>0.0031</strong></td>
+</tr>
+</tbody>
+</table>
+<p>세 후보 모두 <span class="math inline">\(\alpha^* \approx 0\)</span> 부근에서 최소. <strong><span class="math inline">\(\alpha = 0\)</span> 은 pure Euclidean</strong> 이다. 즉 <em>거의 신호 단독</em> 으로 HST cylinder shape 를 0.003 disparity (사실상 동일) 로 재현.</p>
+<p>결과: <a href="../results/figures/260425_예제2_선형결합실험.py/lincomb_to_hst.png">results/figures/260425_예제2_선형결합실험.py/lincomb_to_hst.png</a></p>
+</section>
+<section id="왜-이렇게-나오나-eigenvalue-dominance" class="level2">
+<h2 class="anchored" data-anchor-id="왜-이렇게-나오나-eigenvalue-dominance">3.2 왜 이렇게 나오나 — eigenvalue dominance</h2>
+<p>cMDS 의 분산 분해: <span class="math display">\[\text{Var}(\text{HST embedding}) = \sum_k \lambda_k(D^{\text{HST}}_{\text{centered}})\]</span></p>
+<p>신호 split (y=±3) 과 ring radius (=1) 의 squared 비율 <span class="math inline">\(\sim 36 : 1\)</span>. 따라서 <span class="math inline">\(D^{\text{HST}}\)</span> 의 첫 eigenvalue <span class="math inline">\(\lambda_1\)</span> (신호 축) 이 나머지 <span class="math inline">\(\lambda_2, \lambda_3\)</span> (ring 축들) 을 <strong>압도</strong>.</p>
+<p>Procrustes 는 standardize (Frob 정규화 = 모든 <span class="math inline">\(\lambda\)</span> 의 합으로 나눔) 후 비교 → dominant eigenvector 만 정렬되면 disparity 는:</p>
+<p><span class="math display">\[\text{disparity} \;\approx\; \frac{\lambda_2 + \lambda_3 + \cdots}{\sum_k \lambda_k}\]</span></p>
+<p>이게 작으면 disparity 도 작음. Pure Eucl 은 rank-1 (signal 축만), HST 는 dominant signal + 작은 ring perturbation. 두 임베딩 모두 <strong>signal split 이 좌표 분산의 95%+ 를 차지</strong> → Procrustes 가 둘을 사실상 같다고 판정.</p>
+</section>
+<section id="procrustes-가-놓치는-것" class="level2">
+<h2 class="anchored" data-anchor-id="procrustes-가-놓치는-것">3.3 Procrustes 가 <em>놓치는</em> 것</h2>
+<p>작은 disparity 가 “HST 가 가치 없다”는 결론으로 곧장 가지는 않음. Procrustes 는 좌표 잔차 metric 이므로 다음을 무시:</p>
+<ul>
+<li><strong>Topology (H1)</strong>: HST 의 ring substructure 는 closed loop → <span class="math inline">\(H_1 \neq 0\)</span>. Pure Eucl 은 두 점 cluster → <span class="math inline">\(H_1 = 0\)</span>. <strong>위상적으로 완전히 다름</strong>.</li>
+<li><strong>Cluster 내부 정렬</strong>: HST 는 같은 cluster 내 노드를 ring angle 순으로 배치, Eucl 은 noise 수준 (~0.04) 로 무작위.</li>
+<li><strong>Multi-scale 능력</strong>: HST 는 <span class="math inline">\(\tau\)</span> 로 scale 조절 (early transient vs Harris 극한), Eucl 은 단일 scale.</li>
+</ul>
+<p>→ <strong>“같은 모양”</strong> 이라고 말할 수 있는 metric 과 <strong>“의미 있게 다른 정보”</strong> 를 잡는 metric 은 다름.</p>
+<hr>
+</section>
+</section>
+<section id="ex2-가-hst-demo-로서-적합한가" class="level1">
+<h1>4. ex2 가 HST demo 로서 적합한가?</h1>
+<p>정직하게 말하면 <strong>이 세팅에선 부적합</strong> 으로 보임:</p>
+<ul>
+<li><span class="math inline">\(y = \pm 3\)</span> 은 ring radius 1 보다 신호 magnitude 가 압도적</li>
+<li>결과: HST embedding 의 분산이 <strong>신호 axis 가 절대 지배</strong></li>
+<li>→ cylinder shape 의 ring 부분이 <strong>시각적으론 보이지만 양적으론 미미</strong></li>
+<li>→ linear combination (사실상 pure Eucl) 으로 거의 재현 가능</li>
+</ul>
+<p>신호 magnitude 와 ring scale 이 <strong>비등</strong> 하거나, 신호와 그래프 정보가 <strong>이질적으로</strong> 결합해야만 HST 가 비자명한 가치를 가짐.</p>
+<section id="신호-약화-시뮬레이션-가설" class="level2">
+<h2 class="anchored" data-anchor-id="신호-약화-시뮬레이션-가설">4.1 신호 약화 시뮬레이션 가설</h2>
+<p><span class="math inline">\(y\)</span> 의 amplitude 를 <span class="math inline">\(\pm 3 \to \pm 0.5\)</span> 또는 <span class="math inline">\(\pm 1\)</span> 로 낮추면: - <span class="math inline">\(\lambda_1\)</span> (signal axis) 가 <span class="math inline">\(\lambda_2, \lambda_3\)</span> (ring) 와 비등 → cylinder shape 의 양 축이 비교 가능한 크기. - pure Eucl 만으론 cluster 분리도 약해짐 (signal split 이 작으니까). - HST 가 비로소 <em>intermediate</em> metric 으로 의미 있을 가능성. - <span class="math inline">\(\alpha^*\)</span> 가 <span class="math inline">\((0, 1)\)</span> 내부로 이동하고 disparity 가 충분히 커질 것.</p>
+<p>→ <strong>추가 실험 우선순위 #1</strong>.</p>
+</section>
+<section id="다른-예제군" class="level2">
+<h2 class="anchored" data-anchor-id="다른-예제군">4.2 다른 예제군</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">예제</th>
+<th style="text-align: left;">HST 가치 가능성</th>
+<th style="text-align: left;">이유</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">예제2 (<span class="math inline">\(y=\pm 3\)</span>)</td>
+<td style="text-align: left;"><strong>낮음</strong> (현재 결과)</td>
+<td style="text-align: left;">신호 dominance</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">예제2 (<span class="math inline">\(y=\pm 0.5\)</span>)</td>
+<td style="text-align: left;"><strong>미지</strong></td>
+<td style="text-align: left;">균형 regime 가능</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">예제5 / 논문 fig 5 cliff</td>
+<td style="text-align: left;"><strong>높음</strong></td>
+<td style="text-align: left;">신호 불연속 + 그래프 연속, 결합 정보 필수</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">예제6 parity (<span class="math inline">\(f=(-1)^i\)</span>)</td>
+<td style="text-align: left;"><strong>높음</strong></td>
+<td style="text-align: left;">신호·그래프가 <em>반대</em> — linear combo 는 평균</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">예제7 twin rings</td>
+<td style="text-align: left;"><strong>높음</strong></td>
+<td style="text-align: left;">phase shift 의 비선형 coupling</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">예제8 directed cycle</td>
+<td style="text-align: left;"><strong>높음</strong></td>
+<td style="text-align: left;">classical metric 이 방향성 무시, HST 만 기록</td>
+</tr>
+</tbody>
+</table>
+<p>ex2 만 보고 HST 를 평가하는 것은 위험. <strong>ex5–8 에서 동일 분석 (Procrustes sweep) 반복 필요</strong>.</p>
+<hr>
+</section>
+</section>
+<section id="통합-요약표-의-분류-재확인" class="level1">
+<h1>5. 9. 통합 요약표 의 분류 재확인</h1>
+<p><a href="260425_*.html">260425 그래프 도메인 거리 정리</a> 에서 만든 12 거리 표에서 HST 를 <strong>“signal + graph 동시”</strong> 카테고리에 단독 배치했었음. 본 검토를 통해 좀 더 정직한 위치 정리:</p>
+<ul>
+<li><strong>Regime A (신호 dominant)</strong>: HST 는 사실상 Euclidean.</li>
+<li><strong>Regime B (그래프 dominant)</strong>: HST 는 사실상 commute time / resistance.</li>
+<li><strong>Regime C (균형 또는 이질적 결합)</strong>: HST 가 unique. ← <em>이 영역에서만</em> HST 가 카테고리 단독 배치를 정당화함.</li>
+</ul>
+<p><strong>“signal + graph” 카테고리를 차지할 자격은 regime C 에서만 있다</strong>.</p>
+<p>→ 향후 모든 HST 결과를 보일 때 <em>어느 regime 에 속하는 example 인지</em> 명시해야 함. ex2 (y=±3) 는 명백히 regime A 였음에도 그동안 “signal-graph 결합” 의 demo 로 간주.</p>
+<hr>
+</section>
+<section id="열린-질문-다음-단계" class="level1">
+<h1>6. 열린 질문 (다음 단계)</h1>
+<p><strong>O1 (가장 시급).</strong> ex2 신호 amplitude scan: <span class="math inline">\(y\)</span> 의 amplitude 를 <span class="math inline">\(0.1, 0.3, 0.5, 1, 2, 3\)</span> 으로 변화시키며 (a) Procrustes(α) 곡선의 변화, (b) <span class="math inline">\(\alpha^*\)</span> 의 위치, (c) min disparity 의 변화 추적. <strong>regime A → C 천이가 어디서 일어나는가</strong>.</p>
+<p><strong>O2.</strong> 같은 sweep 실험을 예제5–8 에 적용. 어느 example 에서 <span class="math inline">\(\alpha^* \in (0.2, 0.8)\)</span> 이고 disparity 가 의미 있게 큰지.</p>
+<p><strong>O3.</strong> Procrustes 대체 metric: - <strong>PD H1 bottleneck</strong> — pure Eucl (<span class="math inline">\(H_1 = 0\)</span>) vs HST (<span class="math inline">\(H_1 \neq 0\)</span>) 의 위상 차이 정량화 - <strong>Spectral entropy of cMDS eigvals</strong> — 차원성 (1D vs 2D) 측정 - <strong>Within-cluster ordering correlation</strong> — Spearman/Kendall on cluster 내부 ring angle</p>
+<p><strong>O4.</strong> <span class="math inline">\(\overline{\mathrm{SD}}^2\)</span> 의 eigenvalue spectrum 직접 분석 — <span class="math inline">\(\lambda_1 / \sum \lambda_k\)</span> 비율로 “신호 dominance index” 정의. 이 index 가 작을 때만 HST 가 가치 있음을 정량 기준으로 제시.</p>
+<p><strong>O5.</strong> <a href="260424_a5d784.html">편차분석 포스트</a> 의 <span class="math inline">\(\tau^*\)</span> 결과를 본 검토 관점에서 재해석. ex2 에서 max <span class="math inline">\(\Delta_F\)</span> 가 작게 나왔던 것 (고작 75 정도) 이 사실 “HST 가 linear path 위에서 거의 못 벗어났다” 는 같은 현상의 다른 표현.</p>
+<hr>
+</section>
+<section id="결론" class="level1">
+<h1>7. 결론</h1>
+<ul>
+<li><strong>ex2 (y=±3) 는 HST 의 강점이 드러나기 어려운 setup</strong> — 신호 magnitude 가 ring scale 을 압도해서 cMDS 의 dominant axis 가 신호 split 으로 거의 독식. 결과적으로 <strong>pure Euclidean 임베딩과 Procrustes 거리 0.003</strong> 으로 사실상 같음.</li>
+<li><strong>HST 의 “cylinder shape” 도 pure Eucl + 작은 perturbation 으로 분해 가능</strong> — Procrustes 관점에선.</li>
+<li><strong>단, 위상 (H1 loop), cluster 내부 ordering, multi-scale 등 <em>Procrustes 가 잡지 않는 차원</em> 에서는 여전히 HST 가 unique</strong> — 이걸 정량화하려면 다른 metric 필요.</li>
+<li><strong>ex2 는 demo 로서 약함</strong> — HST 를 정당화하려면 regime C (균형/이질적 결합) example 로 옮겨가야 함. 예제5–8 은 후보.</li>
+<li>본 검토는 <strong>HST 무용론</strong> 이 아님. HST 가 가치 있는 <em>영역</em> 의 정의를 좁히고, demo example 의 적절성에 의문을 제기.</li>
+</ul>
+<hr>
+</section>
+<section id="참고-cross-link" class="level1">
+<h1>참고 (cross-link)</h1>
+<ul>
+<li><a href="260424_a5d784.html">260424 <span class="math inline">\(\tau^*\)</span> 편차분석</a> — 본 검토에서 재해석 필요한 ex2 편차 결과</li>
+<li><a href="260425_*.html">260425 diffusion distance 정의 오류</a> — 시작점이 된 오류 발견</li>
+<li><a href="260425_*.html">260425 그래프 도메인에서의 거리</a> — 9-12 거리 family 정리</li>
+<li><a href="260424_cdbaf0.html">260424 <span class="math inline">\(\overline{\mathrm{SD}}^2\)</span> 수렴 증명</a> — HST 의 Harris 극한</li>
+<li><a href="260208_21543c.html">보충아이디어</a> — 본 검토와 연결될 추후 방향들</li>
+</ul>
+<hr>
+</section>
+<section id="부록-핵심-수치-재현-가능" class="level1">
+<h1>부록: 핵심 수치 (재현 가능)</h1>
+<pre><code>Setup:  n=60, ring on unit circle, gauss W (θ=0.35)
+Signal: f2 cylinder, y = ±3 (noise 0.1)
+HST:    τ=500,000, b=0.05 → snowdistance² = D_HST
+
+Procrustes sweep (α: 0..1, 51 points):
+  D^G = ring angular dist²    : α* = 0.02, min disparity = 0.0029
+  D^G = shortest path²        : α* = 0.02, min disparity = 0.0029
+  D^G = effective resistance  : α* = 0.04, min disparity = 0.0031
+
+Pure Euclidean (α=0) Procrustes to HST: ≈ same as above
+Pure ring (α=1) Procrustes to HST: ≈ 0.93 (예상치, 향후 확인)</code></pre>
+
+
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

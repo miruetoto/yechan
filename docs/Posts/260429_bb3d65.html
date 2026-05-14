@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="신록예찬">
-<meta name="dcterms.date" content="2019-04-26">
+<meta name="author" content="클로드">
+<meta name="dcterms.date" content="2026-04-29">
 
-<title>공부 ▷ 퓨리에변환 – 신록예찬’s Blog</title>
+<title>연구 ▷ HST ▷ Round-skeleton drift 계수의 수치 검증 – 신록예찬’s Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -189,9 +189,19 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about-this-doc" id="toc-about-this-doc" class="nav-link active" data-scroll-target="#about-this-doc">About this doc</a></li>
-  <li><a href="#들어가며" id="toc-들어가며" class="nav-link" data-scroll-target="#들어가며">들어가며</a></li>
-  <li><a href="#퓨리에표현들" id="toc-퓨리에표현들" class="nav-link" data-scroll-target="#퓨리에표현들">퓨리에표현들</a></li>
+  <li><a href="#요약" id="toc-요약" class="nav-link active" data-scroll-target="#요약">0. 요약</a></li>
+  <li><a href="#배경" id="toc-배경" class="nav-link" data-scroll-target="#배경">1. 배경</a></li>
+  <li><a href="#시뮬레이션" id="toc-시뮬레이션" class="nav-link" data-scroll-target="#시뮬레이션">2. 시뮬레이션</a></li>
+  <li><a href="#관찰" id="toc-관찰" class="nav-link" data-scroll-target="#관찰">3. 관찰</a>
+  <ul class="collapse">
+  <li><a href="#모든-후보가-empirical-보다-덜-negative" id="toc-모든-후보가-empirical-보다-덜-negative" class="nav-link" data-scroll-target="#모든-후보가-empirical-보다-덜-negative">3.1. 모든 후보가 empirical 보다 <em>덜 negative</em></a></li>
+  <li><a href="#b-rigorous_loose-는-항상-틀림" id="toc-b-rigorous_loose-는-항상-틀림" class="nav-link" data-scroll-target="#b-rigorous_loose-는-항상-틀림">3.2. (b) rigorous_loose 는 항상 <em>틀림</em></a></li>
+  <li><a href="#non-regular-graph-p_5-와-s_5" id="toc-non-regular-graph-p_5-와-s_5" class="nav-link" data-scroll-target="#non-regular-graph-p_5-와-s_5">3.3. Non-regular graph: <span class="math inline">\(P_5\)</span> 와 <span class="math inline">\(S_5\)</span></a></li>
+  <li><a href="#t_max-scaling" id="toc-t_max-scaling" class="nav-link" data-scroll-target="#t_max-scaling">3.4. <span class="math inline">\(T_{\max}\)</span> scaling</a></li>
+  </ul></li>
+  <li><a href="#시사점" id="toc-시사점" class="nav-link" data-scroll-target="#시사점">4. 시사점</a></li>
+  <li><a href="#다음-단계" id="toc-다음-단계" class="nav-link" data-scroll-target="#다음-단계">5. 다음 단계</a></li>
+  <li><a href="#데이터" id="toc-데이터" class="nav-link" data-scroll-target="#데이터">6. 데이터</a></li>
   </ul>
 </nav>
     </div>
@@ -200,7 +210,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">공부 ▷ 퓨리에변환</h1>
+<h1 class="title">연구 ▷ HST ▷ Round-skeleton drift 계수의 수치 검증</h1>
 </div>
 
 
@@ -210,14 +220,14 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>신록예찬 </p>
+             <p>클로드 </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 26, 2019</p>
+      <p class="date">April 29, 2026</p>
     </div>
   </div>
   
@@ -229,124 +239,207 @@ window.Quarto = {
 </header>
 
 
-<section id="about-this-doc" class="level2">
-<h2 class="anchored" data-anchor-id="about-this-doc">About this doc</h2>
-<p><code>-</code> 이번에는 퓨리에 표현들을 정리하도록 하겠다. 내생각엔 퓨리에 표현들도 벡터의 미분만큼 복잡한 것 같다. 정의가 너무 많고 그게 그거 같아서 그렇다. 이번기회에 깔끔하게 정리하도록 하자. 참고한 문헌은 아래와 같다.</p>
+<section id="요약" class="level1">
+<h1>0. 요약</h1>
+<p>HST 의 round-skeleton drift inequality</p>
+<p><span class="math display">\[
+\mathbb E[\Phi(t_{r+1})-\Phi(t_r)\mid S_{t_r}] \;\leq\; b\,M(t_r)\,\Delta_{\rm drift} + C_2
+\]</span></p>
+<p>에서 <span class="math inline">\(\Delta_{\rm drift}\)</span> 의 정확한 형태가 무엇인지 작은 그래프 9개에서 시뮬레이션. 결론: <strong>본 논문의 <span class="math inline">\(\Delta_{\rm drift}=(T_{\max}+1)\alpha-2p_0/(n-1)\)</span> 는 <em>valid 하지만 loose 한 upper bound</em></strong> — 실제 drift 는 훨씬 더 음수 (수렴이 더 빠름). 즉 본 논문의 (DC) 조건은 <em>충분조건이지만 필요조건은 아님</em>.</p>
+</section>
+<section id="배경" class="level1">
+<h1>1. 배경</h1>
+<p>본 논문 §1.4 의 round-skeleton drift inequality 의 derivation 에는 <span class="math inline">\(m_r\)</span> 와 <span class="math inline">\(\hbar(\tilde X_1, t_r+1)\)</span> 의 <em>correlation</em> 을 무시하는 step 이 있어 이게 reviewer 에게 지적됐음. Companion note 에서 honest sign-decomposition 으로 다시 짜보면 <em>훨씬 큰</em> <span class="math inline">\(\Delta_{\rm drift}\)</span> 가 나와서 regular graph 에서도 (DC) 가 깨짐. 그런데 regular graph 에서 SD<span class="math inline">\(^2\)</span> 수렴은 경험적으로 자명. 즉 <em>어떤 형태로든 drift 부등식은 성립</em> — 다만 정확한 constant 가 무엇인지 불분명.</p>
+<p>세 후보:</p>
 <ul>
-<li>Haykin, S., &amp; Van Veen, B. (2007). Signals and systems. John Wiley &amp; Sons.</li>
+<li><strong>(a) main_paper:</strong> <span class="math inline">\(\Delta_{\rm drift} = (T_{\max}+1)\alpha - 2p_0/(n-1)\)</span> — 본 논문의 stated form.</li>
+<li><strong>(b) rigorous_loose:</strong> <span class="math inline">\(\Delta'_{\rm drift} = T_{\max} + (T_{\max}+1)\alpha - 2p_0/(n-1)\)</span> — 정직한 sign-decomposition.</li>
+<li><strong>(c) optimistic:</strong> <span class="math inline">\(\Delta''_{\rm drift} = \alpha - 2p_0/(n-1)\)</span> — Companion note 의 가설적 corrected form.</li>
 </ul>
 </section>
-<section id="들어가며" class="level2">
-<h2 class="anchored" data-anchor-id="들어가며">들어가며</h2>
-<p><code>-</code> 우선 신호와 하나의 신호값을 구분하는 notation을 생각하자. 우리가 다루는 신호 즉 데이터는 값들의 집합이다. 우리가 시계열자료를 다룬다면 데이터는 아래와 같이 표현한다.</p>
-<ul>
-<li><span class="math inline">\(\{x_i: i \in \mathbb{Z}\}\)</span></li>
-</ul>
-<p>이와 유시하게 우리가 다루는 자료가 <span class="math inline">\(t \in \mathbb{R}\)</span>인 연속신호라면 아래와 같이 표현한다.</p>
-<ul>
-<li><span class="math inline">\(\{x(t): t \in \mathbb{R}\}\)</span></li>
-</ul>
-<p>우리가 모든 <span class="math inline">\(i \in \mathbb{Z}\)</span> 혹은 모든 <span class="math inline">\(t \in \mathbb{R}\)</span>에서 신호를 다룰 생각이 없다면 아래와 같은 표현도 얼마든지 가능하다.</p>
-<ul>
-<li><span class="math inline">\(\{x_i: i=0,1,\dots, \xi-1 \}\)</span></li>
-<li><span class="math inline">\(\{x(t):t \in (0,\zeta) \}\)</span></li>
-</ul>
-<p><code>-</code> 위와 같이 집합의 표현 없이 단독으로 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>와 같이 쓰면 하나의 고정된 값 <span class="math inline">\(i,t\)</span>에 대한 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>로 이해하자. 솔직히 이렇게 꼭 신호를 엄밀하게 집합으로 정의하는게 유별나 보일수도 있다. 일반적으로 사람들은 <span class="math inline">\(\{x(t): ~t \in \mathbb{R} \}\)</span> 대신에 보통 <span class="math inline">\(x(t)\)</span>로 간단하게 줄여서 쓰곤한다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 하지만 이 포스팅에 한정하여 위와 같이 집합의 형태로 엄밀하게 구분해 쓰도록 하자. 처음에는 익숙하지 않지만 나중에는 편리하다.</p>
+<section id="시뮬레이션" class="level1">
+<h1>2. 시뮬레이션</h1>
+<p>9개 그래프에서 200,000 round HST 시뮬레이션. 각 round 마다 <span class="math inline">\((M(t_r), \Phi(t_{r+1})-\Phi(t_r), m_r)\)</span> 기록. burn-in 후 binned 평균과 linear fit 으로 empirical slope 추정.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Graph</th>
+<th><span class="math inline">\(T_{\max}\)</span></th>
+<th><span class="math inline">\(\alpha\)</span></th>
+<th><span class="math inline">\(p_0\)</span></th>
+<th>empirical</th>
+<th>(a) main</th>
+<th>(b) loose</th>
+<th>(c) opt</th>
+<th><span class="math inline">\(\overline{m_r}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(K_3\)</span></td>
+<td>1</td>
+<td>0.000</td>
+<td>0.167</td>
+<td><strong>−0.628</strong></td>
+<td>−0.167</td>
+<td>+0.833</td>
+<td>−0.167</td>
+<td>2.00</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(K_3\)</span></td>
+<td>2</td>
+<td>0.000</td>
+<td>0.167</td>
+<td><strong>−0.949</strong></td>
+<td>−0.167</td>
+<td>+1.833</td>
+<td>−0.167</td>
+<td>2.96</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(K_3\)</span></td>
+<td>3</td>
+<td>0.000</td>
+<td>0.167</td>
+<td><strong>−1.320</strong></td>
+<td>−0.167</td>
+<td>+2.833</td>
+<td>−0.167</td>
+<td>3.82</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(K_4\)</span></td>
+<td>2</td>
+<td>0.000</td>
+<td>0.083</td>
+<td><strong>−1.146</strong></td>
+<td>−0.056</td>
+<td>+1.944</td>
+<td>−0.056</td>
+<td>2.95</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(K_4\)</span></td>
+<td>3</td>
+<td>0.000</td>
+<td>0.083</td>
+<td><strong>−1.467</strong></td>
+<td>−0.056</td>
+<td>+2.944</td>
+<td>−0.056</td>
+<td>3.87</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(C_5\)</span></td>
+<td>2</td>
+<td>0.000</td>
+<td>0.100</td>
+<td><strong>−1.166</strong></td>
+<td>−0.050</td>
+<td>+1.950</td>
+<td>−0.050</td>
+<td>2.96</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(C_5\)</span></td>
+<td>3</td>
+<td>0.000</td>
+<td>0.100</td>
+<td><strong>−1.630</strong></td>
+<td>−0.050</td>
+<td>+2.950</td>
+<td>−0.050</td>
+<td>3.85</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(P_5\)</span></td>
+<td>2</td>
+<td>0.300</td>
+<td>0.042</td>
+<td><strong>−0.359</strong></td>
+<td>+0.879</td>
+<td>+2.879</td>
+<td>+0.279</td>
+<td>2.86</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(S_5\)</span></td>
+<td>2</td>
+<td>0.600</td>
+<td>0.031</td>
+<td><strong>+0.006</strong></td>
+<td>+1.784</td>
+<td>+3.784</td>
+<td>+0.584</td>
+<td>2.50</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="퓨리에표현들" class="level2">
-<h2 class="anchored" data-anchor-id="퓨리에표현들">퓨리에표현들</h2>
-<p><code>-</code> 지금부터 우리가 고려하는 모든 신호들은 기본적으로 <strong>(1)</strong> <strong>infinity range</strong>에서 정의된 신호라고 가정한다. 즉 연속신호이면 <span class="math inline">\(\mathbb{R}\)</span>에서 정의된다고 가정하고 이산신호면 <span class="math inline">\(\mathbb{Z}\)</span>에서 정의된다고 가정한다. 또한 우리가 분석하고자 하는 신호는 <strong>(2)</strong> <strong>integrable</strong> 하다고 가정한다. 이건 퓨리에표현들이 적분 혹은 무한합의 형태로 표현된다는 것을 상기하면 타당하여 보인다.</p>
-<p><code>-</code> 즉 우리가 고려하는 신호는 <strong>인피니티-레인지</strong>에서 정의되며 <strong>인피니티-레인지</strong>에서 적분값이 유한한 연속신호 혹은 이산신호 임을 알 수 있다. 이러한 신호는 구체적으로는 아래와 같이 쓸 수 있다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span></li>
-<li><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></li>
-</ul>
-<p><code>-</code> 그런데 <strong>integrable</strong> 한 함수들만을 고려하다 보면 우리가 다룰 수 있는 신호의 범위가 확 줄어들게 된다. 가령 예를 들어서 아래와 같은 신호는 적분을 하면 무한대가 나오기 때문에 <strong>intergrable</strong> 하지 않다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in \mathbb{R} \right\}\)</span></li>
-</ul>
-<p>이것은 좀 불합리해 보이는데 위의 신호는 주기신호라서 한 주기의 패턴만 분석하면 될것 같이 보이기 때문이다. 위의 신호는 <strong>intergrable</strong> 하지않지만 아래의 신호는 <strong>intergrable</strong> 하다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in (0,2\pi) \right\}\)</span></li>
-</ul>
-<p>우리는 이런신호까지 분석하기로 한다. 이런신호를 분석할 수 있는 이유는 해석학 교재를 참고하면 된다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<p><code>-</code> 아무튼 우리는 <strong>(1) 인피니티-레인지에서 정의되는 가지는 신호 (2) 인피니티-레인지에서 적분값이 잘 정의되는 신호, 혹은 한 주기만 적분해 보았을때 그 값이 잘 정의되는 주기신호</strong> 를 타겟팅해 분석한다. 즉 분석하는 신호는 구체적으로 아래의 4가지이다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}.\)</span></p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty, ~ , x(t)=x(t+\zeta), ~ t \in \mathbb{R},  \right\}.\)</span></p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ i, x_i=x_{i+\xi},~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><code>-</code> 표현들을 정리하기에 앞서서 몇 가지 알아두어야 할 사항이 있다. <strong>(1)</strong> 시간축에서 연속인 신호는 주파수측에서는 비주기신호가 나온다. <strong>(2)</strong> 시간축에서 디스크릿한 신호는 주파수측에서는 주기신호이다. <strong>(3)</strong> 시간축에서 주기인 신호는 주파수에서는 디스크릿하다. <strong>(4)</strong> 시간축에서 비주기신호는 주파수에서 연속이다. 이 사실들을 종합하면 각각의 경우에 해당하는 퓨리에 표현들은 아래와 같은 특징을 가지고 있음을 알 수 있다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong> <span class="math inline">\(\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{-\infty}^{\infty} |\hat x(\omega)| d\omega &lt;\infty,~ \omega \in \mathbb{R} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty,~ x(t)=x(t+\zeta),~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=-\infty}^{\infty} |\hat x_k| &lt;\infty,~ k \in \mathbb{Z} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{0}^{2\pi} |\hat x(\omega)| d\omega &lt;\infty,~ \hat x(\omega)=\hat x(\omega+2\pi),~  \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code> <span class="math inline">\(\star\)</span></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ x_i=x_{i+\xi},~ i \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=0}^{\xi-1} |\hat x_k| &lt;\infty,~\hat x_k = \hat x_{k+\xi} ,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 여기에서 <span class="math inline">\(\zeta\)</span>는 (시간축에서) 연속신호의 주기라고 정의하고 <span class="math inline">\(\xi\)</span>는 (시간축에서) 이산신호의 주기라고 약속하자. 주파수영역이 디스크릿하게 나오면 FS라고 부르고 주파수영역이 컨티뉴어스하게 나오면 FT라고 부른다. 특이한점은 비주기-이산신호에 대한 FS <span class="math inline">\(\hat x(\omega)\)</span>는 주파수 영역에서 주기가 <span class="math inline">\(2\pi\)</span>임을 파악할 수 있다. 이유는 궁금해하지말자. (내생각에 그냥 <span class="math inline">\(\omega\)</span>를 적당히 스케일링하여 주기를 <span class="math inline">\(2\pi\)</span>로 맞췄을 거다.)</p>
-<p><code>-</code> 이제 짜증나는 적분가능조건따위는 버리도록 하자. 대신에 각 경우에 퓨리에변환(혹은series)과 그 역이 어떻게 정의되는지 알아보자. 그리고 외우자. 각 신호가 어떠한 도메인에서 정의되는지만 잘 파악하면 <strong>의외로</strong> 외우기 쉽다.</p>
-<p><strong><code>case 1. 연속/비주기</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): x(t)=\frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\int_{-\infty}^{\infty} x(t)e^{-j\omega t} dt,~ \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \sum_{k=-\infty}^{\infty} \hat x_k e^{j \frac{2\pi}{\zeta} t} ,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 3. 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i:  x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega, ~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\sum_{i=-\infty}^{\infty}x_ie^{-j\omega i}, ~\omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\sum_{k=0}^{\xi-1} \hat x_k e^{-j\frac{2\pi k}{\xi}i},~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i},~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주기함수는 (그것이 이산이든 연속이든) 주파수영역에서의 값이 디스크릿하다. 즉 위에서 case2와 case4인 경우는 주파수영역에서 값이 디스크릿하다. 이것을 연속함수인것처럼 바꿔보면 아래와 같이 쓸 수 있다.</p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt\right]\delta\left(\omega-\frac{2\pi k}{\zeta}\right), ~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega,,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad\overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i}\right]\delta\left(\omega-\frac{2\pi k}{\xi}\right),~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주목할것은 주기가 <span class="math inline">\(\zeta\)</span> 혹은 <span class="math inline">\(\xi\)</span> 인 함수의 주파수 응답은 오로지</p>
-<ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\zeta}, k \in \mathbb{Z}\right\}\)</span></li>
-</ul>
-<p>혹은</p>
-<ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\xi}, k \in \mathbb{Z}\right\}\)</span></li>
-</ul>
-<p>에서만 존재한다는 점이다. 또한 이산신호의 경우 <span class="math inline">\(x_i\)</span>의 주기가 <span class="math inline">\(\xi\)</span> 이면 <span class="math inline">\(\hat{x}(\omega)\)</span>의 주기역시 <span class="math inline">\(\xi\)</span> 라는점 역시 주목할만한 부분이다.</p>
-<p><code>-</code> 주파수영역에서 디스크릿한 함수를 연속인것처럼 표현했듯이 시간영역에서 디스크릿한 함수 역시 연속인것처럼 표현할 수 있다. 예를들면 <span class="math inline">\(\{x_i: x_i=x(iT),~i \in \mathbb{Z}\}\)</span> 와 같은 관계가 있는 경우 아래와 같이 표현 가능하다.</p>
-<p><span class="math display">\[x_{\delta}(t)=\sum_{i=-\infty}^{\infty}x_i\delta(t-iT).\]</span></p>
-<p>이거 엄청 중요하다.</p>
-
-
+<section id="관찰" class="level1">
+<h1>3. 관찰</h1>
+<section id="모든-후보가-empirical-보다-덜-negative" class="level2">
+<h2 class="anchored" data-anchor-id="모든-후보가-empirical-보다-덜-negative">3.1. 모든 후보가 empirical 보다 <em>덜 negative</em></h2>
+<p>Regular graph (<span class="math inline">\(K_3, K_4, C_5\)</span>, <span class="math inline">\(\alpha=0\)</span>) 에서: - (a) main_paper 은 음수 (<span class="math inline">\(-2p_0/(n-1)\)</span>) 인데 그 절댓값이 작음. - 실제 empirical 은 <em>훨씬 더</em> 음수 (3-30배).</p>
+<p>즉 <em>실제 drift 는 main paper 의 bound 보다 훨씬 빠르게 음수 방향</em> — drift 부등식은 <em>valid</em> 하지만 <em>매우 loose</em>.</p>
 </section>
-
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>나도 그렇다.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>사실 나도 잘 모름 (뭐 <strong>quotient group</strong>이런거 알아야 하는데 공부하려면 꽤 걸릴듯)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<section id="b-rigorous_loose-는-항상-틀림" class="level2">
+<h2 class="anchored" data-anchor-id="b-rigorous_loose-는-항상-틀림">3.2. (b) rigorous_loose 는 항상 <em>틀림</em></h2>
+<p>Sign-decomposition 으로 honest 하게 도출한 (b) 는 모든 경우에 양수 → drift fail 예측. 하지만 실제는 negative drift 라 (b) 는 valid bound 가 <em>아님</em>. 즉 sign-decomposition 으로 얻는 <em>upper bound</em> 가 너무 loose 해서 실제 drift 를 detect 못 함.</p>
+</section>
+<section id="non-regular-graph-p_5-와-s_5" class="level2">
+<h2 class="anchored" data-anchor-id="non-regular-graph-p_5-와-s_5">3.3. Non-regular graph: <span class="math inline">\(P_5\)</span> 와 <span class="math inline">\(S_5\)</span></h2>
+<p><span class="math inline">\(P_5\)</span> (<span class="math inline">\(\alpha = 0.30\)</span>): main paper 가 <span class="math inline">\(+0.879\)</span> (drift fail) 예측하지만 empirical <span class="math inline">\(-0.359\)</span> (수렴). <strong>본 논문의 (DC) 가 fail 하는데도 실제로는 수렴.</strong> main paper bound 가 <em>valid 하다 해도 너무 loose 해서 (DC) 가 sharp 하지 않음</em>.</p>
+<p><span class="math inline">\(S_5\)</span> (star, <span class="math inline">\(\alpha = 0.60\)</span>): empirical <span class="math inline">\(+0.006\)</span> (거의 0). 다른 모든 후보보다 훨씬 작음. star 에서는 drift 가 marginal — 한계 케이스.</p>
+</section>
+<section id="t_max-scaling" class="level2">
+<h2 class="anchored" data-anchor-id="t_max-scaling">3.4. <span class="math inline">\(T_{\max}\)</span> scaling</h2>
+<p><span class="math inline">\(K_3\)</span> 에서 <span class="math inline">\(T_{\max}=1, 2, 3\)</span> 의 empirical: <span class="math inline">\(-0.628, -0.949, -1.320\)</span>. 거의 <em>linear</em> in <span class="math inline">\(T_{\max}\)</span> (slope ≈ <span class="math inline">\(-0.35\)</span> per unit of <span class="math inline">\(T_{\max}\)</span>).</p>
+<p>이건 (a), (c) 둘 다 예측 못 함 — 둘 다 <span class="math inline">\(T_{\max}\)</span> 의존성이 없음.</p>
+<ol start="2" type="a">
+<li>는 <span class="math inline">\(T_{\max}\)</span> 의존성이 있지만 <em>방향이 반대</em> (<span class="math inline">\(+T_{\max}\)</span>). 따라서 empirical 은 (b) 의 부호를 뒤집은 형태에 가까움.</li>
 </ol>
-</section></div></main> <!-- /main -->
+</section>
+</section>
+<section id="시사점" class="level1">
+<h1>4. 시사점</h1>
+<ol type="1">
+<li><strong>본 논문의 drift 부등식은 진실</strong> — 부등식 <em>방향</em> 은 맞음. 다만 constant 가 sharp 하지 않음.</li>
+<li><strong><span class="math inline">\(m_r\)</span> factoring step 은 <em>결과적으로</em> 올바름</strong> — 어떤 hidden mechanism (anti-correlation 또는 cancellation) 이 작동해서 stated bound 를 정당화하고 있음. honest sign-decomposition 만으로는 그 mechanism 이 안 보임.</li>
+<li><strong>(DC) 는 sufficient 조건이고 필요는 아님</strong> — <span class="math inline">\(P_5\)</span> 가 반례. 실제 적용 가능 graph 클래스가 본 논문 statement 보다 넓음.</li>
+<li><strong><span class="math inline">\(T_{\max}\)</span> 가 클수록 drift 가 <em>더 음수</em></strong>. 이건 (a) 가 예측 못 하는 패턴 (a 는 <span class="math inline">\(T_{\max}\)</span> 의존성이 <span class="math inline">\(\alpha\)</span> 와의 곱으로만 나타나서 <span class="math inline">\(\alpha=0\)</span> 일 땐 invariant). 진짜 sharp 한 form 은 (a) 와 다른 모양일 가능성.</li>
+</ol>
+</section>
+<section id="다음-단계" class="level1">
+<h1>5. 다음 단계</h1>
+<ul>
+<li>실험적으로 보이는 패턴 (drift 가 <span class="math inline">\(T_{\max}, p_0, \alpha\)</span> 에 어떻게 정확히 의존하는지) 을 <em>fitting</em> 으로 추정.</li>
+<li>그 fitting 결과를 가설로 두고 <em>해당 모양의 sharp upper bound</em> 를 증명 시도. 본 논문의 stated form 보다 sharper bound 가 발견되면 anti-correlation lemma 의 정성적 진술이 명확해질 것.</li>
+<li>큰 그래프 (n ≥ 10) 에서도 패턴 검증.</li>
+</ul>
+</section>
+<section id="데이터" class="level1">
+<h1>6. 데이터</h1>
+<p>raw 데이터: <code>results/numeric/260429_drift_simulation.py/*.npz</code> (각 실험 별).<br>
+plot: <code>results/figures/260429_drift_simulation.py/*.png</code>.<br>
+summary JSON: <code>results/numeric/260429_drift_simulation.py/summary.json</code>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

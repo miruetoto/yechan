@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="신록예찬">
-<meta name="dcterms.date" content="2019-04-26">
+<meta name="dcterms.date" content="2024-01-26">
 
-<title>공부 ▷ 퓨리에변환 – 신록예찬’s Blog</title>
+<title>공부 ▷ 조건부확률, 조건부기대값 – 신록예찬’s Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -189,9 +189,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about-this-doc" id="toc-about-this-doc" class="nav-link active" data-scroll-target="#about-this-doc">About this doc</a></li>
-  <li><a href="#들어가며" id="toc-들어가며" class="nav-link" data-scroll-target="#들어가며">들어가며</a></li>
-  <li><a href="#퓨리에표현들" id="toc-퓨리에표현들" class="nav-link" data-scroll-target="#퓨리에표현들">퓨리에표현들</a></li>
+  <li><a href="#엄밀하지-않은-정의" id="toc-엄밀하지-않은-정의" class="nav-link active" data-scroll-target="#엄밀하지-않은-정의">엄밀하지 않은 정의</a></li>
+  <li><a href="#엄밀한정의" id="toc-엄밀한정의" class="nav-link" data-scroll-target="#엄밀한정의">엄밀한정의</a></li>
   </ul>
 </nav>
     </div>
@@ -200,7 +199,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">공부 ▷ 퓨리에변환</h1>
+<h1 class="title">공부 ▷ 조건부확률, 조건부기대값</h1>
 </div>
 
 
@@ -217,7 +216,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 26, 2019</p>
+      <p class="date">January 26, 2024</p>
     </div>
   </div>
   
@@ -229,112 +228,183 @@ window.Quarto = {
 </header>
 
 
-<section id="about-this-doc" class="level2">
-<h2 class="anchored" data-anchor-id="about-this-doc">About this doc</h2>
-<p><code>-</code> 이번에는 퓨리에 표현들을 정리하도록 하겠다. 내생각엔 퓨리에 표현들도 벡터의 미분만큼 복잡한 것 같다. 정의가 너무 많고 그게 그거 같아서 그렇다. 이번기회에 깔끔하게 정리하도록 하자. 참고한 문헌은 아래와 같다.</p>
+<blockquote class="blockquote">
+<p><span class="math inline">\(\mathbb{E}[Y|X]\)</span>의 의미를 알아보자.</p>
+</blockquote>
+<p><code>-</code> 통계학에서 <em>conditional</em> 이라는 단어가 가지는 의미: 아래와 같은 표현들을 고려하자.</p>
 <ul>
-<li>Haykin, S., &amp; Van Veen, B. (2007). Signals and systems. John Wiley &amp; Sons.</li>
+<li><span class="math inline">\(\mathbb{P}\big(X=x|\bigstar\big)\)</span></li>
+<li><span class="math inline">\(F_{X}(x|\bigstar)\)</span></li>
+<li><span class="math inline">\(f_X(x|\bigstar)\)</span></li>
+<li><span class="math inline">\(\mathbb{E}(X|\bigstar)\)</span></li>
 </ul>
+<p>수리적으로 <span class="math inline">\(\bigstar\)</span> 자리에 올 수 있는 것은 이벤트(=시그마필드)이다. 위의 식에서 <span class="math inline">\(\bigstar\)</span>는 <strong>주어진정보</strong>로 해석할 수 있다. 여기에서 정보는 <span class="math inline">\(\theta\)</span>에 관련된 정보를 의미한다. 예를 들어 <span class="math inline">\(\bigstar\)</span>의 자리에는 아래와 같은 것이 들어갈 수 있는데 <span class="math display">\[\{\omega: X_1(\omega)+X_2(\omega)=100\}\]</span> 이것은 <span class="math inline">\(\theta\)</span>에 대한 어떠한 정보를 줄 수 있다. 또한 위의 식에서 <span class="math inline">\(\bigstar\)</span>는 <strong>제약조건</strong>으로 해석할 수 있다. 나는 제약조건이라는 해석을 좀 더 선호하는 편인데 이는 여러가지 해석에 비교적 간단히 적용할 수 있기 때문이다. 예를들어 (일반적이진 않지만) <span class="math inline">\(X|\bigstar\)</span> 와 같은 노테이션을 상상할 수 있다. 이는 <span class="math inline">\(\bigstar\)</span> 라는 제약을 지키며 정의되는 확률변수로 해석할 수 있다.</p>
+<section id="엄밀하지-않은-정의" class="level2">
+<h2 class="anchored" data-anchor-id="엄밀하지-않은-정의">엄밀하지 않은 정의</h2>
+<p><code># 정의</code> – 조건부확률(이산형)</p>
+<p><span class="math display">\[P(Y=y|X=x):=\frac{P(X=x,Y=y)}{P(X=x)}\]</span></p>
+<p><code>#</code></p>
+<p><code># 정의</code> – 조건부pdf(이산형,연속형)</p>
+<p><span class="math display">\[f_{2|1}(y|x):=\frac{f_{1,2}(x,y)}{f_1(x)}\]</span></p>
+<p><code>#</code></p>
+<p><code>-</code> 함수 <span class="math inline">\(f_{2|1}(y|x)\)</span> 와 <span class="math inline">\(f_{2}(y)\)</span>는 모두 확률변수 <span class="math inline">\(Y\)</span>의 pdf 조건을 만족한다는 것을 주의하자. 즉 아래가 성립한다.</p>
+<ul>
+<li><span class="math inline">\(\int_{-\infty}^{\infty} f_{2}(y)dy=1\)</span></li>
+<li><span class="math inline">\(\int_{-\infty}^{\infty} f_{2|1}(y|x)dy=1\)</span></li>
+</ul>
+<p><code># 정의</code> – 조건부평균(연속형)</p>
+<p><span class="math display">\[\mathbb{E}[Y|X=x]:=\int y f_{2|1}(y|x)dy \]</span></p>
+<p><code>#</code></p>
+<p><code># 정의할 수 없음</code> – <span class="math inline">\(\mathbb{E}(Y|X)\)</span></p>
+<p>학부수준에서는 엄밀하게 정의할수는 없으며, 개념적으로 접근한다.</p>
+<ol type="1">
+<li><span class="math inline">\(\mathbb{E}(Y|X=x)\)</span>는 <span class="math inline">\(x\)</span>의 값에 따라서 그 값이 바뀌는 함수로 해석할 수 있다.</li>
+<li>1을 다시 표현하면 <span class="math inline">\(h(x):=\mathbb{E}(Y|X=x)\)</span>를 만족하는 적당한 <span class="math inline">\(h\)</span>가 있다는 의미.</li>
+<li>2번에서 정의된 <span class="math inline">\(h\)</span>에 입력을 <span class="math inline">\(x\)</span>가 아니라 <span class="math inline">\(X\)</span>로 준다면 <span class="math inline">\(h(X)\)</span>와 같은 확률 변수를 생각할 수 있음. <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
+<li>3번과 같은 확률변수를 <span class="math inline">\(\mathbb{E}(Y|X)\)</span>로 정의하자는 의미</li>
+</ol>
+<p>학부수준에서는 이정도가 설명의 끝이며 <span class="math inline">\(\mathbb{E}(Y|X)\)</span>를 수식으로 명확하게 정의하진 않는다.</p>
+<p><code>#</code></p>
+<p><code># 정의할 수 없음</code> – <span class="math inline">\(\mathbb{V}(Y|X)\)</span></p>
+<p><span class="math inline">\(\mathbb{E}(Y|X)\)</span>와 비슷한 방식으로 피해서 정의한다.</p>
+<p><code>#</code></p>
+<p><code># 예제</code> – <span class="math inline">\(\mathbb{E}[\mathbb{E}[Y|X]]=\mathbb{E}[Y]\)</span> 의 증명 (<span class="math inline">\(\star\)</span>)</p>
+<p>(풀이)</p>
+<p>헷갈리니까 아래와 같이 치환한다.</p>
+<ul>
+<li><span class="math inline">\(\mathbb{E}[Y|X]=h(X)\)</span></li>
+<li><span class="math inline">\(\mathbb{E}[Y|X=x]=h(x)\)</span></li>
+</ul>
+<p>그러면 좌변은 아래와 같이 된다.</p>
+<ul>
+<li><span class="math inline">\(\mathbb{E}[h(X)]=\int h(x) f_1(x)dx = \int \mathbb{E}[Y|X=x] f_1(x)dx\)</span></li>
+</ul>
+<p>그런데 <span class="math inline">\(\mathbb{E}[Y|X=x]\)</span>는 조건부확률의 정의에 의하여 <span class="math inline">\(\mathbb{E}[Y|X=x]=\int y f_{2|1}(y|x)dy\)</span> 이다. 이걸 그대로 넣으면</p>
+<ul>
+<li><span class="math inline">\(\int \mathbb{E}[Y|X=x] f_1(x)dx=\int \int y f_{2|1}(y|x)dy f_1(x)dx=\int \int y f_{2|1}(y|x)f_1(x)dydx\)</span></li>
+</ul>
+<p>이제 조건부 pdf의 정의를 쓰면 <span class="math inline">\(f_{2|1}(y|x)f_1(x)=f_{1,2}(x,y)\)</span>가 된다. 따라서</p>
+<ul>
+<li><span class="math inline">\(\int \int y f_{2|1}(y|x)f_1(x)dydx=\int\int y f_{1,2}(x,y)dydx\)</span></li>
+</ul>
+<p>푸비니의 정리를 쓰면</p>
+<ul>
+<li><span class="math inline">\(\int\int y f_{1,2}(x,y)dydx=\int\int y f_{1,2}(x,y)dxdy\)</span></li>
+</ul>
+<p><span class="math inline">\(y\)</span>를 밖으로 빼고 marginal pdf의 정의<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>를 이용하면</p>
+<ul>
+<li><span class="math inline">\(\int\int y f_{1,2}(x,y)dxdy=\int y\int f_{1,2}(x,y)dxdy=\int y f_2(y)dy = \mathbb{E}[y]\)</span></li>
+</ul>
+<p>그래서 증명이 되었음.</p>
 </section>
-<section id="들어가며" class="level2">
-<h2 class="anchored" data-anchor-id="들어가며">들어가며</h2>
-<p><code>-</code> 우선 신호와 하나의 신호값을 구분하는 notation을 생각하자. 우리가 다루는 신호 즉 데이터는 값들의 집합이다. 우리가 시계열자료를 다룬다면 데이터는 아래와 같이 표현한다.</p>
+<section id="엄밀한정의" class="level2">
+<h2 class="anchored" data-anchor-id="엄밀한정의">엄밀한정의</h2>
+<p><code># 예제</code> - 주사위던지기</p>
+<p><code>-</code> 아래와 같은 상황을 가정하자.</p>
 <ul>
-<li><span class="math inline">\(\{x_i: i \in \mathbb{Z}\}\)</span></li>
+<li><span class="math inline">\(\Omega = \{1,2,3,\dots,6\}\)</span></li>
+<li><span class="math inline">\({\cal F} = 2^\Omega\)</span></li>
+<li><span class="math inline">\(P: {\cal F} \to [0,1]\)</span> such that <span class="math inline">\(P(\{\omega\})=\frac{1}{6}\)</span>.</li>
 </ul>
-<p>이와 유시하게 우리가 다루는 자료가 <span class="math inline">\(t \in \mathbb{R}\)</span>인 연속신호라면 아래와 같이 표현한다.</p>
+<p>이제 <span class="math inline">\((\Omega, {\cal F})\)</span> 위에서 아래와 같은 확률변수 <span class="math inline">\(X: \Omega \to \mathbb{R}\)</span>을 정의하자.</p>
 <ul>
-<li><span class="math inline">\(\{x(t): t \in \mathbb{R}\}\)</span></li>
+<li><span class="math inline">\(X(\{1\}) =1\)</span></li>
+<li><span class="math inline">\(X(\{2\}) =2\)</span></li>
+<li><span class="math inline">\(X(\{3\}) =3\)</span></li>
+<li><span class="math inline">\(X(\{4\}) =4\)</span></li>
+<li><span class="math inline">\(X(\{5\}) =5\)</span></li>
+<li><span class="math inline">\(X(\{6\}) =6\)</span></li>
 </ul>
-<p>우리가 모든 <span class="math inline">\(i \in \mathbb{Z}\)</span> 혹은 모든 <span class="math inline">\(t \in \mathbb{R}\)</span>에서 신호를 다룰 생각이 없다면 아래와 같은 표현도 얼마든지 가능하다.</p>
+<p>여기까지는 익숙한 셋팅이며, 이럴때</p>
 <ul>
-<li><span class="math inline">\(\{x_i: i=0,1,\dots, \xi-1 \}\)</span></li>
-<li><span class="math inline">\(\{x(t):t \in (0,\zeta) \}\)</span></li>
+<li><span class="math inline">\(X\)</span> is r.v. on <span class="math inline">\((\Omega, {\cal F})\)</span></li>
+<li><span class="math inline">\(X \in {\cal F}\)</span></li>
 </ul>
-<p><code>-</code> 위와 같이 집합의 표현 없이 단독으로 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>와 같이 쓰면 하나의 고정된 값 <span class="math inline">\(i,t\)</span>에 대한 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>로 이해하자. 솔직히 이렇게 꼭 신호를 엄밀하게 집합으로 정의하는게 유별나 보일수도 있다. 일반적으로 사람들은 <span class="math inline">\(\{x(t): ~t \in \mathbb{R} \}\)</span> 대신에 보통 <span class="math inline">\(x(t)\)</span>로 간단하게 줄여서 쓰곤한다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 하지만 이 포스팅에 한정하여 위와 같이 집합의 형태로 엄밀하게 구분해 쓰도록 하자. 처음에는 익숙하지 않지만 나중에는 편리하다.</p>
-</section>
-<section id="퓨리에표현들" class="level2">
-<h2 class="anchored" data-anchor-id="퓨리에표현들">퓨리에표현들</h2>
-<p><code>-</code> 지금부터 우리가 고려하는 모든 신호들은 기본적으로 <strong>(1)</strong> <strong>infinity range</strong>에서 정의된 신호라고 가정한다. 즉 연속신호이면 <span class="math inline">\(\mathbb{R}\)</span>에서 정의된다고 가정하고 이산신호면 <span class="math inline">\(\mathbb{Z}\)</span>에서 정의된다고 가정한다. 또한 우리가 분석하고자 하는 신호는 <strong>(2)</strong> <strong>integrable</strong> 하다고 가정한다. 이건 퓨리에표현들이 적분 혹은 무한합의 형태로 표현된다는 것을 상기하면 타당하여 보인다.</p>
-<p><code>-</code> 즉 우리가 고려하는 신호는 <strong>인피니티-레인지</strong>에서 정의되며 <strong>인피니티-레인지</strong>에서 적분값이 유한한 연속신호 혹은 이산신호 임을 알 수 있다. 이러한 신호는 구체적으로는 아래와 같이 쓸 수 있다.</p>
+<p>와 같이 표현한다.</p>
+<p><code>-</code> 이제 여기에서 아래와 같이 <span class="math inline">\(\Omega\)</span>를 disjoin한 <span class="math inline">\(\{B_i\}\)</span>로 나누자.</p>
 <ul>
-<li><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span></li>
-<li><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></li>
+<li><span class="math inline">\(B_1 = \{1,2\}\)</span></li>
+<li><span class="math inline">\(B_2 = \{3,4,5,6\}\)</span></li>
 </ul>
-<p><code>-</code> 그런데 <strong>integrable</strong> 한 함수들만을 고려하다 보면 우리가 다룰 수 있는 신호의 범위가 확 줄어들게 된다. 가령 예를 들어서 아래와 같은 신호는 적분을 하면 무한대가 나오기 때문에 <strong>intergrable</strong> 하지 않다.</p>
+<p>그리고 <span class="math inline">\(B_1\)</span>, <span class="math inline">\(B_2\)</span>를 measurable하게 만드는 새로운 시그마필드 <span class="math inline">\({\cal F}^*=\sigma(B_1,B_2)\)</span>를 아래와 같이 정의하자.</p>
 <ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in \mathbb{R} \right\}\)</span></li>
+<li><span class="math inline">\({\cal F}^* = \{\emptyset, B_1, B_2, \Omega\}\)</span><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></li>
 </ul>
-<p>이것은 좀 불합리해 보이는데 위의 신호는 주기신호라서 한 주기의 패턴만 분석하면 될것 같이 보이기 때문이다. 위의 신호는 <strong>intergrable</strong> 하지않지만 아래의 신호는 <strong>intergrable</strong> 하다.</p>
+<p>이제 아래와 같은 <span class="math inline">\(Y: \Omega\to\mathbb{R}\)</span>를 고려하자.</p>
 <ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in (0,2\pi) \right\}\)</span></li>
+<li><span class="math inline">\(Y(\{1\}) = 1.5\)</span></li>
+<li><span class="math inline">\(Y(\{2\}) = 1.5\)</span></li>
+<li><span class="math inline">\(Y(\{3\}) = 4.5\)</span></li>
+<li><span class="math inline">\(Y(\{4\}) = 4.5\)</span></li>
+<li><span class="math inline">\(Y(\{5\}) = 4.5\)</span></li>
+<li><span class="math inline">\(Y(\{6\}) = 4.5\)</span></li>
 </ul>
-<p>우리는 이런신호까지 분석하기로 한다. 이런신호를 분석할 수 있는 이유는 해석학 교재를 참고하면 된다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<p><code>-</code> 아무튼 우리는 <strong>(1) 인피니티-레인지에서 정의되는 가지는 신호 (2) 인피니티-레인지에서 적분값이 잘 정의되는 신호, 혹은 한 주기만 적분해 보았을때 그 값이 잘 정의되는 주기신호</strong> 를 타겟팅해 분석한다. 즉 분석하는 신호는 구체적으로 아래의 4가지이다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}.\)</span></p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty, ~ , x(t)=x(t+\zeta), ~ t \in \mathbb{R},  \right\}.\)</span></p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ i, x_i=x_{i+\xi},~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><code>-</code> 표현들을 정리하기에 앞서서 몇 가지 알아두어야 할 사항이 있다. <strong>(1)</strong> 시간축에서 연속인 신호는 주파수측에서는 비주기신호가 나온다. <strong>(2)</strong> 시간축에서 디스크릿한 신호는 주파수측에서는 주기신호이다. <strong>(3)</strong> 시간축에서 주기인 신호는 주파수에서는 디스크릿하다. <strong>(4)</strong> 시간축에서 비주기신호는 주파수에서 연속이다. 이 사실들을 종합하면 각각의 경우에 해당하는 퓨리에 표현들은 아래와 같은 특징을 가지고 있음을 알 수 있다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong> <span class="math inline">\(\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{-\infty}^{\infty} |\hat x(\omega)| d\omega &lt;\infty,~ \omega \in \mathbb{R} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty,~ x(t)=x(t+\zeta),~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=-\infty}^{\infty} |\hat x_k| &lt;\infty,~ k \in \mathbb{Z} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{0}^{2\pi} |\hat x(\omega)| d\omega &lt;\infty,~ \hat x(\omega)=\hat x(\omega+2\pi),~  \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code> <span class="math inline">\(\star\)</span></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ x_i=x_{i+\xi},~ i \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=0}^{\xi-1} |\hat x_k| &lt;\infty,~\hat x_k = \hat x_{k+\xi} ,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 여기에서 <span class="math inline">\(\zeta\)</span>는 (시간축에서) 연속신호의 주기라고 정의하고 <span class="math inline">\(\xi\)</span>는 (시간축에서) 이산신호의 주기라고 약속하자. 주파수영역이 디스크릿하게 나오면 FS라고 부르고 주파수영역이 컨티뉴어스하게 나오면 FT라고 부른다. 특이한점은 비주기-이산신호에 대한 FS <span class="math inline">\(\hat x(\omega)\)</span>는 주파수 영역에서 주기가 <span class="math inline">\(2\pi\)</span>임을 파악할 수 있다. 이유는 궁금해하지말자. (내생각에 그냥 <span class="math inline">\(\omega\)</span>를 적당히 스케일링하여 주기를 <span class="math inline">\(2\pi\)</span>로 맞췄을 거다.)</p>
-<p><code>-</code> 이제 짜증나는 적분가능조건따위는 버리도록 하자. 대신에 각 경우에 퓨리에변환(혹은series)과 그 역이 어떻게 정의되는지 알아보자. 그리고 외우자. 각 신호가 어떠한 도메인에서 정의되는지만 잘 파악하면 <strong>의외로</strong> 외우기 쉽다.</p>
-<p><strong><code>case 1. 연속/비주기</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): x(t)=\frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\int_{-\infty}^{\infty} x(t)e^{-j\omega t} dt,~ \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \sum_{k=-\infty}^{\infty} \hat x_k e^{j \frac{2\pi}{\zeta} t} ,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 3. 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i:  x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega, ~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\sum_{i=-\infty}^{\infty}x_ie^{-j\omega i}, ~\omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\sum_{k=0}^{\xi-1} \hat x_k e^{-j\frac{2\pi k}{\xi}i},~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i},~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주기함수는 (그것이 이산이든 연속이든) 주파수영역에서의 값이 디스크릿하다. 즉 위에서 case2와 case4인 경우는 주파수영역에서 값이 디스크릿하다. 이것을 연속함수인것처럼 바꿔보면 아래와 같이 쓸 수 있다.</p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt\right]\delta\left(\omega-\frac{2\pi k}{\zeta}\right), ~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega,,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad\overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i}\right]\delta\left(\omega-\frac{2\pi k}{\xi}\right),~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주목할것은 주기가 <span class="math inline">\(\zeta\)</span> 혹은 <span class="math inline">\(\xi\)</span> 인 함수의 주파수 응답은 오로지</p>
+<p>여기에서 <span class="math inline">\(Y\)</span>는 <span class="math inline">\((\Omega, {\cal F})\)</span> 에서의 확률변수이기도 하지만 <span class="math inline">\((\Omega, {\cal F}^*)\)</span>에서의 확률변수이기도 하다. 즉</p>
 <ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\zeta}, k \in \mathbb{Z}\right\}\)</span></li>
+<li><span class="math inline">\(Y\)</span> is r.v. on <span class="math inline">\((\Omega, {\cal F})\)</span></li>
+<li><span class="math inline">\(Y \in {\cal F}\)</span></li>
+<li><span class="math inline">\(Y\)</span> is r.v. on <span class="math inline">\((\Omega, {\cal F}^*)\)</span></li>
+<li><span class="math inline">\(Y \in {\cal F}^*\)</span></li>
 </ul>
-<p>혹은</p>
+<p>이다.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>또 <span class="math inline">\(Y\)</span>는 아래와 같은 특징이 있다.</p>
 <ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\xi}, k \in \mathbb{Z}\right\}\)</span></li>
+<li><span class="math inline">\(\forall A \in {\cal F}^*:~\int_A X dP = \int_A Y dP.\)</span></li>
 </ul>
-<p>에서만 존재한다는 점이다. 또한 이산신호의 경우 <span class="math inline">\(x_i\)</span>의 주기가 <span class="math inline">\(\xi\)</span> 이면 <span class="math inline">\(\hat{x}(\omega)\)</span>의 주기역시 <span class="math inline">\(\xi\)</span> 라는점 역시 주목할만한 부분이다.</p>
-<p><code>-</code> 주파수영역에서 디스크릿한 함수를 연속인것처럼 표현했듯이 시간영역에서 디스크릿한 함수 역시 연속인것처럼 표현할 수 있다. 예를들면 <span class="math inline">\(\{x_i: x_i=x(iT),~i \in \mathbb{Z}\}\)</span> 와 같은 관계가 있는 경우 아래와 같이 표현 가능하다.</p>
-<p><span class="math display">\[x_{\delta}(t)=\sum_{i=-\infty}^{\infty}x_i\delta(t-iT).\]</span></p>
-<p>이거 엄청 중요하다.</p>
+<p>이것을 조금만 따져보자. <span class="math inline">\(\int_A X dP = \int_\Omega X \mathbb{1}_A dP\)</span> 임을 이용하면,</p>
+<ul>
+<li>case1: <span class="math inline">\(A = \emptyset \Rightarrow 0=0\)</span>:</li>
+<li>case2: <span class="math inline">\(A = B_1 \Rightarrow \frac{1+2+0+0+0+0}{6}=\frac{1.5+1.5+0+0+0+0}{6}\)</span></li>
+<li>case3: <span class="math inline">\(A = B_2 \Rightarrow \frac{0+0+3+4+5+6}{6}=\frac{0+0+4.5+4.5+4.5+4.5}{6}\)</span></li>
+<li>case4: <span class="math inline">\(A = \Omega \Rightarrow \frac{1+2+3+4+5+6}{6}=\frac{1.5+1.5+4.5+4.5+4.5+4.5}{6}\)</span></li>
+</ul>
+<p>이다.</p>
+<p><code>-</code> 이러한 조건을 만족하는 확률변수 <span class="math inline">\(Y\)</span>를 conditional expectation of <span class="math inline">\(X\)</span> given <span class="math inline">\({\cal F}^*\)</span>이라고 한다.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<p><code>#</code></p>
+<p><code># 정의</code> – <span class="citation" data-cites="klenke2013probability">[@klenke2013probability, Def 8.11]</span> <span class="math inline">\(X \in {\cal L}^1(\Omega, {\cal F}, P)\)</span> 이라고 하자. <a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> 그리고 <span class="math inline">\({\cal F}^*\)</span>는</p>
+<ul>
+<li><span class="math inline">\({\cal F}^* \subset {\cal F}\)</span></li>
+</ul>
+<p>을 만족하는 <span class="math inline">\(\Omega\)</span>에서의 시그마필드라고 하자. 확률변수 <span class="math inline">\(Y\)</span> 가 아래를 만족한다고 하자.</p>
+<ol type="1">
+<li><span class="math inline">\(Y \in {\cal F}^*\)</span></li>
+<li><span class="math inline">\(\forall A \in {\cal F}^*:~ \int_A X dP = \int_A Y dP\)</span></li>
+</ol>
+<p>그러면 <span class="math inline">\(Y\)</span>는 conditional expectation of <span class="math inline">\(X\)</span> given <span class="math inline">\({\cal F}^*\)</span>라고 하고 기호로는</p>
+<p><span class="math display">\[Y:=\mathbb{E}[X|{\cal F}^*]\]</span></p>
+<p>로 표현한다.</p>
+<p><code>#</code></p>
+<p><code>-</code> <span class="math inline">\(Y\)</span>는 <span class="math inline">\((\Omega,{\cal F}^*)\)</span>에서의 확률변수이기도 하지만 일단 <span class="math inline">\(Y \in (\Omega, {\cal F})\)</span> 이기도 하다. 가측공간 <span class="math inline">\((\Omega,{\cal F}^*)\)</span> 에서는 적절한 확률측도를 정의한적이 없지만 <span class="math inline">\((\Omega,{\cal F})\)</span> 에서는 확률측도 <span class="math inline">\(P\)</span>가 이미 정의되어 있다. 이를 이용하여 아래를 계산해보자.</p>
+<ul>
+<li><span class="math inline">\(\mathbb{E}[Y]=\int Y dP\)</span></li>
+</ul>
+<p>이것을 정리하면</p>
+<ul>
+<li><span class="math inline">\(\frac{1.5+1.5+4.5+4.5+4.5+4.5}{6}\)</span></li>
+</ul>
+<p>가 되어서 <span class="math inline">\(\mathbb{E}[X]\)</span>와 같다. 따라서</p>
+<ul>
+<li><span class="math inline">\(\mathbb{E}[X] = \mathbb{E}[\mathbb{E}[X|{\cal F}^*]]\)</span></li>
+</ul>
+<p>이다. 여기에서 <span class="math inline">\(\mathbb{E}[X|{\cal F}^*]\)</span>은 일단 그 자체로 하나의 기호라 생각하자.</p>
+<p><code># Thm</code> – <span class="citation" data-cites="klenke2013probability">[@klenke2013probability, Thm 8.12]</span> <span class="math inline">\(X \in {\cal L}^1(\Omega, {\cal F}, P)\)</span> 이라고 하자. <a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> 그리고 <span class="math inline">\({\cal F}^*\)</span>는</p>
+<ul>
+<li><span class="math inline">\({\cal F}^* \subset {\cal F}\)</span></li>
+</ul>
+<p>을 만족하는 <span class="math inline">\(\Omega\)</span>에서의 시그마필드라고 하자. 아래를 만족하는 확률변수 <span class="math inline">\(Y\)</span>는 (<span class="math inline">\(P\)</span>에 대하여) 거의 유일하게 존재한다.</p>
+<ol type="1">
+<li><span class="math inline">\(Y \in {\cal F}^*\)</span></li>
+<li><span class="math inline">\(\forall A \in {\cal F}^*:~ \int_A X dP = \int_A Y dP\)</span></li>
+</ol>
+<p><code>#</code></p>
+<p><code># 정의</code> – <span class="citation" data-cites="klenke2013probability">[@klenke2013probability, Def 8.13]</span> 아래와 같은 두 확률변수를 정의하자.</p>
+<ul>
+<li><span class="math inline">\(X\)</span> is rv on <span class="math inline">\((\Omega, {\cal F})\)</span> with <span class="math inline">\(\int X dP &lt;\infty\)</span>.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></li>
+<li><span class="math inline">\(Y\)</span> is rv on <span class="math inline">\((\Omega, {\cal F})\)</span>.</li>
+</ul>
+<p>아래를 정의하자.</p>
+<p><span class="math display">\[\mathbb{E}[X|Y]:=\mathbb{E}[X|\sigma(Y)].\]</span></p>
+<p><code>#</code></p>
 
 
 </section>
@@ -343,8 +413,14 @@ window.Quarto = {
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>나도 그렇다.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>사실 나도 잘 모름 (뭐 <strong>quotient group</strong>이런거 알아야 하는데 공부하려면 꽤 걸릴듯)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><span class="math inline">\(X\)</span>가 확률변수이면 <span class="math inline">\(f(X)\)</span>역시 확률변수라고 배웠으니까<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><span class="math inline">\(\int f_{1,2}(x,y)dx = f_2(y)\)</span><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>당연히 <span class="math inline">\({\cal F}^* \subset {\cal F}\)</span><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>이렇게 보니까 <span class="math inline">\({\cal F}^* \subset {\cal F}\)</span> 임을 감안하면 <span class="math inline">\(Y \in {\cal F}^* \Rightarrow  Y \in {\cal F}\)</span> 임이 당연하게 느껴진다. <span class="math inline">\(Y \in {\cal F}\)</span>와 같은 기호표현이 너무 이상하게 느껴졌는데, 여기에서 의문이 조금 풀리는 것 같음.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>조건부기대값이라고 번역하기는 조금 어색해서 원문그대로 외우는게 나은듯<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p><span class="math inline">\(X\)</span>가 <span class="math inline">\((\Omega, {\cal F})\)</span>에서의 rv이고 <span class="math inline">\(\int_P XdP &lt;\infty\)</span> 라는 의미<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p><span class="math inline">\(X\)</span>가 <span class="math inline">\((\Omega, {\cal F})\)</span>에서의 rv이고 <span class="math inline">\(\int_P XdP &lt;\infty\)</span> 라는 의미<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p><span class="math inline">\(X \in {\cal L}^1(\Omega, {\cal F}, P)\)</span> 이라는 의미<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

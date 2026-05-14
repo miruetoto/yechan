@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="신록예찬">
-<meta name="dcterms.date" content="2019-04-26">
+<meta name="dcterms.date" content="2026-05-15">
 
-<title>공부 ▷ 퓨리에변환 – 신록예찬’s Blog</title>
+<title>연구 ▷ HST ▷ 적립률 존재성과 마팅게일 분해 – 신록예찬’s Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -189,9 +189,14 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#about-this-doc" id="toc-about-this-doc" class="nav-link active" data-scroll-target="#about-this-doc">About this doc</a></li>
-  <li><a href="#들어가며" id="toc-들어가며" class="nav-link" data-scroll-target="#들어가며">들어가며</a></li>
-  <li><a href="#퓨리에표현들" id="toc-퓨리에표현들" class="nav-link" data-scroll-target="#퓨리에표현들">퓨리에표현들</a></li>
+  <li><a href="#문제" id="toc-문제" class="nav-link active" data-scroll-target="#문제">문제</a></li>
+  <li><a href="#마팅게일-분해-unconditional" id="toc-마팅게일-분해-unconditional" class="nav-link" data-scroll-target="#마팅게일-분해-unconditional">마팅게일 분해 (unconditional)</a></li>
+  <li><a href="#높이-차이도-마팅게일로-분해된다" id="toc-높이-차이도-마팅게일로-분해된다" class="nav-link" data-scroll-target="#높이-차이도-마팅게일로-분해된다">높이 차이도 마팅게일로 분해된다</a></li>
+  <li><a href="#왜-일반-증명이-안-되는가" id="toc-왜-일반-증명이-안-되는가" class="nav-link" data-scroll-target="#왜-일반-증명이-안-되는가">왜 일반 증명이 안 되는가</a></li>
+  <li><a href="#조건부-결과-downstream-stabilization-ds" id="toc-조건부-결과-downstream-stabilization-ds" class="nav-link" data-scroll-target="#조건부-결과-downstream-stabilization-ds">조건부 결과: Downstream Stabilization (DS)</a></li>
+  <li><a href="#검증된-예시" id="toc-검증된-예시" class="nav-link" data-scroll-target="#검증된-예시">검증된 예시</a></li>
+  <li><a href="#상태-정리" id="toc-상태-정리" class="nav-link" data-scroll-target="#상태-정리">상태 정리</a></li>
+  <li><a href="#의미" id="toc-의미" class="nav-link" data-scroll-target="#의미">의미</a></li>
   </ul>
 </nav>
     </div>
@@ -200,7 +205,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">공부 ▷ 퓨리에변환</h1>
+<h1 class="title">연구 ▷ HST ▷ 적립률 존재성과 마팅게일 분해</h1>
 </div>
 
 
@@ -217,7 +222,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 26, 2019</p>
+      <p class="date">May 15, 2026</p>
     </div>
   </div>
   
@@ -229,124 +234,111 @@ window.Quarto = {
 </header>
 
 
-<section id="about-this-doc" class="level2">
-<h2 class="anchored" data-anchor-id="about-this-doc">About this doc</h2>
-<p><code>-</code> 이번에는 퓨리에 표현들을 정리하도록 하겠다. 내생각엔 퓨리에 표현들도 벡터의 미분만큼 복잡한 것 같다. 정의가 너무 많고 그게 그거 같아서 그렇다. 이번기회에 깔끔하게 정리하도록 하자. 참고한 문헌은 아래와 같다.</p>
-<ul>
-<li>Haykin, S., &amp; Van Veen, B. (2007). Signals and systems. John Wiley &amp; Sons.</li>
-</ul>
+<section id="문제" class="level2">
+<h2 class="anchored" data-anchor-id="문제">문제</h2>
+<p>HST 알고리즘에서 각 노드의 장기 적립률</p>
+<p><span class="math display">\[\rho_i := \lim_{t\to\infty} \frac{1}{t}\sum_{s=1}^t \mathbf{1}\{X_s = v_i\}\]</span></p>
+<p>가 a.s. 존재하는가? <a href="260515_c0531a.html">어제 포스트</a>에서 two-regime 이론 (balanced vs drift)은 “<span class="math inline">\(\rho_i\)</span>가 존재한다”를 <strong>가정</strong>했다. 이 가정 자체를 증명할 수 있는가?</p>
 </section>
-<section id="들어가며" class="level2">
-<h2 class="anchored" data-anchor-id="들어가며">들어가며</h2>
-<p><code>-</code> 우선 신호와 하나의 신호값을 구분하는 notation을 생각하자. 우리가 다루는 신호 즉 데이터는 값들의 집합이다. 우리가 시계열자료를 다룬다면 데이터는 아래와 같이 표현한다.</p>
-<ul>
-<li><span class="math inline">\(\{x_i: i \in \mathbb{Z}\}\)</span></li>
-</ul>
-<p>이와 유시하게 우리가 다루는 자료가 <span class="math inline">\(t \in \mathbb{R}\)</span>인 연속신호라면 아래와 같이 표현한다.</p>
-<ul>
-<li><span class="math inline">\(\{x(t): t \in \mathbb{R}\}\)</span></li>
-</ul>
-<p>우리가 모든 <span class="math inline">\(i \in \mathbb{Z}\)</span> 혹은 모든 <span class="math inline">\(t \in \mathbb{R}\)</span>에서 신호를 다룰 생각이 없다면 아래와 같은 표현도 얼마든지 가능하다.</p>
-<ul>
-<li><span class="math inline">\(\{x_i: i=0,1,\dots, \xi-1 \}\)</span></li>
-<li><span class="math inline">\(\{x(t):t \in (0,\zeta) \}\)</span></li>
-</ul>
-<p><code>-</code> 위와 같이 집합의 표현 없이 단독으로 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>와 같이 쓰면 하나의 고정된 값 <span class="math inline">\(i,t\)</span>에 대한 <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x(t)\)</span>로 이해하자. 솔직히 이렇게 꼭 신호를 엄밀하게 집합으로 정의하는게 유별나 보일수도 있다. 일반적으로 사람들은 <span class="math inline">\(\{x(t): ~t \in \mathbb{R} \}\)</span> 대신에 보통 <span class="math inline">\(x(t)\)</span>로 간단하게 줄여서 쓰곤한다.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> 하지만 이 포스팅에 한정하여 위와 같이 집합의 형태로 엄밀하게 구분해 쓰도록 하자. 처음에는 익숙하지 않지만 나중에는 편리하다.</p>
+<section id="마팅게일-분해-unconditional" class="level2">
+<h2 class="anchored" data-anchor-id="마팅게일-분해-unconditional">마팅게일 분해 (unconditional)</h2>
+<p>핵심 아이디어: 방문 indicator를 conditional probability + noise로 분해한다.</p>
+<p><span class="math display">\[\mathbf{1}\{X_s = v_i\} = p_i(s) + \underbrace{[\mathbf{1}\{X_s = v_i\} - p_i(s)]}_{\text{martingale increment}}\]</span></p>
+<p>여기서 <span class="math inline">\(p_i(s) := \mathbb{P}(X_s = v_i \mid \mathcal{F}_{s-1})\)</span> 은 이전 history가 주어졌을 때의 조건부 방문 확률이다.</p>
+<p><strong>Lemma.</strong> <span class="math inline">\(M_t^{(i)} := \sum_{s=1}^t [\mathbf{1}\{X_s=v_i\} - p_i(s)]\)</span> 는 bounded-increment 마팅게일이고, <span class="math inline">\(M_t^{(i)}/t \to 0\)</span> a.s.</p>
+<p>증명은 간단하다: <span class="math inline">\(|\Delta M_s| \leq 1\)</span>이고, conditional variance가 <span class="math inline">\(p_i(1-p_i) \leq 1\)</span>이므로 <span class="math inline">\(\sum \mathbb{E}[(\Delta M_s)^2 | \mathcal{F}_{s-1}]/s^2 \leq \sum 1/s^2 &lt; \infty\)</span>. 마팅게일 강대수법칙 (Hall–Heyde Thm 2.18) 적용.</p>
+<p>따라서:</p>
+<p><span class="math display">\[\frac{1}{t}\sum_{s=1}^t \mathbf{1}\{X_s = v_i\} = \frac{1}{t}\sum_{s=1}^t p_i(s) + o(1) \quad \text{a.s.}\]</span></p>
+<p><strong>이게 주는 것</strong>: <span class="math inline">\(\rho_i\)</span> 존재 문제가 <strong>Cesàro 평균 <span class="math inline">\(\frac{1}{t}\sum p_i(s)\)</span>의 수렴</strong> 문제로 환원된다. 마팅게일 noise는 <span class="math inline">\(1/t\)</span> 스케일에서 사라진다.</p>
+<p><strong>이게 안 주는 것</strong>: <span class="math inline">\(\frac{1}{t}\sum p_i(s)\)</span>가 수렴하는지 여부. 이건 height-visit feedback loop 때문에 자명하지 않다.</p>
 </section>
-<section id="퓨리에표현들" class="level2">
-<h2 class="anchored" data-anchor-id="퓨리에표현들">퓨리에표현들</h2>
-<p><code>-</code> 지금부터 우리가 고려하는 모든 신호들은 기본적으로 <strong>(1)</strong> <strong>infinity range</strong>에서 정의된 신호라고 가정한다. 즉 연속신호이면 <span class="math inline">\(\mathbb{R}\)</span>에서 정의된다고 가정하고 이산신호면 <span class="math inline">\(\mathbb{Z}\)</span>에서 정의된다고 가정한다. 또한 우리가 분석하고자 하는 신호는 <strong>(2)</strong> <strong>integrable</strong> 하다고 가정한다. 이건 퓨리에표현들이 적분 혹은 무한합의 형태로 표현된다는 것을 상기하면 타당하여 보인다.</p>
-<p><code>-</code> 즉 우리가 고려하는 신호는 <strong>인피니티-레인지</strong>에서 정의되며 <strong>인피니티-레인지</strong>에서 적분값이 유한한 연속신호 혹은 이산신호 임을 알 수 있다. 이러한 신호는 구체적으로는 아래와 같이 쓸 수 있다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span></li>
-<li><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></li>
-</ul>
-<p><code>-</code> 그런데 <strong>integrable</strong> 한 함수들만을 고려하다 보면 우리가 다룰 수 있는 신호의 범위가 확 줄어들게 된다. 가령 예를 들어서 아래와 같은 신호는 적분을 하면 무한대가 나오기 때문에 <strong>intergrable</strong> 하지 않다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in \mathbb{R} \right\}\)</span></li>
-</ul>
-<p>이것은 좀 불합리해 보이는데 위의 신호는 주기신호라서 한 주기의 패턴만 분석하면 될것 같이 보이기 때문이다. 위의 신호는 <strong>intergrable</strong> 하지않지만 아래의 신호는 <strong>intergrable</strong> 하다.</p>
-<ul>
-<li><span class="math inline">\(\left\{x(t): x(t)=\sin(t)+1 ,~ t \in (0,2\pi) \right\}\)</span></li>
-</ul>
-<p>우리는 이런신호까지 분석하기로 한다. 이런신호를 분석할 수 있는 이유는 해석학 교재를 참고하면 된다.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<p><code>-</code> 아무튼 우리는 <strong>(1) 인피니티-레인지에서 정의되는 가지는 신호 (2) 인피니티-레인지에서 적분값이 잘 정의되는 신호, 혹은 한 주기만 적분해 보았을때 그 값이 잘 정의되는 주기신호</strong> 를 타겟팅해 분석한다. 즉 분석하는 신호는 구체적으로 아래의 4가지이다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}.\)</span></p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty, ~ , x(t)=x(t+\zeta), ~ t \in \mathbb{R},  \right\}.\)</span></p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ i, x_i=x_{i+\xi},~ i \in \mathbb{Z} \right\}.\)</span></p>
-<p><code>-</code> 표현들을 정리하기에 앞서서 몇 가지 알아두어야 할 사항이 있다. <strong>(1)</strong> 시간축에서 연속인 신호는 주파수측에서는 비주기신호가 나온다. <strong>(2)</strong> 시간축에서 디스크릿한 신호는 주파수측에서는 주기신호이다. <strong>(3)</strong> 시간축에서 주기인 신호는 주파수에서는 디스크릿하다. <strong>(4)</strong> 시간축에서 비주기신호는 주파수에서 연속이다. 이 사실들을 종합하면 각각의 경우에 해당하는 퓨리에 표현들은 아래와 같은 특징을 가지고 있음을 알 수 있다.</p>
-<p><strong><code>case 1: 연속/비주기</code></strong> <span class="math inline">\(\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): \int_{-\infty}^{\infty} |x(t)| dt &lt;\infty,~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{-\infty}^{\infty} |\hat x(\omega)| d\omega &lt;\infty,~ \omega \in \mathbb{R} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 2: 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): \int_{0}^{\zeta} |x(t)| dt &lt;\infty,~ x(t)=x(t+\zeta),~ t \in \mathbb{R} \right\}\)</span> – 시간</p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=-\infty}^{\infty} |\hat x_k| &lt;\infty,~ k \in \mathbb{Z} \right\}\)</span> – 주파수</p>
-<p><strong><code>case 3: 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=-\infty}^{\infty} |x_i| &lt;\infty,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \int_{0}^{2\pi} |\hat x(\omega)| d\omega &lt;\infty,~ \hat x(\omega)=\hat x(\omega+2\pi),~  \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4: 이산/주기(=이산/유한)</code> <span class="math inline">\(\star\)</span></strong></p>
-<p><span class="math inline">\(\left\{x_i: \sum_{i=0}^{\xi-1} |x_i| &lt;\infty,~ x_i=x_{i+\xi},~ i \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \sum_{k=0}^{\xi-1} |\hat x_k| &lt;\infty,~\hat x_k = \hat x_{k+\xi} ,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 여기에서 <span class="math inline">\(\zeta\)</span>는 (시간축에서) 연속신호의 주기라고 정의하고 <span class="math inline">\(\xi\)</span>는 (시간축에서) 이산신호의 주기라고 약속하자. 주파수영역이 디스크릿하게 나오면 FS라고 부르고 주파수영역이 컨티뉴어스하게 나오면 FT라고 부른다. 특이한점은 비주기-이산신호에 대한 FS <span class="math inline">\(\hat x(\omega)\)</span>는 주파수 영역에서 주기가 <span class="math inline">\(2\pi\)</span>임을 파악할 수 있다. 이유는 궁금해하지말자. (내생각에 그냥 <span class="math inline">\(\omega\)</span>를 적당히 스케일링하여 주기를 <span class="math inline">\(2\pi\)</span>로 맞췄을 거다.)</p>
-<p><code>-</code> 이제 짜증나는 적분가능조건따위는 버리도록 하자. 대신에 각 경우에 퓨리에변환(혹은series)과 그 역이 어떻게 정의되는지 알아보자. 그리고 외우자. 각 신호가 어떠한 도메인에서 정의되는지만 잘 파악하면 <strong>의외로</strong> 외우기 쉽다.</p>
-<p><strong><code>case 1. 연속/비주기</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x(t): x(t)=\frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\int_{-\infty}^{\infty} x(t)e^{-j\omega t} dt,~ \omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \sum_{k=-\infty}^{\infty} \hat x_k e^{j \frac{2\pi}{\zeta} t} ,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt,~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 3. 이산/비주기(=이산/무한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i:  x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega, ~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): \hat x(\omega)=\sum_{i=-\infty}^{\infty}x_ie^{-j\omega i}, ~\omega \in \mathbb{R} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong> <span class="math inline">\(\star\star\star\)</span></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\sum_{k=0}^{\xi-1} \hat x_k e^{-j\frac{2\pi k}{\xi}i},~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{DTFS}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x_k: \hat x_k= \frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i},~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주기함수는 (그것이 이산이든 연속이든) 주파수영역에서의 값이 디스크릿하다. 즉 위에서 case2와 case4인 경우는 주파수영역에서 값이 디스크릿하다. 이것을 연속함수인것처럼 바꿔보면 아래와 같이 쓸 수 있다.</p>
-<p><strong><code>case 2. 연속/주기</code></strong></p>
-<p><span class="math inline">\(\left\{x(t): x(t)= \frac{1}{2\pi}\int_{-\infty}^{\infty} \hat x(\omega)e^{j\omega t} d\omega,~ t \in \mathbb{R} \right\}\)</span></p>
-<p><span class="math inline">\(\quad \overset{FT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\zeta}\int_{0}^{\zeta}x(t)e^{-j \frac{2\pi k}{\zeta}t}dt\right]\delta\left(\omega-\frac{2\pi k}{\zeta}\right), ~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><strong><code>case 4. 이산/주기(=이산/유한)</code></strong></p>
-<p><span class="math inline">\(\left\{x_i: x_i=\frac{1}{2\pi}\int_{0}^{2\pi}\hat x(\omega)e^{j \omega i}d\omega,,~ i \in \mathbb{Z} \right\}\)</span></p>
-<p><span class="math inline">\(\quad\overset{DTFT}{\Longleftrightarrow}\)</span></p>
-<p><span class="math inline">\(\left\{\hat x(\omega): 2\pi\sum_{k=-\infty}^{\infty}\left[\frac{1}{\xi}\sum_{i=0}^{\xi-1} x_i e^{-j\frac{2\pi k}{\xi}i}\right]\delta\left(\omega-\frac{2\pi k}{\xi}\right),~ k \in \mathbb{Z} \right\}\)</span></p>
-<p><code>-</code> 주목할것은 주기가 <span class="math inline">\(\zeta\)</span> 혹은 <span class="math inline">\(\xi\)</span> 인 함수의 주파수 응답은 오로지</p>
-<ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\zeta}, k \in \mathbb{Z}\right\}\)</span></li>
-</ul>
-<p>혹은</p>
-<ul>
-<li><span class="math inline">\(\omega \in \left\{\frac{2 \pi k}{\xi}, k \in \mathbb{Z}\right\}\)</span></li>
-</ul>
-<p>에서만 존재한다는 점이다. 또한 이산신호의 경우 <span class="math inline">\(x_i\)</span>의 주기가 <span class="math inline">\(\xi\)</span> 이면 <span class="math inline">\(\hat{x}(\omega)\)</span>의 주기역시 <span class="math inline">\(\xi\)</span> 라는점 역시 주목할만한 부분이다.</p>
-<p><code>-</code> 주파수영역에서 디스크릿한 함수를 연속인것처럼 표현했듯이 시간영역에서 디스크릿한 함수 역시 연속인것처럼 표현할 수 있다. 예를들면 <span class="math inline">\(\{x_i: x_i=x(iT),~i \in \mathbb{Z}\}\)</span> 와 같은 관계가 있는 경우 아래와 같이 표현 가능하다.</p>
-<p><span class="math display">\[x_{\delta}(t)=\sum_{i=-\infty}^{\infty}x_i\delta(t-iT).\]</span></p>
-<p>이거 엄청 중요하다.</p>
+<section id="높이-차이도-마팅게일로-분해된다" class="level2">
+<h2 class="anchored" data-anchor-id="높이-차이도-마팅게일로-분해된다">높이 차이도 마팅게일로 분해된다</h2>
+<p>높이 차이 <span class="math inline">\(D_{ij}(t) = h(v_i,t) - h(v_j,t)\)</span>도 비슷하게:</p>
+<p><span class="math display">\[D_{ij}(t) = D_{ij}(0) + \frac{b}{2}\sum_{s=1}^t [\mathbf{1}_i(s) - \mathbf{1}_j(s)] + \widetilde{M}_{ij}(t)\]</span></p>
+<p>여기서 <span class="math inline">\(\widetilde{M}_{ij}(t) = \sum (b'_s - b/2)[\mathbf{1}_i - \mathbf{1}_j]\)</span>는 또 다른 마팅게일 (<span class="math inline">\(b'_s\)</span>가 <span class="math inline">\(X_s\)</span> 결정 이후에 독립 추출되므로). LIL에 의해 <span class="math inline">\(|\widetilde{M}_{ij}| = O(\sqrt{t\log\log t})\)</span>.</p>
+<p>따라서 <strong>높이 차이 <span class="math inline">\(\approx\)</span> 적립률 차이 <span class="math inline">\(\times\)</span> 시간</strong>:</p>
+<p><span class="math display">\[D_{ij}(t) = \frac{b}{2} \cdot t \cdot [\hat\rho_i(t) - \hat\rho_j(t)] + O(\sqrt{t\log\log t})\]</span></p>
+</section>
+<section id="왜-일반-증명이-안-되는가" class="level2">
+<h2 class="anchored" data-anchor-id="왜-일반-증명이-안-되는가">왜 일반 증명이 안 되는가</h2>
+<p>문제의 핵심은 feedback loop:</p>
+<p><span class="math display">\[\text{높이} \xrightarrow{\text{flow rule}} \text{방문} \xrightarrow{\text{적립}} \text{높이}\]</span></p>
+<p><span class="math inline">\(p_i(s)\)</span>가 높이에 의존하고, 높이는 과거 방문에 의존한다. Subsequential limit으로 해결하려 해도, <span class="math inline">\(\hat\rho_i(t) - \hat\rho_j(t)\)</span>가 어떤 subsequence에서는 <span class="math inline">\(+\gamma\)</span>, 다른 subsequence에서는 <span class="math inline">\(-\gamma\)</span>로 갈 수 있다. 그러면 <span class="math inline">\(D_{ij}\)</span>가 <span class="math inline">\(+\Theta(t)\)</span>와 <span class="math inline">\(-\Theta(t)\)</span> 사이를 오가며 ranking이 영구히 고정되지 않는다.</p>
+</section>
+<section id="조건부-결과-downstream-stabilization-ds" class="level2">
+<h2 class="anchored" data-anchor-id="조건부-결과-downstream-stabilization-ds">조건부 결과: Downstream Stabilization (DS)</h2>
+<p><strong>DS 가설</strong>: 모든 인접 node pair <span class="math inline">\((u,w)\)</span>에 대해, 어느 시점 이후 <span class="math inline">\(w\)</span>가 <span class="math inline">\(u\)</span>의 downstream에 속하는지 여부가 영구히 고정된다.</p>
+<p>DS는 “ranking이 고정된다” (RS)보다 <strong>강한</strong> 조건이다. Ranking이 고정되어도 height gap이 <span class="math inline">\(O(b)\)</span>로 bounded하면, round 내 snowfall 축적으로 downstream membership이 바뀔 수 있기 때문.</p>
+<p><strong>Theorem.</strong> DS가 성립하면 <span class="math inline">\(\rho_i\)</span>가 a.s. 존재한다.</p>
+<p>증명 골격:</p>
+<p><code>1.</code> DS 이후 flow kernel <span class="math inline">\(P_\infty(u,w)\)</span>가 고정됨 (downstream set이 안 바뀌므로)</p>
+<p><code>2.</code> 각 round는 fresh <span class="math inline">\(\mu_0\)</span>-draw로 시작 (regeneration)</p>
+<p><code>3.</code> 따라서 DS 이후 round들은 i.i.d.</p>
+<p><code>4.</code> Renewal-reward SLLN → <span class="math inline">\(\hat\rho_i(t) \to \rho_i^\infty\)</span> a.s.</p>
+</section>
+<section id="검증된-예시" class="level2">
+<h2 class="anchored" data-anchor-id="검증된-예시">검증된 예시</h2>
+<p><code>-</code> <strong><span class="math inline">\(K_n\)</span> + uniform <span class="math inline">\(\mu_0\)</span></strong>: DS 필요 없음. 대칭성 + Harris recurrence로 <span class="math inline">\(\rho_i = 1/n\)</span>.</p>
+<p><code>-</code> <strong>Star <span class="math inline">\(S_n\)</span> + degree-prop <span class="math inline">\(\mu_0\)</span></strong> (sketch): Hub이 충분히 높아지면 leaf에서 hub으로 flow 불가 (<span class="math inline">\(\mathcal{D} = \emptyset\)</span>) → <span class="math inline">\(\mu_0\)</span> fallback. Hub이 <span class="math inline">\(\mu_0\)</span>의 절반을 받으므로 <span class="math inline">\(\rho_{\text{hub}} &gt; 1/n\)</span>. Self-reinforcing → DS 성립.</p>
+</section>
+<section id="상태-정리" class="level2">
+<h2 class="anchored" data-anchor-id="상태-정리">상태 정리</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>명제</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>마팅게일 noise removal</td>
+<td><strong>증명됨</strong></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\rho_i\)</span> 존재 <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(\frac{1}{t}\sum p_i(s)\)</span> 수렴</td>
+<td><strong>증명됨</strong></td>
+</tr>
+<tr class="odd">
+<td>높이–적립률 link</td>
+<td><strong>증명됨</strong></td>
+</tr>
+<tr class="even">
+<td>DS 하에서 <span class="math inline">\(\rho_i\)</span> 존재</td>
+<td><strong>증명됨</strong></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(K_n\)</span> + uniform에서 <span class="math inline">\(\rho_i = 1/n\)</span></td>
+<td><strong>증명됨</strong> (Harris)</td>
+</tr>
+<tr class="even">
+<td>Star + deg-prop에서 DS</td>
+<td><strong>sketch</strong></td>
+</tr>
+<tr class="odd">
+<td>일반 그래프에서 <span class="math inline">\(\rho_i\)</span> 존재</td>
+<td><strong>open</strong></td>
+</tr>
+<tr class="even">
+<td>Thm B (drift <span class="math inline">\(SD^2/t^3\)</span>) without “<span class="math inline">\(\rho_i\)</span> exists”</td>
+<td><strong>DS 하에서 증명됨</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="의미" class="level2">
+<h2 class="anchored" data-anchor-id="의미">의미</h2>
+<p>마팅게일 분해 자체는 무조건적이고 어떤 그래프에서든 성립한다. 이걸로 문제가 “Cesàro 평균의 수렴”으로 환원된다는 것이 핵심 기여. 일반 증명은 아직 open이지만, DS라는 checkable한 조건 아래에서는 닫힌다.</p>
 
 
 </section>
 
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>나도 그렇다.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>사실 나도 잘 모름 (뭐 <strong>quotient group</strong>이런거 알아야 하는데 공부하려면 꽤 걸릴듯)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
