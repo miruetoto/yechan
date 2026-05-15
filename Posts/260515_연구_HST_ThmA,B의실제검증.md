@@ -64,6 +64,12 @@ inner ring (r=0.5) 과 outer ring (r=1.0), 각 30노드. Gaussian kernel 연결.
 
 ![](attachments/260515_41f2b0_07.gif)
 
+### 추가예제 8: Double Helm (n=31)
+
+Helm에 outer ring을 추가. hub (deg 10) + inner ring (deg 4) + pendant (deg 2) + outer ring (deg 3). 4종류 degree → 그룹 간 drift + 그룹 내 balanced이 더 복잡하게 공존.
+
+![](attachments/260515_41f2b0_08.gif)
+
 ---
 
 결국 두 regime 모두 $\tau \to \infty$에서 초기 신호 $\mathbf{y}$는 씻겨나간다. 차이는 **어떤 그래프 정보가 남느냐**: balanced는 flow/block dynamics의 세밀한 구조, drift는 단순히 적립률 격차.
