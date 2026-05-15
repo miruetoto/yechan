@@ -4,7 +4,15 @@ author: 신록예찬
 date: 05/15/2026
 draft: false
 output-file: 260515_bb294e.html
+fontsize: 0.85em
 ---
+
+```{=html}
+<style>
+.math.display { font-size: 0.9em; }
+.callout { font-size: 0.9em; }
+</style>
+```
 
 Snow distance $SD^2_{ij}(t) = \sum_{s=0}^t (h_i(s) - h_j(s))^2$ 의 점근 거동은 장기 적립률 $\rho_i = \lim \frac{1}{t}\sum \mathbf{1}\{X_s = v_i\}$ 에 따라 두 가지로 나뉜다.
 
@@ -70,76 +78,133 @@ $$\text{OB} \to \text{round drift} \to \text{Doeblin} \to \psi\text{-irred.} \to
 
 ### 보조 결과 1: $\Phi$ drift
 
-$\hbar(v_i, t) = h(v_i, t) - \bar{h}(t)$ (centered height), $\Phi(t) = \sum_i \hbar(v_i, t)^2$.
+**정의.** $\hbar(v_i, t) := h(v_i, t) - \bar{h}(t)$ (centered height), $\Phi(t) := \sum_i \hbar(v_i, t)^2$ (높이 분산 $\times n$).
 
-**Lemma ($\Phi$ drift).** 
+$\Phi$가 크면 노드 간 높이 차이가 크고, $\Phi = 0$이면 모든 노드가 같은 높이.
+
+**Fact 1 ($\hbar$ 변화).** step $t+1$에서 노드 $X_{t+1}$에 $b'_{t+1}$이 쌓이면:
+
+$$\hbar(X_{t+1},\, t+1) = \hbar(X_{t+1},\, t) + b'_{t+1}\frac{n-1}{n}, \qquad \hbar(u,\, t+1) = \hbar(u,\, t) - \frac{b'_{t+1}}{n} \quad (u \neq X_{t+1})$$
+
+::: {.callout-note collapse="true" title="증명: Fact 1 ($\\hbar$ 변화)"}
+
+구하고 싶은 것: step $t+1$ 후 각 노드의 $\hbar$가 어떻게 바뀌는가.
+
+$\hbar = h - \bar{h}$이므로, $h$의 변화와 $\bar{h}$의 변화를 각각 구하자.
+
+$h$의 변화: $X_{t+1}$에만 $b'_{t+1}$이 쌓이므로:
+
+$$h(X_{t+1},\, t+1) = h(X_{t+1},\, t) + b'_{t+1}, \qquad h(u,\, t+1) = h(u,\, t) \quad (u \neq X_{t+1})$$
+
+$\bar{h}$의 변화: 전체 합이 $b'_{t+1}$만큼 늘고 $n$으로 나누므로:
+
+$$\bar{h}(t+1) = \bar{h}(t) + \frac{b'_{t+1}}{n}$$
+
+$\hbar = h - \bar{h}$에 대입:
+
+$$\hbar(X_{t+1},\, t+1) = h(X_{t+1},\, t) + b'_{t+1} - \bar{h}(t) - \frac{b'_{t+1}}{n} = \hbar(X_{t+1},\, t) + b'_{t+1}\left(1 - \frac{1}{n}\right) = \hbar(X_{t+1},\, t) + b'_{t+1}\frac{n-1}{n}$$
+
+$$\hbar(u,\, t+1) = h(u,\, t) - \bar{h}(t) - \frac{b'_{t+1}}{n} = \hbar(u,\, t) - \frac{b'_{t+1}}{n} \qquad (u \neq X_{t+1}) \qquad \square$$
+
+:::
+
+**Fact 2.** $\sum_i \hbar(v_i, t) = 0$ (항상 성립, $\hbar$의 정의에서 평균을 뺐으므로).
+
+**Lemma ($\Phi$ drift).** step $t+1$에서 노드 $X_{t+1}$에 $b'_{t+1} \sim \text{Unif}(0,b)$가 쌓일 때:
 
 $$\mathbb{E}[\Phi(t+1) - \Phi(t) \mid \mathcal{F}_t, X_{t+1}] = b\,\hbar(X_{t+1}, t) + \frac{(n-1)b^2}{3n}$$
 
-증명: $\Phi(t+1) - \Phi(t) = 2\beta\hbar(v,t) + (n-1)\beta^2/n$. $\mathbb{E}[\beta] = b/2$, $\mathbb{E}[\beta^2] = b^2/3$을 대입.
+높은 노드($\hbar > 0$)에 눈이 쌓이면 $\Phi$ 증가, 낮은 노드($\hbar < 0$)에 쌓이면 $\Phi$ 감소. 둘째 항은 항상 양수인 noise.
+
+::: {.callout-note collapse="true" title="증명: $\\Phi$ drift lemma"}
+
+우리가 구하고 싶은 것은 $\mathbb{E}[\Phi(t+1) - \Phi(t) \mid \mathcal{F}_t, X_{t+1}]$이다. 이를 위해 먼저 $\Phi(t+1) - \Phi(t)$를 계산하자.
+
+$\Phi(t+1) - \Phi(t)$를 계산하려면 $\Phi(t+1)$과 $\Phi(t)$가 각각 뭔지 알아야 한다.
+
+$\Phi(t)$는 그냥 정의대로:
+
+$$\Phi(t) = \hbar(X_{t+1},\, t)^2 + \sum_{u \neq X_{t+1}} \hbar(u,\, t)^2$$
+
+$\Phi(t+1)$은 Claim의 $\hbar$ 변화를 대입하면:
+
+$$\Phi(t+1) = \left[\hbar(X_{t+1},\, t) + b'_{t+1}\frac{n-1}{n}\right]^2 + \sum_{u \neq X_{t+1}} \left[\hbar(u,\, t) - \frac{b'_{t+1}}{n}\right]^2$$
+
+이제 빼자.
+
+$$\Phi(t+1) - \Phi(t) = \underbrace{\left[\hbar(X_{t+1}, t) + b'_{t+1}\frac{n-1}{n}\right]^2 - \hbar(X_{t+1}, t)^2}_{X_{t+1}\text{ 항: } (A+B)^2 - A^2} + \underbrace{\sum_{u \neq X_{t+1}}\left[\left(\hbar(u,t) - \frac{b'_{t+1}}{n}\right)^2 - \hbar(u,t)^2\right]}_{\text{나머지 항: } (A+B)^2 - A^2}$$
+
+각 항에 $(A+B)^2 - A^2 = 2AB + B^2$을 전개하면:
+
+$$= \underbrace{2\hbar(X_{t+1}, t)\cdot\frac{(n-1)b'_{t+1}}{n} + \frac{(n-1)^2(b'_{t+1})^2}{n^2}}_{X_{t+1}\text{ 항}} + \underbrace{\sum_{u \neq X_{t+1}}\left[-\frac{2b'_{t+1}}{n}\hbar(u,t) + \frac{(b'_{t+1})^2}{n^2}\right]}_{\text{나머지 항}}$$
+
+나머지 항을 정리하자. $\sum_{u \neq X_{t+1}} \hbar(u,t) = -\hbar(X_{t+1},t)$ ($\because \sum_i \hbar_i = 0$)이므로:
+
+$$\text{나머지 항} = \frac{2b'_{t+1}}{n}\hbar(X_{t+1},t) + \frac{(n-1)(b'_{t+1})^2}{n^2}$$
+
+$X_{t+1}$ 항 + 나머지 항:
+
+$$\Phi(t+1) - \Phi(t) = 2\hbar(X_{t+1},t)\cdot\frac{(n-1)b'_{t+1}}{n} + \frac{(n-1)^2(b'_{t+1})^2}{n^2} + \frac{2b'_{t+1}}{n}\hbar(X_{t+1},t) + \frac{(n-1)(b'_{t+1})^2}{n^2}$$
+
+$$= 2b'_{t+1}\,\hbar(X_{t+1},t)\underbrace{\left[\frac{n-1}{n} + \frac{1}{n}\right]}_{=\,1} + (b'_{t+1})^2\underbrace{\left[\frac{(n-1)^2 + (n-1)}{n^2}\right]}_{=\,\frac{n-1}{n}}$$
+
+$$= 2b'_{t+1}\,\hbar(X_{t+1},t) + \frac{n-1}{n}(b'_{t+1})^2$$
+
+이제 원래 목표로 돌아오자. $b'_{t+1} \sim \text{Unif}(0,b)$에 대해 기대값을 취하면 ($\mathbb{E}[b'_{t+1}] = b/2$, $\mathbb{E}[(b'_{t+1})^2] = b^2/3$):
+
+$$\mathbb{E}[\Phi(t+1) - \Phi(t) \mid \mathcal{F}_t, X_{t+1}] = 2 \cdot \frac{b}{2} \cdot \hbar(X_{t+1},t) + \frac{n-1}{n} \cdot \frac{b^2}{3}$$
+
+$$= b\,\hbar(X_{t+1},t) + \frac{(n-1)b^2}{3n} \qquad \square$$
+
+:::
+
 
 ### 보조 결과 2: Shape decomposition
 
-Round $r$의 방문 노드 $\tilde{X}_1, \ldots, \tilde{X}_{m_r}$에 대해:
+보조 결과 1은 **한 스텝**의 $\Phi$ 변화를 구했다. Theorem A 증명에서는 **라운드 전체**의 $\Phi$ 변화가 필요하다. 이를 위해 먼저 기호를 정의한다.
+
+**정의.**
+
+`-` $t_r$: $r$번째 block-flag time (라운드의 시작 시점)
+
+`-` $m_r = t_{r+1} - t_r$: 라운드 $r$의 길이 ($\leq T_{\max}+1$)
+
+`-` $\tilde{X}_j = X_{t_r + j}$: 라운드 $r$의 $j$번째 방문 노드
+
+`-` $N_u = |\{j : \tilde{X}_j = u\}|$: 라운드 $r$ 동안 노드 $u$를 방문한 횟수
+
+`-` $\pi(u) = \mathbb{E}[N_u \mid S(t_r)]$: 기대 방문 횟수
+
+`-` $M = \max_i \hbar(v_i, t_r) - \min_i \hbar(v_i, t_r)$: 높이 range
+
+라운드 전체의 $\Phi$ 변화를 구하려면 $\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1)$을 계산해야 한다. 문제는 $\hbar(\tilde{X}_j, t_r + j - 1)$이 **라운드 중간 시점**의 값이라 라운드 시작 값 $\hbar(u, t_r)$과 다르다는 것이다. Shape decomposition은 이 차이가 bounded error임을 말한다.
+
+**Lemma (Shape decomposition).**
 
 $$\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1) = \sum_u N_u \hbar(u, t_r) + \Theta, \qquad |\Theta| \leq \frac{(T_{\max}+1)T_{\max}}{2}b$$
 
-좌변의 $\hbar$는 라운드 중간 시점의 값인데, 라운드 시작 시점의 값 $\hbar(u, t_r)$으로 분해하면 correction $\Theta$가 bounded.
+좌변: 라운드 중간 시점의 $\hbar$ 합. 우변 첫째 항: 라운드 시작 시점의 $\hbar$로 계산한 합. $\Theta$: 라운드 중 높이가 변해서 생기는 오차 (bounded).
 
-이 두 lemma를 합치면 **라운드 단위 drift**:
+보조 결과 1의 $\Phi$ drift lemma와 이 shape decomposition을 합치면 **라운드 단위 drift**를 얻는다:
 
 $$\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] = b\,\mathcal{B}(S) + (\text{bounded terms})$$
 
-여기서 $\mathcal{B}(S) = \sum_u \pi(u) \hbar(u)$가 **M에 비례하는 유일한 항**이다.
+여기서 $\mathcal{B}(S) = \sum_u \pi(u) \hbar(u)$이다. Bounded terms는 $M$과 무관한 상수. 따라서 **$M$에 비례하는 유일한 항은 $\mathcal{B}(S)$**이다.
 
 ### 보조 결과 3: OB (Occupation-Bias) 조건
 
-**OB가 뭔가?** Walker가 아래로 흘러가므로, 높이가 낮은(음수인) 노드를 더 많이 방문한다. 따라서 $\mathcal{B}(S) = \sum \pi(u)\hbar(u)$는 $M$이 클수록 음수가 된다:
+**OB 조건:** $\mathcal{B}(S) = \sum_u \pi(u)\hbar(u) \leq -\kappa_G M + C_{\text{OB}}$
 
-$$\mathcal{B}(S) \leq -\kappa_G M + C_{\text{OB}}$$
-
-이걸 OB 조건이라 부른다. $\kappa_G > 0$이면 $\Phi$ drift가 음이 되어 Lyapunov 조건이 성립.
-
-**$K_n$ (완전 그래프)에서 OB 증명.** 노드를 $\hbar$ 내림차순으로 정렬: $v_{(0)}, \ldots, v_{(n-1)}$.
-
-Well-separated case (인접 rank 간 gap $> \delta = b(T_{\max}+1)$): 라운드 중 순위 역전이 없으므로 rank $j$에서 출발하면 rank $i > j$를 방문할 확률이 정확히 $1/(n-i)$. Expected visit count:
-
-$$\pi(v_{(i)}) = \frac{1}{n} + \frac{i}{n(n-i)} = \frac{1}{n-i} \qquad (0 \leq i \leq n-2)$$
-
-$\pi(v_{(n-1)}) = 1$ (최저 노드는 항상 도달).
-
-Bilinear form: $\mathcal{B} = \sum_{i=0}^{n-1} \frac{\hbar_{(i)}}{n-i}$. **LP** (선형계획법)로 제약 $\sum \hbar = 0$, sorted, range $= M$ 하에서 최대값을 구하면:
-
-$$\mathcal{B} \leq -\frac{H_n - 1}{n} M, \qquad H_n = \sum_{k=1}^n \frac{1}{k}$$
-
-최대점은 one-high profile: $\hbar_{(0)} = (n-1)M/n$, 나머지 $= -M/n$.
-
-Near-tie가 있는 일반 case: 노드를 cluster로 묶고, perturbative contribution $\leq (T_{\max}+1)n\delta$ ($M$과 무관)을 분리한 뒤, clean contribution에 $K=2$ cluster LP ($\kappa \geq 1/n^2$)를 적용. 최종 $\kappa_G = 1/(2n^2)$.
+$K_n$에서 well-separated case: $\kappa_G = (H_n - 1)/n$. 일반 case: $\kappa_G = 1/(2n^2)$.
 
 ### 보조 결과 4: Moment bound
 
-Round drift $\mathbb{E}[\Delta\Phi] \leq -b\kappa_G M + C$는 $-\Phi^{1/2}$ 차수라서 Meyn-Tweedie로는 $\mathbb{E}_{\pi^*}[\Phi^r] < \infty$ ($r < 1/2$)만 나온다. LLN에는 $r = 1$이 필요.
-
-**해법: Lyapunov를 $V = \Phi^2$로 올린다.**
-
-$$\mathbb{E}[\Delta V \mid S] = 2\Phi \cdot \mathbb{E}[\Delta\Phi] + \mathbb{E}[(\Delta\Phi)^2]$$
-
-`-` 첫째 항: $2\Phi \cdot (-b\kappa_G M) \leq -b\kappa_G M^3$ (pigeonhole: $\Phi \geq M^2/2$)
-
-`-` 둘째 항: $(\Delta\Phi)^2 \leq (A_1 M + A_2)^2 = O(M^2)$
-
-$M^3$ vs $M^2$: cubic이 이기므로 $\mathbb{E}[\Delta V] \leq -cV^{3/4} + C\mathbf{1}_{\mathcal{B}'}$.
-
-Meyn-Tweedie 14.3.7 적용: $\mathbb{E}_{\pi^*}[\Phi^{3/2}] < \infty \Rightarrow \mathbb{E}_{\pi^*}[\Phi] < \infty$.
+**Proposition (Moment bound).** $\mathbb{E}_{\pi^*}[\Phi] < \infty$.
 
 ### 보조 결과 5: Doeblin minorization
 
-Bounded set $\mathcal{B}_\Phi$가 small set임을 보인다. $K = n(T_{\max}+1)$ steps의 window를 잡으면:
+**Proposition (Doeblin minorization).** 임의의 bounded set $\mathcal{B}_\Phi$에 대해 $\eta > 0$, $K^* < \infty$, 확률측도 $\nu$가 존재하여 $P^{K^*}(s,B) \geq \eta\,\nu(B)$.
 
-1. $\geq n$ 번의 block-flag time이 보장됨 (각 round $\leq T_{\max}+1$ steps)
-2. Non-block steps에서 $b'_s \leq \varepsilon$로 conditioning (block/non-block 분류는 pre-step timer $Z_{s-1}$로 결정, $b'_s$와 독립이므로 block increments는 여전히 $\text{Unif}(0,b)$)
-3. Block increments의 pushforward가 Lebesgue density를 줌 (fibre length $> b/2$)
-4. $L$ windows 합성으로 target coverage
 
 ### 증명 체인
 

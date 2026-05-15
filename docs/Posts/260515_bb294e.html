@@ -42,7 +42,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5b48ee63c5e90d651e19f9ead4b448f1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-165db4a5700707ee9723b4db2002e5ec.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -242,6 +242,10 @@ window.Quarto = {
 </header>
 
 
+<style>
+.math.display { font-size: 0.9em; }
+.callout { font-size: 0.9em; }
+</style>
 <p>Snow distance <span class="math inline">\(SD^2_{ij}(t) = \sum_{s=0}^t (h_i(s) - h_j(s))^2\)</span> 의 점근 거동은 장기 적립률 <span class="math inline">\(\rho_i = \lim \frac{1}{t}\sum \mathbf{1}\{X_s = v_i\}\)</span> 에 따라 두 가지로 나뉜다.</p>
 <p><code>-</code> <strong>Theorem A (Balanced, <span class="math inline">\(\rho_i = 1/n\)</span>):</strong> <span class="math inline">\(SD^2_{ij}(t)/t \to c_{ij}\)</span> a.s. 극한 <span class="math inline">\(c_{ij}\)</span>는 그래프와 <span class="math inline">\(b, T_{\max}\)</span>에만 의존하고 초기 신호 <span class="math inline">\(\mathbf{y}\)</span>에 무관.</p>
 <p><code>-</code> <strong>Theorem B (Drift, <span class="math inline">\(\rho_i \neq \rho_j\)</span>):</strong> <span class="math inline">\(SD^2_{ij}(t)/t^3 \to \bar{b}^2(\rho_i - \rho_j)^2 / 3\)</span> a.s.</p>
@@ -284,53 +288,103 @@ window.Quarto = {
 </section>
 <section id="보조-결과-1-phi-drift" class="level3">
 <h3 class="anchored" data-anchor-id="보조-결과-1-phi-drift">보조 결과 1: <span class="math inline">\(\Phi\)</span> drift</h3>
-<p><span class="math inline">\(\hbar(v_i, t) = h(v_i, t) - \bar{h}(t)\)</span> (centered height), <span class="math inline">\(\Phi(t) = \sum_i \hbar(v_i, t)^2\)</span>.</p>
-<p><strong>Lemma (<span class="math inline">\(\Phi\)</span> drift).</strong></p>
+<p><strong>정의.</strong> <span class="math inline">\(\hbar(v_i, t) := h(v_i, t) - \bar{h}(t)\)</span> (centered height), <span class="math inline">\(\Phi(t) := \sum_i \hbar(v_i, t)^2\)</span> (높이 분산 <span class="math inline">\(\times n\)</span>).</p>
+<p><span class="math inline">\(\Phi\)</span>가 크면 노드 간 높이 차이가 크고, <span class="math inline">\(\Phi = 0\)</span>이면 모든 노드가 같은 높이.</p>
+<p><strong>Fact 1 (<span class="math inline">\(\hbar\)</span> 변화).</strong> step <span class="math inline">\(t+1\)</span>에서 노드 <span class="math inline">\(X_{t+1}\)</span>에 <span class="math inline">\(b'_{t+1}\)</span>이 쌓이면:</p>
+<p><span class="math display">\[\hbar(X_{t+1},\, t+1) = \hbar(X_{t+1},\, t) + b'_{t+1}\frac{n-1}{n}, \qquad \hbar(u,\, t+1) = \hbar(u,\, t) - \frac{b'_{t+1}}{n} \quad (u \neq X_{t+1})\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="증명: Fact 1 ($\hbar$ 변화)">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>증명: Fact 1 (<span class="math inline">\(\hbar\)</span> 변화)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>구하고 싶은 것: step <span class="math inline">\(t+1\)</span> 후 각 노드의 <span class="math inline">\(\hbar\)</span>가 어떻게 바뀌는가.</p>
+<p><span class="math inline">\(\hbar = h - \bar{h}\)</span>이므로, <span class="math inline">\(h\)</span>의 변화와 <span class="math inline">\(\bar{h}\)</span>의 변화를 각각 구하자.</p>
+<p><span class="math inline">\(h\)</span>의 변화: <span class="math inline">\(X_{t+1}\)</span>에만 <span class="math inline">\(b'_{t+1}\)</span>이 쌓이므로:</p>
+<p><span class="math display">\[h(X_{t+1},\, t+1) = h(X_{t+1},\, t) + b'_{t+1}, \qquad h(u,\, t+1) = h(u,\, t) \quad (u \neq X_{t+1})\]</span></p>
+<p><span class="math inline">\(\bar{h}\)</span>의 변화: 전체 합이 <span class="math inline">\(b'_{t+1}\)</span>만큼 늘고 <span class="math inline">\(n\)</span>으로 나누므로:</p>
+<p><span class="math display">\[\bar{h}(t+1) = \bar{h}(t) + \frac{b'_{t+1}}{n}\]</span></p>
+<p><span class="math inline">\(\hbar = h - \bar{h}\)</span>에 대입:</p>
+<p><span class="math display">\[\hbar(X_{t+1},\, t+1) = h(X_{t+1},\, t) + b'_{t+1} - \bar{h}(t) - \frac{b'_{t+1}}{n} = \hbar(X_{t+1},\, t) + b'_{t+1}\left(1 - \frac{1}{n}\right) = \hbar(X_{t+1},\, t) + b'_{t+1}\frac{n-1}{n}\]</span></p>
+<p><span class="math display">\[\hbar(u,\, t+1) = h(u,\, t) - \bar{h}(t) - \frac{b'_{t+1}}{n} = \hbar(u,\, t) - \frac{b'_{t+1}}{n} \qquad (u \neq X_{t+1}) \qquad \square\]</span></p>
+</div>
+</div>
+</div>
+<p><strong>Fact 2.</strong> <span class="math inline">\(\sum_i \hbar(v_i, t) = 0\)</span> (항상 성립, <span class="math inline">\(\hbar\)</span>의 정의에서 평균을 뺐으므로).</p>
+<p><strong>Lemma (<span class="math inline">\(\Phi\)</span> drift).</strong> step <span class="math inline">\(t+1\)</span>에서 노드 <span class="math inline">\(X_{t+1}\)</span>에 <span class="math inline">\(b'_{t+1} \sim \text{Unif}(0,b)\)</span>가 쌓일 때:</p>
 <p><span class="math display">\[\mathbb{E}[\Phi(t+1) - \Phi(t) \mid \mathcal{F}_t, X_{t+1}] = b\,\hbar(X_{t+1}, t) + \frac{(n-1)b^2}{3n}\]</span></p>
-<p>증명: <span class="math inline">\(\Phi(t+1) - \Phi(t) = 2\beta\hbar(v,t) + (n-1)\beta^2/n\)</span>. <span class="math inline">\(\mathbb{E}[\beta] = b/2\)</span>, <span class="math inline">\(\mathbb{E}[\beta^2] = b^2/3\)</span>을 대입.</p>
+<p>높은 노드(<span class="math inline">\(\hbar &gt; 0\)</span>)에 눈이 쌓이면 <span class="math inline">\(\Phi\)</span> 증가, 낮은 노드(<span class="math inline">\(\hbar &lt; 0\)</span>)에 쌓이면 <span class="math inline">\(\Phi\)</span> 감소. 둘째 항은 항상 양수인 noise.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="증명: $\Phi$ drift lemma">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>증명: <span class="math inline">\(\Phi\)</span> drift lemma
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>우리가 구하고 싶은 것은 <span class="math inline">\(\mathbb{E}[\Phi(t+1) - \Phi(t) \mid \mathcal{F}_t, X_{t+1}]\)</span>이다. 이를 위해 먼저 <span class="math inline">\(\Phi(t+1) - \Phi(t)\)</span>를 계산하자.</p>
+<p><span class="math inline">\(\Phi(t+1) - \Phi(t)\)</span>를 계산하려면 <span class="math inline">\(\Phi(t+1)\)</span>과 <span class="math inline">\(\Phi(t)\)</span>가 각각 뭔지 알아야 한다.</p>
+<p><span class="math inline">\(\Phi(t)\)</span>는 그냥 정의대로:</p>
+<p><span class="math display">\[\Phi(t) = \hbar(X_{t+1},\, t)^2 + \sum_{u \neq X_{t+1}} \hbar(u,\, t)^2\]</span></p>
+<p><span class="math inline">\(\Phi(t+1)\)</span>은 Claim의 <span class="math inline">\(\hbar\)</span> 변화를 대입하면:</p>
+<p><span class="math display">\[\Phi(t+1) = \left[\hbar(X_{t+1},\, t) + b'_{t+1}\frac{n-1}{n}\right]^2 + \sum_{u \neq X_{t+1}} \left[\hbar(u,\, t) - \frac{b'_{t+1}}{n}\right]^2\]</span></p>
+<p>이제 빼자.</p>
+<p><span class="math display">\[\Phi(t+1) - \Phi(t) = \underbrace{\left[\hbar(X_{t+1}, t) + b'_{t+1}\frac{n-1}{n}\right]^2 - \hbar(X_{t+1}, t)^2}_{X_{t+1}\text{ 항: } (A+B)^2 - A^2} + \underbrace{\sum_{u \neq X_{t+1}}\left[\left(\hbar(u,t) - \frac{b'_{t+1}}{n}\right)^2 - \hbar(u,t)^2\right]}_{\text{나머지 항: } (A+B)^2 - A^2}\]</span></p>
+<p>각 항에 <span class="math inline">\((A+B)^2 - A^2 = 2AB + B^2\)</span>을 전개하면:</p>
+<p><span class="math display">\[= \underbrace{2\hbar(X_{t+1}, t)\cdot\frac{(n-1)b'_{t+1}}{n} + \frac{(n-1)^2(b'_{t+1})^2}{n^2}}_{X_{t+1}\text{ 항}} + \underbrace{\sum_{u \neq X_{t+1}}\left[-\frac{2b'_{t+1}}{n}\hbar(u,t) + \frac{(b'_{t+1})^2}{n^2}\right]}_{\text{나머지 항}}\]</span></p>
+<p>나머지 항을 정리하자. <span class="math inline">\(\sum_{u \neq X_{t+1}} \hbar(u,t) = -\hbar(X_{t+1},t)\)</span> (<span class="math inline">\(\because \sum_i \hbar_i = 0\)</span>)이므로:</p>
+<p><span class="math display">\[\text{나머지 항} = \frac{2b'_{t+1}}{n}\hbar(X_{t+1},t) + \frac{(n-1)(b'_{t+1})^2}{n^2}\]</span></p>
+<p><span class="math inline">\(X_{t+1}\)</span> 항 + 나머지 항:</p>
+<p><span class="math display">\[\Phi(t+1) - \Phi(t) = 2\hbar(X_{t+1},t)\cdot\frac{(n-1)b'_{t+1}}{n} + \frac{(n-1)^2(b'_{t+1})^2}{n^2} + \frac{2b'_{t+1}}{n}\hbar(X_{t+1},t) + \frac{(n-1)(b'_{t+1})^2}{n^2}\]</span></p>
+<p><span class="math display">\[= 2b'_{t+1}\,\hbar(X_{t+1},t)\underbrace{\left[\frac{n-1}{n} + \frac{1}{n}\right]}_{=\,1} + (b'_{t+1})^2\underbrace{\left[\frac{(n-1)^2 + (n-1)}{n^2}\right]}_{=\,\frac{n-1}{n}}\]</span></p>
+<p><span class="math display">\[= 2b'_{t+1}\,\hbar(X_{t+1},t) + \frac{n-1}{n}(b'_{t+1})^2\]</span></p>
+<p>이제 원래 목표로 돌아오자. <span class="math inline">\(b'_{t+1} \sim \text{Unif}(0,b)\)</span>에 대해 기대값을 취하면 (<span class="math inline">\(\mathbb{E}[b'_{t+1}] = b/2\)</span>, <span class="math inline">\(\mathbb{E}[(b'_{t+1})^2] = b^2/3\)</span>):</p>
+<p><span class="math display">\[\mathbb{E}[\Phi(t+1) - \Phi(t) \mid \mathcal{F}_t, X_{t+1}] = 2 \cdot \frac{b}{2} \cdot \hbar(X_{t+1},t) + \frac{n-1}{n} \cdot \frac{b^2}{3}\]</span></p>
+<p><span class="math display">\[= b\,\hbar(X_{t+1},t) + \frac{(n-1)b^2}{3n} \qquad \square\]</span></p>
+</div>
+</div>
+</div>
 </section>
 <section id="보조-결과-2-shape-decomposition" class="level3">
 <h3 class="anchored" data-anchor-id="보조-결과-2-shape-decomposition">보조 결과 2: Shape decomposition</h3>
-<p>Round <span class="math inline">\(r\)</span>의 방문 노드 <span class="math inline">\(\tilde{X}_1, \ldots, \tilde{X}_{m_r}\)</span>에 대해:</p>
+<p>보조 결과 1은 <strong>한 스텝</strong>의 <span class="math inline">\(\Phi\)</span> 변화를 구했다. Theorem A 증명에서는 <strong>라운드 전체</strong>의 <span class="math inline">\(\Phi\)</span> 변화가 필요하다. 이를 위해 먼저 기호를 정의한다.</p>
+<p><strong>정의.</strong></p>
+<p><code>-</code> <span class="math inline">\(t_r\)</span>: <span class="math inline">\(r\)</span>번째 block-flag time (라운드의 시작 시점)</p>
+<p><code>-</code> <span class="math inline">\(m_r = t_{r+1} - t_r\)</span>: 라운드 <span class="math inline">\(r\)</span>의 길이 (<span class="math inline">\(\leq T_{\max}+1\)</span>)</p>
+<p><code>-</code> <span class="math inline">\(\tilde{X}_j = X_{t_r + j}\)</span>: 라운드 <span class="math inline">\(r\)</span>의 <span class="math inline">\(j\)</span>번째 방문 노드</p>
+<p><code>-</code> <span class="math inline">\(N_u = |\{j : \tilde{X}_j = u\}|\)</span>: 라운드 <span class="math inline">\(r\)</span> 동안 노드 <span class="math inline">\(u\)</span>를 방문한 횟수</p>
+<p><code>-</code> <span class="math inline">\(\pi(u) = \mathbb{E}[N_u \mid S(t_r)]\)</span>: 기대 방문 횟수</p>
+<p><code>-</code> <span class="math inline">\(M = \max_i \hbar(v_i, t_r) - \min_i \hbar(v_i, t_r)\)</span>: 높이 range</p>
+<p>라운드 전체의 <span class="math inline">\(\Phi\)</span> 변화를 구하려면 <span class="math inline">\(\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1)\)</span>을 계산해야 한다. 문제는 <span class="math inline">\(\hbar(\tilde{X}_j, t_r + j - 1)\)</span>이 <strong>라운드 중간 시점</strong>의 값이라 라운드 시작 값 <span class="math inline">\(\hbar(u, t_r)\)</span>과 다르다는 것이다. Shape decomposition은 이 차이가 bounded error임을 말한다.</p>
+<p><strong>Lemma (Shape decomposition).</strong></p>
 <p><span class="math display">\[\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1) = \sum_u N_u \hbar(u, t_r) + \Theta, \qquad |\Theta| \leq \frac{(T_{\max}+1)T_{\max}}{2}b\]</span></p>
-<p>좌변의 <span class="math inline">\(\hbar\)</span>는 라운드 중간 시점의 값인데, 라운드 시작 시점의 값 <span class="math inline">\(\hbar(u, t_r)\)</span>으로 분해하면 correction <span class="math inline">\(\Theta\)</span>가 bounded.</p>
-<p>이 두 lemma를 합치면 <strong>라운드 단위 drift</strong>:</p>
+<p>좌변: 라운드 중간 시점의 <span class="math inline">\(\hbar\)</span> 합. 우변 첫째 항: 라운드 시작 시점의 <span class="math inline">\(\hbar\)</span>로 계산한 합. <span class="math inline">\(\Theta\)</span>: 라운드 중 높이가 변해서 생기는 오차 (bounded).</p>
+<p>보조 결과 1의 <span class="math inline">\(\Phi\)</span> drift lemma와 이 shape decomposition을 합치면 <strong>라운드 단위 drift</strong>를 얻는다:</p>
 <p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] = b\,\mathcal{B}(S) + (\text{bounded terms})\]</span></p>
-<p>여기서 <span class="math inline">\(\mathcal{B}(S) = \sum_u \pi(u) \hbar(u)\)</span>가 <strong>M에 비례하는 유일한 항</strong>이다.</p>
+<p>여기서 <span class="math inline">\(\mathcal{B}(S) = \sum_u \pi(u) \hbar(u)\)</span>이다. Bounded terms는 <span class="math inline">\(M\)</span>과 무관한 상수. 따라서 <strong><span class="math inline">\(M\)</span>에 비례하는 유일한 항은 <span class="math inline">\(\mathcal{B}(S)\)</span></strong>이다.</p>
 </section>
 <section id="보조-결과-3-ob-occupation-bias-조건" class="level3">
 <h3 class="anchored" data-anchor-id="보조-결과-3-ob-occupation-bias-조건">보조 결과 3: OB (Occupation-Bias) 조건</h3>
-<p><strong>OB가 뭔가?</strong> Walker가 아래로 흘러가므로, 높이가 낮은(음수인) 노드를 더 많이 방문한다. 따라서 <span class="math inline">\(\mathcal{B}(S) = \sum \pi(u)\hbar(u)\)</span>는 <span class="math inline">\(M\)</span>이 클수록 음수가 된다:</p>
-<p><span class="math display">\[\mathcal{B}(S) \leq -\kappa_G M + C_{\text{OB}}\]</span></p>
-<p>이걸 OB 조건이라 부른다. <span class="math inline">\(\kappa_G &gt; 0\)</span>이면 <span class="math inline">\(\Phi\)</span> drift가 음이 되어 Lyapunov 조건이 성립.</p>
-<p><strong><span class="math inline">\(K_n\)</span> (완전 그래프)에서 OB 증명.</strong> 노드를 <span class="math inline">\(\hbar\)</span> 내림차순으로 정렬: <span class="math inline">\(v_{(0)}, \ldots, v_{(n-1)}\)</span>.</p>
-<p>Well-separated case (인접 rank 간 gap <span class="math inline">\(&gt; \delta = b(T_{\max}+1)\)</span>): 라운드 중 순위 역전이 없으므로 rank <span class="math inline">\(j\)</span>에서 출발하면 rank <span class="math inline">\(i &gt; j\)</span>를 방문할 확률이 정확히 <span class="math inline">\(1/(n-i)\)</span>. Expected visit count:</p>
-<p><span class="math display">\[\pi(v_{(i)}) = \frac{1}{n} + \frac{i}{n(n-i)} = \frac{1}{n-i} \qquad (0 \leq i \leq n-2)\]</span></p>
-<p><span class="math inline">\(\pi(v_{(n-1)}) = 1\)</span> (최저 노드는 항상 도달).</p>
-<p>Bilinear form: <span class="math inline">\(\mathcal{B} = \sum_{i=0}^{n-1} \frac{\hbar_{(i)}}{n-i}\)</span>. <strong>LP</strong> (선형계획법)로 제약 <span class="math inline">\(\sum \hbar = 0\)</span>, sorted, range <span class="math inline">\(= M\)</span> 하에서 최대값을 구하면:</p>
-<p><span class="math display">\[\mathcal{B} \leq -\frac{H_n - 1}{n} M, \qquad H_n = \sum_{k=1}^n \frac{1}{k}\]</span></p>
-<p>최대점은 one-high profile: <span class="math inline">\(\hbar_{(0)} = (n-1)M/n\)</span>, 나머지 <span class="math inline">\(= -M/n\)</span>.</p>
-<p>Near-tie가 있는 일반 case: 노드를 cluster로 묶고, perturbative contribution <span class="math inline">\(\leq (T_{\max}+1)n\delta\)</span> (<span class="math inline">\(M\)</span>과 무관)을 분리한 뒤, clean contribution에 <span class="math inline">\(K=2\)</span> cluster LP (<span class="math inline">\(\kappa \geq 1/n^2\)</span>)를 적용. 최종 <span class="math inline">\(\kappa_G = 1/(2n^2)\)</span>.</p>
+<p><strong>OB 조건:</strong> <span class="math inline">\(\mathcal{B}(S) = \sum_u \pi(u)\hbar(u) \leq -\kappa_G M + C_{\text{OB}}\)</span></p>
+<p><span class="math inline">\(K_n\)</span>에서 well-separated case: <span class="math inline">\(\kappa_G = (H_n - 1)/n\)</span>. 일반 case: <span class="math inline">\(\kappa_G = 1/(2n^2)\)</span>.</p>
 </section>
 <section id="보조-결과-4-moment-bound" class="level3">
 <h3 class="anchored" data-anchor-id="보조-결과-4-moment-bound">보조 결과 4: Moment bound</h3>
-<p>Round drift <span class="math inline">\(\mathbb{E}[\Delta\Phi] \leq -b\kappa_G M + C\)</span>는 <span class="math inline">\(-\Phi^{1/2}\)</span> 차수라서 Meyn-Tweedie로는 <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi^r] &lt; \infty\)</span> (<span class="math inline">\(r &lt; 1/2\)</span>)만 나온다. LLN에는 <span class="math inline">\(r = 1\)</span>이 필요.</p>
-<p><strong>해법: Lyapunov를 <span class="math inline">\(V = \Phi^2\)</span>로 올린다.</strong></p>
-<p><span class="math display">\[\mathbb{E}[\Delta V \mid S] = 2\Phi \cdot \mathbb{E}[\Delta\Phi] + \mathbb{E}[(\Delta\Phi)^2]\]</span></p>
-<p><code>-</code> 첫째 항: <span class="math inline">\(2\Phi \cdot (-b\kappa_G M) \leq -b\kappa_G M^3\)</span> (pigeonhole: <span class="math inline">\(\Phi \geq M^2/2\)</span>)</p>
-<p><code>-</code> 둘째 항: <span class="math inline">\((\Delta\Phi)^2 \leq (A_1 M + A_2)^2 = O(M^2)\)</span></p>
-<p><span class="math inline">\(M^3\)</span> vs <span class="math inline">\(M^2\)</span>: cubic이 이기므로 <span class="math inline">\(\mathbb{E}[\Delta V] \leq -cV^{3/4} + C\mathbf{1}_{\mathcal{B}'}\)</span>.</p>
-<p>Meyn-Tweedie 14.3.7 적용: <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi^{3/2}] &lt; \infty \Rightarrow \mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>.</p>
+<p><strong>Proposition (Moment bound).</strong> <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>.</p>
 </section>
 <section id="보조-결과-5-doeblin-minorization" class="level3">
 <h3 class="anchored" data-anchor-id="보조-결과-5-doeblin-minorization">보조 결과 5: Doeblin minorization</h3>
-<p>Bounded set <span class="math inline">\(\mathcal{B}_\Phi\)</span>가 small set임을 보인다. <span class="math inline">\(K = n(T_{\max}+1)\)</span> steps의 window를 잡으면:</p>
-<ol type="1">
-<li><span class="math inline">\(\geq n\)</span> 번의 block-flag time이 보장됨 (각 round <span class="math inline">\(\leq T_{\max}+1\)</span> steps)</li>
-<li>Non-block steps에서 <span class="math inline">\(b'_s \leq \varepsilon\)</span>로 conditioning (block/non-block 분류는 pre-step timer <span class="math inline">\(Z_{s-1}\)</span>로 결정, <span class="math inline">\(b'_s\)</span>와 독립이므로 block increments는 여전히 <span class="math inline">\(\text{Unif}(0,b)\)</span>)</li>
-<li>Block increments의 pushforward가 Lebesgue density를 줌 (fibre length <span class="math inline">\(&gt; b/2\)</span>)</li>
-<li><span class="math inline">\(L\)</span> windows 합성으로 target coverage</li>
-</ol>
+<p><strong>Proposition (Doeblin minorization).</strong> 임의의 bounded set <span class="math inline">\(\mathcal{B}_\Phi\)</span>에 대해 <span class="math inline">\(\eta &gt; 0\)</span>, <span class="math inline">\(K^* &lt; \infty\)</span>, 확률측도 <span class="math inline">\(\nu\)</span>가 존재하여 <span class="math inline">\(P^{K^*}(s,B) \geq \eta\,\nu(B)\)</span>.</p>
 </section>
 <section id="증명-체인" class="level3">
 <h3 class="anchored" data-anchor-id="증명-체인">증명 체인</h3>
