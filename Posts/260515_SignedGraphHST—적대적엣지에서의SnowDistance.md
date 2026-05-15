@@ -3,6 +3,7 @@ title: "Signed Graph HST — 적대적 엣지에서의 Snow Distance"
 author: "GuebinChoi"
 date: "2026-05-15"
 categories: [HST, Research]
+output-file: 260515_ef9ce2.html
 ---
 
 # 동기
@@ -26,7 +27,7 @@ categories: [HST, Research]
 
 **Signed HST vs Standard HST** 비교:
 
-![](attachments/260515_signed_hst_01.gif)
+![](attachments/260515_ef9ce2_01.gif)
 
 # 관찰
 
