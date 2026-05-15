@@ -102,21 +102,7 @@
     "href": "Posts/260515_91a72d.html",
     "title": "연구 ▷ HST ▷ Signed Graph HST (적대적 엣지)",
     "section": "",
-    "text": "그래프에서 엣지가 모두 “우호적”인 것은 아니다. 소셜 네트워크에서 적대 관계(enemy), 신뢰-불신 관계 등 signed graph가 자연스럽다. HST의 snow flow 메커니즘을 signed graph로 확장하면 어떻게 될까?"
-  },
-  {
-    "objectID": "Posts/260515_91a72d.html#signed-hst-위",
-    "href": "Posts/260515_91a72d.html#signed-hst-위",
-    "title": "연구 ▷ HST ▷ Signed Graph HST (적대적 엣지)",
-    "section": "Signed HST (위)",
-    "text": "Signed HST (위)\n\ninter-community SD²/t 가 발산 (주황) — 적대 엣지의 repulsive flow가 두 커뮤니티 간 높이 차이를 계속 증폭\nintra-community SD²/t 는 수렴 (초록) — 같은 커뮤니티 내에서는 정상적으로 smoothing\n2D 임베딩에서 빨강 vs 파랑이 극명하게 분리"
-  },
-  {
-    "objectID": "Posts/260515_91a72d.html#standard-hst-아래",
-    "href": "Posts/260515_91a72d.html#standard-hst-아래",
-    "title": "연구 ▷ HST ▷ Signed Graph HST (적대적 엣지)",
-    "section": "Standard HST (아래)",
-    "text": "Standard HST (아래)\n\ninter와 intra SD²/t 모두 비슷한 수준에서 수렴 — 부호 정보 없으면 커뮤니티 구분 불가\n임베딩에서 빨강/파랑이 섞여있음"
+    "text": "동기\n그래프에서 엣지가 모두 “우호적”인 것은 아니다. 소셜 네트워크에서 적대 관계(enemy), 신뢰-불신 관계 등 signed graph가 자연스럽다. HST의 snow flow 메커니즘을 signed graph로 확장하면 어떻게 될까?\n\n\nSigned HST: Repulsive Flow Rule\n기존 HST의 flow rule을 부호에 따라 분기한다:\n\nPositive edge (우호): 기존과 동일. 높은 곳 → 낮은 곳으로 눈이 흐름 (smoothing)\nNegative edge (적대): 반대 방향 — 낮은 곳 → 높은 곳으로 눈이 흐름 (amplifying)\n\n직관: “적이 잘되면(눈이 높으면) 더 쌓아준다” — 높이 차이를 증폭.\n핵심 발견: inter-community SD²/t는 발산하지만 SD²/t³으로 나누면 수렴한다 (three-regime의 ballistic regime). intra-community SD²/t는 정상 수렴 (stationary regime).\n\n\n예제 1: Two-Community (5+5)\n\ncommunity A (5개, 빨강), community B (5개, 파랑)\nIntra = positive (초록), Inter = negative (주황 점선)\nRow 1: 전체 (inter SD²/t³ + intra SD²/t 모두 수렴)\nRow 2: within-community 임베딩 (각 커뮤니티 내 구조)\nRow 3: Standard HST 비교\n\n\n\n\n예제 2: Spy Detection (7+7)\n\ncommunity A에 spy(금색) 1명: B와 우호, A 내 일부와 적대\nSigned HST 임베딩에서 spy가 B 쪽으로 끌려감 → 이상탐지\nwithin-A의 SD²/t가 발산 (spy 때문에 A 내부 불안정)\n\n\n\n\n예제 3: Zachary Karate Club (n=34)\n\n실제 분열된 소셜 네트워크. 같은 club = 우호, 다른 club = 적대\nSigned HST 임베딩에서 Mr. Hi 파벌(빨강)과 Officer 파벌(파랑) 분리\nStandard HST에서도 약간 분리되긴 하지만 signed가 훨씬 선명\n\n\n\n\n예제 4: 3-Community (4+4+4)\n\nA vs B vs C 3파전. 3그룹이 임베딩에서 삼각형으로 분리\nStandard HST에서는 3그룹 구분 불가\n\n\n\n\n예제 5: Unbalanced Triad\n\n삼각형 A-B-C: A-B 우호, A-C 우호, B-C 적대 (불안정 구조)\nUnbalanced: B-C pair SD²/t만 발산, 나머지 수렴\nBalanced (전부 우호): 3 pair 모두 비슷하게 수렴\nBalance theory와 정확히 일치\n\n\n\n\n예제 6: Ring with Frustration\n\n10-ring에서 짝수 엣지 = 우호, 홀수 엣지 = 적대 (교대)\nFrustration: 깨끗하게 2그룹으로 나눌 수 없음\nneg-edge pairs SD²/t 발산, pos-edge pairs 수렴\n임베딩에서 자연스러운 pair (0-1, 2-3, …)끼리 클러스터링\n\n\n\n\n정리\n\n\n\n예제\n구조\nSigned HST 결과\n\n\n\n\nTwo-community\nbalanced 2파전\n2그룹 완벽 분리\n\n\nSpy detection\n배신자 1명\nspy detect (B쪽으로 이동)\n\n\nZachary\n실데이터 분열\n실제 split recover\n\n\n3-community\n3파전\n3그룹 삼각형 분리\n\n\nUnbalanced triad\n불안정 삼각형\n적대 pair만 발산\n\n\nRing frustration\n2-color 불가\n자연 pair로 클러스터\n\n\n\nSigned HST의 repulsive flow는 community detection, 이상탐지, balance theory 검증에 모두 활용 가능하다."
   },
   {
     "objectID": "Posts/260514_84e05d.html",

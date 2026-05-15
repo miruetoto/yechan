@@ -162,13 +162,13 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#동기" id="toc-동기" class="nav-link active" data-scroll-target="#동기">동기</a></li>
   <li><a href="#signed-hst-repulsive-flow-rule" id="toc-signed-hst-repulsive-flow-rule" class="nav-link" data-scroll-target="#signed-hst-repulsive-flow-rule">Signed HST: Repulsive Flow Rule</a></li>
-  <li><a href="#실험-two-community-graph-55" id="toc-실험-two-community-graph-55" class="nav-link" data-scroll-target="#실험-two-community-graph-55">실험: Two-Community Graph (5+5)</a></li>
-  <li><a href="#관찰" id="toc-관찰" class="nav-link" data-scroll-target="#관찰">관찰</a>
-  <ul class="collapse">
-  <li><a href="#signed-hst-위" id="toc-signed-hst-위" class="nav-link" data-scroll-target="#signed-hst-위">Signed HST (위)</a></li>
-  <li><a href="#standard-hst-아래" id="toc-standard-hst-아래" class="nav-link" data-scroll-target="#standard-hst-아래">Standard HST (아래)</a></li>
-  </ul></li>
-  <li><a href="#의미" id="toc-의미" class="nav-link" data-scroll-target="#의미">의미</a></li>
+  <li><a href="#예제-1-two-community-55" id="toc-예제-1-two-community-55" class="nav-link" data-scroll-target="#예제-1-two-community-55">예제 1: Two-Community (5+5)</a></li>
+  <li><a href="#예제-2-spy-detection-77" id="toc-예제-2-spy-detection-77" class="nav-link" data-scroll-target="#예제-2-spy-detection-77">예제 2: Spy Detection (7+7)</a></li>
+  <li><a href="#예제-3-zachary-karate-club-n34" id="toc-예제-3-zachary-karate-club-n34" class="nav-link" data-scroll-target="#예제-3-zachary-karate-club-n34">예제 3: Zachary Karate Club (n=34)</a></li>
+  <li><a href="#예제-4-3-community-444" id="toc-예제-4-3-community-444" class="nav-link" data-scroll-target="#예제-4-3-community-444">예제 4: 3-Community (4+4+4)</a></li>
+  <li><a href="#예제-5-unbalanced-triad" id="toc-예제-5-unbalanced-triad" class="nav-link" data-scroll-target="#예제-5-unbalanced-triad">예제 5: Unbalanced Triad</a></li>
+  <li><a href="#예제-6-ring-with-frustration" id="toc-예제-6-ring-with-frustration" class="nav-link" data-scroll-target="#예제-6-ring-with-frustration">예제 6: Ring with Frustration</a></li>
+  <li><a href="#정리" id="toc-정리" class="nav-link" data-scroll-target="#정리">정리</a></li>
   </ul>
 </nav>
     </div>
@@ -218,43 +218,109 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Negative edge (적대)</strong>: <strong>반대 방향</strong> — 낮은 곳 → 높은 곳으로 눈이 흐름 (amplifying)</li>
 </ul>
 <p>직관: “적이 잘되면(눈이 높으면) 더 쌓아준다” — 높이 차이를 증폭.</p>
+<p>핵심 발견: inter-community SD²/t는 발산하지만 <strong>SD²/t³으로 나누면 수렴</strong>한다 (three-regime의 ballistic regime). intra-community SD²/t는 정상 수렴 (stationary regime).</p>
 </section>
-<section id="실험-two-community-graph-55" class="level1">
-<h1>실험: Two-Community Graph (5+5)</h1>
+<section id="예제-1-two-community-55" class="level1">
+<h1>예제 1: Two-Community (5+5)</h1>
 <ul>
-<li>노드 10개: community A (5개, 빨강), community B (5개, 파랑)</li>
-<li>Intra-community 엣지: positive (초록 실선)</li>
-<li>Inter-community 엣지: negative (주황 점선)</li>
+<li>community A (5개, 빨강), community B (5개, 파랑)</li>
+<li>Intra = positive (초록), Inter = negative (주황 점선)</li>
+<li>Row 1: 전체 (inter SD²/t³ + intra SD²/t 모두 수렴)</li>
+<li>Row 2: within-community 임베딩 (각 커뮤니티 내 구조)</li>
+<li>Row 3: Standard HST 비교</li>
 </ul>
-<p><strong>Signed HST vs Standard HST</strong> 비교:</p>
-<p><img src="attachments/260515_91a72d_01.gif" class="img-fluid"></p>
+<p><img src="attachments/260515_91a72d_02.gif" class="img-fluid"></p>
 </section>
-<section id="관찰" class="level1">
-<h1>관찰</h1>
-<section id="signed-hst-위" class="level2">
-<h2 class="anchored" data-anchor-id="signed-hst-위">Signed HST (위)</h2>
+<section id="예제-2-spy-detection-77" class="level1">
+<h1>예제 2: Spy Detection (7+7)</h1>
 <ul>
-<li><strong>inter-community SD²/t 가 발산</strong> (주황) — 적대 엣지의 repulsive flow가 두 커뮤니티 간 높이 차이를 계속 증폭</li>
-<li><strong>intra-community SD²/t 는 수렴</strong> (초록) — 같은 커뮤니티 내에서는 정상적으로 smoothing</li>
-<li>2D 임베딩에서 <strong>빨강 vs 파랑이 극명하게 분리</strong></li>
+<li>community A에 spy(금색) 1명: B와 우호, A 내 일부와 적대</li>
+<li>Signed HST 임베딩에서 <strong>spy가 B 쪽으로 끌려감</strong> → 이상탐지</li>
+<li>within-A의 SD²/t가 발산 (spy 때문에 A 내부 불안정)</li>
 </ul>
+<p><img src="attachments/260515_91a72d_03.gif" class="img-fluid"></p>
 </section>
-<section id="standard-hst-아래" class="level2">
-<h2 class="anchored" data-anchor-id="standard-hst-아래">Standard HST (아래)</h2>
+<section id="예제-3-zachary-karate-club-n34" class="level1">
+<h1>예제 3: Zachary Karate Club (n=34)</h1>
 <ul>
-<li>inter와 intra SD²/t <strong>모두 비슷한 수준에서 수렴</strong> — 부호 정보 없으면 커뮤니티 구분 불가</li>
-<li>임베딩에서 빨강/파랑이 <strong>섞여있음</strong></li>
+<li>실제 분열된 소셜 네트워크. 같은 club = 우호, 다른 club = 적대</li>
+<li>Signed HST 임베딩에서 Mr.&nbsp;Hi 파벌(빨강)과 Officer 파벌(파랑) <strong>분리</strong></li>
+<li>Standard HST에서도 약간 분리되긴 하지만 signed가 훨씬 선명</li>
 </ul>
+<p><img src="attachments/260515_91a72d_04.gif" class="img-fluid"></p>
 </section>
-</section>
-<section id="의미" class="level1">
-<h1>의미</h1>
-<p>Signed HST의 repulsive flow는 자연스러운 <strong>community detection</strong> 메커니즘이 된다.</p>
+<section id="예제-4-3-community-444" class="level1">
+<h1>예제 4: 3-Community (4+4+4)</h1>
 <ul>
-<li>적대 엣지에서 높이 차이가 증폭 → SD 거리가 커뮤니티 경계를 드러냄</li>
-<li>Standard HST로는 보이지 않는 signed structure를 Signed HST가 포착</li>
+<li>A vs B vs C 3파전. 3그룹이 임베딩에서 삼각형으로 분리</li>
+<li>Standard HST에서는 3그룹 구분 불가</li>
 </ul>
-<p>이건 balance theory (Harary)와도 연결될 수 있다 — balanced signed graph에서는 노드가 정확히 2그룹으로 나뉘고, Signed HST의 SD 거리가 이 partition을 recover하는 셈.</p>
+<p><img src="attachments/260515_91a72d_05.gif" class="img-fluid"></p>
+</section>
+<section id="예제-5-unbalanced-triad" class="level1">
+<h1>예제 5: Unbalanced Triad</h1>
+<ul>
+<li>삼각형 A-B-C: A-B 우호, A-C 우호, <strong>B-C 적대</strong> (불안정 구조)</li>
+<li>Unbalanced: B-C pair SD²/t만 발산, 나머지 수렴</li>
+<li>Balanced (전부 우호): 3 pair 모두 비슷하게 수렴</li>
+<li>Balance theory와 정확히 일치</li>
+</ul>
+<p><img src="attachments/260515_91a72d_06.gif" class="img-fluid"></p>
+</section>
+<section id="예제-6-ring-with-frustration" class="level1">
+<h1>예제 6: Ring with Frustration</h1>
+<ul>
+<li>10-ring에서 짝수 엣지 = 우호, 홀수 엣지 = 적대 (교대)</li>
+<li><strong>Frustration</strong>: 깨끗하게 2그룹으로 나눌 수 없음</li>
+<li>neg-edge pairs SD²/t 발산, pos-edge pairs 수렴</li>
+<li>임베딩에서 자연스러운 pair (0-1, 2-3, …)끼리 클러스터링</li>
+</ul>
+<p><img src="attachments/260515_91a72d_07.gif" class="img-fluid"></p>
+</section>
+<section id="정리" class="level1">
+<h1>정리</h1>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>예제</th>
+<th>구조</th>
+<th>Signed HST 결과</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Two-community</td>
+<td>balanced 2파전</td>
+<td>2그룹 완벽 분리</td>
+</tr>
+<tr class="even">
+<td>Spy detection</td>
+<td>배신자 1명</td>
+<td>spy detect (B쪽으로 이동)</td>
+</tr>
+<tr class="odd">
+<td>Zachary</td>
+<td>실데이터 분열</td>
+<td>실제 split recover</td>
+</tr>
+<tr class="even">
+<td>3-community</td>
+<td>3파전</td>
+<td>3그룹 삼각형 분리</td>
+</tr>
+<tr class="odd">
+<td>Unbalanced triad</td>
+<td>불안정 삼각형</td>
+<td>적대 pair만 발산</td>
+</tr>
+<tr class="even">
+<td>Ring frustration</td>
+<td>2-color 불가</td>
+<td>자연 pair로 클러스터</td>
+</tr>
+</tbody>
+</table>
+<p>Signed HST의 repulsive flow는 <strong>community detection</strong>, <strong>이상탐지</strong>, <strong>balance theory 검증</strong>에 모두 활용 가능하다.</p>
 
 
 </section>
