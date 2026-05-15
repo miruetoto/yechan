@@ -44,23 +44,11 @@ This is $\mathcal{F}_{s-1}$-measurable, with $\sum_i p_i(s)=1$ and $p_i(s)\geq 0
 
 $$M_t^{(i)}\;:=\;\sum_{s=1}^{t}\bigl[\mathbf{1}\{X_s=v_i\}-p_i(s)\bigr].$$
 
-::: {.callout-tip collapse="true" title="보충설명"}
-$M_t^{(i)}$는 "실제 방문 횟수"와 "기대 방문 횟수"의 누적 차이. 매 step에서 $v_i$에 실제로 갔으면 $+1$, 안 갔으면 $0$을 기록하고, 거기서 "갈 확률" $p_i(s)$를 빼준 것을 $t$번 더한 것이다. 일종의 "예측 오차의 합산".
-:::
-
 Then:
 
 **(a)** $\{M_t^{(i)}\}_{t\geq 0}$ is a martingale w.r.t. $\{\mathcal{F}_t\}$ with bounded increments $|\Delta M_t^{(i)}|\leq 1$.
 
-::: {.callout-tip collapse="true" title="보충설명: (a)가 말하는 것"}
-$M_t^{(i)}$가 마팅게일이라는 건: 과거 정보를 다 알아도, 다음 예측 오차의 기댓값은 0이라는 뜻. 즉 예측 오차가 체계적으로 한 쪽으로 쏠리지 않는다. 그리고 한 step에서 오차는 최대 1 (갔거나 안 갔거나).
-:::
-
 **(b)** $M_t^{(i)}/t\to 0$ a.s.
-
-::: {.callout-tip collapse="true" title="보충설명: (b)가 말하는 것"}
-예측 오차의 합 $M_t^{(i)}$가 $t$보다 훨씬 느리게 자란다. $t$로 나누면 0으로 간다. 직관: 동전 던지기의 누적 편차가 $\sqrt{t}$ 정도로 자라는 것과 비슷. $t$로 나누면 사라진다.
-:::
 
 **(c)** Therefore
 
@@ -100,6 +88,16 @@ The conditional variance of each increment is $\leq\mathrm{Var}(b')\cdot 1=b^2/1
 
 $$D_{ij}(t)\;=\;\bar{b}\,t\,[\hat\rho_i(t)-\hat\rho_j(t)]+O(\sqrt{t\log\log t})\qquad\text{a.s.}$$
 
+::: {.callout-important collapse="true" title="핵심 의미"}
+**높이 차이 $\approx$ 적립률 차이 $\times$ 시간**.
+
+두 노드의 높이 차이 $D_{ij}(t)$는 본질적으로 "누가 더 자주 눈을 받았는가"의 누적 $\times$ 평균 눈량 $\bar{b}$이다. $O(\sqrt{t\log\log t})$ 항은 눈량의 랜덤성에서 오는 noise인데, $t$에 비하면 무시할 수 있다.
+
+따라서: $\hat\rho_i \neq \hat\rho_j$이면 높이 차이가 **선형으로** 벌어지고, $\hat\rho_i = \hat\rho_j$이면 높이 차이는 $O(\sqrt{t})$로만 흔들린다. 이것이 balanced vs drift regime을 가르는 메커니즘이다.
+
+재미있는 점: $\rho_i$는 $\mu_0(v_i)$에 비례하지 **않는다**. $\mu_0$는 block-flag에서의 초기 추출 확률일 뿐이고, 실제 적립률 $\rho_i$는 flow dynamics까지 반영한 결과이다. 높은 노드에서는 flow가 낮은 이웃으로 빠져나가고, 낮은 노드에서는 downstream이 없어서 $\mu_0$-fallback이 일어난다. 이 상호작용 때문에 $\rho_i$는 $\mu_0$, 그래프 구조, flow 규칙이 합쳐진 **고정점**이다.
+:::
+
 *Proof.* Immediate from the decomposition and $D_{ij}(0)=O(1)$. $\square$
 
 ## 4. The obstruction
@@ -137,7 +135,23 @@ We formulate a hypothesis strong enough to close the SLLN. A mere ranking stabil
 
 $$\mathcal{D}_t\;=\;\mathcal{D}_\infty(u).$$
 
+::: {.callout-important collapse="true" title="보충설명: DS가 뭔지 쉽게"}
+DS는 한마디로 **"눈이 흘러가는 방향이 영구히 고정된다"**는 조건이다.
+
+HST에서 눈은 높은 곳에서 낮은 곳으로 흐른다. 처음에는 높낮이가 계속 바뀌니까 "어디서 어디로 흐르는지"도 매번 달라진다. 그런데 충분히 오래 지나서 이웃 노드 간 높이 차이가 압도적으로 벌어지면, 한 round 안에서 눈이 좀 쌓여도 그 격차를 뒤집을 수 없다. 그러면 "누가 누구의 아래"인지가 더 이상 안 바뀐다.
+
+이게 바로 DS: **어느 시점 이후, 각 노드에서 "flow가 갈 수 있는 이웃 목록"이 영구히 고정.**
+
+현재 정의는 **모든** 이웃 쌍의 downstream이 고정되는 것을 요구한다. Star graph에서는 leaf끼리 이웃이 아니라서 문제없지만, wheel graph처럼 leaf끼리도 이웃인 경우 leaf-leaf 간 DS가 성립하지 않으므로 full DS가 안 된다. 이 경우 현재 Theorem의 적용 범위 밖이며, "hub-leaf DS만으로 충분한가?"는 open이다.
+:::
+
 A sufficient condition (used in all our applications) is: for every pair $(u,w)$ with $w\in\mathcal{N}(u)$, eventually either $h(u,t)-h(w,t)>(T_{\max}+1)b$ permanently (so $w$ is always downstream of $u$), or $h(w,t)-h(u,t)>(T_{\max}+1)b$ permanently (so $w$ is never downstream of $u$). This gap condition implies DS because the within-round height fluctuations are at most $(T_{\max}+1)b$, so the downstream membership of $w$ w.r.t. $u$ cannot change once the gap exceeds this threshold.
+
+::: {.callout-important collapse="true" title="보충설명: 충분조건이 말하는 것"}
+이웃한 두 노드의 높이 차이가 $(T_{\max}+1)b$를 넘으면 DS가 성립한다.
+
+왜 이 숫자인가? 한 round는 최대 $T_{\max}+1$ step이고, 매 step에서 눈은 최대 $b$만큼 쌓인다. 따라서 한 round 동안 높이가 최대 $(T_{\max}+1)b$만큼 변할 수 있다. 이보다 높이 차이가 더 크면, round 내에서 아무리 눈이 쌓여도 높낮이가 뒤집히지 않는다. 흐르는 방향이 고정.
+:::
 
 > **Remark** (DS is strictly stronger than ranking stabilization). A fixed strict height ranking does *not* imply DS. With a fixed ranking $v_1>v_2>\cdots>v_n$, adjacent nodes $v_k,v_{k+1}$ might have $0<h(v_k,t)-h(v_{k+1},t)<(T_{\max}+1)b$ for all $t$---the ranking never flips, but the gap stays bounded, allowing the downstream set to include or exclude $v_{k+1}$ depending on the within-round fluctuations.
 >
@@ -148,6 +162,14 @@ A sufficient condition (used in all our applications) is: for every pair $(u,w)$
 $$\rho_i\;:=\;\lim_{t\to\infty}\frac{1}{t}\sum_{s=1}^t\mathbf{1}\{X_s=v_i\}\quad\text{exists a.s.}$$
 
 Moreover, $\rho_i$ is determined by the stabilized downstream structure $\{\mathcal{D}_\infty(u)\}_{u\in V}$, $\mathcal{G}$, $\boldsymbol{\mu}_0$, and $T_{\max}$.
+
+::: {.callout-important collapse="true" title="핵심 의미"}
+산에 눈이 오래 내리면 결국 **지형이 굳어진다** --- 어느 봉우리가 높고 어느 골짜기가 낮은지가 영구히 정해진다. 이게 DS다.
+
+지형이 굳어지면, 눈이 흘러가는 길도 매번 같아진다. 매 round가 "같은 지형 위에서 같은 규칙으로 눈 뿌리기"를 반복하는 셈이니, 충분히 오래 반복하면 **각 노드가 받는 눈의 비율 $\rho_i$가 자연스럽게 확정된다.** 동전을 무한히 던지면 앞면 비율이 $1/2$로 수렴하는 것과 같은 원리(강대수법칙).
+
+그리고 이 비율은 처음에 어디서 시작했는지($\mathbf{y}$)와는 무관하다. 지형의 모양(그래프 구조 + $\mu_0$ + $T_{\max}$)만으로 결정된다.
+:::
 
 *Proof.*
 
