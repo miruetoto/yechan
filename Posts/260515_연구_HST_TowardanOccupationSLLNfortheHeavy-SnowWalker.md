@@ -3,6 +3,7 @@ title: "연구 ▷ HST ▷ Toward an Occupation SLLN for the Heavy-Snow Walker"
 author: 신록예찬
 date: 05/15/2026
 draft: false
+output-file: 260515_dc486d.html
 ---
 
 > **Abstract.** We investigate whether the empirical occupation frequencies of the heavy-snow walker converge almost surely: $\frac{1}{t}\sum_{s=1}^t\mathbf{1}\{X_s=v_i\}\to\rho_i$ a.s. A martingale decomposition (Section 2) reduces the problem to the convergence of a Cesàro average of conditional visit probabilities; this step is unconditional and rigorous. The remaining step---showing that the Cesàro average converges---is open in general. We identify the precise obstruction (Section 4), prove a conditional result under an explicit *downstream-stabilization* hypothesis (Section 5), and verify the hypothesis for specific graph families (Section 6).
