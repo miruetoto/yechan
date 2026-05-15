@@ -381,6 +381,60 @@ window.Quarto = {
 <section id="보조-결과-4-moment-bound" class="level3">
 <h3 class="anchored" data-anchor-id="보조-결과-4-moment-bound">보조 결과 4: Moment bound</h3>
 <p><strong>Proposition (Moment bound).</strong> <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>.</p>
+<p>Round drift <span class="math inline">\(\mathbb{E}[\Delta\Phi] \leq -b\kappa_G M + C\)</span>에서 <span class="math inline">\(M \sim \sqrt{\Phi}\)</span>이므로 drift 차수가 <span class="math inline">\(-\Phi^{1/2}\)</span>. 이것만으로는 <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>를 얻기에 부족하다 (Meyn-Tweedie로 <span class="math inline">\(r &lt; 1/2\)</span>까지만 가능). 해법: Lyapunov를 <span class="math inline">\(V = \Phi^2\)</span>로 올린다.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="증명: Moment bound">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>증명: Moment bound
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>구하고 싶은 것: <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>.</p>
+<p>이를 위해 <span class="math inline">\(V = \Phi^2\)</span>의 drift를 구한다. 먼저 <span class="math inline">\(\Delta V = V(t_{r+1}) - V(t_r)\)</span>를 계산하자.</p>
+<p><span class="math display">\[V(t_{r+1}) = \Phi(t_{r+1})^2 = (\Phi(t_r) + \Delta\Phi_r)^2\]</span></p>
+<p><span class="math display">\[V(t_r) = \Phi(t_r)^2\]</span></p>
+<p>빼면:</p>
+<p><span class="math display">\[\Delta V = (\Phi + \Delta\Phi_r)^2 - \Phi^2 = 2\Phi \cdot \Delta\Phi_r + (\Delta\Phi_r)^2\]</span></p>
+<p>기대값을 취하면:</p>
+<p><span class="math display">\[\mathbb{E}[\Delta V \mid S(t_r)] = 2\Phi \cdot \mathbb{E}[\Delta\Phi_r \mid S] + \mathbb{E}[(\Delta\Phi_r)^2 \mid S]\]</span></p>
+<p><strong>첫째 항.</strong> Round drift에 의해 <span class="math inline">\(\mathbb{E}[\Delta\Phi_r \mid S] \leq -b\kappa_G M + C\)</span>이므로:</p>
+<p><span class="math display">\[2\Phi \cdot \mathbb{E}[\Delta\Phi_r] \leq 2\Phi(-b\kappa_G M + C) = -2b\kappa_G \Phi M + 2C\Phi\]</span></p>
+<p>여기서 <span class="math inline">\(\Phi\)</span>와 <span class="math inline">\(M\)</span>의 관계를 쓴다.</p>
+<p><strong>Fact 3.</strong> <span class="math inline">\(\Phi \geq M^2/2\)</span>.</p>
+<p><span class="math inline">\(\sum \hbar_i = 0\)</span>이고 range가 <span class="math inline">\(M\)</span>이면 <span class="math inline">\(\hbar_{\max} \geq 0\)</span>, <span class="math inline">\(\hbar_{\min} \leq 0\)</span>, <span class="math inline">\(\hbar_{\max} - \hbar_{\min} = M\)</span>. 따라서:</p>
+<p><span class="math display">\[\Phi = \sum \hbar_i^2 \geq \hbar_{\max}^2 + \hbar_{\min}^2 \geq \frac{(\hbar_{\max} + |\hbar_{\min}|)^2}{2} = \frac{M^2}{2}\]</span></p>
+<p>(<span class="math inline">\((A^2 + B^2) \geq (A+B)^2/2\)</span> 사용.)</p>
+<p>또한 <span class="math inline">\(\Phi \leq nM^2\)</span> (<span class="math inline">\(n\)</span>개 항 각각 <span class="math inline">\(\leq M^2\)</span>).</p>
+<p>Fact 3을 적용하면:</p>
+<p><span class="math display">\[-2b\kappa_G \Phi M \leq -2b\kappa_G \cdot \frac{M^2}{2} \cdot M = -b\kappa_G M^3\]</span></p>
+<p><span class="math display">\[2C\Phi \leq 2C \cdot nM^2 = 2CnM^2\]</span></p>
+<p>따라서 첫째 항 <span class="math inline">\(\leq -b\kappa_G M^3 + 2CnM^2\)</span>.</p>
+<p><strong>둘째 항.</strong> 라운드 내 <span class="math inline">\(\Phi\)</span> 변화를 bound한다.</p>
+<p>라운드는 <span class="math inline">\(m_r \leq T_{\max}+1\)</span> step. 각 step에서 <span class="math inline">\(|\hbar|\)</span>는 최대 <span class="math inline">\(M + T_{\max}b\)</span> (라운드 중 높이 변화). 따라서 한 step의 <span class="math inline">\(|\Delta\Phi|\)</span>는 <span class="math inline">\(2b(M + T_{\max}b) + (n-1)b^2/n\)</span> 이하. <span class="math inline">\(m_r\)</span> step 합산:</p>
+<p><span class="math display">\[|\Delta\Phi_r| \leq A_1 M + A_2\]</span></p>
+<p>여기서 <span class="math inline">\(A_1 = 2b(T_{\max}+1)\)</span>, <span class="math inline">\(A_2 = (T_{\max}+1)[2bT_{\max}b + (n-1)b^2/n]\)</span>. 따라서:</p>
+<p><span class="math display">\[\mathbb{E}[(\Delta\Phi_r)^2] \leq (A_1 M + A_2)^2 \leq C_3 M^2 + C_4\]</span></p>
+<p><strong>합치기.</strong></p>
+<p><span class="math display">\[\mathbb{E}[\Delta V \mid S] \leq -b\kappa_G M^3 + 2CnM^2 + C_3 M^2 + C_4\]</span></p>
+<p><span class="math display">\[= -b\kappa_G M^3 + C_5 M^2 + C_6\]</span></p>
+<p><span class="math inline">\(M\)</span>이 크면 <span class="math inline">\(M^3\)</span>이 <span class="math inline">\(M^2\)</span>를 압도한다. <span class="math inline">\(M \geq M_0 := 2C_5/(b\kappa_G)\)</span>이면:</p>
+<p><span class="math display">\[\mathbb{E}[\Delta V \mid S] \leq -\frac{b\kappa_G}{2} M^3 + C_6\]</span></p>
+<p><span class="math inline">\(V\)</span>로 표현하자. <span class="math inline">\(\Phi \leq nM^2\)</span>에서 <span class="math inline">\(M \geq (\Phi/n)^{1/2}\)</span>이므로:</p>
+<p><span class="math display">\[M^3 \geq \frac{\Phi^{3/2}}{n^{3/2}} = \frac{V^{3/4}}{n^{3/2}}\]</span></p>
+<p>대입하면:</p>
+<p><span class="math display">\[\mathbb{E}[\Delta V \mid S] \leq -\frac{b\kappa_G}{2n^{3/2}} V^{3/4} + C_6 \cdot \mathbf{1}_{\{M \leq M_0\}}\]</span></p>
+<p>Meyn-Tweedie Thm 14.3.7: <span class="math inline">\(\mathbb{E}[\Delta V] \leq -f + C \cdot \mathbf{1}_B\)</span> 형태이면 <span class="math inline">\(\mathbb{E}_{\pi^*}[f] &lt; \infty\)</span>. 따라서:</p>
+<p><span class="math display">\[\mathbb{E}_{\pi^*}[V^{3/4}] = \mathbb{E}_{\pi^*}[\Phi^{3/2}] &lt; \infty\]</span></p>
+<p><span class="math inline">\(\Phi \geq 0\)</span>에서 <span class="math inline">\(\Phi \leq \Phi^{3/2} + 1\)</span>이므로 (<span class="math inline">\(\Phi \geq 1\)</span>이면 <span class="math inline">\(\Phi \leq \Phi^{3/2}\)</span>, <span class="math inline">\(\Phi &lt; 1\)</span>이면 <span class="math inline">\(\Phi \leq 1\)</span>):</p>
+<p><span class="math display">\[\mathbb{E}_{\pi^*}[\Phi] \leq \mathbb{E}_{\pi^*}[\Phi^{3/2}] + 1 &lt; \infty \qquad \square\]</span></p>
+</div>
+</div>
+</div>
 </section>
 <section id="보조-결과-5-doeblin-minorization" class="level3">
 <h3 class="anchored" data-anchor-id="보조-결과-5-doeblin-minorization">보조 결과 5: Doeblin minorization</h3>

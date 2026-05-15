@@ -201,6 +201,88 @@ $K_n$에서 well-separated case: $\kappa_G = (H_n - 1)/n$. 일반 case: $\kappa_
 
 **Proposition (Moment bound).** $\mathbb{E}_{\pi^*}[\Phi] < \infty$.
 
+Round drift $\mathbb{E}[\Delta\Phi] \leq -b\kappa_G M + C$에서 $M \sim \sqrt{\Phi}$이므로 drift 차수가 $-\Phi^{1/2}$. 이것만으로는 $\mathbb{E}_{\pi^*}[\Phi] < \infty$를 얻기에 부족하다 (Meyn-Tweedie로 $r < 1/2$까지만 가능). 해법: Lyapunov를 $V = \Phi^2$로 올린다.
+
+::: {.callout-note collapse="true" title="증명: Moment bound"}
+
+구하고 싶은 것: $\mathbb{E}_{\pi^*}[\Phi] < \infty$.
+
+이를 위해 $V = \Phi^2$의 drift를 구한다. 먼저 $\Delta V = V(t_{r+1}) - V(t_r)$를 계산하자.
+
+$$V(t_{r+1}) = \Phi(t_{r+1})^2 = (\Phi(t_r) + \Delta\Phi_r)^2$$
+
+$$V(t_r) = \Phi(t_r)^2$$
+
+빼면:
+
+$$\Delta V = (\Phi + \Delta\Phi_r)^2 - \Phi^2 = 2\Phi \cdot \Delta\Phi_r + (\Delta\Phi_r)^2$$
+
+기대값을 취하면:
+
+$$\mathbb{E}[\Delta V \mid S(t_r)] = 2\Phi \cdot \mathbb{E}[\Delta\Phi_r \mid S] + \mathbb{E}[(\Delta\Phi_r)^2 \mid S]$$
+
+**첫째 항.** Round drift에 의해 $\mathbb{E}[\Delta\Phi_r \mid S] \leq -b\kappa_G M + C$이므로:
+
+$$2\Phi \cdot \mathbb{E}[\Delta\Phi_r] \leq 2\Phi(-b\kappa_G M + C) = -2b\kappa_G \Phi M + 2C\Phi$$
+
+여기서 $\Phi$와 $M$의 관계를 쓴다.
+
+**Fact 3.** $\Phi \geq M^2/2$.
+
+$\sum \hbar_i = 0$이고 range가 $M$이면 $\hbar_{\max} \geq 0$, $\hbar_{\min} \leq 0$, $\hbar_{\max} - \hbar_{\min} = M$. 따라서:
+
+$$\Phi = \sum \hbar_i^2 \geq \hbar_{\max}^2 + \hbar_{\min}^2 \geq \frac{(\hbar_{\max} + |\hbar_{\min}|)^2}{2} = \frac{M^2}{2}$$
+
+($(A^2 + B^2) \geq (A+B)^2/2$ 사용.)
+
+또한 $\Phi \leq nM^2$ ($n$개 항 각각 $\leq M^2$).
+
+Fact 3을 적용하면:
+
+$$-2b\kappa_G \Phi M \leq -2b\kappa_G \cdot \frac{M^2}{2} \cdot M = -b\kappa_G M^3$$
+
+$$2C\Phi \leq 2C \cdot nM^2 = 2CnM^2$$
+
+따라서 첫째 항 $\leq -b\kappa_G M^3 + 2CnM^2$.
+
+**둘째 항.** 라운드 내 $\Phi$ 변화를 bound한다.
+
+라운드는 $m_r \leq T_{\max}+1$ step. 각 step에서 $|\hbar|$는 최대 $M + T_{\max}b$ (라운드 중 높이 변화). 따라서 한 step의 $|\Delta\Phi|$는 $2b(M + T_{\max}b) + (n-1)b^2/n$ 이하. $m_r$ step 합산:
+
+$$|\Delta\Phi_r| \leq A_1 M + A_2$$
+
+여기서 $A_1 = 2b(T_{\max}+1)$, $A_2 = (T_{\max}+1)[2bT_{\max}b + (n-1)b^2/n]$. 따라서:
+
+$$\mathbb{E}[(\Delta\Phi_r)^2] \leq (A_1 M + A_2)^2 \leq C_3 M^2 + C_4$$
+
+**합치기.**
+
+$$\mathbb{E}[\Delta V \mid S] \leq -b\kappa_G M^3 + 2CnM^2 + C_3 M^2 + C_4$$
+
+$$= -b\kappa_G M^3 + C_5 M^2 + C_6$$
+
+$M$이 크면 $M^3$이 $M^2$를 압도한다. $M \geq M_0 := 2C_5/(b\kappa_G)$이면:
+
+$$\mathbb{E}[\Delta V \mid S] \leq -\frac{b\kappa_G}{2} M^3 + C_6$$
+
+$V$로 표현하자. $\Phi \leq nM^2$에서 $M \geq (\Phi/n)^{1/2}$이므로:
+
+$$M^3 \geq \frac{\Phi^{3/2}}{n^{3/2}} = \frac{V^{3/4}}{n^{3/2}}$$
+
+대입하면:
+
+$$\mathbb{E}[\Delta V \mid S] \leq -\frac{b\kappa_G}{2n^{3/2}} V^{3/4} + C_6 \cdot \mathbf{1}_{\{M \leq M_0\}}$$
+
+Meyn-Tweedie Thm 14.3.7: $\mathbb{E}[\Delta V] \leq -f + C \cdot \mathbf{1}_B$ 형태이면 $\mathbb{E}_{\pi^*}[f] < \infty$. 따라서:
+
+$$\mathbb{E}_{\pi^*}[V^{3/4}] = \mathbb{E}_{\pi^*}[\Phi^{3/2}] < \infty$$
+
+$\Phi \geq 0$에서 $\Phi \leq \Phi^{3/2} + 1$이므로 ($\Phi \geq 1$이면 $\Phi \leq \Phi^{3/2}$, $\Phi < 1$이면 $\Phi \leq 1$):
+
+$$\mathbb{E}_{\pi^*}[\Phi] \leq \mathbb{E}_{\pi^*}[\Phi^{3/2}] + 1 < \infty \qquad \square$$
+
+:::
+
 ### 보조 결과 5: Doeblin minorization
 
 **Proposition (Doeblin minorization).** 임의의 bounded set $\mathcal{B}_\Phi$에 대해 $\eta > 0$, $K^* < \infty$, 확률측도 $\nu$가 존재하여 $P^{K^*}(s,B) \geq \eta\,\nu(B)$.
