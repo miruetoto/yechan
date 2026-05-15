@@ -18,34 +18,68 @@ output-file: 260515_91a72d.html
 
 직관: "적이 잘되면(눈이 높으면) 더 쌓아준다" — 높이 차이를 증폭.
 
-# 실험: Two-Community Graph (5+5)
+핵심 발견: inter-community SD²/t는 발산하지만 **SD²/t³으로 나누면 수렴**한다 (three-regime의 ballistic regime). intra-community SD²/t는 정상 수렴 (stationary regime).
 
-- 노드 10개: community A (5개, 빨강), community B (5개, 파랑)
-- Intra-community 엣지: positive (초록 실선)
-- Inter-community 엣지: negative (주황 점선)
+# 예제 1: Two-Community (5+5)
 
-**Signed HST vs Standard HST** 비교:
+- community A (5개, 빨강), community B (5개, 파랑)
+- Intra = positive (초록), Inter = negative (주황 점선)
+- Row 1: 전체 (inter SD²/t³ + intra SD²/t 모두 수렴)
+- Row 2: within-community 임베딩 (각 커뮤니티 내 구조)
+- Row 3: Standard HST 비교
 
-![](attachments/260515_91a72d_01.gif)
+![](attachments/260515_signed_01_twocommunity.gif)
 
-# 관찰
+# 예제 2: Spy Detection (7+7)
 
-## Signed HST (위)
+- community A에 spy(금색) 1명: B와 우호, A 내 일부와 적대
+- Signed HST 임베딩에서 **spy가 B 쪽으로 끌려감** → 이상탐지
+- within-A의 SD²/t가 발산 (spy 때문에 A 내부 불안정)
 
-- **inter-community SD²/t 가 발산** (주황) — 적대 엣지의 repulsive flow가 두 커뮤니티 간 높이 차이를 계속 증폭
-- **intra-community SD²/t 는 수렴** (초록) — 같은 커뮤니티 내에서는 정상적으로 smoothing
-- 2D 임베딩에서 **빨강 vs 파랑이 극명하게 분리**
+![](attachments/260515_signed_02_spy.gif)
 
-## Standard HST (아래)
+# 예제 3: Zachary Karate Club (n=34)
 
-- inter와 intra SD²/t **모두 비슷한 수준에서 수렴** — 부호 정보 없으면 커뮤니티 구분 불가
-- 임베딩에서 빨강/파랑이 **섞여있음**
+- 실제 분열된 소셜 네트워크. 같은 club = 우호, 다른 club = 적대
+- Signed HST 임베딩에서 Mr. Hi 파벌(빨강)과 Officer 파벌(파랑) **분리**
+- Standard HST에서도 약간 분리되긴 하지만 signed가 훨씬 선명
 
-# 의미
+![](attachments/260515_signed_03_zachary.gif)
 
-Signed HST의 repulsive flow는 자연스러운 **community detection** 메커니즘이 된다.
+# 예제 4: 3-Community (4+4+4)
 
-- 적대 엣지에서 높이 차이가 증폭 → SD 거리가 커뮤니티 경계를 드러냄
-- Standard HST로는 보이지 않는 signed structure를 Signed HST가 포착
+- A vs B vs C 3파전. 3그룹이 임베딩에서 삼각형으로 분리
+- Standard HST에서는 3그룹 구분 불가
 
-이건 balance theory (Harary)와도 연결될 수 있다 — balanced signed graph에서는 노드가 정확히 2그룹으로 나뉘고, Signed HST의 SD 거리가 이 partition을 recover하는 셈.
+![](attachments/260515_signed_04_3community.gif)
+
+# 예제 5: Unbalanced Triad
+
+- 삼각형 A-B-C: A-B 우호, A-C 우호, **B-C 적대** (불안정 구조)
+- Unbalanced: B-C pair SD²/t만 발산, 나머지 수렴
+- Balanced (전부 우호): 3 pair 모두 비슷하게 수렴
+- Balance theory와 정확히 일치
+
+![](attachments/260515_signed_05_triad.gif)
+
+# 예제 6: Ring with Frustration
+
+- 10-ring에서 짝수 엣지 = 우호, 홀수 엣지 = 적대 (교대)
+- **Frustration**: 깨끗하게 2그룹으로 나눌 수 없음
+- neg-edge pairs SD²/t 발산, pos-edge pairs 수렴
+- 임베딩에서 자연스러운 pair (0-1, 2-3, ...)끼리 클러스터링
+
+![](attachments/260515_signed_06_ring.gif)
+
+# 정리
+
+| 예제 | 구조 | Signed HST 결과 |
+|---|---|---|
+| Two-community | balanced 2파전 | 2그룹 완벽 분리 |
+| Spy detection | 배신자 1명 | spy detect (B쪽으로 이동) |
+| Zachary | 실데이터 분열 | 실제 split recover |
+| 3-community | 3파전 | 3그룹 삼각형 분리 |
+| Unbalanced triad | 불안정 삼각형 | 적대 pair만 발산 |
+| Ring frustration | 2-color 불가 | 자연 pair로 클러스터 |
+
+Signed HST의 repulsive flow는 **community detection**, **이상탐지**, **balance theory 검증**에 모두 활용 가능하다.
