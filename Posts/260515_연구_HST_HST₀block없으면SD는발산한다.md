@@ -3,6 +3,7 @@ title: "연구 ▷ HST ▷ HST₀: block 없으면 SD는 발산한다"
 author: 신록예찬
 date: 05/15/2026
 draft: false
+output-file: 260515_d3bd76.html
 ---
 
 HST의 block/reset 메커니즘이 없으면 어떻게 될까? **HST₀**를 정의하자: 순수 랜덤워크로 이동하고, 도착한 노드에 무조건 눈을 적립. block도 reset도 없다.
@@ -11,7 +12,7 @@ Wheel $W_{21}$ (hub deg 20, leaf deg 3) 에서 uniform $\mu_0$, $b=0.05$, $\tau=
 
 ### 결과
 
-![](attachments/260515_hst0_01.gif)
+![](attachments/260515_d3bd76_01.gif)
 
 **HST** (Row 1):
 
