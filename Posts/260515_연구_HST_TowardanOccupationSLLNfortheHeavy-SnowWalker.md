@@ -44,15 +44,33 @@ This is $\mathcal{F}_{s-1}$-measurable, with $\sum_i p_i(s)=1$ and $p_i(s)\geq 0
 
 $$M_t^{(i)}\;:=\;\sum_{s=1}^{t}\bigl[\mathbf{1}\{X_s=v_i\}-p_i(s)\bigr].$$
 
+::: {.callout-tip collapse="true" title="보충설명"}
+$M_t^{(i)}$는 "실제 방문 횟수"와 "기대 방문 횟수"의 누적 차이. 매 step에서 $v_i$에 실제로 갔으면 $+1$, 안 갔으면 $0$을 기록하고, 거기서 "갈 확률" $p_i(s)$를 빼준 것을 $t$번 더한 것이다. 일종의 "예측 오차의 합산".
+:::
+
 Then:
 
 **(a)** $\{M_t^{(i)}\}_{t\geq 0}$ is a martingale w.r.t. $\{\mathcal{F}_t\}$ with bounded increments $|\Delta M_t^{(i)}|\leq 1$.
 
+::: {.callout-tip collapse="true" title="보충설명: (a)가 말하는 것"}
+$M_t^{(i)}$가 마팅게일이라는 건: 과거 정보를 다 알아도, 다음 예측 오차의 기댓값은 0이라는 뜻. 즉 예측 오차가 체계적으로 한 쪽으로 쏠리지 않는다. 그리고 한 step에서 오차는 최대 1 (갔거나 안 갔거나).
+:::
+
 **(b)** $M_t^{(i)}/t\to 0$ a.s.
+
+::: {.callout-tip collapse="true" title="보충설명: (b)가 말하는 것"}
+예측 오차의 합 $M_t^{(i)}$가 $t$보다 훨씬 느리게 자란다. $t$로 나누면 0으로 간다. 직관: 동전 던지기의 누적 편차가 $\sqrt{t}$ 정도로 자라는 것과 비슷. $t$로 나누면 사라진다.
+:::
 
 **(c)** Therefore
 
 $$\frac{1}{t}\sum_{s=1}^{t}\mathbf{1}\{X_s=v_i\}\;=\;\frac{1}{t}\sum_{s=1}^{t}p_i(s)\;+\;o(1)\qquad\text{a.s.}$$
+
+::: {.callout-important collapse="true" title="핵심 결론"}
+**실제 방문 비율** $=$ **조건부 확률의 평균** $+$ **사라지는 noise**.
+
+즉 $\rho_i$가 존재하는지는 오직 $\frac{1}{t}\sum p_i(s)$가 수렴하는지에 달렸다. 실제 방문의 랜덤성(noise)은 $1/t$ 스케일에서 자동으로 사라진다.
+:::
 
 *Proof.*
 

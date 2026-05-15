@@ -1,5 +1,5 @@
 ---
-title: 연구 ▷ HST ▷ Snow 거리는 발산할 수도 있다
+title: 연구 ▷ HST ▷ Thm A, B의 실제 검증
 author: 신록예찬
 date: 05/15/2026
 draft: false
@@ -56,23 +56,17 @@ regime을 결정하는 건 $\mu_0$이다. 정규 그래프에서는 degree-propo
 
 ### 예제 1: Star $S_{13}$
 
-![](attachments/260515_c0531a_05.png)
-
 hub의 degree는 12, leaf는 1이다. degree-proportional $\mu_0$를 쓰면 $\mu_0(\text{hub}) = 12/24 = 0.5$로 hub에 reset이 집중된다. 시뮬레이션에서 $\hat{\rho}_{\text{hub}} = 0.33$, $\hat{\rho}_{\text{leaf}} = 0.056$. $\mu_0 = 0.5$와 다른 이유는 block/flow dynamics가 적립을 재분배하기 때문이다. 어쨌든 $\rho$가 균등하지 않으므로 drift regime.
 
 ![](attachments/260515_c0531a_04.gif)
 
 ### 예제 2: Wheel $W_{11}$
 
-![](attachments/260515_c0531a_06.png)
-
 Wheel = Star + outer cycle. hub의 degree는 10, leaf는 3이다. $\mu_0(\text{hub}) = 10/40 = 0.25$로 Star보다 집중도가 낮지만, leaf 간에 outer cycle이 추가되어 flow dynamics가 달라진다. 여전히 비정규이므로 drift regime.
 
 ![](attachments/260515_c0531a_07.gif)
 
 ### 예제 3: Helm (n=21) — two regime
-
-![](attachments/260515_c0531a_08.png)
 
 Helm = Wheel + pendant leaves. 세 종류의 노드가 있다: hub (deg 10), ring (deg 4), pendant leaf (deg 1). $\mu_0$는 hub $= 0.167$, ring $= 0.067$, leaf $= 0.017$로 세 단계 격차가 생긴다. Helm은 **두 regime이 공존**하는 흥미로운 예이다:
 
