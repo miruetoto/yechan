@@ -70,11 +70,15 @@ Wheel = Star + outer cycle. hub의 degree는 10, leaf는 3이다. $\mu_0(\text{h
 
 ![](attachments/260515_c0531a_07.gif)
 
-### 예제 3: Helm (n=21)
+### 예제 3: Helm (n=21) — two regime
 
 ![](attachments/260515_c0531a_08.png)
 
-Helm = Wheel + pendant leaves. 세 종류의 노드가 있다: hub (deg 10), ring (deg 4), pendant leaf (deg 1). $\mu_0$는 hub $= 0.167$, ring $= 0.067$, leaf $= 0.017$로 세 단계 격차가 생긴다. $SD^2/t^3$의 이론 극한도 노드 쌍에 따라 달라진다.
+Helm = Wheel + pendant leaves. 세 종류의 노드가 있다: hub (deg 10), ring (deg 4), pendant leaf (deg 1). $\mu_0$는 hub $= 0.167$, ring $= 0.067$, leaf $= 0.017$로 세 단계 격차가 생긴다. Helm은 **두 regime이 공존**하는 흥미로운 예이다:
+
+`-` **그룹 간** (hub-leaf): $\rho$가 다르므로 drift regime. $SD^2/t^3$이 이론값으로 수렴 (Row 1 우측).
+
+`-` **그룹 내** (hub+ring끼리, leaf끼리): 같은 그룹 안에서는 $\rho$ 격차가 작아 $SD^2/t$가 유한 상수로 수렴 — balanced regime의 세밀한 구조가 남는다 (Row 2).
 
 ![](attachments/260515_c0531a_09.gif)
 
