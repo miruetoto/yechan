@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ Signed Graph HST (적대적 엣지)
 author: 신록예찬
 date: "2026-05-15"
 categories: [HST, Research]
-output-file: 260515_ef9ce2.html
+output-file: 260515_91a72d.html
 ---
 
 # 동기
@@ -27,7 +27,7 @@ output-file: 260515_ef9ce2.html
 
 **Signed HST vs Standard HST** 비교:
 
-![](attachments/260515_ef9ce2_01.gif)
+![](attachments/260515_91a72d_01.gif)
 
 # 관찰
 
