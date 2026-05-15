@@ -52,12 +52,32 @@ $$\frac{SD^2_{ij}(t)}{t^3} \;\to\; \frac{\bar{b}^2(\rho_i - \rho_j)^2}{3} \qquad
 
 regime을 결정하는 건 $\mu_0$이다. 정규 그래프에서는 degree-proportional이든 uniform이든 $\rho_i = 1/n$이라 balanced. 비정규 그래프에서 degree-proportional $\mu_0$를 쓰면 높은 차수 노드에 눈이 더 자주 쌓여서 drift에 빠진다.
 
-아래 Star 그래프로 검증해보았다.
+세 가지 비정규 그래프로 검증해보았다. 모두 degree-proportional $\mu_0$를 사용하고, 100만 스텝 시뮬레이션으로 $SD^2/t^3$이 이론값(점선)으로 수렴하는 과정을 확인한다.
+
+### 예제 1: Star $S_{13}$
 
 ![](attachments/260515_c0531a_05.png)
 
-hub의 degree는 12, leaf는 1이다. degree-proportional $\mu_0$를 쓰면 $\mu_0(\text{hub}) = 12/24 = 0.5$로 hub에 reset이 집중된다. 실측 적립률은 $\rho_{\text{hub}} = 0.33$, $\rho_{\text{leaf}} = 0.056$ ($\mu_0$와 정확히 같지는 않다 — block/flow dynamics가 재분배하기 때문). $\rho$가 균등하지 않으므로 drift regime. $SD^2/t^3$이 이론값(점선)으로 수렴하는 과정:
+hub의 degree는 12, leaf는 1이다. degree-proportional $\mu_0$를 쓰면 $\mu_0(\text{hub}) = 12/24 = 0.5$로 hub에 reset이 집중된다. 시뮬레이션에서 $\hat{\rho}_{\text{hub}} = 0.33$, $\hat{\rho}_{\text{leaf}} = 0.056$. $\mu_0 = 0.5$와 다른 이유는 block/flow dynamics가 적립을 재분배하기 때문이다. 어쨌든 $\rho$가 균등하지 않으므로 drift regime.
 
 ![](attachments/260515_c0531a_04.gif)
+
+### 예제 2: Wheel $W_{11}$
+
+![](attachments/260515_c0531a_06.png)
+
+Wheel = Star + outer cycle. hub의 degree는 10, leaf는 3이다. $\mu_0(\text{hub}) = 10/40 = 0.25$로 Star보다 집중도가 낮지만, leaf 간에 outer cycle이 추가되어 flow dynamics가 달라진다. 여전히 비정규이므로 drift regime.
+
+![](attachments/260515_c0531a_07.gif)
+
+### 예제 3: Helm (n=21)
+
+![](attachments/260515_c0531a_08.png)
+
+Helm = Wheel + pendant leaves. 세 종류의 노드가 있다: hub (deg 10), ring (deg 4), pendant leaf (deg 1). $\mu_0$는 hub $= 0.167$, ring $= 0.067$, leaf $= 0.017$로 세 단계 격차가 생긴다. $SD^2/t^3$의 이론 극한도 노드 쌍에 따라 달라진다.
+
+![](attachments/260515_c0531a_09.gif)
+
+---
 
 결국 두 regime 모두 $\tau \to \infty$에서 초기 신호 $\mathbf{y}$는 씻겨나간다. 차이는 **어떤 그래프 정보가 남느냐**: balanced는 flow/block dynamics의 세밀한 구조, drift는 단순히 적립률 격차.
