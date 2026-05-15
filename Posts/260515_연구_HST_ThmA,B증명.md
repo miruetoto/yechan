@@ -171,9 +171,9 @@ $$= b\,\hbar(X_{t+1},t) + \frac{(n-1)b^2}{3n} \qquad \square$$
 
 `-` $\tilde{X}_j = X_{t_r + j}$: 라운드 $r$의 $j$번째 방문 노드
 
-`-` $N_u = |\{j : \tilde{X}_j = u\}|$: 라운드 $r$ 동안 노드 $u$를 방문한 횟수
+`-` $\#_u = |\{j : \tilde{X}_j = u\}|$: 라운드 $r$ 동안 노드 $u$를 방문한 횟수
 
-`-` $\pi(u) = \mathbb{E}[N_u \mid S(t_r)]$: 기대 방문 횟수
+`-` $\pi(u) = \mathbb{E}[\#_u \mid S(t_r)]$: 기대 방문 횟수
 
 `-` $M = \max_i \hbar(v_i, t_r) - \min_i \hbar(v_i, t_r)$: 높이 range
 
@@ -181,7 +181,7 @@ $$= b\,\hbar(X_{t+1},t) + \frac{(n-1)b^2}{3n} \qquad \square$$
 
 **Lemma (Shape decomposition).**
 
-$$\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1) = \sum_u N_u \hbar(u, t_r) + \Theta, \qquad |\Theta| \leq \frac{(T_{\max}+1)T_{\max}}{2}b$$
+$$\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1) = \sum_u \#_u \hbar(u, t_r) + \Theta, \qquad |\Theta| \leq \frac{(T_{\max}+1)T_{\max}}{2}b$$
 
 좌변: 라운드 중간 시점의 $\hbar$ 합. 우변 첫째 항: 라운드 시작 시점의 $\hbar$로 계산한 합. $\Theta$: 라운드 중 높이가 변해서 생기는 오차 (bounded).
 
