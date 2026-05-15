@@ -3,6 +3,7 @@ title: 연구 ▷ HST ▷ Thm A, B 증명
 author: 신록예찬
 date: 05/15/2026
 draft: false
+output-file: 260515_5354b8.html
 ---
 
 Snow distance $SD^2_{ij}(t) = \sum_{s=0}^t (h_i(s) - h_j(s))^2$ 의 점근 거동은 장기 적립률 $\rho_i = \lim \frac{1}{t}\sum \mathbf{1}\{X_s = v_i\}$ 에 따라 두 가지로 나뉜다.
