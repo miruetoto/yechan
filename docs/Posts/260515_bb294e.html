@@ -368,10 +368,64 @@ window.Quarto = {
 <p>라운드 전체의 <span class="math inline">\(\Phi\)</span> 변화를 구하려면 <span class="math inline">\(\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1)\)</span>을 계산해야 한다. 문제는 <span class="math inline">\(\hbar(\tilde{X}_j, t_r + j - 1)\)</span>이 <strong>라운드 중간 시점</strong>의 값이라 라운드 시작 값 <span class="math inline">\(\hbar(u, t_r)\)</span>과 다르다는 것이다. Shape decomposition은 이 차이가 bounded error임을 말한다.</p>
 <p><strong>Lemma (Shape decomposition).</strong></p>
 <p><span class="math display">\[\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1) = \sum_u \#_u \hbar(u, t_r) + \Theta, \qquad |\Theta| \leq \frac{(T_{\max}+1)T_{\max}}{2}b\]</span></p>
-<p>좌변: 라운드 중간 시점의 <span class="math inline">\(\hbar\)</span> 합. 우변 첫째 항: 라운드 시작 시점의 <span class="math inline">\(\hbar\)</span>로 계산한 합. <span class="math inline">\(\Theta\)</span>: 라운드 중 높이가 변해서 생기는 오차 (bounded).</p>
+<p>좌변: 라운드 중간 시점의 <span class="math inline">\(\hbar\)</span> 합. 우변의 <span class="math inline">\(\sum_u\)</span>는 모든 노드 <span class="math inline">\(u \in V\)</span>에 대한 합이고, <span class="math inline">\(\#_u\)</span>는 노드 <span class="math inline">\(u\)</span>를 방문한 횟수. 첫째 항: 라운드 시작 시점의 <span class="math inline">\(\hbar\)</span>로 계산한 합. <span class="math inline">\(\Theta\)</span>: 라운드 중 높이가 변해서 생기는 오차 (bounded).</p>
+<div class="callout callout-style-default callout-note callout-titled" title="증명: Shape decomposition">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>증명: Shape decomposition
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>구하고 싶은 것: 좌변 <span class="math inline">\(\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1)\)</span>을 라운드 시작 시점의 <span class="math inline">\(\hbar\)</span>로 표현하기.</p>
+<p><span class="math inline">\(\hbar(\tilde{X}_j, t_r + j - 1)\)</span>은 라운드 <span class="math inline">\(j\)</span>번째 방문 노드의 <strong>시점 <span class="math inline">\(t_r + j - 1\)</span>에서의</strong> centered height이다. Fact 1을 반복 적용하면, 시점 <span class="math inline">\(t_r\)</span>에서의 값 <span class="math inline">\(\hbar(\tilde{X}_j, t_r)\)</span>에 라운드 도중의 보정이 더해진다:</p>
+<p><span class="math display">\[\hbar(\tilde{X}_j, t_r + j - 1) = \hbar(\tilde{X}_j, t_r) + \sum_{k=1}^{j-1} b'_{t_r+k}\left[\mathbf{1}\{\tilde{X}_k = \tilde{X}_j\} - \frac{1}{n}\right]\]</span></p>
+<p>첫째 항: 라운드 시작 시점의 <span class="math inline">\(\hbar\)</span>. 둘째 항: step <span class="math inline">\(k\)</span>에서 <span class="math inline">\(\tilde{X}_j\)</span>와 같은 노드에 눈이 쌓이면 <span class="math inline">\((1-1/n)\)</span>, 다른 노드면 <span class="math inline">\(-1/n\)</span>만큼 <span class="math inline">\(\hbar\)</span>가 바뀐 누적 (Fact 1에 의해).</p>
+<p><span class="math inline">\(j = 1, \ldots, m_r\)</span>에 대해 합산하자.</p>
+<p><span class="math display">\[\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1) = \underbrace{\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r)}_{\text{첫째 항의 합}} + \underbrace{\sum_{j=1}^{m_r}\sum_{k=1}^{j-1} b'_{t_r+k}\left[\mathbf{1}\{\tilde{X}_k = \tilde{X}_j\} - \frac{1}{n}\right]}_{=:\,\Theta}\]</span></p>
+<p>첫째 항의 합: 노드 <span class="math inline">\(u\)</span>를 <span class="math inline">\(\#_u\)</span>번 방문했으므로:</p>
+<p><span class="math display">\[\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r) = \sum_u \#_u\, \hbar(u, t_r)\]</span></p>
+<p><span class="math inline">\(|\Theta|\)</span>의 bound: 이중합에서 각 항은 <span class="math inline">\(|b'_{t_r+k}| \cdot |\mathbf{1}\{\cdots\} - 1/n| \leq b \cdot 1\)</span>. 항의 개수는:</p>
+<p><span class="math display">\[\sum_{j=1}^{m_r}(j-1) = \frac{m_r(m_r - 1)}{2} \leq \frac{(T_{\max}+1)T_{\max}}{2}\]</span></p>
+<p>따라서:</p>
+<p><span class="math display">\[|\Theta| \leq \frac{(T_{\max}+1)T_{\max}}{2}\,b \qquad \square\]</span></p>
+</div>
+</div>
+</div>
 <p>보조 결과 1의 <span class="math inline">\(\Phi\)</span> drift lemma와 이 shape decomposition을 합치면 <strong>라운드 단위 drift</strong>를 얻는다:</p>
 <p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] = b\,\mathcal{B}(S) + (\text{bounded terms})\]</span></p>
 <p>여기서 <span class="math inline">\(\mathcal{B}(S) = \sum_u \pi(u) \hbar(u)\)</span>이다. Bounded terms는 <span class="math inline">\(M\)</span>과 무관한 상수. 따라서 <strong><span class="math inline">\(M\)</span>에 비례하는 유일한 항은 <span class="math inline">\(\mathcal{B}(S)\)</span></strong>이다.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="증명: 라운드 단위 drift">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>증명: 라운드 단위 drift
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>구하고 싶은 것: <span class="math inline">\(\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)]\)</span>.</p>
+<p>라운드 <span class="math inline">\(r\)</span>은 step <span class="math inline">\(t_r + 1\)</span>부터 <span class="math inline">\(t_{r+1}\)</span>까지 총 <span class="math inline">\(m_r\)</span> step이다. <span class="math inline">\(\Phi\)</span> drift lemma (보조 결과 1)를 각 step에 적용하고 합산하면:</p>
+<p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] = \sum_{j=1}^{m_r} \mathbb{E}\left[b\,\hbar(\tilde{X}_j, t_r + j - 1) + \frac{(n-1)b^2}{3n} \;\middle|\; S(t_r)\right]\]</span></p>
+<p><span class="math display">\[= b\,\mathbb{E}\left[\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1) \;\middle|\; S(t_r)\right] + \frac{(n-1)b^2}{3n}\,\mathbb{E}[m_r \mid S(t_r)]\]</span></p>
+<p>둘째 항: <span class="math inline">\(\mathbb{E}[m_r] \leq T_{\max}+1\)</span>이므로 bounded.</p>
+<p>첫째 항: shape decomposition (보조 결과 2)을 적용하면:</p>
+<p><span class="math display">\[\mathbb{E}\left[\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1) \;\middle|\; S(t_r)\right] = \mathbb{E}\left[\sum_u \#_u\,\hbar(u, t_r) + \Theta \;\middle|\; S(t_r)\right]\]</span></p>
+<p><span class="math display">\[= \sum_u \underbrace{\mathbb{E}[\#_u \mid S(t_r)]}_{=\,\pi(u)}\,\hbar(u, t_r) + \mathbb{E}[\Theta \mid S(t_r)]\]</span></p>
+<p><span class="math display">\[= \mathcal{B}(S) + \mathbb{E}[\Theta \mid S(t_r)]\]</span></p>
+<p><span class="math inline">\(|\Theta| \leq (T_{\max}+1)T_{\max}b/2\)</span>이므로 <span class="math inline">\(\mathbb{E}[\Theta \mid S(t_r)]\)</span>도 bounded.</p>
+<p>합치면:</p>
+<p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] = b\,\mathcal{B}(S) + \underbrace{b\,\mathbb{E}[\Theta \mid S] + \frac{(n-1)b^2}{3n}\mathbb{E}[m_r \mid S]}_{\text{bounded terms}} \qquad \square\]</span></p>
+</div>
+</div>
+</div>
 </section>
 <section id="보조-결과-3-ob-occupation-bias-조건" class="level3">
 <h3 class="anchored" data-anchor-id="보조-결과-3-ob-occupation-bias-조건">보조 결과 3: OB (Occupation-Bias) 조건</h3>
@@ -381,9 +435,9 @@ window.Quarto = {
 <section id="보조-결과-4-moment-bound" class="level3">
 <h3 class="anchored" data-anchor-id="보조-결과-4-moment-bound">보조 결과 4: Moment bound</h3>
 <p><strong>Proposition (Moment bound).</strong> <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>.</p>
-<p>Round drift <span class="math inline">\(\mathbb{E}[\Delta\Phi] \leq -b\kappa_G M + C\)</span>에서 <span class="math inline">\(M \sim \sqrt{\Phi}\)</span>이므로 drift 차수가 <span class="math inline">\(-\Phi^{1/2}\)</span>. 이것만으로는 <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>를 얻기에 부족하다 (Meyn-Tweedie로 <span class="math inline">\(r &lt; 1/2\)</span>까지만 가능). 해법: Lyapunov를 <span class="math inline">\(V = \Phi^2\)</span>로 올린다.</p>
+<p>Round drift <span class="math inline">\(\mathbb{E}[\Delta\Phi] \leq -b\kappa_G M + C\)</span>에서 <span class="math inline">\(M \sim \sqrt{\Phi}\)</span>이므로 drift 차수가 <span class="math inline">\(-\Phi^{1/2}\)</span>. 이것만으로는 <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>를 얻기에 부족하다 (Meyn-Tweedie로 <span class="math inline">\(r &lt; 1/2\)</span>까지만 가능). 해법: Lyapunov를 <span class="math inline">\(V_{\text{Ly}} = \Phi^2\)</span>로 올린다.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="증명: Moment bound">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -392,17 +446,17 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>구하고 싶은 것: <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>.</p>
-<p>이를 위해 <span class="math inline">\(V = \Phi^2\)</span>의 drift를 구한다. 먼저 <span class="math inline">\(\Delta V = V(t_{r+1}) - V(t_r)\)</span>를 계산하자.</p>
-<p><span class="math display">\[V(t_{r+1}) = \Phi(t_{r+1})^2 = (\Phi(t_r) + \Delta\Phi_r)^2\]</span></p>
-<p><span class="math display">\[V(t_r) = \Phi(t_r)^2\]</span></p>
+<p>이를 위해 <span class="math inline">\(V_{\text{Ly}} = \Phi^2\)</span>의 drift를 구한다. 먼저 <span class="math inline">\(\Delta V_{\text{Ly}} = V_{\text{Ly}}(t_{r+1}) - V_{\text{Ly}}(t_r)\)</span>를 계산하자.</p>
+<p><span class="math display">\[V_{\text{Ly}}(t_{r+1}) = \Phi(t_{r+1})^2 = (\Phi(t_r) + \Delta\Phi_r)^2\]</span></p>
+<p><span class="math display">\[V_{\text{Ly}}(t_r) = \Phi(t_r)^2\]</span></p>
 <p>빼면:</p>
-<p><span class="math display">\[\Delta V = (\Phi + \Delta\Phi_r)^2 - \Phi^2 = 2\Phi \cdot \Delta\Phi_r + (\Delta\Phi_r)^2\]</span></p>
+<p><span class="math display">\[\Delta V_{\text{Ly}} = (\Phi + \Delta\Phi_r)^2 - \Phi^2 = 2\Phi \cdot \Delta\Phi_r + (\Delta\Phi_r)^2\]</span></p>
 <p>기대값을 취하면:</p>
-<p><span class="math display">\[\mathbb{E}[\Delta V \mid S(t_r)] = 2\Phi \cdot \mathbb{E}[\Delta\Phi_r \mid S] + \mathbb{E}[(\Delta\Phi_r)^2 \mid S]\]</span></p>
-<p><strong>첫째 항.</strong> Round drift에 의해 <span class="math inline">\(\mathbb{E}[\Delta\Phi_r \mid S] \leq -b\kappa_G M + C\)</span>이므로:</p>
+<p><span class="math display">\[\mathbb{E}[\Delta V_{\text{Ly}} \mid S(t_r)] = 2\Phi \cdot \mathbb{E}[\Delta\Phi_r \mid S] + \mathbb{E}[(\Delta\Phi_r)^2 \mid S]\]</span></p>
+<p><strong>첫째 항.</strong> 보조 결과 1 (<span class="math inline">\(\Phi\)</span> drift) + 보조 결과 2 (shape decomposition) + 보조 결과 3 (OB)를 합치면 라운드 단위 drift가 <span class="math inline">\(\mathbb{E}[\Delta\Phi_r \mid S] \leq -b\kappa_G M + C\)</span>였다 (위의 “라운드 단위 drift” 참조). 대입하면:</p>
 <p><span class="math display">\[2\Phi \cdot \mathbb{E}[\Delta\Phi_r] \leq 2\Phi(-b\kappa_G M + C) = -2b\kappa_G \Phi M + 2C\Phi\]</span></p>
 <p>여기서 <span class="math inline">\(\Phi\)</span>와 <span class="math inline">\(M\)</span>의 관계를 쓴다.</p>
 <p><strong>Fact 3.</strong> <span class="math inline">\(\Phi \geq M^2/2\)</span>.</p>
@@ -420,16 +474,16 @@ window.Quarto = {
 <p>여기서 <span class="math inline">\(A_1 = 2b(T_{\max}+1)\)</span>, <span class="math inline">\(A_2 = (T_{\max}+1)[2bT_{\max}b + (n-1)b^2/n]\)</span>. 따라서:</p>
 <p><span class="math display">\[\mathbb{E}[(\Delta\Phi_r)^2] \leq (A_1 M + A_2)^2 \leq C_3 M^2 + C_4\]</span></p>
 <p><strong>합치기.</strong></p>
-<p><span class="math display">\[\mathbb{E}[\Delta V \mid S] \leq -b\kappa_G M^3 + 2CnM^2 + C_3 M^2 + C_4\]</span></p>
+<p><span class="math display">\[\mathbb{E}[\Delta V_{\text{Ly}} \mid S] \leq -b\kappa_G M^3 + 2CnM^2 + C_3 M^2 + C_4\]</span></p>
 <p><span class="math display">\[= -b\kappa_G M^3 + C_5 M^2 + C_6\]</span></p>
 <p><span class="math inline">\(M\)</span>이 크면 <span class="math inline">\(M^3\)</span>이 <span class="math inline">\(M^2\)</span>를 압도한다. <span class="math inline">\(M \geq M_0 := 2C_5/(b\kappa_G)\)</span>이면:</p>
-<p><span class="math display">\[\mathbb{E}[\Delta V \mid S] \leq -\frac{b\kappa_G}{2} M^3 + C_6\]</span></p>
+<p><span class="math display">\[\mathbb{E}[\Delta V_{\text{Ly}} \mid S] \leq -\frac{b\kappa_G}{2} M^3 + C_6\]</span></p>
 <p><span class="math inline">\(V\)</span>로 표현하자. <span class="math inline">\(\Phi \leq nM^2\)</span>에서 <span class="math inline">\(M \geq (\Phi/n)^{1/2}\)</span>이므로:</p>
-<p><span class="math display">\[M^3 \geq \frac{\Phi^{3/2}}{n^{3/2}} = \frac{V^{3/4}}{n^{3/2}}\]</span></p>
+<p><span class="math display">\[M^3 \geq \frac{\Phi^{3/2}}{n^{3/2}} = \frac{V_{\text{Ly}}^{3/4}}{n^{3/2}}\]</span></p>
 <p>대입하면:</p>
-<p><span class="math display">\[\mathbb{E}[\Delta V \mid S] \leq -\frac{b\kappa_G}{2n^{3/2}} V^{3/4} + C_6 \cdot \mathbf{1}_{\{M \leq M_0\}}\]</span></p>
-<p>Meyn-Tweedie Thm 14.3.7: <span class="math inline">\(\mathbb{E}[\Delta V] \leq -f + C \cdot \mathbf{1}_B\)</span> 형태이면 <span class="math inline">\(\mathbb{E}_{\pi^*}[f] &lt; \infty\)</span>. 따라서:</p>
-<p><span class="math display">\[\mathbb{E}_{\pi^*}[V^{3/4}] = \mathbb{E}_{\pi^*}[\Phi^{3/2}] &lt; \infty\]</span></p>
+<p><span class="math display">\[\mathbb{E}[\Delta V_{\text{Ly}} \mid S] \leq -\frac{b\kappa_G}{2n^{3/2}} V_{\text{Ly}}^{3/4} + C_6 \cdot \mathbf{1}_{\{M \leq M_0\}}\]</span></p>
+<p>Meyn-Tweedie Thm 14.3.7: <span class="math inline">\(\mathbb{E}[\Delta V_{\text{Ly}}] \leq -f + C \cdot \mathbf{1}_B\)</span> 형태이면 <span class="math inline">\(\mathbb{E}_{\pi^*}[f] &lt; \infty\)</span>. 따라서:</p>
+<p><span class="math display">\[\mathbb{E}_{\pi^*}[V_{\text{Ly}}^{3/4}] = \mathbb{E}_{\pi^*}[\Phi^{3/2}] &lt; \infty\]</span></p>
 <p><span class="math inline">\(\Phi \geq 0\)</span>에서 <span class="math inline">\(\Phi \leq \Phi^{3/2} + 1\)</span>이므로 (<span class="math inline">\(\Phi \geq 1\)</span>이면 <span class="math inline">\(\Phi \leq \Phi^{3/2}\)</span>, <span class="math inline">\(\Phi &lt; 1\)</span>이면 <span class="math inline">\(\Phi \leq 1\)</span>):</p>
 <p><span class="math display">\[\mathbb{E}_{\pi^*}[\Phi] \leq \mathbb{E}_{\pi^*}[\Phi^{3/2}] + 1 &lt; \infty \qquad \square\]</span></p>
 </div>
@@ -439,6 +493,24 @@ window.Quarto = {
 <section id="보조-결과-5-doeblin-minorization" class="level3">
 <h3 class="anchored" data-anchor-id="보조-결과-5-doeblin-minorization">보조 결과 5: Doeblin minorization</h3>
 <p><strong>Proposition (Doeblin minorization).</strong> 임의의 bounded set <span class="math inline">\(\mathcal{B}_\Phi\)</span>에 대해 <span class="math inline">\(\eta &gt; 0\)</span>, <span class="math inline">\(K^* &lt; \infty\)</span>, 확률측도 <span class="math inline">\(\nu\)</span>가 존재하여 <span class="math inline">\(P^{K^*}(s,B) \geq \eta\,\nu(B)\)</span>.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="해석: Doeblin minorization이 뭘 말하는가">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>해석: Doeblin minorization이 뭘 말하는가
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\mathcal{B}_\Phi\)</span> 안의 아무 상태에서 출발해도, <span class="math inline">\(K^*\)</span> step 후에는 <strong>어디든 양의 확률로 갈 수 있다.</strong></p>
+<p>HST의 상태는 연속 (<span class="math inline">\(\mathbb{R}^{n-1}\)</span>의 높이 벡터)이라서, 특정 상태에서 특정 상태로 갈 확률이 0일 수 있다. 하지만 block event에서 i.i.d. <span class="math inline">\(\text{Unif}(0,b)\)</span>가 들어오므로 연속 density가 생긴다. 이를 이용하면 bounded 영역 안에서는 어디든 양의 확률로 도달 가능.</p>
+<p>Moment bound (보조 결과 4)에서 <span class="math inline">\(\{M \leq M_0\}\)</span>가 petite set이라고 쓴 근거가 이것이다.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="증명-체인" class="level3">
 <h3 class="anchored" data-anchor-id="증명-체인">증명 체인</h3>
@@ -446,7 +518,7 @@ window.Quarto = {
 <p><strong>Step 2 (Doeblin).</strong> <span class="math inline">\(\mathcal{B}_\Phi\)</span>가 <span class="math inline">\(K^*\)</span>-skeleton의 small set.</p>
 <p><strong>Step 3 (<span class="math inline">\(\psi\)</span>-irreducibility).</strong> Foster drift로 모든 initial state가 <span class="math inline">\(\mathcal{B}_\Phi\)</span>에 도달 (optional stopping: <span class="math inline">\(\mathbb{E}[\tau] \leq \Phi(t_0) &lt; \infty\)</span>). Doeblin smallness로 <span class="math inline">\(\nu\)</span>-irreducibility. 단일 closed Harris class, <span class="math inline">\(\pi^*\)</span> unique, <span class="math inline">\(\mathbf{y}\)</span>-독립.</p>
 <p><strong>Step 4 (Skeleton <span class="math inline">\(\to\)</span> original).</strong> <span class="math inline">\(m_r \leq T_{\max}+1\)</span>이므로 hitting time, stationary measure, LLN 모두 round-skeleton에서 original chain으로 전달 (Meyn-Tweedie 17.3.2).</p>
-<p><strong>Step 5 (Moment bound).</strong> <span class="math inline">\(V = \Phi^2\)</span> iterated Lyapunov로 <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>.</p>
+<p><strong>Step 5 (Moment bound).</strong> <span class="math inline">\(V_{\text{Ly}} = \Phi^2\)</span> iterated Lyapunov로 <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>.</p>
 <p><strong>Step 6 (LLN).</strong> <span class="math inline">\(g(S) = (\delta_i - \delta_j)^2 \leq 2\Phi\)</span>이므로 <span class="math inline">\(\pi^*\)</span>-integrable. Positive Harris chain의 LLN (Meyn-Tweedie 17.1.7):</p>
 <p><span class="math display">\[\frac{SD^2_{ij}(t)}{t} = \frac{1}{t}\sum_{s=0}^t g(S(s)) \to \mathbb{E}_{\pi^*}[g] =: c_{ij} \qquad \text{a.s.} \qquad \square\]</span></p>
 <hr>
