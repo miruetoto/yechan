@@ -40,7 +40,7 @@ Helm = Wheel + pendant leaves. 세 종류의 노드가 있다: hub (deg 10), rin
 
 Helm에 outer ring을 추가. hub (deg 10) + inner ring (deg 4) + pendant (deg 2) + outer ring (deg 3). 4종류 degree → 그룹 간 drift + 그룹 내 balanced이 더 복잡하게 공존.
 
-![](attachments/260515_41f2b0_08.gif)
+![](attachments/260515_41f2b0_05.gif)
 
 ---
 
