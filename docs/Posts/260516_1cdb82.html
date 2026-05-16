@@ -237,6 +237,9 @@ window.Quarto = {
   <li><a href="#shortest-path" id="toc-shortest-path" class="nav-link" data-scroll-target="#shortest-path">4.2 Shortest Path</a>
   <ul class="collapse">
   <li><a href="#개-그래프-33-패널" id="toc-개-그래프-33-패널" class="nav-link" data-scroll-target="#개-그래프-33-패널">24개 그래프 × 3×3 패널</a></li>
+  <li><a href="#잘-동작하는-예제-13개" id="toc-잘-동작하는-예제-13개" class="nav-link" data-scroll-target="#잘-동작하는-예제-13개">잘 동작하는 예제 (13개)</a></li>
+  <li><a href="#잘-안-동작하는-예제-11개" id="toc-잘-안-동작하는-예제-11개" class="nav-link" data-scroll-target="#잘-안-동작하는-예제-11개">잘 안 동작하는 예제 (11개)</a></li>
+  <li><a href="#sp-도구별-평가" id="toc-sp-도구별-평가" class="nav-link" data-scroll-target="#sp-도구별-평가">SP 도구별 평가</a></li>
   </ul></li>
   <li><a href="#diffusion-distance" id="toc-diffusion-distance" class="nav-link" data-scroll-target="#diffusion-distance">4.3 Diffusion Distance</a>
   <ul class="collapse">
@@ -1384,15 +1387,212 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p><strong>핵심 관찰:</strong></p>
-<ul>
-<li><strong>MDS vs Spectral</strong>: 같은 그래프를 두 방식으로 임베딩 — 특히 6-1 Dir Ring에서 MDS는 산란하지만 Spectral은 완벽한 ring 복원.</li>
-<li><strong>D − D^⊤ + Symmetry scatter</strong>: directed 그래프에서 비대칭 직접 관찰. 단, 도달 불가(<span class="math inline">\(\infty\)</span>) 쌍이 있는 1-1, 1-2, 5-1, 7-1 등은 mask 처리로 비대칭 시각화가 약함.</li>
-<li><strong>Sammon dual</strong>: source <span class="math inline">\(p_i\)</span> (원)과 sink <span class="math inline">\(q_j\)</span> (삼각형) 분리. 양방향 그래프에서는 거의 겹치고, 비대칭 그래프에서 의미 있는 분리.</li>
-<li><strong>Original / W heatmap</strong>: 그래프 구조 자체 확인.</li>
-<li><strong>Laplacian spectrum</strong>: 그래프의 알고리즘적 특성 (algebraic connectivity, spectral gap).</li>
-</ul>
-<p><strong>SP 요약</strong>: 명료하고 빠르지만 (1) bottleneck 취약, (2) directed에서 대칭화 시 degenerate, (3) 정규 그래프에서만 깨끗.</p>
+</section>
+<section id="잘-동작하는-예제-13개" class="level3">
+<h3 class="anchored" data-anchor-id="잘-동작하는-예제-13개">잘 동작하는 예제 (13개)</h3>
+<p><strong>모두 대칭(undirected) 그래프 또는 Gaussian — 모든 쌍이 도달 가능.</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">예제</th>
+<th style="text-align: left;">특징</th>
+<th style="text-align: left;">MDS 임베딩 모양</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>1-3 Star Bidir</strong></td>
+<td style="text-align: left;">hub + leaf</td>
+<td style="text-align: left;">hub 중심 + leaf 원 (bottleneck 한계는 있음)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>1-4 Star Gaussian</strong></td>
+<td style="text-align: left;">hub + leaf, 가중치</td>
+<td style="text-align: left;">hub 중심 + leaf 원 (가중치 미세 반영)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>2-3 Wheel Bidir</strong></td>
+<td style="text-align: left;">hub + rim cycle</td>
+<td style="text-align: left;">hub 중심 + rim 원</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>2-4 Wheel Gaussian</strong></td>
+<td style="text-align: left;">hub + rim, 가중치</td>
+<td style="text-align: left;">동일</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>3-3 Helm Bidir</strong></td>
+<td style="text-align: left;">hub + ring + pendant</td>
+<td style="text-align: left;">3층 구조 명확 분리</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>3-4 Helm Gaussian</strong></td>
+<td style="text-align: left;">다층 + 가중치</td>
+<td style="text-align: left;">동일, 가중치 반영</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>4-3 D-Helm Bidir</strong></td>
+<td style="text-align: left;">4층 계층</td>
+<td style="text-align: left;">4층 분리</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>4-4 D-Helm Gaussian</strong></td>
+<td style="text-align: left;">4층 + 가중치</td>
+<td style="text-align: left;">동일</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>5-2 Bidir Path</strong></td>
+<td style="text-align: left;">양방향 path</td>
+<td style="text-align: left;">무지개색 선형 arc — path 구조 그대로</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>5-3 Gauss Path</strong></td>
+<td style="text-align: left;">Gaussian path</td>
+<td style="text-align: left;">부드러운 S-자 곡선</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>6-2 Bidir Ring</strong></td>
+<td style="text-align: left;">양방향 cycle</td>
+<td style="text-align: left;"><strong>완벽한 원형 복원</strong> (정규 그래프 baseline)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>6-3 Gauss Ring</strong></td>
+<td style="text-align: left;">Gaussian cycle</td>
+<td style="text-align: left;">거의 완벽한 원, 가중치 미세 반영</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>7-2 Cyl Inter-bidir</strong></td>
+<td style="text-align: left;">5 ring × bidir spoke</td>
+<td style="text-align: left;"><strong>5개 군집으로 시각화</strong> — 실린더 구조</td>
+</tr>
+</tbody>
+</table>
+<p><strong>공통점</strong>: <span class="math inline">\(\rho_{\mathrm{asym}} = 0\)</span>, Symmetry scatter 점들이 <span class="math inline">\(y=x\)</span> 위, MDS / Spectral / Sammon이 모두 의미 있는 구조 산출.</p>
+<hr>
+</section>
+<section id="잘-안-동작하는-예제-11개" class="level3">
+<h3 class="anchored" data-anchor-id="잘-안-동작하는-예제-11개">잘 안 동작하는 예제 (11개)</h3>
+<p><strong>모두 directed — 도달 불가(<span class="math inline">\(\infty\)</span>) 쌍이 있거나 대칭화 시 degenerate.</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">예제</th>
+<th style="text-align: left;">실패 모드</th>
+<th style="text-align: left;">무엇이 망가지나</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>1-1 Star Inward</strong></td>
+<td style="text-align: left;">leaves→hub만 가능, leaf↔︎leaf <span class="math inline">\(\infty\)</span></td>
+<td style="text-align: left;">MDS 한 점으로 <strong>붕괴</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>1-2 Star Outward</strong></td>
+<td style="text-align: left;">hub→leaves만, leaf→hub <span class="math inline">\(\infty\)</span></td>
+<td style="text-align: left;">MDS 붕괴</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>2-1 Wheel Inward</strong></td>
+<td style="text-align: left;">spoke→hub 단방향</td>
+<td style="text-align: left;"><span class="math inline">\(D-D^\top\)</span> blank (<span class="math inline">\(\infty\)</span> 마스크에 흡수), MDS 일부 분리</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>2-2 Wheel Outward</strong></td>
+<td style="text-align: left;">hub→spoke 단방향, leaf→hub <span class="math inline">\(\infty\)</span></td>
+<td style="text-align: left;">MDS에서 hub만 떨어짐, 비대칭 시각화 약함</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>3-1, 3-2 Helm directed</strong></td>
+<td style="text-align: left;">hub spoke 단방향</td>
+<td style="text-align: left;">다층 구조 일부 깨짐</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>4-1, 4-2 D-Helm directed</strong></td>
+<td style="text-align: left;">hub spoke 단방향</td>
+<td style="text-align: left;">4층 구조 일부 깨짐</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>5-1 Dir Path</strong></td>
+<td style="text-align: left;"><span class="math inline">\(D[j, i&lt;j] = \infty\)</span></td>
+<td style="text-align: left;">MDS <strong>거의 한 점 붕괴</strong> (finite는 단조 증가뿐)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>6-1 Dir Ring</strong></td>
+<td style="text-align: left;"><span class="math inline">\(D(i, i-1) = n-1\)</span> vs <span class="math inline">\(D(i, i+1) = 1\)</span></td>
+<td style="text-align: left;">대칭화 시 모든 쌍 <span class="math inline">\(\approx n/2\)</span> → MDS <strong>산란</strong>. <strong>단 Spectral은 완벽한 원 복원</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>7-1 Cyl Inter-dir</strong></td>
+<td style="text-align: left;">ring 간 단방향</td>
+<td style="text-align: left;">일부 ring 군집은 보이나 전반적 산란</td>
+</tr>
+</tbody>
+</table>
+<p><strong>공통점</strong>: <span class="math inline">\(\rho_{\mathrm{asym}}\)</span> 측정 자체가 어려움 (<span class="math inline">\(\infty\)</span> 마스크 영향), Sammon dual에서 source/sink 분리 불안정.</p>
+<p><strong>유일한 예외 — 6-1 Dir Ring의 Spectral embedding</strong>: 같은 그래프에서 MDS는 완전히 실패하지만 <strong>Spectral embedding은 완벽한 원형</strong>을 복원. 거리 기반 vs 스펙트럼 기반 임베딩의 원리적 차이를 보여주는 가장 극적인 예.</p>
+<hr>
+</section>
+<section id="sp-도구별-평가" class="level3">
+<h3 class="anchored" data-anchor-id="sp-도구별-평가">SP 도구별 평가</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">도구</th>
+<th style="text-align: left;">잘 동작 (13개)</th>
+<th style="text-align: left;">잘 안 동작 (11개)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>3.9 MDS 2D</strong></td>
+<td style="text-align: left;">구조 명확 복원</td>
+<td style="text-align: left;">붕괴 / 산란</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>3.8 Sammon dual</strong></td>
+<td style="text-align: left;"><span class="math inline">\(p_i \approx q_i\)</span> (대칭)</td>
+<td style="text-align: left;">source/sink 분리 불안정</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>3.7 Spectral</strong></td>
+<td style="text-align: left;">MDS와 유사</td>
+<td style="text-align: left;"><strong>MDS가 실패하는 곳에서도 작동</strong> (6-1 Dir Ring 특히)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>3.6 Sym scatter</strong></td>
+<td style="text-align: left;"><span class="math inline">\(y=x\)</span> 위</td>
+<td style="text-align: left;"><span class="math inline">\(\infty\)</span> 마스크로 직접 관찰 어려움</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>3.5 Ring profile</strong></td>
+<td style="text-align: left;">깨끗한 inverted-V</td>
+<td style="text-align: left;">한쪽으로만 단조 증가</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>3.4 λ spectrum</strong></td>
+<td style="text-align: left;">그래프 본질</td>
+<td style="text-align: left;">(모든 예제에서 동작)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>SP 요약</strong>: 명료하고 빠르지만 (1) bottleneck 취약, (2) directed에서 도달 불가 쌍이 있으면 MDS 붕괴, (3) directed cycle 대칭화 시 degenerate. <strong>정규 그래프에서만 깨끗.</strong></p>
+<p>→ Directed 그래프에 SP를 적용하려면 <strong>Spectral embedding으로 우회</strong> 권장.</p>
 <hr>
 </section>
 </section>

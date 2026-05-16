@@ -537,6 +537,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <section id="보조-결과-5-doeblin-minorization" class="level3">
 <h3 class="anchored" data-anchor-id="보조-결과-5-doeblin-minorization">보조 결과 5: Doeblin minorization</h3>
 <p><strong>Proposition (Doeblin minorization).</strong> 임의의 bounded set <span class="math inline">\(\mathcal{B}_\Phi\)</span>에 대해 <span class="math inline">\(\eta &gt; 0\)</span>, <span class="math inline">\(K^* &lt; \infty\)</span>, 확률측도 <span class="math inline">\(\nu\)</span>가 존재하여 <span class="math inline">\(P^{K^*}(s,B) \geq \eta\,\nu(B)\)</span>.</p>
+<p><strong>Pushforward density lemma (보조).</strong> <span class="math inline">\(\xi_1, \ldots, \xi_n \stackrel{\text{iid}}{\sim} \text{Unif}(0,b)\)</span>, <span class="math inline">\(\Lambda(\xi) := (\xi_2 - \xi_1, \ldots, \xi_n - \xi_1)\)</span>. Pushforward 밀도 <span class="math inline">\(\rho_\Lambda(\mathbf{y}) \geq b^{1-n}/2\)</span> on <span class="math inline">\(\mathcal{O} := \{\max_i |y_i| &lt; b/4\}\)</span>.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="해석: Doeblin minorization이 뭘 말하는가">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -552,6 +553,78 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><span class="math inline">\(\mathcal{B}_\Phi\)</span> 안의 아무 상태에서 출발해도, <span class="math inline">\(K^*\)</span> step 후에는 <strong>어디든 양의 확률로 갈 수 있다.</strong></p>
 <p>HST의 상태는 연속 (<span class="math inline">\(\mathbb{R}^{n-1}\)</span>의 높이 벡터)이라서, 특정 상태에서 특정 상태로 갈 확률이 0일 수 있다. 하지만 block event에서 i.i.d. <span class="math inline">\(\text{Unif}(0,b)\)</span>가 들어오므로 연속 density가 생긴다. 이를 이용하면 bounded 영역 안에서는 어디든 양의 확률로 도달 가능.</p>
 <p>Moment bound (보조 결과 4)에서 <span class="math inline">\(\{M \leq M_0\}\)</span>가 petite set이라고 쓴 근거가 이것이다.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="해석: 증명의 큰 그림">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>해석: 증명의 큰 그림
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>문제.</strong> 출발 상태 <span class="math inline">\(\boldsymbol{\delta}_0\)</span> (높이차 벡터)에서 <span class="math inline">\(K^*\)</span> step 후 도달 분포가 모든 target <span class="math inline">\(\boldsymbol{\delta}^* \in \mathcal{B}_\Phi\)</span>를 양의 밀도로 cover하는 걸 보여야 한다.</p>
+<p><strong>Randomness 원천.</strong> HST에는 두 가지가 있음:</p>
+<ul>
+<li>이산 randomness: block-flag step의 노드 선택 <span class="math inline">\(X_s \sim \mu_0\)</span> (i.i.d.)</li>
+<li><strong>연속 randomness</strong>: snow 증분 <span class="math inline">\(b'_s \sim \text{Unif}(0,b)\)</span> (i.i.d.) ← Lebesgue 밀도 원천</li>
+</ul>
+<p>연속 밀도는 오로지 <strong>block step의 <span class="math inline">\(b'_s\)</span></strong> 에서 나온다 (non-block step의 <span class="math inline">\(b'_s\)</span>는 결정론적 flow와 합쳐져 noise처럼 작동).</p>
+<p><strong>전략 4단계.</strong></p>
+<ol type="1">
+<li><strong>충분히 긴 window</strong>: <span class="math inline">\(K = n(T_{\max}{+}1)\)</span> step. 한 round 길이 <span class="math inline">\(\leq T_{\max}{+}1\)</span>이므로 이 안에 block-flag time이 최소 <span class="math inline">\(n\)</span>개 발생.</li>
+<li><strong><span class="math inline">\(n\)</span>개 block에서 모든 노드 hit</strong>: 그 <span class="math inline">\(n\)</span>개 block draw가 정확히 <span class="math inline">\(v_1, \ldots, v_n\)</span> 순으로 나오는 사건이 <span class="math inline">\(\mathcal{A}_1\)</span>. 그러면 모든 노드에 한 번씩 fresh <span class="math inline">\(\text{Unif}(0,b)\)</span> 증분이 들어가 <span class="math inline">\(n\)</span>차원 shift 가능.</li>
+<li><strong>Non-block은 작게</strong>: 같은 window 안 non-block 증분을 <span class="math inline">\(\leq \varepsilon\)</span>로 강제 (<span class="math inline">\(\mathcal{A}_2\)</span>). 이건 noise만 줄이는 것이고 block 증분의 분포는 안 건드림 (independence). 이걸 <span class="math inline">\(L\)</span> window에 걸쳐 누적해도 residual은 <span class="math inline">\(&lt; Lb/8\)</span>.</li>
+<li><strong>한 window는 작은 ball, <span class="math inline">\(L\)</span> window는 큰 ball</strong>: 한 window의 block 증분이 만드는 shift은 small ball <span class="math inline">\(\mathcal{O} = \{\max|y_i| &lt; b/4\}\)</span> 안. <span class="math inline">\(\mathcal{B}_\Phi\)</span> 전체 (<span class="math inline">\(\|\boldsymbol{\delta}\|_\infty \leq D_\Phi\)</span>)를 cover하려면 <span class="math inline">\(L \cdot b/4 &gt; 2D_\Phi\)</span> 필요 → <span class="math inline">\(L := \lceil 16 D_\Phi/b + 1 \rceil\)</span>.</li>
+</ol>
+<p><strong>그래서 상수 <span class="math inline">\(K^* = LK\)</span>, <span class="math inline">\(\varepsilon = b/(8K)\)</span>.</strong></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="증명: Doeblin minorization">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>증명: Doeblin minorization
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>상수 정의</strong> (위 빨간 callout의 4단계 전략에서 유도).</p>
+<p><span class="math display">\[K := n(T_{\max}{+}1),\quad \varepsilon := \tfrac{b}{8K},\quad D_\Phi := \sup_{s \in \mathcal{B}_\Phi} \|\boldsymbol{\delta}(s)\|_\infty,\quad L := \lceil 16 D_\Phi / b + 1 \rceil,\quad K^* := LK\]</span></p>
+<p><strong>한 window의 핵심 사건 두 개.</strong></p>
+<ul>
+<li><span class="math inline">\(\mathcal{A}_1\)</span> — 길이 <span class="math inline">\(K\)</span> window의 첫 <span class="math inline">\(n\)</span>개 block-flag draw가 차례로 <span class="math inline">\(v_1, v_2, \ldots, v_n\)</span> (각 노드를 한 번씩 hit)</li>
+<li><span class="math inline">\(\mathcal{A}_2\)</span> — 같은 window의 모든 non-block step 증분이 <span class="math inline">\(b'_s \leq \varepsilon\)</span> (noise 억제)</li>
+</ul>
+<p><strong><span class="math inline">\(P(\mathcal{A}_1) &gt; 0\)</span> 증명.</strong> 한 round 길이가 <span class="math inline">\(\leq T_{\max}{+}1\)</span>이므로 <span class="math inline">\(K = n(T_{\max}{+}1)\)</span> step 안에 block-flag time이 <span class="math inline">\(\geq n\)</span>개 보장됨. 각 block draw는 <span class="math inline">\(\mu_0\)</span>에서 i.i.d.이고 <span class="math inline">\(\mathcal{F}_{s-1}\)</span>과 독립.</p>
+<p><span class="math display">\[P(\mathcal{A}_1) \geq \mu_{\min}^n &gt; 0 \qquad (\mu_{\min} := \min_i \mu_0(v_i))\]</span></p>
+<p><strong><span class="math inline">\(P(\mathcal{A}_2) &gt; 0\)</span> + block 증분 분포 유지.</strong> block step인지 non-block step인지는 timer <span class="math inline">\(Z_{s-1}\)</span>로 결정되며 <span class="math inline">\(\mathcal{F}_{s-1}\)</span>-measurable. <span class="math inline">\(b'_s \perp \mathcal{F}_{s-1}\)</span>이므로 non-block step에 <span class="math inline">\(\{b'_s \leq \varepsilon\}\)</span> 조건을 걸어도 <strong>block step의 <span class="math inline">\(b'_s\)</span> marginal은 <span class="math inline">\(\text{Unif}(0,b)\)</span> 그대로</strong>.</p>
+<p><span class="math display">\[P(\mathcal{A}_2) \geq (\varepsilon/b)^{n T_{\max}} &gt; 0 \qquad (\because \text{window 내 non-block step 수} \leq n T_{\max})\]</span></p>
+<p><strong>Non-block residual bound</strong> (<span class="math inline">\(L\)</span> window 누적).</p>
+<p><span class="math inline">\(\mathcal{A}_2\)</span> 하에서 <span class="math inline">\(L\)</span> window 동안 non-block 증분 누적은 노드별로:</p>
+<p><span class="math display">\[\|\mathbf{R}\|_\infty \leq \underbrace{L n T_{\max}}_{\text{non-block step 수}} \cdot \underbrace{\varepsilon}_{=\,b/(8K)} = L n T_{\max} \cdot \tfrac{b}{8 n (T_{\max}{+}1)} &lt; \tfrac{Lb}{8}\]</span></p>
+<p>즉 noise는 <span class="math inline">\(L\)</span> window 합쳐도 <span class="math inline">\(Lb/8\)</span> 이하.</p>
+<p><strong>한 window의 block shift 분포.</strong> <span class="math inline">\(\mathcal{A}_1\)</span> 하에서 한 window의 block 증분 <span class="math inline">\(n\)</span>개는 i.i.d. <span class="math inline">\(\text{Unif}(0,b)\)</span>. Pushforward density lemma에 의해, 이것이 만드는 <span class="math inline">\(\boldsymbol{\delta}\)</span>-shift는 <span class="math inline">\(\mathcal{O} := \{\max_i |y_i| &lt; b/4\}\)</span> 위에 밀도 <span class="math inline">\(\geq b^{1-n}/2\)</span>로 분포.</p>
+<p><strong><span class="math inline">\(L\)</span> window 합성으로 target <span class="math inline">\(\boldsymbol{\delta}^*\)</span> 도달.</strong> <span class="math inline">\(L\)</span>개 독립 window의 shift 합은 Minkowski 합성으로 <span class="math inline">\(L\mathcal{O} = \{\max|y_i| &lt; Lb/4\}\)</span> 위에 밀도 (convolution).</p>
+<p>도달해야 할 net shift:</p>
+<p><span class="math display">\[\boldsymbol{\delta}^* - \boldsymbol{\delta}_0 - \mathbf{R}\]</span></p>
+<p>크기 bound:</p>
+<p><span class="math display">\[\|\boldsymbol{\delta}^* - \boldsymbol{\delta}_0 - \mathbf{R}\|_\infty \leq \underbrace{\|\boldsymbol{\delta}^*\|_\infty}_{\leq D_\Phi} + \underbrace{\|\boldsymbol{\delta}_0\|_\infty}_{\leq D_\Phi} + \underbrace{\|\mathbf{R}\|_\infty}_{&lt; Lb/8} \leq 2D_\Phi + \tfrac{Lb}{8}\]</span></p>
+<p><span class="math inline">\(L \geq 16D_\Phi/b + 1\)</span>이므로:</p>
+<p><span class="math display">\[2D_\Phi + \tfrac{Lb}{8} &lt; \tfrac{Lb}{8} + \tfrac{Lb}{8} = \tfrac{Lb}{4}\]</span></p>
+<p>즉 도달해야 할 shift이 <span class="math inline">\(L\mathcal{O}\)</span>의 내부 ball 안에 들어감 → block shift 분포로 cover 가능.</p>
+<p><strong>결론.</strong> <span class="math inline">\(\nu := L\mathcal{O}\)</span> 내부 작은 ball 위 normalized Lebesgue. 그러면 임의의 <span class="math inline">\(s_0 \in \mathcal{B}_\Phi\)</span>와 Borel <span class="math inline">\(B\)</span>에 대해</p>
+<p><span class="math display">\[P^{K^*}(s_0, B) \geq \underbrace{[P(\mathcal{A}_1 \cap \mathcal{A}_2)]^L}_{&gt;\,0\,\text{(window 독립)}} \cdot \underbrace{(b^{1-n}/2)^L}_{\text{밀도 lower bound}^L} \cdot \nu(B) =: \eta\,\nu(B)\]</span></p>
+<p><span class="math inline">\(\eta &gt; 0\)</span>은 <span class="math inline">\(s_0\)</span>에 무관 (<span class="math inline">\(n, b, T_{\max}, \mu_{\min}, D_\Phi\)</span>에만 의존). <span class="math inline">\(\square\)</span></p>
 </div>
 </div>
 </div>

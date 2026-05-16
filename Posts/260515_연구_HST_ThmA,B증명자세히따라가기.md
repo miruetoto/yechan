@@ -371,6 +371,8 @@ $$\mathbb{E}_{\pi^*}[\Phi] \leq \mathbb{E}_{\pi^*}[\Phi^{3/2}] + 1 < \infty \qqu
 
 **Proposition (Doeblin minorization).** 임의의 bounded set $\mathcal{B}_\Phi$에 대해 $\eta > 0$, $K^* < \infty$, 확률측도 $\nu$가 존재하여 $P^{K^*}(s,B) \geq \eta\,\nu(B)$.
 
+**Pushforward density lemma (보조).** $\xi_1, \ldots, \xi_n \stackrel{\text{iid}}{\sim} \text{Unif}(0,b)$, $\Lambda(\xi) := (\xi_2 - \xi_1, \ldots, \xi_n - \xi_1)$. Pushforward 밀도 $\rho_\Lambda(\mathbf{y}) \geq b^{1-n}/2$ on $\mathcal{O} := \{\max_i |y_i| < b/4\}$.
+
 ::: {.callout-important collapse="true" title="해석: Doeblin minorization이 뭘 말하는가"}
 
 $\mathcal{B}_\Phi$ 안의 아무 상태에서 출발해도, $K^*$ step 후에는 **어디든 양의 확률로 갈 수 있다.**
@@ -378,6 +380,81 @@ $\mathcal{B}_\Phi$ 안의 아무 상태에서 출발해도, $K^*$ step 후에는
 HST의 상태는 연속 ($\mathbb{R}^{n-1}$의 높이 벡터)이라서, 특정 상태에서 특정 상태로 갈 확률이 0일 수 있다. 하지만 block event에서 i.i.d. $\text{Unif}(0,b)$가 들어오므로 연속 density가 생긴다. 이를 이용하면 bounded 영역 안에서는 어디든 양의 확률로 도달 가능.
 
 Moment bound (보조 결과 4)에서 $\{M \leq M_0\}$가 petite set이라고 쓴 근거가 이것이다.
+
+:::
+
+::: {.callout-important collapse="true" title="해석: 증명의 큰 그림"}
+
+**문제.** 출발 상태 $\boldsymbol{\delta}_0$ (높이차 벡터)에서 $K^*$ step 후 도달 분포가 모든 target $\boldsymbol{\delta}^* \in \mathcal{B}_\Phi$를 양의 밀도로 cover하는 걸 보여야 한다.
+
+**Randomness 원천.** HST에는 두 가지가 있음:
+
+- 이산 randomness: block-flag step의 노드 선택 $X_s \sim \mu_0$ (i.i.d.)
+- **연속 randomness**: snow 증분 $b'_s \sim \text{Unif}(0,b)$ (i.i.d.) ← Lebesgue 밀도 원천
+
+연속 밀도는 오로지 **block step의 $b'_s$** 에서 나온다 (non-block step의 $b'_s$는 결정론적 flow와 합쳐져 noise처럼 작동).
+
+**전략 4단계.**
+
+1. **충분히 긴 window**: $K = n(T_{\max}{+}1)$ step. 한 round 길이 $\leq T_{\max}{+}1$이므로 이 안에 block-flag time이 최소 $n$개 발생.
+2. **$n$개 block에서 모든 노드 hit**: 그 $n$개 block draw가 정확히 $v_1, \ldots, v_n$ 순으로 나오는 사건이 $\mathcal{A}_1$. 그러면 모든 노드에 한 번씩 fresh $\text{Unif}(0,b)$ 증분이 들어가 $n$차원 shift 가능.
+3. **Non-block은 작게**: 같은 window 안 non-block 증분을 $\leq \varepsilon$로 강제 ($\mathcal{A}_2$). 이건 noise만 줄이는 것이고 block 증분의 분포는 안 건드림 (independence). 이걸 $L$ window에 걸쳐 누적해도 residual은 $< Lb/8$.
+4. **한 window는 작은 ball, $L$ window는 큰 ball**: 한 window의 block 증분이 만드는 shift은 small ball $\mathcal{O} = \{\max|y_i| < b/4\}$ 안. $\mathcal{B}_\Phi$ 전체 ($\|\boldsymbol{\delta}\|_\infty \leq D_\Phi$)를 cover하려면 $L \cdot b/4 > 2D_\Phi$ 필요 → $L := \lceil 16 D_\Phi/b + 1 \rceil$.
+
+**그래서 상수 $K^* = LK$, $\varepsilon = b/(8K)$.**
+
+:::
+
+::: {.callout-note collapse="true" title="증명: Doeblin minorization"}
+
+**상수 정의** (위 빨간 callout의 4단계 전략에서 유도).
+
+$$K := n(T_{\max}{+}1),\quad \varepsilon := \tfrac{b}{8K},\quad D_\Phi := \sup_{s \in \mathcal{B}_\Phi} \|\boldsymbol{\delta}(s)\|_\infty,\quad L := \lceil 16 D_\Phi / b + 1 \rceil,\quad K^* := LK$$
+
+**한 window의 핵심 사건 두 개.**
+
+- $\mathcal{A}_1$ — 길이 $K$ window의 첫 $n$개 block-flag draw가 차례로 $v_1, v_2, \ldots, v_n$ (각 노드를 한 번씩 hit)
+- $\mathcal{A}_2$ — 같은 window의 모든 non-block step 증분이 $b'_s \leq \varepsilon$ (noise 억제)
+
+**$P(\mathcal{A}_1) > 0$ 증명.** 한 round 길이가 $\leq T_{\max}{+}1$이므로 $K = n(T_{\max}{+}1)$ step 안에 block-flag time이 $\geq n$개 보장됨. 각 block draw는 $\mu_0$에서 i.i.d.이고 $\mathcal{F}_{s-1}$과 독립.
+
+$$P(\mathcal{A}_1) \geq \mu_{\min}^n > 0 \qquad (\mu_{\min} := \min_i \mu_0(v_i))$$
+
+**$P(\mathcal{A}_2) > 0$ + block 증분 분포 유지.** block step인지 non-block step인지는 timer $Z_{s-1}$로 결정되며 $\mathcal{F}_{s-1}$-measurable. $b'_s \perp \mathcal{F}_{s-1}$이므로 non-block step에 $\{b'_s \leq \varepsilon\}$ 조건을 걸어도 **block step의 $b'_s$ marginal은 $\text{Unif}(0,b)$ 그대로**.
+
+$$P(\mathcal{A}_2) \geq (\varepsilon/b)^{n T_{\max}} > 0 \qquad (\because \text{window 내 non-block step 수} \leq n T_{\max})$$
+
+**Non-block residual bound** ($L$ window 누적).
+
+$\mathcal{A}_2$ 하에서 $L$ window 동안 non-block 증분 누적은 노드별로:
+
+$$\|\mathbf{R}\|_\infty \leq \underbrace{L n T_{\max}}_{\text{non-block step 수}} \cdot \underbrace{\varepsilon}_{=\,b/(8K)} = L n T_{\max} \cdot \tfrac{b}{8 n (T_{\max}{+}1)} < \tfrac{Lb}{8}$$
+
+즉 noise는 $L$ window 합쳐도 $Lb/8$ 이하.
+
+**한 window의 block shift 분포.** $\mathcal{A}_1$ 하에서 한 window의 block 증분 $n$개는 i.i.d. $\text{Unif}(0,b)$. Pushforward density lemma에 의해, 이것이 만드는 $\boldsymbol{\delta}$-shift는 $\mathcal{O} := \{\max_i |y_i| < b/4\}$ 위에 밀도 $\geq b^{1-n}/2$로 분포.
+
+**$L$ window 합성으로 target $\boldsymbol{\delta}^*$ 도달.** $L$개 독립 window의 shift 합은 Minkowski 합성으로 $L\mathcal{O} = \{\max|y_i| < Lb/4\}$ 위에 밀도 (convolution).
+
+도달해야 할 net shift:
+
+$$\boldsymbol{\delta}^* - \boldsymbol{\delta}_0 - \mathbf{R}$$
+
+크기 bound:
+
+$$\|\boldsymbol{\delta}^* - \boldsymbol{\delta}_0 - \mathbf{R}\|_\infty \leq \underbrace{\|\boldsymbol{\delta}^*\|_\infty}_{\leq D_\Phi} + \underbrace{\|\boldsymbol{\delta}_0\|_\infty}_{\leq D_\Phi} + \underbrace{\|\mathbf{R}\|_\infty}_{< Lb/8} \leq 2D_\Phi + \tfrac{Lb}{8}$$
+
+$L \geq 16D_\Phi/b + 1$이므로:
+
+$$2D_\Phi + \tfrac{Lb}{8} < \tfrac{Lb}{8} + \tfrac{Lb}{8} = \tfrac{Lb}{4}$$
+
+즉 도달해야 할 shift이 $L\mathcal{O}$의 내부 ball 안에 들어감 → block shift 분포로 cover 가능.
+
+**결론.** $\nu := L\mathcal{O}$ 내부 작은 ball 위 normalized Lebesgue. 그러면 임의의 $s_0 \in \mathcal{B}_\Phi$와 Borel $B$에 대해
+
+$$P^{K^*}(s_0, B) \geq \underbrace{[P(\mathcal{A}_1 \cap \mathcal{A}_2)]^L}_{>\,0\,\text{(window 독립)}} \cdot \underbrace{(b^{1-n}/2)^L}_{\text{밀도 lower bound}^L} \cdot \nu(B) =: \eta\,\nu(B)$$
+
+$\eta > 0$은 $s_0$에 무관 ($n, b, T_{\max}, \mu_{\min}, D_\Phi$에만 의존). $\square$
 
 :::
 
