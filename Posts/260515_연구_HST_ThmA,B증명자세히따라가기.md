@@ -79,6 +79,32 @@ $$\text{OB} \to \text{round drift} \to \text{Doeblin} \to \psi\text{-irred.} \to
 
 `-` OB 조건: $\mathcal{B}(S) = \sum_u \pi(u,S)\hbar(u) \leq -\kappa_G M + C_{\text{OB}}$ (아래 설명)
 
+### Augmented state
+
+증명 전체에서 Markov chain으로 다룰 상태는 **augmented state**:
+
+$$S(t) := (\boldsymbol{\delta}_t,\, X_t,\, Z_t) \in \mathcal{X}^* := \mathbb{R}^{n-1} \times V \times \{0, 1, \ldots, T_{\max}\}$$
+
+각 성분:
+
+- $\boldsymbol{\delta}_t := (h(v_2, t) - h(v_1, t),\ \ldots,\ h(v_n, t) - h(v_1, t)) \in \mathbb{R}^{n-1}$ — 노드 1을 기준으로 한 **상대 높이 벡터** (절대 높이 $h$는 $t$에 따라 무한히 커지므로 차이만 추적)
+- $X_t \in V$ — 현재 walker 위치
+- $Z_t \in \{0, 1, \ldots, T_{\max}\}$ — 연속 flow 카운터 (직전 step부터 몇 번 연속 flow했는지; $T_{\max}$ 도달하면 block 강제)
+
+`-` $\mathcal{B}(\mathcal{X}^*)$ — $\mathcal{X}^*$의 Borel σ-algebra
+
+`-` $P^m(s, B)$ — $S(0) = s$에서 출발해 $m$ step 후 $B \in \mathcal{B}(\mathcal{X}^*)$ 에 도달할 확률
+
+`-` 정상 분포는 $\pi^*$로 표기 (존재성/유일성은 증명 체인의 결과)
+
+`-` $\mathcal{B}_\Phi$ — **Lyapunov 함수 $\Phi$의 sublevel set** (아래첨자 $\Phi$는 "$\Phi$로 정의된 set"이라는 의미):
+
+  $$\mathcal{B}_\Phi := \{S \in \mathcal{X}^* : \Phi(S) \leq R\}, \qquad R := \tfrac{n}{2}\left(\tfrac{C+1}{b\kappa_G}\right)^2$$
+
+  $R$은 **Foster drift가 $\leq -1$이 되는 임계값 밖**의 안쪽 영역을 잘라냄. 즉 $S \notin \mathcal{B}_\Phi$ ⟺ $\Phi(S) > R$ ⟺ "$M$이 충분히 큼" ⟺ $\mathbb{E}[\Delta\Phi \mid S] \leq -1$.
+
+  **왜 별도로 잘라내는가**: Foster drift는 큰 $\Phi$ 영역에서만 강한 음수. **작은 $\Phi$ 영역(= $\mathcal{B}_\Phi$ 안)에서는 drift가 보장 안 됨**. 그 안에서는 다른 기제(Doeblin minorization)로 chain을 컨트롤. → "**큰 $\Phi$에선 Foster, 작은 $\Phi$(= $\mathcal{B}_\Phi$ 안)에선 Doeblin**"의 역할 분담.
+
 ### 보조 결과 1: $\Phi$ drift
 
 **정의.** $\hbar(v_i, t) := h(v_i, t) - \bar{h}(t)$ (centered height), $\Phi(t) := \sum_i \hbar(v_i, t)^2$ (높이 분산 $\times n$).
@@ -369,17 +395,27 @@ $$\mathbb{E}_{\pi^*}[\Phi] \leq \mathbb{E}_{\pi^*}[\Phi^{3/2}] + 1 < \infty \qqu
 
 ### 보조 결과 5: Doeblin minorization
 
-**Proposition (Doeblin minorization).** 임의의 bounded set $\mathcal{B}_\Phi$에 대해 $\eta > 0$, $K^* < \infty$, 확률측도 $\nu$가 존재하여 $P^{K^*}(s,B) \geq \eta\,\nu(B)$.
+**Proposition (Doeblin minorization).** 임의의 bounded set $\mathcal{B}_\Phi \subset \mathcal{X}^*$ 에 대해, 어떤 $\eta > 0$, $K^* \in \mathbb{N}$, 그리고 $\mathcal{X}^*$ 위의 확률측도 $\nu$가 존재하여 다음이 성립한다:
+
+$$P^{K^*}(s, B) \geq \eta\,\nu(B), \qquad \forall\,s \in \mathcal{B}_\Phi,\ \ \forall\,B \in \mathcal{B}(\mathcal{X}^*)$$
+
+(기호 $\mathcal{X}^*$, $\mathcal{B}(\mathcal{X}^*)$, $P^m$ 은 위 §Augmented state 참조.)
 
 **Pushforward density lemma (보조).** $\xi_1, \ldots, \xi_n \stackrel{\text{iid}}{\sim} \text{Unif}(0,b)$, $\Lambda(\xi) := (\xi_2 - \xi_1, \ldots, \xi_n - \xi_1)$. Pushforward 밀도 $\rho_\Lambda(\mathbf{y}) \geq b^{1-n}/2$ on $\mathcal{O} := \{\max_i |y_i| < b/4\}$.
 
-::: {.callout-important collapse="true" title="해석: Doeblin minorization이 뭘 말하는가"}
+::: {.callout-important collapse="true" title="해석: 한 줄 직관 — '공통 운명'"}
 
-$\mathcal{B}_\Phi$ 안의 아무 상태에서 출발해도, $K^*$ step 후에는 **어디든 양의 확률로 갈 수 있다.**
+Doeblin minorization을 한 줄로 요약하면: **"어디서 출발하든 결국 겹치게 되는 최소한의 공통 운명이 존재한다."**
 
-HST의 상태는 연속 ($\mathbb{R}^{n-1}$의 높이 벡터)이라서, 특정 상태에서 특정 상태로 갈 확률이 0일 수 있다. 하지만 block event에서 i.i.d. $\text{Unif}(0,b)$가 들어오므로 연속 density가 생긴다. 이를 이용하면 bounded 영역 안에서는 어디든 양의 확률로 도달 가능.
+**비유.** 전국 어디서 출발하든 $K^*$번 이동하면, 최소 $\eta$ (예: 10%) 확률로 모두 같은 목적지 분포 $\nu$ (예: '서울역' 주변)에 떨어지게 만드는 **마법의 규칙**이 숨어있다.
 
-Moment bound (보조 결과 4)에서 $\{M \leq M_0\}$가 petite set이라고 쓴 근거가 이것이다.
+**$P^{K^*}(s, B) \geq \eta\,\nu(B)$가 말하는 것:**
+
+- **독립적인 바닥 (lower bound)**: 출발점 $s \in \mathcal{B}_\Phi$가 아무리 극단적이어도, 도착 분포의 '바닥'을 공통 측도 $\nu$가 받쳐줌. **출발지에 무관한 양의 공통 부분**이 존재.
+- **과거 망각 (coupling)**: 이 공통 부분 덕분에 두 다른 궤적이 양의 확률로 **같은 $\nu$ 표본으로 coupling** → 그 시점부터 두 궤적은 같은 분포. 초기 상태의 기억 리셋.
+- **결과 (uniform ergodicity)**: coupling 강제로 모든 궤적이 결국 **같은 정상 분포 $\pi^*$로 수렴**. 출발 무관한 균등 에르고딕성.
+
+이게 HST 증명에서 **"유일한 정상 분포 $\pi^*$가 존재하고, 그 분포가 초기 신호 $\mathbf{y}$에 의존하지 않는다"** 를 보이는 핵심 무기.
 
 :::
 
@@ -389,17 +425,17 @@ Moment bound (보조 결과 4)에서 $\{M \leq M_0\}$가 petite set이라고 쓴
 
 **Randomness 원천.** HST에는 두 가지가 있음:
 
-- 이산 randomness: block-flag step의 노드 선택 $X_s \sim \mu_0$ (i.i.d.)
-- **연속 randomness**: snow 증분 $b'_s \sim \text{Unif}(0,b)$ (i.i.d.) ← Lebesgue 밀도 원천
+- 이산 randomness: block 직후 Fall에서 노드 선택 $X_s \sim \mu_0$ (i.i.d.)
+- **연속 randomness**: 눈 증분 $b'_s \sim \text{Unif}(0,b)$ (i.i.d.) ← Lebesgue 밀도 원천
 
-연속 밀도는 오로지 **block step의 $b'_s$** 에서 나온다 (non-block step의 $b'_s$는 결정론적 flow와 합쳐져 noise처럼 작동).
+연속 밀도는 오로지 **block 직후 Fall에서 떨어지는 첫눈** 에서 나온다 (flow step의 $b'_s$는 결정론적 노드 이동과 합쳐져 noise처럼 작동).
 
 **전략 4단계.**
 
-1. **충분히 긴 window**: $K = n(T_{\max}{+}1)$ step. 한 round 길이 $\leq T_{\max}{+}1$이므로 이 안에 block-flag time이 최소 $n$개 발생.
-2. **$n$개 block에서 모든 노드 hit**: 그 $n$개 block draw가 정확히 $v_1, \ldots, v_n$ 순으로 나오는 사건이 $\mathcal{A}_1$. 그러면 모든 노드에 한 번씩 fresh $\text{Unif}(0,b)$ 증분이 들어가 $n$차원 shift 가능.
-3. **Non-block은 작게**: 같은 window 안 non-block 증분을 $\leq \varepsilon$로 강제 ($\mathcal{A}_2$). 이건 noise만 줄이는 것이고 block 증분의 분포는 안 건드림 (independence). 이걸 $L$ window에 걸쳐 누적해도 residual은 $< Lb/8$.
-4. **한 window는 작은 ball, $L$ window는 큰 ball**: 한 window의 block 증분이 만드는 shift은 small ball $\mathcal{O} = \{\max|y_i| < b/4\}$ 안. $\mathcal{B}_\Phi$ 전체 ($\|\boldsymbol{\delta}\|_\infty \leq D_\Phi$)를 cover하려면 $L \cdot b/4 > 2D_\Phi$ 필요 → $L := \lceil 16 D_\Phi/b + 1 \rceil$.
+1. **충분히 긴 window**: $K = n(T_{\max}{+}1)$ step. 한 round 길이 $\leq T_{\max}{+}1$이므로 이 안에 block(막힘)이 최소 $n$번 발생.
+2. **모든 노드에 첫눈이 한 번씩 떨어지는 사건 $\mathcal{A}_1$**: 그 $n$번의 block 직후 첫눈이 정확히 $v_1, v_2, \ldots, v_n$ 순으로 떨어지는 사건. 그러면 모든 노드에 fresh $\text{Unif}(0,b)$ 가 한 번씩 들어가 $n$차원 shift 가능.
+3. **Flow step 눈은 작게**: 같은 window 안 flow step의 눈 증분을 $\leq \varepsilon$로 강제 ($\mathcal{A}_2$). 이건 noise만 줄이는 것이고 block 직후 첫눈의 분포는 안 건드림 (independence). $L$ window에 걸쳐 누적해도 residual은 $< Lb/8$.
+4. **한 window는 작은 ball, $L$ window는 큰 ball**: 한 window의 첫눈들이 만드는 shift은 small ball $\mathcal{O} = \{\max|y_i| < b/4\}$ 안. $\mathcal{B}_\Phi$ 전체 ($\|\boldsymbol{\delta}\|_\infty \leq D_\Phi$)를 cover하려면 $L \cdot b/4 > 2D_\Phi$ 필요 → $L := \lceil 16 D_\Phi/b + 1 \rceil$.
 
 **그래서 상수 $K^* = LK$, $\varepsilon = b/(8K)$.**
 
@@ -413,26 +449,26 @@ $$K := n(T_{\max}{+}1),\quad \varepsilon := \tfrac{b}{8K},\quad D_\Phi := \sup_{
 
 **한 window의 핵심 사건 두 개.**
 
-- $\mathcal{A}_1$ — 길이 $K$ window의 첫 $n$개 block-flag draw가 차례로 $v_1, v_2, \ldots, v_n$ (각 노드를 한 번씩 hit)
-- $\mathcal{A}_2$ — 같은 window의 모든 non-block step 증분이 $b'_s \leq \varepsilon$ (noise 억제)
+- $\mathcal{A}_1$ — 길이 $K$ window 안 첫 $n$번의 block 직후 첫눈이 차례로 $v_1, v_2, \ldots, v_n$ 에 떨어짐 (모든 노드에 한 번씩 첫눈)
+- $\mathcal{A}_2$ — 같은 window의 모든 flow step 눈 증분이 $b'_s \leq \varepsilon$ (noise 억제)
 
-**$P(\mathcal{A}_1) > 0$ 증명.** 한 round 길이가 $\leq T_{\max}{+}1$이므로 $K = n(T_{\max}{+}1)$ step 안에 block-flag time이 $\geq n$개 보장됨. 각 block draw는 $\mu_0$에서 i.i.d.이고 $\mathcal{F}_{s-1}$과 독립.
+**$P(\mathcal{A}_1) > 0$ 증명.** 한 round 길이가 $\leq T_{\max}{+}1$이므로 $K = n(T_{\max}{+}1)$ step 안에 block 시점이 $\geq n$개 보장됨. 각 block 직후 첫눈의 노드 선택은 $\mu_0$에서 i.i.d.이고 $\mathcal{F}_{s-1}$과 독립.
 
 $$P(\mathcal{A}_1) \geq \mu_{\min}^n > 0 \qquad (\mu_{\min} := \min_i \mu_0(v_i))$$
 
-**$P(\mathcal{A}_2) > 0$ + block 증분 분포 유지.** block step인지 non-block step인지는 timer $Z_{s-1}$로 결정되며 $\mathcal{F}_{s-1}$-measurable. $b'_s \perp \mathcal{F}_{s-1}$이므로 non-block step에 $\{b'_s \leq \varepsilon\}$ 조건을 걸어도 **block step의 $b'_s$ marginal은 $\text{Unif}(0,b)$ 그대로**.
+**$P(\mathcal{A}_2) > 0$ + 첫눈 분포 유지.** 현재 step이 block 직후 첫눈인지 flow step인지는 timer $Z_{s-1}$로 결정되며 $\mathcal{F}_{s-1}$-measurable. $b'_s \perp \mathcal{F}_{s-1}$이므로 flow step에 $\{b'_s \leq \varepsilon\}$ 조건을 걸어도 **block 직후 첫눈의 $b'_s$ marginal은 $\text{Unif}(0,b)$ 그대로**.
 
-$$P(\mathcal{A}_2) \geq (\varepsilon/b)^{n T_{\max}} > 0 \qquad (\because \text{window 내 non-block step 수} \leq n T_{\max})$$
+$$P(\mathcal{A}_2) \geq (\varepsilon/b)^{n T_{\max}} > 0 \qquad (\because \text{window 내 flow step 수} \leq n T_{\max})$$
 
-**Non-block residual bound** ($L$ window 누적).
+**Flow step residual bound** ($L$ window 누적).
 
-$\mathcal{A}_2$ 하에서 $L$ window 동안 non-block 증분 누적은 노드별로:
+$\mathcal{A}_2$ 하에서 $L$ window 동안 flow step 눈 증분 누적은 노드별로:
 
-$$\|\mathbf{R}\|_\infty \leq \underbrace{L n T_{\max}}_{\text{non-block step 수}} \cdot \underbrace{\varepsilon}_{=\,b/(8K)} = L n T_{\max} \cdot \tfrac{b}{8 n (T_{\max}{+}1)} < \tfrac{Lb}{8}$$
+$$\|\mathbf{R}\|_\infty \leq \underbrace{L n T_{\max}}_{\text{flow step 수}} \cdot \underbrace{\varepsilon}_{=\,b/(8K)} = L n T_{\max} \cdot \tfrac{b}{8 n (T_{\max}{+}1)} < \tfrac{Lb}{8}$$
 
 즉 noise는 $L$ window 합쳐도 $Lb/8$ 이하.
 
-**한 window의 block shift 분포.** $\mathcal{A}_1$ 하에서 한 window의 block 증분 $n$개는 i.i.d. $\text{Unif}(0,b)$. Pushforward density lemma에 의해, 이것이 만드는 $\boldsymbol{\delta}$-shift는 $\mathcal{O} := \{\max_i |y_i| < b/4\}$ 위에 밀도 $\geq b^{1-n}/2$로 분포.
+**한 window의 첫눈 shift 분포.** $\mathcal{A}_1$ 하에서 한 window의 첫눈 $n$개는 i.i.d. $\text{Unif}(0,b)$. Pushforward density lemma에 의해, 이것이 만드는 $\boldsymbol{\delta}$-shift는 $\mathcal{O} := \{\max_i |y_i| < b/4\}$ 위에 밀도 $\geq b^{1-n}/2$로 분포.
 
 **$L$ window 합성으로 target $\boldsymbol{\delta}^*$ 도달.** $L$개 독립 window의 shift 합은 Minkowski 합성으로 $L\mathcal{O} = \{\max|y_i| < Lb/4\}$ 위에 밀도 (convolution).
 
@@ -460,6 +496,29 @@ $\eta > 0$은 $s_0$에 무관 ($n, b, T_{\max}, \mu_{\min}, D_\Phi$에만 의존
 
 
 ### 증명 체인
+
+::: {.callout-important collapse="true" title="해석: Foster-Lyapunov + Doeblin의 역할 분담"}
+
+증명 체인이 왜 두 기계(Foster drift, Doeblin)를 **나란히** 쓰는지 — 둘은 **상호보완**으로 서로 못 하는 일을 메꿔준다.
+
+**비유**: state space를 큰 그릇이라고 보자.
+
+- **바깥 영역** ($\mathcal{B}_\Phi$ **밖**, $\Phi$ 큰 곳): 그릇 가장자리. 여기 있으면 **Foster drift가 안쪽으로 끌어당김** (Lyapunov가 강하게 감소 → chain이 가장자리에 오래 못 머묾).
+- **안쪽 영역** ($\mathcal{B}_\Phi$ **안**, $\Phi$ 작은 곳): 그릇 바닥. 여기서는 drift가 약함. 대신 **Doeblin minorization이 coupling을 강제** (출발 무관 공통 분포로 수렴).
+
+**왜 둘 다 필요한가:**
+
+| 가진 것 | 빠진 것 |
+|---|---|
+| Foster drift 만 | chain이 $\mathcal{B}_\Phi$ 안에 들어와도 거기서 어떻게 분포가 결정되는지 모름 → 정상 분포 **유일성 보장 안 됨** |
+| Doeblin 만 | $\mathcal{B}_\Phi$가 small set이라도 chain이 **거기 도달한다는 보장 없음** → 발산 가능 |
+| Foster + Doeblin | 가장자리 → 바닥(Foster) → 모두 coupling(Doeblin) → 유일 $\pi^*$로 수렴 |
+
+**표준 패턴**: Meyn-Tweedie (2009) 책의 핵심 도구. Theorem 11.3.4 (positive Harris recurrence), Theorem 14.3.7 (moment bound), Theorem 17.3.2 (LLN) 모두 "Foster drift + small set" 조합 위에 세워짐.
+
+이래서 증명 체인이 Step 1 (Foster drift) → Step 2 (Doeblin) → 그 다음 Harris recurrence → LLN 순서.
+
+:::
 
 **Step 1 (Round-skeleton drift).** OB $\Rightarrow$ $\mathbb{E}[\Delta\Phi] \leq -b\kappa_G M + C$, $\leq -1$ outside $\mathcal{B}_\Phi$.
 

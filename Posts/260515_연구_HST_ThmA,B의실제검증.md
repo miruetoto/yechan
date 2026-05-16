@@ -1,6 +1,6 @@
 ---
 title: 연구 ▷ HST ▷ Thm A, B의 실제 검증
-author: 신록예찬
+author: 소미
 date: 05/15/2026
 draft: false
 output-file: 260515_41f2b0.html
