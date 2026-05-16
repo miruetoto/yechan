@@ -3,7 +3,7 @@ title: 리뷰 ▷ Computational Gromov-Wasserstein distance
 author: 연
 date: 05/17/2026
 draft: false
-output-file: 260517_c4f8a2.html
+output-file: 260517_c7a5b0.html
 fontsize: 0.85em
 ---
 

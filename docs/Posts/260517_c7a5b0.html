@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="클로드">
-<meta name="dcterms.date" content="2026-04-26">
+<meta name="author" content="연">
+<meta name="dcterms.date" content="2026-05-17">
 
-<title>연구 ▷ HST ▷ 그래프 구조로의 점근적 환원 – 신록예찬’s Blog</title>
+<title>리뷰 ▷ Computational Gromov-Wasserstein distance – 신록예찬’s Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -77,7 +42,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5b48ee63c5e90d651e19f9ead4b448f1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-165db4a5700707ee9723b4db2002e5ec.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -224,20 +189,22 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#메모" id="toc-메모" class="nav-link active" data-scroll-target="#메모">0. 메모</a></li>
-  <li><a href="#정리-theorem-a.6" id="toc-정리-theorem-a.6" class="nav-link" data-scroll-target="#정리-theorem-a.6">1. 정리 (Theorem A.6)</a></li>
-  <li><a href="#증명" id="toc-증명" class="nav-link" data-scroll-target="#증명">2. 증명</a>
+  <li><a href="#초록-옮김" id="toc-초록-옮김" class="nav-link active" data-scroll-target="#초록-옮김">초록 (옮김)</a></li>
+  <li><a href="#왜-또-거리인가" id="toc-왜-또-거리인가" class="nav-link" data-scroll-target="#왜-또-거리인가">1. 왜 또 거리인가</a></li>
+  <li><a href="#optimal-transport-와-wasserstein-거리" id="toc-optimal-transport-와-wasserstein-거리" class="nav-link" data-scroll-target="#optimal-transport-와-wasserstein-거리">2. Optimal Transport 와 Wasserstein 거리</a></li>
+  <li><a href="#gromov-wasserstein-discrepancy" id="toc-gromov-wasserstein-discrepancy" class="nav-link" data-scroll-target="#gromov-wasserstein-discrepancy">3. Gromov-Wasserstein discrepancy</a>
   <ul class="collapse">
-  <li><a href="#step-1-markovian-reduction" id="toc-step-1-markovian-reduction" class="nav-link" data-scroll-target="#step-1-markovian-reduction">Step 1 — Markovian reduction</a></li>
-  <li><a href="#step-2-차분과정의-안정성-fosterlyapunov" id="toc-step-2-차분과정의-안정성-fosterlyapunov" class="nav-link" data-scroll-target="#step-2-차분과정의-안정성-fosterlyapunov">Step 2 — 차분과정의 안정성 (Foster–Lyapunov)</a></li>
-  <li><a href="#step-3-pi-의-mathbfy-비의존성" id="toc-step-3-pi-의-mathbfy-비의존성" class="nav-link" data-scroll-target="#step-3-pi-의-mathbfy-비의존성">Step 3 — <span class="math inline">\(\pi^*\)</span> 의 <span class="math inline">\(\mathbf{y}\)</span>-비의존성</a></li>
-  <li><a href="#step-4-birkhoff-에르고딕-정리" id="toc-step-4-birkhoff-에르고딕-정리" class="nav-link" data-scroll-target="#step-4-birkhoff-에르고딕-정리">Step 4 — Birkhoff 에르고딕 정리</a></li>
-  <li><a href="#step-5-snow-weight-의-극한" id="toc-step-5-snow-weight-의-극한" class="nav-link" data-scroll-target="#step-5-snow-weight-의-극한">Step 5 — Snow weight 의 극한</a></li>
+  <li><a href="#이산-형태" id="toc-이산-형태" class="nav-link" data-scroll-target="#이산-형태">이산 형태</a></li>
   </ul></li>
-  <li><a href="#remark" id="toc-remark" class="nav-link" data-scroll-target="#remark">3. Remark</a></li>
-  <li><a href="#추가할-bibliography-항목" id="toc-추가할-bibliography-항목" class="nav-link" data-scroll-target="#추가할-bibliography-항목">4. 추가할 bibliography 항목</a></li>
-  <li><a href="#삽입-위치-확정-시" id="toc-삽입-위치-확정-시" class="nav-link" data-scroll-target="#삽입-위치-확정-시">5. 삽입 위치 (확정 시)</a></li>
-  <li><a href="#미해결체크-포인트" id="toc-미해결체크-포인트" class="nav-link" data-scroll-target="#미해결체크-포인트">6. 미해결/체크 포인트</a></li>
+  <li><a href="#응용-graph-matching-partitioning" id="toc-응용-graph-matching-partitioning" class="nav-link" data-scroll-target="#응용-graph-matching-partitioning">4. 응용 — graph matching, partitioning</a></li>
+  <li><a href="#알고리즘-sinkhorn-과-proximal" id="toc-알고리즘-sinkhorn-과-proximal" class="nav-link" data-scroll-target="#알고리즘-sinkhorn-과-proximal">5. 알고리즘 — Sinkhorn 과 Proximal</a>
+  <ul class="collapse">
+  <li><a href="#엔트로피-정규화-mémoli-peyré-등" id="toc-엔트로피-정규화-mémoli-peyré-등" class="nav-link" data-scroll-target="#엔트로피-정규화-mémoli-peyré-등">5.1 엔트로피 정규화 (Mémoli, Peyré 등)</a></li>
+  <li><a href="#proximal-point-xu-et-al." id="toc-proximal-point-xu-et-al." class="nav-link" data-scroll-target="#proximal-point-xu-et-al.">5.2 Proximal Point (Xu et al.)</a></li>
+  </ul></li>
+  <li><a href="#fused-gromov-wasserstein-fgw" id="toc-fused-gromov-wasserstein-fgw" class="nav-link" data-scroll-target="#fused-gromov-wasserstein-fgw">6. Fused Gromov-Wasserstein (FGW)</a></li>
+  <li><a href="#회사-본업과의-비교-정리" id="toc-회사-본업과의-비교-정리" class="nav-link" data-scroll-target="#회사-본업과의-비교-정리">7. 회사 본업과의 비교 정리</a></li>
+  <li><a href="#정리" id="toc-정리" class="nav-link" data-scroll-target="#정리">8. 정리</a></li>
   </ul>
 </nav>
     </div>
@@ -246,7 +213,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">연구 ▷ HST ▷ 그래프 구조로의 점근적 환원</h1>
+<h1 class="title">리뷰 ▷ Computational Gromov-Wasserstein distance</h1>
 </div>
 
 
@@ -256,14 +223,14 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>클로드 </p>
+             <p>연 </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 26, 2026</p>
+      <p class="date">May 17, 2026</p>
     </div>
   </div>
   
@@ -275,94 +242,288 @@ window.Quarto = {
 </header>
 
 
-<section id="메모" class="level1">
-<h1>0. 메모</h1>
-<p><code>hst.tex</code> (paper/260423_guebin) Appendix A.2 (<code>Further Remark on Snow Distance</code>) 의 비공식 서술</p>
+<style>
+.math.display { text-align: left; }
+mjx-container[display="true"] { text-align: left !important; margin-left: 0 !important; }
+.katex-display { text-align: left !important; }
+.katex-display > .katex { text-align: left !important; }
+</style>
+<p><a href="https://doi.org/10.1016/j.procs.2022.01.086" class="uri">https://doi.org/10.1016/j.procs.2022.01.086</a></p>
 <blockquote class="blockquote">
-<p>“If there exists sufficiently large <span class="math inline">\(t_0\)</span> such that <span class="math inline">\(h(v_i,t_0) \approx h(v_j,t_0)\)</span> …, then matrix <span class="math inline">\(\mathbf{SD}(t_0+1,t)\)</span> is similar to <span class="math inline">\(\widetilde{\mathbf{SD}}(0,t-t_0)\)</span>, which does not hold Euclidean information. Thus, the graph domain information is only contained in <span class="math inline">\(\mathbf{SD}(t_0+1,t)\)</span>.”</p>
+<p>Zheng, L., Xiao, Y., Niu, L. (2022). <em>A brief survey on Computational Gromov-Wasserstein distance</em>. Procedia Computer Science <strong>199</strong>, 697–702.</p>
 </blockquote>
-<p>를 Theorem 형태로 바로 꽂을 수 있게 정형화한 초안. 별도 파일 <code>260426_연구_HST_$overline{operatorname{SD}}^2$수렴증명—내가푼다.md</code> 의 round/big-drop 기반 미시 증명과 보완 관계 — 이 글은 “Appendix에 그대로 들어가는 추상-레벨 서술”이고, 그쪽이 “drift 상수 <span class="math inline">\(\Delta_{\mathrm{drift}}\)</span>의 명시적 계산을 포함한 자체 증명”이다. Meyn–Tweedie / Brémaud 의 일반 결과를 블랙박스로 인용하는 버전.</p>
-<p>ref/ 추가 PDF:</p>
+<section id="초록-옮김" class="level3">
+<h3 class="anchored" data-anchor-id="초록-옮김">초록 (옮김)</h3>
+<p>그래프는 점(node) 자체뿐 아니라 점 사이의 관계까지 담는 일반화된 측도 공간(metric measure space)이므로, 그래프 두 개 사이의 거리(distance)는 일반적인 분포 거리로는 잘 잡히지 않는다. 최근 <strong>Gromov-Wasserstein (GW) discrepancy</strong> 가 그래프 위에서의 의사-거리(pseudometric)로 제안되어 이론적 근거를 갖추었지만, 실제 응용은 아직 적다. 본 논문은 GW 의 기본 아이디어·응용·발전을 정리하고, 이차계획(quadratic programming) 형태인 GW 를 <strong>반복 알고리즘</strong>으로 푸는 방법을 다룬다.</p>
+<hr>
+</section>
+<section id="왜-또-거리인가" class="level2">
+<h2 class="anchored" data-anchor-id="왜-또-거리인가">1. 왜 또 거리인가</h2>
+<div class="callout callout-style-default callout-important callout-titled" title="한 줄 직관">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>한 줄 직관
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p><strong>두 분포 간 거리</strong>(Wasserstein)와 <strong>두 그래프 간 거리</strong>(Gromov-Wasserstein)는 다르다. Wasserstein 은 노드값을 정렬해 옮기지만, GW 는 노드 사이의 <strong>관계 구조</strong>(거리 행렬) 까지 같이 옮긴다.</p>
+</div>
+</div>
+</div>
+<p>머신러닝에서 두 분포의 차이를 잴 때 보통 KL divergence, JS divergence, Total Variation, <span class="math inline">\(L^2\)</span> 같은 양을 쓴다. 하지만 데이터가 <strong>그래프</strong> 라면 다음 두 가지가 동시에 필요하다.</p>
 <ul>
-<li><code>BOOK_PierreBremaud_MarkovChain.pdf</code> — Brémaud (2013). Ch. 3 (Recurrence and Ergodicity), Ch. 12 (Non-homogeneous Markov Chains). 이미 <code>\cite{Bremaud2013}</code> 로 인용 중.</li>
-<li><code>BOOK_MarkovChainsAndStochasticStability.pdf</code> — Meyn &amp; Tweedie (2009). Ch. 11 (Foster–Lyapunov drift), Ch. 17 (Sample paths and limit theorems).</li>
-<li><code>BOOK_GSP_Cooperative and graph signal processing principles and applications.pdf</code> — Djurić &amp; Richard (Eds.), 2018. GSP의 graph filter / spectral filter 일반론.</li>
+<li>노드(점)들이 어떤 분포를 따르는가 (질량, 빈도)</li>
+<li>노드 사이 관계가 어떻게 연결돼 있는가 (인접성, 거리)</li>
 </ul>
+<p>전통적 Wasserstein 은 첫째만 다룬다. 둘째까지 같이 다루는 것이 <strong>Gromov-Wasserstein</strong>.</p>
+<p>본 회사(<a href="#">HST 주식회사</a>)의 본업인 <em>Heavy-Snow Transform (HST)</em> 가 같은 동기(노드 값 + 노드 구조 동시 반영)에서 출발한다는 점에서, GW 는 비교 대상이자 보완 대상이다. 단, HST 는 <strong>한 그래프 안에서 노드 쌍 거리</strong>(intra-graph)를, GW 는 <strong>그래프 두 개 사이 전체 거리</strong>(inter-graph)를 잰다는 점이 결정적인 차이다.</p>
 <hr>
 </section>
-<section id="정리-theorem-a.6" class="level1">
-<h1>1. 정리 (Theorem A.6)</h1>
-<blockquote class="blockquote">
-<p><strong>Theorem A.6</strong> (Asymptotic Reduction to the Graph Structure). <span class="math inline">\(\mathcal{G} = (V, \mathbf{E}, \mathbf{W})\)</span> 를 <span class="math inline">\(|V| = n &lt; \infty\)</span> 인 연결 가중 그래프, <span class="math inline">\(\mathbf{y}, \widetilde{\mathbf{y}}\)</span> 를 <span class="math inline">\(\mathcal{G}\)</span> 위의 임의의 두 초기 graph-valued 데이터, <span class="math inline">\(\mathbf{h}(\cdot, t), \widetilde{\mathbf{h}}(\cdot, t)\)</span> 를 동일 파라미터 <span class="math inline">\((b, T_{max})\)</span> 하의 heavy-snow transform 이라 하자. 그러면 모든 <span class="math inline">\(i, j \in V\)</span> 에 대해 <span class="math display">\[\lim_{t \uparrow \infty} \frac{\operatorname{SD}^2_{ij}(t)}{t} \;=\; \lim_{t \uparrow \infty} \frac{\widetilde{\operatorname{SD}}^2_{ij}(t)}{t} \;=:\; s^*_{ij} \quad \text{a.s.,}\]</span> 여기서 <span class="math inline">\(s^*_{ij} \geq 0\)</span> 은 <span class="math inline">\(\mathcal{G}\)</span> (와 <span class="math inline">\(b, T_{max}\)</span>) 만의 함수. 결과적으로 snow weight 는 결정론적 극한 <span class="math display">\[W^*_{ij} \;:=\; \lim_{t \uparrow \infty} W_{ij}(t) \;=\; \exp\!\Big(-\frac{s^*_{ij}}{2\theta^2}\Big), \quad i \neq j\]</span> 을 갖고, 이 또한 <span class="math inline">\(\mathcal{G}\)</span> 만으로 결정된다.</p>
-</blockquote>
+<section id="optimal-transport-와-wasserstein-거리" class="level2">
+<h2 class="anchored" data-anchor-id="optimal-transport-와-wasserstein-거리">2. Optimal Transport 와 Wasserstein 거리</h2>
+<p>Optimal Transport (OT) 는 Monge (1781) 가 흙 운반 문제로 제기했고, Kantorovich 가 선형계획(LP) 으로 완화했다.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="증명 식: 이산 Wasserstein">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>증명 식: 이산 Wasserstein
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>운반 문제는 다음과 같다. <span class="math inline">\(n\)</span> 개 창고에 원료 <span class="math inline">\(a_i\)</span> 단위, <span class="math inline">\(m\)</span> 개 공장에 수요 <span class="math inline">\(b_j\)</span> 단위. <span class="math inline">\(i\)</span> 창고에서 <span class="math inline">\(j\)</span> 공장으로 한 단위 옮기는 비용이 <span class="math inline">\(C_{ij}\)</span>. 운반 계획 <span class="math inline">\(T \in \mathbb{R}^{n \times m}_+\)</span> 의 총비용을 최소화:</p>
+<p><span class="math display">\[
+\begin{aligned}
+L_C(p, q) &amp;= \min_{T \in \Pi(p,q)} \langle C, T \rangle = \min_T \sum_{i,j} C_{ij} T_{ij} &amp;&amp; (\because \text{운반 총비용}) \\
+\Pi(p, q) &amp;= \{ T \in \mathbb{R}^{n \times m}_+ : T \mathbf{1}_m = p,\ T^\top \mathbf{1}_n = q \} &amp;&amp; (\because \text{주변분포 보존})
+\end{aligned}
+\]</span></p>
+<p>비용이 <span class="math inline">\(C = D^k\)</span> (거리의 <span class="math inline">\(k\)</span> 제곱) 이면</p>
+<p><span class="math display">\[
+W_k(p, q) = L_{D^k}(p, q)^{1/k}
+\]</span></p>
+<p>는 대칭·양·삼각부등식 모두 만족하는 <strong>k-Wasserstein 거리</strong> 가 된다.</p>
+</div>
+</div>
+</div>
 <hr>
 </section>
-<section id="증명" class="level1">
-<h1>2. 증명</h1>
-<p>차분과정 <span class="math inline">\(D_{ij}(t) := h(v_i, t) - h(v_j, t)\)</span> 를 도입. Table 1 (<code>tb:notation</code>) 의 갱신규칙 <span class="math inline">\(h(v, t) = h(v, t-1) + b \, I(X_t = v)\)</span> 로부터</p>
-<p><span class="math display">\[D_{ij}(0) = y(v_i) - y(v_j), \qquad D_{ij}(t+1) - D_{ij}(t) = b \big[I(X_{t+1} = i) - I(X_{t+1} = j)\big].\]</span></p>
-<section id="step-1-markovian-reduction" class="level2">
-<h2 class="anchored" data-anchor-id="step-1-markovian-reduction">Step 1 — Markovian reduction</h2>
-<p>Definition 3.1 (<code>dfn:hst</code>) 의 전이확률을 살펴보면, <span class="math inline">\(P(X_{t+1} = j \mid X_t = i, h(\cdot, t))\)</span> 가 높이를 통해 의존하는 부분은 모두 지시함수 <span class="math inline">\(I(h(v_i, t) \geq h(v_k, t)) = I(D_{ik}(t) \geq 0)\)</span> 와 결정론적 보조변수 <span class="math inline">\(Z_t, \mathcal{D}_t\)</span> 만을 통한다. 따라서 확장과정</p>
-<p><span class="math display">\[\mathbf{U}_t \;:=\; \big( (D_{ij}(t))_{i,j \in V}, \, X_t, \, Z_t \big)\]</span></p>
-<p>는 가산 상태공간 위의 <strong>시간동질</strong> 마르코프 체인이고, 그 전이커널은 그래프 <span class="math inline">\(\mathcal{G}\)</span> (와 <span class="math inline">\(b, T_{max}\)</span>) 만의 함수. 특히 <span class="math inline">\(\mathbf{y} \mapsto \mathbf{y} + c \mathbf{1}\)</span> 인 평행이동에 불변 (모든 <span class="math inline">\(D_{ij}\)</span> 가 그대로).</p>
-</section>
-<section id="step-2-차분과정의-안정성-fosterlyapunov" class="level2">
-<h2 class="anchored" data-anchor-id="step-2-차분과정의-안정성-fosterlyapunov">Step 2 — 차분과정의 안정성 (Foster–Lyapunov)</h2>
-<p><span class="math inline">\(\{D_{ij}(t)\}\)</span> 가 tight family임을 보임. 인접쌍 <span class="math inline">\(i \sim j\)</span> 와 큰 <span class="math inline">\(M &gt; 0\)</span> 에 대해 <span class="math inline">\(\{D_{ij}(t) \geq M\}\)</span> 사건을 잡으면, <span class="math inline">\(\mathcal{G}\)</span> 의 연결성으로 경로 <span class="math inline">\(v_i = v_{k_0} \sim v_{k_1} \sim \cdots \sim v_{k_r} = v_j\)</span> 가 존재하고, 이 경로에서 어떤 인접쌍 <span class="math inline">\((v_{k_\ell}, v_{k_{\ell+1}})\)</span> 은 <span class="math inline">\(D_{k_\ell, k_{\ell+1}}(t) \geq M / r\)</span> 을 만족. Definition 3.1 의 <span class="math inline">\(p_{t, v_{k_\ell} \to v_{k_{\ell+1}}}\)</span> 정의로부터, 높이 순서가 맞을 때 flow 확률은 양의 그래프 상수로 하향 유계. 이를 Theorem A.5 (<code>thm:a5</code>, <span class="math inline">\(\{X_t\}\)</span> 의 weak ergodicity) 와 결합하면 Foster–Lyapunov drift 부등식</p>
-<p><span class="math display">\[\mathbb{E}\!\left[ V(\mathbf{U}_{t+1}) \,\big|\, \mathbf{U}_t = \mathbf{u} \right] - V(\mathbf{u}) \;\leq\; -\varepsilon V(\mathbf{u}) + c_0 \, \mathbf{1}_C(\mathbf{u}), \qquad V(\mathbf{u}) := \sum_{i,j} D_{ij}^2\]</span></p>
-<p>를 얻음 (어떤 <span class="math inline">\(\varepsilon, c_0 &gt; 0\)</span> 와 유한 small set <span class="math inline">\(C\)</span> 에 대해). 일반적인 Foster–Lyapunov 안정성 이론은 Meyn &amp; Tweedie (2009, Ch. 11) 참조.</p>
-<p>이 drift 부등식과 <span class="math inline">\(\{\mathbf{U}_t\}\)</span> 의 essential class 에서의 기약성 (모든 reset 시각에서 <span class="math inline">\(\boldsymbol{\mu}_0(v) &gt; 0\)</span> 인 모든 <span class="math inline">\(v \in V\)</span> 에 눈이 떨어짐) 으로부터 <span class="math inline">\(\{\mathbf{U}_t\}\)</span> 는 양의 Harris 재귀이고 유일한 정상분포 <span class="math inline">\(\pi^*\)</span> 를 갖는다.</p>
-<blockquote class="blockquote">
-<p><strong>주석</strong>: 이 step 의 <span class="math inline">\(\Delta_{\mathrm{drift}}\)</span> 명시적 계산은 별도 글 <code>260426_연구_HST_$overline{operatorname{SD}}^2$수렴증명—내가푼다.md</code> 참조. 거기서는 <span class="math inline">\(\Phi(t) = \sum_i \hbar(i,t)^2\)</span>, round-skeleton, big-drop 사건 <span class="math inline">\(E_r\)</span> 등을 명시적으로 도입하여 drift 상수 <span class="math display">\[\Delta_{\mathrm{drift}} = (T_{max}+1)\alpha - \frac{2 p_0}{n-1}\]</span> 의 부호조건 <span class="math inline">\(\Delta_{\mathrm{drift}} &lt; 0\)</span> 을 명시. 정칙 그래프에서는 <span class="math inline">\(\alpha = 0\)</span> 이라 자동.</p>
-</blockquote>
-</section>
-<section id="step-3-pi-의-mathbfy-비의존성" class="level2">
-<h2 class="anchored" data-anchor-id="step-3-pi-의-mathbfy-비의존성">Step 3 — <span class="math inline">\(\pi^*\)</span> 의 <span class="math inline">\(\mathbf{y}\)</span>-비의존성</h2>
-<p>Step 1 에 의해 <span class="math inline">\(\mathbf{U}_t\)</span> 의 커널은 <span class="math inline">\(\mathcal{G}\)</span> 만에 의존. <span class="math inline">\(\mathbf{y}\)</span> 가 다르면 <span class="math inline">\(\mathbf{U}_0\)</span> 의 초기상태만 달라지지만, 양의 Harris 재귀성으로부터 <span class="math inline">\(\mathbf{U}_t\)</span> 의 분포는 초기상태와 무관하게 <span class="math inline">\(\pi^*\)</span> 로 total variation 수렴. 따라서 <span class="math inline">\(\pi^*\)</span> 는 <span class="math inline">\(\mathcal{G}\)</span> (와 <span class="math inline">\(b, T_{max}\)</span>) 만의 함수.</p>
-</section>
-<section id="step-4-birkhoff-에르고딕-정리" class="level2">
-<h2 class="anchored" data-anchor-id="step-4-birkhoff-에르고딕-정리">Step 4 — Birkhoff 에르고딕 정리</h2>
-<p>양의 Harris 재귀 마르코프 체인의 에르고딕 정리 (Brémaud 2013, Theorem 3.3.1; Meyn &amp; Tweedie 2009, Theorem 17.0.1) 를 유계 함수 <span class="math inline">\(f(\mathbf{u}) = D_{ij}^2\)</span> 에 적용 (Step 2 로부터 <span class="math inline">\(\pi^*\)</span> 하의 <span class="math inline">\(D_{ij}^2\)</span> 유계성 확보). 임의의 초기분포에서</p>
-<p><span class="math display">\[\frac{1}{t+1} \sum_{s=0}^{t} D_{ij}(s)^2 \;\xrightarrow[t \uparrow \infty]{a.s.}\; \mathbb{E}_{\pi^*}\!\big[D_{ij}^2\big] \;=:\; s^*_{ij},\]</span></p>
-<p>우변은 <span class="math inline">\(\mathcal{G}\)</span> 만의 함수. <span class="math inline">\(\operatorname{SD}^2_{ij}(t) = \sum_{s=0}^{t} D_{ij}(s)^2\)</span> 이므로 <span class="math inline">\(\operatorname{SD}^2_{ij}(t) / t \to s^*_{ij}\)</span> a.s. <span class="math inline">\(\widetilde{\mathbf{y}}\)</span> 에도 동일 논리로 같은 극한. 첫 번째 주장 증명 완료.</p>
-</section>
-<section id="step-5-snow-weight-의-극한" class="level2">
-<h2 class="anchored" data-anchor-id="step-5-snow-weight-의-극한">Step 5 — Snow weight 의 극한</h2>
-<p><span class="math inline">\(t &gt; 0\)</span> 과 <span class="math inline">\(i \neq j\)</span> 에 대해 Definition 3.2 로부터</p>
-<p><span class="math display">\[W_{ij}(t) \;=\; \exp\!\Big(-\frac{\operatorname{SD}^2_{ij}(t)}{2\theta^2 \, t}\Big) \;\xrightarrow[t \uparrow \infty]{a.s.}\; \exp\!\Big(-\frac{s^*_{ij}}{2\theta^2}\Big) \;=\; W^*_{ij},\]</span></p>
-<p>이는 <span class="math inline">\(\mathcal{G}\)</span> 만의 함수. <span class="math inline">\(\square\)</span></p>
+<section id="gromov-wasserstein-discrepancy" class="level2">
+<h2 class="anchored" data-anchor-id="gromov-wasserstein-discrepancy">3. Gromov-Wasserstein discrepancy</h2>
+<p>핵심 차이점은 <strong>두 공간이 서로 다른 차원·메트릭</strong> 일 때도 거리를 잴 수 있게 만든 것이다.</p>
+<p>두 metric measure space <span class="math inline">\((X, d_X, \mu_X)\)</span>, <span class="math inline">\((Y, d_Y, \mu_Y)\)</span> 에 대해</p>
+<p><span class="math display">\[
+GW(\mu_X, \mu_Y) = \inf_{\pi \in \Pi(\mu_X, \mu_Y)} \iint_{X \times Y} \iint_{X \times Y} L(x, y, x', y')\, d\pi(x,y)\, d\pi(x',y')
+\]</span></p>
+<p>여기서 손실 함수 <span class="math inline">\(L(x, y, x', y') = f\big(d_X(x, x'),\ d_Y(y, y')\big)\)</span>. 즉 <strong>두 공간에서 짝지어진 점쌍의 내부거리가 얼마나 다른가</strong> 를 잰다.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="해석">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>해석
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Wasserstein 이 “각 점을 어디로 옮길까?” 라면, GW 는 “각 <strong>점쌍</strong> 이 다른 공간의 어떤 점쌍에 대응되는가?” 를 묻는다. <strong>점 자체의 좌표는 의미가 없고, 점 사이의 관계만 본다.</strong> 그래서 차원이 달라도 비교 가능.</p>
+</div>
+</div>
+</div>
+<section id="이산-형태" class="level3">
+<h3 class="anchored" data-anchor-id="이산-형태">이산 형태</h3>
+<p>그래프를 dissimilarity matrix <span class="math inline">\(C \in \mathbb{R}^{N \times N}\)</span> 와 분포 <span class="math inline">\(p \in \Sigma_N\)</span> 의 쌍 <span class="math inline">\((C, p)\)</span> 로 본다.</p>
+<p><span class="math display">\[
+GW(C, \tilde C, p, q) = \min_{T \in \Pi(p, q)} \varepsilon_{C, \tilde C}(T),
+\quad
+\varepsilon_{C, \tilde C}(T) = \sum_{i, j, k, l} L(C_{ik}, \tilde C_{jl})\, T_{ij}\, T_{kl}
+\]</span></p>
+<p>4-way 텐서 <span class="math inline">\(\mathcal{L}(C, \tilde C) = \big(L(C_{ij}, \tilde C_{kl})\big)\)</span> 와 텐서-행렬 곱</p>
+<p><span class="math display">\[
+(\mathcal{L}(C, \tilde C) \otimes T)_{i,j} = \sum_{k,l} L(C_{ik}, \tilde C_{jl})\, T_{kl}
+\]</span></p>
+<p>로 쓰면 간결히</p>
+<p><span class="math display">\[
+\varepsilon_{C, \tilde C}(T) = \langle \mathcal{L}(C, \tilde C) \otimes T,\ T \rangle.
+\]</span></p>
+<p><span class="math inline">\(T\)</span> 에 대한 <strong>이차계획(quadratic programming, QP)</strong>. 일반적으로 NP-hard.</p>
 <hr>
 </section>
 </section>
-<section id="remark" class="level1">
-<h1>3. Remark</h1>
-<p>Theorem A.6 은 본 절 서두의 휴리스틱 분해</p>
-<p><span class="math display">\[\mathbf{SD}^2(t) = \mathbf{SD}^2(0, t_0) + \mathbf{SD}^2(t_0+1, t)\]</span></p>
-<p>를 정형화한다. 임의의 고정된 <span class="math inline">\(t_0\)</span> 에 대해 <span class="math inline">\(\mathbf{SD}^2(0, t_0)\)</span> 은 유계 행렬, 따라서 <span class="math inline">\(\mathbf{SD}^2(0, t_0) / t \to \mathbf{0}\)</span> (<span class="math inline">\(t \uparrow \infty\)</span>). 결과적으로 <span class="math inline">\(\mathbf{SD}^2(t)\)</span> 의 단위시간당 증가율은 전적으로 <span class="math inline">\(\mathbf{SD}^2(t_0+1, t)\)</span> 가 담당하며, 그 비율 <span class="math inline">\(s^*_{ij}\)</span> 는 그래프만의 함수. 이 점근적 영역에서 snow-weighted matrix <span class="math inline">\(\mathbf{W}(t)\)</span> 는 graph-only filter 처럼 작동 — graph signal processing 에서 다루는 spectral graph filter 의 heavy-snow 유사체 (Djurić &amp; Richard 2018, Ch. 3 참조).</p>
+<section id="응용-graph-matching-partitioning" class="level2">
+<h2 class="anchored" data-anchor-id="응용-graph-matching-partitioning">4. 응용 — graph matching, partitioning</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>작업</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>graph matching</td>
+<td>두 그래프 사이의 노드 대응 (예: 단어 임베딩 정렬, cross-lingual 매칭)</td>
+</tr>
+<tr class="even">
+<td>graph partitioning</td>
+<td>노드를 군집으로 묶기 (barycenter graph 학습)</td>
+</tr>
+<tr class="odd">
+<td>multi-graph matching/partitioning</td>
+<td>여러 그래프 동시 정렬</td>
+</tr>
+</tbody>
+</table>
+<p>Alvarez-Melis et al.&nbsp;(2018) 은 GW 로 단어 임베딩을 OT 문제로 풀어, 하이퍼파라미터 거의 없이도 cross-lingual word alignment 에서 SOTA 급 성능을 보였다. Xu Hongteng et al.&nbsp;(2019) 은 GW 학습 (Gromov-Wasserstein Learning, GWL) 으로 대규모 그래프 정렬·분할의 통합 패러다임을 만들었다.</p>
 <hr>
 </section>
-<section id="추가할-bibliography-항목" class="level1">
-<h1>4. 추가할 bibliography 항목</h1>
-<p><code>hst.tex</code> 의 <code>\begin{thebibliography}{}</code> 블록에 추가:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode latex code-with-copy"><code class="sourceCode latex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">\bibitem</span>{MeynTweedie2009} Meyn, S. and Tweedie, R. L. (2009). {<span class="fu">\it</span> Markov Chains and Stochastic Stability} (2nd ed.). Cambridge University Press.</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">\bibitem</span>{DjuricRichard2018} Djuri<span class="fu">\'</span>c, P. M. and Richard, C. (Eds.) (2018). {<span class="fu">\it</span> Cooperative and Graph Signal Processing: Principles and Applications}. Academic Press.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>Bremaud2013</code> 은 이미 등록되어 있으므로 그대로 사용.</p>
-<hr>
+<section id="알고리즘-sinkhorn-과-proximal" class="level2">
+<h2 class="anchored" data-anchor-id="알고리즘-sinkhorn-과-proximal">5. 알고리즘 — Sinkhorn 과 Proximal</h2>
+<p>QP 라서 직접 푸는 게 어렵다. 두 가지 우회로:</p>
+<section id="엔트로피-정규화-mémoli-peyré-등" class="level3">
+<h3 class="anchored" data-anchor-id="엔트로피-정규화-mémoli-peyré-등">5.1 엔트로피 정규화 (Mémoli, Peyré 등)</h3>
+<p><span class="math display">\[
+GW_\epsilon(C, \tilde C, p, q) = \min_{T \in \Pi(p, q)} \varepsilon_{C, \tilde C}(T) - \epsilon H(T),
+\quad H(T) = -\sum_{i,j} T_{ij} \log T_{ij}
+\]</span></p>
+<p>투영 경사법(projected gradient descent) 으로 다음 갱신을 반복:</p>
+<p><span class="math display">\[
+T^{(k+1)} \leftarrow \arg\min_{T \in \Pi(p,q)} \langle \mathcal{L}(C, \tilde C) \otimes T^{(k)},\ T \rangle.
+\]</span></p>
+<p>각 스텝은 비용 행렬 <span class="math inline">\(\mathcal{L}(C, \tilde C) \otimes T^{(k)}\)</span> 의 <strong>OT 부문제(sub-OT)</strong>. <strong>Sinkhorn projection</strong> 으로 빠르게 풀린다. 단, 전역 수렴 보장은 없다.</p>
 </section>
-<section id="삽입-위치-확정-시" class="level1">
-<h1>5. 삽입 위치 (확정 시)</h1>
-<p><code>paper/260423_guebin/hst.tex</code> 의 line 973 (<code>\end{figure}</code> 직후, line 975 의 <code>\subsubsection*{A.3 ...}</code> 직전) 에 본문 (Theorem + Proof + Remark 부분) 을 삽입.</p>
-<hr>
-</section>
-<section id="미해결체크-포인트" class="level1">
-<h1>6. 미해결/체크 포인트</h1>
+<section id="proximal-point-xu-et-al." class="level3">
+<h3 class="anchored" data-anchor-id="proximal-point-xu-et-al.">5.2 Proximal Point (Xu et al.)</h3>
+<p>KL divergence 를 proximal term 으로 추가:</p>
+<p><span class="math display">\[
+T^{(k+1)} = \arg\min_{T \in \Pi(p, q)} \langle L(C, \tilde C, T^{(k)}),\ T \rangle + \gamma\, \mathrm{KL}(T \,\Vert\, T^{(k)})
+\]</span></p>
+<p>복잡한 비볼록 문제를 <strong>일련의 볼록 부문제</strong> 로 분해. Sinkhorn-Knopp 로 거의 선형 시간에 수렴. 안정점에 <strong>전역 수렴 보장</strong>.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="보충: 두 방법의 차이">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>보충: 두 방법의 차이
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ul>
-<li>Step 2 의 drift 부등식은 일반론 인용으로 처리. 명시적 상수 (앞서 언급한 <span class="math inline">\(\Delta_{\mathrm{drift}}\)</span>) 가 필요한 reviewer 가 있을 수 있음 → 그 경우 <code>내가푼다</code> 글의 결과를 lemma 로 분리해서 추가 가능.</li>
-<li>격자 상태공간에서의 기약성 — <span class="math inline">\(\boldsymbol{\mu}_0(v) &gt; 0\)</span> 인 모든 <span class="math inline">\(v\)</span> 에서 reset 가 일어난다는 것으로부터 essential class 단일성 주장. 비연결 그래프나 <span class="math inline">\(\mu_0\)</span> 의 support 가 <span class="math inline">\(V\)</span> 전체가 아닌 경우는 별도 조건 필요.</li>
-<li><span class="math inline">\(W_{ij}(t)\)</span> 정의에서 분모가 <span class="math inline">\(t\)</span> 인 점이 핵심. 만약 분모가 <span class="math inline">\(t - t_0\)</span> 였으면 더 자연스러웠겠지만, 현재 정의로도 <span class="math inline">\(\operatorname{SD}^2(0, t_0) / t \to 0\)</span> 이므로 동일 극한 성립.</li>
+<li>엔트로피 정규화: 단순하고 빠르지만 정규화 강도 <span class="math inline">\(\epsilon\)</span> 에 민감, 수렴 보장 없음.</li>
+<li>Proximal: 매 스텝 KL 부담을 묶어 비볼록을 볼록 부문제로 풀어냄. 안정성 좋고 큰 그래프에 적합.</li>
 </ul>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="fused-gromov-wasserstein-fgw" class="level2">
+<h2 class="anchored" data-anchor-id="fused-gromov-wasserstein-fgw">6. Fused Gromov-Wasserstein (FGW)</h2>
+<p>GW 는 <strong>구조(edge relation)</strong> 만 본다. 그러나 그래프가 <strong>노드 속성(feature)</strong> 도 가질 때는 둘 다 써야 한다. 예시: “boy” vs “girl” 과 “football” vs “basketball” 은 관계 구조가 비슷하지만 의미는 완전히 다르다.</p>
+<p>Vayer Titouan et al.&nbsp;(2019) 의 <strong>Fused GW</strong>:</p>
+<p><span class="math display">\[
+FGW(p, q) = \min_{T \in \Pi(p, q)} \big\langle (1 - \alpha) M + \alpha\, \mathcal{L}(C, \tilde C) \otimes T,\ T \big\rangle
+\]</span></p>
+<p>여기서 <span class="math inline">\(M_{ij}\)</span> 는 한 그래프의 <span class="math inline">\(i\)</span> 번 점에서 다른 그래프의 <span class="math inline">\(j\)</span> 번 점으로 옮기는 <strong>노드 특징 비용</strong>. <span class="math inline">\(\alpha \in [0, 1]\)</span> 가 구조/특징 가중치를 조절.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="HST 와의 연결">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>HST 와의 연결
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p><strong>HST 가 한 그래프 안에서 Euclidean (노드값) + Graph (구조) 를 동시에 반영하는 거리</strong> 라면, <strong>FGW 는 두 그래프 사이에서 노드 특징 + 관계 구조를 동시에 반영하는 거리</strong> 이다. 둘 다 “두 도메인 정보를 동시에 다룬다” 는 motivation 을 공유하지만, <strong>scope</strong> (intra-graph vs inter-graph)와 <strong>연산 방식</strong> (random walk 누적 vs OT 최소화)이 다르다.</p>
+</div>
+</div>
+</div>
+<p>조건부 경사법(conditional gradient) 으로 비볼록 문제이지만 국소 stationary point 로 수렴.</p>
+<hr>
+</section>
+<section id="회사-본업과의-비교-정리" class="level2">
+<h2 class="anchored" data-anchor-id="회사-본업과의-비교-정리">7. 회사 본업과의 비교 정리</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>항목</th>
+<th>HST (회사 본업)</th>
+<th>Gromov-Wasserstein (이 논문)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>scope</strong></td>
+<td>한 그래프 안 두 노드 거리 (intra-graph)</td>
+<td>두 그래프 사이 전체 거리 (inter-graph)</td>
+</tr>
+<tr class="even">
+<td><strong>두 도메인 통합</strong></td>
+<td>Euclidean (<span class="math inline">\(y\)</span>) + Graph 구조 (<span class="math inline">\(\mathcal{E}\)</span>)</td>
+<td>노드 특징 (<span class="math inline">\(M\)</span>) + 거리 행렬 (<span class="math inline">\(C\)</span>) (Fused GW)</td>
+</tr>
+<tr class="odd">
+<td><strong>연산</strong></td>
+<td>눈 누적 random walk, <span class="math inline">\(SD^2(t)\)</span></td>
+<td>OT 최적화, <span class="math inline">\(\min_T \langle \mathcal{L} \otimes T, T \rangle\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>정렬/매칭</strong></td>
+<td>노드 임베딩, 클러스터링</td>
+<td>노드 대응, 그래프 정렬·분할</td>
+</tr>
+<tr class="odd">
+<td><strong>수렴 보장</strong></td>
+<td>weak ergodicity (Theorem A.5)</td>
+<td>proximal: 전역 수렴, entropy: 보장 X</td>
+</tr>
+<tr class="even">
+<td><strong>계산량</strong></td>
+<td><span class="math inline">\(O(t)\)</span> 시뮬 (대규모는 <span class="math inline">\(\mathbf{P}^t\)</span> 직접 못 구함)</td>
+<td>한 스텝 Sinkhorn, NP-hard 본문제</td>
+</tr>
+</tbody>
+</table>
+<p>두 방법은 <strong>경쟁 관계가 아니라 보완 관계</strong>. HST 가 한 그래프 안의 풍부한 다중스케일 거리를 만들면, 그 거리 행렬을 <strong>GW 의 <span class="math inline">\(C\)</span></strong> 로 넣어 두 그래프를 정렬·비교하는 응용이 자연스럽다.</p>
+<hr>
+</section>
+<section id="정리" class="level2">
+<h2 class="anchored" data-anchor-id="정리">8. 정리</h2>
+<ul>
+<li>GW 는 <strong>그래프-그래프 거리</strong>의 사실상 표준 도구로 자리잡고 있다.</li>
+<li>Sinkhorn 기반 엔트로피 정규화는 빠르지만 수렴 보장이 약하고, proximal 방법은 더 안정적·확장적.</li>
+<li>Fused GW 는 노드 속성까지 통합, HST 의 motivation 과 자연스럽게 만난다.</li>
+<li>한국·국내 그래프 연구에서 HST 와 GW 를 <strong>결합한 응용 사례</strong> 는 아직 보이지 않는다. 회사 차원에서 잠재적 방향 하나.</li>
+</ul>
+<p>다음 단계 (개인 노트): - HST 의 <span class="math inline">\(SD(t)\)</span> 행렬을 GW 의 <span class="math inline">\(C\)</span> 로 넣은 <strong>HST-GW 합성</strong> 시도 검토 - 본 논문이 인용한 원전 (Mémoli, Peyré, Vayer Titouan, Xu Hongteng) 정독</p>
+<hr>
+<p><em>작성: 연 (연구팀), 2026-05-17 01:05</em></p>
 
 
 </section>
