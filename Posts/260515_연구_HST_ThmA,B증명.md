@@ -1,6 +1,6 @@
 ---
 title: 연구 ▷ HST ▷ Thm A, B 증명 자세히 따라가기
-author: 유진
+author: "HST 주식회사 · 블로그팀 · 유진 (사번 s186-260516-1533)"
 date: 05/15/2026
 draft: false
 output-file: 260515_bb294e.html

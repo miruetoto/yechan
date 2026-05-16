@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,9 +11,6 @@
 
 <title>연구 ▷ HST ▷ 그래프 도메인에서의 거리 – 신록예찬’s Blog</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -37,14 +34,15 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b80d4d0c6b5ed6a4cb4a000b691bbaf5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-5b48ee63c5e90d651e19f9ead4b448f1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -74,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -203,10 +201,24 @@ window.Quarto = {
   </ul></li>
   <li><a href="#분석-도구" id="toc-분석-도구" class="nav-link" data-scroll-target="#분석-도구">3. 분석 도구</a>
   <ul class="collapse">
-  <li><a href="#cmds-2d-임베딩" id="toc-cmds-2d-임베딩" class="nav-link" data-scroll-target="#cmds-2d-임베딩">3.1 cMDS 2D 임베딩</a></li>
-  <li><a href="#거리행렬-히트맵" id="toc-거리행렬-히트맵" class="nav-link" data-scroll-target="#거리행렬-히트맵">3.2 거리행렬 히트맵</a></li>
-  <li><a href="#ring-profile" id="toc-ring-profile" class="nav-link" data-scroll-target="#ring-profile">3.3 Ring profile</a></li>
-  <li><a href="#rho_mathrmasym-비대칭-측정" id="toc-rho_mathrmasym-비대칭-측정" class="nav-link" data-scroll-target="#rho_mathrmasym-비대칭-측정">3.4 <span class="math inline">\(\rho_{\mathrm{asym}}\)</span> — 비대칭 측정</a></li>
+  <li><a href="#a.-그래프-자체-1행" id="toc-a.-그래프-자체-1행" class="nav-link" data-scroll-target="#a.-그래프-자체-1행">A. 그래프 자체 (1행)</a>
+  <ul class="collapse">
+  <li><a href="#original-graph" id="toc-original-graph" class="nav-link" data-scroll-target="#original-graph">3.1 Original graph</a></li>
+  <li><a href="#w-heatmap-가중-행렬" id="toc-w-heatmap-가중-행렬" class="nav-link" data-scroll-target="#w-heatmap-가중-행렬">3.2 <span class="math inline">\(W\)</span> heatmap — 가중 행렬</a></li>
+  <li><a href="#d-heatmap-거리-행렬" id="toc-d-heatmap-거리-행렬" class="nav-link" data-scroll-target="#d-heatmap-거리-행렬">3.3 <span class="math inline">\(D\)</span> heatmap — 거리 행렬</a></li>
+  </ul></li>
+  <li><a href="#b.-임베딩-2행" id="toc-b.-임베딩-2행" class="nav-link" data-scroll-target="#b.-임베딩-2행">B. 임베딩 (2행)</a>
+  <ul class="collapse">
+  <li><a href="#cmds-2d-거리-보존-임베딩" id="toc-cmds-2d-거리-보존-임베딩" class="nav-link" data-scroll-target="#cmds-2d-거리-보존-임베딩">3.4 cMDS 2D — 거리 보존 임베딩</a></li>
+  <li><a href="#sammon-dual-mds-비대칭-분리-임베딩" id="toc-sammon-dual-mds-비대칭-분리-임베딩" class="nav-link" data-scroll-target="#sammon-dual-mds-비대칭-분리-임베딩">3.5 Sammon dual MDS — 비대칭 분리 임베딩</a></li>
+  <li><a href="#spectral-embedding-laplacian-eigenmaps" id="toc-spectral-embedding-laplacian-eigenmaps" class="nav-link" data-scroll-target="#spectral-embedding-laplacian-eigenmaps">3.6 Spectral embedding (Laplacian eigenmaps)</a></li>
+  </ul></li>
+  <li><a href="#c.-거리행렬-특성-3행" id="toc-c.-거리행렬-특성-3행" class="nav-link" data-scroll-target="#c.-거리행렬-특성-3행">C. 거리행렬 특성 (3행)</a>
+  <ul class="collapse">
+  <li><a href="#symmetry-scatter-dij-vs-dji" id="toc-symmetry-scatter-dij-vs-dji" class="nav-link" data-scroll-target="#symmetry-scatter-dij-vs-dji">3.7 Symmetry scatter — <span class="math inline">\(D[i,j]\)</span> vs <span class="math inline">\(D[j,i]\)</span></a></li>
+  <li><a href="#ring-profile-참조-노드에서의-거리-곡선" id="toc-ring-profile-참조-노드에서의-거리-곡선" class="nav-link" data-scroll-target="#ring-profile-참조-노드에서의-거리-곡선">3.8 Ring profile — 참조 노드에서의 거리 곡선</a></li>
+  <li><a href="#laplacian-spectrum" id="toc-laplacian-spectrum" class="nav-link" data-scroll-target="#laplacian-spectrum">3.9 Laplacian spectrum</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#시뮬레이션-연구" id="toc-시뮬레이션-연구" class="nav-link" data-scroll-target="#시뮬레이션-연구">4. 시뮬레이션 연구</a>
   <ul class="collapse">
@@ -662,27 +674,117 @@ window.Quarto = {
 </section>
 <section id="분석-도구" class="level1">
 <h1>3. 분석 도구</h1>
-<section id="cmds-2d-임베딩" class="level2">
-<h2 class="anchored" data-anchor-id="cmds-2d-임베딩">3.1 cMDS 2D 임베딩</h2>
-<p><span class="math inline">\(n \times n\)</span> 거리 행렬 <span class="math inline">\(D\)</span>에 classical MDS를 적용하여 <span class="math inline">\(\mathbb R^2\)</span> 좌표를 얻는다. 비대칭 행렬(hitting time 등)은 <span class="math inline">\((D + D^\top)/2\)</span>로 대칭화 후 적용.</p>
-<p><strong>용도</strong>: 거리의 기하학적 구조를 직관적으로 시각화. “원형이 복원되는가”, “층위가 분리되는가” 등.</p>
+<p>각 그래프 예제에 대해 <strong>3×3 = 9가지 시각화</strong>를 한 패널에 모은다. 세 행은 각각 “그래프 자체 / 거리 임베딩 / 거리행렬 특성”을 본다.</p>
+<section id="a.-그래프-자체-1행" class="level2">
+<h2 class="anchored" data-anchor-id="a.-그래프-자체-1행">A. 그래프 자체 (1행)</h2>
+<section id="original-graph" class="level3">
+<h3 class="anchored" data-anchor-id="original-graph">3.1 Original graph</h3>
+<p><span class="math inline">\((\mathcal V, \mathcal E)\)</span> 의 직관적 시각화. 노드는 무지개색(ring/path 류), hub-spoke 류에서는 hub(빨강) + spoke(파랑/초록/보라) 구분. <strong>Directed 엣지</strong>는 빨간 화살표(→), <strong>bidirectional 엣지</strong>는 회색 선(↔︎).</p>
+<p><strong>용도</strong>: 그래프의 위상(topology) 자체를 확인. 어떤 노드가 hub인가, ring/path인가, 방향성이 어디 있는가.</p>
 </section>
-<section id="거리행렬-히트맵" class="level2">
-<h2 class="anchored" data-anchor-id="거리행렬-히트맵">3.2 거리행렬 히트맵</h2>
-<p><span class="math inline">\(D_{ij}\)</span>를 그대로 히트맵으로 시각화. Hitting time처럼 비대칭인 거리는 <span class="math inline">\(D \neq D^\top\)</span>이 시각적으로 드러남.</p>
-<p><strong>용도</strong>: 거리 행렬의 block structure, 비대칭, degenerate(상수) 여부를 직접 확인.</p>
+<section id="w-heatmap-가중-행렬" class="level3">
+<h3 class="anchored" data-anchor-id="w-heatmap-가중-행렬">3.2 <span class="math inline">\(W\)</span> heatmap — 가중 행렬</h3>
+<p><span class="math inline">\(W \in \mathbb R^{n \times n}\)</span> 을 그대로 히트맵으로 시각화. <span class="math inline">\(W_{ij}\)</span> = 엣지 <span class="math inline">\(i \to j\)</span>의 <strong>similarity</strong> (큰 값 = 가까움).</p>
+<ul>
+<li>Cycle/path: super/sub-diagonal에 얇은 띠</li>
+<li>Hub-spoke: 첫 행/열에 집중</li>
+<li>Gaussian: 대각선 주변으로 연속적 그라데이션</li>
+<li>Directed: 비대칭 (<span class="math inline">\(W \neq W^\top\)</span>)</li>
+</ul>
+<p><strong>용도</strong>: 그래프의 <strong>국소(local) 구조</strong> 확인. Sparse / dense, 방향성 유무, 가중치 분포.</p>
 </section>
-<section id="ring-profile" class="level2">
-<h2 class="anchored" data-anchor-id="ring-profile">3.3 Ring profile</h2>
-<p>Ring 구조 그래프(cycle)에서 참조 노드 <span class="math inline">\(v_0\)</span>로부터의 거리 <span class="math inline">\(D[0, j]\)</span>를 <span class="math inline">\(j = 0, \ldots, n-1\)</span>에 대해 플롯. Min-max normalize하여 형태(shape)를 비교.</p>
-<p><strong>용도</strong>: 같은 그래프 위에서 서로 다른 거리의 <strong>곡선 형태</strong>를 직접 비교. Inverted-V(geodesic 비례), 나선(diffusion), 톱니(directed SP) 등.</p>
-</section>
-<section id="rho_mathrmasym-비대칭-측정" class="level2">
-<h2 class="anchored" data-anchor-id="rho_mathrmasym-비대칭-측정">3.4 <span class="math inline">\(\rho_{\mathrm{asym}}\)</span> — 비대칭 측정</h2>
-<p><span class="math display">\[\rho_{\mathrm{asym}}(D) = \frac{\|D - D^\top\|_F}{\|D + D^\top\|_F}\]</span></p>
-<p><span class="math inline">\(0\)</span> = 완전 대칭, <span class="math inline">\(\to 1\)</span> = 강한 비대칭.</p>
-<p><strong>용도</strong>: Directed graph에서 각 거리가 방향 정보를 output에 얼마나 보존하는지 정량화.</p>
+<section id="d-heatmap-거리-행렬" class="level3">
+<h3 class="anchored" data-anchor-id="d-heatmap-거리-행렬">3.3 <span class="math inline">\(D\)</span> heatmap — 거리 행렬</h3>
+<p>특정 metric (SP, Diff, Res, …)으로 계산된 <span class="math inline">\(D \in \mathbb R^{n \times n}\)</span>. <span class="math inline">\(D_{ij}\)</span> = 노드 <span class="math inline">\(i, j\)</span> 사이 <strong>distance</strong> (큰 값 = 멈).</p>
+<ul>
+<li>W와 <strong>역관계</strong>: similarity → distance</li>
+<li>W는 sparse, D는 dense (모든 쌍에 대해 정의)</li>
+<li>도달 불가 쌍은 <span class="math inline">\(\infty\)</span> (시각화에서 NaN 처리)</li>
+</ul>
+<p><strong>용도</strong>: 거리 metric의 <strong>전역 효과</strong> 확인. Block structure, 비대칭, degenerate(상수) 여부.</p>
+<p><strong><span class="math inline">\(W\)</span> vs <span class="math inline">\(D\)</span> 핵심 차이:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><span class="math inline">\(W\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(D\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">의미</td>
+<td style="text-align: left;">similarity (입력)</td>
+<td style="text-align: left;">distance (출력)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">국소성</td>
+<td style="text-align: left;">local (sparse)</td>
+<td style="text-align: left;">global (dense)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">방향성</td>
+<td style="text-align: left;">그대로 보존</td>
+<td style="text-align: left;">metric에 따라 사라지거나 보존</td>
+</tr>
+</tbody>
+</table>
 <hr>
+</section>
+</section>
+<section id="b.-임베딩-2행" class="level2">
+<h2 class="anchored" data-anchor-id="b.-임베딩-2행">B. 임베딩 (2행)</h2>
+<p>3가지 서로 다른 원리로 같은 그래프를 <span class="math inline">\(\mathbb R^2\)</span>에 내장.</p>
+<section id="cmds-2d-거리-보존-임베딩" class="level3">
+<h3 class="anchored" data-anchor-id="cmds-2d-거리-보존-임베딩">3.4 cMDS 2D — 거리 보존 임베딩</h3>
+<p>Classical MDS: <span class="math inline">\(D\)</span>에 double centering 적용 후 top-2 eigenvalue로 좌표. 비대칭 <span class="math inline">\(D\)</span>는 <span class="math inline">\((D+D^\top)/2\)</span>로 대칭화 후 적용.</p>
+<p><span class="math display">\[\min_X \sum_{i&lt;j} (D_{ij} - \|x_i - x_j\|_2)^2\]</span></p>
+<p><strong>용도</strong>: “거리 metric이 만들어낸 기하”를 직관적 시각화. 원형 복원 / 산란 / 군집 분리 등.</p>
+<p><strong>한계</strong>: 대칭 행렬만 처리 → 비대칭 정보 유실.</p>
+</section>
+<section id="sammon-dual-mds-비대칭-분리-임베딩" class="level3">
+<h3 class="anchored" data-anchor-id="sammon-dual-mds-비대칭-분리-임베딩">3.5 Sammon dual MDS — 비대칭 분리 임베딩</h3>
+<p>각 노드를 <strong>source <span class="math inline">\(p_i\)</span></strong> (원)와 <strong>sink <span class="math inline">\(q_i\)</span></strong> (삼각형) 두 점으로 분리하여 <span class="math inline">\(\mathbb R^2\)</span>에 임베딩. 비대칭 행렬을 위해 설계:</p>
+<p><span class="math display">\[\min_{p, q} \sum_{i,j: \text{finite}} (D_{ij} - \|p_i - q_j\|_2)^2\]</span></p>
+<p>(Sammon 1969 의 dual variant; 표준 Sammon은 대칭, dual은 비대칭 거리에 확장.)</p>
+<p><strong>용도</strong>: <span class="math inline">\(D[i,j]\)</span>와 <span class="math inline">\(D[j,i]\)</span>가 다른 경우 source/sink 좌표 분리가 비대칭의 기하학적 해석을 줌. 대칭이면 <span class="math inline">\(p_i \approx q_i\)</span>로 두 점이 겹침.</p>
+</section>
+<section id="spectral-embedding-laplacian-eigenmaps" class="level3">
+<h3 class="anchored" data-anchor-id="spectral-embedding-laplacian-eigenmaps">3.6 Spectral embedding (Laplacian eigenmaps)</h3>
+<p>그래프 Laplacian <span class="math inline">\(L = D_{\deg} - W\)</span> (또는 <span class="math inline">\(L_s = (L+L^\top)/2\)</span>)의 첫 2개 비자명 eigenvector <span class="math inline">\(\psi_1, \psi_2\)</span>로 좌표 (Belkin-Niyogi 2003).</p>
+<p><span class="math display">\[x_i = (\psi_1(i), \psi_2(i))\]</span></p>
+<p><strong>원리적 차이</strong>: - MDS / Sammon: <strong>거리 기반</strong> (<span class="math inline">\(D\)</span> 사용) - Spectral: <strong>스펙트럼 기반</strong> (<span class="math inline">\(W\)</span> → <span class="math inline">\(L\)</span> → 고유벡터)</p>
+<p><strong>용도</strong>: 거리 metric을 우회한 graph-intrinsic 임베딩. <strong>MDS와 같은 그래프에서 다른 결과</strong>를 줄 때가 많다 (예: directed cycle에서 MDS 산란 vs Spectral 완벽 원).</p>
+<hr>
+</section>
+</section>
+<section id="c.-거리행렬-특성-3행" class="level2">
+<h2 class="anchored" data-anchor-id="c.-거리행렬-특성-3행">C. 거리행렬 특성 (3행)</h2>
+<section id="symmetry-scatter-dij-vs-dji" class="level3">
+<h3 class="anchored" data-anchor-id="symmetry-scatter-dij-vs-dji">3.7 Symmetry scatter — <span class="math inline">\(D[i,j]\)</span> vs <span class="math inline">\(D[j,i]\)</span></h3>
+<p>각 쌍 <span class="math inline">\((i, j)\)</span>에 대해 <span class="math inline">\((D_{ij}, D_{ji})\)</span> 산점. 대각선 <span class="math inline">\(y=x\)</span> 위에 있으면 대칭, 벗어나면 비대칭.</p>
+<p>함께 표시: <span class="math display">\[\rho_{\mathrm{asym}}(D) = \frac{\|D - D^\top\|_F}{\|D + D^\top\|_F} \in [0, 1]\]</span></p>
+<p><span class="math inline">\(0\)</span> = 완전 대칭, <span class="math inline">\(\to 1\)</span> = 강한 비대칭.</p>
+<p><strong>용도</strong>: Directed graph에서 각 metric이 방향 정보를 output에 얼마나 보존하는지 <strong>정량화 + 시각화</strong> 동시.</p>
+</section>
+<section id="ring-profile-참조-노드에서의-거리-곡선" class="level3">
+<h3 class="anchored" data-anchor-id="ring-profile-참조-노드에서의-거리-곡선">3.8 Ring profile — 참조 노드에서의 거리 곡선</h3>
+<p><span class="math inline">\(D[0, j]\)</span>를 <span class="math inline">\(j = 0, \ldots, n-1\)</span>에 대해 플롯하고 min-max normalize. 곡선의 <strong>형태</strong>를 보면 metric 특성 즉시 드러남:</p>
+<ul>
+<li>Inverted-V: geodesic 비례 (SP, Resistance, Biharmonic, Hitting on cycles)</li>
+<li>톱니 / 나선: local oscillation (Diffusion 작은 <span class="math inline">\(t\)</span>)</li>
+<li>단조 증가 후 급락: directed SP/Hit on cycle</li>
+<li>수평선: degenerate (Diffusion 큰 <span class="math inline">\(t\)</span>, directed cycle)</li>
+</ul>
+<p><strong>용도</strong>: Ring 구조 그래프(cycle, path)에서 metric별 형태 비교에 특히 강력. 다른 구조에서도 “node 0에서 본 거리 분포”로 활용.</p>
+</section>
+<section id="laplacian-spectrum" class="level3">
+<h3 class="anchored" data-anchor-id="laplacian-spectrum">3.9 Laplacian spectrum</h3>
+<p><span class="math inline">\(L\)</span>의 고유값 <span class="math inline">\(0 = \lambda_0 \leq \lambda_1 \leq \cdots \leq \lambda_{n-1}\)</span>을 정렬하여 플롯.</p>
+<p>핵심 정보: - <strong><span class="math inline">\(\lambda_1\)</span> (algebraic connectivity / Fiedler value)</strong>: 그래프 연결 강도. 큰 값 = 잘 연결됨 - <strong><span class="math inline">\(\lambda_k - \lambda_{k-1}\)</span> 큰 gap</strong>: <span class="math inline">\(k\)</span>개 클러스터 (spectral clustering 원리) - <strong>선형 증가</strong>: cycle / path 특유의 패턴 - <strong>계단형</strong>: 다층 구조</p>
+<p><strong>용도</strong>: 거리 metric 계산 <strong>이전</strong>의 그래프 본질적 특성. Resistance/Biharmonic 같은 spectral 거리의 거동 예측.</p>
+<hr>
+</section>
 </section>
 </section>
 <section id="시뮬레이션-연구" class="level1">
@@ -1127,11 +1229,48 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="shortest-path">4.2 Shortest Path</h2>
 <section id="개-그래프-33-패널" class="level3">
 <h3 class="anchored" data-anchor-id="개-그래프-33-패널">24개 그래프 × 3×3 패널</h3>
-<p>각 예제에 대해 3×3 패널 (9가지 시각화):</p>
+<p>각 예제에 대해 3×3 = <strong>9가지 시각화</strong>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">1열</th>
+<th style="text-align: left;">2열</th>
+<th style="text-align: left;">3열</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>1행 (그래프)</strong></td>
+<td style="text-align: left;">Original graph</td>
+<td style="text-align: left;"><span class="math inline">\(W\)</span> heatmap</td>
+<td style="text-align: left;"><span class="math inline">\(D\)</span> (SP) heatmap</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>2행 (임베딩)</strong></td>
+<td style="text-align: left;">MDS 2D</td>
+<td style="text-align: left;">Sammon dual MDS</td>
+<td style="text-align: left;">Spectral embedding</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>3행 (특성)</strong></td>
+<td style="text-align: left;">Symmetry scatter (<span class="math inline">\(\rho_{\mathrm{asym}}\)</span>)</td>
+<td style="text-align: left;">Ring profile</td>
+<td style="text-align: left;">Laplacian spectrum</td>
+</tr>
+</tbody>
+</table>
+<p>각 도구의 상세 설명은 §3 참조. 핵심:</p>
 <ul>
-<li><strong>1행 (그래프)</strong>: 원본 그래프 / <span class="math inline">\(W\)</span> 히트맵 / Laplacian eigenvalue 스펙트럼</li>
-<li><strong>2행 (거리·비대칭)</strong>: <span class="math inline">\(D\)</span> (SP) 히트맵 / <span class="math inline">\(D - D^\top\)</span> 히트맵 / Symmetry scatter</li>
-<li><strong>3행 (임베딩)</strong>: MDS 2D / Spectral embedding / Sammon dual MDS</li>
+<li><strong>Original / W / D</strong>: 입력 → 변환 흐름. 같은 그래프(W)에서 metric에 따라 D가 어떻게 달라지는가.</li>
+<li><strong>MDS / Sammon / Spectral</strong>: 세 가지 다른 임베딩 원리. MDS는 거리 보존, Sammon은 비대칭 분리, Spectral은 그래프 라플라시안 기반.</li>
+<li><strong>Symmetry scatter / Ring profile / Spectrum</strong>: 거리행렬의 비대칭, 형태, 그래프의 스펙트럼 특성.</li>
 </ul>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true" href="">1-1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false" href="">1-2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-3" role="tab" aria-controls="tabset-8-3" aria-selected="false" href="">1-3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-4" role="tab" aria-controls="tabset-8-4" aria-selected="false" href="">1-4</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-5" role="tab" aria-controls="tabset-8-5" aria-selected="false" href="">2-1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-6" role="tab" aria-controls="tabset-8-6" aria-selected="false" href="">2-2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-7" role="tab" aria-controls="tabset-8-7" aria-selected="false" href="">2-3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-8-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-8" role="tab" aria-controls="tabset-8-8" aria-selected="false" href="">2-4</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-9-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-9" role="tab" aria-controls="tabset-8-9" aria-selected="false" href="">3-1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-10-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-10" role="tab" aria-controls="tabset-8-10" aria-selected="false" href="">3-2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-11-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-11" role="tab" aria-controls="tabset-8-11" aria-selected="false" href="">3-3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-12-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-12" role="tab" aria-controls="tabset-8-12" aria-selected="false" href="">3-4</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-13-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-13" role="tab" aria-controls="tabset-8-13" aria-selected="false" href="">4-1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-14-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-14" role="tab" aria-controls="tabset-8-14" aria-selected="false" href="">4-2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-15-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-15" role="tab" aria-controls="tabset-8-15" aria-selected="false" href="">4-3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-16-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-16" role="tab" aria-controls="tabset-8-16" aria-selected="false" href="">4-4</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-17-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-17" role="tab" aria-controls="tabset-8-17" aria-selected="false" href="">5-1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-18-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-18" role="tab" aria-controls="tabset-8-18" aria-selected="false" href="">5-2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-19-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-19" role="tab" aria-controls="tabset-8-19" aria-selected="false" href="">5-3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-20-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-20" role="tab" aria-controls="tabset-8-20" aria-selected="false" href="">6-1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-21-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-21" role="tab" aria-controls="tabset-8-21" aria-selected="false" href="">6-2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-22-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-22" role="tab" aria-controls="tabset-8-22" aria-selected="false" href="">6-3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-23-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-23" role="tab" aria-controls="tabset-8-23" aria-selected="false" href="">7-1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-24-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-24" role="tab" aria-controls="tabset-8-24" aria-selected="false" href="">7-2</a></li></ul>
