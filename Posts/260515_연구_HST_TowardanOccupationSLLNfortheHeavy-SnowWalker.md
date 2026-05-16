@@ -1,264 +1,236 @@
 ---
-title: "연구 ▷ HST ▷ Toward an Occupation SLLN for the Heavy-Snow Walker"
-author: 신록예찬
+title: "연구 ▷ HST ▷ 점유 빈도 ρᵢ는 항상 수렴할까?"
+author: 오큐리
 date: 05/15/2026
 draft: false
 output-file: 260515_dc486d.html
+fontsize: 0.85em
 ---
 
-> **Abstract.** We investigate whether the empirical occupation frequencies of the heavy-snow walker converge almost surely: $\frac{1}{t}\sum_{s=1}^t\mathbf{1}\{X_s=v_i\}\to\rho_i$ a.s. A martingale decomposition (Section 2) reduces the problem to the convergence of a Cesàro average of conditional visit probabilities; this step is unconditional and rigorous. The remaining step---showing that the Cesàro average converges---is open in general. We identify the precise obstruction (Section 4), prove a conditional result under an explicit *downstream-stabilization* hypothesis (Section 5), and verify the hypothesis for specific graph families (Section 6).
+> **초록.** 임의의 연결 그래프와 완전 지지(full-support) $\boldsymbol{\mu}_0$에 대해 heavy-snow walker의 경험적 점유 빈도 $\hat\rho_i(t)$가 거의 확실하게(a.s.) 수렴함을 증명한다. 증명은 두 단계로 구성된다: (1) $\hat\rho(t)$가 조각 선형 ODE를 따라간다는 확률적 근사(SA) 축소, (2) 그 ODE에 주기궤도가 없으며 모든 궤적이 고정점으로 수렴한다는 결정론적 분석. 핵심 통찰은 평균장 함수 $F$가 순위 영역 위에서 **조각마다 상수**라는 점이며, 이로 인해 ODE가 각 영역 내에서 발산 $-(n-1)<0$의 선형 수축이 된다.
 
-## 1. Setup
+## 1. 평균장 함수는 조각마다 상수
 
-Algorithm 1' (random-step variant) of [Choi--Oh 2026]: connected weighted graph $\mathcal{G}=(V,\mathbf{E},\mathbf{W})$ with $|V|=n$, i.i.d. increments $b'_t\sim\mathrm{Unif}(0,b)$, block timer $Z_t\in\{0,\ldots,T_{\max}\}$, fall distribution $\boldsymbol{\mu}_0$ with $\mu_{\min}:=\min_i\mu_0(v_i)>0$.
+본 문서의 표기는 동반 문서들을 따른다. SA 점화식은:
 
-**Order of operations at step $t$.**
+$$\hat\rho_i(t+1)=\hat\rho_i(t)+\frac{1}{t+1}\bigl[p_i(t+1)-\hat\rho_i(t)+\xi_{t+1}^{(i)}\bigr],$$
 
-`1.` Determine the walker destination $X_t$:
+여기서 $\xi_{t+1}^{(i)}=\mathbf{1}\{X_{t+1}=v_i\}-p_i(t+1)$ 은 유계 마팅게일 증분이다 ($|\xi|\leq 1$, $\mathbb{E}[\xi\mid\mathcal{F}_t]=0$).
 
-- If $Z_{t-1}=T_{\max}$ (block-flag): draw $X_t\sim\boldsymbol{\mu}_0$, independently of $\mathcal{F}_{t-1}$.
-- Otherwise (flow step): $X_t$ is drawn by the flow rule applied to heights $\{h(v,t-1)\}$ (see below).
+::: {.callout-important collapse="true" title="해석: 왜 이 점화식이 SA(확률적 근사)인가"}
+$\hat\rho_i(t+1)-\hat\rho_i(t) = \frac{1}{t+1}[p_i(t+1)-\hat\rho_i(t) + \xi_{t+1}^{(i)}]$. 이는 Robbins--Monro 형태의 확률적 근사:
 
-`2.` Draw $b'_t\sim\mathrm{Unif}(0,b)$, independently of $(\mathcal{F}_{t-1},X_t)$.
+- 스텝 크기 $\gamma_t = 1/(t+1)$ — 작아지지만 합은 발산
+- drift $p_i - \hat\rho_i$ — "평균장 함수 - 현재 추정치"
+- noise $\xi$ — 마팅게일 증분이라 평균적으로 사라짐
 
-`3.` Update $h(X_t,t):=h(X_t,t-1)+b'_t$.
-
-**Flow rule (precise).** At a non-block step with current node $X_{t-1}=u$: the set of downstream neighbors is $\mathcal{D}_t:=\{w\in\mathcal{N}(u):h(w,t-1)\leq h(u,t-1)\}$, i.e. those neighbors whose height (after all step-$(t-1)$ updates) is at or below that of $u$. Note that $h(u,t-1)$ already includes the increment $b'_{t-1}$ if $u=X_{t-1}$ (by the update rule in step 3 of the previous iteration), so the comparison is between *post-snowfall* heights. If $\mathcal{D}_t\neq\emptyset$, the walker moves to $X_t\sim\mathrm{Cat}\bigl(\{w_{uw}/\sum_{w'\in\mathcal{D}_t}w_{uw'}:w\in\mathcal{D}_t\}\bigr)$---a *weight-proportional random choice* among downstream neighbors. If $\mathcal{D}_t=\emptyset$, the walker falls back to $X_t\sim\boldsymbol{\mu}_0$.
-
-> **Remark** (Flow is stochastic, not deterministic). Even with a permanently fixed height ranking and all pairwise gaps exceeding $(T_{\max}+1)b$, the flow step from node $u$ picks among the downstream neighbors of $u$ by weight-proportional random choice, not by "pick the single lowest neighbor." On graphs with branching (degree $>1$ at some nodes), the per-round visit sequence is *not* a deterministic function of the starting node and the ranking.
-
-**Filtration.** $\mathcal{F}_t:=\sigma\bigl(S(0),X_1,U_1,b'_1,\ldots,X_t,U_t,b'_t\bigr)$, where $S(t):=(\boldsymbol{\delta}_t,X_t,Z_t)$ and $U_s$ denotes the randomness used to determine $X_s$ at step $s$: at a block-flag step, $U_s$ is the $\boldsymbol{\mu}_0$-coin; at a flow step, $U_s$ is the weight-proportional coin among downstream neighbors. Note:
-
-- $X_t$ is $\sigma(\mathcal{F}_{t-1},U_t)$-measurable;
-- $b'_t$ is independent of $\sigma(\mathcal{F}_{t-1},U_t)$.
-
-**Conditional visit probability.** Define
-
-$$p_i(s)\;:=\;\mathbb{P}(X_s=v_i\mid\mathcal{F}_{s-1}).$$
-
-This is $\mathcal{F}_{s-1}$-measurable, with $\sum_i p_i(s)=1$ and $p_i(s)\geq 0$. At a block-flag time $t_r$: $p_i(t_r+1)=\mu_0(v_i)$. At a flow step: $p_i(s)$ is the weight-proportional probability determined by heights at time $s-1$ and the previous position $X_{s-1}$.
-
-## 2. Martingale decomposition
-
-**Lemma** (Martingale noise removal). For each $v_i\in V$, define
-
-$$M_t^{(i)}\;:=\;\sum_{s=1}^{t}\bigl[\mathbf{1}\{X_s=v_i\}-p_i(s)\bigr].$$
-
-Then:
-
-**(a)** $\{M_t^{(i)}\}_{t\geq 0}$ is a martingale w.r.t. $\{\mathcal{F}_t\}$ with bounded increments $|\Delta M_t^{(i)}|\leq 1$.
-
-**(b)** $M_t^{(i)}/t\to 0$ a.s.
-
-**(c)** Therefore
-
-$$\frac{1}{t}\sum_{s=1}^{t}\mathbf{1}\{X_s=v_i\}\;=\;\frac{1}{t}\sum_{s=1}^{t}p_i(s)\;+\;o(1)\qquad\text{a.s.}$$
-
-::: {.callout-important collapse="true" title="핵심 결론"}
-**실제 방문 비율** $=$ **조건부 확률의 평균** $+$ **사라지는 noise**.
-
-즉 $\rho_i$가 존재하는지는 오직 $\frac{1}{t}\sum p_i(s)$가 수렴하는지에 달렸다. 실제 방문의 랜덤성(noise)은 $1/t$ 스케일에서 자동으로 사라진다.
+즉 $\hat\rho(t)$ 는 어떤 결정론적 ODE를 "추적"하며 진화한다.
 :::
 
-*Proof.*
+**순위 영역.** 순열 $\sigma\in\mathfrak{S}_n$ 에 대해 열린 순위 영역을 다음과 같이 정의한다:
 
-**(a)** The increment is $\Delta M_s^{(i)}=\mathbf{1}\{X_s=v_i\}-p_i(s)$. Since $p_i(s)$ is $\mathcal{F}_{s-1}$-measurable, and $\mathbb{E}[\mathbf{1}\{X_s=v_i\}\mid\mathcal{F}_{s-1}]=p_i(s)$ by definition, we have $\mathbb{E}[\Delta M_s^{(i)}\mid\mathcal{F}_{s-1}]=0$.
+$$R_\sigma := \{\rho\in\mathrm{int}(\Delta^{n-1}):\rho_{\sigma(1)}>\rho_{\sigma(2)}>\cdots>\rho_{\sigma(n)}\}.$$
 
-Since $X_s$ and $U_s$ are included in $\mathcal{F}_s$, the increment $\Delta M_s^{(i)}$ is $\mathcal{F}_s$-measurable. The bound $|\Delta M_s^{(i)}|\leq 1$ is immediate.
+심플렉스 $\Delta^{n-1}$ 은 유한 개의 열린 영역 $\{R_\sigma\}_\sigma$ 와 측도 0인 경계 $\partial := \{\rho:\rho_i=\rho_j\text{ for some }i\neq j\}$ 로 분할된다.
 
-**(b)** By the strong law for square-integrable martingales (Hall--Heyde, Thm 2.18): if $\sum_{s=1}^\infty\mathbb{E}[(\Delta M_s^{(i)})^2\mid\mathcal{F}_{s-1}]/s^2<\infty$ a.s., then $M_t^{(i)}/t\to 0$ a.s. Since $\mathbb{E}[(\Delta M_s^{(i)})^2\mid\mathcal{F}_{s-1}]=p_i(s)(1-p_i(s))\leq 1$, the sum is $\leq\sum_{s\geq 1}1/s^2<\infty$.
+**정의 (이상화된 라운드 동역학).** 순위 $\sigma$ 에 대해 *이상화된 흐름 커널* $P_\sigma$ 를 다음과 같이 정의한다: 노드 $u$ 에서 하류 집합은 $\mathcal{D}_\sigma(u) := \{w\in\mathcal{N}(u):\sigma^{-1}(w)>\sigma^{-1}(u)\}$ (순위가 $u$ 보다 낮은 이웃). $\mathcal{D}_\sigma(u)\neq\emptyset$ 이면 walker는 $w\in\mathcal{D}_\sigma(u)$ 로 확률 $w_{uw}/\sum_{w'}w_{uw'}$ 에 따라 이동하고, 그렇지 않으면 $\boldsymbol{\mu}_0$ 로 fallback한다.
 
-**(c)** Immediate from (b). $\square$
+이는 모든 인접 높이 차이가 $(T_{\max}+1)b$ 를 초과하여 라운드 내 변동이 하류 멤버십을 바꾸지 못하는 영역에서 실제 알고리즘을 모델링한다.
 
-> **Remark** (Scope). This lemma is *unconditional*: it holds for every realization, on every connected graph, without any assumption on $\rho_i$, ergodicity, or regime. The problem of proving $\rho_i$ exists is now equivalent to showing that the Cesàro average $\frac{1}{t}\sum_{s=1}^t p_i(s)$ converges.
+**정의 (평균장 함수).** 순위 $\sigma$ 에 대해
 
-## 3. Height-difference process
+$$F_{\sigma,i} := \frac{\mathbb{E}_{\mu_0,P_\sigma}[N_i]}{\mathbb{E}_{\mu_0,P_\sigma}[m]},$$
 
-**Lemma** (Height-difference decomposition). For any pair $(i,j)$, define $D_{ij}(t):=h(v_i,t)-h(v_j,t)$. Then
+로 정의한다. 여기서 $(N_1,\ldots,N_n,m)$ 는 $\tilde X_1\sim\boldsymbol{\mu}_0$ 에서 시작하여 커널 $P_\sigma$ 로 진행한 한 라운드의 방문 횟수와 라운드 길이이다. $\rho\in R_\sigma$ 일 때 $F(\rho) := F_\sigma$ 로 둔다.
 
-$$D_{ij}(t)\;=\;D_{ij}(0)+\bar{b}\sum_{s=1}^t\bigl[\mathbf{1}\{X_s=v_i\}-\mathbf{1}\{X_s=v_j\}\bigr]+\widetilde{M}_{ij}(t),$$
+**보조정리 (F는 조각마다 상수).** $F$ 는 각 열린 영역 $R_\sigma$ 에서 상수값 $F_\sigma$ 를 갖는다.
 
-where $\bar{b}:=b/2$ and $\widetilde{M}_{ij}(t):=\sum_{s=1}^t(b'_s-\bar{b})[\mathbf{1}\{X_s=v_i\}-\mathbf{1}\{X_s=v_j\}]$ satisfies $|\widetilde{M}_{ij}(t)|=O(\sqrt{t\log\log t})$ a.s.
-
-*Proof.* Write $b'_s=\bar{b}+(b'_s-\bar{b})$. Define the intermediate filtration $\mathcal{H}_s:=\sigma(\mathcal{F}_{s-1},U_s)\supseteq\sigma(\mathcal{F}_{s-1},X_s)$. Since $b'_s$ is independent of $\mathcal{H}_s$ and has mean $\bar{b}$, the increment $(b'_s-\bar{b})[\mathbf{1}\{X_s=v_i\}-\mathbf{1}\{X_s=v_j\}]$ has conditional mean zero given $\mathcal{H}_s$; since $\mathcal{H}_s\supseteq\mathcal{F}_{s-1}$, the tower property gives $\mathbb{E}[\,\cdot\mid\mathcal{F}_{s-1}]=0$ as well. Since $b'_s,X_s,U_s\in\mathcal{F}_s$, the increment is $\mathcal{F}_s$-measurable. Hence $\widetilde{M}_{ij}$ is a martingale w.r.t. $\{\mathcal{F}_t\}$.
-
-The conditional variance of each increment is $\leq\mathrm{Var}(b')\cdot 1=b^2/12$, so $\langle\widetilde{M}_{ij}\rangle_t\leq(b^2/12)\,t$. The LIL for martingales gives $|\widetilde{M}_{ij}(t)|=O(\sqrt{t\log\log t})$ a.s. $\square$
-
-**Lemma** (Height--occupation link). Define $\hat\rho_i(t):=\frac{1}{t}\sum_{s=1}^t\mathbf{1}\{X_s=v_i\}$. Then
-
-$$D_{ij}(t)\;=\;\bar{b}\,t\,[\hat\rho_i(t)-\hat\rho_j(t)]+O(\sqrt{t\log\log t})\qquad\text{a.s.}$$
-
-::: {.callout-important collapse="true" title="핵심 의미"}
-**높이 차이 $\approx$ 적립률 차이 $\times$ 시간**.
-
-두 노드의 높이 차이 $D_{ij}(t)$는 본질적으로 "누가 더 자주 눈을 받았는가"의 누적 $\times$ 평균 눈량 $\bar{b}$이다. $O(\sqrt{t\log\log t})$ 항은 눈량의 랜덤성에서 오는 noise인데, $t$에 비하면 무시할 수 있다.
-
-따라서: $\hat\rho_i \neq \hat\rho_j$이면 높이 차이가 **선형으로** 벌어지고, $\hat\rho_i = \hat\rho_j$이면 높이 차이는 $O(\sqrt{t})$로만 흔들린다. 이것이 balanced vs drift regime을 가르는 메커니즘이다.
-
-재미있는 점: $\rho_i$는 $\mu_0(v_i)$에 비례하지 **않는다**. $\mu_0$는 block-flag에서의 초기 추출 확률일 뿐이고, 실제 적립률 $\rho_i$는 flow dynamics까지 반영한 결과이다. 높은 노드에서는 flow가 낮은 이웃으로 빠져나가고, 낮은 노드에서는 downstream이 없어서 $\mu_0$-fallback이 일어난다. 이 상호작용 때문에 $\rho_i$는 $\mu_0$, 그래프 구조, flow 규칙이 합쳐진 **고정점**이다.
+::: {.callout-note collapse="true" title="증명: 보조정리 1"}
+$R_\sigma$ 내부에서 순위는 고정 순열 $\sigma$ 이다. 하류 집합 $\mathcal{D}_\sigma(u)$ 와 따라서 커널 $P_\sigma$ 는 $\sigma$ 에만 의존하며 $\rho$ 의 크기에 의존하지 않는다. 따라서 $F_{\sigma,i} = \mathbb{E}_{\mu_0, P_\sigma}[N_i]/\mathbb{E}_{\mu_0, P_\sigma}[m]$ 의 기댓값은 $\rho\in R_\sigma$ 와 무관하다. $\square$
 :::
 
-*Proof.* Immediate from the decomposition and $D_{ij}(0)=O(1)$. $\square$
+::: {.callout-important collapse="true" title="해석: 이 사실이 왜 핵심인가"}
+$F$ 가 조각마다 상수라는 것은 ODE가 각 영역 내에서 **선형**이 됨을 의미한다. 비선형 동역학 분석이 가능한 가장 단순한 형태로 떨어진다. 이로부터:
 
-## 4. The obstruction
+1. 영역 내에서는 단순 지수 수축
+2. 발산이 모든 영역에서 일정한 $-(n-1)$
+3. 주기궤도가 절대 발생 불가
 
-The martingale decomposition reduces the problem to: does $\frac{1}{t}\sum p_i(s)$ converge? A sufficient condition (by Cesàro's lemma) is $p_i(s)\to p_i^\ast$, but this is *not necessary*---the Cesàro average can converge even if $p_i(s)$ oscillates.
-
-The core difficulty is the *feedback loop*:
-
-$$\text{heights}\;\xrightarrow{\text{flow rule}}\;\text{walker visits}\;\xrightarrow{\text{accumulation}}\;\text{heights}.$$
-
-The conditional visit probability $p_i(s)$ depends on heights at time $s-1$, which depend on all previous visits.
-
-**Why subsequential limits are insufficient.** The running occupation $\hat\rho(t)=(\hat\rho_1(t),\ldots,\hat\rho_n(t))$ lies in the compact simplex $\Delta^{n-1}$, so subsequential limits exist. One might hope to argue:
-
-`(i)` if a subsequential limit has $\hat\rho_i\neq\hat\rho_j$, the height difference $D_{ij}$ diverges, forcing ranking stabilization.
-
-This fails because:
-
-- **Oscillation.** $\hat\rho_i(t)-\hat\rho_j(t)$ can have subsequences converging to $+\gamma$ and others converging to $-\gamma$. Then $D_{ij}(t)$ alternates between $+\Theta(t)$ and $-\Theta(t)$, and the ranking never freezes.
-- **No a priori bound on inter-subsequence gaps.** Between a subsequence where $D_{ij}(t_k)\approx+\bar{b}\gamma t_k$ and the next where $D_{ij}(t'_k)\approx-\bar{b}\gamma t'_k$, only $O(t_k)$ steps are needed (bounded increments $\leq b$). The linear growth rate is exactly matched by the linear time scale.
-
-**What would close the argument.** The occupation SLLN follows if we can show that the set of subsequential limits of $\hat\rho(t)$ is a *singleton*. Possible strategies:
-
-**(A)** *Self-reinforcement*: once $D_{ij}$ is large and positive, the dynamics reinforce $\hat\rho_i>\hat\rho_j$. Graph-structure-dependent.
-
-**(B)** *Harris recurrence* of the augmented chain. Works in the balanced regime; in the drift regime, $M(t)\to\infty$ prevents standard recurrence.
-
-**(C)** *Stochastic approximation* (ODE method): view $\hat\rho(t)$ as tracking a mean-field ODE and show the ODE has a unique attractor.
-
-## 5. Conditional result
-
-We formulate a hypothesis strong enough to close the SLLN. A mere ranking stabilization (strict height ordering eventually fixed) is *not* sufficient: even with a fixed ranking, the downstream set $\mathcal{D}_s$ at a flow step from $u$ depends on the actual height *gap* $h(u,s-1)-h(w,s-1)$, not just the sign. If adjacent gaps remain bounded (say $O(b)$), within-round snowfall accumulation can change the downstream membership from step to step. We therefore require that the gaps diverge.
-
-**Definition** (Downstream stabilization, **DS**). Say that a realization of Algorithm 1' satisfies *downstream stabilization* (DS) if there exist a finite time $T_0$ and, for every node $u\in V$, a fixed set $\mathcal{D}_\infty(u)\subseteq\mathcal{N}(u)$ (possibly empty) such that for all $t\geq T_0$ and every flow step from $u$ at time $t$:
-
-$$\mathcal{D}_t\;=\;\mathcal{D}_\infty(u).$$
-
-::: {.callout-important collapse="true" title="보충설명: DS가 뭔지 쉽게"}
-DS는 한마디로 **"눈이 흘러가는 방향이 영구히 고정된다"**는 조건이다.
-
-HST에서 눈은 높은 곳에서 낮은 곳으로 흐른다. 처음에는 높낮이가 계속 바뀌니까 "어디서 어디로 흐르는지"도 매번 달라진다. 그런데 충분히 오래 지나서 이웃 노드 간 높이 차이가 압도적으로 벌어지면, 한 round 안에서 눈이 좀 쌓여도 그 격차를 뒤집을 수 없다. 그러면 "누가 누구의 아래"인지가 더 이상 안 바뀐다.
-
-이게 바로 DS: **어느 시점 이후, 각 노드에서 "flow가 갈 수 있는 이웃 목록"이 영구히 고정.**
-
-현재 정의는 **모든** 이웃 쌍의 downstream이 고정되는 것을 요구한다. Star graph에서는 leaf끼리 이웃이 아니라서 문제없지만, wheel graph처럼 leaf끼리도 이웃인 경우 leaf-leaf 간 DS가 성립하지 않으므로 full DS가 안 된다. 이 경우 현재 Theorem의 적용 범위 밖이며, "hub-leaf DS만으로 충분한가?"는 open이다.
+이 단순함이 일반 그래프에서의 수렴 증명을 가능하게 한다.
 :::
 
-A sufficient condition (used in all our applications) is: for every pair $(u,w)$ with $w\in\mathcal{N}(u)$, eventually either $h(u,t)-h(w,t)>(T_{\max}+1)b$ permanently (so $w$ is always downstream of $u$), or $h(w,t)-h(u,t)>(T_{\max}+1)b$ permanently (so $w$ is never downstream of $u$). This gap condition implies DS because the within-round height fluctuations are at most $(T_{\max}+1)b$, so the downstream membership of $w$ w.r.t. $u$ cannot change once the gap exceeds this threshold.
+## 2. ODE는 조각 선형 수축이다
 
-::: {.callout-important collapse="true" title="보충설명: 충분조건이 말하는 것"}
-이웃한 두 노드의 높이 차이가 $(T_{\max}+1)b$를 넘으면 DS가 성립한다.
+평균장 ODE는
 
-왜 이 숫자인가? 한 round는 최대 $T_{\max}+1$ step이고, 매 step에서 눈은 최대 $b$만큼 쌓인다. 따라서 한 round 동안 높이가 최대 $(T_{\max}+1)b$만큼 변할 수 있다. 이보다 높이 차이가 더 크면, round 내에서 아무리 눈이 쌓여도 높낮이가 뒤집히지 않는다. 흐르는 방향이 고정.
+$$\dot\rho = F(\rho)-\rho.$$
+
+$R_\sigma$ 내에서 이는 $\dot\rho = F_\sigma - \rho$ 가 되며 명시적 해
+
+$$\rho(t) = F_\sigma + (\rho(t_0)-F_\sigma)e^{-(t-t_0)}.$$
+
+를 갖는다. 경계 $\partial$ 에서는 Filippov 미분 포함식(DI)을 사용한다:
+
+$$\dot\rho \in \overline{\mathrm{co}}\,\{F_\sigma-\rho:\sigma\text{ compatible with }\rho\},$$
+
+여기서 "compatible" 은 $\sigma$ 가 $\rho$ 의 약순서(weak ordering)와 일치한다는 의미이다 (동률 허용).
+
+**명제 (주기궤도 없음).** Filippov DI는 $\Delta^{n-1}$ 위에 주기궤도를 갖지 않는다.
+
+::: {.callout-note collapse="true" title="증명: 주기궤도 없음"}
+체적 수축(volume-contraction) 논증을 사용한다.
+
+**내부 영역.** 각 $R_\sigma$ 위에서 벡터장 $v(\rho) = F_\sigma - \rho$ 의 발산은
+
+$$\nabla\cdot v = \sum_{i=1}^{n-1}\frac{\partial(F_{\sigma,i}-\rho_i)}{\partial\rho_i} = -(n-1)$$
+
+이다 ($n-1$ 차원 심플렉스 좌표). $F_\sigma$ 가 상수이기 때문이다.
+
+**경계 (Filippov sliding).** 경계에서 DI는 $\dot\rho$ 를 $\overline{\mathrm{co}}\{F_\sigma-\rho\}$ 에서 선택한다. 임의의 볼록 결합
+
+$$\sum_\sigma\lambda_\sigma(F_\sigma-\rho) = \Bigl(\sum_\sigma\lambda_\sigma F_\sigma\Bigr) - \rho = \tilde F - \rho$$
+
+는 다시 $\tilde F - \rho$ 형태이며 ($\rho$ 가 주어지면 $\tilde F$ 는 상수). 이 장의 $\rho$ 에서의 발산은 여전히 $-(n-1)$ 이다.
+
+따라서 흐름은 $\Delta^{n-1}$ 전체에서 균일한 비율 $-(n-1)$ 로 체적 수축한다 (경계 sliding 포함).
+
+주기 $T > 0$ 의 주기궤도가 있다면 흐름 사상 $\phi_T$ 가 어떤 관 모양 근방의 체적을 보존해야 한다. 그러나
+
+$$\mathrm{vol}(\phi_T(\Omega)) = \mathrm{vol}(\Omega)\,e^{-(n-1)T} < \mathrm{vol}(\Omega).$$
+
+모순. $\square$
 :::
 
-> **Remark** (DS is strictly stronger than ranking stabilization). A fixed strict height ranking does *not* imply DS. With a fixed ranking $v_1>v_2>\cdots>v_n$, adjacent nodes $v_k,v_{k+1}$ might have $0<h(v_k,t)-h(v_{k+1},t)<(T_{\max}+1)b$ for all $t$---the ranking never flips, but the gap stays bounded, allowing the downstream set to include or exclude $v_{k+1}$ depending on the within-round fluctuations.
->
-> DS requires all *adjacent* height gaps to diverge past the $(T_{\max}+1)b$ threshold, which happens in particular when every pair of neighbors has distinct asymptotic occupation rates.
+::: {.callout-important collapse="true" title="해석: 발산이 음수라는 것의 의미"}
+$\nabla\cdot v = -(n-1) < 0$ 은 흐름이 **체적을 수축**시킨다는 뜻. 어떤 작은 영역을 잡아 흐름을 시간 $T$ 만큼 보내면 부피가 $e^{-(n-1)T}$ 배로 줄어든다.
 
-**Theorem** (Occupation SLLN under DS). Under Algorithm 1' with connected $\mathcal{G}$ and $\mu_{\min}>0$, on the event $\{\text{DS holds}\}$, the limit
-
-$$\rho_i\;:=\;\lim_{t\to\infty}\frac{1}{t}\sum_{s=1}^t\mathbf{1}\{X_s=v_i\}\quad\text{exists a.s.}$$
-
-Moreover, $\rho_i$ is determined by the stabilized downstream structure $\{\mathcal{D}_\infty(u)\}_{u\in V}$, $\mathcal{G}$, $\boldsymbol{\mu}_0$, and $T_{\max}$.
-
-::: {.callout-important collapse="true" title="핵심 의미"}
-산에 눈이 오래 내리면 결국 **지형이 굳어진다** --- 어느 봉우리가 높고 어느 골짜기가 낮은지가 영구히 정해진다. 이게 DS다.
-
-지형이 굳어지면, 눈이 흘러가는 길도 매번 같아진다. 매 round가 "같은 지형 위에서 같은 규칙으로 눈 뿌리기"를 반복하는 셈이니, 충분히 오래 반복하면 **각 노드가 받는 눈의 비율 $\rho_i$가 자연스럽게 확정된다.** 동전을 무한히 던지면 앞면 비율이 $1/2$로 수렴하는 것과 같은 원리(강대수법칙).
-
-그리고 이 비율은 처음에 어디서 시작했는지($\mathbf{y}$)와는 무관하다. 지형의 모양(그래프 구조 + $\mu_0$ + $T_{\max}$)만으로 결정된다.
+주기궤도가 존재하려면 한 바퀴 돌아 원래 모양으로 돌아와야 하는데, 부피가 계속 줄어드니 불가능. 이는 Bendixson-Dulac 정리의 다차원 일반화.
 :::
 
-*Proof.*
+## 3. 모든 궤적이 고정점으로 수렴한다
 
-**Step 1: stabilized flow transition.** After time $T_0$, at every flow step from node $u$, the downstream set is $\mathcal{D}_\infty(u)$. The flow transition is therefore the fixed kernel
+**정의 (고정점).** $\mathcal{E} := \{\rho^\ast\in\Delta^{n-1}:\rho^\ast\text{ is an equilibrium of the DI}\}$.
 
-$$P_\infty(u,w)\;=\;\frac{w_{uw}}{\sum_{w'\in\mathcal{D}_\infty(u)}w_{uw'}}\qquad\text{for }w\in\mathcal{D}_\infty(u),$$
+- $\rho^\ast\in R_\sigma$ 인 경우: $\rho^\ast\in\mathcal{E}$ iff $F_\sigma = \rho^\ast$.
+- $\rho^\ast\in\partial$ 인 경우: $\rho^\ast\in\mathcal{E}$ iff $\rho^\ast\in\overline{\mathrm{co}}\{F_\sigma:\sigma\text{ compatible}\}$.
 
-if $\mathcal{D}_\infty(u)\neq\emptyset$, or a $\boldsymbol{\mu}_0$-fallback if $\mathcal{D}_\infty(u)=\emptyset$. This is a fixed stochastic kernel, independent of $t$.
+**명제 (궤적의 수렴).** Filippov DI의 모든 궤적은 $\mathcal{E}$ 의 한 점으로 수렴한다.
 
-**Step 2: round structure and regeneration.** A *round* begins at a block-flag time $t_r$ (i.e. $Z_{t_r}=T_{\max}$) and ends at the next block-flag time $t_{r+1}$. Within a round, the block timer increments at each flow step ($Z_t\leftarrow Z_{t-1}+1$) and the round terminates when $Z=T_{\max}$ is reached again ($m_r:=t_{r+1}-t_r\leq T_{\max}+1$). The first step of each round is a fresh $\boldsymbol{\mu}_0$-draw: $X_{t_r+1}\sim\boldsymbol{\mu}_0$, independently of $\mathcal{F}_{t_r}$. This is a *regeneration*---the walker's position at the start of round $r+1$ carries no memory of the previous round's internal trajectory, so the round structure restarts identically.
+::: {.callout-note collapse="true" title="증명: 궤적의 수렴"}
+두 가지 사실을 사용한다: (i) 각 순위 영역 내에서 흐름은 지수 수축이다; (ii) 영역은 유한 개이다.
 
-**Step 3: i.i.d. rounds.** For rounds $r\geq R_1$ (starting after $T_0$):
+**Step 1: 궤적은 유한 개의 영역만 방문한다.**
 
-- Step 1 of each round: $\tilde X_1^{(r)}\sim\boldsymbol{\mu}_0$, i.i.d. across rounds (by regeneration in Step 2).
-- Steps 2 through $m_r$: the walker follows the Markov chain with transition $P_\infty$ (stochastic---the walker randomly picks among the fixed downstream set---but with a time-invariant kernel).
+$R_\sigma$ 내에서 좌표 차이는 다음과 같이 변화한다:
 
-Across rounds, the tuples $(\boldsymbol{N}^{(r)},m_r)_{r\geq R_1}$ are i.i.d., where $\boldsymbol{N}^{(r)}=(N_1^{(r)},\ldots,N_n^{(r)})$ are visit counts and $m_r$ is the round length. Independence across rounds holds because: (i) each round starts from a fresh $\boldsymbol{\mu}_0$-draw (regeneration); (ii) the flow kernel $P_\infty$ is fixed (by DS); and (iii) the $b'_t$ increments (which affect heights but *not* the downstream sets after stabilization) are i.i.d. and independent of walker positions.
+$$\rho_i(t)-\rho_j(t) = (F_{\sigma,i}-F_{\sigma,j}) + \bigl[(\rho_i(t_0)-\rho_j(t_0))-(F_{\sigma,i}-F_{\sigma,j})\bigr]e^{-(t-t_0)}.$$
 
-**Step 4: renewal-reward SLLN.** By the ratio SLLN for i.i.d. numerator/denominator (renewal-reward theorem):
+차이는 상수 $F_{\sigma,i}-F_{\sigma,j}$ 로 지수적으로 완화된다. 세 가지 경우:
 
-$$\frac{\sum_{r=R_1}^{R}N_i^{(r)}}{\sum_{r=R_1}^{R}m_r}\;\xrightarrow{R\to\infty}\;\frac{\mathbb{E}[N_i^{(r)}]}{\mathbb{E}[m_r]}\;=:\;\rho_i^\infty\qquad\text{a.s.}$$
+- $F_{\sigma,i}\neq F_{\sigma,j}$ 이고 순위와 같은 부호 ($F_\sigma\in R_\sigma$): 차이는 0에서 떨어진 양으로 유지. 궤적은 $R_\sigma$ 를 **절대 떠나지 않으며** $F_\sigma\in\mathcal{E}$ 로 수렴.
+- $F_{\sigma,i}=F_{\sigma,j}$ ($F_\sigma\in\partial$): 궤적은 경계에 접근하고 Filippov sliding 모드로 진입.
+- $F_{\sigma,i}-F_{\sigma,j}$ 가 반대 부호 ($F_\sigma\notin\overline{R_\sigma}$): 유한 시간 내 탈출.
 
-The first $R_1$ rounds contribute $O(1)$ to both numerator and denominator. Converting from round-index $R$ to time-index $t$: since $m_r\leq T_{\max}+1$, the number of rounds $R(t)$ up to time $t$ satisfies $R(t)\to\infty$, and the ratio $\hat\rho_i(t)=\bigl(\sum_{r=0}^{R(t)}N_i^{(r)}\bigr)/t$ inherits the same limit $\rho_i^\infty$ a.s. (the pre-stabilization rounds contribute $O(1)/t\to 0$). Hence $\rho_i=\rho_i^\infty$ exists. $\square$
+**유한한 교차.** $W(t) := |\dot\rho(t)|^2 = |F(\rho(t))-\rho(t)|^2$ 로 정의한다. $R_\sigma$ 내에서
 
-> **Remark** ($\mathbf{y}$-dependence). The stabilized kernel $P_\infty$ depends on $\{\mathcal{D}_\infty(u)\}$, which in turn depends on the asymptotic ranking. The asymptotic ranking is determined by the $\rho_i$ values themselves (height--occupation link), creating a fixed-point structure: $\rho_i=\rho_i^\infty(\sigma^\ast)$ where $\sigma^\ast=\sigma^\ast(\rho)$. The initial signal $\mathbf{y}$ can in principle select among different fixed points (different rankings), so $\rho_i$ may depend on $\mathbf{y}$ through $\sigma^\ast$.
+$$W(t) = W(t_0)\,e^{-2(t-t_0)}.$$
 
-## 6. Verified examples
+경계 교차에서 $F$ 는 $F_\sigma$ 에서 $F_{\sigma'}$ 로 점프하므로 $W$ 가 증가할 수 있다. 그러나 위치 $\rho$ 는 연속이며 점프는
 
-### Complete graph $K_n$ with uniform $\boldsymbol{\mu}_0$
+$$|F_{\sigma'}-\rho|^2-|F_\sigma-\rho|^2 \leq C$$
 
-**Proposition.** On $K_n$ with $\boldsymbol{\mu}_0=(1/n,\ldots,1/n)$, $\rho_i=1/n$ for all $i$.
+(그래프에 의존하는 상수 $C$) 로 유계.
 
-*Proof.* By symmetry of $K_n$ and uniform $\boldsymbol{\mu}_0$, every permutation of node labels preserves the law of the process. Hence $\rho_i$ (if it exists) must equal $1/n$ for all $i$. Existence of $\rho_i$ follows from the positive Harris recurrence established in the companion file (balanced-regime machinery).
+교차 사이 최소 체류 시간 $\delta_0 > 0$ 을 보인다. $R_\sigma$ 에서 탈출 시간은 양의 갭에서 시작한 어떤 $\rho_i(t)-\rho_j(t)$ 가 0에 도달하는 시간. 갭은 $g(t) = c + (g_0-c)e^{-t}$ 로 감소 ($c = F_{\sigma,i}-F_{\sigma,j}$). $c < 0$ 이면
 
-Note: DS does *not* hold in this case (the balanced regime has no diverging height gaps), so the Occupation SLLN Theorem is not the mechanism. The SLLN comes instead from the ergodic theorem for Harris chains. $\square$
+$$\delta = \log\bigl(1-c/(g_0-c)\bigr) \geq \log(1+|c|/\mathrm{diam}).$$
 
-### Star graph $S_n$ with degree-proportional $\boldsymbol{\mu}_0$
+$|c| \geq \min_{\sigma,i\neq j}|F_{\sigma,i}-F_{\sigma,j}| > 0$ (그래프에 의존하는 양의 상수) 이므로 $\delta\geq\delta_0 > 0$.
 
-**Proposition.** On the star $S_n$ (hub $v_0$, leaves $v_1,\ldots,v_{n-1}$) with $\boldsymbol{\mu}_0\propto\deg$: $\mu_0(v_0)=1/2$, $\mu_0(v_k)=1/(2n-2)$ for $k\geq 1$. Then DS holds a.s. for the hub-vs-leaf pairs (the hub eventually stays permanently above all leaves), and $\rho_0>1/n$ for $n\geq 3$.
+따라서 $k$ 번의 교차 후
 
-*Proof sketch.* On the star, each leaf $v_k$ has a single neighbor: the hub $v_0$. Consider the regime where the hub is already the highest node ($h(v_0,t)>h(v_k,t)+(T_{\max}+1)b$ for all leaves $k$).
+$$W \leq (W_0 + kC)e^{-2k\delta_0} \to 0.$$
 
-*Flow from the hub $v_0$.* All leaves are below $v_0$, so the downstream set is $\mathcal{D}=\{v_1,\ldots,v_{n-1}\}$. The flow sends the walker to a uniformly random leaf (unweighted star).
+**Step 2: 최종 수렴.**
 
-*Flow from a leaf $v_k$.* The only neighbor is the hub $v_0$, which has $h(v_0)>h(v_k)+(T_{\max}+1)b$. After adding $b'<b$ to $v_k$, the hub is still higher: $h(v_0)>h(v_k)+b'$. So the hub is *not* downstream of $v_k$ (the hub is above, and flow goes *downhill*). Hence $\mathcal{D}=\emptyset$, and the walker falls back to $\boldsymbol{\mu}_0$.
+*경우 A (교차가 유한 개):* 궤적은 결국 한 영역에 머물며 $F_\sigma$ 로 지수 수렴.
 
-*Per-round structure.* Each round starts with a $\boldsymbol{\mu}_0$-draw. With probability $1/2$, the draw lands on the hub; the walker then flows to a leaf, and from the leaf falls back to $\boldsymbol{\mu}_0$ (block-flag or empty downstream). With probability $1/(2n-2)$, the draw lands on leaf $v_k$; the walker immediately falls back to $\boldsymbol{\mu}_0$.
+*경우 B (교차가 무한 개):* $W(t)\to 0$ 이므로 $\rho(t)\to\mathcal{E}$. 총 경로 길이는
 
-In all cases, the hub receives visits at rate $\geq\mu_0(v_0)=1/2$ (the block-flag draws alone give the hub $1/2$ of all block-flag visits). Since each leaf gets only $1/(2n-2)$ of block-flag draws plus occasional flow visits, we get $\rho_0>1/n$ for $n\geq 3$.
+$$\int_{t_k}^\infty|\dot\rho|\,dt \leq \sum_{j\geq k}\sqrt{W(t_j)}\cdot\frac{1}{1-e^{-\delta_0}} \to 0,$$
 
-The height gap $D_{0k}(t)\sim\bar{b}(\rho_0-\rho_k)t\to+\infty$ confirms that the hub-above-leaves regime is self-reinforcing, verifying DS for the hub-leaf pairs.
+기하급수적 감소 덕분에 합이 수렴. 컴팩트 집합에서 유한 꼬리 길이 → 한 점 $\rho^\ast\in\mathcal{E}$ 로 수렴. $\square$
+:::
 
-Leaf-leaf pairs have $\rho_k=\rho_\ell=(1-\rho_0)/(n-1)$ by symmetry among leaves, so their height gaps do not diverge. However, the flow rule between leaves is trivial (leaves are not neighbors on the star), so DS for leaf-leaf pairs is vacuously satisfied (no edge, no downstream set to stabilize). $\square$
+::: {.callout-tip collapse="true" title="보충: 왜 δ₀ > 0 인가"}
+최소 체류 시간 $\delta_0$ 가 양수인 이유: 목표 $\{F_\sigma\}_\sigma$ 가 유한 개의 고정 벡터이기 때문. 모든 순위의 모든 쌍에 대해 $F_{\sigma,i}\neq F_{\sigma,j}$ 이면 $\delta_0$ 는 $\min_{\sigma,i\neq j}|F_{\sigma,i}-F_{\sigma,j}| > 0$ 에 의존한다. 어떤 $F_{\sigma,i} = F_{\sigma,j}$ 인 경우 궤적은 경계에 점근적으로 접근하며 (무한 체류 시간), 이는 "교차가 유한 개" 경우에 해당.
+:::
 
-> **Remark** (Partial DS). On graphs where some adjacent pairs have equal asymptotic rates, the full DS may not hold for those pairs. In the star example, this is not an issue because equal-rate pairs (leaf-leaf) are not adjacent.
->
-> On general graphs, equal-rate adjacent pairs can exist, and their downstream sets may continue to fluctuate. Whether the resulting oscillation in $p_i(s)$ still allows the Cesàro average to converge is an open question; it depends on the graph structure and cannot be resolved by exchangeability arguments alone (equal occupation rates do not imply exchangeable roles in the flow dynamics).
+::: {.callout-tip collapse="true" title="보충: 일반성 가정이나 Łojasiewicz 부등식 불필요"}
+이 증명은 $\mathcal{E}$ 가 유한이라는 가정도, Łojasiewicz 기울기 부등식도 사용하지 않는다. 수렴은 조각 선형 구조로부터 직접 따라 나온다: 영역 내 지수 수축, 교차에서 유계 점프, 양의 최소 체류 시간 $\delta_0$.
 
-## 7. Application to Theorem B
+이전 시도에서 $V(\rho) = \min_{\rho^\ast\in\mathcal{E}}|\rho-\rho^\ast|^2$ 를 Lyapunov 함수로 사용하려 했으나 실패. 가장 가까운 고정점 $\rho^\ast$ 가 trajectory 따라 바뀌면서 nearest point 방향과 flow 방향이 일치하지 않아 $V$ 가 단조감소하지 않을 수 있다. Łojasiewicz도 flow가 gradient가 아니라 직접 적용 불가. 결국 piecewise contraction이 가장 깔끔한 길이다.
+:::
 
-**Corollary** (Drift-regime convergence under DS). Under Algorithm 1' with connected $\mathcal{G}$, $\mu_{\min}>0$, and on the event $\{\text{DS holds}\}$:
+## 4. SA 추적: ODE에서 확률적 과정으로
 
-$$\frac{SD^2_{ij}(t)}{t^3}\;\xrightarrow{t\to\infty}\;\frac{\bar{b}^{\,2}(\rho_i-\rho_j)^2}{3}\qquad\text{a.s.},$$
+**정리 (점유 SLLN — 일반).** 연결 그래프 $\mathcal{G}$ 와 $\mu_{\min}>0$ 인 Algorithm 1' 하에서, 모든 노드 $v_i\in V$ 에 대해
 
-where $\rho_i$ is given by the Occupation SLLN Theorem.
+$$\rho_i := \lim_{t\to\infty}\hat\rho_i(t) \quad \text{거의 확실하게 존재한다.}$$
 
-*Proof.* The theorem gives $\rho_i$ exists a.s. on $\{\text{DS}\}$. The proof of Theorem B (height decomposition + Toeplitz summation) applies verbatim. $\square$
+::: {.callout-note collapse="true" title="증명: 정리 (점유 SLLN — 일반)"}
+집합값 평균장을 갖는 확률적 근사에 대한 Benaïm--Hofbauer--Sorin (2005) 의 SA 프레임워크를 적용한다. 프레임워크는 네 가지 조건을 요구한다:
 
-> **Remark** (Status of Theorem B). Theorem B of the companion file assumed $\rho_i$ exists. The corollary replaces that assumption with the structural hypothesis DS, which is checkable on specific graphs (it is a property of the sample path, not a conclusion about occupation statistics).
->
-> The logical relationship between DS and "$\rho_i$ exists" is: $\text{DS}\Rightarrow\rho_i\text{ exists}$, but the converse is not true in general ($\rho_i$ can exist in the balanced regime without any gap divergence).
+**(i) 스텝 크기:** $\gamma_t = 1/(t+1)$, $\sum\gamma_t = \infty$, $\gamma_t \to 0$. ✓
 
-**Conjecture.** For any connected $\mathcal{G}$ and any $\boldsymbol{\mu}_0$ with $\mu_{\min}>0$, $\rho_i$ exists a.s. for every $i\in V$.
+**(ii) 잡음:** $\xi_{t+1}^{(i)}$ 는 유계 마팅게일 증분, $\mathbb{E}[|\xi|^2\mid\mathcal{F}_t]\leq 1$. ✓
 
-## 8. Summary of what is and is not proved
+**(iii) 점근적 의사궤적.** 보간 과정 $\hat\rho(\cdot)$ 이 DI의 점근적 의사궤적임을 보여야 한다:
 
-| Statement | Status |
-|-----------|--------|
-| Martingale noise removal | **proved** |
-| $\rho_i$ exists $\Leftrightarrow$ $\frac{1}{t}\sum p_i(s)$ converges (each $i$) | **proved** |
-| Height--occupation link | **proved** |
-| $\rho_i$ exists under DS | **proved** |
-| $\rho_i=1/n$ on $K_n$ + uniform $\mu_0$ | **proved** (via Harris) |
-| DS for star + deg-prop $\mu_0$ | **sketch** |
-| $\rho_i$ exists for general graphs | **open** |
-| Thm B without "$\rho_i$ exists" | **proved under DS** |
+$$\sup_{t\leq s\leq t+T}\bigl|\hat\rho(s)-\Phi_{s-t}(\hat\rho(t))\bigr| \xrightarrow{t\to\infty} 0 \quad \text{a.s.}$$
 
-## References
+SA 점화식을 $\hat\rho(t+1) = \hat\rho(t) + \gamma_t[h_t + \xi_{t+1}]$ 로 쓴다 ($h_t := p_i(t+1) - \hat\rho_i(t)$). $h_t = \bar h(\hat\rho(t)) + r_t$ 로 분해 ($\bar h(\rho) := F(\rho) - \rho$ 는 평균장 drift, $r_t$ 는 perturbation).
 
+*순위 영역 내* ($\hat\rho(t) \in R_\sigma$ 이고 모든 인접 높이 차이가 $> (T_{\max}+1)b$): 라운드 커널은 $P_\sigma$ 와 같으므로 한 라운드의 $O(T_{\max})$ 스텝에 걸쳐 $p_i$ 를 평균하면 $F_\sigma$ 이다. 각 라운드는 재생성 사이클이므로 $K\geq T_{\max}+1$ 의 임의 윈도우에 걸친 $p_i$ 의 시간 평균은 $F_{\sigma,i}$ 로 수렴한다. 따라서 $r_t \to 0$.
+
+*경계에서* ($\hat\rho_i\approx\hat\rho_j$): 높이 차이는 $o(t)$ 이며 라운드 커널은 $P_\sigma$ 와 $P_{\sigma'}$ 사이에서 변동. 시간 평균 drift는 $\overline{\mathrm{co}}\{F_\sigma-\hat\rho, F_{\sigma'}-\hat\rho\}$ 에 있으며 이는 정확히 DI와 일치. 재생성 구조가 $T \gg T_{\max}$ 의 임의 길이 윈도우 내에서 시간 평균 수렴을 보장. ✓
+
+**(iv) 컴팩트성:** $\hat\rho(t)\in\Delta^{n-1}$. ✓
+
+Benaïm--Hofbauer--Sorin (Thm 3.2) 에 의해 $\hat\rho(t)$ 의 모든 극한점은 DI의 chain-recurrent 집합에 속한다.
+
+명제 (주기궤도 없음) 과 명제 (궤적의 수렴) 에 의해 DI의 chain-recurrent 집합은 $\mathcal{E}$ 와 같다. 명제 (궤적의 수렴) 에 의해 모든 DI 궤적은 $\mathcal{E}$ 의 한 점으로 수렴한다. $\hat\rho(t)$ 가 DI를 추적하고 스텝당 $O(1/t)$ 로 변하므로 한 점 $\rho^\ast \in \mathcal{E}$ 로 수렴. $\square$
+:::
+
+::: {.callout-important collapse="true" title="해석: 재생성의 역할"}
+block-flag 시점의 재생성 (fresh $\boldsymbol{\mu}_0$ 추출) 은 조건 (iii) 에 필수적이다. 이는 $\geq T_{\max}+1$ 길이의 임의 윈도우에 걸친 시간 평균 drift가 평균장 값으로 수렴함을 보장한다. 각 윈도우가 적어도 하나의 완전한 재생성 사이클을 포함하기 때문이다.
+
+이것이 **확률적 입력**이며, 나머지 증명 (영역 분할 + ODE 분석 + 수축성) 은 **완전히 결정론적**이다. 즉 stochastic approximation의 표준 패턴: "stochastic dynamics ≈ deterministic ODE + vanishing noise".
+:::
+
+::: {.callout-important collapse="true" title="해석: 일반성 가정 불필요"}
+명제 (궤적의 수렴) 의 조각 수축 논증은 $\boldsymbol{\mu}_0$ 에 대한 어떤 일반성 가정도 요구하지 않는다. 그래프 대칭이 $\mathcal{E}$ 가 연속체를 포함하도록 강제하더라도 (예: cycle, wheel 등 대칭 그래프) 유한 꼬리 길이 논증이 여전히 한 점으로의 수렴을 보장한다.
+
+이전 버전들에서 "generic $\mu_0$" 가정이 필요했으나, piecewise contraction + 양의 dwell time $\delta_0$ 만으로 이 가정 없이 일반 증명이 가능.
+:::
+
+## 5. 상태 정리
+
+| 구성 요소 | 상태 |
+|----------|------|
+| $F$ 는 조각마다 상수 (보조정리 1) | 증명 |
+| 주기궤도 없음 (명제 2) | 증명 |
+| 모든 DI 궤적 $\to$ $\mathcal{E}$ 의 한 점 (명제 3) | 증명 |
+| SA 조건 (i)(ii)(iv) | 증명 |
+| SA 조건 (iii): 점근적 의사궤적 | 증명 |
+| **$\hat\rho(t)\to\rho^\ast$ a.s.** (정리 4) | **증명** |
+
+## 참고문헌
+
+- Benaïm, M. (1999). Dynamics of stochastic approximation algorithms. *Séminaire de Probabilités XXXIII*, LNM 1709, 1--68.
+- Benaïm, M., Hofbauer, J., and Sorin, S. (2005). Stochastic approximations and differential inclusions. *SIAM J. Control Optim.* **44**, 328--348.
+- Borkar, V. S. (2008). *Stochastic Approximation: A Dynamical Systems Viewpoint*. Cambridge University Press.
 - Choi, G. and Oh, H.-S. (2026). Heavy-Snow Transform for Analysis of Data on Graphs. *Manuscript*.
-- Hall, P. and Heyde, C. C. (1980). *Martingale Limit Theory and Its Application*. Academic Press.
-- Meyn, S. and Tweedie, R. L. (2009). *Markov Chains and Stochastic Stability* (2nd ed.). Cambridge University Press.
+
+---
+*작성: 오큐리 (페이퍼팀/연구팀), 2026-05-16*
