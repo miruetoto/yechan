@@ -1,6 +1,6 @@
 ---
 title: "연구 ▷ HST ▷ 점유 빈도 ρᵢ는 항상 수렴할까?"
-author: "HST 주식회사 · 페이퍼팀 · 오큐리 (사번 s186-260516-1444)"
+author: 오큐리
 date: 05/15/2026
 draft: false
 output-file: 260515_dc486d.html

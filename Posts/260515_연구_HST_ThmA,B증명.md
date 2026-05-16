@@ -1,6 +1,6 @@
 ---
 title: 연구 ▷ HST ▷ Thm A, B 증명 자세히 따라가기
-author: "HST 주식회사 · 블로그팀 · 유진 (사번 s186-260516-1533)"
+author: 유진
 date: 05/15/2026
 draft: false
 output-file: 260515_bb294e.html
@@ -9,8 +9,11 @@ fontsize: 0.85em
 
 ```{=html}
 <style>
-.math.display { font-size: 0.9em; }
+.math.display { font-size: 0.9em; text-align: left; }
 .callout { font-size: 0.9em; }
+mjx-container[display="true"] { text-align: left !important; margin-left: 0 !important; }
+.katex-display { text-align: left !important; }
+.katex-display > .katex { text-align: left !important; }
 </style>
 ```
 
@@ -244,7 +247,7 @@ $|\Theta| \leq (T_{\max}+1)T_{\max}b/2$이므로 $\mathbb{E}[\Theta \mid S(t_r)]
 
 합치면:
 
-$$\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] = b\,\mathcal{B}(S) + \underbrace{b\,\mathbb{E}[\Theta \mid S] + \frac{(n-1)b^2}{3n}\mathbb{E}[m_r \mid S]}_{\text{bounded terms}} \qquad \square$$
+$$\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] = b\,\mathcal{B}(S(t_r)) + \underbrace{b\,\mathbb{E}[\Theta \mid S(t_r)] + \frac{(n-1)b^2}{3n}\mathbb{E}[m_r \mid S(t_r)]}_{\text{bounded terms}} \qquad \square$$
 
 :::
 
@@ -284,51 +287,67 @@ $$\Delta V_{\text{Ly}} = (\Phi + \Delta\Phi_r)^2 - \Phi^2 = 2\Phi \cdot \Delta\P
 
 기대값을 취하면:
 
-$$\mathbb{E}[\Delta V_{\text{Ly}} \mid S(t_r)] = 2\Phi \cdot \mathbb{E}[\Delta\Phi_r \mid S] + \mathbb{E}[(\Delta\Phi_r)^2 \mid S]$$
+$$\mathbb{E}[\Delta V_{\text{Ly}} \mid S(t_r)] = \underbrace{2\Phi \cdot \mathbb{E}[\Delta\Phi_r \mid S(t_r)]}_{=:\,\text{Term1}} + \underbrace{\mathbb{E}[(\Delta\Phi_r)^2 \mid S(t_r)]}_{=:\,\text{Term2}}$$
 
-**첫째 항.** 보조 결과 1 ($\Phi$ drift) + 보조 결과 2 (shape decomposition) + 보조 결과 3 (OB)를 합치면 라운드 단위 drift가 $\mathbb{E}[\Delta\Phi_r \mid S] \leq -b\kappa_G M + C$였다 (위의 "라운드 단위 drift" 참조). 대입하면:
+**Fact 3.** $\Phi \geq M^2/2$, $\Phi \leq nM^2$.
 
-$$2\Phi \cdot \mathbb{E}[\Delta\Phi_r] \leq 2\Phi(-b\kappa_G M + C) = -2b\kappa_G \Phi M + 2C\Phi$$
+$$
+\begin{aligned}
+\Phi = \sum_i \hbar_i^2
+&\geq \hbar_{\max}^2 + \hbar_{\min}^2 \\
+&\geq \tfrac{(\hbar_{\max} + |\hbar_{\min}|)^2}{2} = \tfrac{M^2}{2} && (\because (A^2{+}B^2)\geq(A{+}B)^2/2,\ \textstyle\sum_i\hbar_i=0) \\
+\Phi
+&\leq nM^2 && (\because n\text{개 항 각각 } \leq M^2)
+\end{aligned}
+$$
 
-여기서 $\Phi$와 $M$의 관계를 쓴다.
+**Term1.**
 
-**Fact 3.** $\Phi \geq M^2/2$.
+$$
+\begin{aligned}
+2\Phi \cdot \mathbb{E}[\Delta\Phi_r \mid S(t_r)]
+&= 2\Phi \sum_{j=1}^{m_r} \mathbb{E}\!\left[b\,\hbar(\tilde{X}_j, t_r{+}j{-}1) + \tfrac{(n{-}1)b^2}{3n} \,\middle|\, S(t_r)\right] && (\because \text{보조 결과 1}) \\
+&= 2\Phi\left\{ b\,\mathbb{E}\!\left[\sum_{j=1}^{m_r}\hbar(\tilde{X}_j, t_r{+}j{-}1) \,\middle|\, S(t_r)\right] + \tfrac{(n{-}1)b^2}{3n}\,\mathbb{E}[m_r \mid S(t_r)] \right\} \\
+&= 2\Phi\left\{ b\,\mathbb{E}\!\left[\sum_u \#_u\,\hbar(u, t_r) + \Theta \,\middle|\, S(t_r)\right] + \tfrac{(n{-}1)b^2}{3n}\,\mathbb{E}[m_r \mid S(t_r)] \right\} && (\because \text{보조 결과 2}) \\
+&= 2\Phi\left\{ b\,\mathcal{B}(S(t_r)) + b\,\mathbb{E}[\Theta \mid S(t_r)] + \tfrac{(n{-}1)b^2}{3n}\,\mathbb{E}[m_r \mid S(t_r)] \right\} && (\because \pi(u):=\mathbb{E}[\#_u \mid S(t_r)],\ \mathcal{B}(S):=\textstyle\sum_u\pi(u)\hbar(u)) \\
+&\leq 2\Phi\left\{ b\,\mathcal{B}(S(t_r)) + C' \right\} && (\because |\Theta|,\ m_r \text{ bounded}) \\
+&\leq 2\Phi(-b\kappa_G M + bC_{\text{OB}} + C') && (\because \text{보조 결과 3 (OB)}) \\
+&= 2\Phi(-b\kappa_G M + C) && (C := bC_{\text{OB}} + C') \\
+&= -2b\kappa_G\,\Phi M + 2C\Phi \\
+&\leq -b\kappa_G M^3 + 2CnM^2 && (\because \text{Fact 3})
+\end{aligned}
+$$
 
-$\sum \hbar_i = 0$이고 range가 $M$이면 $\hbar_{\max} \geq 0$, $\hbar_{\min} \leq 0$, $\hbar_{\max} - \hbar_{\min} = M$. 따라서:
+$$\therefore\ \text{Term1} \leq -b\kappa_G M^3 + 2CnM^2$$
 
-$$\Phi = \sum \hbar_i^2 \geq \hbar_{\max}^2 + \hbar_{\min}^2 \geq \frac{(\hbar_{\max} + |\hbar_{\min}|)^2}{2} = \frac{M^2}{2}$$
+**Term2.**
 
-($(A^2 + B^2) \geq (A+B)^2/2$ 사용.)
+$$
+\begin{aligned}
+|\Delta\Phi \text{ in 1 step}|
+&\leq 2b(M + T_{\max}b) + \tfrac{(n{-}1)b^2}{n} && (\because \beta \leq b,\ |\hbar(t_r{+}j)| \leq M+T_{\max}b) \\
+|\Delta\Phi_r|
+&\leq (T_{\max}{+}1)\!\left[2b(M+T_{\max}b)+\tfrac{(n{-}1)b^2}{n}\right] =: A_1 M + A_2 && (\because m_r \leq T_{\max}{+}1) \\
+\mathbb{E}[(\Delta\Phi_r)^2 \mid S(t_r)]
+&\leq (A_1 M+A_2)^2 \leq 2A_1^2 M^2 + 2A_2^2 && (\because (a{+}b)^2 \leq 2a^2 + 2b^2)
+\end{aligned}
+$$
 
-또한 $\Phi \leq nM^2$ ($n$개 항 각각 $\leq M^2$).
+상수 정리:
 
-Fact 3을 적용하면:
+$$A_1 := 2b(T_{\max}{+}1),\quad A_2 := (T_{\max}{+}1)\!\left[2bT_{\max}b+\tfrac{(n{-}1)b^2}{n}\right],\quad C_3 := 2A_1^2,\quad C_4 := 2A_2^2$$
 
-$$-2b\kappa_G \Phi M \leq -2b\kappa_G \cdot \frac{M^2}{2} \cdot M = -b\kappa_G M^3$$
-
-$$2C\Phi \leq 2C \cdot nM^2 = 2CnM^2$$
-
-따라서 첫째 항 $\leq -b\kappa_G M^3 + 2CnM^2$.
-
-**둘째 항.** 라운드 내 $\Phi$ 변화를 bound한다.
-
-라운드는 $m_r \leq T_{\max}+1$ step. 각 step에서 $|\hbar|$는 최대 $M + T_{\max}b$ (라운드 중 높이 변화). 따라서 한 step의 $|\Delta\Phi|$는 $2b(M + T_{\max}b) + (n-1)b^2/n$ 이하. $m_r$ step 합산:
-
-$$|\Delta\Phi_r| \leq A_1 M + A_2$$
-
-여기서 $A_1 = 2b(T_{\max}+1)$, $A_2 = (T_{\max}+1)[2bT_{\max}b + (n-1)b^2/n]$. 따라서:
-
-$$\mathbb{E}[(\Delta\Phi_r)^2] \leq (A_1 M + A_2)^2 \leq C_3 M^2 + C_4$$
+$$\therefore\ \text{Term2} \leq C_3 M^2 + C_4$$
 
 **합치기.**
 
-$$\mathbb{E}[\Delta V_{\text{Ly}} \mid S] \leq -b\kappa_G M^3 + 2CnM^2 + C_3 M^2 + C_4$$
+$$\mathbb{E}[\Delta V_{\text{Ly}} \mid S(t_r)] \leq -b\kappa_G M^3 + 2CnM^2 + C_3 M^2 + C_4$$
 
 $$= -b\kappa_G M^3 + C_5 M^2 + C_6$$
 
 $M$이 크면 $M^3$이 $M^2$를 압도한다. $M \geq M_0 := 2C_5/(b\kappa_G)$이면:
 
-$$\mathbb{E}[\Delta V_{\text{Ly}} \mid S] \leq -\frac{b\kappa_G}{2} M^3 + C_6$$
+$$\mathbb{E}[\Delta V_{\text{Ly}} \mid S(t_r)] \leq -\frac{b\kappa_G}{2} M^3 + C_6$$
 
 $V$로 표현하자. $\Phi \leq nM^2$에서 $M \geq (\Phi/n)^{1/2}$이므로:
 
@@ -336,7 +355,7 @@ $$M^3 \geq \frac{\Phi^{3/2}}{n^{3/2}} = \frac{V_{\text{Ly}}^{3/4}}{n^{3/2}}$$
 
 대입하면:
 
-$$\mathbb{E}[\Delta V_{\text{Ly}} \mid S] \leq -\frac{b\kappa_G}{2n^{3/2}} V_{\text{Ly}}^{3/4} + C_6 \cdot \mathbf{1}_{\{M \leq M_0\}}$$
+$$\mathbb{E}[\Delta V_{\text{Ly}} \mid S(t_r)] \leq -\frac{b\kappa_G}{2n^{3/2}} V_{\text{Ly}}^{3/4} + C_6 \cdot \mathbf{1}_{\{M \leq M_0\}}$$
 
 Meyn-Tweedie Thm 14.3.7: $\mathbb{E}[\Delta V_{\text{Ly}}] \leq -f + C \cdot \mathbf{1}_B$ 형태이면 $\mathbb{E}_{\pi^*}[f] < \infty$. 따라서:
 
