@@ -52,17 +52,23 @@ Helm에 outer ring을 추가. hub (deg 10) + inner ring (deg 4) + pendant (deg 2
 
 ![](attachments/260515_41f2b0_04.gif)
 
-### 추가예제 6: Directed Cycle $C_{60}$
+### 추가예제 6: Directed Cycle $C_{60}$, $f=0$
 
 단방향 shift matrix ($W_{i,i+1}=1$), $f=0$. doubly stochastic이므로 $\rho_i = 1/n$ (balanced)이지만, **비대칭(W ≠ Wᵀ)**이라 $SD^2/t$는 발산. 대신 $SD^2/t^2$가 수렴한다. Thm A에 대칭성 조건이 필요함을 보여주는 반례.
 
 ![](attachments/260515_41f2b0_06.gif)
 
-### 추가예제 7: Outlier Cylinder $C_{60}$
+### 추가예제 7: Directed Cycle $C_{60}$, $f=\pm 1$
+
+추가예제 6과 같은 단방향 cycle에 반원 경계 $\pm 1$ 신호를 얹은 경우. 마찬가지로 $SD^2/t^2$가 수렴.
+
+![](attachments/260515_41f2b0_07.gif)
+
+### 추가예제 8: Outlier Cylinder $C_{60}$
 
 예제2 실린더 (Gaussian kernel, 위=-3, 아래=+3) 에서 +3 그룹 정중앙 한 노드만 -3으로 flip. 정규 → balanced. 국소적 outlier가 SD 임베딩에서 어떻게 분리되는지 관찰한다.
 
-![](attachments/260515_41f2b0_07.gif)
+![](attachments/260515_41f2b0_08.gif)
 
 ---
 
