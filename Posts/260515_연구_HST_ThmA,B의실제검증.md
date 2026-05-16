@@ -54,13 +54,13 @@ Helm에 outer ring을 추가. hub (deg 10) + inner ring (deg 4) + pendant (deg 2
 
 ### 추가예제 6: Directed Cycle $C_{60}$, $f=0$
 
-단방향 shift matrix ($W_{i,i+1}=1$), $f=0$. doubly stochastic이므로 $\rho_i = 1/n$ (balanced)이지만, **비대칭(W ≠ Wᵀ)**이라 $SD^2/t$는 발산. 대신 $SD^2/t^2$가 수렴한다. Thm A에 대칭성 조건이 필요함을 보여주는 반례.
+단방향 shift matrix ($W_{i,i+1}=1$), $f=0$. 비대칭($W \neq W^\top$)이지만 doubly stochastic이므로 $\rho_i = 1/n$ → balanced. $SD^2/t \to c$ 로 수렴하여 **비대칭 그래프에서도 Thm A가 성립**함을 확인.
 
 ![](attachments/260515_41f2b0_06.gif)
 
 ### 추가예제 7: Directed Cycle $C_{60}$, $f=\pm 1$
 
-추가예제 6과 같은 단방향 cycle에 반원 경계 $\pm 1$ 신호를 얹은 경우. 마찬가지로 $SD^2/t^2$가 수렴.
+추가예제 6과 같은 단방향 cycle에 반원 경계 $\pm 1$ 신호. $f \neq 0$ 이면 매 시점 $(h_i(s) - h_j(s))^2$ 에 초기 신호 차이 $(f_i - f_j)^2$가 상수항으로 누적되어 $SD^2/t$가 커 보이지만, 이는 초기 신호의 artifact이다.
 
 ![](attachments/260515_41f2b0_07.gif)
 
