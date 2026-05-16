@@ -36,25 +36,25 @@ Helm = Wheel + pendant leaves. 세 종류의 노드가 있다: hub (deg 10), rin
 
 ![](attachments/260515_41f2b0_03.gif)
 
+### 추가예제 4: Double Helm (n=31)
+
+Helm에 outer ring을 추가. hub (deg 10) + inner ring (deg 4) + pendant (deg 2) + outer ring (deg 3). 4종류 degree → 그룹 간 drift + 그룹 내 balanced이 더 복잡하게 공존.
+
+![](attachments/260515_41f2b0_08.gif)
+
 ---
 
-추가예제 1~3은 $f=0$ (신호 없음)이었다. 이제 **논문 본문의 예제 그래프**에 신호를 얹어서, Thm A가 신호-그래프 상호작용을 반영하는 모습을 본다. 아래 예제들은 모두 balanced regime (Thm A)이고, 3D로 그래프 시그널과 SD 임베딩을 함께 시각화한다.
+추가예제 1~4는 $f=0$ (신호 없음)이었다. 이제 **논문 본문의 예제 그래프**에 신호를 얹어서, Thm A가 신호-그래프 상호작용을 반영하는 모습을 본다. 아래 예제들은 모두 balanced regime (Thm A)이고, 3D로 그래프 시그널과 SD 임베딩을 함께 시각화한다.
 
-### 추가예제 4: Parity Cycle $C_{60}$
+### 추가예제 5: Parity Cycle $C_{60}$
 
 양방향 cycle (deg=2, 정규). 신호는 $f_i = (-1)^i$ (Nyquist 주파수). 이웃끼리 신호가 반대이므로 block이 자주 발생한다. 정규 그래프 → balanced.
 
 ![](attachments/260515_41f2b0_04.gif)
 
-### 추가예제 5: Twin Rings (n=60)
-
-inner ring (r=0.5) 과 outer ring (r=1.0), 각 30노드. Gaussian kernel 연결. 신호: inner $\sin\theta$, outer $\sin(\theta+\pi/2)$ — 위상 $\pi/2$ 어긋남. 비정규이지만 $\rho$ 격차가 작아 balanced.
-
-![](attachments/260515_41f2b0_05.gif)
-
 ### 추가예제 6: Directed Cycle $C_{60}$
 
-단방향 shift matrix ($W_{i,i+1}=1$). 신호: 반원 경계에서 $\pm 1$. doubly stochastic이므로 $\rho_i = 1/n$ → balanced.
+단방향 shift matrix ($W_{i,i+1}=1$). 신호: 반원 경계에서 $\pm 1$. doubly stochastic이므로 $\rho_i = 1/n$ (balanced)이지만, **비대칭(W ≠ Wᵀ)**이라 $SD^2/t$는 발산. 대신 $SD^2/t^2$가 수렴한다. Thm A에 대칭성 조건이 필요함을 보여주는 반례.
 
 ![](attachments/260515_41f2b0_06.gif)
 
@@ -63,12 +63,6 @@ inner ring (r=0.5) 과 outer ring (r=1.0), 각 30노드. Gaussian kernel 연결.
 예제2 실린더 (Gaussian kernel, 위=-3, 아래=+3) 에서 +3 그룹 정중앙 한 노드만 -3으로 flip. 정규 → balanced. 국소적 outlier가 SD 임베딩에서 어떻게 분리되는지 관찰한다.
 
 ![](attachments/260515_41f2b0_07.gif)
-
-### 추가예제 8: Double Helm (n=31)
-
-Helm에 outer ring을 추가. hub (deg 10) + inner ring (deg 4) + pendant (deg 2) + outer ring (deg 3). 4종류 degree → 그룹 간 drift + 그룹 내 balanced이 더 복잡하게 공존.
-
-![](attachments/260515_41f2b0_08.gif)
 
 ---
 

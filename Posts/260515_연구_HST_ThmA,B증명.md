@@ -252,7 +252,15 @@ $$\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] = b\,\mathcal{B}(S) + \under
 
 **OB 조건:** $\mathcal{B}(S) = \sum_u \pi(u)\hbar(u) \leq -\kappa_G M + C_{\text{OB}}$
 
-$K_n$에서 well-separated case: $\kappa_G = (H_n - 1)/n$. 일반 case: $\kappa_G = 1/(2n^2)$.
+$K_n$에서 well-separated case: $\kappa_G = (H_n - 1)/n$. Near-tie case: $\kappa_G = 1/(2n^2)$.
+
+::: {.callout-warning collapse="true" title="보충: OB 조건의 의미와 통계적 검증"}
+**직관:** 지형이 울퉁불퉁할수록($M$이 클수록) 눈이 낮은 곳에 편향되어 쌓인다는 조건이다. $\kappa_G > 0$은 그래프 $G$의 **자기교정 세기**이고, $C_{\text{OB}}$는 $M$이 작을 때의 여유분이다.
+
+**적용 범위:** OB가 성립하면 Theorem A의 증명 체인이 작동한다. $K_n$에서는 $\kappa_G$를 이론적으로 유도했지만, 일반 그래프에서는 $\kappa_G$와 $C_{\text{OB}}$가 그래프 구조에 따라 달라지며, Star 그래프처럼 아예 OB가 성립하지 않는 경우도 있다(drift regime).
+
+**통계적 검증:** 이론 증명이 없는 그래프에서도 OB를 직접 확인할 수 있다. HST를 $T$ 스텝 돌리면서 매 스텝 $R_t = \hbar(X_t)/M_t$를 기록한 뒤, batch mean의 $t$-test로 $\hat{\kappa} = -\bar{R} > 0$인지 검정하면 된다. $\kappa_G$나 $C_{\text{OB}}$의 구체적 값을 몰라도, 데이터에서 OB 성립 여부와 $\kappa$의 크기를 추정할 수 있다.
+:::
 
 ### 보조 결과 4: Moment bound
 
