@@ -2,15 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="유진">
 <meta name="dcterms.date" content="2026-05-15">
 
-<title>연구 ▷ HST ▷ Thm A, B 증명 자세히 따라가기 – 신록예찬’s Blog</title>
+<title>연구 ▷ HST ▷ Three-Regime Convergence 자세히 따라가기 – 신록예찬’s Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -34,15 +37,14 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-165db4a5700707ee9723b4db2002e5ec.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-42eb1ed98d6b40681f6bda2512c0def3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -189,7 +191,27 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#theorem-b-증명" id="toc-theorem-b-증명" class="nav-link active" data-scroll-target="#theorem-b-증명">Theorem B 증명</a>
+  <li><a href="#세팅과-표기" id="toc-세팅과-표기" class="nav-link active" data-scroll-target="#세팅과-표기">§1 세팅과 표기</a>
+  <ul class="collapse">
+  <li><a href="#그래프와-파라미터" id="toc-그래프와-파라미터" class="nav-link" data-scroll-target="#그래프와-파라미터">그래프와 파라미터</a></li>
+  <li><a href="#상태-변수" id="toc-상태-변수" class="nav-link" data-scroll-target="#상태-변수">상태 변수</a></li>
+  <li><a href="#augmented-state-증강-상태" id="toc-augmented-state-증강-상태" class="nav-link" data-scroll-target="#augmented-state-증강-상태">Augmented state (증강 상태)</a></li>
+  <li><a href="#중심화-높이와-lyapunov-함수" id="toc-중심화-높이와-lyapunov-함수" class="nav-link" data-scroll-target="#중심화-높이와-lyapunov-함수">중심화 높이와 Lyapunov 함수</a></li>
+  <li><a href="#네-가지-후보-알고리즘-a-b-c-d" id="toc-네-가지-후보-알고리즘-a-b-c-d" class="nav-link" data-scroll-target="#네-가지-후보-알고리즘-a-b-c-d">네 가지 후보 알고리즘 (A / B / C / D)</a>
+  <ul class="collapse">
+  <li><a href="#algorithm-a-본-글의-대상" id="toc-algorithm-a-본-글의-대상" class="nav-link" data-scroll-target="#algorithm-a-본-글의-대상">Algorithm A (본 글의 대상)</a></li>
+  <li><a href="#algorithm-bcd-참고" id="toc-algorithm-bcd-참고" class="nav-link" data-scroll-target="#algorithm-bcd-참고">Algorithm B/C/D (참고)</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#three-regime-분류" id="toc-three-regime-분류" class="nav-link" data-scroll-target="#three-regime-분류">§2 Three-regime 분류</a>
+  <ul class="collapse">
+  <li><a href="#정의" id="toc-정의" class="nav-link" data-scroll-target="#정의">정의</a></li>
+  <li><a href="#실험-분류-소미유진-41f2b0-인용" id="toc-실험-분류-소미유진-41f2b0-인용" class="nav-link" data-scroll-target="#실험-분류-소미유진-41f2b0-인용">실험 분류 (소미·유진 41f2b0 인용)</a></li>
+  <li><a href="#reading-guide" id="toc-reading-guide" class="nav-link" data-scroll-target="#reading-guide">Reading guide</a></li>
+  <li><a href="#완전성-exhaustiveness" id="toc-완전성-exhaustiveness" class="nav-link" data-scroll-target="#완전성-exhaustiveness">완전성 (exhaustiveness)</a></li>
+  <li><a href="#rho_i의-존재성" id="toc-rho_i의-존재성" class="nav-link" data-scroll-target="#rho_i의-존재성"><span class="math inline">\(\rho_i\)</span>의 존재성</a></li>
+  </ul></li>
+  <li><a href="#theorem-b-증명" id="toc-theorem-b-증명" class="nav-link" data-scroll-target="#theorem-b-증명">Theorem B 증명</a>
   <ul class="collapse">
   <li><a href="#step-1-높이-분해" id="toc-step-1-높이-분해" class="nav-link" data-scroll-target="#step-1-높이-분해">Step 1: 높이 분해</a></li>
   <li><a href="#step-2-7-sd2-전개" id="toc-step-2-7-sd2-전개" class="nav-link" data-scroll-target="#step-2-7-sd2-전개">Step 2-7: <span class="math inline">\(SD^2\)</span> 전개</a></li>
@@ -214,7 +236,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">연구 ▷ HST ▷ Thm A, B 증명 자세히 따라가기</h1>
+<h1 class="title">연구 ▷ HST ▷ Three-Regime Convergence 자세히 따라가기</h1>
 </div>
 
 
@@ -250,10 +272,298 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 .katex-display { text-align: left !important; }
 .katex-display > .katex { text-align: left !important; }
 </style>
-<p>Snow distance <span class="math inline">\(SD^2_{ij}(t) = \sum_{s=0}^t (h_i(s) - h_j(s))^2\)</span> 의 점근 거동은 장기 적립률 <span class="math inline">\(\rho_i = \lim \frac{1}{t}\sum \mathbf{1}\{X_s = v_i\}\)</span> 에 따라 두 가지로 나뉜다.</p>
-<p><code>-</code> <strong>Theorem A (Balanced, <span class="math inline">\(\rho_i = 1/n\)</span>):</strong> <span class="math inline">\(SD^2_{ij}(t)/t \to c_{ij}\)</span> a.s. 극한 <span class="math inline">\(c_{ij}\)</span>는 그래프와 <span class="math inline">\(b, T_{\max}\)</span>에만 의존하고 초기 신호 <span class="math inline">\(\mathbf{y}\)</span>에 무관.</p>
-<p><code>-</code> <strong>Theorem B (Drift, <span class="math inline">\(\rho_i \neq \rho_j\)</span>):</strong> <span class="math inline">\(SD^2_{ij}(t)/t^3 \to \bar{b}^2(\rho_i - \rho_j)^2 / 3\)</span> a.s.</p>
+<blockquote class="blockquote">
+<p><strong>본 글의 위치</strong>: ABC증명(페이퍼팀)의 <code>모델A통합증명_ABC.tex</code> (★★★★★, 2026-05-17) 의 <strong>한국어 해설본</strong>. 원문 섹션 구조 그대로 따라가되, 수식 전개는 한 줄씩 풀어 쓰고 callout 3색(빨강 직관 / 빨강 큰 그림 / 파랑 증명) 짝으로 정리.</p>
+</blockquote>
+<p>Heavy-Snow Transform의 snow distance</p>
+<p><span class="math display">\[SD^2_{ij}(t) := \sum_{s=0}^t \bigl(h(v_i, s) - h(v_j, s)\bigr)^2\]</span></p>
+<p>의 점근 거동은 <strong>장기 적립률</strong></p>
+<p><span class="math display">\[\rho_i := \lim_{t \to \infty} \tfrac{1}{t} \sum_{s=1}^t \mathbf{1}\{X_s = v_i\}\]</span></p>
+<p>에 따라 <strong>세 가지 regime</strong>으로 갈린다:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Regime</th>
+<th>조건</th>
+<th>스케일링</th>
+<th>극한</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>A. Balanced</strong></td>
+<td><span class="math inline">\(\rho_i = 1/n\)</span> for all <span class="math inline">\(i\)</span></td>
+<td><span class="math inline">\(SD^2_{ij}/t\)</span></td>
+<td><span class="math inline">\(\to c_{ij}\)</span> (Foster–Lyapunov + Doeblin)</td>
+</tr>
+<tr class="even">
+<td><strong>B. Intermediate</strong></td>
+<td><span class="math inline">\(\rho_i = \rho_j\)</span>, but globally unbalanced</td>
+<td><span class="math inline">\(SD^2_{ij}/t^2\)</span></td>
+<td><span class="math inline">\(\to \sigma^2_{ij}/2\)</span> (diffusive 가정 하)</td>
+</tr>
+<tr class="odd">
+<td><strong>C. Drift</strong></td>
+<td><span class="math inline">\(\rho_i \neq \rho_j\)</span></td>
+<td><span class="math inline">\(SD^2_{ij}/t^3\)</span></td>
+<td><span class="math inline">\(\to \bar{b}^2(\rho_i - \rho_j)^2/3\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><code>-</code> <strong>Theorem A (Balanced)</strong> — Foster–Lyapunov drift 와 Doeblin minorization 으로 augmented chain의 positive Harris recurrence 확보. 가장 어려움. <code>-</code> <strong>Theorem B (Intermediate)</strong> — 가중 Cesàro lemma 한 줄. recurrence 기계 불필요. <code>-</code> <strong>Theorem C (Drift)</strong> — 마팅게일 SLLN + 급수 계산. 역시 recurrence 불필요.</p>
+<blockquote class="blockquote">
+<p><strong>모델 노트.</strong> 본 글은 <strong>모델 A</strong> (per-step i.i.d. <span class="math inline">\(b'_s \sim \text{Unif}(0,b)\)</span>) baseline. 2026-05-17 01:10 대표 결정으로 회사 공식 채택은 모델 B (per-round constant <span class="math inline">\(b'^{(r)}\)</span>) 이지만, 본 글은 reference baseline 역할. 모델 B 손질은 후속 포스트로.</p>
+</blockquote>
 <hr>
+<section id="세팅과-표기" class="level1">
+<h1>§1 세팅과 표기</h1>
+<section id="그래프와-파라미터" class="level2">
+<h2 class="anchored" data-anchor-id="그래프와-파라미터">그래프와 파라미터</h2>
+<ul>
+<li><span class="math inline">\(\mathcal{G} = (V, \mathbf{E}, \mathbf{W})\)</span>: 연결 가중 그래프, <span class="math inline">\(V = \{v_1, \ldots, v_n\}\)</span>, <span class="math inline">\(|V| = n &lt; \infty\)</span></li>
+<li><span class="math inline">\(b &gt; 0\)</span>: snowfall scale (한 step당 증분 상한)</li>
+<li><span class="math inline">\(T_{\max} \in \mathbb{N}\)</span>: 연속 flow 횟수 상한</li>
+<li><span class="math inline">\(\boldsymbol{\mu}_0\)</span>: <span class="math inline">\(V\)</span> 위 확률측도, <strong>full support</strong> (<span class="math inline">\(\mu_{\min} := \min_i \boldsymbol{\mu}_0(v_i) &gt; 0\)</span>)</li>
+<li>보통 <span class="math inline">\(\boldsymbol{\mu}_0 \propto \deg\)</span> (degree-proportional) 또는 uniform</li>
+</ul>
+</section>
+<section id="상태-변수" class="level2">
+<h2 class="anchored" data-anchor-id="상태-변수">상태 변수</h2>
+<p>각 시점 <span class="math inline">\(t \geq 0\)</span>에서:</p>
+<ul>
+<li><span class="math inline">\(h(v_i, t) \in \mathbb{R}\)</span>: 노드 <span class="math inline">\(v_i\)</span>의 <strong>눈 높이</strong></li>
+<li><span class="math inline">\(X_t \in V\)</span>: <strong>walker</strong> 위치</li>
+<li><span class="math inline">\(Z_t \in \{0, 1, \ldots, T_{\max}\}\)</span>: <strong>block timer</strong> (연속 flow 횟수)</li>
+</ul>
+<p>초기 조건: <span class="math inline">\(h(v_i, 0) = 0\)</span> for all <span class="math inline">\(i\)</span> (zero signal), <span class="math inline">\(X_0 \sim \boldsymbol{\mu}_0\)</span>, <span class="math inline">\(Z_0 := T_{\max}\)</span> (첫 step은 fresh fall).</p>
+</section>
+<section id="augmented-state-증강-상태" class="level2">
+<h2 class="anchored" data-anchor-id="augmented-state-증강-상태">Augmented state (증강 상태)</h2>
+<p>분석 대상 Markov chain:</p>
+<p><span class="math display">\[S_t := (\boldsymbol{\delta}_t,\, X_t,\, Z_t) \in \mathcal{X}^* := \mathbb{R}^{n-1} \times V \times \{0, 1, \ldots, T_{\max}\}\]</span></p>
+<p>여기서</p>
+<p><span class="math display">\[\boldsymbol{\delta}_t := \bigl(h(v_2, t) - h(v_1, t),\ \ldots,\ h(v_n, t) - h(v_1, t)\bigr) \in \mathbb{R}^{n-1}\]</span></p>
+<p>은 <strong>상대 높이 벡터</strong> (<span class="math inline">\(v_1\)</span> 기준). 절대 높이 <span class="math inline">\(h\)</span>는 <span class="math inline">\(t\)</span>에 따라 무한히 커지므로 차이만 추적.</p>
+<p><code>-</code> <span class="math inline">\(\mathcal{F}_t := \sigma(X_0, b'_1, X_1, \ldots, b'_t, X_t)\)</span> — 자연 filtration <code>-</code> <span class="math inline">\(\mathcal{B}(\mathcal{X}^*)\)</span> — Borel σ-algebra <code>-</code> <span class="math inline">\(P^m(s, B)\)</span> — <span class="math inline">\(S_0 = s\)</span>에서 <span class="math inline">\(m\)</span> step 후 <span class="math inline">\(B\)</span> 도달 확률</p>
+</section>
+<section id="중심화-높이와-lyapunov-함수" class="level2">
+<h2 class="anchored" data-anchor-id="중심화-높이와-lyapunov-함수">중심화 높이와 Lyapunov 함수</h2>
+<p><span class="math display">\[\bar h(t) := \tfrac{1}{n}\sum_i h(v_i, t), \qquad \hbar(v_i, t) := h(v_i, t) - \bar h(t), \qquad \Phi(t) := \sum_i \hbar(v_i, t)^2\]</span></p>
+<ul>
+<li><span class="math inline">\(\hbar\)</span>: <strong>centered height</strong> — 평균을 뺀 상대 높이</li>
+<li><span class="math inline">\(\Phi\)</span>: <strong>Lyapunov 함수</strong> — 노드 간 높이 차이의 quadratic 측도. <span class="math inline">\(\Phi\)</span>가 크면 지형이 울퉁불퉁, <span class="math inline">\(\Phi = 0\)</span>이면 평평.</li>
+<li><span class="math inline">\(M(t) := \max_i |\hbar(v_i, t)|\)</span> — (단측) centered height range. <span class="math inline">\(\sum \hbar = 0\)</span>이므로 <span class="math inline">\(\max \hbar - \min \hbar \in [M(t), 2M(t)]\)</span>.</li>
+</ul>
+</section>
+<section id="네-가지-후보-알고리즘-a-b-c-d" class="level2">
+<h2 class="anchored" data-anchor-id="네-가지-후보-알고리즘-a-b-c-d">네 가지 후보 알고리즘 (A / B / C / D)</h2>
+<p>HST에서 walker 규칙 (block / flow)은 정해져 있지만, <strong>step당 증분 <span class="math inline">\(b'\)</span>의 추출 방식</strong>은 후보 4종:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>모델</th>
+<th>증분 추출</th>
+<th>step당 <span class="math inline">\(b'\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>A</strong> (per-step i.i.d.)</td>
+<td>매 step</td>
+<td><span class="math inline">\(b'_s \sim \text{Unif}(0, b)\)</span>, i.i.d. across <span class="math inline">\(s\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>B</strong> (per-round constant)</td>
+<td>매 round <span class="math inline">\(r\)</span></td>
+<td><span class="math inline">\(b'^{(r)} \sim \text{Unif}(0, b)\)</span>; round 내 모든 step 동일</td>
+</tr>
+<tr class="odd">
+<td><strong>C</strong> (per-round w/ decay)</td>
+<td>매 round <span class="math inline">\(r\)</span></td>
+<td><span class="math inline">\(b'^{(r)} f(s)\)</span> — round 내 감쇠 함수 <span class="math inline">\(f\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>D</strong> (deterministic)</td>
+<td>—</td>
+<td><span class="math inline">\(b'_s = b\)</span> (상수)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>모멘트</strong>: A, B, C 모두 <span class="math inline">\(\mathbb{E}[b'_s] = b/2\)</span>, <span class="math inline">\(\mathbb{E}[(b'_s)^2] = b^2/3\)</span>. D는 <span class="math inline">\(b'_s = b\)</span> 상수.</p>
+<section id="algorithm-a-본-글의-대상" class="level3">
+<h3 class="anchored" data-anchor-id="algorithm-a-본-글의-대상">Algorithm A (본 글의 대상)</h3>
+<p>매 step <span class="math inline">\(t+1\)</span> (<span class="math inline">\(t \geq 0\)</span>):</p>
+<ol type="1">
+<li><strong>증분 추첨</strong>: <span class="math inline">\(b'_{t+1} \sim \text{Unif}(0, b)\)</span> — 과거와 독립</li>
+<li><strong>walker 선택</strong>:
+<ul>
+<li><strong>Block step</strong> (<span class="math inline">\(Z_t = T_{\max}\)</span>, timer 만료): <span class="math inline">\(X_{t+1} \sim \boldsymbol{\mu}_0\)</span> (fresh fall)</li>
+<li><strong>Flow step</strong>: <span class="math inline">\(X_t\)</span>의 이웃 중 <span class="math inline">\(h \leq h(X_t, t)\)</span>인 downstream set <span class="math inline">\(\mathcal{D}_t\)</span>. 비어 있으면 stall → block 처리. 아니면 <span class="math inline">\(\mathcal{D}_t\)</span> 안에서 degree-weighted 선택.</li>
+</ul></li>
+<li><strong>높이 갱신</strong>: <span class="math inline">\(h(v_i, t+1) = h(v_i, t) + b'_{t+1}\,\mathbf{1}\{v_i = X_{t+1}\}\)</span></li>
+<li><strong>timer 갱신</strong>: <span class="math inline">\(Z_{t+1} = 0\)</span> (block step) 또는 <span class="math inline">\(Z_t + 1\)</span> (flow step)</li>
+</ol>
+<p><code>-</code> <span class="math inline">\(t_r\)</span>: <span class="math inline">\(r\)</span>번째 <strong>block-flag time</strong> <code>-</code> <span class="math inline">\(m_r := t_{r+1} - t_r \in [1, T_{\max} + 1]\)</span>: 라운드 길이</p>
+</section>
+<section id="algorithm-bcd-참고" class="level3">
+<h3 class="anchored" data-anchor-id="algorithm-bcd-참고">Algorithm B/C/D (참고)</h3>
+<ul>
+<li><strong>B</strong>: round 시작 시 <span class="math inline">\(b'^{(r)} \sim \text{Unif}(0, b)\)</span> 1회 추첨, round 내 모든 step에서 같은 <span class="math inline">\(b'^{(r)}\)</span> 사용. 라운드 총 적립 = <span class="math inline">\(m_r \cdot b'^{(r)}\)</span>.</li>
+<li><strong>C</strong>: round당 <span class="math inline">\(b'^{(r)}\)</span> 추첨 + decay 함수 <span class="math inline">\(f\)</span> (지수/선형 등). 라운드 내 증분이 점차 작아짐.</li>
+<li><strong>D</strong>: <span class="math inline">\(b'_s = b\)</span> 상수. 무작위성 없음. → lattice irreducibility 문제로 채택 불가 (과거 시도).</li>
+</ul>
+<blockquote class="blockquote">
+<p>회사 공식 채택 모델: <strong>B</strong> (2026-05-17 01:10). 본 글은 A baseline.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+</section>
+<section id="three-regime-분류" class="level1">
+<h1>§2 Three-regime 분류</h1>
+<section id="정의" class="level2">
+<h2 class="anchored" data-anchor-id="정의">정의</h2>
+<div class="callout callout-style-default callout-note callout-titled" title="Definition (Regime classification)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition (Regime classification)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\rho_i\)</span>가 모든 <span class="math inline">\(i \in V\)</span>에 대해 a.s. 존재한다고 가정.</p>
+<ul>
+<li><strong>Balanced regime</strong>: 모든 <span class="math inline">\(i\)</span>에 대해 <span class="math inline">\(\rho_i = 1/n\)</span>. <span class="math inline">\(\sum_i \rho_i = 1\)</span>이므로 이는 “모든 <span class="math inline">\(i, j\)</span>에 대해 <span class="math inline">\(\rho_i = \rho_j\)</span> <strong>and</strong> global balance”와 동치.</li>
+<li><strong>Drift regime (pair <span class="math inline">\(i, j\)</span>)</strong>: <span class="math inline">\(\rho_i \neq \rho_j\)</span>.</li>
+<li><strong>Intermediate regime (pair <span class="math inline">\(i, j\)</span>)</strong>: <span class="math inline">\(\rho_i = \rho_j\)</span>이지만 <strong>globally unbalanced</strong> (어떤 <span class="math inline">\(k, \ell\)</span>에 대해 <span class="math inline">\(\rho_k \neq \rho_\ell\)</span>).</li>
+</ul>
+</div>
+</div>
+</div>
+<p>regime은 <strong>노드 쌍 <span class="math inline">\((v_i, v_j)\)</span> 단위</strong>로 매겨진다. 같은 그래프 안에서도 어떤 쌍은 balanced, 어떤 쌍은 intermediate, 또 어떤 쌍은 drift일 수 있다 (Helm 그래프 사례 참조).</p>
+</section>
+<section id="실험-분류-소미유진-41f2b0-인용" class="level2">
+<h2 class="anchored" data-anchor-id="실험-분류-소미유진-41f2b0-인용">실험 분류 (소미·유진 41f2b0 인용)</h2>
+<p>소미 작성 블로그 <em>Thm A, B의 실제 검증</em> (41f2b0, 2026-05-15) 의 시뮬레이션 결과를 인용. 모두 <strong>degree-proportional <span class="math inline">\(\boldsymbol{\mu}_0\)</span></strong> 사용 (<span class="math inline">\(\tau \sim 10^6\)</span>, <span class="math inline">\(b = 0.5\)</span>, Algorithm A).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>그래프</th>
+<th>Pair <span class="math inline">\((v_i, v_j)\)</span></th>
+<th><span class="math inline">\(\hat\rho\)</span> 관계</th>
+<th>Regime</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(K_n\)</span> (regular)</td>
+<td>any</td>
+<td><span class="math inline">\(\hat\rho_i = 1/n\)</span></td>
+<td>A (balanced)</td>
+</tr>
+<tr class="even">
+<td>Parity cycle <span class="math inline">\(C_n\)</span></td>
+<td>any</td>
+<td><span class="math inline">\(\hat\rho_i = 1/n\)</span></td>
+<td>A (balanced)</td>
+</tr>
+<tr class="odd">
+<td>Directed cycle <span class="math inline">\(C_n\)</span></td>
+<td>any</td>
+<td><span class="math inline">\(\hat\rho_i = 1/n\)</span></td>
+<td>A (balanced)</td>
+</tr>
+<tr class="even">
+<td>Wheel <span class="math inline">\(W_n\)</span></td>
+<td>any</td>
+<td><span class="math inline">\(\hat\rho_i \approx 1/n\)</span></td>
+<td>A (balanced)</td>
+</tr>
+<tr class="odd">
+<td>Star <span class="math inline">\(S_n\)</span></td>
+<td>hub–leaf</td>
+<td><span class="math inline">\(\hat\rho_{\mathrm{h}} \neq \hat\rho_{\mathrm{l}}\)</span></td>
+<td>C (drift)</td>
+</tr>
+<tr class="even">
+<td>Helm <span class="math inline">\(H_k\)</span></td>
+<td>hub–leaf</td>
+<td><span class="math inline">\(\hat\rho_{\mathrm{h}} \neq \hat\rho_{\mathrm{l}}\)</span></td>
+<td>C (drift)</td>
+</tr>
+<tr class="odd">
+<td>Helm <span class="math inline">\(H_k\)</span></td>
+<td>ring–ring</td>
+<td><span class="math inline">\(\hat\rho_{\mathrm{r}} = \hat\rho_{\mathrm{r}}\)</span>, ring로 연결됨</td>
+<td>A (balanced within ring)</td>
+</tr>
+<tr class="even">
+<td>Helm <span class="math inline">\(H_k\)</span></td>
+<td>leaf–leaf</td>
+<td><span class="math inline">\(\hat\rho_{\mathrm{l}} = \hat\rho_{\mathrm{l}}\)</span>, globally unbalanced</td>
+<td>B (intermediate)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="reading-guide" class="level2">
+<h2 class="anchored" data-anchor-id="reading-guide">Reading guide</h2>
+<div class="callout callout-style-default callout-important callout-titled" title="해석: 그래프 구조와 $\boldsymbol{\mu}_0$가 regime을 결정하는 방식">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>해석: 그래프 구조와 <span class="math inline">\(\boldsymbol{\mu}_0\)</span>가 regime을 결정하는 방식
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Regular graph + degree-prop <span class="math inline">\(\boldsymbol{\mu}_0\)</span></strong>: degree가 모두 같으므로 <span class="math inline">\(\mu_0 \propto \deg\)</span> = uniform. 모든 노드 fall 균등 → <span class="math inline">\(\hat\rho_i = 1/n\)</span> → 모든 쌍 <strong>balanced</strong>. doubly stochastic kernel (예: directed cycle)도 같은 결론.</p>
+<p><strong>Non-regular graph + degree-prop <span class="math inline">\(\boldsymbol{\mu}_0\)</span></strong>: high-degree 노드가 fall을 더 자주 받음. <strong>Star <span class="math inline">\(S_n\)</span></strong>: hub 차수 <span class="math inline">\(n-1\)</span>, leaf 차수 <span class="math inline">\(1\)</span> → <span class="math inline">\(\hat\rho_{\mathrm{h}} \neq \hat\rho_{\mathrm{l}}\)</span> → hub–leaf 쌍 <strong>drift</strong>.</p>
+<p><strong>Helm <span class="math inline">\(H_k\)</span> (3-class hierarchy)</strong>: hub, ring, leaf 세 등급. <span class="math inline">\(\hat\rho_{\mathrm{h}} &gt; \hat\rho_{\mathrm{r}} &gt; \hat\rho_{\mathrm{l}}\)</span>.</p>
+<ul>
+<li><strong>hub–leaf</strong>: <span class="math inline">\(\rho\)</span> 다름 → drift</li>
+<li><strong>ring–ring</strong>: <span class="math inline">\(\rho\)</span> 같음 + ring sub-graph로 연결 → 그 안에서 balanced dynamics → <span class="math inline">\(SD^2/t\)</span> 수렴 (balanced “within ring”)</li>
+<li><strong>leaf–leaf</strong>: <span class="math inline">\(\rho\)</span> 같음, 그러나 두 leaf는 hub를 거쳐야만 연결. <strong>hub의 linearly growing height가 flow를 통해 noise로 전파, 두 leaf는 직접 연결 X → noise가 독립</strong> → 높이차가 random walk → <span class="math inline">\(|D_t| \sim \sigma \sqrt{t}\)</span> → SD²/t² 수렴. → <strong>intermediate</strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="완전성-exhaustiveness" class="level2">
+<h2 class="anchored" data-anchor-id="완전성-exhaustiveness">완전성 (exhaustiveness)</h2>
+<p>위 세 regime은 <strong>상호 배반 + 합쳐서 완전</strong>: <span class="math inline">\(\rho_i, \rho_j\)</span>가 존재하는 모든 쌍 <span class="math inline">\((i, j)\)</span>가 정확히 한 부류. <span class="math inline">\(t, t^2, t^3\)</span> 외의 다른 power scaling은 발생 안 함. 상세는 <a href="../paper/260514_guebin/해리스/regime_exhaustiveness.tex"><code>regime_exhaustiveness.tex</code></a> (해리스) 참조.</p>
+</section>
+<section id="rho_i의-존재성" class="level2">
+<h2 class="anchored" data-anchor-id="rho_i의-존재성"><span class="math inline">\(\rho_i\)</span>의 존재성</h2>
+<p>regime 분류는 <span class="math inline">\(\rho_i\)</span>의 a.s. 존재를 전제. random-step 변형에서는 <span class="math inline">\(\mu_{\min} &gt; 0\)</span>인 모든 연결 그래프에 대해 <strong>무조건 성립</strong> (오큐리의 stochastic approximation + ODE 인자, <a href="../paper/260514_guebin/오큐리/occupation_slln_general.tex"><code>occupation_slln_general.tex</code></a> 참조). Theorem A는 <span class="math inline">\(\rho_i = 1/n\)</span>을 별도 가정하므로 <span class="math inline">\(\rho_i\)</span> 존재성을 자체 입력으로 받음. Theorem B, C에서는 <span class="math inline">\(\rho_i\)</span> 존재를 주어진 입력으로 사용.</p>
+<hr>
+<hr>
+</section>
+</section>
 <section id="theorem-b-증명" class="level1">
 <h1>Theorem B 증명</h1>
 <p>B가 더 쉬우니까 먼저.</p>
@@ -315,7 +625,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><strong>Fact 1 (<span class="math inline">\(\hbar\)</span> 변화).</strong> step <span class="math inline">\(t+1\)</span>에서 노드 <span class="math inline">\(X_{t+1}\)</span>에 <span class="math inline">\(b'_{t+1}\)</span>이 쌓이면:</p>
 <p><span class="math display">\[\hbar(X_{t+1},\, t+1) = \hbar(X_{t+1},\, t) + b'_{t+1}\frac{n-1}{n}, \qquad \hbar(u,\, t+1) = \hbar(u,\, t) - \frac{b'_{t+1}}{n} \quad (u \neq X_{t+1})\]</span></p>
 <div class="callout callout-style-default callout-note callout-titled" title="증명: Fact 1 ($\hbar$ 변화)">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -324,7 +634,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>구하고 싶은 것: step <span class="math inline">\(t+1\)</span> 후 각 노드의 <span class="math inline">\(\hbar\)</span>가 어떻게 바뀌는가.</p>
 <p><span class="math inline">\(\hbar = h - \bar{h}\)</span>이므로, <span class="math inline">\(h\)</span>의 변화와 <span class="math inline">\(\bar{h}\)</span>의 변화를 각각 구하자.</p>
@@ -343,7 +653,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><span class="math display">\[\mathbb{E}[\Phi(t+1) - \Phi(t) \mid \mathcal{F}_t, X_{t+1}] = b\,\hbar(X_{t+1}, t) + \frac{(n-1)b^2}{3n}\]</span></p>
 <p>높은 노드(<span class="math inline">\(\hbar &gt; 0\)</span>)에 눈이 쌓이면 <span class="math inline">\(\Phi\)</span> 증가, 낮은 노드(<span class="math inline">\(\hbar &lt; 0\)</span>)에 쌓이면 <span class="math inline">\(\Phi\)</span> 감소. 둘째 항은 항상 양수인 noise.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="증명: $\Phi$ drift lemma">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -352,7 +662,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>우리가 구하고 싶은 것은 <span class="math inline">\(\mathbb{E}[\Phi(t+1) - \Phi(t) \mid \mathcal{F}_t, X_{t+1}]\)</span>이다. 이를 위해 먼저 <span class="math inline">\(\Phi(t+1) - \Phi(t)\)</span>를 계산하자.</p>
 <p><span class="math inline">\(\Phi(t+1) - \Phi(t)\)</span>를 계산하려면 <span class="math inline">\(\Phi(t+1)\)</span>과 <span class="math inline">\(\Phi(t)\)</span>가 각각 뭔지 알아야 한다.</p>
@@ -392,7 +702,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><span class="math display">\[\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1) = \sum_u \#_u \hbar(u, t_r) + \Theta, \qquad |\Theta| \leq \frac{(T_{\max}+1)T_{\max}}{2}b\]</span></p>
 <p>좌변: 라운드 중간 시점의 <span class="math inline">\(\hbar\)</span> 합. 우변의 <span class="math inline">\(\sum_u\)</span>는 모든 노드 <span class="math inline">\(u \in V\)</span>에 대한 합이고, <span class="math inline">\(\#_u\)</span>는 노드 <span class="math inline">\(u\)</span>를 방문한 횟수. 첫째 항: 라운드 시작 시점의 <span class="math inline">\(\hbar\)</span>로 계산한 합. <span class="math inline">\(\Theta\)</span>: 라운드 중 높이가 변해서 생기는 오차 (bounded).</p>
 <div class="callout callout-style-default callout-note callout-titled" title="증명: Shape decomposition">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -401,7 +711,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>구하고 싶은 것: 좌변 <span class="math inline">\(\sum_{j=1}^{m_r} \hbar(\tilde{X}_j, t_r + j - 1)\)</span>을 라운드 시작 시점의 <span class="math inline">\(\hbar\)</span>로 표현하기.</p>
 <p><span class="math inline">\(\hbar(\tilde{X}_j, t_r + j - 1)\)</span>은 라운드 <span class="math inline">\(j\)</span>번째 방문 노드의 <strong>시점 <span class="math inline">\(t_r + j - 1\)</span>에서의</strong> centered height이다. Fact 1을 반복 적용하면, 시점 <span class="math inline">\(t_r\)</span>에서의 값 <span class="math inline">\(\hbar(\tilde{X}_j, t_r)\)</span>에 라운드 도중의 보정이 더해진다:</p>
@@ -422,7 +732,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><span class="math display">\[\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)] = b\,\mathcal{B}(S) + (\text{bounded terms})\]</span></p>
 <p>여기서 <span class="math inline">\(\mathcal{B}(S) = \sum_u \pi(u) \hbar(u)\)</span>이다. Bounded terms는 <span class="math inline">\(M\)</span>과 무관한 상수. 따라서 <strong><span class="math inline">\(M\)</span>에 비례하는 유일한 항은 <span class="math inline">\(\mathcal{B}(S)\)</span></strong>이다.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="증명: 라운드 단위 drift">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -431,7 +741,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>구하고 싶은 것: <span class="math inline">\(\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S(t_r)]\)</span>.</p>
 <p>라운드 <span class="math inline">\(r\)</span>은 step <span class="math inline">\(t_r + 1\)</span>부터 <span class="math inline">\(t_{r+1}\)</span>까지 총 <span class="math inline">\(m_r\)</span> step이다. <span class="math inline">\(\Phi\)</span> drift lemma (보조 결과 1)를 각 step에 적용하고 합산하면:</p>
@@ -454,7 +764,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><strong>OB 조건:</strong> <span class="math inline">\(\mathcal{B}(S) = \sum_u \pi(u)\hbar(u) \leq -\kappa_G M + C_{\text{OB}}\)</span></p>
 <p><span class="math inline">\(K_n\)</span>에서 well-separated case: <span class="math inline">\(\kappa_G = (H_n - 1)/n\)</span>. Near-tie case: <span class="math inline">\(\kappa_G = 1/(2n^2)\)</span>.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="보충: OB 조건의 의미와 통계적 검증">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -463,7 +773,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>직관:</strong> 지형이 울퉁불퉁할수록(<span class="math inline">\(M\)</span>이 클수록) 눈이 낮은 곳에 편향되어 쌓인다는 조건이다. <span class="math inline">\(\kappa_G &gt; 0\)</span>은 그래프 <span class="math inline">\(G\)</span>의 <strong>자기교정 세기</strong>이고, <span class="math inline">\(C_{\text{OB}}\)</span>는 <span class="math inline">\(M\)</span>이 작을 때의 여유분이다.</p>
 <p><strong>적용 범위:</strong> OB가 성립하면 Theorem A의 증명 체인이 작동한다. <span class="math inline">\(K_n\)</span>에서는 <span class="math inline">\(\kappa_G\)</span>를 이론적으로 유도했지만, 일반 그래프에서는 <span class="math inline">\(\kappa_G\)</span>와 <span class="math inline">\(C_{\text{OB}}\)</span>가 그래프 구조에 따라 달라지며, Star 그래프처럼 아예 OB가 성립하지 않는 경우도 있다(drift regime).</p>
@@ -477,7 +787,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><strong>Proposition (Moment bound).</strong> <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>.</p>
 <p>Round drift <span class="math inline">\(\mathbb{E}[\Delta\Phi] \leq -b\kappa_G M + C\)</span>에서 <span class="math inline">\(M \sim \sqrt{\Phi}\)</span>이므로 drift 차수가 <span class="math inline">\(-\Phi^{1/2}\)</span>. 이것만으로는 <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>를 얻기에 부족하다 (Meyn-Tweedie로 <span class="math inline">\(r &lt; 1/2\)</span>까지만 가능). 해법: Lyapunov를 <span class="math inline">\(V_{\text{Ly}} = \Phi^2\)</span>로 올린다.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="증명: Moment bound">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -486,7 +796,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>구하고 싶은 것: <span class="math inline">\(\mathbb{E}_{\pi^*}[\Phi] &lt; \infty\)</span>.</p>
 <p>이를 위해 <span class="math inline">\(V_{\text{Ly}} = \Phi^2\)</span>의 drift를 구한다. 먼저 <span class="math inline">\(\Delta V_{\text{Ly}} = V_{\text{Ly}}(t_{r+1}) - V_{\text{Ly}}(t_r)\)</span>를 계산하자.</p>
@@ -560,7 +870,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p>(기호 <span class="math inline">\(\mathcal{X}^*\)</span>, <span class="math inline">\(\mathcal{B}(\mathcal{X}^*)\)</span>, <span class="math inline">\(P^m\)</span> 은 위 §Augmented state 참조.)</p>
 <p><strong>Pushforward density lemma (보조).</strong> <span class="math inline">\(\xi_1, \ldots, \xi_n \stackrel{\text{iid}}{\sim} \text{Unif}(0,b)\)</span>, <span class="math inline">\(\Lambda(\xi) := (\xi_2 - \xi_1, \ldots, \xi_n - \xi_1)\)</span>. Pushforward 밀도 <span class="math inline">\(\rho_\Lambda(\mathbf{y}) \geq b^{1-n}/2\)</span> on <span class="math inline">\(\mathcal{O} := \{\max_i |y_i| &lt; b/4\}\)</span>.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="해석: 한 줄 직관 — '공통 운명'">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -569,7 +879,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Doeblin minorization을 한 줄로 요약하면: <strong>“어디서 출발하든 결국 겹치게 되는 최소한의 공통 운명이 존재한다.”</strong></p>
 <p><strong>비유.</strong> 전국 어디서 출발하든 <span class="math inline">\(K^*\)</span>번 이동하면, 최소 <span class="math inline">\(\eta\)</span> (예: 10%) 확률로 모두 같은 목적지 분포 <span class="math inline">\(\nu\)</span> (예: ‘서울역’ 주변)에 떨어지게 만드는 <strong>마법의 규칙</strong>이 숨어있다.</p>
@@ -584,7 +894,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled" title="해석: 증명의 큰 그림">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -593,7 +903,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>문제.</strong> 출발 상태 <span class="math inline">\(\boldsymbol{\delta}_0\)</span> (높이차 벡터)에서 <span class="math inline">\(K^*\)</span> step 후 도달 분포가 모든 target <span class="math inline">\(\boldsymbol{\delta}^* \in \mathcal{B}_\Phi\)</span>를 양의 밀도로 cover하는 걸 보여야 한다.</p>
 <p><strong>Randomness 원천.</strong> HST에는 두 가지가 있음:</p>
@@ -614,7 +924,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="증명: Doeblin minorization">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -623,7 +933,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>상수 정의</strong> (위 빨간 callout의 4단계 전략에서 유도).</p>
 <p><span class="math display">\[K := n(T_{\max}{+}1),\quad \varepsilon := \tfrac{b}{8K},\quad D_\Phi := \sup_{s \in \mathcal{B}_\Phi} \|\boldsymbol{\delta}(s)\|_\infty,\quad L := \lceil 16 D_\Phi / b + 1 \rceil,\quad K^* := LK\]</span></p>
@@ -659,7 +969,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <section id="증명-체인" class="level3">
 <h3 class="anchored" data-anchor-id="증명-체인">증명 체인</h3>
 <div class="callout callout-style-default callout-important callout-titled" title="해석: Foster-Lyapunov + Doeblin의 역할 분담">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -668,7 +978,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>증명 체인이 왜 두 기계(Foster drift, Doeblin)를 <strong>나란히</strong> 쓰는지 — 둘은 <strong>상호보완</strong>으로 서로 못 하는 일을 메꿔준다.</p>
 <p><strong>비유</strong>: state space를 큰 그릇이라고 보자.</p>
