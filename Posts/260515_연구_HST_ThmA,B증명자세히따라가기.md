@@ -1,5 +1,5 @@
 ---
-title: 연구 ▷ HST ▷ Thm A, B 증명 자세히 따라가기
+title: 연구 ▷ HST ▷ Three-Regime Convergence 자세히 따라가기
 author: 유진
 date: 05/15/2026
 draft: false
@@ -17,11 +17,169 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </style>
 ```
 
-Snow distance $SD^2_{ij}(t) = \sum_{s=0}^t (h_i(s) - h_j(s))^2$ 의 점근 거동은 장기 적립률 $\rho_i = \lim \frac{1}{t}\sum \mathbf{1}\{X_s = v_i\}$ 에 따라 두 가지로 나뉜다.
+> **본 글의 위치**: ABC증명(페이퍼팀)의 `모델A통합증명_ABC.tex` (★★★★★, 2026-05-17) 의 **한국어 해설본**. 원문 섹션 구조 그대로 따라가되, 수식 전개는 한 줄씩 풀어 쓰고 callout 3색(빨강 직관 / 빨강 큰 그림 / 파랑 증명) 짝으로 정리.
 
-`-` **Theorem A (Balanced, $\rho_i = 1/n$):** $SD^2_{ij}(t)/t \to c_{ij}$ a.s. 극한 $c_{ij}$는 그래프와 $b, T_{\max}$에만 의존하고 초기 신호 $\mathbf{y}$에 무관.
+Heavy-Snow Transform의 snow distance
 
-`-` **Theorem B (Drift, $\rho_i \neq \rho_j$):** $SD^2_{ij}(t)/t^3 \to \bar{b}^2(\rho_i - \rho_j)^2 / 3$ a.s.
+$$SD^2_{ij}(t) := \sum_{s=0}^t \bigl(h(v_i, s) - h(v_j, s)\bigr)^2$$
+
+의 점근 거동은 **장기 적립률**
+
+$$\rho_i := \lim_{t \to \infty} \tfrac{1}{t} \sum_{s=1}^t \mathbf{1}\{X_s = v_i\}$$
+
+에 따라 **세 가지 regime**으로 갈린다:
+
+| Regime | 조건 | 스케일링 | 극한 |
+|---|---|---|---|
+| **A. Balanced** | $\rho_i = 1/n$ for all $i$ | $SD^2_{ij}/t$ | $\to c_{ij}$ (Foster–Lyapunov + Doeblin) |
+| **B. Intermediate** | $\rho_i = \rho_j$, but globally unbalanced | $SD^2_{ij}/t^2$ | $\to \sigma^2_{ij}/2$ (diffusive 가정 하) |
+| **C. Drift** | $\rho_i \neq \rho_j$ | $SD^2_{ij}/t^3$ | $\to \bar{b}^2(\rho_i - \rho_j)^2/3$ |
+
+`-` **Theorem A (Balanced)** — Foster–Lyapunov drift 와 Doeblin minorization 으로 augmented chain의 positive Harris recurrence 확보. 가장 어려움.
+`-` **Theorem B (Intermediate)** — 가중 Cesàro lemma 한 줄. recurrence 기계 불필요.
+`-` **Theorem C (Drift)** — 마팅게일 SLLN + 급수 계산. 역시 recurrence 불필요.
+
+> **모델 노트.** 본 글은 **모델 A** (per-step i.i.d. $b'_s \sim \text{Unif}(0,b)$) baseline. 2026-05-17 01:10 대표 결정으로 회사 공식 채택은 모델 B (per-round constant $b'^{(r)}$) 이지만, 본 글은 reference baseline 역할. 모델 B 손질은 후속 포스트로.
+
+---
+
+# §1 세팅과 표기
+
+## 그래프와 파라미터
+
+- $\mathcal{G} = (V, \mathbf{E}, \mathbf{W})$: 연결 가중 그래프, $V = \{v_1, \ldots, v_n\}$, $|V| = n < \infty$
+- $b > 0$: snowfall scale (한 step당 증분 상한)
+- $T_{\max} \in \mathbb{N}$: 연속 flow 횟수 상한
+- $\boldsymbol{\mu}_0$: $V$ 위 확률측도, **full support** ($\mu_{\min} := \min_i \boldsymbol{\mu}_0(v_i) > 0$)
+- 보통 $\boldsymbol{\mu}_0 \propto \deg$ (degree-proportional) 또는 uniform
+
+## 상태 변수
+
+각 시점 $t \geq 0$에서:
+
+- $h(v_i, t) \in \mathbb{R}$: 노드 $v_i$의 **눈 높이**
+- $X_t \in V$: **walker** 위치
+- $Z_t \in \{0, 1, \ldots, T_{\max}\}$: **block timer** (연속 flow 횟수)
+
+초기 조건: $h(v_i, 0) = 0$ for all $i$ (zero signal), $X_0 \sim \boldsymbol{\mu}_0$, $Z_0 := T_{\max}$ (첫 step은 fresh fall).
+
+## Augmented state (증강 상태)
+
+분석 대상 Markov chain:
+
+$$S_t := (\boldsymbol{\delta}_t,\, X_t,\, Z_t) \in \mathcal{X}^* := \mathbb{R}^{n-1} \times V \times \{0, 1, \ldots, T_{\max}\}$$
+
+여기서
+
+$$\boldsymbol{\delta}_t := \bigl(h(v_2, t) - h(v_1, t),\ \ldots,\ h(v_n, t) - h(v_1, t)\bigr) \in \mathbb{R}^{n-1}$$
+
+은 **상대 높이 벡터** ($v_1$ 기준). 절대 높이 $h$는 $t$에 따라 무한히 커지므로 차이만 추적.
+
+`-` $\mathcal{F}_t := \sigma(X_0, b'_1, X_1, \ldots, b'_t, X_t)$ — 자연 filtration
+`-` $\mathcal{B}(\mathcal{X}^*)$ — Borel σ-algebra
+`-` $P^m(s, B)$ — $S_0 = s$에서 $m$ step 후 $B$ 도달 확률
+
+## 중심화 높이와 Lyapunov 함수
+
+$$\bar h(t) := \tfrac{1}{n}\sum_i h(v_i, t), \qquad \hbar(v_i, t) := h(v_i, t) - \bar h(t), \qquad \Phi(t) := \sum_i \hbar(v_i, t)^2$$
+
+- $\hbar$: **centered height** — 평균을 뺀 상대 높이
+- $\Phi$: **Lyapunov 함수** — 노드 간 높이 차이의 quadratic 측도. $\Phi$가 크면 지형이 울퉁불퉁, $\Phi = 0$이면 평평.
+- $M(t) := \max_i |\hbar(v_i, t)|$ — (단측) centered height range. $\sum \hbar = 0$이므로 $\max \hbar - \min \hbar \in [M(t), 2M(t)]$.
+
+## 네 가지 후보 알고리즘 (A / B / C / D)
+
+HST에서 walker 규칙 (block / flow)은 정해져 있지만, **step당 증분 $b'$의 추출 방식**은 후보 4종:
+
+| 모델 | 증분 추출 | step당 $b'$ |
+|---|---|---|
+| **A** (per-step i.i.d.) | 매 step | $b'_s \sim \text{Unif}(0, b)$, i.i.d. across $s$ |
+| **B** (per-round constant) | 매 round $r$ | $b'^{(r)} \sim \text{Unif}(0, b)$; round 내 모든 step 동일 |
+| **C** (per-round w/ decay) | 매 round $r$ | $b'^{(r)} f(s)$ — round 내 감쇠 함수 $f$ |
+| **D** (deterministic) | — | $b'_s = b$ (상수) |
+
+**모멘트**: A, B, C 모두 $\mathbb{E}[b'_s] = b/2$, $\mathbb{E}[(b'_s)^2] = b^2/3$. D는 $b'_s = b$ 상수.
+
+### Algorithm A (본 글의 대상)
+
+매 step $t+1$ ($t \geq 0$):
+
+1. **증분 추첨**: $b'_{t+1} \sim \text{Unif}(0, b)$ — 과거와 독립
+2. **walker 선택**:
+   - **Block step** ($Z_t = T_{\max}$, timer 만료): $X_{t+1} \sim \boldsymbol{\mu}_0$ (fresh fall)
+   - **Flow step**: $X_t$의 이웃 중 $h \leq h(X_t, t)$인 downstream set $\mathcal{D}_t$. 비어 있으면 stall → block 처리. 아니면 $\mathcal{D}_t$ 안에서 degree-weighted 선택.
+3. **높이 갱신**: $h(v_i, t+1) = h(v_i, t) + b'_{t+1}\,\mathbf{1}\{v_i = X_{t+1}\}$
+4. **timer 갱신**: $Z_{t+1} = 0$ (block step) 또는 $Z_t + 1$ (flow step)
+
+`-` $t_r$: $r$번째 **block-flag time**
+`-` $m_r := t_{r+1} - t_r \in [1, T_{\max} + 1]$: 라운드 길이
+
+### Algorithm B/C/D (참고)
+
+- **B**: round 시작 시 $b'^{(r)} \sim \text{Unif}(0, b)$ 1회 추첨, round 내 모든 step에서 같은 $b'^{(r)}$ 사용. 라운드 총 적립 = $m_r \cdot b'^{(r)}$.
+- **C**: round당 $b'^{(r)}$ 추첨 + decay 함수 $f$ (지수/선형 등). 라운드 내 증분이 점차 작아짐.
+- **D**: $b'_s = b$ 상수. 무작위성 없음. → lattice irreducibility 문제로 채택 불가 (과거 시도).
+
+> 회사 공식 채택 모델: **B** (2026-05-17 01:10). 본 글은 A baseline.
+
+---
+
+# §2 Three-regime 분류
+
+## 정의
+
+::: {.callout-note collapse="false" title="Definition (Regime classification)"}
+
+$\rho_i$가 모든 $i \in V$에 대해 a.s. 존재한다고 가정.
+
+- **Balanced regime**: 모든 $i$에 대해 $\rho_i = 1/n$. $\sum_i \rho_i = 1$이므로 이는 "모든 $i, j$에 대해 $\rho_i = \rho_j$ **and** global balance"와 동치.
+- **Drift regime (pair $i, j$)**: $\rho_i \neq \rho_j$.
+- **Intermediate regime (pair $i, j$)**: $\rho_i = \rho_j$이지만 **globally unbalanced** (어떤 $k, \ell$에 대해 $\rho_k \neq \rho_\ell$).
+
+:::
+
+regime은 **노드 쌍 $(v_i, v_j)$ 단위**로 매겨진다. 같은 그래프 안에서도 어떤 쌍은 balanced, 어떤 쌍은 intermediate, 또 어떤 쌍은 drift일 수 있다 (Helm 그래프 사례 참조).
+
+## 실험 분류 (소미·유진 41f2b0 인용)
+
+소미 작성 블로그 *Thm A, B의 실제 검증* (41f2b0, 2026-05-15) 의 시뮬레이션 결과를 인용. 모두 **degree-proportional $\boldsymbol{\mu}_0$** 사용 ($\tau \sim 10^6$, $b = 0.5$, Algorithm A).
+
+| 그래프 | Pair $(v_i, v_j)$ | $\hat\rho$ 관계 | Regime |
+|---|---|---|---|
+| $K_n$ (regular) | any | $\hat\rho_i = 1/n$ | A (balanced) |
+| Parity cycle $C_n$ | any | $\hat\rho_i = 1/n$ | A (balanced) |
+| Directed cycle $C_n$ | any | $\hat\rho_i = 1/n$ | A (balanced) |
+| Wheel $W_n$ | any | $\hat\rho_i \approx 1/n$ | A (balanced) |
+| Star $S_n$ | hub–leaf | $\hat\rho_{\mathrm{h}} \neq \hat\rho_{\mathrm{l}}$ | C (drift) |
+| Helm $H_k$ | hub–leaf | $\hat\rho_{\mathrm{h}} \neq \hat\rho_{\mathrm{l}}$ | C (drift) |
+| Helm $H_k$ | ring–ring | $\hat\rho_{\mathrm{r}} = \hat\rho_{\mathrm{r}}$, ring로 연결됨 | A (balanced within ring) |
+| Helm $H_k$ | leaf–leaf | $\hat\rho_{\mathrm{l}} = \hat\rho_{\mathrm{l}}$, globally unbalanced | B (intermediate) |
+
+## Reading guide
+
+::: {.callout-important collapse="true" title="해석: 그래프 구조와 $\boldsymbol{\mu}_0$가 regime을 결정하는 방식"}
+
+**Regular graph + degree-prop $\boldsymbol{\mu}_0$**: degree가 모두 같으므로 $\mu_0 \propto \deg$ = uniform. 모든 노드 fall 균등 → $\hat\rho_i = 1/n$ → 모든 쌍 **balanced**. doubly stochastic kernel (예: directed cycle)도 같은 결론.
+
+**Non-regular graph + degree-prop $\boldsymbol{\mu}_0$**: high-degree 노드가 fall을 더 자주 받음. **Star $S_n$**: hub 차수 $n-1$, leaf 차수 $1$ → $\hat\rho_{\mathrm{h}} \neq \hat\rho_{\mathrm{l}}$ → hub–leaf 쌍 **drift**.
+
+**Helm $H_k$ (3-class hierarchy)**: hub, ring, leaf 세 등급. $\hat\rho_{\mathrm{h}} > \hat\rho_{\mathrm{r}} > \hat\rho_{\mathrm{l}}$.
+
+- **hub–leaf**: $\rho$ 다름 → drift
+- **ring–ring**: $\rho$ 같음 + ring sub-graph로 연결 → 그 안에서 balanced dynamics → $SD^2/t$ 수렴 (balanced "within ring")
+- **leaf–leaf**: $\rho$ 같음, 그러나 두 leaf는 hub를 거쳐야만 연결. **hub의 linearly growing height가 flow를 통해 noise로 전파, 두 leaf는 직접 연결 X → noise가 독립** → 높이차가 random walk → $|D_t| \sim \sigma \sqrt{t}$ → SD²/t² 수렴. → **intermediate**.
+
+:::
+
+## 완전성 (exhaustiveness)
+
+위 세 regime은 **상호 배반 + 합쳐서 완전**: $\rho_i, \rho_j$가 존재하는 모든 쌍 $(i, j)$가 정확히 한 부류. $t, t^2, t^3$ 외의 다른 power scaling은 발생 안 함. 상세는 [`regime_exhaustiveness.tex`](../paper/260514_guebin/해리스/regime_exhaustiveness.tex) (해리스) 참조.
+
+## $\rho_i$의 존재성
+
+regime 분류는 $\rho_i$의 a.s. 존재를 전제. random-step 변형에서는 $\mu_{\min} > 0$인 모든 연결 그래프에 대해 **무조건 성립** (오큐리의 stochastic approximation + ODE 인자, [`occupation_slln_general.tex`](../paper/260514_guebin/오큐리/occupation_slln_general.tex) 참조). Theorem A는 $\rho_i = 1/n$을 별도 가정하므로 $\rho_i$ 존재성을 자체 입력으로 받음. Theorem B, C에서는 $\rho_i$ 존재를 주어진 입력으로 사용.
+
+---
 
 ---
 

@@ -26,41 +26,163 @@ output-file: 260515_41f2b0.html
 `-` 모양 6 — Ring ($n=60$): 3변형
 `-` 모양 7 — Cylinder ($n=60$): 7-1 Inter-dir / 7-2 Inter-bidir
 
-### A.1 SD 임베딩
+각 예제마다 3패널 애니메이션: (그래프 시그널 3D | $\sqrt{SD^2/t}$ 3D MDS embedding | $SD^2/t$ log-log 수렴 곡선).
 
-각 그래프에서 시뮬 후 $\sqrt{SD^2_{ij}/\tau}$ 의 2D MDS 임베딩.
+### A.1 Star Inward (1-1)
 
-![](attachments/260515_41f2b0_10.png)
+hub 단방향 inward. degree-prop $\mu_0$ 가 hub 에 집중되지만 inward 방향 때문에 flow 가 hub 에서 멈춤. $\hat c \approx 0.31$ — **약발산** (Thm A 경계).
 
-### A.2 $SD^2/t$ 수렴 곡선 (log-log)
+![](attachments/260515_41f2b0_10.gif)
 
-같은 24 예제의 $\overline{SD^2/t}$ (off-diagonal 평균) 를 $\tau$ 에 대해 log-log plot. 수렴하면 수평선, 발산하면 양의 기울기.
+### A.2 Star Outward (1-2)
 
-![](attachments/260515_41f2b0_11.png)
+hub outward. flow 가 leaf 로 빠지면서 $\rho_\text{hub} \gg \rho_\text{leaf}$. $\hat c \approx 6.4 \times 10^7$ — **drift (Thm B)**.
 
-### A.3 Regime 분류
+![](attachments/260515_41f2b0_11.gif)
 
-| 예제 | $\hat c$ | 예제 | $\hat c$ | 예제 | $\hat c$ | 예제 | $\hat c$ |
-|---|---|---|---|---|---|---|---|
-| 1-1 Star Inward | $0.31$ ⚠ | 2-1 Wheel In | $0.016$ ✓ | 3-1 Helm In | $7.6\times10^{6}$ ❌ | 4-1 D-Helm In | $1.9\times10^{5}$ ❌ |
-| 1-2 Star Outward | $6.1\times10^{7}$ ❌ | 2-2 Wheel Out | $0.021$ ✓ | 3-2 Helm Out | $5.4\times10^{6}$ ❌ | 4-2 D-Helm Out | $2.0\times10^{5}$ ❌ |
-| 1-3 Star Bidir | $1.6\times10^{7}$ ❌ | 2-3 Wheel Bidir | $0.093$ ✓ | 3-3 Helm Bidir | $2.5\times10^{6}$ ❌ | 4-3 D-Helm Bidir | $1.2\times10^{4}$ ❌ |
-| 1-4 Star Gauss | $0.011$ ✓ | 2-4 Wheel Gauss | $0.011$ ✓ | 3-4 Helm Gauss | $0.40$ ⚠ | 4-4 D-Helm Gauss | $2.4\times10^{5}$ ❌ |
-| 5-1 Dir Path | $768$ ❌ | 6-1 Dir Ring | $0.0098$ ✓ | 7-1 Cyl Inter-dir | $8.0$ ⚠ | | |
-| 5-2 Bidir Path | $494$ ❌ | 6-2 Bidir Ring | $0.18$ ✓ | 7-2 Cyl Inter-bidir | $0.029$ ✓ | | |
-| 5-3 Gauss Path | $1.4$ ⚠ | 6-3 Gauss Ring | $0.014$ ✓ | | | | |
+### A.3 Star Bidir (1-3)
 
-`-` ✓ = balanced (Thm A 성립). `-` ❌ = drift (Thm B, $SD^2/t$ 발산하니 실제는 $SD^2/t^3$ 수렴). `-` ⚠ = 중간/약발산.
+양방향. degree-prop $\mu_0$ 가 hub 에 0.5 집중. $\hat c \approx 1.6 \times 10^7$ — **drift (Thm B)**.
 
-`-` **Wheel 의 4 변형 모두 balanced**: outer cycle 이 차수 격차를 완화해서 $\rho_i \approx 1/n$. 엣지 방향(In/Out/Bidir)과 가중치 종류(Gaussian)와 무관.
+![](attachments/260515_41f2b0_12.gif)
 
-`-` **Star/Helm/D-Helm 의 directed/bidir 변형은 모두 drift**: hub 가 reset 을 집중적으로 받아 $\rho_{\text{hub}} \gg \rho_{\text{leaf}}$.
+### A.4 Star Gaussian (1-4)
+
+Gaussian kernel 가중치. hub-leaf 격차 완화. $\hat c \approx 0.011$ — **balanced (Thm A)**.
+
+![](attachments/260515_41f2b0_13.gif)
+
+### A.5 Wheel Inward (2-1)
+
+Wheel = Star + outer cycle. outer cycle 덕분에 hub 우회 가능. $\hat c \approx 0.016$ — **balanced (Thm A)**.
+
+![](attachments/260515_41f2b0_14.gif)
+
+### A.6 Wheel Outward (2-2)
+
+hub outward 이지만 outer cycle 이 격차 완화. $\hat c \approx 0.021$ — **balanced (Thm A)**.
+
+![](attachments/260515_41f2b0_15.gif)
+
+### A.7 Wheel Bidir (2-3)
+
+양방향. $\hat c \approx 0.093$ — **balanced (Thm A)**.
+
+![](attachments/260515_41f2b0_16.gif)
+
+### A.8 Wheel Gaussian (2-4)
+
+Gaussian. $\hat c \approx 0.011$ — **balanced (Thm A)**.
+
+![](attachments/260515_41f2b0_17.gif)
+
+### A.9 Helm Inward (3-1)
+
+Helm = Wheel + pendant leaves. hub-ring-pendant 3계층 격차. inward 방향. $\hat c \approx 7.6 \times 10^6$ — **drift (Thm B)**.
+
+![](attachments/260515_41f2b0_18.gif)
+
+### A.10 Helm Outward (3-2)
+
+hub outward. $\hat c \approx 5.4 \times 10^6$ — **drift (Thm B)**.
+
+![](attachments/260515_41f2b0_19.gif)
+
+### A.11 Helm Bidir (3-3)
+
+양방향. $\hat c \approx 2.5 \times 10^6$ — **drift (Thm B)**.
+
+![](attachments/260515_41f2b0_20.gif)
+
+### A.12 Helm Gaussian (3-4)
+
+Gaussian kernel. hub-pendant 큰 격차는 Gaussian 으로도 완화 부족. $\hat c \approx 0.40$ — **약발산**.
+
+![](attachments/260515_41f2b0_21.gif)
+
+### A.13 D-Helm Inward (4-1)
+
+Double Helm = Helm + outer ring. hub-inner-pendant-outer 4계층. $\hat c \approx 1.9 \times 10^5$ — **drift (Thm B)**.
+
+![](attachments/260515_41f2b0_22.gif)
+
+### A.14 D-Helm Outward (4-2)
+
+hub outward. $\hat c \approx 2.0 \times 10^5$ — **drift (Thm B)**.
+
+![](attachments/260515_41f2b0_23.gif)
+
+### A.15 D-Helm Bidir (4-3)
+
+양방향. 격차 완화되지만 여전히 큼. $\hat c \approx 1.2 \times 10^4$ — **drift (Thm B)**.
+
+![](attachments/260515_41f2b0_24.gif)
+
+### A.16 D-Helm Gaussian (4-4)
+
+Gaussian kernel. 4계층 격차가 너무 커 Gaussian 도 완화 못함. $\hat c \approx 2.4 \times 10^5$ — **drift (Thm B)**.
+
+![](attachments/260515_41f2b0_25.gif)
+
+### A.17 Dir Path (5-1)
+
+단방향 path. 양 끝 (degree 1) vs 내부 (degree 2). $\hat c \approx 768$ — **drift (Thm B)**.
+
+![](attachments/260515_41f2b0_26.gif)
+
+### A.18 Bidir Path (5-2)
+
+양방향. 양 끝 lighter. $\hat c \approx 494$ — **drift (Thm B)**.
+
+![](attachments/260515_41f2b0_27.gif)
+
+### A.19 Gauss Path (5-3)
+
+Gaussian kernel. 양 끝 격차 완화. $\hat c \approx 1.4$ — **약발산**.
+
+![](attachments/260515_41f2b0_28.gif)
+
+### A.20 Dir Ring (6-1)
+
+단방향 ring (shift matrix). doubly stochastic → $\rho_i = 1/n$. $\hat c \approx 0.010$ — **balanced (Thm A)**, 비대칭에서도 성립.
+
+![](attachments/260515_41f2b0_29.gif)
+
+### A.21 Bidir Ring (6-2)
+
+양방향 ring. 정규. $\hat c \approx 0.18$ — **balanced (Thm A)**.
+
+![](attachments/260515_41f2b0_30.gif)
+
+### A.22 Gauss Ring (6-3)
+
+Gaussian kernel ring. $\hat c \approx 0.014$ — **balanced (Thm A)**.
+
+![](attachments/260515_41f2b0_31.gif)
+
+### A.23 Cylinder Inter-dir (7-1)
+
+5 ring × 12 node, ring 사이 단방향 결합. ring별 적립률 격차. $\hat c \approx 8.0$ — **약발산**.
+
+![](attachments/260515_41f2b0_32.gif)
+
+### A.24 Cylinder Inter-bidir (7-2)
+
+5 ring × 12 node, ring 사이 양방향. 정규. $\hat c \approx 0.029$ — **balanced (Thm A)**.
+
+![](attachments/260515_41f2b0_33.gif)
+
+### A 정리
+
+`-` **Wheel 의 4 변형 모두 balanced**: outer cycle 이 차수 격차를 완화해서 $\rho_i \approx 1/n$.
+
+`-` **Star/Helm/D-Helm 의 directed/bidir 변형은 모두 drift**: hub 가 reset 을 집중적으로 받아 $\rho_\text{hub} \gg \rho_\text{leaf}$.
 
 `-` **6-1 Directed Ring**: doubly stochastic 이라 비대칭임에도 $\rho_i = 1/n$ → balanced. 「비대칭 그래프에서도 Thm A」 라는 비자명한 결론.
 
-`-` **Gaussian kernel** 은 정규 그래프(Wheel, Ring)에서 차수 격차를 완화하지만, hub-leaf 격차가 큰 그래프(Helm/D-Helm)에서는 충분치 않다.
+`-` **Gaussian kernel** 은 정규 그래프(Wheel, Ring)와 작은 격차(Star)에서 잘 작동하지만, hub-pendant 격차가 큰 Helm/D-Helm 에서는 완화 부족.
 
-`-` **Cylinder 7-1 (inter-dir)** 은 ring 사이 단방향 결합으로 ring별 적립률 격차 → 약한 drift. **7-2 (inter-bidir)** 은 정규 → balanced.
+`-` **Cylinder 7-1 (inter-dir)** 은 ring 사이 단방향 결합으로 ring별 적립률 격차 → 약발산. **7-2 (inter-bidir)** 은 정규 → balanced.
 
 ## B. 신호 변형 검증 ($f \neq 0$)
 
