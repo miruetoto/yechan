@@ -10,9 +10,9 @@ output-file: 260515_41f2b0.html
 
 `-` **Thm A — Balanced** ($\rho_i = 1/n$ ∀i): $SD^2/t \to c_{ij}$ (유한 상수). 극한은 그래프-신호 상호작용을 반영.
 
-`-` **Thm B — Drift** ($\rho_i \neq \rho_j$): $SD^2/t \to \infty$. 대신 $\frac{SD^2_{ij}(t)}{t^3} \to \frac{\bar{b}^2(\rho_i - \rho_j)^2}{3}$.
+`-` **Thm B — Intermediate** ($\rho_i = \rho_j$ 이나 글로벌 unbalanced): $SD^2/t^2 \to \frac{\sigma^2_{ij}}{2}$.
 
-`-` **Thm C — Intermediate** ($\rho_i = \rho_j$ 이나 글로벌 unbalanced): $SD^2/t \to \infty$, $SD^2/t^3 \to 0$. 대신 $\frac{SD^2_{ij}(t)}{t^2} \to \frac{\sigma^2_{ij}}{2}$.
+`-` **Thm C — Drift** ($\rho_i \neq \rho_j$): $SD^2/t^3 \to \frac{\bar{b}^2(\rho_i - \rho_j)^2}{3}$.
 
 본 글은 두 부분으로 나뉜다. **§1 그래프 구조 검증** ($f=0$, 24개 예제) 에서는 그래프 모양·엣지 방향이 regime 분류에 미치는 영향을, **§2 신호 변형 검증** ($f \neq 0$, 3개 예제) 에서는 초기 신호의 효과를 본다.
 
@@ -38,13 +38,13 @@ hub 단방향 inward. degree-prop $\mu_0$ 가 hub 에 집중되지만 inward 방
 
 ### 1.2 Star Outward (1-2)
 
-hub outward. flow 가 leaf 로 빠지면서 $\rho_\text{hub} \gg \rho_\text{leaf}$. $\hat c \approx 6.4 \times 10^7$ — **drift (Thm B)**.
+hub outward. flow 가 leaf 로 빠지면서 $\rho_\text{hub} \gg \rho_\text{leaf}$. $\hat c \approx 6.4 \times 10^7$ — **drift (Thm C)**.
 
 ![](attachments/260515_41f2b0_11.gif)
 
 ### 1.3 Star Bidir (1-3)
 
-양방향. degree-prop $\mu_0$ 가 hub 에 0.5 집중. $\hat c \approx 1.6 \times 10^7$ — **drift (Thm B)**.
+양방향. degree-prop $\mu_0$ 가 hub 에 0.5 집중. $\hat c \approx 1.6 \times 10^7$ — **drift (Thm C)**.
 
 ![](attachments/260515_41f2b0_12.gif)
 
@@ -80,19 +80,19 @@ Gaussian. $\hat c \approx 0.011$ — **balanced (Thm A)**.
 
 ### 1.9 Helm Inward (3-1)
 
-Helm = Wheel + pendant leaves. hub-ring-pendant 3계층 격차. inward 방향. $\hat c \approx 7.6 \times 10^6$ — **drift (Thm B)**.
+Helm = Wheel + pendant leaves. hub-ring-pendant 3계층 격차. inward 방향. $\hat c \approx 7.6 \times 10^6$ — **drift (Thm C)**.
 
 ![](attachments/260515_41f2b0_18.gif)
 
 ### 1.10 Helm Outward (3-2)
 
-hub outward. $\hat c \approx 5.4 \times 10^6$ — **drift (Thm B)**.
+hub outward. $\hat c \approx 5.4 \times 10^6$ — **drift (Thm C)**.
 
 ![](attachments/260515_41f2b0_19.gif)
 
 ### 1.11 Helm Bidir (3-3)
 
-양방향. $\hat c \approx 2.5 \times 10^6$ — **drift (Thm B)**.
+양방향. $\hat c \approx 2.5 \times 10^6$ — **drift (Thm C)**.
 
 ![](attachments/260515_41f2b0_20.gif)
 
@@ -104,37 +104,37 @@ Gaussian kernel. hub-pendant 큰 격차는 Gaussian 으로도 완화 부족. $\h
 
 ### 1.13 D-Helm Inward (4-1)
 
-Double Helm = Helm + outer ring. hub-inner-pendant-outer 4계층. $\hat c \approx 1.9 \times 10^5$ — **drift (Thm B)**.
+Double Helm = Helm + outer ring. hub-inner-pendant-outer 4계층. $\hat c \approx 1.9 \times 10^5$ — **drift (Thm C)**.
 
 ![](attachments/260515_41f2b0_22.gif)
 
 ### 1.14 D-Helm Outward (4-2)
 
-hub outward. $\hat c \approx 2.0 \times 10^5$ — **drift (Thm B)**.
+hub outward. $\hat c \approx 2.0 \times 10^5$ — **drift (Thm C)**.
 
 ![](attachments/260515_41f2b0_23.gif)
 
 ### 1.15 D-Helm Bidir (4-3)
 
-양방향. 격차 완화되지만 여전히 큼. $\hat c \approx 1.2 \times 10^4$ — **drift (Thm B)**.
+양방향. 격차 완화되지만 여전히 큼. $\hat c \approx 1.2 \times 10^4$ — **drift (Thm C)**.
 
 ![](attachments/260515_41f2b0_24.gif)
 
 ### 1.16 D-Helm Gaussian (4-4)
 
-Gaussian kernel. 4계층 격차가 너무 커 Gaussian 도 완화 못함. $\hat c \approx 2.4 \times 10^5$ — **drift (Thm B)**.
+Gaussian kernel. 4계층 격차가 너무 커 Gaussian 도 완화 못함. $\hat c \approx 2.4 \times 10^5$ — **drift (Thm C)**.
 
 ![](attachments/260515_41f2b0_25.gif)
 
 ### 1.17 Dir Path (5-1)
 
-단방향 path. 양 끝 (degree 1) vs 내부 (degree 2). $\hat c \approx 768$ — **drift (Thm B)**.
+단방향 path. 양 끝 (degree 1) vs 내부 (degree 2). $\hat c \approx 768$ — **drift (Thm C)**.
 
 ![](attachments/260515_41f2b0_26.gif)
 
 ### 1.18 Bidir Path (5-2)
 
-양방향. 양 끝 lighter. $\hat c \approx 494$ — **drift (Thm B)**.
+양방향. 양 끝 lighter. $\hat c \approx 494$ — **drift (Thm C)**.
 
 ![](attachments/260515_41f2b0_27.gif)
 
