@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ Three-Regime Convergence 자세히 따라가기
 author: 유진
 date: 05/15/2026
 draft: false
-output-file: 260515_8b8636.html
+output-file: 260515_48a84c.html
 fontsize: 0.85em
 ---
 
