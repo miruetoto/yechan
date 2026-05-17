@@ -12,67 +12,81 @@ output-file: 260515_41f2b0.html
 
 `-` **Thm B — Drift** ($\rho_i \neq \rho_j$): $SD^2/t \to \infty$. 대신 $\frac{SD^2_{ij}(t)}{t^3} \to \frac{\bar{b}^2(\rho_i - \rho_j)^2}{3}$.
 
-비정규 그래프에서 degree-proportional $\mu_0$를 쓰면 높은 차수 노드에 눈이 더 자주 쌓여 drift에 빠질 수 있다. 세 가지 비정규 그래프로 검증해보았다 (100만 스텝, degree-prop $\mu_0$).
+본 글은 두 부분으로 나뉜다. **A 그래프 구조 검증** ($f=0$, 24개 예제) 에서는 그래프 모양·엣지 방향이 regime 분류에 미치는 영향을, **B 신호 변형 검증** ($f \neq 0$, 3개 예제) 에서는 초기 신호의 효과를 본다.
 
-### 추가예제 1: Star $S_{13}$
+## A. 그래프 구조 검증 ($f = 0$)
 
-hub의 degree는 12, leaf는 1이다. degree-proportional $\mu_0$를 쓰면 $\mu_0(\text{hub}) = 12/24 = 0.5$로 hub에 reset이 집중된다. 시뮬레이션에서 $\hat{\rho}_{\text{hub}} = 0.33$, $\hat{\rho}_{\text{leaf}} = 0.056$. $\mu_0 = 0.5$와 다른 이유는 block/flow dynamics가 적립을 재분배하기 때문이다. 어쨌든 $\rho$가 균등하지 않으므로 drift regime.
+[「그래프 도메인에서의 거리」](./260516_연구_HST_그래프도메인에서의거리.html) 에서 정의한 24개 테스트 그래프 (7 모양 × 변형) 에 대해 $f = 0$ 으로 두고 HST 시뮬을 수행했다. 예제 네이밍은 거리 블로그와 동일 (1-1 ~ 7-2). 시뮬 설정: $b = 0.05$, $T_{\max} = 20$, $\tau = 10^7$, seed=42, **모델 B random-step variant**, degree-prop $\mu_0$.
 
-![](attachments/260515_41f2b0_01.gif)
+`-` 모양 1 — Star ($n=13$): 1-1 Inward / 1-2 Outward / 1-3 Bidir / 1-4 Gaussian
+`-` 모양 2 — Wheel ($n=11$): 4변형
+`-` 모양 3 — Helm ($n=21$): 4변형
+`-` 모양 4 — Double Helm ($n=31$): 4변형
+`-` 모양 5 — Path ($n=60$): 5-1 Directed / 5-2 Bidir / 5-3 Gaussian
+`-` 모양 6 — Ring ($n=60$): 3변형
+`-` 모양 7 — Cylinder ($n=60$): 7-1 Inter-dir / 7-2 Inter-bidir
 
-### 추가예제 2: Wheel $W_{11}$
+### A.1 SD 임베딩
 
-Wheel = Star + outer cycle. hub의 degree는 10, leaf는 3이다. 비정규 그래프이지만, outer cycle 덕분에 눈이 골고루 퍼져서 $\rho_i \approx 1/n$이 된다. 즉 **balanced regime**이고, $SD^2/t$가 유한 상수로 수렴한다 (Thm A).
+각 그래프에서 시뮬 후 $\sqrt{SD^2_{ij}/\tau}$ 의 2D MDS 임베딩.
 
-![](attachments/260515_41f2b0_02.gif)
+![](attachments/260515_41f2b0_10.png)
 
-### 추가예제 3: Helm (n=21) — two regime
+### A.2 $SD^2/t$ 수렴 곡선 (log-log)
 
-Helm = Wheel + pendant leaves. 세 종류의 노드가 있다: hub (deg 10), ring (deg 4), pendant leaf (deg 1). $\mu_0$는 hub $= 0.167$, ring $= 0.067$, leaf $= 0.017$로 세 단계 격차가 생긴다. Helm은 **두 regime이 공존**하는 흥미로운 예이다:
+같은 24 예제의 $\overline{SD^2/t}$ (off-diagonal 평균) 를 $\tau$ 에 대해 log-log plot. 수렴하면 수평선, 발산하면 양의 기울기.
 
-`-` **그룹 간** (hub-leaf): $\rho$가 다르므로 drift regime. $SD^2/t^3$이 이론값으로 수렴 (Row 1 우측).
+![](attachments/260515_41f2b0_11.png)
 
-`-` **그룹 내** (hub+ring끼리, leaf끼리): 같은 그룹 안에서는 $\rho$ 격차가 작아 $SD^2/t$가 유한 상수로 수렴 — balanced regime의 세밀한 구조가 남는다 (Row 2).
+### A.3 Regime 분류
 
-![](attachments/260515_41f2b0_03.gif)
+| 예제 | $\hat c$ | 예제 | $\hat c$ | 예제 | $\hat c$ | 예제 | $\hat c$ |
+|---|---|---|---|---|---|---|---|
+| 1-1 Star Inward | $0.31$ ⚠ | 2-1 Wheel In | $0.016$ ✓ | 3-1 Helm In | $7.6\times10^{6}$ ❌ | 4-1 D-Helm In | $1.9\times10^{5}$ ❌ |
+| 1-2 Star Outward | $6.1\times10^{7}$ ❌ | 2-2 Wheel Out | $0.021$ ✓ | 3-2 Helm Out | $5.4\times10^{6}$ ❌ | 4-2 D-Helm Out | $2.0\times10^{5}$ ❌ |
+| 1-3 Star Bidir | $1.6\times10^{7}$ ❌ | 2-3 Wheel Bidir | $0.093$ ✓ | 3-3 Helm Bidir | $2.5\times10^{6}$ ❌ | 4-3 D-Helm Bidir | $1.2\times10^{4}$ ❌ |
+| 1-4 Star Gauss | $0.011$ ✓ | 2-4 Wheel Gauss | $0.011$ ✓ | 3-4 Helm Gauss | $0.40$ ⚠ | 4-4 D-Helm Gauss | $2.4\times10^{5}$ ❌ |
+| 5-1 Dir Path | $768$ ❌ | 6-1 Dir Ring | $0.0098$ ✓ | 7-1 Cyl Inter-dir | $8.0$ ⚠ | | |
+| 5-2 Bidir Path | $494$ ❌ | 6-2 Bidir Ring | $0.18$ ✓ | 7-2 Cyl Inter-bidir | $0.029$ ✓ | | |
+| 5-3 Gauss Path | $1.4$ ⚠ | 6-3 Gauss Ring | $0.014$ ✓ | | | | |
 
-### 추가예제 4: Double Helm (n=31)
+`-` ✓ = balanced (Thm A 성립). `-` ❌ = drift (Thm B, $SD^2/t$ 발산하니 실제는 $SD^2/t^3$ 수렴). `-` ⚠ = 중간/약발산.
 
-Helm에 outer ring을 추가. hub (deg 10) + inner ring (deg 4) + pendant (deg 2) + outer ring (deg 3). 4종류 degree → 그룹 간 drift + 그룹 내 balanced이 더 복잡하게 공존.
+`-` **Wheel 의 4 변형 모두 balanced**: outer cycle 이 차수 격차를 완화해서 $\rho_i \approx 1/n$. 엣지 방향(In/Out/Bidir)과 가중치 종류(Gaussian)와 무관.
 
-![](attachments/260515_41f2b0_05.gif)
+`-` **Star/Helm/D-Helm 의 directed/bidir 변형은 모두 drift**: hub 가 reset 을 집중적으로 받아 $\rho_{\text{hub}} \gg \rho_{\text{leaf}}$.
 
----
+`-` **6-1 Directed Ring**: doubly stochastic 이라 비대칭임에도 $\rho_i = 1/n$ → balanced. 「비대칭 그래프에서도 Thm A」 라는 비자명한 결론.
 
-추가예제 1~4는 $f=0$ (신호 없음)이었다. 이제 **논문 본문의 예제 그래프**에 신호를 얹어서, Thm A가 신호-그래프 상호작용을 반영하는 모습을 본다. 아래 예제들은 모두 balanced regime (Thm A)이고, 3D로 그래프 시그널과 SD 임베딩을 함께 시각화한다.
+`-` **Gaussian kernel** 은 정규 그래프(Wheel, Ring)에서 차수 격차를 완화하지만, hub-leaf 격차가 큰 그래프(Helm/D-Helm)에서는 충분치 않다.
 
-### 추가예제 5: Parity Cycle $C_{60}$
+`-` **Cylinder 7-1 (inter-dir)** 은 ring 사이 단방향 결합으로 ring별 적립률 격차 → 약한 drift. **7-2 (inter-bidir)** 은 정규 → balanced.
 
-양방향 cycle (deg=2, 정규). 신호는 $f_i = (-1)^i$ (Nyquist 주파수). 이웃끼리 신호가 반대이므로 block이 자주 발생한다. 정규 그래프 → balanced.
+## B. 신호 변형 검증 ($f \neq 0$)
+
+§A의 그래프 중 일부 위에 초기 신호를 얹어 Thm A 가 신호-그래프 상호작용을 어떻게 반영하는지 본다. 모두 balanced regime 그래프 위에서.
+
+### B.1 Parity Cycle $C_{60}$ — $f_i = (-1)^i$
+
+§A 6-2 Bidir Ring 과 동일한 양방향 cycle. 신호는 Nyquist 주파수. 이웃끼리 신호가 반대이므로 block 이 자주 발생한다.
 
 ![](attachments/260515_41f2b0_04.gif)
 
-### 추가예제 6: Directed Cycle $C_{60}$, $f=0$
+### B.2 Directed Cycle $C_{60}$ — $f = \pm 1$
 
-단방향 shift matrix ($W_{i,i+1}=1$), $f=0$. 비대칭($W \neq W^\top$)이지만 doubly stochastic이므로 $\rho_i = 1/n$ → balanced. $SD^2/t \to c$ 로 수렴하여 **비대칭 그래프에서도 Thm A가 성립**함을 확인.
-
-![](attachments/260515_41f2b0_06.gif)
-
-### 추가예제 7: Directed Cycle $C_{60}$, $f=\pm 1$
-
-추가예제 6과 같은 단방향 cycle에 반원 경계 $\pm 1$ 신호. $f \neq 0$ 이면 매 시점 $(h_i(s) - h_j(s))^2$ 에 초기 신호 차이 $(f_i - f_j)^2$가 상수항으로 누적되어 $SD^2/t$가 커 보이지만, 이는 초기 신호의 artifact이다.
+§A 6-1 Dir Ring 위에 반원 경계 $\pm 1$ 신호. $f \neq 0$ 이면 매 시점 $(h_i - h_j)^2$ 에 초기 신호 차이 $(f_i - f_j)^2$ 가 상수항으로 누적되어 $SD^2/t$ 가 큰 값에서 수렴 (scaling 자체는 Thm A 그대로).
 
 ![](attachments/260515_41f2b0_07.gif)
 
-### 추가예제 8: Outlier Cylinder $C_{60}$
+### B.3 Outlier Cylinder
 
-예제2 실린더 (Gaussian kernel, 위=-3, 아래=+3) 에서 +3 그룹 정중앙 한 노드만 -3으로 flip. 정규 → balanced. 국소적 outlier가 SD 임베딩에서 어떻게 분리되는지 관찰한다.
+§A 7-2 Cyl Inter-bidir 와 비슷한 cylinder 구조 (Gaussian kernel, 위=-3, 아래=+3) 에서 +3 그룹 정중앙 한 노드만 -3 으로 flip. 정규 → balanced. 국소적 outlier 가 SD 임베딩에서 어떻게 분리되는지.
 
 ![](attachments/260515_41f2b0_08.gif)
 
 ---
 
-결국 두 regime 모두 $\tau \to \infty$에서 초기 신호 $\mathbf{y}$는 씻겨나간다. 차이는 **어떤 그래프 정보가 남느냐**: balanced는 flow/block dynamics의 세밀한 구조, drift는 단순히 적립률 격차.
+결국 두 regime 모두 $\tau \to \infty$ 에서 초기 신호 $\mathbf{y}$ 는 씻겨나간다. 차이는 **어떤 그래프 정보가 남느냐**: balanced 는 flow/block dynamics 의 세밀한 구조, drift 는 단순히 적립률 격차.
 
 ---
 
