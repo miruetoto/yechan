@@ -3,7 +3,7 @@ title: 책공부 ▷ Brémaud Ch.4 ▷ Long-Run Behavior — 팟캐스트
 author: 연
 date: 05/18/2026
 draft: false
-output-file: 260518_f7b3a1.html
+output-file: 260518_618a48.html
 fontsize: 0.85em
 ---
 
