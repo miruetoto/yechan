@@ -5,6 +5,8 @@ date: 04/24/2026
 draft: false
 output-file: 260424_c175c4.html
 ---
+<!-- 소유권자: 최규빈 | 사용자: 최규빈 -->
+
 
 # 0. 동기: HST는 classical graph metric과 어떻게 다른가
 

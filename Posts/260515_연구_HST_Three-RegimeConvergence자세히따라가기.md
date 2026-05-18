@@ -6,6 +6,8 @@ draft: false
 output-file: 260515_8b8636.html
 fontsize: 0.85em
 ---
+<!-- 소유권자: 유진 | 사용자: 유진 -->
+
 
 ```{=html}
 <style>
@@ -17,7 +19,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </style>
 ```
 
-> **본 글의 위치**: ABC증명(페이퍼팀)의 `모델A통합증명_ABC.tex` (★★★★★, 2026-05-17) 의 **한국어 해설본**. 원문 섹션 구조 그대로 따라가되, 수식 전개는 한 줄씩 풀어 쓰고 callout 3색(빨강 직관 / 빨강 큰 그림 / 파랑 증명) 짝으로 정리.
+> **본 글의 위치**: 에이(페이퍼팀, 구 ABC증명)의 `모델A통합증명_ABC.tex` (★★★★★, 2026-05-18 갱신) 의 **한국어 해설본**. 원문 섹션 구조 그대로 따라가되, 수식 전개는 한 줄씩 풀어 쓰고 callout 3색(빨강 직관 / 빨강 큰 그림 / 파랑 증명) 짝으로 정리.
 
 Heavy-Snow Transform의 snow distance
 
@@ -187,7 +189,7 @@ regime 분류는 $\rho_i$의 a.s. 존재를 전제. random-step 변형에서는 
 
 Balanced regime ($\rho_i = 1/n$) 에서는 drift가 사라지므로 $SD^2 = \sum \xi(s)^2$이 되고, 이것의 $SD^2/t \to c_{ij}$ 수렴을 보이려면 에르고딕 정리가 필요. 증명 체인:
 
-$$\text{DT (B(S))} \to \text{round drift} \to \text{Doeblin} \to \psi\text{-irred.} \to \text{Harris rec.} \to \text{moment bound} \to \text{LLN}$$
+$$\text{(F) via (B-form)} \to \text{round drift} \to \text{Doeblin} \to \psi\text{-irred.} \to \text{Harris rec.} \to \text{moment bound} \to \text{LLN}$$
 
 본 글의 모멘트:
 
@@ -195,7 +197,7 @@ $$\bar b := \mathbb{E}[b'_t] = b/2, \qquad \mathbb{E}[(b'_t)^2] = b^2/3, \qquad 
 
 `-` $\mathcal{B}_\Phi$ — **Lyapunov 함수 $\Phi$의 sublevel set** (아래첨자 $\Phi$는 "$\Phi$로 정의된 set"):
 
-$$\mathcal{B}_\Phi := \{S \in \mathcal{X}^* : \Phi(S) \leq R\}, \qquad R := n\left(\tfrac{C_{\text{tight}}+1}{\varepsilon}\right)^{\!2}$$
+$$\mathcal{B}_\Phi := \{S \in \mathcal{X}^* : \Phi(S) \leq R\}, \qquad R := n\left(\tfrac{C_F+1}{\varepsilon}\right)^{\!2}$$
 
 `-` 정상 분포는 $\pi^*$로 표기 (존재성/유일성은 증명 체인의 결과)
 
@@ -331,7 +333,7 @@ remainder $C^{(r)}_{\text{rem}}$ ($M$ 무관):
 
 $$|C^{(r)}_{\text{rem}}| \leq C_{M\text{-free}} := (T_{\max}+1)\,b^2\!\left[\tfrac{T_{\max}}{2} + \tfrac{n-1}{3n}\right]$$
 
-→ **$M$에 비례하는 유일한 항은 $b\,B(S)$**. 이것이 §3.4 DT 조건의 표적.
+→ **$M$에 비례하는 유일한 항은 $b\,B(S)$**. 이것이 §3.4 Foster's drift criterion (F) 조건의 표적.
 
 ::: {.callout-note collapse="true" title="증명: Round-level $\\Phi$ drift"}
 
@@ -357,29 +359,29 @@ $$
 
 :::
 
-## §3.4 Drift-tightness (DT) condition
+## §3.4 Foster's drift criterion
 
-Foster–Lyapunov 정리가 작동하려면 **$M$이 클 때 round drift가 강하게 음수** 라는 조건이 필요. ABC증명의 명명: **Drift-tightness (DT)**.
+Foster–Lyapunov 정리가 작동하려면 **$M$이 클 때 round drift가 강하게 음수** 라는 조건이 필요. 에이 정본 (2026-05-18 갱신) 의 명명: **Foster's drift criterion** (Meyn–Tweedie Thm 11.0.1 form, 옛 명명 "Drift-tightness (DT)" 는 폐기).
 
-::: {.callout-note collapse="false" title="Assumption (DT, Drift-tightness $\\mathrm{DT}(\\varepsilon, C_{\\text{tight}})$)"}
+::: {.callout-note collapse="false" title="Assumption (Foster's drift criterion $\\mathrm{F}(\\varepsilon, C_F)$)"}
 
-$(\mathcal{G}, \boldsymbol{\mu}_0, b, T_{\max})$에 대해 어떤 $\varepsilon \in (0, \infty)$ 와 $C_{\text{tight}} \in [0, \infty)$ 이 존재해, 모든 $S \in \mathcal{X}^*$에 대해
+$(\mathcal{G}, \boldsymbol{\mu}_0, b, T_{\max})$에 대해 어떤 $\varepsilon > 0$ 와 $C_F \in [0, \infty)$ 이 존재해, 모든 $S \in \mathcal{X}^*$에 대해
 
-$$\mathbb{E}\bigl[\Phi(t_{r+1}) - \Phi(t_r) \mid S_{t_r} = S\bigr] \leq -\,\varepsilon\,M(S) + C_{\text{tight}} \tag{DT}$$
+$$\mathbb{E}\bigl[\Phi(t_{r+1}) - \Phi(t_r) \mid S_{t_r} = S\bigr] \leq -\,\varepsilon\,M(S) + C_F \tag{F}$$
 
-이름의 유래: 이 부등식이 chain $\{S_t\}$의 tightness (Meyn–Tweedie Thm 14.0.1) 를 끌어내므로 **"drift가 tight를 강제한다"** 는 의미.
+**Meyn–Tweedie 매치** (Thm 11.0.1). $V := \Phi/\varepsilon$, $C := \{S : M(S) \leq C^*\}$ ($C^* := C_F/\varepsilon$) 으로 두면 위 부등식은 표준형 $\mathbb{E}[V(S_{t_{r+1}}) - V(S_{t_r}) \mid S] \leq -1 + b\,\mathbf{1}_C(S)$ ($V$-drift slope $-1$ small set $C$ 밖, 안에서는 유계 perturbation $b$) 과 정확히 일치. positive Harris recurrence ($\{S_t\}$ 의 tightness) 를 직접 끌어내므로 이름이 **그 결과를 따라** 붙음.
 
 :::
 
-### $B(S)$로 환원
+### $B(S)$ 로 환원 (Remark)
 
-§3.3 round-level drift 식 $\mathbb{E}[\Delta\Phi] = b\,B(S) + C^{(r)}_{\text{rem}}$ 에서 $|C^{(r)}_{\text{rem}}| \leq C_{M\text{-free}}$. 따라서 DT는 다음 $B(S)$ 부등식과 동치:
+§3.3 round-level drift 식 $\mathbb{E}[\Delta\Phi] = b\,B(S) + C^{(r)}_{\text{rem}}$ 에서 $|C^{(r)}_{\text{rem}}| \leq C_{M\text{-free}}$. 따라서 (F) 는 다음 $B(S)$ 부등식과 동치:
 
-$$\boxed{\ B(S) \leq -\varepsilon_{\text{OB}}\,M(S) + C_{\text{OB}}\quad \forall S \in \mathcal{X}^*\ } \tag{B-form}$$
+$$\boxed{\ B(S) \leq -\varepsilon'\,M(S) + C'\quad \forall S \in \mathcal{X}^*\ } \tag{B-form}$$
 
-상수 변환: $\varepsilon = b\,\varepsilon_{\text{OB}}$, $C_{\text{tight}} = b\,C_{\text{OB}} + C_{M\text{-free}}$.
+상수 변환: $\varepsilon = b\,\varepsilon'$, $C_F = b\,C' + C_{M\text{-free}}$.
 
-→ 구체 그래프에서 DT를 검증할 때는 (B-form) 이 더 편리. 본 글에서 OB 검증은 모두 (B-form) 기준.
+→ 구체 그래프에서 (F) 를 검증할 때는 (B-form) 이 더 편리. 본 글에서 graph-level 검증은 모두 (B-form) 기준.
 
 ### $B(S)$의 의미
 
@@ -391,7 +393,7 @@ $B(S) = \sum_u \pi(u, S)\,\hbar(u, S)$ — walker가 라운드 동안 방문하�
 - $B(S) > 0$: walker가 **높은** 노드 선호 → 불균형 심화, $\Phi$ 증가
 - $B(S) = 0$: 가중 평균 상쇄, $\Phi$ 1차 drift 없음
 
-**OB ($B \leq -\varepsilon_{\text{OB}} M$) = "walker가 systematically 낮은 곳으로 흐른다"** 는 정량적 조건. 지형이 울퉁불퉁할수록 ($M$ 클수록) drift가 더 강하게 음수. $\varepsilon_{\text{OB}}$는 그래프의 **자기교정 세기**.
+**B-form ($B \leq -\varepsilon' M$) = "walker가 systematically 낮은 곳으로 흐른다"** 는 정량적 조건. 지형이 울퉁불퉁할수록 ($M$ 클수록) drift가 더 강하게 음수. $\varepsilon'$는 그래프의 **자기교정 세기**.
 
 :::
 
@@ -411,13 +413,13 @@ $$B(S) = \tfrac{1}{n}\underbrace{\sum_u \hbar(u, S)}_{=\, 0} + \sum_u \pi_{\text
 
 1. $\pi_{\text{flow}}(u, S)$ 계산 — round $S$에서 시작해 노드 $u$를 방문하는 기대 flow 횟수
 2. $B(S) = \sum_u \pi_{\text{flow}}(u, S)\,\hbar(u, S)$ 형성
-3. $B(S) \leq -\varepsilon_{\text{OB}}\,M(S) + C_{\text{OB}}$ 를 만족하는 $(\varepsilon_{\text{OB}}, C_{\text{OB}})$ 찾기
+3. $B(S) \leq -\varepsilon'\,M(S) + C'$ 를 만족하는 $(\varepsilon', C')$ 찾기
 
 ### Example: $K_3$, $T_{\max} = 5$, $b = 1$
 
-$n = 3$, $\boldsymbol{\mu}_0 = (1/3, 1/3, 1/3)$, $b = 1$, $T_{\max} = 5$. 모든 round-start $S$에 대해 valid한 $(\varepsilon_{\text{OB}}, C_{\text{OB}})$ 유도.
+$n = 3$, $\boldsymbol{\mu}_0 = (1/3, 1/3, 1/3)$, $b = 1$, $T_{\max} = 5$. 모든 round-start $S$에 대해 valid한 $(\varepsilon', C')$ 유도.
 
-::: {.callout-note collapse="true" title="증명: $K_3$ OB 상수"}
+::: {.callout-note collapse="true" title="증명: $K_3$ Foster's drift (B-form) 상수"}
 
 **Well-separated regime**: 모든 인접 rank gap $> b = 1$, 즉 $h_1 - h_2 > 1$, $h_2 - h_3 > 1$.
 
@@ -439,19 +441,19 @@ $$B(S) = \pi_{\text{flow}}(v_3)\,\hbar_3 = \tfrac{2}{3}\,\hbar_3$$
 
 $$B(S) \leq \tfrac{2}{3} \cdot (-M/2) = -\tfrac{M}{3}$$
 
-→ $\varepsilon_{\text{OB}} = 1/3$.
+→ $\varepsilon' = 1/3$.
 
-**확인**: $(h_1, h_2, h_3) = (4, 2, 0)$ → $\bar h = 2$, $\hbar = (2, 0, -2)$, $M = 2$. $B = (2/3)(-2) = -4/3$. $B/M = -2/3$ ≥ $-1/3 \cdot 1$. OB 만족 (margin 있음, 이 state는 worst case 아님).
+**확인**: $(h_1, h_2, h_3) = (4, 2, 0)$ → $\bar h = 2$, $\hbar = (2, 0, -2)$, $M = 2$. $B = (2/3)(-2) = -4/3$. $B/M = -2/3$ ≥ $-1/3 \cdot 1$. (B-form) 만족 (margin 있음, 이 state는 worst case 아님).
 
-**Small-$M$ regime**: 어떤 gap $\leq 1$이면 $M \leq 2$. $|B(S)| \leq m_r \cdot M \leq 6 \cdot 2 = 12$. $C_{\text{OB}} = 12$.
+**Small-$M$ regime**: 어떤 gap $\leq 1$이면 $M \leq 2$. $|B(S)| \leq m_r \cdot M \leq 6 \cdot 2 = 12$. $C' = 12$.
 
-**결론**: $\text{OB}(\varepsilon_{\text{OB}}, C_{\text{OB}}) = (1/3,\, 12)$ on $K_3$, $T_{\max} = 5$, $b = 1$, balanced. $\square$
+**결론**: B-form 상수 $(\varepsilon', C') = (1/3,\, 12)$ universal on $K_3$, $T_{\max} = 5$, $b = 1$, balanced. 환산: $\varepsilon = b\varepsilon' = 1/3$, $C_F = bC' + C_{M\text{-free}}$ (Foster's drift criterion (F) 성립). $\square$
 
 :::
 
 ### 통계적 검증 (분석이 어려울 때)
 
-::: {.callout-tip collapse="true" title="보충: DT의 통계적 검증 절차"}
+::: {.callout-tip collapse="true" title="보충: Foster's drift criterion 의 통계적 검증"}
 
 비정규 그래프나 vertex-transitive 아닌 그래프에서는 $\pi_{\text{flow}}$의 분석적 계산이 어렵다. 이 경우 시뮬레이션으로 검증.
 
@@ -460,13 +462,13 @@ $$B(S) \leq \tfrac{2}{3} \cdot (-M/2) = -\tfrac{M}{3}$$
 **절차**:
 1. HST를 $\tau$ step 돌리고 매 step $R_t := \hbar(X_t, t-1)/M(t-1)$ 기록 ($M(t-1) > c$ 인 step만)
 2. 배치 평균 $K$개 형성, $t$-test → $\hat\kappa := -\bar R$의 CI
-3. DT 성립 시: CI가 $0$ 위에 strictly + $\hat\kappa \approx \varepsilon_{\text{OB}}$. 실패 시: CI가 $0$ 포함하거나 아래.
+3. (F) 성립 시: CI가 $0$ 위에 strictly + $\hat\kappa \approx \varepsilon'$. 실패 시: CI가 $0$ 포함하거나 아래.
 
 **post-hoc 가능**: 이미 돌린 시뮬의 tail (last $\tau/2$) 만 써도 됨. 추가 실행 불필요.
 
 **권장 hyperparameters**: $\tau \geq 10^6$, $c = \text{median}(M_t)$, $K = 50$, batch size $\geq 10n$.
 
-상세: ABC증명의 `ob_statistical_test.tex` 참조.
+상세: 에이의 `ob_statistical_test.tex` 참조 (`paper/260514_guebin/에이/`).
 
 :::
 
@@ -474,7 +476,7 @@ $$B(S) \leq \tfrac{2}{3} \cdot (-M/2) = -\tfrac{M}{3}$$
 
 **Proposition (Moment bound).** $\mathbb{E}_{\pi^*}[\Phi] < \infty$.
 
-Round drift $\mathbb{E}[\Delta\Phi] \leq -\varepsilon M + C_{\text{tight}}$에서 $M \sim \sqrt{\Phi}$ 이므로 drift 차수가 $-\Phi^{1/2}$. Meyn–Tweedie 14.0.1로는 $\mathbb{E}_{\pi^*}[\Phi^r] < \infty$ ($r < 1/2$) 까지만. **해법**: Lyapunov를 $V_{\text{Ly}} := \Phi^2$로 올리고 14.3.7 적용.
+Round drift $\mathbb{E}[\Delta\Phi] \leq -\varepsilon M + C_F$에서 $M \sim \sqrt{\Phi}$ 이므로 drift 차수가 $-\Phi^{1/2}$. Meyn–Tweedie 14.0.1로는 $\mathbb{E}_{\pi^*}[\Phi^r] < \infty$ ($r < 1/2$) 까지만. **해법**: Lyapunov를 $V_{\text{Ly}} := \Phi^2$로 올리고 14.3.7 적용.
 
 ::: {.callout-note collapse="true" title="증명: Moment bound"}
 
@@ -510,14 +512,14 @@ $$
 &= 2\Phi\left\{ b\,\mathbb{E}\!\left[\sum_u \#_u\,\hbar(u, t_r) + \Delta\text{Shape}^{(r)} \,\Big|\, S_{t_r}\right] + \tfrac{(n-1)b^2}{3n}\,\mathbb{E}[m_r \mid S_{t_r}] \right\} && (\because \text{Shape decomp.}) \\
 &= 2\Phi\left\{ b\,B(S_{t_r}) + C^{(r)}_{\text{rem}} \right\} && (\because \pi(u, S) := \mathbb{E}[\#_u \mid S],\ B := \textstyle\sum \pi\,\hbar) \\
 &\leq 2\Phi\left\{ b\,B(S_{t_r}) + C_{M\text{-free}} \right\} && (\because |C^{(r)}_{\text{rem}}| \leq C_{M\text{-free}}) \\
-&\leq 2\Phi(-b\,\varepsilon_{\text{OB}} M + b\,C_{\text{OB}} + C_{M\text{-free}}) && (\because \text{DT (B-form, §3.4)}) \\
-&= 2\Phi(-\varepsilon M + C_{\text{tight}}) && (\varepsilon := b\,\varepsilon_{\text{OB}},\ C_{\text{tight}} := b\,C_{\text{OB}} + C_{M\text{-free}}) \\
-&= -2\varepsilon\,\Phi M + 2C_{\text{tight}}\,\Phi \\
-&\leq -\varepsilon M^3 + 2C_{\text{tight}}\,nM^2 && (\because \text{Fact 3}: \Phi \geq M^2/2,\ \Phi \leq nM^2)
+&\leq 2\Phi(-b\,\varepsilon' M + b\,C' + C_{M\text{-free}}) && (\because \text{(B-form, §3.4)}) \\
+&= 2\Phi(-\varepsilon M + C_F) && (\varepsilon := b\,\varepsilon',\ C_F := b\,C' + C_{M\text{-free}}) \\
+&= -2\varepsilon\,\Phi M + 2C_F\,\Phi \\
+&\leq -\varepsilon M^3 + 2C_F\,nM^2 && (\because \text{Fact 3}: \Phi \geq M^2/2,\ \Phi \leq nM^2)
 \end{aligned}
 $$
 
-$$\therefore\ \text{Term1} \leq -\varepsilon M^3 + 2C_{\text{tight}}\,nM^2$$
+$$\therefore\ \text{Term1} \leq -\varepsilon M^3 + 2C_F\,nM^2$$
 
 **Term2.** 한 step의 $\Phi$ 변화 bound:
 
@@ -538,9 +540,9 @@ $$\therefore\ \text{Term2} \leq C_3 M^2 + C_4$$
 
 **합치기.**
 
-$$\mathbb{E}[\Delta V_{\text{Ly}} \mid S_{t_r}] \leq -\varepsilon M^3 + (2C_{\text{tight}}\,n + C_3)\,M^2 + C_4 = -\varepsilon M^3 + C_5 M^2 + C_6$$
+$$\mathbb{E}[\Delta V_{\text{Ly}} \mid S_{t_r}] \leq -\varepsilon M^3 + (2C_F\,n + C_3)\,M^2 + C_4 = -\varepsilon M^3 + C_5 M^2 + C_6$$
 
-상수: $C_5 := 2C_{\text{tight}}\,n + C_3$, $C_6 := C_4$. $M \geq M_0 := 2C_5/\varepsilon$이면 $M^3$ 지배:
+상수: $C_5 := 2C_F\,n + C_3$, $C_6 := C_4$. $M \geq M_0 := 2C_5/\varepsilon$이면 $M^3$ 지배:
 
 $$\mathbb{E}[\Delta V_{\text{Ly}} \mid S_{t_r}] \leq -\tfrac{\varepsilon}{2}\,M^3 + C_6$$
 
@@ -662,7 +664,7 @@ $\eta > 0$은 $s_0$ 무관. $\square$
 다음 가정 하에:
 - (Standing) 연결 그래프 $\mathcal{G}$, full-support $\boldsymbol{\mu}_0$ ($\mu_{\min} > 0$);
 - **(A1) Balanced**: $\rho_i = 1/n$ for all $i$;
-- **(A2) Drift-tightness**: $(\mathcal{G}, \boldsymbol{\mu}_0, b, T_{\max})$가 $\text{DT}(\varepsilon, C_{\text{tight}})$를 만족 ($\varepsilon > 0$)
+- **(A2) Foster's drift criterion**: $(\mathcal{G}, \boldsymbol{\mu}_0, b, T_{\max})$가 $\mathrm{F}(\varepsilon, C_F)$를 만족 ($\varepsilon > 0$)
 
 deterministic 행렬 $C = [c_{ij}]$ ($c_{ij} \geq 0$, 그래프와 $b, T_{\max}$에만 의존)가 존재해
 
@@ -697,11 +699,11 @@ $$\frac{SD^2_{ij}(t)}{t} \xrightarrow{t \to \infty} c_{ij} \quad \text{a.s.}$$
 
 ::: {.callout-note collapse="true" title="증명: Theorem A"}
 
-**Step 1 (Round-skeleton Foster drift).** §3.3 round-level $\Phi$ drift + §3.4 DT (B-form):
+**Step 1 (Round-skeleton Foster drift).** §3.3 round-level $\Phi$ drift + §3.4 Foster's drift (F) via (B-form):
 
-$$\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S_{t_r}] \leq -\varepsilon\,M(t_r) + C_{\text{tight}}$$
+$$\mathbb{E}[\Phi(t_{r+1}) - \Phi(t_r) \mid S_{t_r}] \leq -\varepsilon\,M(t_r) + C_F$$
 
-$\Phi \leq nM^2$ 에서 $M \geq \sqrt{\Phi/n}$. 위 우변이 $-\varepsilon\sqrt{\Phi/n} + C_{\text{tight}}$ 이하. $R := n\bigl((C_{\text{tight}} + 1)/\varepsilon\bigr)^2$, $\mathcal{B}_\Phi := \{S : \Phi(S) \leq R\}$로 두면:
+$\Phi \leq nM^2$ 에서 $M \geq \sqrt{\Phi/n}$. 위 우변이 $-\varepsilon\sqrt{\Phi/n} + C_F$ 이하. $R := n\bigl((C_F + 1)/\varepsilon\bigr)^2$, $\mathcal{B}_\Phi := \{S : \Phi(S) \leq R\}$로 두면:
 
 $$S_{t_r} \notin \mathcal{B}_\Phi \implies \mathbb{E}[\Delta\Phi \mid S_{t_r}] \leq -1$$
 
@@ -961,24 +963,24 @@ leaf–leaf 쌍: $\rho_{L_i} = \rho_{L_j}$ by symmetry이지만 $SD^2/t$ 발산 
 
 ---
 
-# §7 Appendix: OB on $K_n$ 풀증명
+# §7 Appendix: Foster's drift criterion (B-form) on $K_n$ 풀증명
 
-§3.4의 DT 조건은 그래프별로 검증해야 한다. $K_n$ (complete graph) 에서는 **uniform $\boldsymbol{\mu}_0$** 가정 하 closed form으로 증명 가능. 이게 OB가 분석적으로 풀리는 유일한 그래프 클래스 (이외는 §3.4의 통계적 검증).
+§3.4의 Foster's drift criterion (F) 는 그래프별로 검증해야 한다. $K_n$ (complete graph) 에서는 **uniform $\boldsymbol{\mu}_0$** 가정 하 closed form으로 증명 가능. 이게 B-form 이 분석적으로 풀리는 유일한 그래프 클래스 (이외는 §3.4의 통계적 검증).
 
-::: {.callout-note collapse="false" title="Proposition (OB for $K_n$)"}
+::: {.callout-note collapse="false" title="Proposition (Foster's drift (B-form) on $K_n$)"}
 
-$K_n$ + $T_{\max} \geq n$ + uniform $\boldsymbol{\mu}_0$ 하에서 OB:
+$K_n$ + $T_{\max} \geq n$ + uniform $\boldsymbol{\mu}_0$ 하에서 B-form:
 
-- **General case**: $\varepsilon_{\text{OB}} = 1/(2n^2)$
-- **Well-separated sub-case** (모든 인접 rank gap $> b(T_{\max}+1)$): $\varepsilon_{\text{OB}} = (H_n - 1)/n$ (여기서 $H_n := \sum_{k=1}^n 1/k$)
+- **General case**: $\varepsilon' = 1/(2n^2)$
+- **Well-separated sub-case** (모든 인접 rank gap $> b(T_{\max}+1)$): $\varepsilon' = (H_n - 1)/n$ (여기서 $H_n := \sum_{k=1}^n 1/k$)
 
 :::
 
-::: {.callout-note collapse="true" title="증명: OB for $K_n$"}
+::: {.callout-note collapse="true" title="증명: Foster's drift (B-form) on $K_n$"}
 
 $\delta := b(T_{\max} + 1)$ — 한 round에 노드 높이 최대 변화량.
 
-**Case 1: $M \leq 2n\delta$.** 자명하게 $|B(S)| \leq (T_{\max}+1)\,M \leq 2n(T_{\max}+1)\delta =: C_{\text{triv}}$. $C_{\text{OB}}$에 흡수.
+**Case 1: $M \leq 2n\delta$.** 자명하게 $|B(S)| \leq (T_{\max}+1)\,M \leq 2n(T_{\max}+1)\delta =: C_{\text{triv}}$. $C'$에 흡수.
 
 **Case 2: $M > 2n\delta$.** 노드를 $\hbar$ 내림차순 정렬: $v_{(0)}, \ldots, v_{(n-1)}$. round 시작 $X_1 \sim \mu_0 = \text{Unif}(V)$. flow rule: $v_{(j)}$에서 이웃 중 $h \leq h(v_{(j)})$인 곳으로 균등 선택. $K_n$이므로 이웃 = $V \setminus \{v_{(j)}\}$.
 
@@ -1002,7 +1004,7 @@ constraint $\sum \hbar = 0$, $\hbar$ 정렬, $\hbar_{(0)} - \hbar_{(n-1)} = M$ �
 
 $$B \leq \tfrac{(n-1)M/n}{n} - \tfrac{M}{n}\sum_{k=1}^{n-1}\tfrac{1}{k} = \tfrac{(n-1)M}{n^2} - \tfrac{M\,(H_n - 1)}{n}$$
 
-$\tfrac{n-1}{n^2} - \tfrac{H_n - 1}{n} = \tfrac{n-1 - n(H_n - 1)}{n^2} = \tfrac{2n - 1 - nH_n}{n^2}$. 정리하면 $B \leq -(H_n - 1)M/n$ (well-separated $\varepsilon_{\text{OB}}$).
+$\tfrac{n-1}{n^2} - \tfrac{H_n - 1}{n} = \tfrac{n-1 - n(H_n - 1)}{n^2} = \tfrac{2n - 1 - nH_n}{n^2}$. 정리하면 $B \leq -(H_n - 1)M/n$ (well-separated $\varepsilon'$).
 
 ### Step 2 (General, 어떤 gap $\leq \delta$)
 
@@ -1038,9 +1040,9 @@ $M_{\text{cl}} \geq M - n\delta \geq M/2$ (Case 2 가정 $M > 2n\delta$).
 
 **Conclusion**:
 
-$$B = B_{\text{clean}} + B_{\text{extra}} \leq -\tfrac{M_{\text{cl}}}{n^2} + C_{\text{pert}} \leq -\tfrac{M/2}{n^2} + C_{\text{pert}} + C_{\text{triv}} =: -\varepsilon_{\text{OB}}\,M + C_{\text{OB}}$$
+$$B = B_{\text{clean}} + B_{\text{extra}} \leq -\tfrac{M_{\text{cl}}}{n^2} + C_{\text{pert}} \leq -\tfrac{M/2}{n^2} + C_{\text{pert}} + C_{\text{triv}} =: -\varepsilon'\,M + C'$$
 
-$\varepsilon_{\text{OB}} := 1/(2n^2) > 0$. $\square$
+$\varepsilon' := 1/(2n^2) > 0$. $\square$
 
 :::
 
@@ -1063,7 +1065,7 @@ $\varepsilon_{\text{OB}} := 1/(2n^2) > 0$. $\square$
 
 # Open items
 
-`-` **OB for general connected graph**: $K_n$만 closed form 증명. 일반 그래프는 §3.4 통계적 검증으로 대체.
+`-` **Foster's drift criterion (B-form) for general connected graph**: $K_n$만 closed form 증명. 일반 그래프는 §3.4 통계적 검증으로 대체.
 
 `-` **Cluster LP, $K \geq 3$**: $K = 2$ analytic, $K \geq 3$ 은 $n \leq 40$ computational. 일반 $n$의 inductive 증명 open.
 

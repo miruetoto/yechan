@@ -5,6 +5,8 @@ date: 04/29/2026
 draft: false
 output-file: 260429_7a7de1.html
 ---
+<!-- 소유권자: 최규빈 | 사용자: 최규빈 -->
+
 
 # 0. 결론
 

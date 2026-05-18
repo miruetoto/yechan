@@ -5,6 +5,8 @@ date: 05/15/2026
 draft: false
 output-file: 260515_0b8f01.html
 ---
+<!-- 소유권자: 소미 | 사용자: 소미 -->
+
 
 각 노드의 장기 적립률을 $\rho_i = \lim_{t\to\infty} \frac{1}{t}\sum_{s=1}^t \mathbf{1}\{X_s = v_i\}$ 라 하자. pair $(i,j)$ 의 $\rho$ 관계에 따라 SD의 스케일링이 세 가지로 갈린다.
 
@@ -17,18 +19,6 @@ output-file: 260515_0b8f01.html
 본 글은 두 부분으로 나뉜다. **§1 그래프 구조 검증** ($f=0$, 24개 예제) 에서는 그래프 모양·엣지 방향이 regime 분류에 미치는 영향을, **§2 신호 변형 검증** ($f \neq 0$, 3개 예제) 에서는 초기 신호의 효과를 본다.
 
 ## §1. 그래프 구조 검증 ($f = 0$)
-
-[「그래프 도메인에서의 거리」](./260516_연구_HST_그래프도메인에서의거리.html) 에서 정의한 24개 테스트 그래프 (7 모양 × 변형) 에 대해 $f = 0$ 으로 두고 HST 시뮬을 수행했다. 예제 네이밍은 거리 블로그와 동일 (1-1 ~ 7-2). 시뮬 설정: $b = 0.05$, $T_{\max} = 20$, $\tau = 10^7$, seed=42, **모델 B random-step variant**, degree-prop $\mu_0$.
-
-`-` 모양 1 — Star ($n=13$): 1-1 Inward / 1-2 Outward / 1-3 Bidir / 1-4 Gaussian
-`-` 모양 2 — Wheel ($n=11$): 4변형
-`-` 모양 3 — Helm ($n=21$): 4변형
-`-` 모양 4 — Double Helm ($n=31$): 4변형
-`-` 모양 5 — Path ($n=60$): 5-1 Directed / 5-2 Bidir / 5-3 Gaussian
-`-` 모양 6 — Ring ($n=60$): 3변형
-`-` 모양 7 — Cylinder ($n=60$): 7-1 Inter-dir / 7-2 Inter-bidir
-
-각 예제마다 3패널 애니메이션: (그래프 시그널 3D | $\sqrt{SD^2/t}$ 3D MDS embedding | $SD^2/t$ log-log 수렴 곡선).
 
 ### 1.1 Star Inward (1-1)
 

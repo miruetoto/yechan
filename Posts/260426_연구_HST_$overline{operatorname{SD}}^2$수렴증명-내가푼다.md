@@ -5,6 +5,8 @@ date: 04/26/2026
 draft: false
 output-file: 260426_c7ffc6.html
 ---
+<!-- 소유권자: 최규빈 | 사용자: 최규빈 -->
+
 ---
 
 **Theorem.** 연결 가중 그래프 $\mathcal{G}$와 파라미터 $(b, T_{max})$가 주어질 때, 다음 drift 조건이 성립한다고 하자:

@@ -5,6 +5,8 @@ date: 04/07/2026
 draft: false
 output-file: 260407_469f43.html
 ---
+<!-- 소유권자: 최규빈 | 사용자: 최규빈 -->
+
 # 1. 논문 기호 정리 (Notation Reference)
 
 ## 그래프 기본
