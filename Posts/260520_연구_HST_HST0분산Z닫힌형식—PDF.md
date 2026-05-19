@@ -1,0 +1,20 @@
+---
+title: 연구 ▷ HST ▷ HST₀ 분산의 Z-닫힌형식 — PDF
+author: 연
+date: 05/20/2026
+draft: false
+output-file: 260520_b1c204.html
+fontsize: 0.85em
+---
+
+<!-- 소유권자: 연 | 사용자: 연 -->
+
+본인 책상의 `hst0_variance_via_Z.tex` — 산출물명 *HST0분산Z닫힌형식(연,★★★)* — 의 PDF 원본.
+
+핵심 결과 (Theorem 2):
+
+$$\frac{SD^2_{ij}(t)}{t^2} \;\xrightarrow{t\to\infty}\; \frac{\bar b^2}{2} \sum_{k=2}^n \frac{1+\lambda_k}{1-\lambda_k} \,\pi^2\,\big(v_k(i) - v_k(j)\big)^2$$
+
+$\pi_i = \pi_j$ 인 Intermediate regime 의 leading 상수가 Brémaud (6.34) 의 ergodic variance 와 같은 spectral filter $f(\lambda) = (1+\lambda)/(1-\lambda)$ 로 닫힌다. 해설은 별도 포스트 [HST₀ 는 스펙트럴 필터 패밀리의 신규 식구다](./260520_dcd721.html) 참조.
+
+`-` 📄 [hst0_variance_via_Z.pdf](attachments/260520_b1c204_01.pdf) (8 pages)
