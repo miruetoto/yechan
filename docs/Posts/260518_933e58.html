@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>연구 ▷ HST ▷ ABC 증명 §3.4부터 — 수식 흐름 따라가기 – 신록예찬’s Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -34,15 +37,14 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-165db4a5700707ee9723b4db2002e5ec.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-42eb1ed98d6b40681f6bda2512c0def3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -219,13 +221,20 @@ window.Quarto = {
   <li><a href="#theorem-a-종합-sd2t-to-c_ij" id="toc-theorem-a-종합-sd2t-to-c_ij" class="nav-link" data-scroll-target="#theorem-a-종합-sd2t-to-c_ij">§3.6 — Theorem A: 종합 (<span class="math inline">\(SD^2/t \to c_{ij}\)</span>)</a></li>
   <li><a href="#theorem-b-intermediate-sd2t2-to-sigma2_ij2" id="toc-theorem-b-intermediate-sd2t2-to-sigma2_ij2" class="nav-link" data-scroll-target="#theorem-b-intermediate-sd2t2-to-sigma2_ij2">§4 — Theorem B: Intermediate (<span class="math inline">\(SD^2/t^2 \to \sigma^2_{ij}/2\)</span>)</a>
   <ul class="collapse">
-  <li><a href="#가정-a3" id="toc-가정-a3" class="nav-link" data-scroll-target="#가정-a3">가정 (A3)</a></li>
-  <li><a href="#수식-흐름" id="toc-수식-흐름" class="nav-link" data-scroll-target="#수식-흐름">수식 흐름</a></li>
+  <li><a href="#toeplitz-lemma-외부-도구" id="toc-toeplitz-lemma-외부-도구" class="nav-link" data-scroll-target="#toeplitz-lemma-외부-도구">Toeplitz Lemma (외부 도구)</a>
+  <ul class="collapse">
+  <li><a href="#출처" id="toc-출처" class="nav-link" data-scroll-target="#출처">출처</a></li>
+  </ul></li>
+  <li><a href="#statement-정본-4-thm-2-원문-그대로" id="toc-statement-정본-4-thm-2-원문-그대로" class="nav-link" data-scroll-target="#statement-정본-4-thm-2-원문-그대로">Statement (정본 §4, Thm 2 원문 그대로)</a></li>
   </ul></li>
   <li><a href="#theorem-c-drift-sd2t3-to-barb2rho_i---rho_j2-3" id="toc-theorem-c-drift-sd2t3-to-barb2rho_i---rho_j2-3" class="nav-link" data-scroll-target="#theorem-c-drift-sd2t3-to-barb2rho_i---rho_j2-3">§5 — Theorem C: Drift (<span class="math inline">\(SD^2/t^3 \to \bar{b}^2(\rho_i - \rho_j)^2 / 3\)</span>)</a>
   <ul class="collapse">
-  <li><a href="#가정-a4" id="toc-가정-a4" class="nav-link" data-scroll-target="#가정-a4">가정 (A4)</a></li>
-  <li><a href="#수식-흐름-1" id="toc-수식-흐름-1" class="nav-link" data-scroll-target="#수식-흐름-1">수식 흐름</a></li>
+  <li><a href="#martingale-slln-외부-도구" id="toc-martingale-slln-외부-도구" class="nav-link" data-scroll-target="#martingale-slln-외부-도구">Martingale SLLN (외부 도구)</a>
+  <ul class="collapse">
+  <li><a href="#thm-c-의-claim-1-적용-형태-즉시-corollary" id="toc-thm-c-의-claim-1-적용-형태-즉시-corollary" class="nav-link" data-scroll-target="#thm-c-의-claim-1-적용-형태-즉시-corollary">Thm C 의 Claim 1 적용 형태 (즉시 corollary)</a></li>
+  <li><a href="#출처-1" id="toc-출처-1" class="nav-link" data-scroll-target="#출처-1">출처</a></li>
+  </ul></li>
+  <li><a href="#statement-정본-5-thm-3-원문-그대로" id="toc-statement-정본-5-thm-3-원문-그대로" class="nav-link" data-scroll-target="#statement-정본-5-thm-3-원문-그대로">Statement (정본 §5, Thm 3 원문 그대로)</a></li>
   </ul></li>
   <li><a href="#통합-관점-정본-6.1" id="toc-통합-관점-정본-6.1" class="nav-link" data-scroll-target="#통합-관점-정본-6.1">통합 관점 (정본 §6.1)</a></li>
   <li><a href="#한-페이지-요약" id="toc-한-페이지-요약" class="nav-link" data-scroll-target="#한-페이지-요약">한 페이지 요약</a></li>
@@ -660,48 +669,126 @@ P^{K^*}(s, B) \;\geq\; \eta\,\nu(B) \qquad \forall\, s \in \mathcal{B}_\Phi,\ \f
 </section>
 <section id="theorem-b-intermediate-sd2t2-to-sigma2_ij2" class="level1">
 <h1>§4 — Theorem B: Intermediate (<span class="math inline">\(SD^2/t^2 \to \sigma^2_{ij}/2\)</span>)</h1>
-<p>여기부터는 <strong>무거운 기계가 필요 없다</strong>.</p>
-<section id="가정-a3" class="level2">
-<h2 class="anchored" data-anchor-id="가정-a3">가정 (A3)</h2>
-<p><span class="math inline">\(D_t := h(v_i, t) - h(v_j, t)\)</span> 가 diffusive:</p>
+<p>여기부터는 <strong>무거운 기계가 필요 없다</strong> — 외부 도구 하나 (Toeplitz lemma) 만 쓰고 끝.</p>
+<section id="toeplitz-lemma-외부-도구" class="level2">
+<h2 class="anchored" data-anchor-id="toeplitz-lemma-외부-도구">Toeplitz Lemma (외부 도구)</h2>
+<p><strong>Toeplitz Lemma</strong> (Hansen p.&nbsp;2). <span class="math inline">\(\{a_{ns}\}_{n, s \geq 1} \subset \mathbb{R}\)</span> 가 다음 3 조건을 만족하면</p>
 <p><span class="math display">\[
-\frac{D_t^2}{t} \;\to\; \sigma^2_{ij} \in (0, \infty) \quad \text{a.s.}
+\begin{aligned}
+\text{(i)} \quad &amp;\exists\, c &lt; \infty \text{ s.t.}\ \textstyle\sum_{s=1}^{\infty} |a_{ns}| \leq c \quad \forall\, n \geq 1 \\
+\text{(ii)} \quad &amp;\textstyle\sum_{s=1}^{\infty} a_{ns} \to 1 \quad (n \to \infty) \\
+\text{(iii)} \quad &amp;a_{ns} \to 0 \quad (n \to \infty),\ \forall\, s \geq 1\ \text{고정}
+\end{aligned}
 \]</span></p>
-<p>(이 가정 자체는 그래프별 분석 — Helm 그래프의 leaf–leaf 쌍 등에서 검증 필요.)</p>
+<p>임의의 <span class="math inline">\(x_s \to x \in \mathbb{R}\)</span> 에 대해</p>
+<p><span class="math display">\[
+y_n \;:=\; \sum_{s=1}^{\infty} a_{ns}\, x_s \;\xrightarrow{n \to \infty}\; x.
+\]</span></p>
+<section id="출처" class="level3">
+<h3 class="anchored" data-anchor-id="출처">출처</h3>
+<ul>
+<li>Bruce Hansen, <em>Weak/Strong Law of Large Numbers</em>, Wisconsin Econ 709 강의노트, p.&nbsp;2 (<a href="https://users.ssc.wisc.edu/~behansen/709/wlln">공개 PDF</a>)</li>
+<li>Knopp, <em>Theory and Application of Infinite Series</em>, §43 / Hardy, <em>Divergent Series</em>, §3.2</li>
+<li>Toeplitz (1911), “Über allgemeine lineare Mittelbildungen” — original paper</li>
+</ul>
+<p><strong>친척 정리</strong>: Kronecker’s lemma (<span class="math inline">\(\sum x_n/a_n\)</span> 수렴 ⇒ <span class="math inline">\(a_n^{-1}\sum x_m \to 0\)</span>, Durrett 5e §2.5) 가 Toeplitz 의 corollary.</p>
 </section>
-<section id="수식-흐름" class="level2">
-<h2 class="anchored" data-anchor-id="수식-흐름">수식 흐름</h2>
-<p><span class="math inline">\(a_s := D_s^2/s \to \sigma^2\)</span> 라 두면</p>
+</section>
+<section id="statement-정본-4-thm-2-원문-그대로" class="level2">
+<h2 class="anchored" data-anchor-id="statement-정본-4-thm-2-원문-그대로">Statement (정본 §4, Thm 2 원문 그대로)</h2>
+<p><strong>Theorem (Intermediate-regime convergence)</strong>. Assume the standing setting (connected <span class="math inline">\(\mathcal{G}\)</span>, full-support <span class="math inline">\(\boldsymbol{\mu}_0\)</span>) and the regime-defining hypothesis for the pair <span class="math inline">\((i, j)\)</span>:</p>
+<ul>
+<li><strong>(A3) (Diffusive scaling)</strong> <span class="math inline">\(\rho_i, \rho_j\)</span> exist a.s., and the height-difference process <span class="math inline">\(D_t := h(v_i, t) - h(v_j, t)\)</span> satisfies</li>
+</ul>
 <p><span class="math display">\[
-\frac{SD^2_{ij}(t)}{t^2} \;=\; \frac{D_0^2}{t^2} + \frac{1}{t^2}\sum_{s=1}^{t} s \cdot a_s.
+\frac{D_t^2}{t} \;\xrightarrow{t \to \infty}\; \sigma^2_{ij} \;\in\; (0, \infty) \qquad \text{a.s.}
 \]</span></p>
-<p>가중 Cesaro lemma:</p>
+<p>(Note: (A3) implies <span class="math inline">\(\rho_i = \rho_j\)</span> a.s., since <span class="math inline">\(\rho_i \neq \rho_j\)</span> would give <span class="math inline">\(D_t^2/t \to \infty\)</span>.)</p>
+<p>Then</p>
 <p><span class="math display">\[
-\frac{\sum_{s=1}^{t} s\, a_s}{t(t+1)/2} \;\to\; \sigma^2 \qquad (\because a_s \to \sigma^2).
+\frac{SD^2_{ij}(t)}{t^2} \;\xrightarrow{t \to \infty}\; \frac{\sigma^2_{ij}}{2} \qquad \text{a.s.}
 \]</span></p>
-<p>따라서 <span class="math inline">\(\sum s\, a_s \sim \sigma^2 \cdot t^2/2\)</span>, 즉</p>
-<p><span class="math display">\[
-\frac{SD^2_{ij}(t)}{t^2} \;\to\; \frac{\sigma^2_{ij}}{2}.
-\]</span></p>
-<div class="callout callout-style-default callout-tip callout-titled" title="보충: 왜 (A3) 가 '디퓨시브' 인가">
+<blockquote class="blockquote">
+<p><strong>Remark (외부 textbook 노테이션과의 충돌)</strong>.</p>
+<p>Hansen Toeplitz Lemma 의 array <span class="math inline">\(a_{ns}\)</span> ↔︎ 본 증명의 수열 <span class="math inline">\(a_s := D_s^2/s\)</span> — 같은 글자 <span class="math inline">\(a\)</span> 가 다른 객체 (전자 doubly-indexed array, 후자 fixed sequence). 본 글은 Hansen array 를 <span class="math inline">\(w_{ts}\)</span> 로 rename 하여 회피.</p>
+</blockquote>
+<div class="callout callout-style-default callout-important callout-titled" title="해석: 디퓨시브 한 줄">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>보충: 왜 (A3) 가 ‘디퓨시브’ 인가
+<span class="screen-reader-only">Important</span>해석: 디퓨시브 한 줄
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(D_t\)</span> 의 세 가지 거동:</p>
+<p><span class="math inline">\(D_t\)</span> 가 <span class="math inline">\(\sqrt{t}\)</span> 만큼 자라는 random walk 거동. 직선 drift (Thm C, <span class="math inline">\(\sim t\)</span>) 와 stationary (Thm A, <span class="math inline">\(\sim 1\)</span>) 사이의 중간.</p>
+<p>Helm graph 의 두 pendant leaf <span class="math inline">\(L_i, L_j\)</span>: 대칭으로 <span class="math inline">\(\rho_{L_i} = \rho_{L_j}\)</span> 이지만 hub 가 직선으로 자라며 flow 통해 leaf 들로 노이즈 전파. Leaf 들이 직접 연결 안 됐으니 노이즈가 <strong>독립</strong> → <span class="math inline">\(D_t\)</span> random walk → <span class="math inline">\(\sigma^2_{ij} = 2\rho b^2/3\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="큰 그림">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>큰 그림
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ul>
-<li><strong>Stationary</strong>: <span class="math inline">\(D_t = O(1)\)</span> — Harris recurrent, balanced regime (Thm A)</li>
-<li><strong>Diffusive</strong>: <span class="math inline">\(|D_t| \sim \sigma\sqrt{t}\)</span> — Harris recurrence 깨짐, <span class="math inline">\(\rho_i = \rho_j\)</span> 인데도 height 가 정착 못함 (intermediate, Thm B)</li>
-<li><strong>Ballistic</strong>: <span class="math inline">\(D_t \sim \gamma t\)</span> — drift regime (Thm C)</li>
+<li>(A3) ⇒ <span class="math inline">\(\rho_i = \rho_j\)</span> (안 그러면 <span class="math inline">\(D_t \sim \gamma t\)</span>, <span class="math inline">\(D_t^2/t \to \infty\)</span> 모순)</li>
+<li>→ Thm C 의 직선 drift 항 <span class="math inline">\(\gamma s = 0\)</span> → 답은 fluctuation <span class="math inline">\(\sum D_s^2\)</span> 의 누적</li>
+<li>(A3) 가 fluctuation 의 크기 (<span class="math inline">\(\sqrt{s}\)</span>) 를 정량화: <span class="math inline">\(D_s^2 = s \cdot a_s\)</span>, <span class="math inline">\(a_s \to \sigma^2_{ij}\)</span></li>
+<li>가중 Cesaro 한 줄: 분모 <span class="math inline">\(t(t+1)/2\)</span>, <span class="math inline">\(a_s\)</span> 평균 <span class="math inline">\(\sigma^2_{ij}\)</span> → <span class="math inline">\(\sigma^2_{ij}/2\)</span></li>
 </ul>
-<p>Helm 그래프의 pendant leaf 두 개 <span class="math inline">\(L_i, L_j\)</span>: 대칭으로 <span class="math inline">\(\rho_{L_i} = \rho_{L_j}\)</span> 이지만 hub 가 직선으로 자라며 flow 통해 leaf 들로 노이즈 전파. Leaf 들이 직접 연결 안 됐으니 노이즈가 <strong>독립</strong> → <span class="math inline">\(D_t\)</span> 가 random walk 처럼 거동 → <span class="math inline">\(\sigma^2 = 2\rho b^2/3\)</span>.</p>
+<p>Thm A 처럼 stationary distribution 만들 필요 X. Thm C 처럼 SLLN 따로 굴릴 필요 X.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="증명: Theorem B">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>증명: Theorem B
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[
+\begin{aligned}
+\frac{SD^2_{ij}(t)}{t^2}
+  &amp;= \frac{1}{t^2} \sum_{s=0}^{t} D_s^2
+    &amp;&amp; (\because\ \textstyle SD^2_{ij}(t) := \sum_{s=0}^{t} D_s^2) \\
+  &amp;= \frac{D_0^2}{t^2} + \frac{1}{t^2} \sum_{s=1}^{t} s\, a_s
+    &amp;&amp; (\because\ a_s := D_s^2/s\ \text{for}\ s \geq 1) \\
+  &amp;= \frac{D_0^2}{t^2} + \frac{t(t+1)/2}{t^2} \cdot \frac{\sum_{s=1}^{t} s\, a_s}{\sum_{s=1}^{t} s}
+    &amp;&amp; (\because\ \textstyle\sum_{s=1}^{t} s = t(t+1)/2).
+\end{aligned}
+\]</span></p>
+<p><strong>Claim.</strong> <span class="math inline">\(\dfrac{\sum_{s=1}^{t} s\,a_s}{\sum_{s=1}^{t} s} \;\xrightarrow{t \to \infty}\; \sigma^2_{ij}\)</span>.</p>
+<p>§Toeplitz Lemma 를 다음 매핑으로 적용한다:</p>
+<p><span class="math display">\[
+w_{ts} := \tfrac{s}{t(t+1)/2}\ (s \leq t),\quad w_{ts} := 0\ (s &gt; t); \qquad x_s := a_s = D_s^2/s.
+\]</span></p>
+<p>이 매핑 하에서 가정 (A3) 가 <span class="math inline">\(x_s \to \sigma^2_{ij}\)</span> 를 이미 보장. Toeplitz array 의 3 조건만 증명하면 Claim 증명 완료.</p>
+<p><strong>조건 1 증명.</strong> <span class="math inline">\(\sum_{s=1}^{\infty} |w_{ts}| = \tfrac{1}{t(t+1)/2}\sum_{s=1}^{t} s = 1 \leq c := 1\)</span>. ✓</p>
+<p><strong>조건 2 증명.</strong> <span class="math inline">\(\sum_{s=1}^{\infty} w_{ts} = 1 \to 1\)</span>. ✓</p>
+<p><strong>조건 3 증명.</strong> <span class="math inline">\(w_{ts} = \tfrac{2s}{t(t+1)} \to 0\)</span> for fixed <span class="math inline">\(s\)</span> as <span class="math inline">\(t \to \infty\)</span>. ✓</p>
+<p>따라서 Toeplitz Lemma 적용 가능, <strong>Claim 증명 완료</strong>.</p>
+<p>Claim 을 위 chain 의 셋째 factor 에 대입:</p>
+<p><span class="math display">\[
+\frac{SD^2_{ij}(t)}{t^2} \;\xrightarrow{t \to \infty}\; 0 + \tfrac{1}{2} \cdot \sigma^2_{ij} \;=\; \frac{\sigma^2_{ij}}{2}.
+\]</span></p>
+<p>(<span class="math inline">\(\because\)</span> <span class="math inline">\(D_0\)</span> 상수 → 첫 항 <span class="math inline">\(\to 0\)</span>; <span class="math inline">\(\tfrac{t(t+1)/2}{t^2} \to \tfrac{1}{2}\)</span>; 셋째 factor 는 Claim.) <span class="math inline">\(\Box\)</span></p>
 </div>
 </div>
 </div>
@@ -710,35 +797,201 @@ P^{K^*}(s, B) \;\geq\; \eta\,\nu(B) \qquad \forall\, s \in \mathcal{B}_\Phi,\ \f
 </section>
 <section id="theorem-c-drift-sd2t3-to-barb2rho_i---rho_j2-3" class="level1">
 <h1>§5 — Theorem C: Drift (<span class="math inline">\(SD^2/t^3 \to \bar{b}^2(\rho_i - \rho_j)^2 / 3\)</span>)</h1>
-<section id="가정-a4" class="level2">
-<h2 class="anchored" data-anchor-id="가정-a4">가정 (A4)</h2>
-<p><span class="math inline">\(\rho_i, \rho_j\)</span> 둘 다 존재 a.s., <span class="math inline">\(\rho_i \neq \rho_j\)</span>.</p>
+<p>여기는 외부 도구 두 개만 쓰면 끝 — <strong>Martingale SLLN</strong> (Durrett 5e §4.5) + 초등 Cesàro 류 부등식.</p>
+<section id="martingale-slln-외부-도구" class="level2">
+<h2 class="anchored" data-anchor-id="martingale-slln-외부-도구">Martingale SLLN (외부 도구)</h2>
+<p><strong>Setup</strong> (Durrett 5e §4.5 p.&nbsp;240). <span class="math inline">\(\{X_n\}_{n \geq 0}\)</span> 가 square-integrable martingale (<span class="math inline">\(X_0 = 0\)</span>, <span class="math inline">\(\mathbb{E} X_n^2 &lt; \infty\ \forall n\)</span>, <span class="math inline">\(\{\mathcal{F}_n\}\)</span>-adapted). Doob decomposition <span class="math inline">\(X_n^2 = M_n + A_n\)</span> 에서 <span class="math inline">\(A_n\)</span> 이 increasing process:</p>
+<p><span class="math display">\[
+A_n \;:=\; \sum_{m=1}^{n} \mathbb{E}\bigl((X_m - X_{m-1})^2 \,\bigm|\, \mathcal{F}_{m-1}\bigr), \qquad A_\infty \;:=\; \lim_{n \to \infty} A_n.
+\]</span></p>
+<p><strong>Theorem 4.5.2</strong> (Durrett 5e p.&nbsp;240). <span class="math inline">\(\{A_\infty &lt; \infty\}\)</span> 위에서 <span class="math inline">\(\lim_{n \to \infty} X_n\)</span> exists and is finite a.s.</p>
+<p><strong>Theorem 4.5.3</strong> (Durrett 5e p.&nbsp;240). <span class="math inline">\(f \geq 1\)</span> 이 increasing 이고 <span class="math inline">\(\int_0^{\infty} f(t)^{-2}\, dt &lt; \infty\)</span> 를 만족하면</p>
+<p><span class="math display">\[
+X_n / f(A_n) \;\to\; 0 \quad \text{a.s. on } \{A_\infty = \infty\}.
+\]</span></p>
+<section id="thm-c-의-claim-1-적용-형태-즉시-corollary" class="level3">
+<h3 class="anchored" data-anchor-id="thm-c-의-claim-1-적용-형태-즉시-corollary">Thm C 의 Claim 1 적용 형태 (즉시 corollary)</h3>
+<p><strong>Corollary</strong>. <span class="math inline">\(\{M_t\}_{t \geq 0}\)</span> 가 <span class="math inline">\(\{\mathcal{F}_t\}\)</span>-martingale, bounded increments <span class="math inline">\(|\Delta M_s| \leq C &lt; \infty\)</span> 이면</p>
+<p><span class="math display">\[
+M_t / t \;\to\; 0 \quad \text{a.s.}
+\]</span></p>
+<p>증명. Case 분기.</p>
+<p><span class="math inline">\(\{A_\infty &lt; \infty\}\)</span> 위 — Thm 4.5.2 로 <span class="math inline">\(M_t\)</span> a.s. converges to finite limit → <span class="math inline">\(M_t/t \to 0\)</span>.</p>
+<p><span class="math inline">\(\{A_\infty = \infty\}\)</span> 위 — Thm 4.5.3 의 <span class="math inline">\(f(t) = t \vee 1\)</span> (<span class="math inline">\(\int_1^\infty t^{-2}\, dt = 1 &lt; \infty\)</span> 만족 ✓) 적용 → <span class="math inline">\(M_t/A_t \to 0\)</span>. Bounded increments <span class="math inline">\(|\Delta M_s| \leq C\)</span> → <span class="math inline">\(A_t \leq C^2\, t\)</span> → <span class="math inline">\(A_t/t\)</span> bounded. 따라서 <span class="math inline">\(M_t/t = (M_t/A_t)(A_t/t) \to 0\)</span>.</p>
+<p>두 case 모두 <span class="math inline">\(M_t/t \to 0\)</span> a.s.</p>
 </section>
-<section id="수식-흐름-1" class="level2">
-<h2 class="anchored" data-anchor-id="수식-흐름-1">수식 흐름</h2>
-<p><strong>Step 1 — Height 분해.</strong> <span class="math inline">\(b'_s \perp \mathcal{F}_{s-1}\)</span> 이고 <span class="math inline">\(M_t^{(i)} := \sum_s (b'_s - \bar{b}) \mathbf{1}\{X_s = v_i\}\)</span> 가 bounded martingale (<span class="math inline">\(|\Delta M_s^{(i)}| \leq b/2\)</span>) 이므로 martingale SLLN 으로 <span class="math inline">\(M_t^{(i)}/t \to 0\)</span> a.s. 따라서</p>
-<p><span class="math display">\[
-h(v_i, t) \;=\; h(v_i, 0) + \bar{b}\,\rho_i\,t + o(t) \quad \text{a.s.}
-\]</span></p>
-<p><strong>Step 2 — Difference.</strong> <span class="math inline">\(\gamma := \bar{b}(\rho_i - \rho_j)\)</span> 두면</p>
-<p><span class="math display">\[
-D(s) \;=\; \gamma\, s + \xi(s), \qquad \xi(s) = o(s)\ \text{a.s.}
-\]</span></p>
-<p><strong>Step 3 — <span class="math inline">\(SD^2\)</span> 전개.</strong></p>
-<p><span class="math display">\[
-SD^2_{ij}(t) \;=\; \gamma^2 \!\sum_{s=0}^{t} s^2 \;+\; 2\gamma \!\sum_{s=0}^{t} s\,\xi(s) \;+\; \sum_{s=0}^{t} \xi(s)^2.
-\]</span></p>
+<section id="출처-1" class="level3">
+<h3 class="anchored" data-anchor-id="출처-1">출처</h3>
 <ul>
-<li><strong>첫째 항</strong> (지배): <span class="math inline">\(\gamma^2 \cdot \dfrac{t^3}{3} + O(t^2)\)</span> (since <span class="math inline">\(\sum_{s=0}^t s^2 = t(t+1)(2t+1)/6\)</span>)</li>
-<li><strong>둘째 항</strong> (cross): <span class="math inline">\(|\xi(s)| \leq \epsilon s\)</span> for <span class="math inline">\(s \geq S_\epsilon\)</span> → <span class="math inline">\(\left|\sum s\,\xi(s)\right| \leq C_\epsilon + \epsilon t^3/3\)</span> → <span class="math inline">\(o(t^3)\)</span></li>
-<li><strong>셋째 항</strong> (residual): <span class="math inline">\(|\xi(s)|^2 \leq \epsilon^2 s^2\)</span> → 같은 방식으로 <span class="math inline">\(o(t^3)\)</span></li>
+<li>Rick Durrett, <em>Probability: Theory and Examples</em>, 5th edition (Cambridge, 2019), §4.5 “Square Integrable Martingales”, Theorems 4.5.2 &amp; 4.5.3, p.&nbsp;240</li>
+<li>회사 ref/ 폴더: <a href="../../../2026-OHS-HST/ref/BOOK_Durrett_Probability_TheoryAndExamples_5e.pdf"><code>BOOK_Durrett_Probability_TheoryAndExamples_5e.pdf</code></a>, p.&nbsp;240</li>
+<li>공개 PDF: Rick Durrett 의 <a href="https://sites.math.duke.edu/~rtd/PTE/PTE5_011119.pdf">Duke 사이트</a></li>
 </ul>
-<p><strong>Step 4 — 결론.</strong></p>
+</section>
+</section>
+<section id="statement-정본-5-thm-3-원문-그대로" class="level2">
+<h2 class="anchored" data-anchor-id="statement-정본-5-thm-3-원문-그대로">Statement (정본 §5, Thm 3 원문 그대로)</h2>
+<p><strong>Theorem (Drift-regime convergence)</strong>. Assume the standing setting (connected <span class="math inline">\(\mathcal{G}\)</span>, full-support <span class="math inline">\(\boldsymbol{\mu}_0\)</span>) and the regime-defining hypothesis for the pair <span class="math inline">\((i, j)\)</span>:</p>
+<ul>
+<li><strong>(A4) (Drift)</strong> <span class="math inline">\(\rho_i\)</span> and <span class="math inline">\(\rho_j\)</span> exist a.s.&nbsp;with <span class="math inline">\(\rho_i \neq \rho_j\)</span>.</li>
+</ul>
+<p>Then</p>
 <p><span class="math display">\[
-\frac{SD^2_{ij}(t)}{t^3} \;\to\; \frac{\gamma^2}{3} \;=\; \frac{\bar{b}^2(\rho_i - \rho_j)^2}{3}.
+\frac{SD^2_{ij}(t)}{t^3} \;\xrightarrow{t \to \infty}\; \frac{\bar{b}^{\,2}(\rho_i - \rho_j)^2}{3} \qquad \text{a.s.,}
 \]</span></p>
+<p>where <span class="math inline">\(\bar{b} := \mathbb{E}[b'] = b/2\)</span>. The limit is strictly positive under (A4).</p>
+<blockquote class="blockquote">
+<p><strong>Remark (외부 textbook 노테이션과의 충돌)</strong>.</p>
+<ul>
+<li>Durrett 의 <span class="math inline">\(X_n\)</span> (square-integrable martingale, <span class="math inline">\(\mathbb{R}\)</span> 값) ↔︎ 본 증명의 <span class="math inline">\(X_s\)</span> (walker 위치, <span class="math inline">\(V\)</span> 의 노드 값) — 완전히 다른 객체, 같은 글자 <span class="math inline">\(X\)</span>. Durrett 의 <span class="math inline">\(X_n\)</span> 자리에 우리의 <span class="math inline">\(M_t^{(i)}\)</span> 가 대입됨.</li>
+<li>Durrett 의 Doob decomposition <span class="math inline">\(X_n^2 = M_n + A_n\)</span> 안의 <span class="math inline">\(M_n\)</span> (intermediate martingale, Durrett 본문 setup 안에서만 등장) ↔︎ 본 증명의 <span class="math inline">\(M_t^{(i)}\)</span> (우리 실제 martingale) — 다른 객체. 본 글에서는 Durrett 의 Doob decomposition piece <span class="math inline">\(M_n\)</span> 은 statement 발췌에만 등장, Corollary 와 적용에서는 등장 안 함.</li>
+</ul>
+</blockquote>
+<div class="callout callout-style-default callout-important callout-titled" title="해석: 한 줄">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>해석: 한 줄
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\rho_i \neq \rho_j\)</span> → height 들이 서로 다른 속도로 자람 → <span class="math inline">\(D_s := h(v_i,s) - h(v_j,s) \sim \gamma s\)</span> ballistic drift (<span class="math inline">\(\gamma := \bar{b}(\rho_i-\rho_j) \neq 0\)</span>) → <span class="math inline">\(\sum_s D_s^2 \sim \gamma^2 \sum_s s^2 \sim \gamma^2 t^3/3\)</span>. SLLN + Cesàro 한 줄, 무거운 기계 없음.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="큰 그림">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>큰 그림
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Claim 1</strong> — martingale SLLN: <span class="math inline">\(h(v_i, t) = h(v_i, 0) + \bar{b}\rho_i t + o(t)\)</span> a.s. → <span class="math inline">\(D_s = \gamma s + \xi(s)\)</span>, <span class="math inline">\(\xi(s) = o(s)\)</span> a.s.</li>
+<li><strong>Claim 2</strong> — Cesàro 류: <span class="math inline">\(\sum s\,\xi(s) = o(t^3)\)</span>, <span class="math inline">\(\sum \xi(s)^2 = o(t^3)\)</span></li>
+<li>두 Claim 합쳐서 <span class="math inline">\(SD^2/t^3 = \gamma^2 \sum s^2/t^3 + o(1) + o(1) \to \gamma^2/3\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="증명: Theorem C">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>증명: Theorem C
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[
+\begin{aligned}
+\frac{SD^2_{ij}(t)}{t^3}
+  &amp;= \frac{1}{t^3} \sum_{s=0}^{t} D_s^2
+    &amp;&amp; (\because\ SD^2_{ij}(t) := \textstyle\sum_{s=0}^{t} D_s^2) \\
+  &amp;= \frac{1}{t^3} \sum_{s=0}^{t} \bigl(\gamma s + \xi(s)\bigr)^2
+    &amp;&amp; (\because\ \text{Claim 1}:\ D_s = \gamma s + \xi(s),\ \gamma := \bar{b}(\rho_i-\rho_j),\ \xi(s) = o(s)) \\
+  &amp;= \frac{\gamma^2}{t^3} \sum_{s=0}^{t} s^2
+   + \frac{2\gamma}{t^3} \sum_{s=0}^{t} s\,\xi(s)
+   + \frac{1}{t^3} \sum_{s=0}^{t} \xi(s)^2
+    &amp;&amp; (\because\ \text{이항 전개}) \\
+  &amp;\xrightarrow{t \to \infty}\; \frac{\gamma^2}{3} + 0 + 0
+    &amp;&amp; (\because\ \textstyle\sum_{s=0}^{t} s^2 = \tfrac{t(t+1)(2t+1)}{6} \sim \tfrac{t^3}{3};\ \text{Claim 2}) \\
+  &amp;= \frac{\bar{b}^{\,2}(\rho_i - \rho_j)^2}{3}. &amp;&amp; \square
+\end{aligned}
+\]</span></p>
+<hr>
+<p><strong>Claim 1.</strong> <span class="math inline">\(D_s = \gamma\, s + \xi(s)\)</span> with <span class="math inline">\(\gamma := \bar{b}(\rho_i - \rho_j)\)</span> 와 <span class="math inline">\(\xi(s) = o(s)\)</span> a.s.</p>
+<p>증명. 알고리즘 정의로</p>
+<p><span class="math display">\[
+h(v_i, t) = h(v_i, 0) + \sum_{s=1}^{t} b'_s\, \mathbf{1}\{X_s = v_i\} = h(v_i, 0) + \bar{b} \sum_{s=1}^{t} \mathbf{1}\{X_s = v_i\} + M_t^{(i)},
+\]</span></p>
+<p>where <span class="math inline">\(M_t^{(i)} := \sum_{s=1}^{t} (b'_s - \bar{b})\, \mathbf{1}\{X_s = v_i\}\)</span>. Martingale SLLN 의 조건 3개 + <span class="math inline">\(\rho_i\)</span> 정의 증명:</p>
+<p><strong>조건 1 증명</strong> (<span class="math inline">\(\rho_i\)</span> 정의). <span class="math inline">\(\frac{1}{t}\sum_{s=1}^{t} \mathbf{1}\{X_s = v_i\} \to \rho_i\)</span> a.s. ✓ (가정 A4 에 명시)</p>
+<p><strong>조건 2 증명</strong> (<span class="math inline">\(M_t^{(i)}\)</span> 가 martingale). <span class="math inline">\(b'_s \perp (\mathcal{F}_{s-1}, X_s)\)</span> + <span class="math inline">\(\mathbb{E}[b'_s - \bar{b}] = 0\)</span> → <span class="math inline">\(\mathbb{E}[\Delta M_s^{(i)} \mid \mathcal{F}_{s-1}] = 0\)</span>. ✓</p>
+<p><strong>조건 3 증명</strong> (bounded increments). <span class="math inline">\(|\Delta M_s^{(i)}| = |(b'_s - \bar{b})\, \mathbf{1}\{X_s = v_i\}| \leq |b'_s - \bar{b}| \leq b/2\)</span>. ✓</p>
+<p>조건 2 + 3 → 위 Corollary (bounded-increment martingale) 직접 적용 → <span class="math inline">\(M_t^{(i)}/t \to 0\)</span> a.s.</p>
+<p>세 조건 + Durrett 합치면 <span class="math inline">\(h(v_i, t) = h(v_i, 0) + \bar{b}\rho_i t + o(t)\)</span> a.s. <span class="math inline">\(v_j\)</span> 에 같은 식 적용 후 차:</p>
+<p><span class="math display">\[
+D_s = h(v_i, s) - h(v_j, s) = \bar{b}(\rho_i - \rho_j)\, s + o(s) = \gamma\, s + \xi(s). \qquad \Box_{\text{Claim 1}}
+\]</span></p>
+<hr>
+<p><strong>Claim 2.</strong> <span class="math inline">\(\sum_{s=0}^{t} s\,\xi(s) = o(t^3)\)</span> 및 <span class="math inline">\(\sum_{s=0}^{t} \xi(s)^2 = o(t^3)\)</span> a.s.</p>
+<p>증명. <span class="math inline">\(\xi(s) = o(s)\)</span> a.s. 의 정의에 의해, <span class="math inline">\(\forall \epsilon &gt; 0\)</span>, <span class="math inline">\(\exists\, S_\epsilon = S_\epsilon(\omega) &lt; \infty\)</span> a.s. s.t.</p>
+<p><span class="math display">\[
+|\xi(s)| \leq \epsilon\, s \qquad \forall\, s \geq S_\epsilon.
+\]</span></p>
+<p><strong>조건 1 증명</strong> (cross sum <span class="math inline">\(\sum s\,\xi(s) = o(t^3)\)</span>).</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left|\sum_{s=0}^{t} s\,\xi(s)\right|
+  &amp;= \left|\sum_{s=0}^{S_\epsilon} s\,\xi(s) + \sum_{s=S_\epsilon+1}^{t} s\,\xi(s)\right|
+    &amp;&amp; (\because\ \text{합 split at } S_\epsilon) \\
+  &amp;\leq \left|\sum_{s=0}^{S_\epsilon} s\,\xi(s)\right| + \left|\sum_{s=S_\epsilon+1}^{t} s\,\xi(s)\right|
+    &amp;&amp; (\because\ |a+b| \leq |a| + |b|) \\
+  &amp;\leq \sum_{s=0}^{S_\epsilon} s\,|\xi(s)| + \sum_{s=S_\epsilon+1}^{t} s\,|\xi(s)|
+    &amp;&amp; (\because\ |{\textstyle\sum} \cdot| \leq \textstyle\sum |\cdot|,\ s \geq 0) \\
+  &amp;=: C_\epsilon + \sum_{s=S_\epsilon+1}^{t} s\,|\xi(s)|
+    &amp;&amp; (\because\ \text{첫 합 finite, random but } &lt; \infty\ \text{a.s.}) \\
+  &amp;\leq C_\epsilon + \sum_{s=S_\epsilon+1}^{t} s \cdot (\epsilon\, s)
+    &amp;&amp; (\because\ |\xi(s)| \leq \epsilon\, s\ \forall\, s \geq S_\epsilon) \\
+  &amp;= C_\epsilon + \epsilon \sum_{s=S_\epsilon+1}^{t} s^2
+    &amp;&amp; (\because\ \text{factor out } \epsilon) \\
+  &amp;\leq C_\epsilon + \epsilon \sum_{s=1}^{t} s^2
+    &amp;&amp; (\because\ \text{extend sum, terms} \geq 0) \\
+  &amp;= C_\epsilon + \epsilon \cdot \frac{t(t+1)(2t+1)}{6}
+    &amp;&amp; (\because\ \text{Faulhaber: } \textstyle\sum_{s=1}^t s^2 = t(t+1)(2t+1)/6).
+\end{aligned}
+\]</span></p>
+<p>이제 <span class="math inline">\(t^3\)</span> 으로 나누어 극한:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{1}{t^3}\left|\sum_{s=0}^{t} s\,\xi(s)\right|
+  &amp;\leq \frac{C_\epsilon}{t^3} + \epsilon \cdot \frac{t(t+1)(2t+1)}{6\, t^3} \\
+  &amp;\xrightarrow{t \to \infty}\; 0 + \epsilon \cdot \tfrac{1}{3}
+    &amp;&amp; (\because\ C_\epsilon\ \text{상수},\ t(t+1)(2t+1)/(6t^3) \to 2/6 = 1/3) \\
+  &amp;= \tfrac{\epsilon}{3}.
+\end{aligned}
+\]</span></p>
+<p>→ <span class="math inline">\(\limsup_{t \to \infty} t^{-3}\bigl|\sum_{s=0}^{t} s\,\xi(s)\bigr| \leq \epsilon/3\)</span>. <span class="math inline">\(\epsilon &gt; 0\)</span> 임의 → <span class="math inline">\(\limsup = 0\)</span> → <span class="math inline">\(\sum_{s=0}^{t} s\,\xi(s) = o(t^3)\)</span> a.s. ✓</p>
+<p><strong>조건 2 증명</strong> (residual sum <span class="math inline">\(\sum \xi(s)^2 = o(t^3)\)</span>).</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sum_{s=0}^{t} \xi(s)^2
+  &amp;= \sum_{s=0}^{S_\epsilon} \xi(s)^2 + \sum_{s=S_\epsilon+1}^{t} \xi(s)^2
+    &amp;&amp; (\because\ \text{합 split at } S_\epsilon) \\
+  &amp;=: C'_\epsilon + \sum_{s=S_\epsilon+1}^{t} \xi(s)^2
+    &amp;&amp; (\because\ \text{첫 합 finite, random but } &lt; \infty\ \text{a.s.}) \\
+  &amp;\leq C'_\epsilon + \sum_{s=S_\epsilon+1}^{t} (\epsilon\, s)^2
+    &amp;&amp; (\because\ |\xi(s)| \leq \epsilon\, s \Rightarrow \xi(s)^2 \leq \epsilon^2 s^2) \\
+  &amp;= C'_\epsilon + \epsilon^2 \sum_{s=S_\epsilon+1}^{t} s^2 \\
+  &amp;\leq C'_\epsilon + \epsilon^2 \cdot \frac{t(t+1)(2t+1)}{6}
+    &amp;&amp; (\because\ \text{Faulhaber, sum extension}).
+\end{aligned}
+\]</span></p>
+<p><span class="math inline">\(t^3\)</span> 으로 나누어 극한:</p>
+<p><span class="math display">\[
+\frac{1}{t^3}\sum_{s=0}^{t} \xi(s)^2 \;\leq\; \frac{C'_\epsilon}{t^3} + \epsilon^2 \cdot \frac{t(t+1)(2t+1)}{6\, t^3} \;\xrightarrow{t \to \infty}\; 0 + \tfrac{\epsilon^2}{3} = \tfrac{\epsilon^2}{3}.
+\]</span></p>
+<p>→ <span class="math inline">\(\limsup_{t \to \infty} t^{-3} \sum_{s=0}^{t} \xi(s)^2 \leq \epsilon^2/3\)</span>. <span class="math inline">\(\epsilon\)</span> 임의 → <span class="math inline">\(\limsup = 0\)</span> → <span class="math inline">\(\sum_{s=0}^{t} \xi(s)^2 = o(t^3)\)</span> a.s. ✓</p>
+<p>두 조건 합치면 <strong>Claim 2 증명 완료</strong>. <span class="math inline">\(\Box_{\text{Claim 2}}\)</span></p>
+<p>Claim 1 + Claim 2 가 위 메인 chain 의 두 <code>\because</code> 를 보장 → Thm C 증명 완료.</p>
+</div>
+</div>
+</div>
 <div class="callout callout-style-default callout-important callout-titled" title="해석: 왜 Thm C 가 Thm A 보다 쉬운가">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -747,9 +1000,9 @@ SD^2_{ij}(t) \;=\; \gamma^2 \!\sum_{s=0}^{t} s^2 \;+\; 2\gamma \!\sum_{s=0}^{t} 
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Thm C 는 <span class="math inline">\(\rho_i \neq \rho_j\)</span> 라는 <strong>강한 ballistic drift</strong> 가 있어서, <span class="math inline">\(O(t)\)</span> 의 결정론적 직선 성분이 모든 fluctuation <span class="math inline">\(\xi(s) = o(s)\)</span> 를 덮어버린다. SLLN 한 줄 + Cesaro 한 줄로 끝.</p>
+<p>Thm C 는 <span class="math inline">\(\rho_i \neq \rho_j\)</span> 라는 <strong>강한 ballistic drift</strong> 가 있어서, <span class="math inline">\(O(t)\)</span> 의 결정론적 직선 성분이 모든 fluctuation <span class="math inline">\(\xi(s) = o(s)\)</span> 를 덮어버린다. martingale SLLN 한 줄 (Claim 1) + Cesàro 류 한 줄 (Claim 2) 로 끝.</p>
 <p>Thm A 는 그 결정론적 항이 정확히 0 (<span class="math inline">\(\rho_i = \rho_j = 1/n\)</span>) 이라 “<span class="math inline">\(o(t)\)</span> 짜리 잔여 <span class="math inline">\(\xi(s)\)</span> 가 dominant”. 그래서 <span class="math inline">\(\xi\)</span> 자체의 stationary distribution 을 만들어야 (Foster + Doeblin + Meyn–Tweedie) 한다.</p>
 <p>쉽게 말해: <strong>Thm A 가 어려운 이유는 “보이지 않는 작은 노이즈” 가 답을 결정하기 때문</strong>.</p>
 </div>
