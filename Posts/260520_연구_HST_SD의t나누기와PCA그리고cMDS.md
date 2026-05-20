@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ SD 의 t-나누기 × PCA × cMDS — 같은 임베딩
 author: 연
 date: 05/20/2026
 draft: false
-output-file: 260520_4e9c1f.html
+output-file: 260520_baf177.html
 fontsize: 0.85em
 ---
 

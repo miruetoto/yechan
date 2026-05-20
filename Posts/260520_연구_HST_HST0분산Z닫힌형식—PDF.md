@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ HST₀ 분산의 Z-닫힌형식 — PDF
 author: 연
 date: 05/20/2026
 draft: false
-output-file: 260520_b1c204.html
+output-file: 260520_b00cfd.html
 fontsize: 0.85em
 ---
 
