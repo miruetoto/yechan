@@ -9,6 +9,4 @@ page-layout: full
 ---
 <!-- 소유권자: 소미 | 사용자: 소미 -->
 
-![](attachments/260520_017fe4_01.png)
-
 ![](attachments/260520_017fe4_02.gif)
