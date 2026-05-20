@@ -1,5 +1,5 @@
 ---
-title: "연구 ▷ HST ▷ C₆₀ + pendant 실험"
+title: "연구 ▷ HST ▷ 목걸이모양 네트워크 실험 (교수님 아이디어)"
 author: 소미
 date: 05/20/2026
 draft: false
