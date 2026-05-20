@@ -1,5 +1,5 @@
 ---
-title: "연구 ▷ HST ▷ Kite 실험 (K_{2,20} + RIGHT)"
+title: "연구 ▷ HST ▷ 연모양(kite)네트워크 실험"
 author: 소미
 date: 05/20/2026
 draft: false
