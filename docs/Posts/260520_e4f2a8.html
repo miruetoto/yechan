@@ -73,35 +73,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../styles.css">
 <link rel="stylesheet" href="styles.css">
@@ -222,96 +193,10 @@ window.Quarto = {
 
 
 <!-- 소유권자: 소미 | 사용자: 소미 -->
-<section id="그래프-정의" class="level2">
-<h2 class="anchored" data-anchor-id="그래프-정의">§1. 그래프 정의</h2>
-<p>K_{2,20} + RIGHT 양식. 양방향 그래프.</p>
-<ul>
-<li><strong>LEFT</strong> (주황 □): 회색 노드 20개를 거쳐 ANCHOR 와 연결</li>
-<li><strong>MID</strong> (회색 ○, 20개): LEFT 와 ANCHOR 사이 병렬 path 의 internal node</li>
-<li><strong>ANCHOR</strong> (빨강 ○): hub. LEFT 와 RIGHT 양쪽 연결</li>
-<li><strong>RIGHT</strong> (보라 □): ANCHOR 와 직접 연결 (internal 없음)</li>
-</ul>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>노드</th>
-<th>degree</th>
-<th>비고</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>LEFT</td>
-<td>20</td>
-<td>hub (회색 20개 거침)</td>
-</tr>
-<tr class="even">
-<td>MID (×20)</td>
-<td>2</td>
-<td>LEFT, ANCHOR 양쪽 연결</td>
-</tr>
-<tr class="odd">
-<td>ANCHOR</td>
-<td>21</td>
-<td>LEFT 의 모든 회색 + RIGHT 1개</td>
-</tr>
-<tr class="even">
-<td>RIGHT</td>
-<td>1</td>
-<td>ANCHOR 와 직접</td>
-</tr>
-</tbody>
-</table>
-<p>|V|=23, |E|=41.</p>
 <p><img src="attachments/260520_e4f2a8_graph.png" class="img-fluid"></p>
-</section>
-<section id="시뮬-설정" class="level2">
-<h2 class="anchored" data-anchor-id="시뮬-설정">§2. 시뮬 설정</h2>
-<ul>
-<li><strong>signal</strong> <span class="math inline">\(f = 0\)</span> (모든 노드)</li>
-<li><strong>b</strong> = 0.05, <span class="math inline">\(T_{\max}\)</span> = 20</li>
-<li><strong><span class="math inline">\(\mu_0\)</span></strong> = uniform (degree-proportional)</li>
-<li><strong>τ</strong> = <span class="math inline">\(10^6\)</span>, <strong>N_CKPT</strong> = 30 (geomspace <span class="math inline">\(1 \sim 10^6\)</span>, 초기 t 포함)</li>
-<li>random-step variant (b’_s ~ Unif(0, b) i.i.d.)</li>
-</ul>
-</section>
-<section id="결과" class="level2">
-<h2 class="anchored" data-anchor-id="결과">§3. 결과</h2>
-<section id="x3-layout" class="level3">
-<h3 class="anchored" data-anchor-id="x3-layout">2x3 layout</h3>
-<ul>
-<li>(0,0) <strong>graph</strong> — 본 그래프 시각화</li>
-<li>(0,1) <strong>수렴 곡선</strong> — SD²/t (Thm A, 보라), SD²/t² (intermediate, 회색), SD²/t³ (Thm B, 초록)</li>
-<li>(0,2) — [비움]</li>
-<li>(1,0) <strong>spectral embedding</strong> — 정규화 Laplacian 의 fiedler 등 eigvec 사용</li>
-<li>(1,1) <strong>HST embedding</strong> — √(SD²/t) 의 2D MDS</li>
-<li>(1,2) <strong>resistance embedding</strong> — pseudoinverse of <span class="math inline">\(L\)</span> 의 resistance distance</li>
-</ul>
 <p><img src="attachments/260520_e4f2a8_anim.gif" class="img-fluid"></p>
-</section>
-<section id="분석" class="level3">
-<h3 class="anchored" data-anchor-id="분석">분석</h3>
-<p><strong>Regime</strong>: degree heterogeneity 매우 큼 (LEFT/ANCHOR deg ≈ 20, MID deg = 2, RIGHT deg = 1) → balanced 가정 위배 → <strong>Thm B (drift) regime</strong> 예상.</p>
-<ul>
-<li><strong>SD²/t</strong>: 발산 (우상향)</li>
-<li><strong>SD²/t²</strong>: 발산 (우상향)</li>
-<li><strong>SD²/t³</strong>: 수렴 (안정) → <strong>t³ scaling</strong> 확인. mean off-diagonal SD² 가 t³ 으로 증가.</li>
-</ul>
-<p><strong>HST embedding</strong>: LEFT/ANCHOR 가 매우 가깝게 (둘 다 hub, 거의 같은 distance profile to MID). RIGHT 는 ANCHOR 근방. MID 20개는 LEFT-ANCHOR 사이 분포.</p>
-<p><strong>Spectral</strong>: hub 노드 (LEFT/ANCHOR) 가 양 끝에 분리 + MID 중앙 cluster. RIGHT 는 ANCHOR 근방. graph 의 구조 (path/hub) 잘 반영.</p>
-<p><strong>Resistance</strong>: Spectral 과 유사 양식 — resistance distance 가 spectral distance 와 closely related.</p>
-</section>
-<section id="comparing-distances" class="level3">
-<h3 class="anchored" data-anchor-id="comparing-distances">Comparing distances</h3>
-<p>세 distance (HST / spectral / resistance) 모두 본 graph 의 <strong>hub-MID-leaf 구조</strong>를 다른 방식으로 표현. HST 는 시간 진화 양식 (random walk 위의 height accumulation) 이라 graph 외 dynamic 정보 포함.</p>
-</section>
-</section>
-<section id="결론" class="level2">
-<h2 class="anchored" data-anchor-id="결론">§4. 결론</h2>
-<p>K_{2,20} + RIGHT 양식은 degree heterogeneity 가 dominant 한 그래프로, HST 의 SD² 가 <strong>t³ scaling</strong> (Thm B drift regime) 으로 발산. embedding 양식에서 hub 와 leaf 의 분리가 명확. spectral / resistance 와의 비교에서 HST 가 dynamic (random walk) 정보를 추가 활용함을 확인.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
