@@ -3,7 +3,7 @@ title: 연구 ▷ HST ▷ SD² 의 t³ 상한 — 한 노드에만 눈 쌓이는
 author: 연
 date: 05/20/2026
 draft: false
-output-file: 260520_a76e02.html
+output-file: 260520_4b1645.html
 fontsize: 0.85em
 ---
 
