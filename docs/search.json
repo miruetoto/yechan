@@ -3358,5 +3358,12 @@
     "title": "연구 ▷ 호르무즈 ▷ NYT 항적 figure 재현",
     "section": "6. R 로도 보기 — 모든 항적을 lon/lat 평면에 직접 plot",
     "text": "6. R 로도 보기 — 모든 항적을 lon/lat 평면에 직접 plot\nbasemap 없이 좌표만 보는 sanity check. coord_fixed 의 ratio = 1 / cos(latCenter) 로 호르무즈 위도에서의 실제 종횡비를 보존.\n\n\n\nR/ggplot2 — Before 1089 · After 85 트랙, 선박 종류별 색\n\n\nlibrary(jsonlite); library(ggplot2); library(data.table)\n\n# §3.2 의 track_to_dt 를 이용해 전 트랙을 하나의 long table 로\nload_period &lt;- function(file, period) {\n  d &lt;- fromJSON(file, simplifyVector = FALSE)\n  bbox &lt;- lapply(d$bbox, as.numeric); asp &lt;- as.numeric(d$aspect)\n  pieces &lt;- lapply(seq_along(d$tracks), function(k) {\n    tr &lt;- d$tracks[[k]]\n    if (length(tr$pts) &lt; 2) return(NULL)\n    pts &lt;- do.call(rbind, lapply(tr$pts, function(p) as.numeric(unlist(p))))\n    data.table(\n      period = period, track_id = k, group = as.character(tr$g),\n      lon = bbox$minLon + pts[, 1] * (bbox$maxLon - bbox$minLon),\n      lat = bbox$maxLat - pts[, 2] / asp * (bbox$maxLat - bbox$minLat)\n    )\n  })\n  rbindlist(pieces)\n}\n\ndt &lt;- rbind(\n  load_period(\"hormuz-tracks-before.json\", \"Before war (Feb 18–27)\"),\n  load_period(\"hormuz-tracks-after.json\",  \"After Iranian retaliation (Apr 3–12)\")\n)\n\nggplot(dt, aes(lon, lat, group = interaction(period, track_id), color = group)) +\n  geom_path(linewidth = 0.18, alpha = 0.45) +\n  facet_wrap(~ period) +\n  coord_fixed(ratio = 1 / cos(mean(range(dt$lat)) * pi / 180)) +\n  scale_color_manual(values = c(cargo = \"#3aa9ff\", tanker = \"#ff8c42\", gas = \"#7be36a\"))\n기사 narrative 인 “전쟁 전에는 오만 쪽 깊은 항로 다발, 보복기에는 트랙 듬성듬성 + 이란 쪽 치우침” 이 lon/lat 평면에서 그대로 드러난다."
+  },
+  {
+    "objectID": "Posts/260520_70924e.html#discussion",
+    "href": "Posts/260520_70924e.html#discussion",
+    "title": "연구 ▷ HST ▷ 목걸이모양 네트워크 실험 (교수님 아이디어)",
+    "section": "Discussion",
+    "text": "Discussion\n바퀴랑 다르게 별표가 떨어져나감.\n\n\n바퀴는 스타가 중앙에 있어서 도망가지 않았는데, 이건 외부에 있는 느낌이라 떨어져 나가지 않을까? 하는 생각이 들었음.\n\n\n떨어져 나가더라도 그래도 파란색 점이랑 좀 가깝지 않을까? 하는 기대도 있었음. 그렇다면 원형 모양을 찌그러뜨리지 않을까? 하는 생각도 들었음.\n\n\n결과를 돌려보니 링의 연결이 너무 강하게 느껴짐. 굳이 비유하면 링과 스타가 연결된 하나의 엣지는 너무 작은 오솔길 느낌임.\n향후 실험 1: 스타와 링 중 하나만 연결하는 게 아니고 한 10~20% 쯤 연결해버리면 스타가 링을 당기지 않을까? 하는 생각이 듦. 언제부터 링의 구조를 붕괴시킬까?도 재미있는 포인트같음.\n향후 실험 2: 지금은 스타-링이었는데, 링-링 이런 구조도 재미있을 것 같음 (두 개의 그룹이 분리되지 않을까? 하는 생각이 듭니다). 오솔길 개념 재미있음 (길이 있지만 없는 느낌)."
   }
 ]
