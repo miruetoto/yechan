@@ -73,6 +73,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 <link rel="stylesheet" href="styles.css">
@@ -193,9 +222,44 @@ ul.task-list li input[type="checkbox"] {
 
 
 <!-- 소유권자: 소미 | 사용자: 소미 -->
+<p>목걸이모양 네트워크에서 <strong>오솔길</strong> 개념이 재미있었음.</p>
+<p>비슷한 것이 전기회로에도 존재하는데, 저항을 여러 개 직렬로 연결하면 오솔길 (저항 뒤에 저항이 또…), 여러 개를 병렬로 연결하면 (합성저항이 낮아지며) 고속도로 같은 느낌을 줌.</p>
+<ul>
+<li><strong>직렬로 연결된 길</strong> = 오솔길</li>
+<li><strong>병렬로 연결된 길</strong> = 고속도로</li>
+</ul>
+<p>이것은 엣지의 가중치를 더 크게 줘서 더 잘 흐르게 한다는 개념과는 다름.</p>
+<p>그런 의미에서 아래의 연모양 그래프를 고안함.</p>
 <p><img src="attachments/260520_febfc8_01.gif" class="img-fluid"></p>
+<section id="최단거리-관점" class="level2">
+<h2 class="anchored" data-anchor-id="최단거리-관점">최단거리 관점</h2>
+<p>이것이 흥미로운데, 최단거리 관점으로는</p>
+<ul>
+<li>빨강과 주황은 <strong>2</strong></li>
+<li>빨강과 회색 점들은 <strong>1</strong></li>
+<li>빨강과 보라는 <strong>1</strong></li>
+</ul>
+<p>임. 따라서 빨강과 주황이 가장 멀게 느껴짐.</p>
+<p>그러나 실제로는 빨강과 주황은 너무 많은 길들이 연결되어 있어서 보라보다 접근하기 쉬울 수도 있음 (분명 물리적 길이는 더 멀지만 교통수단이 좋은 느낌으로). 이런 의미에서는 <strong>빨강과 주황이 빨강과 보라보다 가까울 수도 있음</strong>.</p>
+</section>
+<section id="회색-점들은-어떨까" class="level2">
+<h2 class="anchored" data-anchor-id="회색-점들은-어떨까">회색 점들은 어떨까?</h2>
+<p>언뜻 생각하면 빨강과 주황 사이에 놓아야 할 것 같음.</p>
+<p>그런데 또 다르게 생각하면 재미있는 게 — 회색 점 1은 빨강과 자주 도달할 일 없지만 빨강과 주황은 2번 만에 거의 도달 가능함.</p>
+<p>이런 식으로 치면 <strong>회색 점들 = 보라 점과 같은 위치</strong> (보라 점과 회색 점은 서로 <span class="math inline">\(1/(\text{회색점 수}+1)\)</span> 확률로 빨강 점에 있는 눈이 선택 가능할 뿐.)</p>
+</section>
+<section id="결과" class="level2">
+<h2 class="anchored" data-anchor-id="결과">결과</h2>
+<p>결과는 더 극적임:</p>
+<ul>
+<li><strong>Spectral embedding</strong>: 빨강과 가까운 점을 <strong>보라</strong>로 판단. 그리고 빨강과 주황 사이에 회색 점들이 흩어져 놓여 있음. (최단거리 관점을 반영함)</li>
+<li><strong>Resistance distance</strong>: 빨강과 <strong>주황</strong>을 가깝게 판단함. 다만 회색 점의 위치는 제대로 파악하지 못함 (뿌려져 있음).</li>
+<li><strong>HST</strong>: 빨강·주황을 시간이 지나며 가깝게 판단하며, 빨강과 가장 먼 점으로 <strong>보라</strong>를 (회색 점들은 빨강과 매우 가까운 주황에서 다시 도달 가능하다는 점에서 보라보다 빨강에 가깝게 판단됨) 선택함.</li>
+</ul>
+<p>놀라움.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
