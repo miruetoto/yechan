@@ -228,321 +228,86 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 .katex-display { text-align: left !important; }
 .katex-display > .katex { text-align: left !important; }
 </style>
-<blockquote class="blockquote">
-<p>도서관 <code>BOOK_Durrett_Probability_TheoryAndExamples_5e.pdf</code> (490p) §4.5 Square Integrable Martingales 의 Theorem 4.5.3 (martingale SLLN 의 표준 form) 을 한 줄씩 따라가고, 그 결과가 에이의 ABC증명 (<code>paper/260514_guebin/에이/abc오희석교수님공유용_v2.tex</code>) §5 Theorem C 의 Step 1 (Height 분해) 에서 어떻게 쓰이는지 짚는다.</p>
-</blockquote>
-<section id="한-줄-직관" class="level1">
-<h1>§0 한 줄 직관</h1>
-<div class="callout callout-style-default callout-important callout-titled" title="한 줄 직관">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>한 줄 직관
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
-<div class="callout-body-container callout-body">
-<p>Martingale 의 누적량이 — 증분이 유계이고 누적 분산이 발산할 때 — 시간에 비해 무시할 만큼 작다. 즉 <em>“공정한 게임의 누적 손익은 시간의 ratio 척도에서 평균 0”</em>.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="큰-그림" class="level1">
-<h1>§1 큰 그림</h1>
-<div class="callout callout-style-default callout-important callout-titled" title="해석: 왜 마팅게일 SLLN 이 필요한가">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>해석: 왜 마팅게일 SLLN 이 필요한가
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>i.i.d. case 의 Kolmogorov SLLN <span class="math inline">\(\overline X_n \to \mu\)</span> 는 합의 항이 독립이라는 가정을 본질로 쓴다. 그런데 HST 의 height 갱신처럼 한 step 의 증분이 walker 위치 <span class="math inline">\(X_s\)</span> (과거 history <span class="math inline">\(\mathcal F_{s-1}\)</span> 에 의존) 와 increment <span class="math inline">\(b'_s\)</span> (과거와 독립) 의 곱으로 표현되는 경우 — 곱 자체는 independent 아님 — 일반 SLLN 이 직접 안 먹는다.</p>
-<p>해법: 증분의 조건부 평균이 0 인 <em>마팅게일 difference</em> 로 재포장하면 마팅게일 SLLN 한 줄로 ratio <span class="math inline">\(\to 0\)</span> 가 나온다. Durrett 4.5.3 이 정확히 그 일을 한다.</p>
-<p>본 글의 핵심 한 줄: <strong>bounded increment + predictable quadratic variation 발산 → <span class="math inline">\(M_n / n \to 0\)</span> a.s.</strong></p>
-</div>
-</div>
-</div>
-</section>
-<section id="statement-durrett-theorem-4.5.3" class="level1">
-<h1>§2 Statement — Durrett Theorem 4.5.3</h1>
-<p><span class="math inline">\(\{X_n\}_{n \geq 0}\)</span> 이 filtration <span class="math inline">\(\{\mathcal F_n\}\)</span> 에 대해 square integrable martingale (즉 <span class="math inline">\(E[X_n^2] &lt; \infty\)</span>, <span class="math inline">\(E[X_n \mid \mathcal F_{n-1}] = X_{n-1}\)</span>, <span class="math inline">\(X_0 \in \mathcal F_0\)</span>) 이라 하자. 그 <strong>predictable quadratic variation</strong> 을</p>
+<p>도서관 <code>BOOK_Durrett_Probability_TheoryAndExamples_5e.pdf</code> (490p) §4.5 Square Integrable Martingales 의 Theorem 4.5.3 (마팅게일 SLLN 의 표준 form) 을 한 번 따라가고, 그 결과가 에이의 ABC증명 (<code>paper/260514_guebin/에이/abc오희석교수님공유용_v2.tex</code>) §5 Theorem C 의 Step 1 (Height 분해) 에서 어떻게 쓰이는지를 짚는다. 한 줄 직관은 이것이다 — 마팅게일의 누적량은 증분이 유계이고 누적 조건부 분산이 발산할 때 시간에 비해 무시할 만큼 작다. 즉 “공정한 게임의 누적 손익은 시간 ratio 척도에서 평균 0”. HST 의 height 갱신처럼 walker <span class="math inline">\(X_s\)</span> (과거 history 에 의존) 와 increment <span class="math inline">\(b'_s\)</span> (과거와 독립) 의 곱으로 표현되는 합은 항이 independent 가 아니어서 Kolmogorov i.i.d. SLLN 이 직접 안 먹지만, 마팅게일 분해 한 번이면 마팅게일 SLLN 이 곧장 들어맞는다.</p>
+<section id="durrett-theorem-4.5.3" class="level1">
+<h1>1. Durrett Theorem 4.5.3</h1>
+<p><span class="math inline">\(\{X_n\}_{n \geq 0}\)</span> 이 filtration <span class="math inline">\(\{\mathcal F_n\}\)</span> 에 대해 square integrable martingale (즉 <span class="math inline">\(E[X_n^2] &lt; \infty\)</span>, <span class="math inline">\(E[X_n \mid \mathcal F_{n-1}] = X_{n-1}\)</span>, <span class="math inline">\(X_0 \in \mathcal F_0\)</span>) 이라 하자. 그 predictable quadratic variation 을</p>
 <p><span class="math display">\[A_n := \sum_{m=1}^{n} E\!\bigl[(X_m - X_{m-1})^2 \,\big|\, \mathcal F_{m-1}\bigr]\]</span></p>
-<p>으로 정의하면 <span class="math inline">\(A_n \in \mathcal F_{n-1}\)</span> 이며 <span class="math inline">\(n\)</span> 에 대해 증가한다.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Theorem 4.5.3 (Durrett 5e)">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem 4.5.3 (Durrett 5e)
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(f : [0, \infty) \to [1, \infty)\)</span> be an increasing function with</p>
-<p><span class="math display">\[\int_0^\infty f(t)^{-2}\, dt &lt; \infty.\]</span></p>
-<p>Then</p>
-<p><span class="math display">\[\frac{X_n}{f(A_n)} \xrightarrow{n \to \infty} 0 \quad \text{a.s. on } \{A_\infty = \infty\}.\]</span></p>
-</div>
-</div>
-</div>
-<p><code>-</code> 가정 <span class="math inline">\(A_\infty = \infty\)</span> 는 “누적 분산이 발산한다” 는 가설. HST 에서는 거의 자동 성립. <code>-</code> <span class="math inline">\(f\)</span> 의 전형: <span class="math inline">\(f(t) = (t \log^{1+\epsilon} t)^{1/2} \vee 1\)</span> 또는 <span class="math inline">\(f(t) = t^{1/2 + \epsilon}\)</span>. 어느 쪽이든 <span class="math inline">\(f\)</span> 가 <span class="math inline">\(\sqrt{t}\)</span> 보다 살짝 큰 정도. <code>-</code> 결론은 ratio <span class="math inline">\(X_n / f(A_n) \to 0\)</span>. <span class="math inline">\(f(A_n) \sim \sqrt{A_n \cdot \log^{1+\epsilon} A_n}\)</span> 정도이므로 <span class="math inline">\(X_n\)</span> 이 <span class="math inline">\(\sqrt{A_n}\)</span> 보다 ε 만큼 천천히 자란다는 강한 진술.</p>
-</section>
-<section id="증명-한-줄씩" class="level1">
-<h1>§3 증명 — 한 줄씩</h1>
-<p>증명 핵심은 <em>martingale transform</em> (Thm 4.2.8) → <em>square integrable martingale 의 finite limit 보조정리</em> (Thm 4.5.2) → <em>Kronecker’s lemma</em> (Thm 2.5.9) 세 가지의 합성. 한 줄씩 풀어쓰면 다음과 같다.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Proof of Theorem 4.5.3">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proof of Theorem 4.5.3
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Step 1 — Define a bounded predictable process.</strong></p>
-<p>Set <span class="math inline">\(H_m := f(A_m)^{-1}\)</span>. Since <span class="math inline">\(A_m \in \mathcal F_{m-1}\)</span>, the process <span class="math inline">\(\{H_m\}\)</span> is predictable. Since <span class="math inline">\(f \geq 1\)</span>, <span class="math inline">\(H_m \leq 1\)</span> a.s.</p>
-<p><strong>Step 2 — Form the martingale transform.</strong></p>
-<p>By Theorem 4.2.8 (bounded predictable transform preserves martingale property),</p>
+<p>으로 정의하면 <span class="math inline">\(A_n \in \mathcal F_{n-1}\)</span> 이며 <span class="math inline">\(n\)</span> 에 대해 증가한다. Durrett 의 Theorem 4.5.3 은 — <span class="math inline">\(f : [0, \infty) \to [1, \infty)\)</span> 가 증가함수이고 <span class="math inline">\(\int_0^\infty f(t)^{-2}\, dt &lt; \infty\)</span> 를 만족하면 —</p>
+<p><span class="math display">\[\frac{X_n}{f(A_n)} \xrightarrow{n \to \infty} 0 \quad \text{a.s. on } \{A_\infty = \infty\}\]</span></p>
+<p>라고 말한다. 가정 <span class="math inline">\(A_\infty = \infty\)</span> 는 “누적 분산이 발산한다” 는 가설이고, <span class="math inline">\(f\)</span> 의 전형은 <span class="math inline">\(f(t) = (t \log^{1+\epsilon} t)^{1/2} \vee 1\)</span> 또는 <span class="math inline">\(f(t) = t^{1/2 + \epsilon}\)</span> — 어느 쪽이든 <span class="math inline">\(\sqrt{t}\)</span> 보다 살짝 큰 정도다. 결론은 <span class="math inline">\(X_n\)</span> 이 <span class="math inline">\(\sqrt{A_n}\)</span> 보다 ε 만큼 천천히 자란다는 강한 진술. 증명은 세 도구의 합성으로 끝난다 — martingale transform (Thm 4.2.8), square integrable martingale 의 finite limit 보조정리 (Thm 4.5.2), Kronecker’s lemma (Thm 2.5.9).</p>
+<p>증명 자체를 한 줄씩 풀어쓴다. <span class="math inline">\(H_m := f(A_m)^{-1}\)</span> 로 두면 <span class="math inline">\(A_m \in \mathcal F_{m-1}\)</span> 이므로 <span class="math inline">\(\{H_m\}\)</span> 은 predictable, <span class="math inline">\(f \geq 1\)</span> 이라 <span class="math inline">\(H_m \leq 1\)</span> 로 bounded. Theorem 4.2.8 (bounded predictable transform 이 마팅게일을 보존) 적용으로</p>
 <p><span class="math display">\[Y_n := (H \cdot X)_n := \sum_{m=1}^{n} \frac{X_m - X_{m-1}}{f(A_m)}\]</span></p>
-<p>is again a martingale with respect to <span class="math inline">\(\{\mathcal F_n\}\)</span>.</p>
-<p><strong>Step 3 — Compute the predictable quadratic variation of <span class="math inline">\(Y_n\)</span>.</strong></p>
+<p>이 다시 마팅게일이 된다. <span class="math inline">\(Y_n\)</span> 의 predictable quadratic variation <span class="math inline">\(B_n\)</span> 을 한 step 계산하면</p>
 <p><span class="math display">\[
 \begin{aligned}
 B_{n+1} - B_n
-&amp;:= E\!\bigl[(Y_{n+1} - Y_n)^2 \,\big|\, \mathcal F_n\bigr] \\
+&amp;= E\!\bigl[(Y_{n+1} - Y_n)^2 \,\big|\, \mathcal F_n\bigr] \\
 &amp;= E\!\left[\frac{(X_{n+1} - X_n)^2}{f(A_{n+1})^2} \,\bigg|\, \mathcal F_n\right]
    &amp;&amp; (\because f(A_{n+1}) \in \mathcal F_n) \\
-&amp;= \frac{1}{f(A_{n+1})^2} \cdot E\!\bigl[(X_{n+1} - X_n)^2 \,\big|\, \mathcal F_n\bigr]
-   &amp;&amp; (\because \text{factor out predictable term}) \\
+&amp;= \frac{1}{f(A_{n+1})^2}\, E\!\bigl[(X_{n+1} - X_n)^2 \,\big|\, \mathcal F_n\bigr]
+   &amp;&amp; (\because \text{predictable factor out}) \\
 &amp;= \frac{A_{n+1} - A_n}{f(A_{n+1})^2}
-   &amp;&amp; (\because \text{definition of }A).
+   &amp;&amp; (\because A \text{ 정의}).
 \end{aligned}
 \]</span></p>
-<p><strong>Step 4 — Bound <span class="math inline">\(B_\infty\)</span> using the integral assumption.</strong></p>
-<p>Since <span class="math inline">\(f\)</span> is increasing, for <span class="math inline">\(t \in [A_n, A_{n+1})\)</span> we have <span class="math inline">\(f(t) \leq f(A_{n+1})\)</span> and hence <span class="math inline">\(f(t)^{-2} \geq f(A_{n+1})^{-2}\)</span>, so</p>
-<p><span class="math display">\[
-\begin{aligned}
-B_\infty
-&amp;= \sum_{n=0}^{\infty} \frac{A_{n+1} - A_n}{f(A_{n+1})^2} \\
-&amp;\leq \sum_{n=0}^{\infty} \int_{[A_n,\, A_{n+1})} f(t)^{-2}\, dt
-   &amp;&amp; (\because f \text{ increasing} \Rightarrow \text{lower-Riemann bound}) \\
-&amp;\leq \int_0^\infty f(t)^{-2}\, dt &lt; \infty
-   &amp;&amp; (\because \text{hypothesis}).
-\end{aligned}
-\]</span></p>
-<p>So <span class="math inline">\(B_\infty &lt; \infty\)</span> a.s.</p>
-<p><strong>Step 5 — Apply Theorem 4.5.2.</strong></p>
-<p>Theorem 4.5.2 says that a square integrable martingale converges a.s. to a finite limit on <span class="math inline">\(\{B_\infty &lt; \infty\}\)</span>. By Step 4 this event is all of <span class="math inline">\(\Omega\)</span> (modulo null sets), so</p>
-<p><span class="math display">\[Y_n \xrightarrow{n \to \infty} Y_\infty \quad \text{(finite)} \quad \text{a.s.}\]</span></p>
-<p><strong>Step 6 — Conclude by Kronecker’s lemma.</strong></p>
-<p>Kronecker’s lemma (Theorem 2.5.9): if <span class="math inline">\(a_n \uparrow \infty\)</span> and <span class="math inline">\(\sum_n x_n / a_n\)</span> converges, then <span class="math inline">\(a_n^{-1} \sum_{m=1}^n x_m \to 0\)</span>.</p>
-<p>Apply with <span class="math inline">\(a_n := f(A_n)\)</span>, <span class="math inline">\(x_m := X_m - X_{m-1}\)</span>. The hypothesis is</p>
-<p><span class="math display">\[\sum_{m=1}^{n} \frac{x_m}{a_m} = \sum_{m=1}^{n} \frac{X_m - X_{m-1}}{f(A_m)} = Y_n \xrightarrow{n \to \infty} Y_\infty \;(\text{finite, by Step 5}),\]</span></p>
-<p>and the assumption <span class="math inline">\(A_\infty = \infty\)</span> together with <span class="math inline">\(f\)</span> increasing gives <span class="math inline">\(a_n = f(A_n) \uparrow \infty\)</span>. Hence Kronecker applies:</p>
-<p><span class="math display">\[\frac{X_n}{f(A_n)} \;=\; \frac{1}{f(A_n)} \sum_{m=1}^{n} (X_m - X_{m-1}) \xrightarrow{n \to \infty} 0 \quad \text{a.s.} \qquad \square\]</span></p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled" title="보충: 세 도구의 역할 분담">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>보충: 세 도구의 역할 분담
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong>Martingale transform (Step 1–2)</strong>: 원래 <span class="math inline">\(X_n\)</span> 의 증분을 <span class="math inline">\(f(A_m)\)</span> 으로 가중해서 변동이 작아진 <span class="math inline">\(Y_n\)</span> 으로 변환. 증분이 작아지면 분산도 작아진다.</li>
-<li><strong>Theorem 4.5.2 (Step 3–5)</strong>: predictable quadratic variation 이 유한하면 square integrable martingale 은 거의 확실히 finite limit 로 수렴한다. 즉 <span class="math inline">\(Y_n\)</span> 의 <em>진동</em>이 사라진다.</li>
-<li><strong>Kronecker (Step 6)</strong>: 가중합 <span class="math inline">\(\sum x_m/a_m\)</span> 의 수렴을 비가중 합 <span class="math inline">\(a_n^{-1} \sum x_m\)</span> 의 0 수렴으로 옮긴다. 가중치 <span class="math inline">\(a_n = f(A_n)\)</span> 가 분모로 가는 게 핵심.</li>
-</ul>
-<p>세 도구가 따로 놀면 의미가 없고, 같이 묶일 때만 ratio <span class="math inline">\(X_n / f(A_n) \to 0\)</span> 라는 강한 결론이 나온다.</p>
-</div>
-</div>
-</div>
+<p><span class="math inline">\(f\)</span> 가 증가하므로 <span class="math inline">\(t \in [A_n, A_{n+1})\)</span> 에서 <span class="math inline">\(f(t) \leq f(A_{n+1}) \Rightarrow f(t)^{-2} \geq f(A_{n+1})^{-2}\)</span>, 따라서</p>
+<p><span class="math display">\[B_\infty = \sum_{n=0}^{\infty} \frac{A_{n+1} - A_n}{f(A_{n+1})^2} \;\leq\; \sum_{n=0}^{\infty} \int_{[A_n,\, A_{n+1})} f(t)^{-2}\, dt \;\leq\; \int_0^\infty f(t)^{-2}\, dt \;&lt;\; \infty\]</span></p>
+<p>이 가설로 <span class="math inline">\(B_\infty &lt; \infty\)</span> a.s. 가 보장된다. Theorem 4.5.2 (predictable quadratic variation 이 유한하면 square integrable martingale 은 finite limit 로 a.s. 수렴) 에 의해 <span class="math inline">\(Y_n \to Y_\infty\)</span> 가 유한한 극한으로 수렴. 끝으로 Kronecker’s lemma — <span class="math inline">\(a_n \uparrow \infty\)</span> 이고 <span class="math inline">\(\sum_n x_n/a_n\)</span> 이 수렴하면 <span class="math inline">\(a_n^{-1} \sum_{m=1}^n x_m \to 0\)</span> — 에 <span class="math inline">\(a_n := f(A_n)\)</span>, <span class="math inline">\(x_m := X_m - X_{m-1}\)</span> 을 대입하면 가설은 <span class="math inline">\(\sum_m x_m/a_m = Y_n \to Y_\infty\)</span> (유한) 으로 이미 확보되었고 <span class="math inline">\(A_\infty = \infty\)</span> 가설이 <span class="math inline">\(a_n \uparrow \infty\)</span> 를 준다. 따라서</p>
+<p><span class="math display">\[\frac{X_n}{f(A_n)} \;=\; \frac{1}{f(A_n)} \sum_{m=1}^{n} (X_m - X_{m-1}) \xrightarrow{n \to \infty} 0 \quad \text{a.s.}\]</span></p>
+<p>이걸로 증명 끝. 세 도구의 역할 분담을 한 줄로 보면 — transform 이 증분을 <span class="math inline">\(f\)</span> 로 가중해서 변동을 줄이고, Theorem 4.5.2 가 변동을 다 빼낸 <span class="math inline">\(Y_n\)</span> 의 finite limit 을 보장하고, Kronecker 가 가중합의 수렴을 비가중 합의 ratio 0 수렴으로 옮긴다.</p>
+<p>이 정리의 가장 유명한 specialisation 은 Durrett 의 Example 4.5.4 인데, <span class="math inline">\(\xi_1, \xi_2, \dots\)</span> 가 독립이고 <span class="math inline">\(E\xi_i = 0\)</span>, <span class="math inline">\(E\xi_i^2 = \sigma_i^2 &lt; \infty\)</span> 일 때 <span class="math inline">\(X_n := \xi_1 + \cdots + \xi_n\)</span> 이 square integrable martingale 이고 <span class="math inline">\(A_n = \sum_i \sigma_i^2\)</span> (<span class="math inline">\(\xi_i \perp \mathcal F_{i-1}\)</span> 이라 조건부 분산이 무조건부 분산과 일치). <span class="math inline">\(f(t) = (t \log^{1+\epsilon} t)^{1/2} \vee 1\)</span> 로 두면 <span class="math inline">\(\int_0^\infty f^{-2} dt\)</span> 가 <span class="math inline">\(\infty\)</span> 근방에서 <span class="math inline">\(\int dt/(t \log^{1+\epsilon} t)\)</span> 처럼 수렴해서 가설을 채운다. <span class="math inline">\(\sum_i \sigma_i^2 = \infty\)</span> 이면 <span class="math inline">\(X_n / \sqrt{A_n \log^{1+\epsilon} A_n} \to 0\)</span> a.s.; i.i.d. 케이스 <span class="math inline">\(\sigma_i^2 = \sigma^2\)</span> 에서는 <span class="math inline">\(A_n = n\sigma^2\)</span> 이라 <span class="math inline">\(X_n/n \to 0\)</span> a.s. 가 따라와 고전 Kolmogorov SLLN 을 회복한다 (게다가 로그 보정까지). 이 example 이 보여주는 것은 — independence 가 사라져도 conditional 평균이 0 이라는 마팅게일 구조만 살아있으면 SLLN 이 끝까지 살아남는다는 사실이다.</p>
 </section>
-<section id="example-고전적-kolmogorov-slln-의-일반화" class="level1">
-<h1>§4 Example: 고전적 Kolmogorov SLLN 의 일반화</h1>
-<div class="callout callout-style-default callout-note callout-titled" title="Example 4.5.4 (Durrett)">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example 4.5.4 (Durrett)
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\xi_1, \xi_2, \dots\)</span> be independent with <span class="math inline">\(E\xi_i = 0\)</span> and <span class="math inline">\(E\xi_i^2 = \sigma_i^2 &lt; \infty\)</span>. Set <span class="math inline">\(X_n := \xi_1 + \cdots + \xi_n\)</span>. Then <span class="math inline">\(\{X_n\}\)</span> is a square integrable martingale with respect to its natural filtration, and</p>
-<p><span class="math display">\[A_n = \sum_{i=1}^{n} E[\xi_i^2 \mid \mathcal F_{i-1}] = \sum_{i=1}^{n} \sigma_i^2 \quad (\because \xi_i \perp \mathcal F_{i-1}).\]</span></p>
-<p>Choose <span class="math inline">\(f(t) = (t \log^{1+\epsilon} t)^{1/2} \vee 1\)</span>. Then <span class="math inline">\(\int_0^\infty f(t)^{-2}\, dt &lt; \infty\)</span> (the integrand behaves like <span class="math inline">\(1/(t \log^{1+\epsilon} t)\)</span> near <span class="math inline">\(\infty\)</span>, which is integrable). If <span class="math inline">\(\sum_i \sigma_i^2 = \infty\)</span>, Theorem 4.5.3 gives</p>
-<p><span class="math display">\[\frac{X_n}{\sqrt{A_n\, \log^{1+\epsilon} A_n}} \xrightarrow{n \to \infty} 0 \quad \text{a.s.}\]</span></p>
-<p>In the i.i.d.&nbsp;case <span class="math inline">\(\sigma_i^2 = \sigma^2\)</span>, we get <span class="math inline">\(A_n = n\sigma^2\)</span>, hence</p>
-<p><span class="math display">\[\frac{X_n}{\sqrt{n\, \log^{1+\epsilon} n}} \to 0 \;\Rightarrow\; \frac{X_n}{n} \to 0 \quad \text{a.s.,}\]</span></p>
-<p>recovering Kolmogorov’s classical SLLN with a logarithmic rate refinement.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled" title="해석: independence 가 사라져도 마팅게일 구조만 살아있으면 된다">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>해석: independence 가 사라져도 마팅게일 구조만 살아있으면 된다
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>위 example 은 <span class="math inline">\(\xi_i\)</span> 의 <em>독립성</em> 을 본질로 쓰지 않았다. 우리가 쓴 것은:</p>
-<ul>
-<li><span class="math inline">\(E[\xi_i \mid \mathcal F_{i-1}] = 0\)</span> (마팅게일 difference)</li>
-<li><span class="math inline">\(E[\xi_i^2 \mid \mathcal F_{i-1}]\)</span> 가 잘 정의됨 (square integrable)</li>
-</ul>
-<p>이 두 가지뿐이다. 따라서 <em>correlated 가 있어도 conditional 평균이 0 이면 SLLN 이 살아난다</em>. 이게 마팅게일 SLLN 이 i.i.d. SLLN 보다 광범위한 이유.</p>
-<p>HST 에서 increment <span class="math inline">\(b'_s\)</span> 는 walker <span class="math inline">\(X_s\)</span> 와 <em>독립</em> 하지만, <span class="math inline">\(b'_s \cdot \mathbf{1}\{X_s = v_i\}\)</span> 자체는 walker 가 <span class="math inline">\(v_i\)</span> 에 자주 들리느냐에 따라 <em>highly correlated</em> 가 된다. 그래도 <em>conditional 평균이 0</em> 이라는 마팅게일 구조는 깨지지 않는다 — §5 에서 그 적용을 본다.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="hst-본업-적용-에이-abc증명-theorem-c-step-1" class="level1">
-<h1>§5 HST 본업 적용 — 에이 ABC증명 Theorem C Step 1</h1>
-<p>에이의 <code>abc오희석교수님공유용_v2.tex</code> §5 Theorem C (drift regime) 의 증명 Step 1 (Height 분해) 에서 마팅게일 SLLN 이 정확히 한 번 호출된다. 그 자리를 들여다본다.</p>
-<section id="hst-height-의-마팅게일-분해" class="level2">
-<h2 class="anchored" data-anchor-id="hst-height-의-마팅게일-분해">5.1 HST height 의 마팅게일 분해</h2>
-<p>HST 의 height 정의를 그대로 가져오자.</p>
-<p><span class="math display">\[h(v_i, t) := \sum_{s=1}^{t} b'_s \cdot \mathbf{1}\{X_s = v_i\}, \qquad h(v_i, 0) = 0.\]</span></p>
-<p>여기서 <span class="math inline">\(b'_s \sim \mathrm{Unif}(0, b)\)</span> 는 i.i.d. 이고 walker <span class="math inline">\(\{X_s\}\)</span> 와 독립. <span class="math inline">\(\bar b := E[b'_s] = b/2\)</span> 로 둔다. 증분에서 평균을 빼내면</p>
+<section id="hst-theorem-c-의-출발점-적용" class="level1">
+<h1>2. HST Theorem C 의 출발점 적용</h1>
+<p>에이의 <code>abc오희석교수님공유용_v2.tex</code> §5 Theorem C (drift regime) 의 증명은 두 step 으로 갈리는데, Step 1 이 height 의 마팅게일 분해 + 마팅게일 SLLN 으로 점근식 <span class="math inline">\(h(v_i, t) = \bar b \rho_i t + o(t)\)</span> 를 끌어내고, Step 2 가 그걸 제곱·합산해서 <span class="math inline">\(\mathrm{SD}^2_{ij}(t)/t^3 \to \bar b^2(\rho_i - \rho_j)^2/3\)</span> 를 받아낸다. 마팅게일 SLLN 이 들어가는 자리는 Step 1 단 한 번. 그 한 번을 들여다본다.</p>
+<p>HST height 의 정의 <span class="math inline">\(h(v_i, t) := \sum_{s=1}^{t} b'_s \cdot \mathbf{1}\{X_s = v_i\}\)</span> 에서 (<span class="math inline">\(b'_s \sim \mathrm{Unif}(0, b)\)</span> i.i.d., walker <span class="math inline">\(\{X_s\}\)</span> 와 독립, <span class="math inline">\(\bar b := E[b'_s] = b/2\)</span>), 증분에서 평균을 빼내면</p>
 <p><span class="math display">\[
 \begin{aligned}
 h(v_i, t)
 &amp;= \sum_{s=1}^{t} b'_s \cdot \mathbf{1}\{X_s = v_i\} \\
-&amp;= \underbrace{\bar b \sum_{s=1}^{t} \mathbf{1}\{X_s = v_i\}}_{\text{(drift 항)}}
-+ \underbrace{\sum_{s=1}^{t} (b'_s - \bar b) \cdot \mathbf{1}\{X_s = v_i\}}_{=:\, M_t^{(i)}\;\text{(martingale 항)}}.
+&amp;= \underbrace{\bar b \sum_{s=1}^{t} \mathbf{1}\{X_s = v_i\}}_{\text{drift 항}}
++ \underbrace{\sum_{s=1}^{t} (b'_s - \bar b) \cdot \mathbf{1}\{X_s = v_i\}}_{=:\, M_t^{(i)} \;\text{(martingale 항)}}
 \end{aligned}
 \]</span></p>
-<p><code>-</code> Drift 항: 점유율 <span class="math inline">\(\rho_i(t) := t^{-1} \sum_{s \leq t} \mathbf{1}\{X_s = v_i\}\)</span> 의 정의에서 <span class="math inline">\(\sum_{s} \mathbf{1}\{X_s = v_i\} = t \cdot \rho_i(t) \to t \cdot \rho_i\)</span> (장기 적립률 가정). <code>-</code> Martingale 항 <span class="math inline">\(M_t^{(i)}\)</span>: 다음 5.2 에서 마팅게일임을 확인.</p>
-</section>
-<section id="m_ti-가-마팅게일임-한-줄" class="level2">
-<h2 class="anchored" data-anchor-id="m_ti-가-마팅게일임-한-줄">5.2 <span class="math inline">\(M_t^{(i)}\)</span> 가 마팅게일임 — 한 줄</h2>
-<div class="callout callout-style-default callout-note callout-titled" title="Proof: $M_t^{(i)}$ is a martingale">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proof: <span class="math inline">\(M_t^{(i)}\)</span> is a martingale
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\mathcal F_s := \sigma(X_1, b'_1, \dots, X_s, b'_s)\)</span> be the natural filtration. The increment</p>
-<p><span class="math display">\[\Delta M_s^{(i)} := M_s^{(i)} - M_{s-1}^{(i)} = (b'_s - \bar b) \cdot \mathbf{1}\{X_s = v_i\}.\]</span></p>
-<p>By the HST algorithm order, <span class="math inline">\(X_s\)</span> is determined from <span class="math inline">\(\mathcal F_{s-1}\)</span> <em>before</em> <span class="math inline">\(b'_s\)</span> is drawn; in particular <span class="math inline">\(b'_s \perp (\mathcal F_{s-1}, X_s)\)</span>. Therefore</p>
+<p>로 갈라진다. Drift 항은 점유율 <span class="math inline">\(\rho_i(t) := t^{-1} \sum_{s \leq t} \mathbf{1}\{X_s = v_i\}\)</span> 의 정의에서 <span class="math inline">\(\bar b \cdot t \cdot \rho_i(t)\)</span>, 장기 적립률 <span class="math inline">\(\rho_i(t) \to \rho_i\)</span> 가정 하 <span class="math inline">\(\bar b \rho_i t + o(t)\)</span>. 남은 일은 <span class="math inline">\(M_t^{(i)} / t \to 0\)</span> a.s. 를 마팅게일 SLLN 으로 받아내는 것이다.</p>
+<p><span class="math inline">\(M_t^{(i)}\)</span> 가 마팅게일임은 한 줄. natural filtration <span class="math inline">\(\mathcal F_s := \sigma(X_1, b'_1, \dots, X_s, b'_s)\)</span> 에서 증분 <span class="math inline">\(\Delta M_s^{(i)} = (b'_s - \bar b) \cdot \mathbf{1}\{X_s = v_i\}\)</span> 의 조건부 평균은</p>
 <p><span class="math display">\[
 \begin{aligned}
 E\!\bigl[\Delta M_s^{(i)} \,\big|\, \mathcal F_{s-1}\bigr]
 &amp;= E\!\bigl[(b'_s - \bar b) \cdot \mathbf{1}\{X_s = v_i\} \,\big|\, \mathcal F_{s-1}\bigr] \\
-&amp;= E\!\left[\mathbf{1}\{X_s = v_i\} \cdot \underbrace{E[b'_s - \bar b \,|\, \mathcal F_{s-1},\, X_s]}_{=\, 0} \,\bigg|\, \mathcal F_{s-1}\right]
+&amp;= E\!\left[\mathbf{1}\{X_s = v_i\} \cdot \underbrace{E[b'_s - \bar b \,|\, \mathcal F_{s-1}, X_s]}_{=\, 0} \,\bigg|\, \mathcal F_{s-1}\right]
    &amp;&amp; (\because \text{tower property}) \\
 &amp;= 0
    &amp;&amp; (\because b'_s \perp (\mathcal F_{s-1}, X_s)).
 \end{aligned}
 \]</span></p>
-<p>So <span class="math inline">\(\{M_t^{(i)}\}_{t \geq 0}\)</span> is a martingale w.r.t.&nbsp;<span class="math inline">\(\{\mathcal F_t\}\)</span>. The increment is also bounded:</p>
-<p><span class="math display">\[|\Delta M_s^{(i)}| \;\leq\; |b'_s - \bar b| \cdot 1 \;\leq\; \tfrac{b}{2} \quad \text{a.s.} \qquad \square\]</span></p>
-</div>
-</div>
-</div>
-</section>
-<section id="마팅게일-slln-적용-m_ti-t-to-0" class="level2">
-<h2 class="anchored" data-anchor-id="마팅게일-slln-적용-m_ti-t-to-0">5.3 마팅게일 SLLN 적용 — <span class="math inline">\(M_t^{(i)} / t \to 0\)</span></h2>
-<p>이제 본문의 핵심. Durrett 4.5.3 의 가설을 점검한다.</p>
-<p><code>-</code> <strong>Square integrable</strong>: <span class="math inline">\(|\Delta M_s^{(i)}| \leq b/2 \Rightarrow E[(M_t^{(i)})^2] \leq t \cdot (b/2)^2 &lt; \infty\)</span>. ✓ <code>-</code> <strong>Predictable quadratic variation</strong>:</p>
+<p>HST 의 algorithm 순서가 핵심인데, 한 step 에서 <span class="math inline">\(X_s\)</span> 가 <span class="math inline">\(\mathcal F_{s-1}\)</span> 로부터 <em>먼저</em> 결정되고 <span class="math inline">\(b'_s\)</span> 는 그 <em>다음에</em> 추첨되므로 <span class="math inline">\(b'_s \perp (\mathcal F_{s-1}, X_s)\)</span> 가 성립. 그 다음 tower property 로 안쪽 조건부 평균이 0 이 되어 외부 평균도 0. 증분 크기는 <span class="math inline">\(|\Delta M_s^{(i)}| \leq |b'_s - \bar b| \leq b/2\)</span> 로 유계.</p>
+<p>이제 Durrett 4.5.3 의 가설 점검. square integrable 은 <span class="math inline">\(E[(M_t^{(i)})^2] \leq t(b/2)^2 &lt; \infty\)</span> 로 자동. predictable quadratic variation 은</p>
 <p><span class="math display">\[
 \begin{aligned}
 A_t
 &amp;= \sum_{s=1}^{t} E\!\bigl[(\Delta M_s^{(i)})^2 \,\big|\, \mathcal F_{s-1}\bigr] \\
-&amp;= \sum_{s=1}^{t} \mathbf{1}\{X_s = v_i\}^2 \cdot E\!\bigl[(b'_s - \bar b)^2 \,\big|\, \mathcal F_{s-1},\, X_s\bigr]
-   &amp;&amp; (\because \text{indicator squared} = \text{indicator}) \\
+&amp;= \sum_{s=1}^{t} \mathbf{1}\{X_s = v_i\}^2 \cdot E\!\bigl[(b'_s - \bar b)^2 \,\big|\, \mathcal F_{s-1}, X_s\bigr]
+   &amp;&amp; (\because \text{indicator}^2 = \text{indicator}) \\
 &amp;= \sum_{s=1}^{t} \mathbf{1}\{X_s = v_i\} \cdot \operatorname{Var}(b'_s)
-   &amp;&amp; (\because b'_s \perp (\mathcal F_{s-1}, X_s),\; \mathrm{Var}(b'_s) = b^2/12) \\
+   &amp;&amp; (\because b'_s \perp (\mathcal F_{s-1}, X_s),\; \operatorname{Var}(b'_s) = b^2/12) \\
 &amp;= \frac{b^2}{12} \cdot t \cdot \rho_i(t).
 \end{aligned}
 \]</span></p>
-<p><code>-</code> <strong><span class="math inline">\(A_\infty = \infty\)</span></strong>: 장기 적립률 <span class="math inline">\(\rho_i &gt; 0\)</span> 가정 하 <span class="math inline">\(A_t \sim (b^2/12) \cdot \rho_i \cdot t \to \infty\)</span>. ✓</p>
-<p><code>-</code> <span class="math inline">\(f(t) := t^{1/2 + \epsilon}\)</span> 로 두면 <span class="math inline">\(\int_0^\infty f(t)^{-2} dt = \int_0^\infty t^{-1-2\epsilon} dt &lt; \infty\)</span> (near <span class="math inline">\(\infty\)</span> 에서 수렴, near <span class="math inline">\(0\)</span> 에서는 <span class="math inline">\(f \geq 1\)</span> 의 clipping 으로 처리). ✓</p>
-<p>Theorem 4.5.3 적용:</p>
-<p><span class="math display">\[\frac{M_t^{(i)}}{f(A_t)} \to 0 \quad \text{a.s.}\]</span></p>
-<p><span class="math inline">\(f(A_t) \sim (A_t)^{1/2+\epsilon} \sim t^{1/2+\epsilon}\)</span> 이므로</p>
-<p><span class="math display">\[\frac{M_t^{(i)}}{t^{1/2+\epsilon}} \to 0 \;\Rightarrow\; \frac{M_t^{(i)}}{t} \to 0 \quad \text{a.s.}\]</span></p>
-</section>
-<section id="결과를-theorem-c-의-출발점으로-옮기기" class="level2">
-<h2 class="anchored" data-anchor-id="결과를-theorem-c-의-출발점으로-옮기기">5.4 결과를 Theorem C 의 출발점으로 옮기기</h2>
-<p>5.1 의 분해에 5.3 의 결과를 대입하면</p>
-<p><span class="math display">\[
-\begin{aligned}
-\frac{h(v_i, t)}{t}
-&amp;= \bar b \cdot \rho_i(t) + \frac{M_t^{(i)}}{t} \\
-&amp;\xrightarrow{t \to \infty} \bar b \cdot \rho_i + 0
-   &amp;&amp; (\because \rho_i(t) \to \rho_i,\; M_t^{(i)}/t \to 0) \\
-&amp;= \bar b\, \rho_i \quad \text{a.s.}
-\end{aligned}
-\]</span></p>
-<p>즉</p>
-<p><span class="math display">\[h(v_i, t) = \bar b\, \rho_i\, t + o(t) \quad \text{a.s.}\]</span></p>
-<p>이게 Theorem C 증명의 Step 1 결과. Step 2 부터는 이 점근식의 차</p>
-<p><span class="math display">\[\Delta h_{ij}(s) := h(v_i, s) - h(v_j, s) = \bar b\, (\rho_i - \rho_j)\, s + o(s)\]</span></p>
-<p>를 제곱·합산해서 <span class="math inline">\(\mathrm{SD}^2_{ij}(t)/t^3 \to \bar b^2(\rho_i - \rho_j)^2/3\)</span> 를 끌어낸다 — Cesàro / Toeplitz 적용. 마팅게일 SLLN 이 들어가는 자리는 Step 1 단 한 번.</p>
-</section>
-</section>
-<section id="마무리" class="level1">
-<h1>§6 마무리</h1>
-<div class="callout callout-style-default callout-important callout-titled" title="한 줄 요약 — 다섯 거리 survey 와의 연결">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>한 줄 요약 — 다섯 거리 survey 와의 연결
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>본 글의 메시지를 한 줄로 압축하면 — <em>“독립성을 양보하고 마팅게일 구조만 보존하면 SLLN 은 끝까지 살아남는다”</em> — 이다. HST 의 height 갱신은 walker 와 increment 가 따로 i.i.d. 인 <em>곱의 합</em> 이라 직접 i.i.d. SLLN 은 안 먹지만, 마팅게일 분해 한 번이면 마팅게일 SLLN 이 곧장 들어맞는다.</p>
-<p>본인의 다섯 거리 survey (<code>260516_연구_HST_그래프도메인에서의거리</code>) 에서 다룬 다른 거리들 — diffusion, <span class="math inline">\(R_{\mathrm{eff}}\)</span>, biharmonic, hitting time — 은 <em>정적</em> (snapshot) 그래프 거리라 SLLN 자체가 등장하지 않는다. 반면 HST 의 <span class="math inline">\(\mathrm{SD}^2\)</span> 만이 동적 (dynamic) 거리이고, 그 점근 분석의 <em>모든</em> 출발점에 마팅게일 SLLN 이 한 번 호출된다. 이게 HST 가 다섯 거리 family 와 본질적으로 다른 이유의 일부.</p>
-</div>
-</div>
-</div>
+<p><span class="math inline">\(\rho_i &gt; 0\)</span> 가정 하 <span class="math inline">\(A_t \sim (b^2 \rho_i / 12) \cdot t \to \infty\)</span> 이므로 <span class="math inline">\(A_\infty = \infty\)</span> ✓. <span class="math inline">\(f(t) := t^{1/2 + \epsilon}\)</span> 로 두면 <span class="math inline">\(\int_0^\infty f^{-2} dt\)</span> 는 <span class="math inline">\(\infty\)</span> 근방에서 <span class="math inline">\(\int t^{-1-2\epsilon} dt\)</span> 로 수렴 (near <span class="math inline">\(0\)</span> 에서는 <span class="math inline">\(f \geq 1\)</span> 의 clipping 으로 처리) ✓. Theorem 4.5.3 적용 결과는</p>
+<p><span class="math display">\[\frac{M_t^{(i)}}{f(A_t)} \to 0 \;\text{a.s.} \quad\Rightarrow\quad \frac{M_t^{(i)}}{t^{1/2 + \epsilon}} \to 0 \;\Rightarrow\; \frac{M_t^{(i)}}{t} \to 0 \;\text{a.s.}\]</span></p>
+<p>이걸 원래 분해에 대입하면</p>
+<p><span class="math display">\[\frac{h(v_i, t)}{t} = \bar b \cdot \rho_i(t) + \frac{M_t^{(i)}}{t} \xrightarrow{t \to \infty} \bar b \rho_i \;\text{a.s.} \quad\Leftrightarrow\quad h(v_i, t) = \bar b \rho_i t + o(t) \;\text{a.s.}\]</span></p>
+<p>가 되고, 이게 Theorem C 증명 Step 1 의 결론이다. Step 2 부터는 <span class="math inline">\(\Delta h_{ij}(s) = h(v_i, s) - h(v_j, s) = \bar b(\rho_i - \rho_j) s + o(s)\)</span> 의 제곱을 시간에 대해 합산해서 <span class="math inline">\(\mathrm{SD}^2_{ij}(t)/t^3 \to \bar b^2(\rho_i - \rho_j)^2/3\)</span> 를 Cesàro / Toeplitz 형 평가로 받아낸다 — 그 단계엔 마팅게일이 다시 등장하지 않는다. 즉 Theorem C 전체에서 마팅게일 SLLN 은 정확히 한 번, height 의 평균제거된 잔차 <span class="math inline">\(M_t^{(i)}\)</span> 가 <span class="math inline">\(t\)</span> 보다 천천히 자란다는 사실을 받는 데에만 호출된다.</p>
+<p>본인이 작성한 다섯 거리 survey (<code>260516_연구_HST_그래프도메인에서의거리</code>) 에서 다룬 다른 거리들 — diffusion, <span class="math inline">\(R_{\mathrm{eff}}\)</span>, biharmonic, hitting time — 은 모두 정적 (snapshot) 그래프 거리라 시간 점근의 SLLN 자체가 들어갈 자리가 없다. HST 의 <span class="math inline">\(\mathrm{SD}^2\)</span> 만이 누적 동적 (cumulative dynamic) 거리이고, 그 점근 분석의 모든 출발점에 마팅게일 SLLN 이 한 번 호출된다. 이게 HST 가 다섯 거리 family 와 본질적으로 다른 위치를 차지하는 이유 중 하나.</p>
 </section>
 <section id="참고" class="level1">
 <h1>참고</h1>
 <ul>
-<li>R. Durrett, <em>Probability: Theory and Examples</em> (5th ed., 2019), Cambridge UP. §2.5.9 Kronecker’s lemma, §4.5 Square Integrable Martingales (Thm 4.5.1/4.5.2/<strong>4.5.3</strong>, Example 4.5.4).</li>
+<li>R. Durrett, <em>Probability: Theory and Examples</em> (5th ed., 2019), Cambridge UP. §2.5.9 Kronecker’s lemma, §4.5 Square Integrable Martingales (Thm 4.5.1 / 4.5.2 / <strong>4.5.3</strong>, Example 4.5.4).</li>
 <li>에이, <em>Three-Regime Convergence of the Snow Distance — Unified Proof under Model A</em>, <code>paper/260514_guebin/에이/abc오희석교수님공유용_v2.tex</code> (2026), §5 Theorem C Step 1.</li>
-<li>유진, <em>Three-Regime Convergence 자세히 따라가기</em>, blog <code>260515_8b8636</code> (2026), §5 Theorem C 의 본인 한국어 해설.</li>
+<li>유진, <em>Three-Regime Convergence 자세히 따라가기</em>, blog <code>260515_8b8636</code> (2026), §5 Theorem C 의 한국어 해설.</li>
 </ul>
 
 
