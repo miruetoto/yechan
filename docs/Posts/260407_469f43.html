@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>연구 ▷ HST ▷ \overline{\operatorname{SD}}^2 수렴 증명 – 신록예찬's Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -34,15 +37,14 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5b48ee63c5e90d651e19f9ead4b448f1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-b80d4d0c6b5ed6a4cb4a000b691bbaf5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -105,7 +107,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -184,59 +186,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#논문-기호-정리-notation-reference" id="toc-논문-기호-정리-notation-reference" class="nav-link active" data-scroll-target="#논문-기호-정리-notation-reference">1. 논문 기호 정리 (Notation Reference)</a>
-  <ul class="collapse">
-  <li><a href="#그래프-기본" id="toc-그래프-기본" class="nav-link" data-scroll-target="#그래프-기본">그래프 기본</a></li>
-  <li><a href="#초기-데이터" id="toc-초기-데이터" class="nav-link" data-scroll-target="#초기-데이터">초기 데이터</a></li>
-  <li><a href="#heavy-snow-process-algorithm-1" id="toc-heavy-snow-process-algorithm-1" class="nav-link" data-scroll-target="#heavy-snow-process-algorithm-1">Heavy-Snow Process (Algorithm 1)</a></li>
-  <li><a href="#전이-확률" id="toc-전이-확률" class="nav-link" data-scroll-target="#전이-확률">전이 확률</a></li>
-  <li><a href="#snow-distance-snow-weight" id="toc-snow-distance-snow-weight" class="nav-link" data-scroll-target="#snow-distance-snow-weight">Snow Distance &amp; Snow Weight</a></li>
-  <li><a href="#스펙트럼-분석-spectral-analysis" id="toc-스펙트럼-분석-spectral-analysis" class="nav-link" data-scroll-target="#스펙트럼-분석-spectral-analysis">스펙트럼 분석 (Spectral Analysis)</a></li>
-  <li><a href="#기타-파라미터" id="toc-기타-파라미터" class="nav-link" data-scroll-target="#기타-파라미터">기타 파라미터</a></li>
-  <li><a href="#증명-전용-기호-section-2에서-사용" id="toc-증명-전용-기호-section-2에서-사용" class="nav-link" data-scroll-target="#증명-전용-기호-section-2에서-사용">증명 전용 기호 (Section 2에서 사용)</a></li>
-  </ul></li>
-  <li><a href="#overlinemathbfsd2t의-수렴-증명" id="toc-overlinemathbfsd2t의-수렴-증명" class="nav-link" data-scroll-target="#overlinemathbfsd2t의-수렴-증명">2. <span class="math inline">\(\overline{\mathbf{SD}}^2(t)\)</span>의 수렴 증명</a>
-  <ul class="collapse">
-  <li><a href="#세팅" id="toc-세팅" class="nav-link" data-scroll-target="#세팅">세팅</a></li>
-  <li><a href="#정리-main-theorem" id="toc-정리-main-theorem" class="nav-link" data-scroll-target="#정리-main-theorem">정리 (Main Theorem)</a></li>
-  <li><a href="#step-1.-높이차-과정은-시간-동차-마르코프-체인이다" id="toc-step-1.-높이차-과정은-시간-동차-마르코프-체인이다" class="nav-link" data-scroll-target="#step-1.-높이차-과정은-시간-동차-마르코프-체인이다">Step 1. 높이차 과정은 시간-동차 마르코프 체인이다</a></li>
-  <li><a href="#step-2.-height-recurrence-높이차가-유한-영역으로-반복-복귀" id="toc-step-2.-height-recurrence-높이차가-유한-영역으로-반복-복귀" class="nav-link" data-scroll-target="#step-2.-height-recurrence-높이차가-유한-영역으로-반복-복귀">Step 2. Height Recurrence — 높이차가 유한 영역으로 반복 복귀</a></li>
-  <li><a href="#step-3.-비가약성-irreducibility" id="toc-step-3.-비가약성-irreducibility" class="nav-link" data-scroll-target="#step-3.-비가약성-irreducibility">Step 3. 비가약성 (Irreducibility)</a></li>
-  <li><a href="#step-4.-에르고드-정리와-결론" id="toc-step-4.-에르고드-정리와-결론" class="nav-link" data-scroll-target="#step-4.-에르고드-정리와-결론">Step 4. 에르고드 정리와 결론</a>
-  <ul class="collapse">
-  <li><a href="#모멘트-조건-mathbbe_pim2-infty-확보" id="toc-모멘트-조건-mathbbe_pim2-infty-확보" class="nav-link" data-scroll-target="#모멘트-조건-mathbbe_pim2-infty-확보">모멘트 조건 <span class="math inline">\(\mathbb{E}_\pi[M^2] &lt; \infty\)</span> 확보</a></li>
-  <li><a href="#lln-적용" id="toc-lln-적용" class="nav-link" data-scroll-target="#lln-적용">LLN 적용</a></li>
-  </ul></li>
-  <li><a href="#비고" id="toc-비고" class="nav-link" data-scroll-target="#비고">비고</a></li>
-  </ul></li>
-  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">3. Appendix</a>
-  <ul class="collapse">
-  <li><a href="#a.-foster-lyapunov-criterion-용어-해설-직관-증명" id="toc-a.-foster-lyapunov-criterion-용어-해설-직관-증명" class="nav-link" data-scroll-target="#a.-foster-lyapunov-criterion-용어-해설-직관-증명">A. Foster-Lyapunov Criterion: 용어 해설, 직관, 증명</a>
-  <ul class="collapse">
-  <li><a href="#용어-해설" id="toc-용어-해설" class="nav-link" data-scroll-target="#용어-해설">용어 해설</a></li>
-  <li><a href="#직관" id="toc-직관" class="nav-link" data-scroll-target="#직관">직관</a></li>
-  <li><a href="#theorem-foster-lyapunov-criterion의-증명" id="toc-theorem-foster-lyapunov-criterion의-증명" class="nav-link" data-scroll-target="#theorem-foster-lyapunov-criterion의-증명">Theorem (Foster-Lyapunov Criterion)의 증명</a></li>
-  </ul></li>
-  <li><a href="#b.-proposition-height-recurrence의-증명" id="toc-b.-proposition-height-recurrence의-증명" class="nav-link" data-scroll-target="#b.-proposition-height-recurrence의-증명">B. Proposition (Height Recurrence)의 증명</a>
-  <ul class="collapse">
-  <li><a href="#b.1.-lyapunov-함수-phi와-1-step-drift-lemma-1" id="toc-b.1.-lyapunov-함수-phi와-1-step-drift-lemma-1" class="nav-link" data-scroll-target="#b.1.-lyapunov-함수-phi와-1-step-drift-lemma-1">B.1. Lyapunov 함수 <span class="math inline">\(\Phi\)</span>와 1-step drift (Lemma 1)</a></li>
-  <li><a href="#b.2.-round-skeleton과-1-라운드-drift로의-확장" id="toc-b.2.-round-skeleton과-1-라운드-drift로의-확장" class="nav-link" data-scroll-target="#b.2.-round-skeleton과-1-라운드-drift로의-확장">B.2. Round-skeleton과 1-라운드 drift로의 확장</a></li>
-  <li><a href="#b.3.-라운드별-기여-상한" id="toc-b.3.-라운드별-기여-상한" class="nav-link" data-scroll-target="#b.3.-라운드별-기여-상한">B.3. 라운드별 기여 상한</a></li>
-  <li><a href="#b.4.-big-drop-사건의-확률과-기여" id="toc-b.4.-big-drop-사건의-확률과-기여" class="nav-link" data-scroll-target="#b.4.-big-drop-사건의-확률과-기여">B.4. Big drop 사건의 확률과 기여</a></li>
-  <li><a href="#b.5.-1-라운드-내내-m-보존" id="toc-b.5.-1-라운드-내내-m-보존" class="nav-link" data-scroll-target="#b.5.-1-라운드-내내-m-보존">B.5. 1-라운드 내내 <span class="math inline">\(M\)</span> 보존</a></li>
-  <li><a href="#b.6.-결합-round-skeleton-1-step-drift-도출" id="toc-b.6.-결합-round-skeleton-1-step-drift-도출" class="nav-link" data-scroll-target="#b.6.-결합-round-skeleton-1-step-drift-도출">B.6. 결합 — Round-skeleton 1-step drift 도출</a></li>
-  <li><a href="#b.7.-drift-조건-delta_mathrmdrift-0의-충분-조건" id="toc-b.7.-drift-조건-delta_mathrmdrift-0의-충분-조건" class="nav-link" data-scroll-target="#b.7.-drift-조건-delta_mathrmdrift-0의-충분-조건">B.7. Drift 조건 <span class="math inline">\(\Delta_{\mathrm{drift}} &lt; 0\)</span>의 충분 조건</a></li>
-  <li><a href="#b.8.-foster-lyapunov-적용과-proposition-완성" id="toc-b.8.-foster-lyapunov-적용과-proposition-완성" class="nav-link" data-scroll-target="#b.8.-foster-lyapunov-적용과-proposition-완성">B.8. Foster-Lyapunov 적용과 Proposition 완성</a></li>
-  </ul></li>
-  </ul></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 

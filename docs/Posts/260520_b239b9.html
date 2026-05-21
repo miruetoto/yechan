@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>연구 ▷ HST ▷ SD 의 t-나누기 × PCA × cMDS — 같은 임베딩의 네 얼굴 – 신록예찬’s Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -34,15 +37,14 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-165db4a5700707ee9723b4db2002e5ec.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-42eb1ed98d6b40681f6bda2512c0def3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -105,7 +107,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -184,41 +186,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#tldr" id="toc-tldr" class="nav-link active" data-scroll-target="#tldr">TL;DR</a></li>
-  <li><a href="#기본-정리-pca-cmds-euclidean-거리에서" id="toc-기본-정리-pca-cmds-euclidean-거리에서" class="nav-link" data-scroll-target="#기본-정리-pca-cmds-euclidean-거리에서">1. 기본 정리 — PCA = cMDS (Euclidean 거리에서)</a>
-  <ul class="collapse">
-  <li><a href="#두-알고리즘" id="toc-두-알고리즘" class="nav-link" data-scroll-target="#두-알고리즘">1.1 두 알고리즘</a></li>
-  <li><a href="#동치" id="toc-동치" class="nav-link" data-scroll-target="#동치">1.2 동치</a></li>
-  <li><a href="#sd-가-euclidean-임의-확인" id="toc-sd-가-euclidean-임의-확인" class="nav-link" data-scroll-target="#sd-가-euclidean-임의-확인">1.3 SD 가 Euclidean 임의 확인</a></li>
-  </ul></li>
-  <li><a href="#t-나누기는-좌표-방향을-바꾸지-않는다-uniform-rescale-의-효과" id="toc-t-나누기는-좌표-방향을-바꾸지-않는다-uniform-rescale-의-효과" class="nav-link" data-scroll-target="#t-나누기는-좌표-방향을-바꾸지-않는다-uniform-rescale-의-효과">2. t-나누기는 좌표 방향을 바꾸지 않는다 — uniform rescale 의 효과</a>
-  <ul class="collapse">
-  <li><a href="#좌표-한-줄-변환" id="toc-좌표-한-줄-변환" class="nav-link" data-scroll-target="#좌표-한-줄-변환">2.1 좌표 한 줄 변환</a></li>
-  <li><a href="#pca-에서의-효과" id="toc-pca-에서의-효과" class="nav-link" data-scroll-target="#pca-에서의-효과">2.2 PCA 에서의 효과</a></li>
-  <li><a href="#그래서-차이가-없다" id="toc-그래서-차이가-없다" class="nav-link" data-scroll-target="#그래서-차이가-없다">2.3 그래서 차이가 없다?</a></li>
-  </ul></li>
-  <li><a href="#nontrivial-한-차이-multi-regime-situation" id="toc-nontrivial-한-차이-multi-regime-situation" class="nav-link" data-scroll-target="#nontrivial-한-차이-multi-regime-situation">3. nontrivial 한 차이 — multi-regime situation</a>
-  <ul class="collapse">
-  <li><a href="#hst-의-세-regime-이-한-그래프에-동시에-살-때" id="toc-hst-의-세-regime-이-한-그래프에-동시에-살-때" class="nav-link" data-scroll-target="#hst-의-세-regime-이-한-그래프에-동시에-살-때">3.1 HST 의 세 regime 이 한 그래프에 동시에 살 때</a></li>
-  <li><a href="#raw-sd2-의-pca" id="toc-raw-sd2-의-pca" class="nav-link" data-scroll-target="#raw-sd2-의-pca">3.2 raw <span class="math inline">\(SD^2\)</span> 의 PCA</a></li>
-  <li><a href="#sd2t3-의-pca" id="toc-sd2t3-의-pca" class="nav-link" data-scroll-target="#sd2t3-의-pca">3.3 <span class="math inline">\(SD^2/t^3\)</span> 의 PCA</a></li>
-  <li><a href="#sd2t2-의-pca-thm-b-가-살아남는-normalization" id="toc-sd2t2-의-pca-thm-b-가-살아남는-normalization" class="nav-link" data-scroll-target="#sd2t2-의-pca-thm-b-가-살아남는-normalization">3.4 <span class="math inline">\(SD^2/t^2\)</span> 의 PCA — Thm B 가 살아남는 normalization</a></li>
-  <li><a href="#sd2t-의-pca-thm-a-가-살아남는-normalization" id="toc-sd2t-의-pca-thm-a-가-살아남는-normalization" class="nav-link" data-scroll-target="#sd2t-의-pca-thm-a-가-살아남는-normalization">3.5 <span class="math inline">\(SD^2/t\)</span> 의 PCA — Thm A 가 살아남는 normalization</a></li>
-  <li><a href="#정리-t-normalization-은-regime-의-강조-시프트" id="toc-정리-t-normalization-은-regime-의-강조-시프트" class="nav-link" data-scroll-target="#정리-t-normalization-은-regime-의-강조-시프트">3.6 정리 — t-normalization 은 regime 의 강조 시프트</a></li>
-  </ul></li>
-  <li><a href="#종합-답" id="toc-종합-답" class="nav-link" data-scroll-target="#종합-답">4. 종합 답</a></li>
-  <li><a href="#다음-follow-up" id="toc-다음-follow-up" class="nav-link" data-scroll-target="#다음-follow-up">5. 다음 follow-up</a>
-  <ul class="collapse">
-  <li><a href="#참고" id="toc-참고" class="nav-link" data-scroll-target="#참고">참고</a></li>
-  </ul></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 

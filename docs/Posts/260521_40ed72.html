@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="연">
+<meta name="dcterms.date" content="2026-05-21">
+
+<title>연구 ▷ 호르무즈 ▷ EDA (그룹 분류 6종) – 신록예찬’s Blog</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-42eb1ed98d6b40681f6bda2512c0def3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">신록예찬’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DL2024/"> 
+<span class="menu-text">DL2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/AP2023/"> 
+<span class="menu-text">AP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/PP2024/"> 
+<span class="menu-text">PP2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DV2023/"> 
+<span class="menu-text">DV2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/MP2023/"> 
+<span class="menu-text">MP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SC2024/"> 
+<span class="menu-text">SC2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DS2022/"> 
+<span class="menu-text">DS2022</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SP2023/"> 
+<span class="menu-text">SP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/IR2021/"> 
+<span class="menu-text">IR2021</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan/"> 
+<span class="menu-text">yechan</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan2/"> 
+<span class="menu-text">yechan2</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/miruetoto/yechan"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">연구 ▷ 호르무즈 ▷ EDA (그룹 분류 6종)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>연 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 21, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="한-줄-요약" class="level2">
+<h2 class="anchored" data-anchor-id="한-줄-요약">0. 한 줄 요약</h2>
+<p>NYT 호르무즈 데이터셋 (1174 트랙) 을 <strong>6개 차원으로 grouping</strong> 해서 EDA. 시기·선박 종류·U-turn·이란 vs 오만 측 통과·재방문 IMO·트랙 abrupt end. NYT 본문 narrative 가 데이터 측에서 어떻게 정량화되는지 확인.</p>
+<blockquote class="blockquote">
+<p><strong>선행 글</strong>: <a href="260520_8f95a4.html">연구 ▷ 호르무즈 ▷ NYT 항적 figure 재현</a> — 데이터 출처·구조·좌표 시스템.</p>
+</blockquote>
+</section>
+<section id="데이터-개관" class="level2">
+<h2 class="anchored" data-anchor-id="데이터-개관">1. 데이터 개관</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>항목</th>
+<th>Before war (Feb 18–27)</th>
+<th>After Iranian retaliation (Apr 3–12)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>트랙 수</td>
+<td>1089</td>
+<td>85</td>
+</tr>
+<tr class="even">
+<td>점 수</td>
+<td>21,100</td>
+<td>1,004</td>
+</tr>
+<tr class="odd">
+<td>기간</td>
+<td>10일</td>
+<td>9.92일</td>
+</tr>
+<tr class="even">
+<td>고유 IMO</td>
+<td>962 (양 시기 통합)</td>
+<td>(6 척이 양 시기 모두 등장)</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="attachments/260521_40ed72_01.png" class="img-fluid figure-img"></p>
+<figcaption>① 시기 × 선박 종류 — 1089 → 85 로 트랙이 1/12 수준으로 폭락. tanker:cargo 비율은 두 시기 모두 비슷</figcaption>
+</figure>
+</div>
+</section>
+<section id="카테고리-정의" class="level2">
+<h2 class="anchored" data-anchor-id="카테고리-정의">2. 카테고리 정의</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>카테고리</th>
+<th>계산법</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>①</td>
+<td>시기</td>
+<td>어느 JSON 파일</td>
+</tr>
+<tr class="even">
+<td>①</td>
+<td>선박 종류</td>
+<td><code>tracks.g</code> ∈ {cargo, tanker, gas}</td>
+</tr>
+<tr class="odd">
+<td>②</td>
+<td>U-turn 유무</td>
+<td><code>directness = (시작·끝 직선거리) / (총 이동거리)</code> &lt; 0.3 면 U-turn 후보</td>
+</tr>
+<tr class="even">
+<td>③</td>
+<td>이란 측 / 오만 측</td>
+<td>트랙 평균 위도 &gt; 26.5°N → Iran side</td>
+</tr>
+<tr class="odd">
+<td>④</td>
+<td>재방문 빈도</td>
+<td>동일 IMO 의 트랙 개수 (1회성 / 2-3회 / 4회+), + 두 시기 모두 등장 여부</td>
+</tr>
+<tr class="even">
+<td>⑤</td>
+<td>abrupt end</td>
+<td>마지막 점이 bbox 가장자리에서 &gt;10km, 그리고 period 끝나기 24h+ 전에 끊김</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-important callout-titled" title="해석: abrupt end ≠ 격침">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>해석: abrupt end ≠ 격침
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>트랙이 strait 한복판에서 끝났다고 격침이라 단정 X. 가능 원인:</p>
+<ol type="1">
+<li><strong>격침</strong> (실제 침몰)</li>
+<li><strong>AIS off</strong> (dark shipping — 제재 회피)</li>
+<li><strong>AIS 변조</strong> (NYT 본문도 <em>“vessels can hide or falsify”</em> 명시)</li>
+<li><strong>정박 / 대기</strong> (해상에서 입항 허가 기다림)</li>
+<li><strong>Kpler 데이터 cutoff</strong> (벤더 측 추적 종료)</li>
+</ol>
+<p>→ 본 EDA 에서는 <strong>“의심 신호”</strong> 로만 다룸. 진짜 격침 확인은 외부 source (Lloyd’s casualty list, news cross-reference) 필요.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="u-turn-directness-분포" class="level2">
+<h2 class="anchored" data-anchor-id="u-turn-directness-분포">3. ② U-turn — directness 분포</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="attachments/260521_40ed72_02.png" class="img-fluid figure-img"></p>
+<figcaption>② 직진도 분포. 0=극도로 굽거나 회귀, 1=완전 직진. 왼쪽 dashed line &lt; 0.3 = U-turn 후보.</figcaption>
+</figure>
+</div>
+<ul>
+<li><strong>Before war</strong>: 7.7% (84/1088) — 일부 화물 환적·왕복 운항 등 정상 회귀 패턴</li>
+<li><strong>After Iranian retaliation</strong>: <strong>0%</strong> (0/85)</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="보충: NYT 본문의 Rich Starry U-turn 이 왜 0% 인가">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>보충: NYT 본문의 Rich Starry U-turn 이 왜 0% 인가
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>NYT 본문이 강조한 Rich Starry (중국 탱커) 의 U-턴 사건은 <strong>2026-04-14 미 봉쇄 발효 직후</strong> 발생. 본 데이터는 4월 12일까지라 그 사건은 윈도우 밖. 데이터가 봉쇄 후를 cover 했다면 U-turn 비율이 분명 올라갔을 것.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="이란-측-오만-측-통과" class="level2">
+<h2 class="anchored" data-anchor-id="이란-측-오만-측-통과">4. ③ 이란 측 / 오만 측 통과</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="attachments/260521_40ed72_03.png" class="img-fluid figure-img"></p>
+<figcaption>③ 트랙 평균 위도 분포 + 측 통과 비율</figcaption>
+</figure>
+</div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>시기</th>
+<th>Oman side (≤26.5°N)</th>
+<th>Iran side (&gt;26.5°N)</th>
+<th>Iran 비율</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Before war</td>
+<td><strong>924</strong> (85%)</td>
+<td>165</td>
+<td>15%</td>
+</tr>
+<tr class="even">
+<td>After Iranian retaliation</td>
+<td>40 (47%)</td>
+<td><strong>45</strong></td>
+<td><strong>53%</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled" title="증명-스타일: NYT narrative 의 직접 정량화">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>증명-스타일: NYT narrative 의 직접 정량화
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>NYT 본문 발췌:</p>
+<blockquote class="blockquote">
+<p>“But two weeks into the war, ships suddenly began avoiding the official lanes, instead <strong>traversing shallower waters near Iran</strong>, possibly for a fee.”</p>
+</blockquote>
+<p>데이터:</p>
+<ul>
+<li>Before: 85% 가 Oman side (표준 심해 항로)</li>
+<li>After: <strong>53% 가 Iran side</strong> (보복기에 다수가 이란 쪽으로 이동)</li>
+</ul>
+<p>다수–소수가 뒤집힘 — narrative 가 데이터 측에서 결정적으로 검증됨.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="재방문-imo" class="level2">
+<h2 class="anchored" data-anchor-id="재방문-imo">5. ④ 재방문 IMO</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="attachments/260521_40ed72_04.png" class="img-fluid figure-img"></p>
+<figcaption>④ IMO 별 방문 횟수 + 두 시기 모두 등장한 IMO</figcaption>
+</figure>
+</div>
+<ul>
+<li>고유 IMO <strong>962 척</strong> — 1174 트랙 중 80.5% 가 1회성</li>
+<li>4회+ 정기 운항선 <strong>2 척</strong> 만</li>
+<li><strong>양 시기 모두 등장한 IMO 6 척</strong> — “이란이 보복기에 통과 허용한 동일선” 후보</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="보충: 6척이라는 숫자의 함의">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>보충: 6척이라는 숫자의 함의
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>NYT 본문: <em>“Iran allowed ships carrying its own cargo to pass through the strait, even as it attacked commercial vessels.”</em></p>
+<p>양 시기 모두 등장한 6 척은 <strong>(a) 이란 연계 선박</strong> 이거나 <strong>(b) 우연히 같은 항로를 두 번 운항한 일반선</strong>. 후속 분석으로 이들의 IMO 를 외부 DB (equasis.org, OFAC SDN list) 와 매칭하면 어느 쪽인지 가려낼 수 있음.</p>
+<p><code>results/numeric/260521_연_NYT호르무즈EDA_R.R/track_features.csv</code> 에서 <code>imo_in_both==TRUE</code> 필터로 6 척 IMO·name 추출 가능.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="트랙-abrupt-end-의심-사건-후보" class="level2">
+<h2 class="anchored" data-anchor-id="트랙-abrupt-end-의심-사건-후보">6. ⑤ 트랙 abrupt end — 의심 사건 후보</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="attachments/260521_40ed72_05.png" class="img-fluid figure-img"></p>
+<figcaption>⑤ 위: 종료 위치 vs 종료 시각 산점도 (red zone = abrupt end 후보). 아래: 트랙 마지막 점 공간 분포 (빨강 = 후보)</figcaption>
+</figure>
+</div>
+<ul>
+<li><strong>Before war</strong>: 319 / 1089 = <strong>29.3%</strong></li>
+<li><strong>After Iranian retaliation</strong>: 43 / 85 = <strong>50.6%</strong> ← 2배 가까이</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled" title="해석: After 의 abrupt end 가 2배">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>해석: After 의 abrupt end 가 2배
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>보복기엔 절반 가까운 트랙이 strait 한복판에서 끊김. §2 의 5가지 원인 중 어느 것이 우세한지는 데이터만으로 가릴 수 없지만, 정황상:</p>
+<ul>
+<li><strong>AIS off (dark shipping)</strong>: 이란이 묵인하는 통과 또는 제재 회피 운항 — 가능성 높음</li>
+<li><strong>정박/대기</strong>: 봉쇄 이전이라 대기 자체는 동기가 약함</li>
+<li><strong>격침</strong>: 기사 본문은 “공격” 만 언급하고 격침 사례를 특정하지 않음 — 가능성 낮음</li>
+<li><strong>Kpler cutoff</strong>: 가능하지만 두 시기에 동일하게 적용되어야 — 비대칭이라 후순위</li>
+</ul>
+<p>가장 흥미로운 가설: <strong>보복기 통과 선박이 AIS 를 끄고 들어와서 끝까지 추적 안 됨</strong>. 후속 분석으로 abrupt end 후보의 마지막 위치·선종·시각 패턴 보면 됨.</p>
+<p><code>results/numeric/260521_연_NYT호르무즈EDA_R.R/abrupt_end_candidates.csv</code> 에 362 트랙의 IMO·종료위치·종료시각 저장.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="보너스-속도-시기-측-4분할" class="level2">
+<h2 class="anchored" data-anchor-id="보너스-속도-시기-측-4분할">7. ⑥ (보너스) 속도 × 시기 × 측 (4분할)</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="attachments/260521_40ed72_06.png" class="img-fluid figure-img"></p>
+<figcaption>⑥ 4분할: (Before/After) × (Iran/Oman side). 색 = segment 속도 (turbo). 0=빨강·정박, 30+km/h=파랑·정상항해.</figcaption>
+</figure>
+</div>
+<p>종합 시각화 — 4 분할로 보면:</p>
+<ul>
+<li><strong>Before × Oman</strong>: 다발 진하고 노란/연두 (정상 cruise). NYT 본문의 표준 항로.</li>
+<li><strong>Before × Iran</strong>: 소수 — 평소엔 거의 안 다니는 쪽.</li>
+<li><strong>After × Oman</strong>: 듬성듬성 + 빨강 다수 = 천천히 / 멈춤.</li>
+<li><strong>After × Iran</strong>: 보복기의 노란 항적 — 이란 쪽 얕은 물로 새로 생긴 항로.</li>
+</ul>
+</section>
+<section id="다음-단계-후보" class="level2">
+<h2 class="anchored" data-anchor-id="다음-단계-후보">8. 다음 단계 후보</h2>
+<ul>
+<li><strong>abrupt end 후보 362 트랙의 외부 lookup</strong> — equasis.org / OFAC SDN list 와 IMO 매칭 → “AIS off vs 정상” 가려내기</li>
+<li><strong>시기 봉쇄 후 데이터 확보</strong> — Apr 14 이후 트랙으로 Rich Starry U-turn 사건 직접 검증 (현재는 NYT 측이 별도 figure 로만 다룸, raw JSON 미공개)</li>
+<li><strong>AIS sampling 간격 분석</strong> — abrupt end 와 별개로, 정상 트랙도 sampling 패턴 anomaly 가 있는지 (예: 갑자기 1시간+ 간격이 뜨면 dark 의심)</li>
+<li><strong>방향 분류</strong> — 페르시아만 → 외양 vs 외양 → 페르시아만. 첫·끝 점의 bbox 변 (북/남/동/서) 으로 분류</li>
+</ul>
+<p>산출물:</p>
+<ul>
+<li>코드: <code>260521_연_NYT호르무즈EDA_R.R</code></li>
+<li>데이터: <code>results/numeric/260521_연_NYT호르무즈EDA_R.R/track_features.csv</code> (1174 행, 트랙 단위 feature 13개), <code>seg_clean.csv</code>, <code>imo_summary.csv</code>, <code>abrupt_end_candidates.csv</code></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
