@@ -82,7 +82,43 @@ $$
 
 증명에서 각 조건의 역할이 깔끔히 분리된다. (T3) 은 $T_1$ 처리 — 앞쪽 항의 무게가 사라진다. (T1) 은 $T_2$ 처리 — 뒤쪽 항이 $\epsilon$-가까워도 무한 합 가중치로 곱해지면 발산할 수 있는데 (T1) 이 그것을 막는다. (T2) 는 $T_3$ 처리 — 총합이 1 로 가야 진짜 평균이 된다.
 
-이 직관을 시뮬레이션으로 직접 확인해 보자. 수열 $x_s = 1 + \mathcal{N}(0, 1)/\sqrt{s}$ 에 초반 5개를 outlier $(5, -2, 4, -1, 3)$ 으로 바꿔둔 것을 쓴다 ($x_s \to 1$, 단 초반은 들쭉날쭉). 세 가중치 — 자명한 산술평균 Cesàro $a_{ns} = 1/n$, ABC Theorem~B 의 $a_{ns} = 2s/[n(n+1)]$, 그리고 일부러 (T3) 을 깨뜨린 반례 $a_{n,1} = 1/2,\ a_{n,n} = 1/2$ — 의 가중평균 $y_n$ 을 $n = 1, \ldots, 500$ 에서 계산한 결과는 다음과 같다.
+이 직관을 시뮬레이션으로 직접 확인해 보자. 수열 $x_s = 1 + \mathcal{N}(0, 1)/\sqrt{s}$ 에 초반 5개를 outlier $(5, -2, 4, -1, 3)$ 으로 바꿔둔 것을 쓴다 ($x_s \to 1$, 단 초반은 들쭉날쭉). 세 가중치 — 자명한 산술평균 Cesàro $a_{ns} = 1/n$, ABC Theorem~B 의 $a_{ns} = 2s/[n(n+1)]$, 그리고 일부러 (T3) 을 깨뜨린 반례 $a_{n,1} = 1/2,\ a_{n,n} = 1/2$ — 의 가중평균 $y_n$ 을 $n = 1, \ldots, 500$ 에서 계산한다. 핵심 코드는 다음과 같다.
+
+```python
+import numpy as np
+
+np.random.seed(42)
+N = 500
+xs = 1.0 + np.random.normal(0, 1.0, N) / np.sqrt(np.arange(1, N + 1))
+xs[:5] = np.array([5.0, -2.0, 4.0, -1.0, 3.0])   # 초반 outlier
+
+# 자명한 산술평균 (Cesàro): a_{ns} = 1/n for s ≤ n
+def w_cesaro(n, N):
+    w = np.zeros(N); w[:n] = 1.0 / n
+    return w
+
+# ABC Theorem B 의 Toeplitz 가중치: a_{ns} = 2s/[n(n+1)] for s ≤ n
+def w_thm_b(n, N):
+    w = np.zeros(N); ss = np.arange(1, n + 1)
+    w[:n] = 2.0 * ss / (n * (n + 1))
+    return w
+
+# (T3) 위반 반례: a_{n,1} = 1/2 forever + a_{n,n} = 1/2
+def w_t3_violation(n, N):
+    w = np.zeros(N); w[0] = 0.5; w[n - 1] = 0.5
+    return w
+
+# 가중평균 y_n = Σ_s a_{ns} x_s
+def toeplitz_avg(xs, weight_fn):
+    N = len(xs)
+    return np.array([np.sum(weight_fn(n, N) * xs) for n in range(1, N + 1)])
+
+y_cesaro = toeplitz_avg(xs, w_cesaro)
+y_thmb   = toeplitz_avg(xs, w_thm_b)
+y_t3     = toeplitz_avg(xs, w_t3_violation)
+```
+
+결과는 다음과 같다.
 
 ![](attachments/260522_cdd7e3_01.png)
 
