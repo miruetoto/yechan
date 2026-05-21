@@ -267,15 +267,15 @@ window.Quarto = {
 y_n \;:=\; \sum_{s=1}^{\infty} a_{ns}\, x_s \;\xrightarrow{n \to \infty}\; x.
 \]</span></p>
 <p>요약하면 <strong>“수렴 수열의 가중평균은 그 극한으로 수렴”</strong> — 단, 가중치 배열이 (T1)(T2)(T3) 을 만족하면.</p>
-<p>가장 자명한 인스턴스는 산술평균 (Cesàro) 이다. 가중치를 <span class="math inline">\(a_{ns} = \tfrac{1}{n}\,\mathbf{1}\{s \leq n\}\)</span> 으로 잡으면 <span class="math inline">\(y_n = (x_1 + \cdots + x_n)/n\)</span> 이 정확히 그냥 산술평균이 된다. <span class="math inline">\(N = 20\)</span> 으로 직접 행렬을 만들고 세 점검값을 출력해 보자.</p>
+<p>가장 자명한 인스턴스는 산술평균 (Cesàro) 이다. 가중치를 <span class="math inline">\(a_{ns} = \tfrac{1}{n}\,\mathbf{1}\{s \leq n\}\)</span> 으로 잡으면 <span class="math inline">\(y_n = (x_1 + \cdots + x_n)/n\)</span> 이 정확히 그냥 산술평균이 된다. <span class="math inline">\(N = 15\)</span> 로 직접 행렬을 만들고 세 점검값을 출력해 보자.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>np.set_printoptions(precision<span class="op">=</span><span class="dv">3</span>, suppress<span class="op">=</span><span class="va">True</span>, linewidth<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>np.set_printoptions(precision<span class="op">=</span><span class="dv">3</span>, suppress<span class="op">=</span><span class="va">True</span>, linewidth<span class="op">=</span><span class="dv">150</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> w_cesaro(n, N):</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> np.zeros(N)<span class="op">;</span> w[:n] <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> n</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> w</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">15</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([w_cesaro(n, N) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>)])</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"a_</span><span class="sc">{ns}</span><span class="st"> 행렬:"</span>)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(A)</span>
@@ -283,30 +283,25 @@ y_n \;:=\; \sum_{s=1}^{\infty} a_{ns}\, x_s \;\xrightarrow{n \to \infty}\; x.
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Σa_ns   (T2 check)  : </span><span class="sc">{</span>A<span class="sc">.</span><span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  col s=1 (T3 check)  : </span><span class="sc">{</span>A[:, <span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <pre><code>a_{ns} 행렬:
-[[1.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
- [0.5   0.5   0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
- [0.333 0.333 0.333 0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
- [0.25  0.25  0.25  0.25  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
- [0.2   0.2   0.2   0.2   0.2   0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
- [0.167 0.167 0.167 0.167 0.167 0.167 0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
- [0.143 0.143 0.143 0.143 0.143 0.143 0.143 0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
- [0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
- [0.111 0.111 0.111 0.111 0.111 0.111 0.111 0.111 0.111 0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
- [0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
- [0.091 0.091 0.091 0.091 0.091 0.091 0.091 0.091 0.091 0.091 0.091 0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
- [0.083 0.083 0.083 0.083 0.083 0.083 0.083 0.083 0.083 0.083 0.083 0.083 0.    0.    0.    0.    0.    0.    0.    0.   ]
- [0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.    0.    0.    0.    0.    0.    0.   ]
- [0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.    0.    0.    0.    0.    0.   ]
- [0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.    0.    0.    0.    0.   ]
- [0.062 0.062 0.062 0.062 0.062 0.062 0.062 0.062 0.062 0.062 0.062 0.062 0.062 0.062 0.062 0.062 0.    0.    0.    0.   ]
- [0.059 0.059 0.059 0.059 0.059 0.059 0.059 0.059 0.059 0.059 0.059 0.059 0.059 0.059 0.059 0.059 0.059 0.    0.    0.   ]
- [0.056 0.056 0.056 0.056 0.056 0.056 0.056 0.056 0.056 0.056 0.056 0.056 0.056 0.056 0.056 0.056 0.056 0.056 0.    0.   ]
- [0.053 0.053 0.053 0.053 0.053 0.053 0.053 0.053 0.053 0.053 0.053 0.053 0.053 0.053 0.053 0.053 0.053 0.053 0.053 0.   ]
- [0.05  0.05  0.05  0.05  0.05  0.05  0.05  0.05  0.05  0.05  0.05  0.05  0.05  0.05  0.05  0.05  0.05  0.05  0.05  0.05 ]]
-  Σ|a_ns| (T1 check)  : [1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.]
-  Σa_ns   (T2 check)  : [1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.]
-  col s=1 (T3 check)  : [1.    0.5   0.333 0.25  0.2   0.167 0.143 0.125 0.111 0.1   0.091 0.083 0.077 0.071 0.067 0.062 0.059 0.056 0.053 0.05 ]</code></pre>
-<p>세 점검값을 모두 통과한다. <strong>(T1)</strong> 행 합 절댓값이 모두 1 로 bound 되어 있고 (<span class="math inline">\(c = 1\)</span>), <strong>(T2)</strong> 행 합이 모두 1 로 고정이라 <span class="math inline">\(n \to \infty\)</span> 에서도 1 (<span class="math inline">\(\to 1\)</span>), <strong>(T3)</strong> column <span class="math inline">\(s = 1\)</span> 이 <span class="math inline">\(1, \tfrac{1}{2}, \tfrac{1}{3}, \ldots, \tfrac{1}{20}\)</span> 로 단조 감소해 결국 <span class="math inline">\(1/n \to 0\)</span>. 행렬 자체도 “삼각형” 모양 — 행 <span class="math inline">\(n\)</span> 이 증가할수록 무게가 점점 작은 값으로 펴지면서 column 별 가중치는 사라진다. 따라서 Toeplitz Lemma 결론에 의해 <span class="math inline">\(x_s \to x\)</span> 면 <span class="math inline">\(y_n \to x\)</span> — 누구나 직관적으로 동의하는 “산술평균도 극한으로 수렴” 명제다. Toeplitz Lemma 는 이 자명한 사실을 “가중치 모양만 (T1)(T2)(T3) 만족하면 다 OK” 로 일반화한 것이다.</p>
+[[1.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
+ [0.5   0.5   0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
+ [0.333 0.333 0.333 0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
+ [0.25  0.25  0.25  0.25  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
+ [0.2   0.2   0.2   0.2   0.2   0.    0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
+ [0.167 0.167 0.167 0.167 0.167 0.167 0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
+ [0.143 0.143 0.143 0.143 0.143 0.143 0.143 0.    0.    0.    0.    0.    0.    0.    0.   ]
+ [0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.    0.    0.    0.    0.    0.    0.   ]
+ [0.111 0.111 0.111 0.111 0.111 0.111 0.111 0.111 0.111 0.    0.    0.    0.    0.    0.   ]
+ [0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.1   0.    0.    0.    0.    0.   ]
+ [0.091 0.091 0.091 0.091 0.091 0.091 0.091 0.091 0.091 0.091 0.091 0.    0.    0.    0.   ]
+ [0.083 0.083 0.083 0.083 0.083 0.083 0.083 0.083 0.083 0.083 0.083 0.083 0.    0.    0.   ]
+ [0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.077 0.    0.   ]
+ [0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.071 0.   ]
+ [0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067 0.067]]
+  Σ|a_ns| (T1 check)  : [1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.]
+  Σa_ns   (T2 check)  : [1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.]
+  col s=1 (T3 check)  : [1.    0.5   0.333 0.25  0.2   0.167 0.143 0.125 0.111 0.1   0.091 0.083 0.077 0.071 0.067]</code></pre>
+<p>세 점검값을 모두 통과한다. <strong>(T1)</strong> 행 합 절댓값이 모두 1 로 bound 되어 있고 (<span class="math inline">\(c = 1\)</span>), <strong>(T2)</strong> 행 합이 모두 1 로 고정이라 <span class="math inline">\(n \to \infty\)</span> 에서도 1 (<span class="math inline">\(\to 1\)</span>), <strong>(T3)</strong> column <span class="math inline">\(s = 1\)</span> 이 <span class="math inline">\(1, \tfrac{1}{2}, \tfrac{1}{3}, \ldots, \tfrac{1}{15}\)</span> 로 단조 감소해 결국 <span class="math inline">\(1/n \to 0\)</span>. 행렬 자체도 “삼각형” 모양 — 행 <span class="math inline">\(n\)</span> 이 증가할수록 무게가 점점 작은 값으로 펴지면서 column 별 가중치는 사라진다. 따라서 Toeplitz Lemma 결론에 의해 <span class="math inline">\(x_s \to x\)</span> 면 <span class="math inline">\(y_n \to x\)</span> — 누구나 직관적으로 동의하는 “산술평균도 극한으로 수렴” 명제다. Toeplitz Lemma 는 이 자명한 사실을 “가중치 모양만 (T1)(T2)(T3) 만족하면 다 OK” 로 일반화한 것이다.</p>
 <p>한 가지 예제만으로는 부족하니 실수 배열 <span class="math inline">\(a_{ns}\)</span> 의 다양한 사례를 한꺼번에 정의하고 (T1)(T2)(T3) 만족·위반 여부를 ✓/✗ 자동 판정해 보자. 만족 후보 세 개 (C1~C3) 와 일부러 깨뜨린 위반 후보 세 개 (D1~D3) 를 함께 본다.</p>
 <p><span class="math display">\[
 \begin{aligned}
