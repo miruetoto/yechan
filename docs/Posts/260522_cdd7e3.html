@@ -311,41 +311,79 @@ y_n - x
 \]</span> 합치면 <span class="math inline">\(\limsup_{n \to \infty} |y_n - x| \leq 0 + \epsilon\,c + 0 = \epsilon\,c\)</span>. <span class="math inline">\(\epsilon &gt; 0\)</span> 임의이므로 <span class="math inline">\(y_n \to x\)</span>. <span class="math inline">\(\square\)</span></p>
 <p>증명에서 각 조건의 역할이 깔끔히 분리된다. (T3) 은 <span class="math inline">\(T_1\)</span> 처리 — 앞쪽 항의 무게가 사라진다. (T1) 은 <span class="math inline">\(T_2\)</span> 처리 — 뒤쪽 항이 <span class="math inline">\(\epsilon\)</span>-가까워도 무한 합 가중치로 곱해지면 발산할 수 있는데 (T1) 이 그것을 막는다. (T2) 는 <span class="math inline">\(T_3\)</span> 처리 — 총합이 1 로 가야 진짜 평균이 된다.</p>
 <p>이 직관을 시뮬레이션으로 직접 확인해 보자. 본격적으로 가기 전에 두 인덱스 <span class="math inline">\(n\)</span> 과 <span class="math inline">\(s\)</span> 의 역할을 한 번 분리해두는 게 좋다. <strong><span class="math inline">\(n\)</span> 은 가중평균을 매기는 외부 시점</strong> (시험 비유의 “학기 번호”) 이고, <strong><span class="math inline">\(s\)</span> 는 수열 자체의 항 인덱스</strong> (“시험 번호”) 다. 가중치 <span class="math inline">\(a_{ns}\)</span> 는 두 인덱스를 가진 행렬로, 매 <span class="math inline">\(n\)</span> 마다 한 행 <span class="math inline">\(\{a_{ns}\}_{s \geq 1}\)</span> 이 결정되고 그 행으로 <span class="math inline">\(x_s\)</span> 를 가중평균한 것이 <span class="math inline">\(y_n\)</span> 이다. 조건 (T3) “각 고정 <span class="math inline">\(s\)</span> 에서 <span class="math inline">\(a_{ns} \to 0\)</span>” 은 행렬을 위에서 아래로 (<span class="math inline">\(n\)</span> 증가 방향) 내려갈 때 각 column 의 무게가 점점 사라진다는 뜻이다.</p>
-<p>세 가중치 — 자명한 산술평균 Cesàro <span class="math inline">\(a_{ns} = 1/n\)</span>, ABC Theorem~B 의 <span class="math inline">\(a_{ns} = 2s/[n(n+1)]\)</span>, 그리고 일부러 (T3) 을 깨뜨린 반례 <span class="math inline">\(a_{n,1} = a_{n,n} = 1/2\)</span> — 의 모양을 직접 그려보면 다음과 같다. 각 가중치에 대해 행 <span class="math inline">\(n = 10, 100, 500\)</span> 세 개를 골라 가로축 <span class="math inline">\(s\)</span> 에 대해 plot 한 것이다.</p>
+<p>차이를 작은 <span class="math inline">\(N = 8\)</span> 행렬을 직접 print 해 보면 한 눈에 확인할 수 있다. 자명한 산술평균 Cesàro 와 일부러 (T3) 을 깨뜨린 반례를 비교한다.</p>
+<p><span class="math display">\[
+a_{ns}^{\text{Cesàro}} \;=\; \tfrac{1}{n}\,\mathbf{1}\{s \leq n\}, \qquad
+a_{ns}^{\text{(T3) violated}} \;=\; \tfrac{1}{2}\bigl(\mathbf{1}\{s=1\} + \mathbf{1}\{s=n\}\bigr).
+\]</span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>np.set_printoptions(precision<span class="op">=</span><span class="dv">3</span>, suppress<span class="op">=</span><span class="va">True</span>, linewidth<span class="op">=</span><span class="dv">80</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> w_cesaro(n, N):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> np.zeros(N)<span class="op">;</span> w[:n] <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> n</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> w</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> w_t3_violation(n, N):</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> np.zeros(N)<span class="op">;</span> w[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span> w[n <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> w</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>A_cesaro <span class="op">=</span> np.array([w_cesaro(n, N)       <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>)])</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>A_t3     <span class="op">=</span> np.array([w_t3_violation(n, N) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>A_cesaro</code> ((T3) 만족) 의 출력:</p>
+<pre><code>[[1.    0.    0.    0.    0.    0.    0.    0.   ]
+ [0.5   0.5   0.    0.    0.    0.    0.    0.   ]
+ [0.333 0.333 0.333 0.    0.    0.    0.    0.   ]
+ [0.25  0.25  0.25  0.25  0.    0.    0.    0.   ]
+ [0.2   0.2   0.2   0.2   0.2   0.    0.    0.   ]
+ [0.167 0.167 0.167 0.167 0.167 0.167 0.    0.   ]
+ [0.143 0.143 0.143 0.143 0.143 0.143 0.143 0.   ]
+ [0.125 0.125 0.125 0.125 0.125 0.125 0.125 0.125]]</code></pre>
+<p><code>A_t3</code> ((T3) 위반) 의 출력:</p>
+<pre><code>[[0.5 0.  0.  0.  0.  0.  0.  0. ]
+ [0.5 0.5 0.  0.  0.  0.  0.  0. ]
+ [0.5 0.  0.5 0.  0.  0.  0.  0. ]
+ [0.5 0.  0.  0.5 0.  0.  0.  0. ]
+ [0.5 0.  0.  0.  0.5 0.  0.  0. ]
+ [0.5 0.  0.  0.  0.  0.5 0.  0. ]
+ [0.5 0.  0.  0.  0.  0.  0.5 0. ]
+ [0.5 0.  0.  0.  0.  0.  0.  0.5]]</code></pre>
+<p>column <span class="math inline">\(s = 1\)</span> 만 따라가 보면 (T3) 의 차이가 가장 분명히 드러난다. Cesàro 에서는 column 1 이 <span class="math inline">\(1, \tfrac{1}{2}, \tfrac{1}{3}, \ldots, \tfrac{1}{8} \to 0\)</span> 으로 사라지지만 ((T3) 만족), (T3) 위반에서는 <span class="math inline">\(\tfrac{1}{2}, \tfrac{1}{2}, \tfrac{1}{2}, \ldots\)</span> 영원히 <span class="math inline">\(\tfrac{1}{2}\)</span> 다 — 옛 항 <span class="math inline">\(x_1\)</span> 이 모든 학기 평가에서 절반의 무게로 끝까지 살아남는다는 정확한 그림이다.</p>
+<p>큰 그림으로 확장해 행 <span class="math inline">\(n = 10, 100, 500\)</span> 에서 세 가중치 (Cesàro, ABC Theorem~B, (T3) 위반) 의 모양을 가로축 <span class="math inline">\(s\)</span> 에 대해 plot 하면 다음과 같다.</p>
 <p><img src="attachments/260522_cdd7e3_02.png" class="img-fluid"></p>
 <p>Cesàro 는 <span class="math inline">\(s \leq n\)</span> 에서 균일하게 <span class="math inline">\(1/n\)</span> (직사각형) 이고, Thm B 는 <span class="math inline">\(s\)</span> 에 선형 비례해 후반 <span class="math inline">\(s\)</span> 에 더 큰 무게가 실린 삼각형이다. <span class="math inline">\(n\)</span> 이 커질수록 두 경우 모두 fixed <span class="math inline">\(s\)</span> 의 가중치는 <span class="math inline">\(1/n \to 0\)</span> 또는 <span class="math inline">\(2s/[n(n+1)] \to 0\)</span> 으로 사라지며 — 즉 (T3) 만족 — 무게 자체는 점점 큰 <span class="math inline">\(s\)</span> 쪽으로 옮겨간다 (가로축 log scale 이라 무게가 오른쪽으로 평행이동하는 모양으로 보임). 반면 (c) (T3) 위반 케이스는 <span class="math inline">\(s = 1\)</span> 의 가중치가 영원히 <span class="math inline">\(1/2\)</span> 다 — 옛 항 <span class="math inline">\(x_1\)</span> 이 모든 학기 평가에 절반의 무게로 끝까지 살아남는다는 뜻.</p>
 <p>이제 가중평균 <span class="math inline">\(y_n\)</span> 을 시간 진행 (<span class="math inline">\(n = 1, \ldots, 500\)</span>) 에 따라 계산하자. 수열은 <span class="math inline">\(x_s = 1 + \mathcal{N}(0, 1)/\sqrt{s}\)</span> 에 초반 5개를 outlier <span class="math inline">\((5, -2, 4, -1, 3)\)</span> 으로 바꿔둔 것 (<span class="math inline">\(x_s \to 1\)</span>, 단 초반은 들쭉날쭉). 핵심 코드는 다음과 같다.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">500</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>xs <span class="op">=</span> <span class="fl">1.0</span> <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="fl">1.0</span>, N) <span class="op">/</span> np.sqrt(np.arange(<span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>))</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>xs[:<span class="dv">5</span>] <span class="op">=</span> np.array([<span class="fl">5.0</span>, <span class="op">-</span><span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="op">-</span><span class="fl">1.0</span>, <span class="fl">3.0</span>])   <span class="co"># 초반 outlier</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 자명한 산술평균 (Cesàro): a_{ns} = 1/n for s ≤ n</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> w_cesaro(n, N):</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> np.zeros(N)<span class="op">;</span> w[:n] <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> n</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> w</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># ABC Theorem B 의 Toeplitz 가중치: a_{ns} = 2s/[n(n+1)] for s ≤ n</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> w_thm_b(n, N):</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> np.zeros(N)<span class="op">;</span> ss <span class="op">=</span> np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    w[:n] <span class="op">=</span> <span class="fl">2.0</span> <span class="op">*</span> ss <span class="op">/</span> (n <span class="op">*</span> (n <span class="op">+</span> <span class="dv">1</span>))</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> w</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># (T3) 위반 반례: a_{n,1} = 1/2 forever + a_{n,n} = 1/2</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> w_t3_violation(n, N):</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> np.zeros(N)<span class="op">;</span> w[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span> w[n <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> <span class="fl">0.5</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> w</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 가중평균 y_n = Σ_s a_{ns} x_s</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> toeplitz_avg(xs, weight_fn):</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(xs)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array([np.<span class="bu">sum</span>(weight_fn(n, N) <span class="op">*</span> xs) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>)])</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>y_cesaro <span class="op">=</span> toeplitz_avg(xs, w_cesaro)</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>y_thmb   <span class="op">=</span> toeplitz_avg(xs, w_thm_b)</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>y_t3     <span class="op">=</span> toeplitz_avg(xs, w_t3_violation)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>xs <span class="op">=</span> <span class="fl">1.0</span> <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="fl">1.0</span>, N) <span class="op">/</span> np.sqrt(np.arange(<span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>xs[:<span class="dv">5</span>] <span class="op">=</span> np.array([<span class="fl">5.0</span>, <span class="op">-</span><span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="op">-</span><span class="fl">1.0</span>, <span class="fl">3.0</span>])   <span class="co"># 초반 outlier</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 자명한 산술평균 (Cesàro): a_{ns} = 1/n for s ≤ n</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> w_cesaro(n, N):</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> np.zeros(N)<span class="op">;</span> w[:n] <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> n</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> w</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># ABC Theorem B 의 Toeplitz 가중치: a_{ns} = 2s/[n(n+1)] for s ≤ n</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> w_thm_b(n, N):</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> np.zeros(N)<span class="op">;</span> ss <span class="op">=</span> np.arange(<span class="dv">1</span>, n <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    w[:n] <span class="op">=</span> <span class="fl">2.0</span> <span class="op">*</span> ss <span class="op">/</span> (n <span class="op">*</span> (n <span class="op">+</span> <span class="dv">1</span>))</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> w</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># (T3) 위반 반례: a_{n,1} = 1/2 forever + a_{n,n} = 1/2</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> w_t3_violation(n, N):</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> np.zeros(N)<span class="op">;</span> w[<span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.5</span><span class="op">;</span> w[n <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> w</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 가중평균 y_n = Σ_s a_{ns} x_s</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> toeplitz_avg(xs, weight_fn):</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(xs)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array([np.<span class="bu">sum</span>(weight_fn(n, N) <span class="op">*</span> xs) <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>)])</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>y_cesaro <span class="op">=</span> toeplitz_avg(xs, w_cesaro)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>y_thmb   <span class="op">=</span> toeplitz_avg(xs, w_thm_b)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>y_t3     <span class="op">=</span> toeplitz_avg(xs, w_t3_violation)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>결과는 다음과 같다.</p>
 <p><img src="attachments/260522_cdd7e3_01.png" class="img-fluid"></p>
 <p>패널 (a) 는 수열 <span class="math inline">\(x_s\)</span> 자체로 초반 outlier 가 박힌 뒤 점점 <span class="math inline">\(1\)</span> 로 안정화된다. 패널 (b) 는 (T1)(T2)(T3) 을 모두 만족하는 두 가중치 — Cesàro 와 ABC Theorem~B — 의 가중평균인데, 둘 다 <span class="math inline">\(y_n \to 1\)</span> 로 가지만 Theorem~B 가중치 (<span class="math inline">\(a_{ns}\)</span> 가 <span class="math inline">\(s\)</span> 에 비례하여 후반 항에 더 큰 무게) 가 Cesàro 보다 훨씬 빠르게 수렴한다 (<span class="math inline">\(n = 500\)</span> 에서 <span class="math inline">\(y_{\text{Cesàro}} = 1.0052\)</span>, <span class="math inline">\(y_{\text{Thm B}} = 1.0011\)</span>). 무게를 “이미 <span class="math inline">\(x\)</span> 에 가까운” 후반 항에 더 실으면 평균이 더 빨리 그쪽을 따라간다는 직관과 일치한다. 패널 (c) 는 (T3) 을 위반한 반례로, <span class="math inline">\(s = 1\)</span> 가중치가 절대 사라지지 않으니 <span class="math inline">\(y_n\)</span> 은 <span class="math inline">\(1\)</span> 이 아니라 <span class="math inline">\((x_1 + 1)/2 = (5 + 1)/2 = 3\)</span> 으로 수렴한다 (시뮬 <span class="math inline">\(n = 500\)</span> 에서 <span class="math inline">\(y_n \approx 2.97\)</span>). 초반의 outlier <span class="math inline">\(x_1 = 5\)</span> 가 끝까지 무게를 유지하며 평균을 그쪽으로 끌고 가는 정확한 그림이다.</p>
