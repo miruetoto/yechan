@@ -264,7 +264,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 .katex-display > .katex { text-align: left !important; }
 </style>
 <p>마팅게일은 <em>“평균적으로 공정한 게임”</em> 의 수학적 추상이다. 적분가능한 process <span class="math inline">\(\{X_n\}_{n \geq 0}\)</span> 이 filtration <span class="math inline">\(\{\mathcal F_n\}\)</span> 에 적응되어 있고 (<span class="math inline">\(X_n \in \mathcal F_n\)</span>, <span class="math inline">\(E|X_n| &lt; \infty\)</span>) 각 step 의 조건부 평균이 현재 값과 같을 때, 즉 <span class="math inline">\(E[X_{n+1} \mid \mathcal F_n] = X_n\)</span>, 을 만족할 때 <span class="math inline">\(\{X_n\}\)</span> 을 <span class="math inline">\(\mathcal F_n\)</span>-마팅게일이라 부른다. <span class="math inline">\(\geq\)</span> 면 submartingale, <span class="math inline">\(\leq\)</span> 면 supermartingale. 정의를 처음 보면 추상적인데, 시뮬로 한두 step 만 끊어 보면 어떤 process 가 마팅게일인지 즉각 와닿는다. 본 글은 6개 예제로 그 직관을 짚는다. 공통 헤더부터.</p>
-<div id="01e2d1da" class="cell" data-execution_count="1">
+<div id="7f7ea707" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">20260522</span>)</span>
@@ -276,14 +276,14 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 </div>
 <p><code>-</code> <strong>예제 1 — fair random walk (±1 코인).</strong> <span class="math inline">\(\epsilon_i \in \{-1, +1\}\)</span> 각 prob <span class="math inline">\(1/2\)</span> (정규분포 <span class="math inline">\(N(0,1)\)</span> 합이 아니라 베르누이 ±1 코인), <span class="math inline">\(X_n = \sum_{i=1}^n \epsilon_i\)</span>. natural filtration <span class="math inline">\(\mathcal F_n = \sigma(\epsilon_1, \dots, \epsilon_n)\)</span> 에서 <span class="math inline">\(E[X_{n+1} \mid \mathcal F_n] = X_n + E[\epsilon_{n+1}] = X_n\)</span> 이라 마팅게일. 증분부터 끊어 보자.</p>
-<div id="c1fb060b" class="cell" data-execution_count="2">
+<div id="cdd2cadc" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>eps1 <span class="op">=</span> rng.choice([<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">1.0</span>], size<span class="op">=</span>(NPATH, T))   <span class="co"># 30 paths × 2000 steps</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>eps1.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>(30, 2000)</code></pre>
 </div>
 </div>
-<div id="87bb16f4" class="cell" data-execution_count="3">
+<div id="cc18416d" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>eps1[:<span class="dv">3</span>, :<span class="dv">10</span>]   <span class="co"># 첫 3 path 의 첫 10 step — ±1 토큰만 등장</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>array([[ 1.,  1., -1.,  1., -1.,  1.,  1.,  1.,  1., -1.],
@@ -291,14 +291,14 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
        [ 1., -1., -1.,  1., -1.,  1.,  1.,  1.,  1.,  1.]])</code></pre>
 </div>
 </div>
-<div id="163286f1" class="cell" data-execution_count="4">
+<div id="b5f14657" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>eps1.mean(), eps1.std()   <span class="co"># 평균 ≈ 0, std ≈ 1 (베르누이 ±1 의 표준 모멘트)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>(np.float64(0.0049), np.float64(0.9999879949279391))</code></pre>
 </div>
 </div>
 <p>증분을 누적해서 path 를 만든다.</p>
-<div id="22163d9a" class="cell" data-execution_count="5">
+<div id="421bd91f" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>X1 <span class="op">=</span> np.cumsum(eps1, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>X1[:<span class="dv">3</span>, :<span class="dv">10</span>]   <span class="co"># X_n = Σ ε_i — 정수 값으로만 진행</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
@@ -307,14 +307,14 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
        [ 1.,  0., -1.,  0., -1.,  0.,  1.,  2.,  3.,  4.]])</code></pre>
 </div>
 </div>
-<div id="9ac943ea" class="cell" data-execution_count="6">
+<div id="d4230f6e" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>X1[:, <span class="op">-</span><span class="dv">1</span>].mean(), X1[:, <span class="op">-</span><span class="dv">1</span>].std()   <span class="co"># 끝 시점 X_T 의 ensemble 평균·표준편차</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>(np.float64(9.8), np.float64(49.02611548960411))</code></pre>
 </div>
 </div>
 <p>ensemble 평균이 0 근처, 표준편차는 <span class="math inline">\(\sqrt{T} \approx \sqrt{2000} \approx 45\)</span> 근처. 마팅게일은 <em>평균</em> 이 stationary 라는 것이지 <em>표준편차</em> 가 stationary 라는 게 아니다. path 자체는 <span class="math inline">\(\sqrt n\)</span> 의 스케일로 흩어진다.</p>
-<div id="ca8b028d" class="cell" data-execution_count="7">
+<div id="824c4348" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH):</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    ax.plot(t, X1[k], lw<span class="op">=</span><span class="fl">0.5</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"C0"</span>)</span>
@@ -333,7 +333,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 <p>굵은 검정선 — 30 path 의 ensemble 평균 — 이 시간이 흘러도 0 근처에 머무는 게 마팅게일의 본질. 개별 path 는 진동하지만 평균은 stationary. 이게 <em>“공정”</em> 의 정량적 의미.</p>
 <p><code>-</code> <strong>예제 2 — 편향된 walk.</strong> <span class="math inline">\(\epsilon_i = +1\)</span> (확률 <span class="math inline">\(p\)</span>) / <span class="math inline">\(-1\)</span> (확률 <span class="math inline">\(1-p\)</span>). <span class="math inline">\(E[\epsilon] = 2p - 1\)</span>. <span class="math inline">\(p = 0.55\)</span> 이면 submartingale (drift up), <span class="math inline">\(p = 0.45\)</span> 이면 supermartingale (drift down).</p>
-<div id="5146befb" class="cell" data-execution_count="8">
+<div id="e3cd5bf0" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> biased(p):</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.where(rng.random(size<span class="op">=</span>(NPATH, T)) <span class="op">&lt;</span> p, <span class="fl">1.0</span>, <span class="op">-</span><span class="fl">1.0</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -343,14 +343,14 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <pre><code>np.float64(0.1041)</code></pre>
 </div>
 </div>
-<div id="b127b931" class="cell" data-execution_count="9">
+<div id="c74c0237" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>eps_sup <span class="op">=</span> biased(<span class="fl">0.45</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>eps_sup.mean()   <span class="co"># 약 -0.10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>np.float64(-0.1016)</code></pre>
 </div>
 </div>
-<div id="1ee0765a" class="cell" data-execution_count="10">
+<div id="0c096cb2" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>X2_sub <span class="op">=</span> np.cumsum(eps_sub, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>X2_sup <span class="op">=</span> np.cumsum(eps_sup, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>X2_sub[:, <span class="op">-</span><span class="dv">1</span>].mean(), X2_sup[:, <span class="op">-</span><span class="dv">1</span>].mean()   <span class="co"># 끝 시점 평균이 ±200 근처 (drift × T)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -359,7 +359,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 </div>
 <p>drift 가 매 step 0.10 씩 쌓이니 <span class="math inline">\(T = 2000\)</span> 에서 약 ±200.</p>
-<div id="afcb073e" class="cell" data-execution_count="11">
+<div id="7a78316a" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH):</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    ax.plot(t, X2_sub[k], lw<span class="op">=</span><span class="fl">0.4</span>, alpha<span class="op">=</span><span class="fl">0.35</span>, color<span class="op">=</span><span class="st">"C2"</span>)</span>
@@ -379,218 +379,280 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </div>
 </div>
 <p>두 ensemble 평균이 ±0.10 의 기울기로 갈라진다. 마팅게일은 sub 와 super 사이의 균형점 — drift 가 정확히 0 인 한 줄.</p>
-<p><code>-</code> <strong>예제 3 — variance compensation.</strong> Fair walk 의 제곱 <span class="math inline">\(X_n^2\)</span> 은 평균이 <span class="math inline">\(n\)</span> 으로 자라므로 마팅게일이 아니다. <span class="math inline">\(n\)</span> 만큼 빼주면 <span class="math inline">\(Y_n := X_n^2 - n\)</span> 이 마팅게일.</p>
+<p><code>-</code> <strong>예제 3 — variance compensation.</strong> Fair walk 의 제곱 <span class="math inline">\(X_n^2\)</span> 은 평균이 <span class="math inline">\(n\)</span> 으로 자라므로 마팅게일이 아니다 (submartingale). <span class="math inline">\(n\)</span> 만큼 빼주면 <span class="math inline">\(Y_n := X_n^2 - n\)</span> 이 마팅게일이 된다. 먼저 보정 <em>전</em> <span class="math inline">\(X_n^2\)</span> 부터.</p>
+<div id="6966e779" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>S3 <span class="op">=</span> X1 <span class="op">**</span> <span class="dv">2</span>                 <span class="co"># X1 그대로 재사용 (Ex 1 의 fair walk)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>S3[:<span class="dv">3</span>, :<span class="dv">10</span>]                  <span class="co"># 첫 몇 step — 정수 제곱이라 0, 1, 4, 9, ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>array([[ 1.,  4.,  1.,  4.,  1.,  4.,  9., 16., 25., 16.],
+       [ 1.,  0.,  1.,  0.,  1.,  0.,  1.,  0.,  1.,  4.],
+       [ 1.,  0.,  1.,  0.,  1.,  0.,  1.,  4.,  9., 16.]])</code></pre>
+</div>
+</div>
+<div id="946f094e" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>S3[:, <span class="op">-</span><span class="dv">1</span>].mean()             <span class="co"># 끝 시점 ensemble 평균 — 이론값 E[X_T^2] = T = 2000 근처</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>np.float64(2499.6)</code></pre>
+</div>
+</div>
+<p>ensemble 평균이 <span class="math inline">\(n\)</span> 으로 자란다 — drift 가 매 step 1 씩 있는 submartingale. 이제 한 줄 계산으로 보정 방향이 결정된다.</p>
 <p><span class="math display">\[
 E[X_{n+1}^2 \mid \mathcal F_n] = X_n^2 + 2 X_n \, \underbrace{E[\epsilon_{n+1}]}_{=\,0} + \underbrace{E[\epsilon_{n+1}^2]}_{=\,1} = X_n^2 + 1
 \;\Rightarrow\; E[Y_{n+1} \mid \mathcal F_n] = X_n^2 + 1 - (n+1) = Y_n.
 \]</span></p>
-<div id="8b4251bc" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>Y3 <span class="op">=</span> X1 <span class="op">**</span> <span class="dv">2</span> <span class="op">-</span> t[<span class="va">None</span>, :]   <span class="co"># X1 그대로 재사용 (Ex 1 의 fair walk)</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Y3[:<span class="dv">3</span>, :<span class="dv">10</span>]                  <span class="co"># 첫 몇 step — 작은 정수</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<p>즉 매 step 평균이 <span class="math inline">\(+1\)</span> 씩 자라므로 누적 보정 <span class="math inline">\(-n\)</span> 을 빼주면 정확히 상쇄. 보정 <em>후</em> <span class="math inline">\(Y_n\)</span>.</p>
+<div id="0b7880cc" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>Y3 <span class="op">=</span> S3 <span class="op">-</span> t[<span class="va">None</span>, :]         <span class="co"># Y_n = X_n^2 - n</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>Y3[:<span class="dv">3</span>, :<span class="dv">10</span>]                  <span class="co"># S3 에서 t 를 뺀 것 — 평균이 0 근처로 평탄화</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>array([[ 0.,  2., -2.,  0., -4., -2.,  2.,  8., 16.,  6.],
        [ 0., -2., -2., -4., -4., -6., -6., -8., -8., -6.],
        [ 0., -2., -2., -4., -4., -6., -6., -4.,  0.,  6.]])</code></pre>
 </div>
 </div>
-<div id="5c5d8885" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>Y3[:, <span class="op">-</span><span class="dv">1</span>].mean()             <span class="co"># 끝 시점 ensemble 평균 (0 근처)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div id="77c7dc18" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>Y3[:, <span class="op">-</span><span class="dv">1</span>].mean()             <span class="co"># 끝 시점 ensemble 평균 — 0 근처 (마팅게일 보존)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>np.float64(499.6)</code></pre>
 </div>
 </div>
-<p>ensemble 평균이 0 근처에서 머문다.</p>
-<div id="e4c46fcf" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH):</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    ax.plot(t, Y3[k], lw<span class="op">=</span><span class="fl">0.5</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"C4"</span>)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>ax.plot(t, Y3.mean(<span class="dv">0</span>), lw<span class="op">=</span><span class="fl">1.8</span>, color<span class="op">=</span><span class="st">"k"</span>, label<span class="op">=</span><span class="st">"ensemble mean"</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"r"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Ex 3: $Y_n = X_n^2 - n$ — martingale (variance compensation)"</span>)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"$n$"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"$Y_n$"</span>)<span class="op">;</span> ax.legend()</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>ensemble 평균이 더 이상 자라지 않고 0 근처. 두 process 를 한 그림에서 비교.</p>
+<div id="41507cbe" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 보정 전: X_n^2 (submartingale, 평균 ≈ n)</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH):</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].plot(t, S3[k], lw<span class="op">=</span><span class="fl">0.5</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"C1"</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(t, S3.mean(<span class="dv">0</span>), lw<span class="op">=</span><span class="fl">1.8</span>, color<span class="op">=</span><span class="st">"k"</span>, label<span class="op">=</span><span class="st">"ensemble mean"</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(t, t, lw<span class="op">=</span><span class="fl">1.2</span>, color<span class="op">=</span><span class="st">"r"</span>, ls<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="st">"theory: $E[X_n^2] = n$"</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Before: $X_n^2$ — submartingale (mean grows like $n$)"</span>)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">"$n$"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_ylabel(<span class="st">"$X_n^2$"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].legend()</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 보정 후: Y_n = X_n^2 - n (martingale, 평균 ≈ 0)</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH):</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>].plot(t, Y3[k], lw<span class="op">=</span><span class="fl">0.5</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"C4"</span>)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(t, Y3.mean(<span class="dv">0</span>), lw<span class="op">=</span><span class="fl">1.8</span>, color<span class="op">=</span><span class="st">"k"</span>, label<span class="op">=</span><span class="st">"ensemble mean"</span>)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"r"</span>, lw<span class="op">=</span><span class="fl">1.2</span>, ls<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="st">"0"</span>)</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"After: $Y_n = X_n^2 - n$ — martingale (mean stays at 0)"</span>)</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">"$n$"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_ylabel(<span class="st">"$Y_n$"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].legend()</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Ex 3: variance compensation — 평균을 빼기 전 vs 뺀 후"</span>, fontsize<span class="op">=</span><span class="dv">10</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_2578110/3855978081.py:19: UserWarning: Glyph 54217 (\N{HANGUL SYLLABLE PYEONG}) missing from font(s) DejaVu Sans.
+  plt.tight_layout(); plt.show()
+/tmp/ipykernel_2578110/3855978081.py:19: UserWarning: Glyph 44512 (\N{HANGUL SYLLABLE GYUN}) missing from font(s) DejaVu Sans.
+  plt.tight_layout(); plt.show()
+/tmp/ipykernel_2578110/3855978081.py:19: UserWarning: Glyph 51012 (\N{HANGUL SYLLABLE EUL}) missing from font(s) DejaVu Sans.
+  plt.tight_layout(); plt.show()
+/tmp/ipykernel_2578110/3855978081.py:19: UserWarning: Glyph 48764 (\N{HANGUL SYLLABLE BBAE}) missing from font(s) DejaVu Sans.
+  plt.tight_layout(); plt.show()
+/tmp/ipykernel_2578110/3855978081.py:19: UserWarning: Glyph 44592 (\N{HANGUL SYLLABLE GI}) missing from font(s) DejaVu Sans.
+  plt.tight_layout(); plt.show()
+/tmp/ipykernel_2578110/3855978081.py:19: UserWarning: Glyph 51204 (\N{HANGUL SYLLABLE JEON}) missing from font(s) DejaVu Sans.
+  plt.tight_layout(); plt.show()
+/tmp/ipykernel_2578110/3855978081.py:19: UserWarning: Glyph 48768 (\N{HANGUL SYLLABLE BBAEN}) missing from font(s) DejaVu Sans.
+  plt.tight_layout(); plt.show()
+/tmp/ipykernel_2578110/3855978081.py:19: UserWarning: Glyph 54980 (\N{HANGUL SYLLABLE HU}) missing from font(s) DejaVu Sans.
+  plt.tight_layout(); plt.show()
+/root/venvs/2026-OHS-HST/lib/python3.10/site-packages/IPython/core/pylabtools.py:170: UserWarning: Glyph 54217 (\N{HANGUL SYLLABLE PYEONG}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+/root/venvs/2026-OHS-HST/lib/python3.10/site-packages/IPython/core/pylabtools.py:170: UserWarning: Glyph 44512 (\N{HANGUL SYLLABLE GYUN}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+/root/venvs/2026-OHS-HST/lib/python3.10/site-packages/IPython/core/pylabtools.py:170: UserWarning: Glyph 51012 (\N{HANGUL SYLLABLE EUL}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+/root/venvs/2026-OHS-HST/lib/python3.10/site-packages/IPython/core/pylabtools.py:170: UserWarning: Glyph 48764 (\N{HANGUL SYLLABLE BBAE}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+/root/venvs/2026-OHS-HST/lib/python3.10/site-packages/IPython/core/pylabtools.py:170: UserWarning: Glyph 44592 (\N{HANGUL SYLLABLE GI}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+/root/venvs/2026-OHS-HST/lib/python3.10/site-packages/IPython/core/pylabtools.py:170: UserWarning: Glyph 51204 (\N{HANGUL SYLLABLE JEON}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+/root/venvs/2026-OHS-HST/lib/python3.10/site-packages/IPython/core/pylabtools.py:170: UserWarning: Glyph 48768 (\N{HANGUL SYLLABLE BBAEN}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+/root/venvs/2026-OHS-HST/lib/python3.10/site-packages/IPython/core/pylabtools.py:170: UserWarning: Glyph 54980 (\N{HANGUL SYLLABLE HU}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)</code></pre>
+</div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260522_연구_HST_마팅게일이란무엇인가_시뮬강의노트_files/figure-html/cell-15-output-1.png" width="688" height="379" class="figure-img"></p>
+<p><img src="260522_연구_HST_마팅게일이란무엇인가_시뮬강의노트_files/figure-html/cell-17-output-2.png" width="1140" height="396" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>이 trick 의 일반화가 <em>Doob-Meyer 분해</em> (submartingale = martingale + predictable increasing). HST 분석에도 자주 쓰인다.</p>
+<p>왼쪽 — 빨간 점선 (<span class="math inline">\(y = n\)</span>) 위에 검정 ensemble 평균이 정확히 따라간다. submartingale 의 drift 가 1 씩 쌓이는 것. 오른쪽 — 그 drift 를 <span class="math inline">\(-n\)</span> 으로 정확히 상쇄하니 평균이 0 에 못박힌다. 두 process 는 path 차원에선 같지만 (좌·우 둘 다 같은 진동) drift 부분만 평행이동된다. 이 trick 의 일반화가 <em>Doob-Meyer 분해</em> (submartingale = martingale + predictable increasing) — HST 분석에도 자주 쓰인다.</p>
 <p><code>-</code> <strong>예제 4 — Pólya urn.</strong> 흰 1, 검 1 로 시작. 매 step 무작위 추첨, 그 색 +1. 흰 비율 <span class="math inline">\(M_n := W_n/(W_n+B_n)\)</span> 이 <span class="math inline">\([0,1]\)</span> 위 마팅게일.</p>
 <p><span class="math display">\[E[M_{n+1} \mid \mathcal F_n] = M_n \cdot \tfrac{W_n + 1}{N_n + 1} + (1-M_n) \cdot \tfrac{W_n}{N_n + 1} = M_n.\]</span></p>
-<div id="4ceba8ed" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> polya_path(T):</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    W, B <span class="op">=</span> <span class="dv">1</span>, <span class="dv">1</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    Ms <span class="op">=</span> np.empty(T)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(T):</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> rng.random() <span class="op">&lt;</span> W <span class="op">/</span> (W <span class="op">+</span> B):</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>            W <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>            B <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>        Ms[n] <span class="op">=</span> W <span class="op">/</span> (W <span class="op">+</span> B)</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Ms</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>M4 <span class="op">=</span> np.array([polya_path(T) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(NPATH)])</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>M4.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div id="c65902c3" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> polya_path(T):</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    W, B <span class="op">=</span> <span class="dv">1</span>, <span class="dv">1</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    Ms <span class="op">=</span> np.empty(T)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(T):</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> rng.random() <span class="op">&lt;</span> W <span class="op">/</span> (W <span class="op">+</span> B):</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>            W <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>            B <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>        Ms[n] <span class="op">=</span> W <span class="op">/</span> (W <span class="op">+</span> B)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Ms</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>M4 <span class="op">=</span> np.array([polya_path(T) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(NPATH)])</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>M4.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>(30, 2000)</code></pre>
 </div>
 </div>
-<div id="84bd2293" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>M4[:<span class="dv">5</span>, <span class="op">-</span><span class="dv">1</span>]   <span class="co"># 30 path 중 첫 5 path 의 limit 값 — 0~1 사이 random</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="16">
+<div id="619fad6b" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>M4[:<span class="dv">5</span>, <span class="op">-</span><span class="dv">1</span>]   <span class="co"># 30 path 중 첫 5 path 의 limit 값 — 0~1 사이 random</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>array([0.87912088, 0.92557443, 0.86413586, 0.33466533, 0.76623377])</code></pre>
 </div>
 </div>
-<div id="fbf8f0e5" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>M4[:, <span class="op">-</span><span class="dv">1</span>].mean(), M4[:, <span class="op">-</span><span class="dv">1</span>].std()   <span class="co"># uniform(0,1) 이면 평균 0.5, std 1/√12 ≈ 0.289</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div id="c3f851b6" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>M4[:, <span class="op">-</span><span class="dv">1</span>].mean(), M4[:, <span class="op">-</span><span class="dv">1</span>].std()   <span class="co"># uniform(0,1) 이면 평균 0.5, std 1/√12 ≈ 0.289</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>(np.float64(0.5200466200466202), np.float64(0.2771201501240363))</code></pre>
 </div>
 </div>
 <p>평균 0.5, std 0.289 근처 — Uniform(0,1) 의 모멘트와 일치.</p>
-<div id="b41fdaac" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">4.0</span>))</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH):</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].plot(t, M4[k], lw<span class="op">=</span><span class="fl">0.6</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].axhline(<span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"r"</span>, lw<span class="op">=</span><span class="fl">0.6</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, ls<span class="op">=</span><span class="st">":"</span>)</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Pólya urn — white ratio $M_n$ per path"</span>)</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">"$n$"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_ylabel(<span class="st">"$M_n$"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_ylim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].hist(M4[:, <span class="op">-</span><span class="dv">1</span>], bins<span class="op">=</span><span class="dv">15</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, color<span class="op">=</span><span class="st">"C0"</span>, edgecolor<span class="op">=</span><span class="st">"k"</span>)</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axhline(<span class="fl">1.0</span>, color<span class="op">=</span><span class="st">"r"</span>, lw<span class="op">=</span><span class="fl">1.2</span>, label<span class="op">=</span><span class="st">"Uniform(0,1) density"</span>)</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="ss">f"$M_n$ at $n=</span><span class="sc">{</span>T<span class="sc">}</span><span class="ss">$ — 30 limits"</span>)</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">"$M_n$"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_ylabel(<span class="st">"density"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_xlim(<span class="dv">0</span>, <span class="dv">1</span>)<span class="op">;</span> axes[<span class="dv">1</span>].legend()</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="43a2ae04" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">4.0</span>))</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH):</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].plot(t, M4[k], lw<span class="op">=</span><span class="fl">0.6</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].axhline(<span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"r"</span>, lw<span class="op">=</span><span class="fl">0.6</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, ls<span class="op">=</span><span class="st">":"</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Pólya urn — white ratio $M_n$ per path"</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">"$n$"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_ylabel(<span class="st">"$M_n$"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_ylim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].hist(M4[:, <span class="op">-</span><span class="dv">1</span>], bins<span class="op">=</span><span class="dv">15</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.7</span>, color<span class="op">=</span><span class="st">"C0"</span>, edgecolor<span class="op">=</span><span class="st">"k"</span>)</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axhline(<span class="fl">1.0</span>, color<span class="op">=</span><span class="st">"r"</span>, lw<span class="op">=</span><span class="fl">1.2</span>, label<span class="op">=</span><span class="st">"Uniform(0,1) density"</span>)</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="ss">f"$M_n$ at $n=</span><span class="sc">{</span>T<span class="sc">}</span><span class="ss">$ — 30 limits"</span>)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">"$M_n$"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_ylabel(<span class="st">"density"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_xlim(<span class="dv">0</span>, <span class="dv">1</span>)<span class="op">;</span> axes[<span class="dv">1</span>].legend()</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260522_연구_HST_마팅게일이란무엇인가_시뮬강의노트_files/figure-html/cell-19-output-1.png" width="1045" height="373" class="figure-img"></p>
+<p><img src="260522_연구_HST_마팅게일이란무엇인가_시뮬강의노트_files/figure-html/cell-21-output-1.png" width="1045" height="373" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><span class="math inline">\([0,1]\)</span> 위 uniformly bounded martingale → Doob 의 마팅게일 수렴 정리로 <span class="math inline">\(M_n \to M_\infty\)</span> a.s. 각 path 가 자기만의 random limit 으로 떨어지고, limit 의 분포가 Uniform(0,1). <em>“마팅게일이 수렴한다고 그 극한이 결정론적이라는 뜻은 아니다”</em>.</p>
 <p><code>-</code> <strong>예제 5 — Doubling strategy.</strong> <span class="math inline">\(\epsilon_i = \pm 1\)</span> fair, 베팅 <span class="math inline">\(a_n\)</span> 은 직전 결과만 봄 (predictable). 잃으면 베팅 2배, 이기면 1로 reset. 누적 손익 <span class="math inline">\(X_n := \sum a_i \epsilon_i\)</span> — predictable 베팅의 곱은 마팅게일 transform 으로 마팅게일 보존 (Durrett Thm 4.2.8).</p>
-<div id="2c4169a1" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> doubling_path(T):</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    cur_bet <span class="op">=</span> <span class="fl">1.0</span><span class="op">;</span> X <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    Xs <span class="op">=</span> np.empty(T)<span class="op">;</span> bets <span class="op">=</span> np.empty(T)</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(T):</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>        eps <span class="op">=</span> <span class="fl">1.0</span> <span class="cf">if</span> rng.random() <span class="op">&lt;</span> <span class="fl">0.5</span> <span class="cf">else</span> <span class="op">-</span><span class="fl">1.0</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>        X <span class="op">+=</span> cur_bet <span class="op">*</span> eps</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>        Xs[i], bets[i] <span class="op">=</span> X, cur_bet</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>        cur_bet <span class="op">=</span> <span class="fl">1.0</span> <span class="cf">if</span> eps <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="bu">min</span>(cur_bet <span class="op">*</span> <span class="fl">2.0</span>, <span class="dv">2</span><span class="op">**</span><span class="dv">20</span>)</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Xs, bets</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>T_dbl <span class="op">=</span> <span class="dv">500</span><span class="op">;</span> NPATH_dbl <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>X5 <span class="op">=</span> np.empty((NPATH_dbl, T_dbl))<span class="op">;</span> bets5 <span class="op">=</span> np.empty((NPATH_dbl, T_dbl))</span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH_dbl):</span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>    X5[k], bets5[k] <span class="op">=</span> doubling_path(T_dbl)</span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>X5[:, <span class="op">-</span><span class="dv">1</span>].mean(), X5[:, <span class="op">-</span><span class="dv">1</span>].std()   <span class="co"># 평균 0 근처, std 큼 (베팅 폭발 path 영향)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div id="2f12ec0d" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> doubling_path(T):</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    cur_bet <span class="op">=</span> <span class="fl">1.0</span><span class="op">;</span> X <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    Xs <span class="op">=</span> np.empty(T)<span class="op">;</span> bets <span class="op">=</span> np.empty(T)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(T):</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>        eps <span class="op">=</span> <span class="fl">1.0</span> <span class="cf">if</span> rng.random() <span class="op">&lt;</span> <span class="fl">0.5</span> <span class="cf">else</span> <span class="op">-</span><span class="fl">1.0</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>        X <span class="op">+=</span> cur_bet <span class="op">*</span> eps</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        Xs[i], bets[i] <span class="op">=</span> X, cur_bet</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        cur_bet <span class="op">=</span> <span class="fl">1.0</span> <span class="cf">if</span> eps <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> <span class="bu">min</span>(cur_bet <span class="op">*</span> <span class="fl">2.0</span>, <span class="dv">2</span><span class="op">**</span><span class="dv">20</span>)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Xs, bets</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>T_dbl <span class="op">=</span> <span class="dv">500</span><span class="op">;</span> NPATH_dbl <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>X5 <span class="op">=</span> np.empty((NPATH_dbl, T_dbl))<span class="op">;</span> bets5 <span class="op">=</span> np.empty((NPATH_dbl, T_dbl))</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH_dbl):</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>    X5[k], bets5[k] <span class="op">=</span> doubling_path(T_dbl)</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>X5[:, <span class="op">-</span><span class="dv">1</span>].mean(), X5[:, <span class="op">-</span><span class="dv">1</span>].std()   <span class="co"># 평균 0 근처, std 큼 (베팅 폭발 path 영향)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>(np.float64(248.55), np.float64(13.089977081721724))</code></pre>
 </div>
 </div>
-<div id="888dea63" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>bets5.<span class="bu">max</span>(), bets5.mean()   <span class="co"># 베팅 최대치 — 연패 시 2^k 까지 폭발 (cap 2^20)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div id="657bc9db" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>bets5.<span class="bu">max</span>(), bets5.mean()   <span class="co"># 베팅 최대치 — 연패 시 2^k 까지 폭발 (cap 2^20)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
 <pre><code>(np.float64(4096.0), np.float64(6.1655))</code></pre>
 </div>
 </div>
-<div id="d85f1912" class="cell" data-execution_count="21">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>t_dbl <span class="op">=</span> np.arange(<span class="dv">1</span>, T_dbl <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">4.0</span>))</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH_dbl):</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].plot(t_dbl, X5[k], lw<span class="op">=</span><span class="fl">0.6</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"r"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Cumulative fortune $X_n$ (martingale)"</span>)</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">"$n$"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_ylabel(<span class="st">"$X_n$"</span>)</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH_dbl):</span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>].plot(t_dbl, bets5[k], lw<span class="op">=</span><span class="fl">0.6</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yscale(<span class="st">"log"</span>)</span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Bet size $a_n$ (predictable, log scale)"</span>)</span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">"$n$"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_ylabel(<span class="st">"$a_n$"</span>)</span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="a1e60311" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>t_dbl <span class="op">=</span> np.arange(<span class="dv">1</span>, T_dbl <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">4.0</span>))</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH_dbl):</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].plot(t_dbl, X5[k], lw<span class="op">=</span><span class="fl">0.6</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"r"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Cumulative fortune $X_n$ (martingale)"</span>)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">"$n$"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_ylabel(<span class="st">"$X_n$"</span>)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH_dbl):</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>].plot(t_dbl, bets5[k], lw<span class="op">=</span><span class="fl">0.6</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yscale(<span class="st">"log"</span>)</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Bet size $a_n$ (predictable, log scale)"</span>)</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">"$n$"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_ylabel(<span class="st">"$a_n$"</span>)</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260522_연구_HST_마팅게일이란무엇인가_시뮬강의노트_files/figure-html/cell-22-output-1.png" width="1045" height="373" class="figure-img"></p>
+<p><img src="260522_연구_HST_마팅게일이란무엇인가_시뮬강의노트_files/figure-html/cell-24-output-1.png" width="1045" height="373" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>왼쪽 path 들이 0 근처에서 진동 — <em>평균은 공정</em>. 베팅은 log scale 로 그려야 보일 정도로 폭발. 실제 도박장에서 무너지는 이유는 유한한 자본 때문이지 마팅게일 성질 때문이 아니다.</p>
 <p><code>-</code> <strong>예제 6 — Galton-Watson branching.</strong> 한 generation 의 인구 <span class="math inline">\(Z_n\)</span> 이 다음 세대에서 <span class="math inline">\(Z_{n+1} = \sum_{i=1}^{Z_n} \xi_i\)</span>, <span class="math inline">\(\xi_i \overset{\text{iid}}{\sim} \text{Poisson}(m)\)</span>. <span class="math inline">\(Z_n\)</span> 자체는 마팅게일 아니지만 (<span class="math inline">\(m \neq 1\)</span> 이면 평균이 <span class="math inline">\(m^n\)</span> 으로 자람), 정규화 <span class="math inline">\(M_n := Z_n / m^n\)</span> 이 마팅게일. <span class="math inline">\(E[M_{n+1} \mid \mathcal F_n] = E[Z_{n+1} \mid \mathcal F_n]/m^{n+1} = m Z_n / m^{n+1} = Z_n/m^n = M_n\)</span>.</p>
-<div id="a928cc5c" class="cell" data-execution_count="22">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gw_path(m, n_steps, max_pop<span class="op">=</span><span class="dv">10</span><span class="op">**</span><span class="dv">6</span>):</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    Zs <span class="op">=</span> [<span class="dv">1</span>]</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_steps):</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> Zs[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> z <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>            Zs.append(<span class="dv">0</span>)</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>            Zs.append(<span class="bu">min</span>(rng.poisson(m, size<span class="op">=</span>z).<span class="bu">sum</span>(), max_pop))</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array(Zs)</span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>T_gw <span class="op">=</span> <span class="dv">25</span><span class="op">;</span> n_paths_gw <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>Z_super <span class="op">=</span> np.array([gw_path(<span class="fl">1.3</span>, T_gw) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_paths_gw)])</span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>Z_crit  <span class="op">=</span> np.array([gw_path(<span class="fl">1.0</span>, T_gw) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_paths_gw)])</span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>Z_sub   <span class="op">=</span> np.array([gw_path(<span class="fl">0.7</span>, T_gw) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_paths_gw)])</span>
-<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>Z_sub[:<span class="dv">5</span>, <span class="op">-</span><span class="dv">1</span>], Z_crit[:<span class="dv">5</span>, <span class="op">-</span><span class="dv">1</span>], Z_super[:<span class="dv">5</span>, <span class="op">-</span><span class="dv">1</span>]   <span class="co"># 세 regime 의 끝 인구</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div id="993bfa40" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gw_path(m, n_steps, max_pop<span class="op">=</span><span class="dv">10</span><span class="op">**</span><span class="dv">6</span>):</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>    Zs <span class="op">=</span> [<span class="dv">1</span>]</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_steps):</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> Zs[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> z <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>            Zs.append(<span class="dv">0</span>)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>            Zs.append(<span class="bu">min</span>(rng.poisson(m, size<span class="op">=</span>z).<span class="bu">sum</span>(), max_pop))</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array(Zs)</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>T_gw <span class="op">=</span> <span class="dv">25</span><span class="op">;</span> n_paths_gw <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>Z_super <span class="op">=</span> np.array([gw_path(<span class="fl">1.3</span>, T_gw) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_paths_gw)])</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>Z_crit  <span class="op">=</span> np.array([gw_path(<span class="fl">1.0</span>, T_gw) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_paths_gw)])</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>Z_sub   <span class="op">=</span> np.array([gw_path(<span class="fl">0.7</span>, T_gw) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_paths_gw)])</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>Z_sub[:<span class="dv">5</span>, <span class="op">-</span><span class="dv">1</span>], Z_crit[:<span class="dv">5</span>, <span class="op">-</span><span class="dv">1</span>], Z_super[:<span class="dv">5</span>, <span class="op">-</span><span class="dv">1</span>]   <span class="co"># 세 regime 의 끝 인구</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>(array([0, 0, 0, 0, 0]),
  array([0, 0, 0, 0, 0]),
  array([   0,    0,    0,    0, 4057]))</code></pre>
 </div>
 </div>
 <p><code>m=0.7</code> 은 거의 다 멸종 (0), <code>m=1</code> 도 대부분 멸종, <code>m=1.3</code> 은 일부 폭발 일부 멸종.</p>
-<div id="87276858" class="cell" data-execution_count="23">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>t_gw <span class="op">=</span> np.arange(T_gw <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>M6_super <span class="op">=</span> Z_super <span class="op">/</span> (<span class="fl">1.3</span> <span class="op">**</span> t_gw[<span class="va">None</span>, :])</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>M6_crit  <span class="op">=</span> Z_crit  <span class="op">/</span> (<span class="fl">1.0</span> <span class="op">**</span> t_gw[<span class="va">None</span>, :])</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>M6_sub   <span class="op">=</span> Z_sub   <span class="op">/</span> (<span class="fl">0.7</span> <span class="op">**</span> t_gw[<span class="va">None</span>, :])</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>M6_sub[:<span class="dv">5</span>, <span class="op">-</span><span class="dv">1</span>]   <span class="co"># 정규화된 마팅게일 끝값 — m^n 으로 나눠서 평균은 1 유지</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="23">
+<div id="8f14cc2b" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>t_gw <span class="op">=</span> np.arange(T_gw <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>M6_super <span class="op">=</span> Z_super <span class="op">/</span> (<span class="fl">1.3</span> <span class="op">**</span> t_gw[<span class="va">None</span>, :])</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>M6_crit  <span class="op">=</span> Z_crit  <span class="op">/</span> (<span class="fl">1.0</span> <span class="op">**</span> t_gw[<span class="va">None</span>, :])</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>M6_sub   <span class="op">=</span> Z_sub   <span class="op">/</span> (<span class="fl">0.7</span> <span class="op">**</span> t_gw[<span class="va">None</span>, :])</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>M6_sub[:<span class="dv">5</span>, <span class="op">-</span><span class="dv">1</span>]   <span class="co"># 정규화된 마팅게일 끝값 — m^n 으로 나눠서 평균은 1 유지</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
 <pre><code>array([0., 0., 0., 0., 0.])</code></pre>
 </div>
 </div>
-<div id="3c35f698" class="cell" data-execution_count="24">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>M6_super[:, <span class="op">-</span><span class="dv">1</span>].mean(), M6_crit[:, <span class="op">-</span><span class="dv">1</span>].mean(), M6_sub[:, <span class="op">-</span><span class="dv">1</span>].mean()</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 세 regime 모두 끝값 ensemble 평균이 1 근처 (마팅게일 보존)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div id="5124e73e" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>M6_super[:, <span class="op">-</span><span class="dv">1</span>].mean(), M6_crit[:, <span class="op">-</span><span class="dv">1</span>].mean(), M6_sub[:, <span class="op">-</span><span class="dv">1</span>].mean()</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 세 regime 모두 끝값 ensemble 평균이 1 근처 (마팅게일 보존)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
 <pre><code>(np.float64(1.5279724360239704), np.float64(0.1), np.float64(0.0))</code></pre>
 </div>
 </div>
 <p>세 regime 의 정규화 <span class="math inline">\(M_n\)</span> 모두 평균 1 유지가 마팅게일 성질. raw <span class="math inline">\(Z_n\)</span> 의 거동은 완전히 다르다 (멸종/유지/폭발).</p>
-<div id="c51356ce" class="cell" data-fig-height="6" data-execution_count="25">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">13</span>, <span class="fl">6.5</span>))</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(n_paths_gw):</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(t_gw, Z_sub[k] <span class="op">+</span> <span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.7</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>, <span class="dv">1</span>].plot(t_gw, Z_crit[k] <span class="op">+</span> <span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.7</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>, <span class="dv">2</span>].plot(t_gw, Z_super[k] <span class="op">+</span> <span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.7</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>, <span class="dv">0</span>].plot(t_gw, M6_sub[k], lw<span class="op">=</span><span class="fl">0.7</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>, <span class="dv">1</span>].plot(t_gw, M6_crit[k], lw<span class="op">=</span><span class="fl">0.7</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>, <span class="dv">2</span>].plot(t_gw, M6_super[k], lw<span class="op">=</span><span class="fl">0.7</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> axes[<span class="dv">0</span>]:</span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>    ax.set_yscale(<span class="st">"symlog"</span>, linthresh<span class="op">=</span><span class="dv">1</span>)<span class="op">;</span> ax.set_xlabel(<span class="st">"generation $n$"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"$Z_n$"</span>)</span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> axes[<span class="dv">1</span>]:</span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"$n$"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"$M_n$"</span>)</span>
-<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">"$Z_n$, $m=0.7$ (subcritical)"</span>)</span>
-<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_title(<span class="st">"$Z_n$, $m=1.0$ (critical)"</span>)</span>
-<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">2</span>].set_title(<span class="st">"$Z_n$, $m=1.3$ (supercritical)"</span>)</span>
-<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_title(<span class="st">"$M_n = Z_n/m^n$, $m=0.7$"</span>)</span>
-<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="st">"$M_n = Z_n/m^n$, $m=1$ ($=Z_n$)"</span>)</span>
-<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">2</span>].set_title(<span class="st">"$M_n = Z_n/m^n$, $m=1.3$"</span>)</span>
-<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Ex 6: Galton-Watson — $Z_n$ raw (top) vs $M_n$ martingale (bottom)"</span>, fontsize<span class="op">=</span><span class="dv">10</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
-<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="212c63da" class="cell" data-fig-height="6" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">13</span>, <span class="fl">6.5</span>))</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(n_paths_gw):</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(t_gw, Z_sub[k] <span class="op">+</span> <span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.7</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>, <span class="dv">1</span>].plot(t_gw, Z_crit[k] <span class="op">+</span> <span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.7</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>, <span class="dv">2</span>].plot(t_gw, Z_super[k] <span class="op">+</span> <span class="fl">0.5</span>, lw<span class="op">=</span><span class="fl">0.7</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>, <span class="dv">0</span>].plot(t_gw, M6_sub[k], lw<span class="op">=</span><span class="fl">0.7</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>, <span class="dv">1</span>].plot(t_gw, M6_crit[k], lw<span class="op">=</span><span class="fl">0.7</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>, <span class="dv">2</span>].plot(t_gw, M6_super[k], lw<span class="op">=</span><span class="fl">0.7</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> axes[<span class="dv">0</span>]:</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>    ax.set_yscale(<span class="st">"symlog"</span>, linthresh<span class="op">=</span><span class="dv">1</span>)<span class="op">;</span> ax.set_xlabel(<span class="st">"generation $n$"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"$Z_n$"</span>)</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> axes[<span class="dv">1</span>]:</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"$n$"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"$M_n$"</span>)</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">"$Z_n$, $m=0.7$ (subcritical)"</span>)</span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_title(<span class="st">"$Z_n$, $m=1.0$ (critical)"</span>)</span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">2</span>].set_title(<span class="st">"$Z_n$, $m=1.3$ (supercritical)"</span>)</span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_title(<span class="st">"$M_n = Z_n/m^n$, $m=0.7$"</span>)</span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="st">"$M_n = Z_n/m^n$, $m=1$ ($=Z_n$)"</span>)</span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">2</span>].set_title(<span class="st">"$M_n = Z_n/m^n$, $m=1.3$"</span>)</span>
+<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Ex 6: Galton-Watson — $Z_n$ raw (top) vs $M_n$ martingale (bottom)"</span>, fontsize<span class="op">=</span><span class="dv">10</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
+<span id="cb49-20"><a href="#cb49-20" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260522_연구_HST_마팅게일이란무엇인가_시뮬강의노트_files/figure-html/cell-26-output-1.png" width="1236" height="641" class="figure-img"></p>
+<p><img src="260522_연구_HST_마팅게일이란무엇인가_시뮬강의노트_files/figure-html/cell-28-output-1.png" width="1236" height="641" class="figure-img"></p>
 </figure>
 </div>
 </div>
