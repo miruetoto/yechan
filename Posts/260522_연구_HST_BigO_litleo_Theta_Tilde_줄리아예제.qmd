@@ -56,13 +56,51 @@ ratio1[0], ratio1[-1]   # (15.0, 3.0252...)
 ratio 가 $n=1$ 에서 15 였다가 $n=200$ 에서 3.03 으로 안정화. 어떤 상수로 유계라는 게 $O$ 의 핵심.
 
 ```{python}
-fig, ax = plt.subplots(figsize=(7.5, 3.6))
+fig, ax = plt.subplots(figsize=(9.5, 5))
 ax.plot(n, ratio1, lw=2.0, color="C0", label=r"$a_n / b_n$")
 ax.axhline(3.0, lw=1.4, ls="--", color="crimson", label=r"limit $= 3$")
-ax.set_title(r"$O$ : $a_n = 3n^2 + 5n + 7$, $b_n = n^2$ — ratio $\to 3$ (bounded)")
-ax.set_xlabel(r"$n$"); ax.set_ylabel(r"$a_n / b_n$"); ax.legend()
+ax.set_title(r"$a_n = 3n^2 + 5n + 7$,\quad $b_n = n^2$,\quad $a_n/b_n \to 3$")
+ax.set_xlabel(r"$n$"); ax.set_ylabel(r"$a_n / b_n$"); ax.legend(loc="upper right")
+
+# 정리 텍스트 박스
+txt = "\n".join([
+    r"$a_n = O(n^2)$\quad \textbf{T}",
+    r"$a_n = o(n^2)$\quad \textbf{F}",
+    r"$a_n = \Theta(n^2)$\quad \textbf{T}",
+    r"$a_n \sim n^2$\quad \textbf{F}",
+    r"$a_n \sim 3\,n^2$\quad \textbf{T}",
+    r"$a_n = O(n^3)$\quad \textbf{T}",
+    r"$a_n = o(n^3)$\quad \textbf{T}",
+    r"$a_n = \Theta(n^3)$\quad \textbf{F}",
+    r"$a_n = O(n)$\quad \textbf{F}",
+    r"$a_n = 3n^2 + O(n)$\quad \textbf{T}",
+])
+ax.text(0.42, 0.97, txt, transform=ax.transAxes, va="top", ha="left",
+        fontsize=9, family="serif",
+        bbox=dict(boxstyle="round,pad=0.5", fc="white", ec="0.6", alpha=0.95))
 plt.show()
 ```
+
+이 한 장의 그래프 (ratio = $3 + 5/n + 7/n^2$, 15 → 3 단조 감소) 가 보여주는 상황에서 *어떤 오더 표현이 맞고 틀린지* 한 표로 정리하면 다음과 같다.
+
+| # | 표현 | T/F | 이유 |
+|---|---|---|---|
+| 1 | $a_n = O(n^2)$ | T | ratio 가 어떤 상수 (≤ 15) 로 유계 |
+| 2 | $a_n = o(n^2)$ | F | ratio $\to 3 \neq 0$ |
+| 3 | $a_n = \Theta(n^2)$ | T | ratio 가 $[3, 15]$ 양쪽 양의 상수 사이에 갇힘 |
+| 4 | $a_n \sim n^2$ | F | ratio $\to 3$ (1 아님) |
+| 5 | $a_n \sim 3 n^2$ | T | $a_n / (3 n^2) \to 1$ — 점근 비율까지 정확 |
+| 6 | $a_n = O(n^3)$ | T | $a_n / n^3 = 3/n + \cdots \to 0$ (유계) — *상한이 더 헐겁기만* |
+| 7 | $a_n = o(n^3)$ | T | $a_n / n^3 \to 0$ |
+| 8 | $a_n = \Theta(n^3)$ | F | lower bound 부재 — ratio 가 0 으로 갔는데 양의 상수로 못 막음 |
+| 9 | $a_n \sim n^3$ | F | ratio $\to 0 \neq 1$ |
+| 10 | $a_n = O(n)$ | F | $a_n / n = 3n + 5 + 7/n \to \infty$ — 유계 아님 |
+| 11 | $a_n = o(n)$ | F | 위 동일 |
+| 12 | $a_n = \Theta(n)$ | F | 위 동일 |
+| 13 | $a_n = 3 n^2 + O(n)$ | T | 잔여항 $5n + 7$ 이 $O(n)$ |
+| 14 | $a_n = 3 n^2 + o(n^2)$ | T | 잔여항 $(5n+7)/n^2 \to 0$ |
+
+ratio 가 *어느 점근값* 으로 수렴하는가 (여기서는 3) 와 그 점근값이 *0 / 양의 상수 / 1 중 어느 것* 인지가 모든 판정의 기준. ratio $\to$ 양의 상수 $c$ 이면 $O, \Theta$ T / $o, \sim$ F (단 $\sim c b_n$ 는 T), ratio $\to 0$ 이면 $O, o$ T / $\Theta, \sim$ F, ratio $\to \infty$ 이면 모두 F. 같은 sequence $a_n$ 에 대해서도 비교 기준 $b_n$ 을 어떤 차수로 잡느냐에 따라 네 오더의 T/F 가 모두 달라진다 — $b_n = n^2$ (정확한 차수) 일 때만 $\Theta$ 가 살아남고, $b_n = 3 n^2$ 까지 잡아야 $\sim$ 도 살아남는다.
 
 `-` **예제 2 — little-$o$ (vanishing ratio).** $a_n = n^2$, $b_n = n^3$. ratio $a_n/b_n = 1/n \to 0$ — 분모가 *진짜로 빨리* 자란다. 대조로 ratio 가 0 으로 안 가는 (= $O$ 는 맞지만 $o$ 는 아닌) sequence 도 같이.
 
@@ -80,12 +118,28 @@ ratio2b[0]              # 0.5 for all n
 ```
 
 ```{python}
-fig, ax = plt.subplots(figsize=(7.5, 3.6))
+fig, ax = plt.subplots(figsize=(9.5, 5))
 ax.plot(n, ratio2,  lw=2.0, color="C0", label=r"$n^2/n^3 \to 0$  ($o$, also $O$)")
 ax.plot(n, ratio2b, lw=2.0, ls="--", color="C1", label=r"$n^2/(2n^2) = 0.5$  ($O$ only, not $o$)")
 ax.axhline(0.0, lw=1.0, color="gray")
-ax.set_title(r"$o$ : ratio vanishes  vs  $O$ : ratio bounded")
-ax.set_xlabel(r"$n$"); ax.set_ylabel(r"ratio"); ax.legend()
+ax.set_title(r"vanishing vs bounded constant ratio")
+ax.set_xlabel(r"$n$"); ax.set_ylabel(r"ratio"); ax.legend(loc="upper right")
+
+txt = "\n".join([
+    r"\textbf{case A}: $a_n = n^2$, $b_n = n^3$",
+    r"\quad $a_n = o(n^3)$\quad \textbf{T}",
+    r"\quad $a_n = O(n^3)$\quad \textbf{T}",
+    r"\quad $a_n = \Theta(n^3)$\quad \textbf{F}",
+    r"",
+    r"\textbf{case B}: $a_n = n^2$, $b_n = 2n^2$",
+    r"\quad $a_n = O(2n^2)$\quad \textbf{T}",
+    r"\quad $a_n = \Theta(2n^2)$\quad \textbf{T}",
+    r"\quad $a_n = o(2n^2)$\quad \textbf{F}",
+    r"\quad $a_n \sim 2n^2$\quad \textbf{F}\;\;(ratio $\to 0.5$)",
+])
+ax.text(0.40, 0.85, txt, transform=ax.transAxes, va="top", ha="left",
+        fontsize=9, family="serif",
+        bbox=dict(boxstyle="round,pad=0.5", fc="white", ec="0.6", alpha=0.95))
 plt.show()
 ```
 
@@ -103,11 +157,24 @@ ratio3.min(), ratio3.max()   # (3.8..., 4.84...)
 ratio 가 모든 $n$ 에서 $[3.8, 4.9]$ 사이에 갇힌다. 어떤 상수 $c, C > 0$ 가 존재해 $c \cdot b_n \leq a_n \leq C \cdot b_n$ → $a_n = \Theta(b_n)$.
 
 ```{python}
-fig, ax = plt.subplots(figsize=(7.5, 3.6))
+fig, ax = plt.subplots(figsize=(9.5, 5))
 ax.plot(n, ratio3, lw=2.0, color="C0", label=r"$(4n^2 + \sin(n)\,n)\,/\,n^2$")
 ax.axhline(4.0, lw=1.4, ls="--", color="crimson", label=r"limit $= 4$")
-ax.set_title(r"$\Theta$ : ratio stays between positive constants ($\to 4$)")
-ax.set_xlabel(r"$n$"); ax.set_ylabel(r"$a_n / b_n$"); ax.legend()
+ax.set_title(r"ratio bounded between positive constants ($\to 4$)")
+ax.set_xlabel(r"$n$"); ax.set_ylabel(r"$a_n / b_n$"); ax.legend(loc="upper right")
+
+txt = "\n".join([
+    r"$a_n = 4n^2 + \sin(n)\,n$,\quad $b_n = n^2$",
+    r"",
+    r"$a_n = O(n^2)$\quad \textbf{T}",
+    r"$a_n = \Theta(n^2)$\quad \textbf{T}",
+    r"$a_n = o(n^2)$\quad \textbf{F}",
+    r"$a_n \sim n^2$\quad \textbf{F}\;\;(ratio $\to 4$, $\neq 1$)",
+    r"$a_n \sim 4\,n^2$\quad \textbf{T}",
+])
+ax.text(0.38, 0.55, txt, transform=ax.transAxes, va="top", ha="left",
+        fontsize=9, family="serif",
+        bbox=dict(boxstyle="round,pad=0.5", fc="white", ec="0.6", alpha=0.95))
 plt.show()
 ```
 
@@ -127,12 +194,27 @@ ratio4b[0]              # 2.0 for all n
 ```
 
 ```{python}
-fig, ax = plt.subplots(figsize=(7.5, 3.6))
+fig, ax = plt.subplots(figsize=(9.5, 5))
 ax.plot(n, ratio4,  lw=2.0, color="C0", label=r"$(n^2+n)/n^2 \to 1$  ($\sim$)")
 ax.plot(n, ratio4b, lw=2.0, ls="--", color="C1", label=r"$2n^2 / n^2 = 2$  ($\Theta$ only, not $\sim$)")
 ax.axhline(1.0, lw=1.2, ls=":", color="crimson", label=r"limit $= 1$")
-ax.set_title(r"$\sim$ : ratio $\to 1$  vs  $\Theta$ : ratio bounded (possibly $\neq 1$)")
-ax.set_xlabel(r"$n$"); ax.set_ylabel(r"ratio"); ax.legend()
+ax.set_title(r"ratio $\to 1$ (tilde) vs ratio bounded but $\neq 1$ (Theta only)")
+ax.set_xlabel(r"$n$"); ax.set_ylabel(r"ratio"); ax.legend(loc="center right")
+
+txt = "\n".join([
+    r"\textbf{case A}: $a_n = n^2 + n$,\; $b_n = n^2$",
+    r"\quad $a_n \sim n^2$\quad \textbf{T}\;\;(ratio $\to 1$)",
+    r"\quad $a_n = \Theta(n^2)$\quad \textbf{T}",
+    r"\quad $a_n = O(n^2)$\quad \textbf{T}",
+    r"",
+    r"\textbf{case B}: $a_n = 2n^2$,\; $b_n = n^2$",
+    r"\quad $a_n \sim n^2$\quad \textbf{F}\;\;(ratio $\to 2$, $\neq 1$)",
+    r"\quad $a_n \sim 2n^2$\quad \textbf{T}",
+    r"\quad $a_n = \Theta(n^2)$\quad \textbf{T}",
+])
+ax.text(0.40, 0.97, txt, transform=ax.transAxes, va="top", ha="left",
+        fontsize=9, family="serif",
+        bbox=dict(boxstyle="round,pad=0.5", fc="white", ec="0.6", alpha=0.95))
 plt.show()
 ```
 
@@ -166,7 +248,7 @@ np.mean(np.abs(sqrtn_dev[:, 10])), np.mean(np.abs(sqrtn_dev[:, -1]))
 ```
 
 ```{python}
-fig, axes = plt.subplots(1, 2, figsize=(11.5, 3.8))
+fig, axes = plt.subplots(1, 2, figsize=(13, 5))
 g = np.arange(1, n_max + 1)
 for rep in range(40):
     axes[0].plot(g, Xbar_dev[rep],  lw=0.5, alpha=0.4, color="steelblue")
@@ -174,12 +256,33 @@ for rep in range(40):
 axes[0].plot(g, np.mean(np.abs(Xbar_dev), axis=0),  lw=2.0, color="black", label=r"$\mathbb{E}|\cdot|$")
 axes[1].plot(g, np.mean(np.abs(sqrtn_dev), axis=0), lw=2.0, color="black", label=r"$\mathbb{E}|\cdot|$")
 axes[0].axhline(0, lw=1.0, color="crimson"); axes[1].axhline(0, lw=1.0, color="crimson")
-axes[0].set_title(r"$o_p(1)$ : $\bar X_n - \mu \to 0$ in prob")
-axes[1].set_title(r"$O_p(1)$ : $\sqrt n\,(\bar X_n - \mu)$ tight")
+axes[0].set_title(r"$\bar X_n - \mu \to 0$ in prob")
+axes[1].set_title(r"$\sqrt n\,(\bar X_n - \mu)$ tight")
 for ax in axes:
-    ax.set_xlabel(r"$n$"); ax.legend()
+    ax.set_xlabel(r"$n$"); ax.legend(loc="upper right")
 axes[0].set_ylabel(r"$\bar X_n - \mu$")
 axes[1].set_ylabel(r"$\sqrt n\,(\bar X_n - \mu)$")
+
+txt_left = "\n".join([
+    r"$\bar X_n - \mu = o_p(1)$\quad \textbf{T}",
+    r"$\bar X_n - \mu = O_p(1)$\quad \textbf{T}",
+    r"$\bar X_n - \mu = O_p(1/\sqrt n)$\quad \textbf{T}",
+    r"$\bar X_n - \mu = o_p(1/\sqrt n)$\quad \textbf{F}",
+])
+axes[0].text(0.40, 0.30, txt_left, transform=axes[0].transAxes, va="top", ha="left",
+             fontsize=9, family="serif",
+             bbox=dict(boxstyle="round,pad=0.5", fc="white", ec="0.6", alpha=0.95))
+
+txt_right = "\n".join([
+    r"$\sqrt n\,(\bar X_n - \mu) = O_p(1)$\quad \textbf{T}",
+    r"$\sqrt n\,(\bar X_n - \mu) = o_p(1)$\quad \textbf{F}",
+    r"\quad (CLT $\Rightarrow$ tight, not vanishing)",
+    r"$\sqrt n\,(\bar X_n - \mu) \xrightarrow{d} N(0,\sigma^2)$",
+])
+axes[1].text(0.30, 0.30, txt_right, transform=axes[1].transAxes, va="top", ha="left",
+             fontsize=9, family="serif",
+             bbox=dict(boxstyle="round,pad=0.5", fc="white", ec="0.6", alpha=0.95))
+
 plt.tight_layout(); plt.show()
 ```
 
