@@ -79,6 +79,27 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 
 본인 cancellation framework 의 5 conjecture 중 **Conj 1·2 는 도서관 도구로 풀 수 있는 path 가 보이고, Conj 4·5 는 도구 추가 (Hodge ref) 가 선행되어야 한다**. Conj 3 (Tier 3 emptiness) 은 martingale lower bound + spectral gap 의 표준 조합이라 본인 짐작으로는 한 페이지짜리 정리로 끝날 가능성이 있다.
 
+# F. 본 글 작성 후 발견 (2026-05-22 04 시 기준 — 수 시간 분 verification 결과)
+
+본 글의 분류 (B5 즉시 활용 / C5 다음 본업 / Conj 5 spectral form) 가 verification 후 부분 정정되었다. 짧은 수 시간 동안의 작업 흐름이 위의 분류표를 그대로 따라간 게 아니라 **표 자체를 일부 다시 그리게 만든** 결과여서, 한 곳에 모아둔다. 표만으로 정리하지 않고 글로 풀어쓰는 게 흐름 살리기에 좋다.
+
+**Conj 5 (filter ↔ tier 대응) 의 spectral 형식 disconfirmed.** 본 글 작성 직후 본인의 첫 검증 시도는 *Tier 2 ↔ Effective Resistance* ($c_{ij} \overset{?}{=} \bar b^2 R_{\mathrm{eff}}(i,j)/n^2$) 였다. 소미가 5/20 에 돌려놓은 kite raw ($\tau = 10^6$, $b = 0.05$) 의 Tier 2 pair 43개에서 ratio $c_{ij}/(\bar b^2 R_{\mathrm{eff}}/n^2)$ 을 측정했더니 CV $= 77.7\%$ 에 mean order $10^7$ — pair 간 일정하지도 않고 normalization 도 맞지 않는, 깨끗하게 false 인 결과였다. Tier 2 의 closed form 이 단순한 resistance-distance 식은 아니라는 것이 numerical 로 확정되었고, 본 글의 표 C5 (Djurić-Richard 정독 → Conj 5 검증) 의 path 자체가 *spectral 형식이 존재하지 않을 수도 있다* 는 방향으로 갱신된다.
+
+**본인 framework §3 의 universal block claim 도 부분 disconfirmed.** kite 의 253 off-diagonal pair 중 Tier 0 (drift) 가 $34\%$, Tier 1 이 $49\%$, Tier 2 가 $17\%$ 였다. 즉 block + flow 가 drift 를 universally cancel 한다는 본인의 framework 주장 ($\rho_i \equiv 1/n$) 이 kite 에서는 graph-structural bottleneck (ANCHOR-RIGHT bridge) 때문에 작동하지 않는다. 그러나 partially 작동은 한다 — LEFT-MID Tier 0 pair 에서 effective $|\rho_i - \rho_j| = 0.056$ 으로, degree-proportional $|\pi_i - \pi_j| = 0.220$ 의 약 1/4 로 줄어 있다.
+
+**Tier 1 corrected formula — ★★★★★ 단단한 발견.** 본인이 어제 작성한 `hst0_variance_via_Z.tex` 의 Remark "$b'_r$ 를 $\bar b$ 로 replace 의 error 가 $o(t^2)$" 가 정확히 incorrect 였다. residual $R^{ij}_t = \sum_r (b'_r - \bar b)(\mathbf{1}\{X_r=v_i\} - \mathbf{1}\{X_r=v_j\})$ 의 squared sum 은 same order $t^2$ 로, $\mathrm{Var}(b') = b^2/12$ 와 ergodic time-average $\pi_i + \pi_j$ 의 곱으로 leading order 에 정확히 $\bar b^2 (\pi_i + \pi_j)/6$ 만큼 기여한다. 따라서 정확한 Intermediate-regime 상수는
+$$c^{(1)}_{ij} \;=\; \frac{\bar b^2}{2}\Bigl[\sigma_{ij}^2 + \tfrac{1}{3}(\pi_i + \pi_j)\Bigr].$$
+이 식은 HST$_0$ 시뮬 ($\tau = 10^7$, kite, 111 Tier-1 pair) 에서 ratio $c_{\mathrm{emp}}/c_{\mathrm{predict}}$ 가 mean $1.010$, CV $65.7\%$ — finite-time noise 를 감안하면 사실상 1 이라는 결과를 받았다. $\tau = 10^6$ 의 1.225 가 simulation finite-time correction 이었고, $\tau \to \infty$ 에서는 정확한 식이다.
+
+**Full HST vs HST$_0$ factor 도 Tier-dependent.** kite 의 same-pair $c$ ratio $= c^{\mathrm{full}}/c^{\mathrm{HST}_0}$ 를 Tier 별로 보면, Tier 0 에서는 $\approx 0.07$ (즉 block + flow 가 drift 를 추가로 $1/15$ 로 줄임), Tier 1 에서는 $\approx 6.35$ (block reset 이 $\sigma^2$ 를 6 배 boost). 단순히 "factor 4" 가 아니라 방향이 반대다 (Tier 0 에서는 감소, Tier 1 에서는 증가). 이 boost 의 spectral form 이 본 글 표 D 의 새로운 open question.
+
+**표 정정**:
+- 본 글의 B5 (Durrett Ch.8.3) 의 의미가 더 명확해졌다 — Tier 1 의 corrected formula 가 simple-RW (HST$_0$) 에서 정확하므로, full HST 의 시간-비균질 일반화는 정확히 Ch.8.3 (mixing CLT) 의 path 가 맞다.
+- 본 글의 C5 (Djurić-Richard 정독) 는 *spectral 형식의 우선 검증* 보다 *spectral 형식이 존재하지 않을 수 있음을 인정한 상태에서 다른 closed form 후보 (예: cocycle 양식, Donsker-Varadhan variational)* 로 우선순위가 옮겨간다.
+- Tier 0 의 hidden correction (Tier 1 에서 $\bar b^2(\pi_i+\pi_j)/6$ 처럼) 가 있는지 — 본 글에는 없던 새 질문이 추가되었다.
+
+상세 산출물 (개인 자료): `paper/260514_guebin/연/spectral_filter_tier.tex` v0.4, `hst0_variance_via_Z.tex` v0.2, `cancellation_tier_framework.tex` v0.3. 본 블로그는 큰 그림만 살리고, 본인 발견의 Theorem 양식 단일 정리는 별도 standalone note 로 wrap up 예정.
+
 # 참조
 
 [1] P. Brémaud, *Markov Chains: Gibbs Fields, Monte Carlo Simulation and Queues* (2nd ed.), Springer, 2020 — Ch.4 (Cesàro), Ch.5 (Foster, Doeblin), Ch.6.3 (fundamental matrix Z), Ch.6.3.3 (eq. 6.31, 6.34).
