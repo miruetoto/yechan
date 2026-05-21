@@ -11,9 +11,11 @@ ABC증명 블로그 Theorem~B 풀이에서 한 번 등장했던 외부 보조정
 
 **Toeplitz Lemma (Knopp 1928, §43).** 실수 배열 $\{a_{ns}\}_{n, s \geq 1} \subset \mathbb{R}$ 이 다음 세 조건을 만족한다 하자.
 
-(T1) 어떤 상수 $c < \infty$ 가 존재해 $\sum_{s=1}^{\infty} |a_{ns}| \leq c$ 가 모든 $n \geq 1$ 에서 성립.
-(T2) $\sum_{s=1}^{\infty} a_{ns} \to 1$ as $n \to \infty$.
-(T3) 각 고정된 $s \geq 1$ 에 대해 $a_{ns} \to 0$ as $n \to \infty$.
+> **(T1)** 어떤 상수 $c < \infty$ 가 존재해 $\sum_{s=1}^{\infty} |a_{ns}| \leq c$ 가 모든 $n \geq 1$ 에서 성립한다.
+>
+> **(T2)** $\sum_{s=1}^{\infty} a_{ns} \to 1$ as $n \to \infty$.
+>
+> **(T3)** 각 고정된 $s \geq 1$ 에 대해 $a_{ns} \to 0$ as $n \to \infty$.
 
 그러면 임의의 수렴 수열 $x_s \to x \in \mathbb{R}$ 에 대해
 $$
@@ -42,6 +44,99 @@ $$
 \end{aligned}
 $$
 그러므로 "$x_s \to x$ 이면 산술평균도 $x$" — 누구나 직관적으로 동의하는 명제다 (앞쪽 몇 개 이상한 값들은 $n$ 으로 나누면서 희석된다). Toeplitz Lemma 는 이 직관을 "가중치 모양만 (T1)(T2)(T3) 만족하면 다 OK" 로 일반화한 것이다.
+
+세 조건 각각이 어떻게 작동하는지 더 명확히 하려면, 각 조건이 위반될 때 어떤 가중치 행렬이 만들어지고 어떤 점검 값이 깨지는지 작은 $N=5$ 로 비교해 보는 것이 좋다. Cesàro 와 세 위반 케이스를 한꺼번에 정의하고, 매 행에 대한 점검 세 값 — $\sum_s |a_{ns}|$ (T1), $\sum_s a_{ns}$ (T2), column $s=1$ 의 값 (T3) — 을 같이 print 한다.
+
+$$
+\begin{aligned}
+a_{ns}^{\text{Cesàro}} &= \tfrac{1}{n}\,\mathbf{1}\{s \leq n\},
+   & a_{ns}^{\text{(T1) viol.}} &= \mathbf{1}\{s \leq n\}, \\
+a_{ns}^{\text{(T2) viol.}} &= \tfrac{1}{2n}\,\mathbf{1}\{s \leq n\},
+   & a_{ns}^{\text{(T3) viol.}} &= \tfrac{1}{2}\bigl(\mathbf{1}\{s=1\} + \mathbf{1}\{s=n\}\bigr).
+\end{aligned}
+$$
+
+```python
+import numpy as np
+np.set_printoptions(precision=3, suppress=True, linewidth=80)
+
+def w_cesaro(n, N):        # 모두 만족
+    w = np.zeros(N); w[:n] = 1.0 / n
+    return w
+
+def w_t1_violation(n, N):  # Σ|a_ns| = n  → 발산
+    w = np.zeros(N); w[:n] = 1.0
+    return w
+
+def w_t2_violation(n, N):  # Σa_ns = 1/2  → 1 아님
+    w = np.zeros(N); w[:n] = 1.0 / (2 * n)
+    return w
+
+def w_t3_violation(n, N):  # col s=1 가중치 영원히 1/2
+    w = np.zeros(N); w[0] = 0.5; w[n - 1] = 0.5
+    return w
+
+N = 5
+cases = [("Cesàro (모두 만족)",                      w_cesaro),
+         ("(T1) 위반: a_ns = 1 for s≤n",             w_t1_violation),
+         ("(T2) 위반: a_ns = 1/(2n) for s≤n",        w_t2_violation),
+         ("(T3) 위반: a_{n,1} = a_{n,n} = 1/2",      w_t3_violation)]
+
+for name, fn in cases:
+    A = np.array([fn(n, N) for n in range(1, N + 1)])
+    print(f"=== {name} ===")
+    print(A)
+    print(f"  row 합 Σ|a_ns|  (T1) : {np.abs(A).sum(axis=1)}")
+    print(f"  row 합 Σa_ns    (T2) : {A.sum(axis=1)}")
+    print(f"  col s=1         (T3) : {A[:, 0]}")
+    print()
+```
+
+출력:
+
+```
+=== Cesàro (모두 만족) ===
+[[1.    0.    0.    0.    0.   ]
+ [0.5   0.5   0.    0.    0.   ]
+ [0.333 0.333 0.333 0.    0.   ]
+ [0.25  0.25  0.25  0.25  0.   ]
+ [0.2   0.2   0.2   0.2   0.2  ]]
+  row 합 Σ|a_ns|  (T1) : [1. 1. 1. 1. 1.]
+  row 합 Σa_ns    (T2) : [1. 1. 1. 1. 1.]
+  col s=1         (T3) : [1.    0.5   0.333 0.25  0.2  ]
+
+=== (T1) 위반: a_ns = 1 for s≤n ===
+[[1. 0. 0. 0. 0.]
+ [1. 1. 0. 0. 0.]
+ [1. 1. 1. 0. 0.]
+ [1. 1. 1. 1. 0.]
+ [1. 1. 1. 1. 1.]]
+  row 합 Σ|a_ns|  (T1) : [1. 2. 3. 4. 5.]
+  row 합 Σa_ns    (T2) : [1. 2. 3. 4. 5.]
+  col s=1         (T3) : [1. 1. 1. 1. 1.]
+
+=== (T2) 위반: a_ns = 1/(2n) for s≤n ===
+[[0.5   0.    0.    0.    0.   ]
+ [0.25  0.25  0.    0.    0.   ]
+ [0.167 0.167 0.167 0.    0.   ]
+ [0.125 0.125 0.125 0.125 0.   ]
+ [0.1   0.1   0.1   0.1   0.1  ]]
+  row 합 Σ|a_ns|  (T1) : [0.5 0.5 0.5 0.5 0.5]
+  row 합 Σa_ns    (T2) : [0.5 0.5 0.5 0.5 0.5]
+  col s=1         (T3) : [0.5   0.25  0.167 0.125 0.1  ]
+
+=== (T3) 위반: a_{n,1} = a_{n,n} = 1/2 ===
+[[0.5 0.  0.  0.  0. ]
+ [0.5 0.5 0.  0.  0. ]
+ [0.5 0.  0.5 0.  0. ]
+ [0.5 0.  0.  0.5 0. ]
+ [0.5 0.  0.  0.  0.5]]
+  row 합 Σ|a_ns|  (T1) : [0.5 1.  1.  1.  1. ]
+  row 합 Σa_ns    (T2) : [0.5 1.  1.  1.  1. ]
+  col s=1         (T3) : [0.5 0.5 0.5 0.5 0.5]
+```
+
+세 위반 케이스 각각의 직관은 다음과 같다. **(T1) 위반** — 가중치를 $a_{ns} = \mathbf{1}\{s \leq n\}$ 으로 놓으면 행 합이 $1, 2, 3, 4, 5, \ldots$ 로 $n$ 에 비례해 발산한다. (T1) 의 "상수 $c$ 안에 묶임" 이 깨져, 가중평균은 평균이 아니라 단순 합 $y_n = \sum_{s=1}^n x_s$ 가 되어 $x_s \to x \neq 0$ 라면 발산한다 (덤으로 이 경우 (T2) 도 동시 위반이지만 (T1) 의 한계가 가장 먼저 보인다). **(T2) 위반** — 가중치를 $a_{ns} = \frac{1}{2n}\mathbf{1}\{s \leq n\}$ 로 놓으면 (T1) 은 0.5 로 bounded 라 만족, (T3) 도 column 1 이 $0.5, 0.25, 0.167, \ldots \to 0$ 으로 만족, 하지만 행 합이 $0.5, 0.5, \ldots$ 로 1 이 아닌 0.5 로 수렴한다. 결과적으로 가중평균이 $y_n \to x/2$, 진짜 평균이 아닌 배수로 수렴한다. **(T3) 위반** — 행 합과 절댓값 합은 (작은 $n$ 한두 줄 제외) 모두 1 로 (T1)(T2) 둘 다 만족하지만, column $s=1$ 의 값이 영원히 $1/2$ 로 사라지지 않는다. 옛 항 $x_1$ 이 모든 시점에서 절반의 무게로 살아남아 $y_n \to (x_1 + x)/2$ 로 수렴한다 ($x_1 \neq x$ 면 잘못된 극한). 세 점검값을 같은 코드에서 한꺼번에 읽으면 어느 조건이 어디서 깨지는지 한 눈에 보인다.
 
 증명도 직관 그대로 따라간다. 임의의 $\epsilon > 0$ 을 고정하자. $x_s \to x$ 이니 어떤 $S$ 가 존재해 $s \geq S$ 면 $|x_s - x| < \epsilon$ 이다. $y_n - x$ 를 다음과 같이 분해한다.
 $$
