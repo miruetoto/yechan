@@ -222,86 +222,22 @@ window.Quarto = {
 
 
 <!-- 소유권자: 소미 | 사용자: 소미 -->
-<p>Snow Distance <span class="math inline">\(SD^2_{ij}(t) = \sum_{s=0}^t (h(v_i,s)-h(v_j,s))^2\)</span> 의 후미 스케일링은 두 노드의 장기 적립률 <span class="math inline">\(\rho_i, \rho_j\)</span> 에 따라 셋 중 하나로 갈린다. <span class="math inline">\(\rho_i = \rho_j = 1/n\)</span> 이면 <span class="math inline">\(SD^2/t \to c\)</span>, 같지만 글로벌 불균형이면 <span class="math inline">\(SD^2/t^2 \to \sigma^2/2\)</span>, 다르면 <span class="math inline">\(SD^2/t^3 \to \bar b^2(\rho_i-\rho_j)^2/3\)</span> 이다. 본 글은 한 그래프 안에서 같은 <span class="math inline">\(b\)</span>, 같은 시뮬 양식으로 두 regime 사이 <strong>cross-over</strong> 가 어디서 일어나는지를 직접 본다. <a href="./260520_febfc8.html"><code>연모양 kite 실험</code></a> 과 <a href="./260520_70924e.html"><code>C₆₀+pendant 실험</code></a> 두 데이터를 그대로 가져와 비교한다.</p>
-<section id="cross-over-식-풀이" class="level2">
-<h2 class="anchored" data-anchor-id="cross-over-식-풀이">§1. cross-over 식 풀이</h2>
-<p>높이 차이를 drift 와 fluctuation 으로 나눠 본다. 양 노드의 적립률 차이가 <span class="math inline">\(\Delta\rho := \rho_i - \rho_j\)</span> 이고 평균 적립량이 <span class="math inline">\(\bar b = b/2\)</span> 이면, 적당한 시점 <span class="math inline">\(s\)</span> 에서</p>
-<p><span class="math display">\[
-h(v_i, s) - h(v_j, s) \;\approx\; \bar b\,\Delta\rho \cdot s \;+\; \xi_{ij}(s).
-\]</span></p>
-<p>첫 항은 결정적(deterministic) drift 이고 <span class="math inline">\(s\)</span> 에 선형이다. 둘째 항은 walker 의 occupation fluctuation 으로 평균 0 이고 분산이 <span class="math inline">\(\sigma_{ij}^2 \cdot s\)</span> 의 CLT scaling 을 따른다.</p>
-<p>제곱해서 세 항으로 쪼개면</p>
-<p><span class="math display">\[
-(h_i(s) - h_j(s))^2 \;=\; \underbrace{\bar b^2 \Delta\rho^2\, s^2}_{\text{drift squared,}\ \sim s^2} \;+\; \underbrace{2 \bar b\,\Delta\rho\, s\, \xi_{ij}(s)}_{\text{cross term,}\ \sim s^{3/2}} \;+\; \underbrace{\xi_{ij}(s)^2}_{\text{fluctuation squared,}\ \sim s\ \text{in expectation}}.
-\]</span></p>
-<p>이 식을 <span class="math inline">\(s=0\)</span> 부터 <span class="math inline">\(t\)</span> 까지 더하면 (cross term 은 평균 0 이라 leading order 에서 사라진다)</p>
-<p><span class="math display">\[
-SD^2_{ij}(t) \;\approx\; \bar b^2 \Delta\rho^2 \cdot \sum_{s=0}^t s^2 \;+\; \sigma_{ij}^2 \cdot \sum_{s=0}^t s.
-\]</span></p>
-<p>표준 합 공식 <span class="math inline">\(\sum s^2 \approx t^3/3\)</span>, <span class="math inline">\(\sum s \approx t^2/2\)</span> 를 넣으면</p>
-<p><span class="math display">\[
-SD^2_{ij}(t) \;\approx\; \frac{\bar b^2 \Delta\rho^2}{3}\, t^3 \;+\; \frac{\sigma_{ij}^2}{2}\, t^2.
-\]</span></p>
-<p>이제 두 항이 같아지는 시점을 보자. <span class="math inline">\(\frac{\bar b^2 \Delta\rho^2}{3} t^3 = \frac{\sigma_{ij}^2}{2} t^2\)</span> 를 <span class="math inline">\(t\)</span> 에 대해 풀면</p>
-<p><span class="math display">\[
-t^* \;=\; \frac{3\,\sigma_{ij}^2}{2\,\bar b^2\,\Delta\rho^2}.
-\]</span></p>
-<p>이 <span class="math inline">\(t^*\)</span> 가 cross-over scale 이다.</p>
-<p><code>-</code> <span class="math inline">\(t \ll t^*\)</span> 영역: <span class="math inline">\(t^2\)</span> 항이 dominant 하므로 <span class="math inline">\(SD^2/t^2 \to \sigma_{ij}^2/2\)</span> — <strong>Tier 1 effective</strong>, slope 2 의 plateau.</p>
-<p><code>-</code> <span class="math inline">\(t \gg t^*\)</span> 영역: <span class="math inline">\(t^3\)</span> 항이 dominant 하므로 <span class="math inline">\(SD^2/t^3 \to \bar b^2 \Delta\rho^2/3\)</span> — <strong>Tier 0 asymptotic</strong>, slope 3 의 plateau.</p>
-<p><code>-</code> <span class="math inline">\(\Delta\rho\)</span> 가 작을수록 <span class="math inline">\(t^*\)</span> 가 커진다. 즉 약한 drift 일수록 cross-over 가 늦게 일어난다.</p>
-<p>핵심은 한 곡선 안에서 두 plateau 가 모두 보일 수 있다는 점이다. <span class="math inline">\(SD^2/t^2\)</span> 곡선은 <span class="math inline">\(\tau &lt; t^*\)</span> 에서 plateau, <span class="math inline">\(\tau &gt; t^*\)</span> 에서 <span class="math inline">\(1/\tau\)</span> 로 감소한다. 같은 곡선의 <span class="math inline">\(SD^2/t^3\)</span> 표현은 <span class="math inline">\(\tau &lt; t^*\)</span> 에서 <span class="math inline">\(1/\tau\)</span> 로 감소, <span class="math inline">\(\tau &gt; t^*\)</span> 에서 plateau 다. 두 곡선을 한 panel 에 겹쳐 그리면 plateau 의 자리가 정확히 cross-over 시점에서 바뀐다.</p>
-</section>
-<section id="kite-작은-drift-의-cross-over" class="level2">
-<h2 class="anchored" data-anchor-id="kite-작은-drift-의-cross-over">§2. kite — 작은 drift 의 cross-over</h2>
-<p><a href="./260520_febfc8.html"><code>연모양 kite 실험</code></a> 의 데이터를 그대로 본다. 그래프는 <span class="math inline">\(K_{2,20} + \text{RIGHT}\)</span>, 즉 LEFT (degree 20) 와 ANCHOR (degree 21) 사이 20개의 병렬 internal node, 그리고 ANCHOR 에서 RIGHT (degree 1) 로 직접 가는 한 edge. 양방향이고 <span class="math inline">\(b=0.05\)</span>, <span class="math inline">\(T_{\max}=20\)</span>, <span class="math inline">\(\tau = 10^6\)</span>.</p>
-<p>block 메커니즘 있는 Full HST 라 이론적으로는 충분히 큰 <span class="math inline">\(\tau\)</span> 에서 <span class="math inline">\(\rho_i = 1/n\)</span> 균등이 보장된다. 그런데 RIGHT 는 degree 1 의 pendant 이고 그래프가 작아서 (<span class="math inline">\(n=23\)</span>), <span class="math inline">\(\tau = 10^6\)</span> 까지 시뮬해도 <span class="math inline">\(\rho_\text{RIGHT}(t)\)</span> 가 균등에 완전히 도달하지 못한다. ANCHOR–RIGHT pair 의 후미 데이터에서</p>
-<p><code>-</code> <span class="math inline">\(SD^2/t^3\)</span> 의 후미 plateau ≈ <span class="math inline">\(1.5\times 10^{-6}\)</span></p>
-<p>가 측정되고, 이 값에서 <span class="math inline">\(\bar b^2 \Delta\rho^2/3 \approx 1.5\times 10^{-6}\)</span> 를 거꾸로 풀면</p>
-<p><span class="math display">\[
-|\Delta\rho| \;\approx\; \sqrt{\frac{3 \times 1.5\times 10^{-6}}{(0.025)^2}} \;\approx\; 0.084.
-\]</span></p>
-<p>즉 ANCHOR 와 RIGHT 의 장기 적립률 차이가 약 8% 정도 남아 있다. 이론 균등 <span class="math inline">\(1/23 \approx 0.043\)</span> 의 두 배 정도라 결코 무시할 수 없는 transient 다.</p>
-<p>다른 쪽으로 σ² 를 추정한다. MID-MID pair (degree 2 끼리, 대칭) 들은 <span class="math inline">\(\Delta\rho = 0\)</span> 이므로 순수 Tier 1 effective. 이 pair 들의 후미 <span class="math inline">\(SD^2/t^2\)</span> 의 typical 값에서</p>
-<p><span class="math display">\[
-\sigma^2 \;\approx\; \frac{2 \cdot (SD^2/t^2)_\text{tail}}{\bar b^2} \;\approx\; 0.14.
-\]</span></p>
-<p>이 두 값을 §1 의 식에 넣으면</p>
-<p><span class="math display">\[
-t^* \;\approx\; \frac{3 \times 0.14}{2 \times (0.025)^2 \times (0.084)^2} \;\approx\; 4.8 \times 10^4.
-\]</span></p>
-<p>그러니 <span class="math inline">\(\tau\)</span> 가 <span class="math inline">\(5 \times 10^4\)</span> 근처에서 두 plateau 가 자리를 바꿔야 한다. 시뮬 범위 <span class="math inline">\(\tau \in [1, 10^6]\)</span> 안에 잘 들어온다.</p>
+<!-- Modified: 2026-05-22 by 소미 -->
+<p>Snow Distance <span class="math inline">\(SD^2_{ij}(t) = \sum_{s=0}^t (h(v_i,s)-h(v_j,s))^2\)</span> 의 후미 스케일링은 두 노드의 장기 적립률 <span class="math inline">\(\rho_i, \rho_j\)</span> 에 따라 셋 중 하나로 갈린다. <span class="math inline">\(\rho_i = \rho_j = 1/n\)</span> 이면 <span class="math inline">\(SD^2/t\)</span> 가 상수 (balanced), 같지만 글로벌 불균형이면 <span class="math inline">\(SD^2/t^2\)</span> 가 상수 (intermediate), 다르면 <span class="math inline">\(SD^2/t^3\)</span> 가 상수 (drift) 다. 본 글은 한 그래프 안에서 같은 <span class="math inline">\(b\)</span>, 같은 시뮬 양식으로 두 regime 사이 cross-over 가 어디서 일어나는지 직접 본다. <a href="./260520_febfc8.html"><code>연모양 kite 실험</code></a> 과 <a href="./260520_70924e.html"><code>C₆₀+pendant 실험</code></a> 두 데이터를 그대로 가져와 비교한다.</p>
+<p>먼저 cross-over 식을 풀어 본다. 높이 차이를 drift 와 fluctuation 으로 나누면, 두 노드의 적립률 차이가 <span class="math inline">\(\Delta\rho := \rho_i - \rho_j\)</span> 이고 평균 적립량이 <span class="math inline">\(\bar b = b/2\)</span> 일 때, 적당한 시점 <span class="math inline">\(s\)</span> 에서 <span class="math inline">\(h(v_i,s) - h(v_j,s) \approx \bar b \Delta\rho \cdot s + \bar b \cdot \tilde\xi_{ij}(s)\)</span> 로 쓸 수 있다. 첫 항은 결정적 drift 이고 <span class="math inline">\(s\)</span> 에 선형, 둘째 항의 occupation fluctuation <span class="math inline">\(\tilde\xi_{ij}\)</span> 는 평균 0 이고 분산이 <span class="math inline">\(\sigma_{ij}^2 \cdot s\)</span> 의 CLT scaling 을 따른다. 제곱하고 cross term 의 leading 평균이 0 임을 이용해 <span class="math inline">\(s=0\)</span> 부터 <span class="math inline">\(t\)</span> 까지 더하면</p>
+<p><span class="math display">\[SD^2_{ij}(t) \;\approx\; \bar b^2 \,\Delta\rho^2 \cdot \frac{t^3}{3} \;+\; \bar b^2 \,\sigma_{ij}^2 \cdot \frac{t^2}{2}.\]</span></p>
+<p>두 항이 같아지는 시점 <span class="math inline">\(\bar b^2 \Delta\rho^2 t^3/3 = \bar b^2 \sigma^2 t^2/2\)</span> 를 <span class="math inline">\(t\)</span> 에 대해 풀면 <span class="math inline">\(\bar b^2\)</span> 가 cancel out 되어</p>
+<p><span class="math display">\[t^* \;=\; \frac{3\,\sigma_{ij}^2}{2\,\Delta\rho^2}.\]</span></p>
+<p>이 <span class="math inline">\(t^*\)</span> 가 cross-over scale 이다. <span class="math inline">\(\Delta\rho\)</span> 가 작을수록 <span class="math inline">\(t^*\)</span> 가 커진다 — 약한 drift 일수록 cross-over 가 늦게 일어난다. <span class="math inline">\(\tau \ll t^*\)</span> 에서는 <span class="math inline">\(\bar b^2 \sigma^2 t^2/2\)</span> 항이 dominant 하므로 <span class="math inline">\(SD^2/\tau^2 \to \bar b^2 \sigma^2/2\)</span> 의 plateau 가 보이고, <span class="math inline">\(\tau \gg t^*\)</span> 에서는 <span class="math inline">\(\bar b^2 \Delta\rho^2 t^3/3\)</span> 항이 dominant 하므로 <span class="math inline">\(SD^2/\tau^3 \to \bar b^2 \Delta\rho^2/3\)</span> 의 plateau 가 보인다. 한 곡선의 두 표현 <span class="math inline">\(SD^2/\tau^2\)</span> 와 <span class="math inline">\(SD^2/\tau^3\)</span> 을 한 panel 에 겹쳐 그리면 plateau 의 자리가 정확히 cross-over 시점에서 바뀐다.</p>
+<p>이제 kite 데이터에서 이를 확인한다. <a href="./260520_febfc8.html"><code>연모양 kite 실험</code></a> 의 그래프는 <span class="math inline">\(K_{2,20} + \text{RIGHT}\)</span> — LEFT (degree 20) 와 ANCHOR (degree 21) 사이 20개의 병렬 internal node, 그리고 ANCHOR 에서 RIGHT (degree 1) 로 직접 가는 한 edge. 양방향이고 <span class="math inline">\(b=0.05\)</span>, <span class="math inline">\(T_{\max}=20\)</span>, <span class="math inline">\(\tau = 10^6\)</span>. block 메커니즘 있는 Full HST 라 이론적으로는 충분히 큰 <span class="math inline">\(\tau\)</span> 에서 <span class="math inline">\(\rho_i = 1/n\)</span> 균등이 보장되지만, RIGHT 는 degree 1 의 pendant 이고 그래프가 작아서 (<span class="math inline">\(n=23\)</span>), <span class="math inline">\(\tau = 10^6\)</span> 까지 시뮬해도 <span class="math inline">\(\rho_\text{RIGHT}(t)\)</span> 가 균등에 완전히 도달하지 못한다. ANCHOR–RIGHT pair 의 후미 <span class="math inline">\(SD^2/\tau^3\)</span> 가 약 <span class="math inline">\(1.5\times 10^{-6}\)</span> 로 측정되고, 이 값에서 <span class="math inline">\(\bar b^2 \Delta\rho^2/3 \approx 1.5\times 10^{-6}\)</span> 를 거꾸로 풀면 <span class="math inline">\(|\Delta\rho| \approx \sqrt{3 \times 1.5 \times 10^{-6}/\bar b^2} \approx 0.084\)</span> 가 나온다. 한편 MID–MID pair (degree 2 끼리, 대칭) 들은 <span class="math inline">\(\Delta\rho = 0\)</span> 인 순수 intermediate 케이스라, 이 pair 들의 후미 <span class="math inline">\(SD^2/\tau^2\)</span> 의 typical 값 ≈ <span class="math inline">\(4.4 \times 10^{-5}\)</span> 에서 <span class="math inline">\(\bar b^2 \sigma^2/2 \approx 4.4 \times 10^{-5}\)</span> → <span class="math inline">\(\sigma^2 \approx 0.14\)</span> 가 얻어진다 (<span class="math inline">\(\bar b^2 = 6.25 \times 10^{-4}\)</span> 로 정규화). 두 값을 cross-over 식에 넣으면 <span class="math inline">\(t^* \approx 3 \times 0.14 / (2 \times 0.084^2) \approx 30\)</span> — 즉 시뮬 시작 직후 (대략 30 스텝) 부터 이미 drift 항이 dominant 가 된다.</p>
 <p><img src="attachments/260522_eed71e_01.png" class="img-fluid"></p>
-<p>파란 곡선 <span class="math inline">\(SD^2/\tau^2\)</span> 는 작은 <span class="math inline">\(\tau\)</span> 에서 자라다가 <span class="math inline">\(\tau \approx 10^4\)</span> 근처에서 peak (이 값이 곧 <span class="math inline">\(\sigma^2/2 \cdot \bar b^2\)</span> scale) 에 도달한 후, 그 다음부터는 천천히 <span class="math inline">\(1/\tau\)</span> 로 감소한다. 빨간 곡선 <span class="math inline">\(SD^2/\tau^3\)</span> 은 반대로 작은 <span class="math inline">\(\tau\)</span> 에서는 <span class="math inline">\(1/\tau\)</span> 로 감소하다가, <span class="math inline">\(\tau \approx 5 \times 10^4\)</span> 부근부터 plateau (이 값이 곧 <span class="math inline">\(\bar b^2 \Delta\rho^2/3\)</span>) 로 진입한다. 회색 점선이 예측 <span class="math inline">\(t^*\)</span> 이고, 실제 두 곡선의 자리 바꿈이 이 부근에서 정확히 일어난다.</p>
-</section>
-<section id="c₆₀pendant-block-잘-작동-cross-over-안-보임" class="level2">
-<h2 class="anchored" data-anchor-id="c₆₀pendant-block-잘-작동-cross-over-안-보임">§3. C₆₀+pendant — block 잘 작동, cross-over 안 보임</h2>
-<p>같은 양식의 다른 그래프를 본다. <a href="./260520_70924e.html"><code>C₆₀+pendant 실험</code></a> 의 그래프는 60-cycle ring 에 한 노드 (index 15) 에 한 개의 pendant 가 직접 매달린 형태. <span class="math inline">\(n=61\)</span>, <span class="math inline">\(b=0.05\)</span>, <span class="math inline">\(\tau = 2 \times 10^9\)</span> (kite 보다 3 자릿수 더 큼).</p>
-<p>ring 의 두 노드 사이 (예: ring(0)–ring(30)) 페어를 보면</p>
-<p><code>-</code> <span class="math inline">\(SD^2/\tau\)</span> 는 후미에서 일정한 상수로 수렴한다. 즉 slope 1, <span class="math inline">\(SD^2 \sim t^1\)</span>, <strong>Tier 2 (Thm A balanced)</strong>.</p>
-<p><code>-</code> <span class="math inline">\(SD^2/\tau^2\)</span> 와 <span class="math inline">\(SD^2/\tau^3\)</span> 은 둘 다 후미에서 감소한다 (각각 <span class="math inline">\(1/\tau\)</span>, <span class="math inline">\(1/\tau^2\)</span> 의 속도). 즉 후미 plateau 가 존재하지 않는다.</p>
-<p>block 메커니즘이 충분한 시간 동안 작용해서 모든 노드의 <span class="math inline">\(\rho_i\)</span> 가 <span class="math inline">\(1/61\)</span> 로 균등에 도달했고, drift 항이 완전히 사라진 것이다. cross-over scale <span class="math inline">\(t^*\)</span> 는 <span class="math inline">\(\Delta\rho \to 0\)</span> 의 극한이라 발산하고, 시뮬 범위 안에 cross-over 가 들어오지 않는다.</p>
+<p>파란 곡선 <span class="math inline">\(SD^2/\tau^2\)</span> 는 작은 <span class="math inline">\(\tau\)</span> 에서 자라다가 곧 peak (이 값이 <span class="math inline">\(\bar b^2 \sigma^2/2\)</span> scale) 에 도달한 후 <span class="math inline">\(1/\tau\)</span> 로 감소한다. 빨간 곡선 <span class="math inline">\(SD^2/\tau^3\)</span> 은 반대로 작은 <span class="math inline">\(\tau\)</span> 에서는 <span class="math inline">\(1/\tau\)</span> 로 감소하다가, <span class="math inline">\(\tau &gt; t^*\)</span> 부터 plateau (이 값이 <span class="math inline">\(\bar b^2 \Delta\rho^2/3\)</span>) 에 진입한다. ANCHOR–RIGHT 처럼 <span class="math inline">\(|\Delta\rho|\)</span> 가 0 이 아닌 pair 에서는 cross-over 시점 자체가 매우 일찍 (<span class="math inline">\(t^* \sim 30\)</span>) 일어나서 시뮬 후미 대부분이 Tier 0 plateau 안에 들어와 있다.</p>
+<p>같은 양식의 <a href="./260520_70924e.html"><code>C₆₀+pendant 실험</code></a> 을 비교 케이스로 본다. 그래프는 60-cycle ring 에 한 노드 (index 15) 에 한 개의 pendant 가 직접 매달린 형태. <span class="math inline">\(n=61\)</span>, <span class="math inline">\(b=0.05\)</span>, <span class="math inline">\(\tau = 2 \times 10^9\)</span> — kite 보다 3 자릿수 더 긴 시뮬. ring 의 두 노드 사이 (예: ring(0)–ring(30)) 페어의 <span class="math inline">\(SD^2/\tau\)</span> 는 후미에서 일정한 상수로 수렴한다 — slope 1, <span class="math inline">\(SD^2 \sim t^1\)</span>, 즉 balanced 다. <span class="math inline">\(SD^2/\tau^2\)</span> 와 <span class="math inline">\(SD^2/\tau^3\)</span> 은 둘 다 후미에서 감소 (<span class="math inline">\(1/\tau\)</span>, <span class="math inline">\(1/\tau^2\)</span> 의 속도) 라 plateau 가 존재하지 않는다. block 메커니즘이 충분한 시간 동안 작용해서 모든 노드의 <span class="math inline">\(\rho_i\)</span> 가 <span class="math inline">\(1/61\)</span> 로 균등에 도달했고 drift 항이 완전히 사라졌다. cross-over scale <span class="math inline">\(t^*\)</span> 는 <span class="math inline">\(\Delta\rho \to 0\)</span> 극한이라 발산하고, 시뮬 범위 안에 cross-over 가 들어오지 않는다.</p>
 <p><img src="attachments/260522_eed71e_02.png" class="img-fluid"></p>
-<p>세 곡선을 한 panel 에 비교한다. 빨간 곡선 (kite ANCHOR–RIGHT) 은 §2 에서 본 cross-over 의 두 plateau 가 명확히 보인다. 파란 점선 (kite MID6–MID17) 은 후미에서 <span class="math inline">\(SD^2/\tau^2\)</span> 가 plateau, <span class="math inline">\(SD^2/\tau^3\)</span> 가 감소 — 순수 Tier 1 effective (<span class="math inline">\(\Delta\rho = 0\)</span>, σ² 만 존재). 초록 곡선 (C₆₀+pendant ring(0)–ring(30)) 은 둘 다 후미에서 감소 — 두 항 모두 leading 아니고 <span class="math inline">\(t^1\)</span> 항이 dominant 인 Tier 2.</p>
-</section>
-<section id="같은-양식-다른-regime-왜" class="level2">
-<h2 class="anchored" data-anchor-id="같은-양식-다른-regime-왜">§4. 같은 양식, 다른 regime — 왜?</h2>
-<p>두 그래프의 차이를 정리한다.</p>
-<p><code>-</code> <strong>그래프 크기</strong>: kite <span class="math inline">\(n=23\)</span>, C₆₀+pendant <span class="math inline">\(n=61\)</span>. <span class="math inline">\(\rho_i = 1/n\)</span> 의 균등 도달은 큰 <span class="math inline">\(n\)</span> 일수록 느리지만, 동시에 <span class="math inline">\(|\Delta\rho|\)</span> 의 균등 편차도 작아진다.</p>
-<p><code>-</code> <strong>시뮬 길이</strong>: kite <span class="math inline">\(\tau = 10^6\)</span>, C₆₀+pendant <span class="math inline">\(\tau = 2 \times 10^9\)</span>. 큰 <span class="math inline">\(\tau\)</span> 일수록 <span class="math inline">\(\rho_i(t) \to 1/n\)</span> 균등에 가까워진다.</p>
-<p><code>-</code> <strong>pendant 위치</strong>: kite 의 RIGHT 는 degree 1, ANCHOR 와 직접 연결. C₆₀+pendant 의 pendant 도 degree 1 인데, 큰 ring 의 한 노드와만 연결. ring 자체가 대칭 (cycle) 이라 ring 노드들끼리는 자동으로 균등.</p>
-<p>핵심은 finite <span class="math inline">\(\tau\)</span> 에서 <span class="math inline">\(\rho_i(t)\)</span> 가 1/n 으로 가는 transient 다. kite 의 ANCHOR–RIGHT pair 처럼 그래프 양 끝 (큰 hub vs 작은 pendant) 의 차이가 클수록, 그리고 그래프가 작을수록 transient 가 visible scale 에 남아 있다. 그러면 §1 의 분해 안 drift 항 <span class="math inline">\(\bar b^2 \Delta\rho^2 t^3 / 3\)</span> 이 실재하고, 충분히 큰 <span class="math inline">\(t\)</span> 에서는 fluctuation 항을 압도한다.</p>
-<p>반대로 C₆₀+pendant 는 그래프도 크고 (<span class="math inline">\(n=61\)</span>), 시뮬도 충분히 길어 (<span class="math inline">\(\tau = 2 \times 10^9\)</span>) transient 가 모두 씻겨나갔다. 모든 pair 가 Tier 2 (Thm A) 에 도달했고 cross-over 가 발생할 자리가 사라졌다.</p>
-</section>
-<section id="정리" class="level2">
-<h2 class="anchored" data-anchor-id="정리">정리</h2>
-<p><code>-</code> Snow Distance 의 후미 스케일링 세 regime 사이의 cross-over scale 은 <span class="math inline">\(t^* = 3\sigma^2/(2 \bar b^2 \Delta\rho^2)\)</span> 다.</p>
-<p><code>-</code> kite 의 ANCHOR–RIGHT pair 에서 <span class="math inline">\(|\Delta\rho| \approx 0.084\)</span>, <span class="math inline">\(\sigma^2 \approx 0.14\)</span> 라 <span class="math inline">\(t^* \approx 4.8\times 10^4\)</span> 가 예측되고, 시뮬 데이터의 두 곡선이 이 시점에서 자리를 바꾸는 것이 관측된다.</p>
-<p><code>-</code> C₆₀+pendant 는 더 큰 그래프 + 더 긴 시뮬 덕분에 모든 pair 가 Tier 2 (balanced) 에 도달했고 cross-over 가 발생하지 않는다.</p>
-<p><code>-</code> 즉 같은 <span class="math inline">\(b\)</span>, 같은 시뮬 양식이라도 그래프 크기와 시뮬 길이의 조합에 따라 어떤 regime 이 보이는지가 결정된다. kite 같은 작은 그래프 + 적당한 <span class="math inline">\(\tau\)</span> 가 cross-over 를 직접 보고 측정하기에 좋은 setup 이다.</p>
+<p>세 곡선을 한 panel 에 비교하면, 빨간 곡선 (kite ANCHOR–RIGHT) 은 cross-over 의 두 plateau 가 명확히 보인다. 파란 점선 (kite MID6–MID17) 은 후미에서 <span class="math inline">\(SD^2/\tau^2\)</span> 가 plateau, <span class="math inline">\(SD^2/\tau^3\)</span> 가 감소 — 순수 intermediate (<span class="math inline">\(\Delta\rho = 0\)</span>, <span class="math inline">\(\sigma^2\)</span> 만 존재). 초록 곡선 (C₆₀+pendant ring(0)–ring(30)) 은 둘 다 후미에서 감소 — 두 항 모두 leading 아니고 <span class="math inline">\(t^1\)</span> 항이 dominant 인 balanced.</p>
+<p>두 그래프 모두 block 있는 Full HST 인데 왜 한쪽은 cross-over 가 보이고 다른쪽은 안 보일까. 차이는 그래프 크기와 시뮬 길이의 조합이다. kite 는 <span class="math inline">\(n=23\)</span>, <span class="math inline">\(\tau=10^6\)</span> 이라 ANCHOR–RIGHT 같은 비대칭 pair 의 occupation transient — <span class="math inline">\(\rho_i(t)\)</span> 가 <span class="math inline">\(1/n\)</span> 으로 가는 동안의 편차 — 가 visible scale 에 남아 있다. 그러면 식 안 drift 항 <span class="math inline">\(\bar b^2 \Delta\rho^2 t^3/3\)</span> 이 실재하고, 충분히 큰 <span class="math inline">\(t\)</span> 에서는 fluctuation 항을 압도한다. 반대로 C₆₀+pendant 는 <span class="math inline">\(n=61\)</span> + <span class="math inline">\(\tau = 2 \times 10^9\)</span> 이라 transient 가 모두 씻겨나갔고 모든 pair 가 balanced 에 도달했다. 같은 <span class="math inline">\(b\)</span>, 같은 시뮬 양식이라도 그래프 크기와 시뮬 길이의 조합에 따라 어떤 regime 이 보이는지 결정된다. kite 같은 작은 그래프 + 적당한 <span class="math inline">\(\tau\)</span> 가 cross-over scale <span class="math inline">\(t^* = 3\sigma^2/(2\Delta\rho^2)\)</span> 를 직접 보고 측정하기에 좋은 setup 이다.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
