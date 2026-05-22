@@ -7,69 +7,58 @@ output-file: 260522_31c9e5.html
 fontsize: 0.85em
 ---
 <!-- 소유권자: 소미 | 사용자: 소미 -->
+<!-- Modified: 2026-05-22 by 소미 -->
 
-에이의 ABC 통합증명 PDF §3.4 에 Foster's drift criterion (Assumption 1) 이 등장한다. 회사 내부 용어로 OB 조건이며, ABC 의 세 regime 통합증명에서 Theorem A (balanced) 의 핵심 hypothesis 다. 이 가정이 그래프와 파라미터에 따라 실제로 잘 성립하는지 실험으로 본다. 본 글은 (B) 실험 결과 공유용으로 판정하고 §2.6/§2.7 (figure–코드 페어) 적용 면제로 진행한다.
-
-가정의 형태는 다음과 같다. 어떤 graph-level constant $\varepsilon_B > 0$, $C_B \ge 0$ 가 존재해서 모든 round $r$ 에서
-
-$$B(S_{t_r}) \;\le\; -\varepsilon_B\, M(S_{t_r}) + C_B$$
-
-가 성립한다. 여기서 $B(S_{t_r}) = \sum_u \pi(u, S_{t_r}) \hbar(u, t_r)$ 은 round 시작 시점의 weighted height deposit (Lemma 3 정의), $M(S_{t_r}) = \max_v |\hbar(v, t_r)|$ 은 centered height range, $\pi(u, S) = \mathbb{E}[\#_u | S_{t_r}]$ 는 round 길이 동안 노드 $u$ 의 visit count 의 조건부 기댓값이다. 직관은 "현재 height 격차 $M$ 이 클수록 다음 round 에서 weighted deposit 이 음 방향으로 작용해 평준화(mean-reversion)된다" — Foster-Lyapunov criterion 의 그래프 측 표현.
-
-실험에서 11개 그래프 (소미 자체 4개 + 24예제 중 대표 7개) 에 대해 Full HST ($b=0.05$, $T_{\max}=20$, $\tau=10^6$, seed=42) 시뮬을 돌렸다. 각 round 시작 시점 $t_r$ 마다 $(M_r, B^{\rm emp}_r)$ 한 sample 을 기록했으며, 여기서 $B^{\rm emp}_r := \sum_u \#_u(r) \hbar(u, t_r)$ 는 한 round 의 실제 visit count 와 round 시작 height 의 weighted sum 으로 Lemma 2 의 양식이다. 다수 round 의 sample 평균이 $B(S)$ 추정. 각 그래프당 약 28~40만 round 수집되어 충분하다.
-
-가정 만족 여부는 scatter plot $(M, B^{\rm emp})$ 에 OLS linear fit $B = -\varepsilon_B M + C_B$ 을 적용해 $\varepsilon_B$ 추정값으로 판정한다 — $\varepsilon_B > 0$ 이면 만족, 음수면 위반.
-
-![](attachments/260522_31c9e5_01.png)
-
-11 panel 의 scatter (subsample 5천 점) + 빨강 회귀선 + ε_B 표시. 마지막 panel 은 요약 표.
-
-결과 정리 (만족 ✓ / borderline ~ / 위반 ✗):
-
-| 그래프 | $n$ | $\varepsilon_B$ | 판정 |
-|---|---|---|---|
-| $C_{20}$ cycle | 20 | $+0.151$ | ✓ |
-| $K_{10}$ complete | 10 | $+0.318$ | ✓ |
-| Bidir Ring (ex6-2) | 60 | $+0.040$ | ✓ |
-| Cyl Inter-bidir (ex7-2) | 60 | $+0.045$ | ✓ |
-| Bidir Path (ex5-2) | 60 | $+0.0005$ | ~ |
-| Wheel Bidir (ex2-3) | 11 | $-0.007$ | ~ |
-| $C_{60}$+pendant | 61 | $-0.008$ | ~ |
-| D-Helm Bidir (ex4-3) | 31 | $-0.087$ | ✗ |
-| kite ($K_{2,20}$+RIGHT) | 23 | $-0.313$ | ✗ |
-| Helm Bidir (ex3-3) | 21 | $-0.758$ | ✗ |
-| Star Outward (ex1-2) | 13 | $-0.917$ | ✗ |
-
-명확한 패턴이 보인다. fully symmetric 또는 거의 그런 그래프 (Cycle, Complete, Ring, Cylinder bidir) 는 $\varepsilon_B > 0$ 으로 가정 만족, hub-pendant 같은 강한 비대칭이 있는 그래프 (Star Outward, Helm Bidir, kite) 는 $\varepsilon_B$ 가 큰 음수 — 가정이 명백히 위반된다.
-
-위반의 직관은 다음과 같다. Star Outward (단방향 hub→leaf) 에서 hub 의 height 가 평균보다 높으면 ($\hbar(\text{hub}) > 0$), flow rule 에 의해 walker 가 hub 에서 leaf 로 빠져나간다. 그런데 walker 는 hub 에서 시작 (round 시작 fall) 후 leaf 로 한 step, 거기서 또 다음 step 인데 leaf 는 outgoing edge 가 없어 block 강제 — 결국 hub 에 한 번 visit + leaf 한 번 visit 의 짧은 round. visit count 와 $\hbar$ 의 분포가 mean-reversion 의 반대 방향으로 작동해 $B^{\rm emp}$ 가 양으로 분포한다.
-
-반대로 fully symmetric cycle/complete 에서는 round 안 walker 가 한쪽 방향 trap 없이 균등 분배되어 $\#_u \cdot \hbar(u)$ 가 거의 0 평균, 그 위에 mean-reversion 의 작은 음 drift 가 보태져 $\varepsilon_B$ 약간 양수.
-
-OLS 단순 회귀에는 한 가지 한계가 있다. Helm Bidir 같은 그래프의 $(M, B^{\rm emp})$ scatter 를 자세히 보면 점들이 cloud 가 아니라 **여러 직선이 부채꼴로 펼쳐진 구조**다 — 이는 round 안 walker 의 path 가 그래프 구조에 의해 finite 개의 type 으로 분류되고, 각 type 별로 visit count vector $(\#_u)_u$ 가 fixed pattern 이라 type 안에서는 $B^{\rm emp}_r$ 이 $M_r$ 에 거의 선형이기 때문이다. 단일 직선으로 강제한 OLS slope 는 type 별 평균 trend 의 weighted 평균에 가까운데, 가정의 진짜 의미를 더 직접 점검하려면 $M(S_{t_r})$ 자체의 round-index 시계열을 보면 된다.
-
-Foster's drift criterion 의 본질은 결국 height range $M(t)$ 가 시간 흐름에서 bounded 인가의 문제다. $\varepsilon_B > 0$ 가정은 "큰 $M$ 에서 음의 drift 가 작용해 $M$ 이 다시 작아진다" 는 의미이고, 만약 그것이 작동하면 $M$ 시계열은 mean-reverting 의 bounded process 가 된다. 반대로 가정이 깨지면 $M$ 이 무한히 커진다.
+에이의 ABC 통합증명 PDF §3.4 의 Foster's drift criterion (Assumption 1) 이 그래프와 파라미터에 따라 실제로 잘 성립하는지 실험으로 본다. 본 글은 (B) 실험 결과 공유용으로 판정하고 §2.6/§2.7 적용 면제로 진행한다.
 
 ![](attachments/260522_31c9e5_02.png)
 
-11개 그래프의 $M(S_{t_r})$ round-index 시계열. 자릿수 차이가 직관적이다.
+11개 그래프 — 소미 자체 4개 (kite, $C_{60}$+pendant, $C_{20}$, $K_{10}$) + 24예제 중 대표 7개 (Star Outward, Wheel Bidir, Helm Bidir, D-Helm Bidir, Bidir Path, Bidir Ring, Cyl Inter-bidir) — 의 $M(S_{t_r}) := \max_v |\hbar(v, t_r)|$ 의 round-index 시계열이다. 여기서 $\hbar(v, t) := h(v, t) - \bar h(t)$ 는 centered height, $t_r$ 는 round $r$ 의 block-flag time. Full HST ($b=0.05$, $T_{\max}=20$, $\tau=10^6$, seed=42) 시뮬에서 각 round 시작 시점마다 $M_r$ 한 sample 을 기록.
 
-| 그래프 | $M$ tail mean | $M$ max | OLS $\varepsilon_B$ |
-|---|---|---|---|
-| $K_{10}$ complete | $0.10$ | $0.45$ | $+0.318$ |
-| $C_{20}$ cycle | $0.27$ | $0.77$ | $+0.151$ |
-| Cyl Inter-bidir | $0.32$ | $1.03$ | $+0.045$ |
-| Wheel Bidir | $0.43$ | $2.20$ | $-0.007$ |
-| Bidir Ring | $0.56$ | $1.15$ | $+0.040$ |
-| Bidir Path | $20.5$ | $26.3$ | $+0.0005$ |
-| D-Helm Bidir | $27.0$ | $34.4$ | $-0.087$ |
-| $C_{60}$+pendant | $61.1$ | $81.4$ | $-0.008$ |
-| Helm Bidir | $291$ | $386$ | $-0.758$ |
-| kite | $1106$ | $1478$ | $-0.313$ |
-| Star Outward | $5292$ | $7061$ | $-0.917$ |
+| 그래프 | $M$ tail mean | $M$ max |
+|---|---|---|
+| $K_{10}$ complete | $0.10$ | $0.45$ |
+| $C_{20}$ cycle | $0.27$ | $0.77$ |
+| Cyl Inter-bidir | $0.32$ | $1.03$ |
+| Wheel Bidir | $0.43$ | $2.20$ |
+| Bidir Ring | $0.56$ | $1.15$ |
+| Bidir Path | $20.5$ | $26.3$ |
+| D-Helm Bidir | $27.0$ | $34.4$ |
+| $C_{60}$+pendant | $61.1$ | $81.4$ |
+| Helm Bidir | $291$ | $386$ |
+| kite | $1106$ | $1478$ |
+| Star Outward | $5292$ | $7061$ |
 
-$M$ tail mean 의 크기와 OLS $\varepsilon_B$ 만족 여부가 거의 monotone 대응한다. $M < 1$ 의 대칭 그래프 (Cycle, Complete, Ring, Cylinder) 는 시계열이 안정된 bounded process — Foster 만족. $M$ 이 자릿수 단위로 커지는 비대칭 그래프 (Helm, kite, Star Outward) 는 시계열이 발산 또는 매우 큰 fluctuation — Foster 명백 위반.
+그래프 클래스에 따라 $M(S_{t_r})$ 시계열이 두 종류로 명확히 나뉜다. fully symmetric (Cycle, Complete, Ring, Cylinder bidir) 은 시계열이 작은 상수 (∼ 1) 부근에서 흔들리는 bounded process — height range 가 시간이 흘러도 일정 scale 위로 안 커진다. 반대로 비대칭 그래프 (kite, Helm Bidir, Star Outward, $C_{60}$+pendant 등) 는 시계열이 round 가 진행할수록 거의 선형으로 발산 — height range 가 무한히 커진다. tail mean 의 자릿수가 그 두 클래스 사이에 4 자릿수 차이를 만든다.
 
-본 결과는 Assumption 1 이 ABC 의 핵심 hypothesis 임에도 **모든 그래프에서 자동 성립하는 보편 명제가 아님**을 보여준다. Theorem A (balanced) 의 적용 범위는 사실상 fully symmetric 또는 거의 대칭인 그래프 클래스로 제한될 가능성이 있고, 비대칭 그래프 (Star Outward, Helm 류) 에서는 Foster-Lyapunov 가 직접 적용되지 않을 수 있다. $M$ 시계열의 long-run behavior 가 가정의 진짜 의미를 직접 보여주는 자연스러운 진단이다.
+Foster's drift criterion (Assumption 1) 은 어떤 graph-level constant $\varepsilon_B > 0$, $C_B \ge 0$ 가 존재해서 모든 round 에서
 
-시뮬 코드와 figure 생성 코드는 본문에 포함하지 않았고 ((B) 양식, §2.6 면제), 본인 책상에 보관: `260522_소미_foster_verify.py` (시뮬, s181 실행, 11개 그래프 sequential 약 60초), `260522_소미_foster_figs.py` (figure). raw 캐시: `results/numeric/260522_소미_foster_verify.py/Guebins-Mac-mini.local_foster_verify.npz`.
+$$B(S_{t_r}) \;\le\; -\varepsilon_B\, M(S_{t_r}) + C_B$$
+
+가 성립하길 요구하는데, 여기서 $B(S_{t_r}) = \sum_u \pi(u, S_{t_r}) \hbar(u, t_r)$ 는 round 시작 시점의 weighted height deposit (Lemma 3 정의), $\pi(u, S) = \mathbb{E}[\#_u | S_{t_r}]$ 는 round 길이 동안 노드 $u$ 의 visit count 의 조건부 기댓값이다. 이 가정의 핵심 함의는 결국 height range $M(t)$ 가 시간 흐름에서 bounded 라는 것이다 — $\varepsilon_B > 0$ 가 작동하면 큰 $M$ 에서 음의 drift 가 작용해 $M$ 이 다시 작아져 stationary 분포 위에 머문다 (positive Harris recurrence). 가정이 깨지면 $M$ 이 발산. 그러니 $M$ 시계열의 long-run behavior 가 가정의 진짜 의미를 직접 보여준다 — 위 figure 가 그 자체로 Assumption 1 의 graph-별 검증이다.
+
+추가로 가정의 정량 형태도 raw scatter 로 확인할 수 있다. 각 round 의 $(M_r, B^{\rm emp}_r)$ 한 sample 을 모아 $B^{\rm emp}_r = \sum_u \#_u(r) \hbar(u, t_r)$ — Lemma 2 의 좌변 양식 — 으로 $B(S)$ 의 instantaneous 추정으로 사용. 다수 round 의 sample 평균이 $B(S)$ 의 추정. 이 scatter 에 OLS $B = -\varepsilon_B M + C_B$ 회귀를 fit 한 결과:
+
+![](attachments/260522_31c9e5_01.png)
+
+| 그래프 | OLS $\varepsilon_B$ | 판정 |
+|---|---|---|
+| $C_{20}$ cycle | $+0.151$ | ✓ |
+| $K_{10}$ complete | $+0.318$ | ✓ |
+| Bidir Ring | $+0.040$ | ✓ |
+| Cyl Inter-bidir | $+0.045$ | ✓ |
+| Bidir Path | $+0.0005$ | ~ |
+| Wheel Bidir | $-0.007$ | ~ |
+| $C_{60}$+pendant | $-0.008$ | ~ |
+| D-Helm Bidir | $-0.087$ | ✗ |
+| kite | $-0.313$ | ✗ |
+| Helm Bidir | $-0.758$ | ✗ |
+| Star Outward | $-0.917$ | ✗ |
+
+OLS $\varepsilon_B$ 부호 (만족 ✓ / borderline ~ / 위반 ✗) 와 $M$ tail mean 의 자릿수가 거의 monotone 대응한다 — $M$ 시계열 진단과 OLS 회귀가 같은 결론을 가리킨다.
+
+OLS 단순 회귀에는 한 가지 한계가 있다. Helm Bidir 같은 그래프의 scatter 를 자세히 보면 점들이 cloud 가 아니라 여러 직선이 부채꼴로 펼쳐진 구조다 — round 안 walker 의 path 가 그래프 구조에 의해 finite 개의 type 으로 분류되고, 각 type 별로 visit count vector $(\#_u)_u$ 가 fixed pattern 이라 type 안에서는 $B^{\rm emp}_r$ 이 $M_r$ 에 거의 선형이기 때문. 단일 직선으로 강제한 OLS slope 는 type 별 평균 trend 의 weighted 평균에 가까운데, 가정의 본질 ($M$ 의 boundedness) 은 위쪽 figure 가 더 직접적으로 보여준다.
+
+결론적으로 Assumption 1 은 ABC 의 핵심 hypothesis 임에도 모든 그래프에서 자동 성립하는 보편 명제가 아니다. Theorem A (balanced) 의 적용 범위는 사실상 fully symmetric 또는 거의 대칭인 그래프 클래스로 제한될 가능성이 있고, 비대칭 그래프 (Star Outward, Helm 류, kite) 에서는 Foster-Lyapunov 가 직접 적용되지 않을 수 있다.
+
+시뮬 코드와 figure 생성 코드는 본문에 포함하지 않았고 ((B) 양식, §2.6 면제), 본인 책상에 보관: `260522_소미_foster_verify.py` (s181 sequential 약 60초), `260522_소미_foster_figs.py` (B-M scatter), `260522_소미_foster_M_series.py` ($M$ 시계열). raw 캐시: `results/numeric/260522_소미_foster_verify.py/Guebins-Mac-mini.local_foster_verify.npz`.
