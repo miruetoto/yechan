@@ -279,7 +279,43 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>질문에 답을 정리하면: 그룹 A 안에서 <span class="math inline">\(\{M_r\}\)</span> 은 <strong>모두 강하게 correlated</strong> (lag-1 ACF <span class="math inline">\(\ge 0.92\)</span>, 독립 아님), mixing 속도는 그래프별 차이가 크지만 (<span class="math inline">\(K_{10}\)</span> 빠르게 mixing, 나머지 long-range correlated) 결국 모두 stationary 분포 위 — <strong>tight, <span class="math inline">\(O_p(1)\)</span></strong>. 그룹 C 는 본 진단 적용 대상 밖이고 시계열 figure 가 그대로 답이다.</p>
+<p>질문별 답을 그룹별로 정리:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>질문</th>
+<th>그룹 A</th>
+<th>그룹 C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>독립?</td>
+<td>✗ (lag-1 ACF <span class="math inline">\(\in [0.92, 0.999]\)</span>)</td>
+<td>✗ (lag 200 까지 ACF <span class="math inline">\(\approx 1\)</span>)</td>
+</tr>
+<tr class="even">
+<td>correlated?</td>
+<td>yes</td>
+<td>yes (거의 deterministic-like)</td>
+</tr>
+<tr class="odd">
+<td>mixing?</td>
+<td>그래프별 차이 — <span class="math inline">\(K_{10}\)</span> 만 빠름 (lag 100 에서 <span class="math inline">\(\rho \approx 0\)</span>), 나머지 long-range correlated</td>
+<td>mixing 없음 — <span class="math inline">\(M_r\)</span> 자체가 round 따라 monotone 증가</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(O_p(1)\)</span> / tight?</td>
+<td>✓ tight (marginal stationary, running max 안정)</td>
+<td>✗ not tight, <span class="math inline">\(M_r = \Theta_p(r)\)</span></td>
+</tr>
+</tbody>
+</table>
 <p>Foster’s drift criterion (Assumption 1) 은 어떤 graph-level constant <span class="math inline">\(\varepsilon_B &gt; 0\)</span>, <span class="math inline">\(C_B \ge 0\)</span> 가 존재해서 모든 round 에서</p>
 <p><span class="math display">\[B(S_{t_r}) \;\le\; -\varepsilon_B\, M(S_{t_r}) + C_B\]</span></p>
 <p>가 성립하길 요구하는데, 여기서 <span class="math inline">\(B(S_{t_r}) = \sum_u \pi(u, S_{t_r}) \hbar(u, t_r)\)</span> 는 round 시작 시점의 weighted height deposit (Lemma 3 정의), <span class="math inline">\(\pi(u, S) = \mathbb{E}[\#_u | S_{t_r}]\)</span> 는 round 길이 동안 노드 <span class="math inline">\(u\)</span> 의 visit count 의 조건부 기댓값이다. 이 가정의 핵심 함의는 결국 height range <span class="math inline">\(M(t)\)</span> 가 시간 흐름에서 bounded 라는 것이다 — <span class="math inline">\(\varepsilon_B &gt; 0\)</span> 가 작동하면 큰 <span class="math inline">\(M\)</span> 에서 음의 drift 가 작용해 <span class="math inline">\(M\)</span> 이 다시 작아져 stationary 분포 위에 머문다 (positive Harris recurrence). 가정이 깨지면 <span class="math inline">\(M\)</span> 이 발산. 그러니 <span class="math inline">\(M\)</span> 시계열의 long-run behavior 가 가정의 진짜 의미를 직접 보여준다 — 위 figure 가 그 자체로 Assumption 1 의 graph-별 검증이다.</p>

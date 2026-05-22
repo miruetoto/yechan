@@ -33,7 +33,14 @@ sample autocorrelation $\rho(k) := \mathrm{Corr}(M_r, M_{r+k})$ — i.i.d. 이�
 | Wheel Bidir | $0.999$ | $0.92$ | $0.43$ | yes |
 | Bidir Ring | $0.999$ | $0.89$ | $0.56$ | yes |
 
-질문에 답을 정리하면: 그룹 A 안에서 $\{M_r\}$ 은 **모두 강하게 correlated** (lag-1 ACF $\ge 0.92$, 독립 아님), mixing 속도는 그래프별 차이가 크지만 ($K_{10}$ 빠르게 mixing, 나머지 long-range correlated) 결국 모두 stationary 분포 위 — **tight, $O_p(1)$**. 그룹 C 는 본 진단 적용 대상 밖이고 시계열 figure 가 그대로 답이다.
+질문별 답을 그룹별로 정리:
+
+| 질문 | 그룹 A | 그룹 C |
+|---|---|---|
+| 독립? | ✗ (lag-1 ACF $\in [0.92, 0.999]$) | ✗ (lag 200 까지 ACF $\approx 1$) |
+| correlated? | yes | yes (거의 deterministic-like) |
+| mixing? | 그래프별 차이 — $K_{10}$ 만 빠름 (lag 100 에서 $\rho \approx 0$), 나머지 long-range correlated | mixing 없음 — $M_r$ 자체가 round 따라 monotone 증가 |
+| $O_p(1)$ / tight? | ✓ tight (marginal stationary, running max 안정) | ✗ not tight, $M_r = \Theta_p(r)$ |
 
 Foster's drift criterion (Assumption 1) 은 어떤 graph-level constant $\varepsilon_B > 0$, $C_B \ge 0$ 가 존재해서 모든 round 에서
 
