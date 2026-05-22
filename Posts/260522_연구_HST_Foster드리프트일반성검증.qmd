@@ -25,6 +25,17 @@ sample autocorrelation $\rho(k) := \mathrm{Corr}(M_r, M_{r+k})$ — i.i.d. 이�
 
 각 그래프의 round 구간 100 bin 으로 나눠 bin 별 5/50/95 quantile band + running max. 그룹 A 5 그래프 모두 quantile band 가 후미에서 일정 range 안에서 흔들리고, running max 도 작은 절대값 (≤ 2.2) 안에서 잡혀 있다. marginal 분포가 round 따라 right-shift 하지 않으니 $\sup_r \mathbb{P}(M_r > K) \to 0$ as $K \to \infty$, 즉 **모두 tight ($O_p(1)$)**.
 
+질문별 답 (그룹 A 한정; 그룹 C 는 시계열 figure 가 그대로 답 — mixing X, not tight, $M_r = \Theta_p(r)$):
+
+| 질문 | 그룹 A 답 |
+|---|---|
+| 독립? | ✗ (lag-1 ACF $\in [0.92, 0.999]$) |
+| correlated? | yes |
+| mixing? | 그래프별 차이 — $K_{10}$ 만 빠름 (lag 100 에서 $\rho \approx 0$), 나머지 long-range correlated |
+| $O_p(1)$ / tight? | ✓ tight (marginal stationary, running max 안정) |
+
+그래프별 detail:
+
 | 그래프 | lag-1 ACF | lag-100 ACF | $M$ tail mean | tight? |
 |---|---|---|---|---|
 | $K_{10}$ | $0.92$ | $-0.01$ | $0.09$ | yes |
@@ -33,22 +44,21 @@ sample autocorrelation $\rho(k) := \mathrm{Corr}(M_r, M_{r+k})$ — i.i.d. 이�
 | Wheel Bidir | $0.999$ | $0.92$ | $0.43$ | yes |
 | Bidir Ring | $0.999$ | $0.89$ | $0.56$ | yes |
 
-질문별 답을 그룹별로 정리:
-
-| 질문 | 그룹 A | 그룹 C |
-|---|---|---|
-| 독립? | ✗ (lag-1 ACF $\in [0.92, 0.999]$) | ✗ (lag 200 까지 ACF $\approx 1$) |
-| correlated? | yes | yes (거의 deterministic-like) |
-| mixing? | 그래프별 차이 — $K_{10}$ 만 빠름 (lag 100 에서 $\rho \approx 0$), 나머지 long-range correlated | mixing 없음 — $M_r$ 자체가 round 따라 monotone 증가 |
-| $O_p(1)$ / tight? | ✓ tight (marginal stationary, running max 안정) | ✗ not tight, $M_r = \Theta_p(r)$ |
-
 Foster's drift criterion (Assumption 1) 은 어떤 graph-level constant $\varepsilon_B > 0$, $C_B \ge 0$ 가 존재해서 모든 round 에서
 
 $$B(S_{t_r}) \;\le\; -\varepsilon_B\, M(S_{t_r}) + C_B$$
 
 가 성립하길 요구하는데, 여기서 $B(S_{t_r}) = \sum_u \pi(u, S_{t_r}) \hbar(u, t_r)$ 는 round 시작 시점의 weighted height deposit (Lemma 3 정의), $\pi(u, S) = \mathbb{E}[\#_u | S_{t_r}]$ 는 round 길이 동안 노드 $u$ 의 visit count 의 조건부 기댓값이다. 이 가정의 핵심 함의는 결국 height range $M(t)$ 가 시간 흐름에서 bounded 라는 것이다 — $\varepsilon_B > 0$ 가 작동하면 큰 $M$ 에서 음의 drift 가 작용해 $M$ 이 다시 작아져 stationary 분포 위에 머문다 (positive Harris recurrence). 가정이 깨지면 $M$ 이 발산. 그러니 $M$ 시계열의 long-run behavior 가 가정의 진짜 의미를 직접 보여준다 — 위 figure 가 그 자체로 Assumption 1 의 graph-별 검증이다.
 
-추가로 가정의 정량 형태도 raw scatter 로 확인할 수 있다. 각 round 의 $(M_r, B^{\rm emp}_r)$ 한 sample 을 모아 $B^{\rm emp}_r = \sum_u \#_u(r) \hbar(u, t_r)$ — Lemma 2 의 좌변 양식 — 으로 $B(S)$ 의 instantaneous 추정으로 사용. 다수 round 의 sample 평균이 $B(S)$ 의 추정. 이 scatter 에 OLS $B = -\varepsilon_B M + C_B$ 회귀를 fit 한 결과:
+가정의 좌변 $B(S_{t_r})$ 자체의 round-index 시계열도 같은 양식으로 본다. instantaneous 추정 $B^{\rm emp}_r := \sum_u \#_u(r) \hbar(u, t_r)$ 를 round 별 한 sample 로 기록 (다수 round 의 평균이 $B(S_{t_r})$ 의 추정).
+
+![](attachments/260522_31c9e5_05.png)
+
+그룹 A 5 그래프 ($K_{10}$, $C_{20}$, Cyl Inter-bidir, Wheel Bidir, Bidir Ring) 는 모두 $B^{\rm emp}$ 시계열이 0 부근에서 작은 fluctuation — tail mean $|\langle B \rangle| < 0.1$, tail std $\le 1.1$. 가정 $B \le -\varepsilon_B M + C_B$ 의 우변이 $-\varepsilon_B M$ 음수 $+ C_B$ 라 좌변이 0 부근 이면 $\varepsilon_B M$ 도 작은 정도. $M$ 도 작은 그룹 A 에서 두 항이 모두 작아 가정 trivially 만족.
+
+그룹 C 6 그래프는 $B^{\rm emp}$ tail mean 이 양 방향으로 큰 값 — Star Outward $+4851$, kite $+345$, Helm Bidir $+219$, D-Helm Bidir $+2.4$, $C_{60}$+pendant $+0.48$, Bidir Path $+0.07$. 음수가 아니라 **큰 양수** 라는 점이 직접 가정 위반이다 — 가정 우변 $-\varepsilon_B M + C_B$ 가 음 방향으로 작용해야 하는데 좌변이 양 방향으로 크다. 즉 walker 가 height 높은 노드를 자주 visit (visit count 와 ħ 가 양 상관) — mean-reversion 의 반대.
+
+추가로 가정의 정량 형태도 raw scatter 로 확인할 수 있다. 각 round 의 $(M_r, B^{\rm emp}_r)$ scatter 에 OLS $B = -\varepsilon_B M + C_B$ 회귀를 fit 한 결과:
 
 ![](attachments/260522_31c9e5_01.png)
 
