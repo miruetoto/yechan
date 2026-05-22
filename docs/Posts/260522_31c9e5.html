@@ -231,83 +231,64 @@ window.Quarto = {
 <p>sample autocorrelation <span class="math inline">\(\rho(k) := \mathrm{Corr}(M_r, M_{r+k})\)</span> — i.i.d. 이면 lag 1 부터 <span class="math inline">\(\pm 1.96/\sqrt{n}\)</span> 신뢰구간 안. 그룹 A 5 그래프 모두 lag-1 ACF <span class="math inline">\(\rho(1) \in [0.92, 0.999]\)</span> — 강 양상관, 명백히 독립이 아니다. mixing 속도는 그래프마다 차이가 크다. <span class="math inline">\(K_{10}\)</span> 은 lag 100 부근에서 <span class="math inline">\(\rho \approx 0\)</span> 으로 수렴 — 짧은 lag 안에 mixing. <span class="math inline">\(C_{20}\)</span> 은 lag 100 에서도 <span class="math inline">\(\rho \approx 0.55\)</span>, Cyl Inter-bidir 는 <span class="math inline">\(\rho \approx 0.76\)</span>, Wheel Bidir·Bidir Ring 은 <span class="math inline">\(\rho \approx 0.9\)</span> 로 mixing 이 매우 느리다 — 같은 그룹 A 안에서도 mixing speed 는 <span class="math inline">\(K_{10}\)</span> 만 빠르고 나머지는 long-range correlated.</p>
 <p><img src="attachments/260522_31c9e5_04.png" class="img-fluid"></p>
 <p>각 그래프의 round 구간 100 bin 으로 나눠 bin 별 5/50/95 quantile band + running max. 그룹 A 5 그래프 모두 quantile band 가 후미에서 일정 range 안에서 흔들리고, running max 도 작은 절대값 (≤ 2.2) 안에서 잡혀 있다. marginal 분포가 round 따라 right-shift 하지 않으니 <span class="math inline">\(\sup_r \mathbb{P}(M_r &gt; K) \to 0\)</span> as <span class="math inline">\(K \to \infty\)</span>, 즉 <strong>모두 tight (<span class="math inline">\(O_p(1)\)</span>)</strong>.</p>
-<p>질문별 답 (그룹 A 한정; 그룹 C 는 시계열 figure 가 그대로 답 — mixing X, not tight, <span class="math inline">\(M_r = \Theta_p(r)\)</span>):</p>
+<p>그룹 C 는 시계열 figure 가 그대로 답 — mixing X, not tight, <span class="math inline">\(M_r = \Theta_p(r)\)</span>. 그룹 A 5 그래프의 measurement 와 통합 답:</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>질문</th>
+<th><span class="math inline">\(K_{10}\)</span></th>
+<th><span class="math inline">\(C_{20}\)</span></th>
+<th>Cyl Inter-bidir</th>
+<th>Wheel Bidir</th>
+<th>Bidir Ring</th>
 <th>그룹 A 답</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>독립?</td>
-<td>✗ (lag-1 ACF <span class="math inline">\(\in [0.92, 0.999]\)</span>)</td>
+<td>독립 / correlated (lag-1 ACF)</td>
+<td><span class="math inline">\(0.92\)</span></td>
+<td><span class="math inline">\(0.99\)</span></td>
+<td><span class="math inline">\(0.997\)</span></td>
+<td><span class="math inline">\(0.999\)</span></td>
+<td><span class="math inline">\(0.999\)</span></td>
+<td>독립 ✗, 모두 correlated (<span class="math inline">\(\ge 0.92\)</span>)</td>
 </tr>
 <tr class="even">
-<td>correlated?</td>
-<td>yes</td>
+<td>mixing (lag-100 ACF)</td>
+<td><span class="math inline">\(-0.01\)</span></td>
+<td><span class="math inline">\(0.55\)</span></td>
+<td><span class="math inline">\(0.76\)</span></td>
+<td><span class="math inline">\(0.92\)</span></td>
+<td><span class="math inline">\(0.89\)</span></td>
+<td><span class="math inline">\(K_{10}\)</span> 만 빠름, 나머지 long-range</td>
 </tr>
 <tr class="odd">
-<td>mixing?</td>
-<td>그래프별 차이 — <span class="math inline">\(K_{10}\)</span> 만 빠름 (lag 100 에서 <span class="math inline">\(\rho \approx 0\)</span>), 나머지 long-range correlated</td>
+<td><span class="math inline">\(M\)</span> tail mean</td>
+<td><span class="math inline">\(0.09\)</span></td>
+<td><span class="math inline">\(0.27\)</span></td>
+<td><span class="math inline">\(0.32\)</span></td>
+<td><span class="math inline">\(0.43\)</span></td>
+<td><span class="math inline">\(0.56\)</span></td>
+<td>모두 <span class="math inline">\(&lt; 1\)</span></td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(O_p(1)\)</span> / tight?</td>
-<td>✓ tight (marginal stationary, running max 안정)</td>
-</tr>
-</tbody>
-</table>
-<p>그래프별 detail:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>그래프</th>
-<th>lag-1 ACF</th>
-<th>lag-100 ACF</th>
-<th><span class="math inline">\(M\)</span> tail mean</th>
-<th>tight?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(K_{10}\)</span></td>
-<td><span class="math inline">\(0.92\)</span></td>
-<td><span class="math inline">\(-0.01\)</span></td>
-<td><span class="math inline">\(0.09\)</span></td>
 <td>yes</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(C_{20}\)</span></td>
-<td><span class="math inline">\(0.99\)</span></td>
-<td><span class="math inline">\(0.55\)</span></td>
-<td><span class="math inline">\(0.27\)</span></td>
 <td>yes</td>
-</tr>
-<tr class="odd">
-<td>Cyl Inter-bidir</td>
-<td><span class="math inline">\(0.997\)</span></td>
-<td><span class="math inline">\(0.76\)</span></td>
-<td><span class="math inline">\(0.32\)</span></td>
 <td>yes</td>
-</tr>
-<tr class="even">
-<td>Wheel Bidir</td>
-<td><span class="math inline">\(0.999\)</span></td>
-<td><span class="math inline">\(0.92\)</span></td>
-<td><span class="math inline">\(0.43\)</span></td>
 <td>yes</td>
-</tr>
-<tr class="odd">
-<td>Bidir Ring</td>
-<td><span class="math inline">\(0.999\)</span></td>
-<td><span class="math inline">\(0.89\)</span></td>
-<td><span class="math inline">\(0.56\)</span></td>
 <td>yes</td>
+<td>✓ (모두 tight)</td>
 </tr>
 </tbody>
 </table>
