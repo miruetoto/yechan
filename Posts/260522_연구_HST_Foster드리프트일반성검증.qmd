@@ -15,6 +15,25 @@ fontsize: 0.85em
 
 그래프 클래스에 따라 $M(S_{t_r})$ 시계열이 두 종류로 명확히 나뉜다. fully symmetric (Cycle, Complete, Ring, Cylinder bidir) 은 시계열이 작은 상수 (∼ 1) 부근에서 흔들리는 bounded process — height range 가 시간이 흘러도 일정 scale 위로 안 커진다. 반대로 비대칭 그래프 (kite, Helm Bidir, Star Outward, $C_{60}$+pendant 등) 는 시계열이 round 가 진행할수록 거의 선형으로 발산 — height range 가 무한히 커진다.
 
+수열 $\{M(S_{t_r})\}_r$ 자체의 성질이 궁금하다. 독립인가, correlated 인가, mixing 인가, 확률적 유계 ($O_p(1)$) 인가, tight 인가? 대표 4 그래프 (bounded 2 — $K_{10}$, $C_{20}$ + 발산 2 — kite, Helm Bidir) 에 두 진단을 적용한다.
+
+![](attachments/260522_31c9e5_03.png)
+
+sample autocorrelation $\rho(k) := \mathrm{Corr}(M_r, M_{r+k})$ — i.i.d. 이면 lag 1 부터 $\pm 1.96/\sqrt{n}$ 신뢰구간 안. $K_{10}$ 은 lag 1 에서 $\rho \approx 0.92$ 로 강하게 양상관이지만 lag 100 부근부터 0 으로 수렴 — short-range correlated, 결국 mixing. $C_{20}$ 은 lag 100 에서도 $\rho \approx 0.55$ 로 mixing 이 느리다. 발산 두 그래프는 lag 200 까지도 $\rho \approx 1$ — 거의 deterministic trajectory 처럼 round 따라 monotone 증가, 본질적으로 mixing 이 없는 상태.
+
+![](attachments/260522_31c9e5_04.png)
+
+각 그래프의 round 구간 100 bin 으로 나눠 bin 별 5/50/95 quantile band + running max. bounded class ($K_{10}$, $C_{20}$) 는 모든 quantile 이 후미에서 plateau, running max 도 빠르게 안정 — marginal 분포가 stationary 라 $\sup_r \mathbb{P}(M_r > K) \to 0$ as $K \to \infty$, 즉 tight ($O_p(1)$). 발산 class (kite, Helm Bidir) 는 median 부터 95% quantile 까지 모두 round 따라 선형 증가, running max 도 끊임없이 자란다 — marginal 분포가 round 따라 right-shift, tight 도 $O_p(1)$ 도 아니고 $M_r = \Theta_p(r)$.
+
+| 그래프 | lag-1 ACF | lag-100 ACF | tight? | $M_r$ 의 order |
+|---|---|---|---|---|
+| $K_{10}$ | $0.92$ | $-0.01$ | yes | $O_p(1)$ |
+| $C_{20}$ | $0.99$ | $0.55$ | borderline | $O_p(1)$ likely |
+| kite | $1.00$ | $1.00$ | no | $\Theta_p(r)$ |
+| Helm Bidir | $1.00$ | $1.00$ | no | $\Theta_p(r)$ |
+
+질문에 답을 정리하면: $\{M_r\}$ 은 **모든 그래프에서 독립이 아니다** (lag-1 ACF $\ge 0.92$). bounded class 에서는 short-range correlated + mixing (Markov-like), 발산 class 에서는 ACF 가 lag 100 까지 1 부근으로 본질적으로 deterministic-like trajectory. **$O_p(1)$ / tight 여부는 그래프 클래스에 따라 갈린다** — bounded class 만 tight, 발산 class 는 $r$ 의 함수로 자라 tight 가 아니다.
+
 Foster's drift criterion (Assumption 1) 은 어떤 graph-level constant $\varepsilon_B > 0$, $C_B \ge 0$ 가 존재해서 모든 round 에서
 
 $$B(S_{t_r}) \;\le\; -\varepsilon_B\, M(S_{t_r}) + C_B$$
@@ -45,4 +64,17 @@ OLS 단순 회귀에는 한 가지 한계가 있다. Helm Bidir 같은 그래프
 
 결론적으로 Assumption 1 은 ABC 의 핵심 hypothesis 임에도 모든 그래프에서 자동 성립하는 보편 명제가 아니다. Theorem A (balanced) 의 적용 범위는 사실상 fully symmetric 또는 거의 대칭인 그래프 클래스로 제한될 가능성이 있고, 비대칭 그래프 (Star Outward, Helm 류, kite) 에서는 Foster-Lyapunov 가 직접 적용되지 않을 수 있다.
 
-시뮬 코드와 figure 생성 코드는 본문에 포함하지 않았고 ((B) 양식, §2.6 면제), 본인 책상에 보관: `260522_소미_foster_verify.py` (s181 sequential 약 60초), `260522_소미_foster_figs.py` (B-M scatter), `260522_소미_foster_M_series.py` ($M$ 시계열). raw 캐시: `results/numeric/260522_소미_foster_verify.py/Guebins-Mac-mini.local_foster_verify.npz`.
+## 어펜딕스. 표기 정리 (에이 `abc공유용_v2.tex` §1.1, §3.3, §3.4)
+
+| 양 | 정의 |
+|---|---|
+| $\hbar(u, t_r)$ | centered height $= h(u, t_r) - \bar h(t_r)$ |
+| $\Phi(t_r)$ | Lyapunov fn $= \sum_u \hbar(u, t_r)^2$ (height variance) |
+| $M(S_{t_r})$ | $:= \max_v \lvert \hbar(v, t_r) \rvert$ (centered height range; Fact 2 로 $\max h - \min h \in [M, 2M]$) |
+| $\#_u$ | round 동안 $u$ visit count |
+| $\pi(u, S) := \mathbb{E}[\#_u \mid S_{t_r}]$ | round 동안 $u$ expected visits (state-dependent) |
+| $B(S) := \sum_u \pi(u, S) \, \hbar(u, t_r)$ | expected weighted height deposit — visit-weighted centered height |
+| $\varepsilon_B, C_B$ | graph-level Foster drift constants ($\varepsilon_B > 0$, $C_B \ge 0$) |
+| $C_{M\text{-free}} := (T_{\max} + 1) b^2 [T_{\max}/2 + (n-1)/(3n)]$ | universal remainder bound ($n$, $b$, $T_{\max}$ 만 의존) |
+
+시뮬 코드와 figure 생성 코드는 본문에 포함하지 않았고 ((B) 양식, §2.6 면제), 본인 책상에 보관: `260522_소미_foster_verify.py` (s181 sequential 약 60초), `260522_소미_foster_figs.py` (B-M scatter), `260522_소미_foster_M_series.py` ($M$ 시계열), `260522_소미_foster_M_diag.py` (ACF + tightness). raw 캐시: `results/numeric/260522_소미_foster_verify.py/Guebins-Mac-mini.local_foster_verify.npz`.
