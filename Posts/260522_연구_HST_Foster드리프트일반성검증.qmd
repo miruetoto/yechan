@@ -46,6 +46,30 @@ $$B(S_{t_r}) \;\le\; -\varepsilon_B\, M(S_{t_r}) + C_B$$
 
 반대로 fully symmetric cycle/complete 에서는 round 안 walker 가 한쪽 방향 trap 없이 균등 분배되어 $\#_u \cdot \hbar(u)$ 가 거의 0 평균, 그 위에 mean-reversion 의 작은 음 drift 가 보태져 $\varepsilon_B$ 약간 양수.
 
-본 결과는 Assumption 1 이 ABC 의 핵심 hypothesis 임에도 **모든 그래프에서 자동 성립하는 보편 명제가 아님**을 보여준다. Theorem A (balanced) 의 적용 범위는 사실상 fully symmetric 또는 거의 대칭인 그래프 클래스로 제한될 가능성이 있고, 비대칭 그래프 (Star Outward, Helm 류) 에서는 Foster-Lyapunov 가 직접 적용되지 않을 수 있다. 단 본 측정은 $B$ 의 한 sample 측정에 OLS 를 적용한 추정이라 conditional expectation $\mathbb{E}[B|M]$ 의 entire shape 를 단일 직선으로 강제했다는 한계가 있다. 가정의 정확한 검증은 $\mathbb{E}[B|S]$ 의 보다 정밀한 추정 (예: $M$-bin 별 평균) 으로 후속 확인이 필요하다.
+OLS 단순 회귀에는 한 가지 한계가 있다. Helm Bidir 같은 그래프의 $(M, B^{\rm emp})$ scatter 를 자세히 보면 점들이 cloud 가 아니라 **여러 직선이 부채꼴로 펼쳐진 구조**다 — 이는 round 안 walker 의 path 가 그래프 구조에 의해 finite 개의 type 으로 분류되고, 각 type 별로 visit count vector $(\#_u)_u$ 가 fixed pattern 이라 type 안에서는 $B^{\rm emp}_r$ 이 $M_r$ 에 거의 선형이기 때문이다. 단일 직선으로 강제한 OLS slope 는 type 별 평균 trend 의 weighted 평균에 가까운데, 가정의 진짜 의미를 더 직접 점검하려면 $M(S_{t_r})$ 자체의 round-index 시계열을 보면 된다.
+
+Foster's drift criterion 의 본질은 결국 height range $M(t)$ 가 시간 흐름에서 bounded 인가의 문제다. $\varepsilon_B > 0$ 가정은 "큰 $M$ 에서 음의 drift 가 작용해 $M$ 이 다시 작아진다" 는 의미이고, 만약 그것이 작동하면 $M$ 시계열은 mean-reverting 의 bounded process 가 된다. 반대로 가정이 깨지면 $M$ 이 무한히 커진다.
+
+![](attachments/260522_31c9e5_02.png)
+
+11개 그래프의 $M(S_{t_r})$ round-index 시계열. 자릿수 차이가 직관적이다.
+
+| 그래프 | $M$ tail mean | $M$ max | OLS $\varepsilon_B$ |
+|---|---|---|---|
+| $K_{10}$ complete | $0.10$ | $0.45$ | $+0.318$ |
+| $C_{20}$ cycle | $0.27$ | $0.77$ | $+0.151$ |
+| Cyl Inter-bidir | $0.32$ | $1.03$ | $+0.045$ |
+| Wheel Bidir | $0.43$ | $2.20$ | $-0.007$ |
+| Bidir Ring | $0.56$ | $1.15$ | $+0.040$ |
+| Bidir Path | $20.5$ | $26.3$ | $+0.0005$ |
+| D-Helm Bidir | $27.0$ | $34.4$ | $-0.087$ |
+| $C_{60}$+pendant | $61.1$ | $81.4$ | $-0.008$ |
+| Helm Bidir | $291$ | $386$ | $-0.758$ |
+| kite | $1106$ | $1478$ | $-0.313$ |
+| Star Outward | $5292$ | $7061$ | $-0.917$ |
+
+$M$ tail mean 의 크기와 OLS $\varepsilon_B$ 만족 여부가 거의 monotone 대응한다. $M < 1$ 의 대칭 그래프 (Cycle, Complete, Ring, Cylinder) 는 시계열이 안정된 bounded process — Foster 만족. $M$ 이 자릿수 단위로 커지는 비대칭 그래프 (Helm, kite, Star Outward) 는 시계열이 발산 또는 매우 큰 fluctuation — Foster 명백 위반.
+
+본 결과는 Assumption 1 이 ABC 의 핵심 hypothesis 임에도 **모든 그래프에서 자동 성립하는 보편 명제가 아님**을 보여준다. Theorem A (balanced) 의 적용 범위는 사실상 fully symmetric 또는 거의 대칭인 그래프 클래스로 제한될 가능성이 있고, 비대칭 그래프 (Star Outward, Helm 류) 에서는 Foster-Lyapunov 가 직접 적용되지 않을 수 있다. $M$ 시계열의 long-run behavior 가 가정의 진짜 의미를 직접 보여주는 자연스러운 진단이다.
 
 시뮬 코드와 figure 생성 코드는 본문에 포함하지 않았고 ((B) 양식, §2.6 면제), 본인 책상에 보관: `260522_소미_foster_verify.py` (시뮬, s181 실행, 11개 그래프 sequential 약 60초), `260522_소미_foster_figs.py` (figure). raw 캐시: `results/numeric/260522_소미_foster_verify.py/Guebins-Mac-mini.local_foster_verify.npz`.

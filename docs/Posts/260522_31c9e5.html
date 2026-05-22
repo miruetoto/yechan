@@ -312,7 +312,90 @@ window.Quarto = {
 <p>명확한 패턴이 보인다. fully symmetric 또는 거의 그런 그래프 (Cycle, Complete, Ring, Cylinder bidir) 는 <span class="math inline">\(\varepsilon_B &gt; 0\)</span> 으로 가정 만족, hub-pendant 같은 강한 비대칭이 있는 그래프 (Star Outward, Helm Bidir, kite) 는 <span class="math inline">\(\varepsilon_B\)</span> 가 큰 음수 — 가정이 명백히 위반된다.</p>
 <p>위반의 직관은 다음과 같다. Star Outward (단방향 hub→leaf) 에서 hub 의 height 가 평균보다 높으면 (<span class="math inline">\(\hbar(\text{hub}) &gt; 0\)</span>), flow rule 에 의해 walker 가 hub 에서 leaf 로 빠져나간다. 그런데 walker 는 hub 에서 시작 (round 시작 fall) 후 leaf 로 한 step, 거기서 또 다음 step 인데 leaf 는 outgoing edge 가 없어 block 강제 — 결국 hub 에 한 번 visit + leaf 한 번 visit 의 짧은 round. visit count 와 <span class="math inline">\(\hbar\)</span> 의 분포가 mean-reversion 의 반대 방향으로 작동해 <span class="math inline">\(B^{\rm emp}\)</span> 가 양으로 분포한다.</p>
 <p>반대로 fully symmetric cycle/complete 에서는 round 안 walker 가 한쪽 방향 trap 없이 균등 분배되어 <span class="math inline">\(\#_u \cdot \hbar(u)\)</span> 가 거의 0 평균, 그 위에 mean-reversion 의 작은 음 drift 가 보태져 <span class="math inline">\(\varepsilon_B\)</span> 약간 양수.</p>
-<p>본 결과는 Assumption 1 이 ABC 의 핵심 hypothesis 임에도 <strong>모든 그래프에서 자동 성립하는 보편 명제가 아님</strong>을 보여준다. Theorem A (balanced) 의 적용 범위는 사실상 fully symmetric 또는 거의 대칭인 그래프 클래스로 제한될 가능성이 있고, 비대칭 그래프 (Star Outward, Helm 류) 에서는 Foster-Lyapunov 가 직접 적용되지 않을 수 있다. 단 본 측정은 <span class="math inline">\(B\)</span> 의 한 sample 측정에 OLS 를 적용한 추정이라 conditional expectation <span class="math inline">\(\mathbb{E}[B|M]\)</span> 의 entire shape 를 단일 직선으로 강제했다는 한계가 있다. 가정의 정확한 검증은 <span class="math inline">\(\mathbb{E}[B|S]\)</span> 의 보다 정밀한 추정 (예: <span class="math inline">\(M\)</span>-bin 별 평균) 으로 후속 확인이 필요하다.</p>
+<p>OLS 단순 회귀에는 한 가지 한계가 있다. Helm Bidir 같은 그래프의 <span class="math inline">\((M, B^{\rm emp})\)</span> scatter 를 자세히 보면 점들이 cloud 가 아니라 <strong>여러 직선이 부채꼴로 펼쳐진 구조</strong>다 — 이는 round 안 walker 의 path 가 그래프 구조에 의해 finite 개의 type 으로 분류되고, 각 type 별로 visit count vector <span class="math inline">\((\#_u)_u\)</span> 가 fixed pattern 이라 type 안에서는 <span class="math inline">\(B^{\rm emp}_r\)</span> 이 <span class="math inline">\(M_r\)</span> 에 거의 선형이기 때문이다. 단일 직선으로 강제한 OLS slope 는 type 별 평균 trend 의 weighted 평균에 가까운데, 가정의 진짜 의미를 더 직접 점검하려면 <span class="math inline">\(M(S_{t_r})\)</span> 자체의 round-index 시계열을 보면 된다.</p>
+<p>Foster’s drift criterion 의 본질은 결국 height range <span class="math inline">\(M(t)\)</span> 가 시간 흐름에서 bounded 인가의 문제다. <span class="math inline">\(\varepsilon_B &gt; 0\)</span> 가정은 “큰 <span class="math inline">\(M\)</span> 에서 음의 drift 가 작용해 <span class="math inline">\(M\)</span> 이 다시 작아진다” 는 의미이고, 만약 그것이 작동하면 <span class="math inline">\(M\)</span> 시계열은 mean-reverting 의 bounded process 가 된다. 반대로 가정이 깨지면 <span class="math inline">\(M\)</span> 이 무한히 커진다.</p>
+<p><img src="attachments/260522_31c9e5_02.png" class="img-fluid"></p>
+<p>11개 그래프의 <span class="math inline">\(M(S_{t_r})\)</span> round-index 시계열. 자릿수 차이가 직관적이다.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>그래프</th>
+<th><span class="math inline">\(M\)</span> tail mean</th>
+<th><span class="math inline">\(M\)</span> max</th>
+<th>OLS <span class="math inline">\(\varepsilon_B\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(K_{10}\)</span> complete</td>
+<td><span class="math inline">\(0.10\)</span></td>
+<td><span class="math inline">\(0.45\)</span></td>
+<td><span class="math inline">\(+0.318\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(C_{20}\)</span> cycle</td>
+<td><span class="math inline">\(0.27\)</span></td>
+<td><span class="math inline">\(0.77\)</span></td>
+<td><span class="math inline">\(+0.151\)</span></td>
+</tr>
+<tr class="odd">
+<td>Cyl Inter-bidir</td>
+<td><span class="math inline">\(0.32\)</span></td>
+<td><span class="math inline">\(1.03\)</span></td>
+<td><span class="math inline">\(+0.045\)</span></td>
+</tr>
+<tr class="even">
+<td>Wheel Bidir</td>
+<td><span class="math inline">\(0.43\)</span></td>
+<td><span class="math inline">\(2.20\)</span></td>
+<td><span class="math inline">\(-0.007\)</span></td>
+</tr>
+<tr class="odd">
+<td>Bidir Ring</td>
+<td><span class="math inline">\(0.56\)</span></td>
+<td><span class="math inline">\(1.15\)</span></td>
+<td><span class="math inline">\(+0.040\)</span></td>
+</tr>
+<tr class="even">
+<td>Bidir Path</td>
+<td><span class="math inline">\(20.5\)</span></td>
+<td><span class="math inline">\(26.3\)</span></td>
+<td><span class="math inline">\(+0.0005\)</span></td>
+</tr>
+<tr class="odd">
+<td>D-Helm Bidir</td>
+<td><span class="math inline">\(27.0\)</span></td>
+<td><span class="math inline">\(34.4\)</span></td>
+<td><span class="math inline">\(-0.087\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(C_{60}\)</span>+pendant</td>
+<td><span class="math inline">\(61.1\)</span></td>
+<td><span class="math inline">\(81.4\)</span></td>
+<td><span class="math inline">\(-0.008\)</span></td>
+</tr>
+<tr class="odd">
+<td>Helm Bidir</td>
+<td><span class="math inline">\(291\)</span></td>
+<td><span class="math inline">\(386\)</span></td>
+<td><span class="math inline">\(-0.758\)</span></td>
+</tr>
+<tr class="even">
+<td>kite</td>
+<td><span class="math inline">\(1106\)</span></td>
+<td><span class="math inline">\(1478\)</span></td>
+<td><span class="math inline">\(-0.313\)</span></td>
+</tr>
+<tr class="odd">
+<td>Star Outward</td>
+<td><span class="math inline">\(5292\)</span></td>
+<td><span class="math inline">\(7061\)</span></td>
+<td><span class="math inline">\(-0.917\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math inline">\(M\)</span> tail mean 의 크기와 OLS <span class="math inline">\(\varepsilon_B\)</span> 만족 여부가 거의 monotone 대응한다. <span class="math inline">\(M &lt; 1\)</span> 의 대칭 그래프 (Cycle, Complete, Ring, Cylinder) 는 시계열이 안정된 bounded process — Foster 만족. <span class="math inline">\(M\)</span> 이 자릿수 단위로 커지는 비대칭 그래프 (Helm, kite, Star Outward) 는 시계열이 발산 또는 매우 큰 fluctuation — Foster 명백 위반.</p>
+<p>본 결과는 Assumption 1 이 ABC 의 핵심 hypothesis 임에도 <strong>모든 그래프에서 자동 성립하는 보편 명제가 아님</strong>을 보여준다. Theorem A (balanced) 의 적용 범위는 사실상 fully symmetric 또는 거의 대칭인 그래프 클래스로 제한될 가능성이 있고, 비대칭 그래프 (Star Outward, Helm 류) 에서는 Foster-Lyapunov 가 직접 적용되지 않을 수 있다. <span class="math inline">\(M\)</span> 시계열의 long-run behavior 가 가정의 진짜 의미를 직접 보여주는 자연스러운 진단이다.</p>
 <p>시뮬 코드와 figure 생성 코드는 본문에 포함하지 않았고 ((B) 양식, §2.6 면제), 본인 책상에 보관: <code>260522_소미_foster_verify.py</code> (시뮬, s181 실행, 11개 그래프 sequential 약 60초), <code>260522_소미_foster_figs.py</code> (figure). raw 캐시: <code>results/numeric/260522_소미_foster_verify.py/Guebins-Mac-mini.local_foster_verify.npz</code>.</p>
 
 
