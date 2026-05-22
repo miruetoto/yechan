@@ -226,19 +226,19 @@ window.Quarto = {
 <p>에이의 ABC 통합증명 PDF §3.4 의 Foster’s drift criterion (Assumption 1) 이 그래프와 파라미터에 따라 실제로 잘 성립하는지 실험으로 본다. 본 글은 (B) 실험 결과 공유용으로 판정하고 §2.6/§2.7 적용 면제로 진행한다.</p>
 <p><img src="attachments/260522_31c9e5_02.png" class="img-fluid"></p>
 <p>그래프 클래스에 따라 <span class="math inline">\(M(S_{t_r})\)</span> 시계열이 두 종류로 명확히 나뉜다. fully symmetric (Cycle, Complete, Ring, Cylinder bidir) 은 시계열이 작은 상수 (∼ 1) 부근에서 흔들리는 bounded process — height range 가 시간이 흘러도 일정 scale 위로 안 커진다. 반대로 비대칭 그래프 (kite, Helm Bidir, Star Outward, <span class="math inline">\(C_{60}\)</span>+pendant 등) 는 시계열이 round 가 진행할수록 거의 선형으로 발산 — height range 가 무한히 커진다.</p>
-<p>수열 <span class="math inline">\(\{M(S_{t_r})\}_r\)</span> 자체의 성질이 궁금하다. 독립인가, correlated 인가, mixing 인가, 확률적 유계 (<span class="math inline">\(O_p(1)\)</span>) 인가, tight 인가? 대표 4 그래프 (bounded 2 — <span class="math inline">\(K_{10}\)</span>, <span class="math inline">\(C_{20}\)</span> + 발산 2 — kite, Helm Bidir) 에 두 진단을 적용한다.</p>
+<p>수열 <span class="math inline">\(\{M(S_{t_r})\}_r\)</span> 자체의 성질이 궁금하다. 독립인가, correlated 인가, mixing 인가, 확률적 유계 (<span class="math inline">\(O_p(1)\)</span>) 인가, tight 인가? 발산 class 는 <span class="math inline">\(M_r\)</span> 자체가 round 따라 발산이라 진단의 답이 자명 (mixing X, tight X, <span class="math inline">\(M_r = \Theta_p(r)\)</span>) — 흥미는 bounded class 안에서 어떻게 갈리는지에 있다. bounded 5 그래프 (<span class="math inline">\(K_{10}\)</span>, <span class="math inline">\(C_{20}\)</span>, Cyl Inter-bidir, Wheel Bidir, Bidir Ring) 에 두 진단을 적용한다.</p>
 <p><img src="attachments/260522_31c9e5_03.png" class="img-fluid"></p>
-<p>sample autocorrelation <span class="math inline">\(\rho(k) := \mathrm{Corr}(M_r, M_{r+k})\)</span> — i.i.d. 이면 lag 1 부터 <span class="math inline">\(\pm 1.96/\sqrt{n}\)</span> 신뢰구간 안. <span class="math inline">\(K_{10}\)</span> 은 lag 1 에서 <span class="math inline">\(\rho \approx 0.92\)</span> 로 강하게 양상관이지만 lag 100 부근부터 0 으로 수렴 — short-range correlated, 결국 mixing. <span class="math inline">\(C_{20}\)</span> 은 lag 100 에서도 <span class="math inline">\(\rho \approx 0.55\)</span> 로 mixing 이 느리다. 발산 두 그래프는 lag 200 까지도 <span class="math inline">\(\rho \approx 1\)</span> — 거의 deterministic trajectory 처럼 round 따라 monotone 증가, 본질적으로 mixing 이 없는 상태.</p>
+<p>sample autocorrelation <span class="math inline">\(\rho(k) := \mathrm{Corr}(M_r, M_{r+k})\)</span> — i.i.d. 이면 lag 1 부터 <span class="math inline">\(\pm 1.96/\sqrt{n}\)</span> 신뢰구간 안. bounded class 5 그래프 모두 lag-1 ACF <span class="math inline">\(\rho(1) \in [0.92, 0.999]\)</span> — 강 양상관, 명백히 독립이 아니다. mixing 속도는 그래프마다 차이가 크다. <span class="math inline">\(K_{10}\)</span> 은 lag 100 부근에서 <span class="math inline">\(\rho \approx 0\)</span> 으로 수렴 — 짧은 lag 안에 mixing. <span class="math inline">\(C_{20}\)</span> 은 lag 100 에서도 <span class="math inline">\(\rho \approx 0.55\)</span>, Cyl Inter-bidir 는 <span class="math inline">\(\rho \approx 0.76\)</span>, Wheel Bidir·Bidir Ring 은 <span class="math inline">\(\rho \approx 0.9\)</span> 로 mixing 이 매우 느리다 — 같은 bounded class 안에서도 mixing speed 는 <span class="math inline">\(K_{10}\)</span> 만 빠르고 나머지는 long-range correlated.</p>
 <p><img src="attachments/260522_31c9e5_04.png" class="img-fluid"></p>
-<p>각 그래프의 round 구간 100 bin 으로 나눠 bin 별 5/50/95 quantile band + running max. bounded class (<span class="math inline">\(K_{10}\)</span>, <span class="math inline">\(C_{20}\)</span>) 는 모든 quantile 이 후미에서 plateau, running max 도 빠르게 안정 — marginal 분포가 stationary 라 <span class="math inline">\(\sup_r \mathbb{P}(M_r &gt; K) \to 0\)</span> as <span class="math inline">\(K \to \infty\)</span>, 즉 tight (<span class="math inline">\(O_p(1)\)</span>). 발산 class (kite, Helm Bidir) 는 median 부터 95% quantile 까지 모두 round 따라 선형 증가, running max 도 끊임없이 자란다 — marginal 분포가 round 따라 right-shift, tight 도 <span class="math inline">\(O_p(1)\)</span> 도 아니고 <span class="math inline">\(M_r = \Theta_p(r)\)</span>.</p>
+<p>각 그래프의 round 구간 100 bin 으로 나눠 bin 별 5/50/95 quantile band + running max. bounded class 5 그래프 모두 quantile band 가 후미에서 일정 range 안에서 흔들리고, running max 도 작은 절대값 (≤ 2.2) 안에서 잡혀 있다. marginal 분포가 round 따라 right-shift 하지 않으니 <span class="math inline">\(\sup_r \mathbb{P}(M_r &gt; K) \to 0\)</span> as <span class="math inline">\(K \to \infty\)</span>, 즉 <strong>모두 tight (<span class="math inline">\(O_p(1)\)</span>)</strong>.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>그래프</th>
 <th>lag-1 ACF</th>
 <th>lag-100 ACF</th>
+<th><span class="math inline">\(M\)</span> tail mean</th>
 <th>tight?</th>
-<th><span class="math inline">\(M_r\)</span> 의 order</th>
 </tr>
 </thead>
 <tbody>
@@ -246,33 +246,40 @@ window.Quarto = {
 <td><span class="math inline">\(K_{10}\)</span></td>
 <td><span class="math inline">\(0.92\)</span></td>
 <td><span class="math inline">\(-0.01\)</span></td>
+<td><span class="math inline">\(0.09\)</span></td>
 <td>yes</td>
-<td><span class="math inline">\(O_p(1)\)</span></td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(C_{20}\)</span></td>
 <td><span class="math inline">\(0.99\)</span></td>
 <td><span class="math inline">\(0.55\)</span></td>
-<td>borderline</td>
-<td><span class="math inline">\(O_p(1)\)</span> likely</td>
+<td><span class="math inline">\(0.27\)</span></td>
+<td>yes</td>
 </tr>
 <tr class="odd">
-<td>kite</td>
-<td><span class="math inline">\(1.00\)</span></td>
-<td><span class="math inline">\(1.00\)</span></td>
-<td>no</td>
-<td><span class="math inline">\(\Theta_p(r)\)</span></td>
+<td>Cyl Inter-bidir</td>
+<td><span class="math inline">\(0.997\)</span></td>
+<td><span class="math inline">\(0.76\)</span></td>
+<td><span class="math inline">\(0.32\)</span></td>
+<td>yes</td>
 </tr>
 <tr class="even">
-<td>Helm Bidir</td>
-<td><span class="math inline">\(1.00\)</span></td>
-<td><span class="math inline">\(1.00\)</span></td>
-<td>no</td>
-<td><span class="math inline">\(\Theta_p(r)\)</span></td>
+<td>Wheel Bidir</td>
+<td><span class="math inline">\(0.999\)</span></td>
+<td><span class="math inline">\(0.92\)</span></td>
+<td><span class="math inline">\(0.43\)</span></td>
+<td>yes</td>
+</tr>
+<tr class="odd">
+<td>Bidir Ring</td>
+<td><span class="math inline">\(0.999\)</span></td>
+<td><span class="math inline">\(0.89\)</span></td>
+<td><span class="math inline">\(0.56\)</span></td>
+<td>yes</td>
 </tr>
 </tbody>
 </table>
-<p>질문에 답을 정리하면: <span class="math inline">\(\{M_r\}\)</span> 은 <strong>모든 그래프에서 독립이 아니다</strong> (lag-1 ACF <span class="math inline">\(\ge 0.92\)</span>). bounded class 에서는 short-range correlated + mixing (Markov-like), 발산 class 에서는 ACF 가 lag 100 까지 1 부근으로 본질적으로 deterministic-like trajectory. <strong><span class="math inline">\(O_p(1)\)</span> / tight 여부는 그래프 클래스에 따라 갈린다</strong> — bounded class 만 tight, 발산 class 는 <span class="math inline">\(r\)</span> 의 함수로 자라 tight 가 아니다.</p>
+<p>질문에 답을 정리하면: bounded class 안에서 <span class="math inline">\(\{M_r\}\)</span> 은 <strong>모두 강하게 correlated</strong> (lag-1 ACF <span class="math inline">\(\ge 0.92\)</span>, 독립 아님), mixing 속도는 그래프별 차이가 크지만 (<span class="math inline">\(K_{10}\)</span> 빠르게 mixing, 나머지 long-range correlated) 결국 모두 stationary 분포 위 — <strong>tight, <span class="math inline">\(O_p(1)\)</span></strong>. 발산 class 는 본 진단 적용 대상 밖이고 시계열 figure 가 그대로 답이다.</p>
 <p>Foster’s drift criterion (Assumption 1) 은 어떤 graph-level constant <span class="math inline">\(\varepsilon_B &gt; 0\)</span>, <span class="math inline">\(C_B \ge 0\)</span> 가 존재해서 모든 round 에서</p>
 <p><span class="math display">\[B(S_{t_r}) \;\le\; -\varepsilon_B\, M(S_{t_r}) + C_B\]</span></p>
 <p>가 성립하길 요구하는데, 여기서 <span class="math inline">\(B(S_{t_r}) = \sum_u \pi(u, S_{t_r}) \hbar(u, t_r)\)</span> 는 round 시작 시점의 weighted height deposit (Lemma 3 정의), <span class="math inline">\(\pi(u, S) = \mathbb{E}[\#_u | S_{t_r}]\)</span> 는 round 길이 동안 노드 <span class="math inline">\(u\)</span> 의 visit count 의 조건부 기댓값이다. 이 가정의 핵심 함의는 결국 height range <span class="math inline">\(M(t)\)</span> 가 시간 흐름에서 bounded 라는 것이다 — <span class="math inline">\(\varepsilon_B &gt; 0\)</span> 가 작동하면 큰 <span class="math inline">\(M\)</span> 에서 음의 drift 가 작용해 <span class="math inline">\(M\)</span> 이 다시 작아져 stationary 분포 위에 머문다 (positive Harris recurrence). 가정이 깨지면 <span class="math inline">\(M\)</span> 이 발산. 그러니 <span class="math inline">\(M\)</span> 시계열의 long-run behavior 가 가정의 진짜 의미를 직접 보여준다 — 위 figure 가 그 자체로 Assumption 1 의 graph-별 검증이다.</p>
