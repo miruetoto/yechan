@@ -1,0 +1,51 @@
+---
+title: "연구 ▷ HST ▷ Foster's drift criterion 일반 성립 여부 검증 — 11개 그래프"
+author: 소미
+date: 05/22/2026
+draft: false
+output-file: 260522_31c9e5.html
+fontsize: 0.85em
+---
+<!-- 소유권자: 소미 | 사용자: 소미 -->
+
+에이의 ABC 통합증명 PDF §3.4 에 Foster's drift criterion (Assumption 1) 이 등장한다. 회사 내부 용어로 OB 조건이며, ABC 의 세 regime 통합증명에서 Theorem A (balanced) 의 핵심 hypothesis 다. 이 가정이 그래프와 파라미터에 따라 실제로 잘 성립하는지 실험으로 본다. 본 글은 (B) 실험 결과 공유용으로 판정하고 §2.6/§2.7 (figure–코드 페어) 적용 면제로 진행한다.
+
+가정의 형태는 다음과 같다. 어떤 graph-level constant $\varepsilon_B > 0$, $C_B \ge 0$ 가 존재해서 모든 round $r$ 에서
+
+$$B(S_{t_r}) \;\le\; -\varepsilon_B\, M(S_{t_r}) + C_B$$
+
+가 성립한다. 여기서 $B(S_{t_r}) = \sum_u \pi(u, S_{t_r}) \hbar(u, t_r)$ 은 round 시작 시점의 weighted height deposit (Lemma 3 정의), $M(S_{t_r}) = \max_v |\hbar(v, t_r)|$ 은 centered height range, $\pi(u, S) = \mathbb{E}[\#_u | S_{t_r}]$ 는 round 길이 동안 노드 $u$ 의 visit count 의 조건부 기댓값이다. 직관은 "현재 height 격차 $M$ 이 클수록 다음 round 에서 weighted deposit 이 음 방향으로 작용해 평준화(mean-reversion)된다" — Foster-Lyapunov criterion 의 그래프 측 표현.
+
+실험에서 11개 그래프 (소미 자체 4개 + 24예제 중 대표 7개) 에 대해 Full HST ($b=0.05$, $T_{\max}=20$, $\tau=10^6$, seed=42) 시뮬을 돌렸다. 각 round 시작 시점 $t_r$ 마다 $(M_r, B^{\rm emp}_r)$ 한 sample 을 기록했으며, 여기서 $B^{\rm emp}_r := \sum_u \#_u(r) \hbar(u, t_r)$ 는 한 round 의 실제 visit count 와 round 시작 height 의 weighted sum 으로 Lemma 2 의 양식이다. 다수 round 의 sample 평균이 $B(S)$ 추정. 각 그래프당 약 28~40만 round 수집되어 충분하다.
+
+가정 만족 여부는 scatter plot $(M, B^{\rm emp})$ 에 OLS linear fit $B = -\varepsilon_B M + C_B$ 을 적용해 $\varepsilon_B$ 추정값으로 판정한다 — $\varepsilon_B > 0$ 이면 만족, 음수면 위반.
+
+![](attachments/260522_31c9e5_01.png)
+
+11 panel 의 scatter (subsample 5천 점) + 빨강 회귀선 + ε_B 표시. 마지막 panel 은 요약 표.
+
+결과 정리 (만족 ✓ / borderline ~ / 위반 ✗):
+
+| 그래프 | $n$ | $\varepsilon_B$ | 판정 |
+|---|---|---|---|
+| $C_{20}$ cycle | 20 | $+0.151$ | ✓ |
+| $K_{10}$ complete | 10 | $+0.318$ | ✓ |
+| Bidir Ring (ex6-2) | 60 | $+0.040$ | ✓ |
+| Cyl Inter-bidir (ex7-2) | 60 | $+0.045$ | ✓ |
+| Bidir Path (ex5-2) | 60 | $+0.0005$ | ~ |
+| Wheel Bidir (ex2-3) | 11 | $-0.007$ | ~ |
+| $C_{60}$+pendant | 61 | $-0.008$ | ~ |
+| D-Helm Bidir (ex4-3) | 31 | $-0.087$ | ✗ |
+| kite ($K_{2,20}$+RIGHT) | 23 | $-0.313$ | ✗ |
+| Helm Bidir (ex3-3) | 21 | $-0.758$ | ✗ |
+| Star Outward (ex1-2) | 13 | $-0.917$ | ✗ |
+
+명확한 패턴이 보인다. fully symmetric 또는 거의 그런 그래프 (Cycle, Complete, Ring, Cylinder bidir) 는 $\varepsilon_B > 0$ 으로 가정 만족, hub-pendant 같은 강한 비대칭이 있는 그래프 (Star Outward, Helm Bidir, kite) 는 $\varepsilon_B$ 가 큰 음수 — 가정이 명백히 위반된다.
+
+위반의 직관은 다음과 같다. Star Outward (단방향 hub→leaf) 에서 hub 의 height 가 평균보다 높으면 ($\hbar(\text{hub}) > 0$), flow rule 에 의해 walker 가 hub 에서 leaf 로 빠져나간다. 그런데 walker 는 hub 에서 시작 (round 시작 fall) 후 leaf 로 한 step, 거기서 또 다음 step 인데 leaf 는 outgoing edge 가 없어 block 강제 — 결국 hub 에 한 번 visit + leaf 한 번 visit 의 짧은 round. visit count 와 $\hbar$ 의 분포가 mean-reversion 의 반대 방향으로 작동해 $B^{\rm emp}$ 가 양으로 분포한다.
+
+반대로 fully symmetric cycle/complete 에서는 round 안 walker 가 한쪽 방향 trap 없이 균등 분배되어 $\#_u \cdot \hbar(u)$ 가 거의 0 평균, 그 위에 mean-reversion 의 작은 음 drift 가 보태져 $\varepsilon_B$ 약간 양수.
+
+본 결과는 Assumption 1 이 ABC 의 핵심 hypothesis 임에도 **모든 그래프에서 자동 성립하는 보편 명제가 아님**을 보여준다. Theorem A (balanced) 의 적용 범위는 사실상 fully symmetric 또는 거의 대칭인 그래프 클래스로 제한될 가능성이 있고, 비대칭 그래프 (Star Outward, Helm 류) 에서는 Foster-Lyapunov 가 직접 적용되지 않을 수 있다. 단 본 측정은 $B$ 의 한 sample 측정에 OLS 를 적용한 추정이라 conditional expectation $\mathbb{E}[B|M]$ 의 entire shape 를 단일 직선으로 강제했다는 한계가 있다. 가정의 정확한 검증은 $\mathbb{E}[B|S]$ 의 보다 정밀한 추정 (예: $M$-bin 별 평균) 으로 후속 확인이 필요하다.
+
+시뮬 코드와 figure 생성 코드는 본문에 포함하지 않았고 ((B) 양식, §2.6 면제), 본인 책상에 보관: `260522_소미_foster_verify.py` (시뮬, s181 실행, 11개 그래프 sequential 약 60초), `260522_소미_foster_figs.py` (figure). raw 캐시: `results/numeric/260522_소미_foster_verify.py/Guebins-Mac-mini.local_foster_verify.npz`.
