@@ -5,6 +5,7 @@ date: 05/20/2026
 draft: false
 output-file: 260520_5b1e82.html
 fontsize: 0.85em
+# 판정: (A) 학습·이해용 — §2.6 (figure+코드 페어) / §2.7 (수열·행렬 코드+수식 페어) 적용 대상 (대표 confirm 2026-05-22)
 ---
 
 <style>
@@ -26,7 +27,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 
 ## 1. 무엇을 "스펙트럴 임베딩"이라 부르는가
 
-좁은 의미로는 [Belkin-Niyogi 2003] Laplacian eigenmaps: 그래프 라플라시안 $\bfL = \bfD - \bfW$ 의 작은 고유값에 해당하는 고유벡터들로 노드를 좌표화. 노드 $i, j$ 거리는 좌표 차이의 유클리드 노름. 넓은 의미로는 [리이의 책공부 팟캐스트](./260518_618a48.html) 가 통일한 **스펙트럴 필터 family**:
+좁은 의미로는 [Belkin-Niyogi 2003] Laplacian eigenmaps: 그래프 라플라시안 $\mathbf{L} = \bfD - \bfW$ 의 작은 고유값에 해당하는 고유벡터들로 노드를 좌표화. 노드 $i, j$ 거리는 좌표 차이의 유클리드 노름. 넓은 의미로는 [리이의 책공부 팟캐스트](./260518_618a48.html) 가 통일한 **스펙트럴 필터 family**:
 
 $$d_f^2(i, j) \;=\; \sum_{k=2}^n f(\lambda_k)\,\big(\psi_k(i) - \psi_k(j)\big)^2.$$
 
@@ -45,13 +46,13 @@ $$d_f^2(i, j) \;=\; \sum_{k=2}^n f(\lambda_k)\,\big(\psi_k(i) - \psi_k(j)\big)^2
 
 ## 2. 한계 5가지
 
-### (1) 노드값 $\bsy$ 무시
+### (1) 노드값 $\boldsymbol{y}$ 무시
 
-스펙트럴은 **$\bfL$** 만 본다. 그러나 실제 그래프 위 데이터는 **$(\bfL, \bsy)$** — 토폴로지 + 노드값의 쌍.
+스펙트럴은 **$\mathbf{L}$** 만 본다. 그러나 실제 그래프 위 데이터는 **$(\mathbf{L}, \boldsymbol{y})$** — 토폴로지 + 노드값의 쌍.
 
-`-` 같은 그래프 위에 다른 신호 $\bsy_1, \bsy_2$ 가 올라가도 스펙트럴 거리 $d_f(i,j)$ 는 똑같다 (필터 $f$ 와 eigenpair 만 함수).
+`-` 같은 그래프 위에 다른 신호 $\boldsymbol{y}_1, \boldsymbol{y}_2$ 가 올라가도 스펙트럴 거리 $d_f(i,j)$ 는 똑같다 (필터 $f$ 와 eigenpair 만 함수).
 
-`-` Choi-Oh 2026 (HST 본 논문) §1 의 출발점이 정확히 이 관찰. HST 의 SD 는 $\bsy$ 의 history 가 누적된 양으로, 같은 $\bfL$ 위 다른 $\bsy$ 에 대해 다른 거리를 준다.
+`-` Choi-Oh 2026 (HST 본 논문) §1 의 출발점이 정확히 이 관찰. HST 의 SD 는 $\boldsymbol{y}$ 의 history 가 누적된 양으로, 같은 $\mathbf{L}$ 위 다른 $\boldsymbol{y}$ 에 대해 다른 거리를 준다.
 
 `-` graph signal processing 의 관점에서 보면, 스펙트럴 거리는 **operator distance** 일 뿐 **signal-aware distance** 가 아니다.
 
@@ -59,7 +60,7 @@ $$d_f^2(i, j) \;=\; \sum_{k=2}^n f(\lambda_k)\,\big(\psi_k(i) - \psi_k(j)\big)^2
 
 (6.34) 형식 $\sum_k f(\lambda_k)|\langle \cdot, v_k\rangle|^2$ 자체가 reversible chain ($\pi_i P_{ij} = \pi_j P_{ji}$) 가정을 통해 self-adjointness 를 확보. 비대칭 $\bfW$ 면:
 
-`-` 강제 대칭화 $\bfL_s = (\bfL + \bfL^\top)/2$ → 방향성 정보 손실 (directed cycle 의 cycle 방향이 완전히 사라짐. [리이 팟캐스트 §directed cycle 예시](./260518_618a48.html))
+`-` 강제 대칭화 $\mathbf{L}_s = (\mathbf{L} + \mathbf{L}^\top)/2$ → 방향성 정보 손실 (directed cycle 의 cycle 방향이 완전히 사라짐. [리이 팟캐스트 §directed cycle 예시](./260518_618a48.html))
 
 `-` 또는 Hermitian Laplacian (Cucuringu-Singh 2020, `ref/PAPER_CucuringuSingh2020_Hermitian.pdf`) → eigenstructure 가 복소수로 가게 되어 표준 스펙트럴 임베딩 식과 다른 framework 필요.
 
@@ -83,7 +84,7 @@ von Luxburg, Radl, Hein 2014 의 결과:
 
 ### (5) 고차 cochain 무지
 
-스펙트럴 라플라시안 $\bfL$ 은 **vertex-domain (k=0 cochain)** 위 연산자. 그러나 그래프 위 데이터에는 edge-flow (k=1), triangle-flow (k=2) 등 고차 cochain 이 있다.
+스펙트럴 라플라시안 $\mathbf{L}$ 은 **vertex-domain (k=0 cochain)** 위 연산자. 그러나 그래프 위 데이터에는 edge-flow (k=1), triangle-flow (k=2) 등 고차 cochain 이 있다.
 
 `-` Lim 2020 *Hodge Laplacians on graphs*, Schaub 2020 *Random walks on simplicial complexes* 가 이 고차 일반화의 핵심 (`ref/PAPER_Schaub2020_SimplicialRandomWalks.pdf`).
 
@@ -97,9 +98,9 @@ von Luxburg, Radl, Hein 2014 의 결과:
 
 | 상황 | 최선 도구 | 비고 |
 |---|---|---|
-| $\bsy$ X, undirected, fixed scale 충분 | **스펙트럴 (Laplacian eigenmap / diffusion)** | 가장 자연스러운 적용역. Belkin-Niyogi 2003, Coifman-Lafon 2006. |
-| $\bsy$ X, directed | **Hitting time / Hermitian Laplacian** | 비가역 chain. Cucuringu 2020. |
-| $\bsy$ 있음, 노드값 + 구조 동시 | **HST $SD(t)$** (본 회사 본업) | 본 회사가 신규로 메우는 자리. |
+| $\boldsymbol{y}$ X, undirected, fixed scale 충분 | **스펙트럴 (Laplacian eigenmap / diffusion)** | 가장 자연스러운 적용역. Belkin-Niyogi 2003, Coifman-Lafon 2006. |
+| $\boldsymbol{y}$ X, directed | **Hitting time / Hermitian Laplacian** | 비가역 chain. Cucuringu 2020. |
+| $\boldsymbol{y}$ 있음, 노드값 + 구조 동시 | **HST $SD(t)$** (본 회사 본업) | 본 회사가 신규로 메우는 자리. |
 | 큰 그래프, 점근 거리 | **Multi-scale 필요** | 스펙트럴 도 resistance 도 trivialise (von Luxburg 2014). |
 | 그래프 간 거리 (inter-graph) | **Gromov-Wasserstein / Fused GW** | 노드 쌍이 아닌 그래프-그래프. Mémoli 2011, Vayer 2019. |
 | 고차 cell cochain | **Hodge $\Delta_k$ / Simplicial walks** | Lim 2020, Schaub 2020. |
@@ -122,17 +123,17 @@ von Luxburg, Radl, Hein 2014 의 결과:
 | Diffusion distance | ✕ | reversible only | $t$ OK | ✕ |
 | **HST $SD(t)$** | **✓** | **방향 가능** | **$t$ + Thm A/B/C** | **확장 후보** |
 
-이 표가 보여주는 자리: HST 는 **$\bsy$ 반영 + non-homogeneous $\bfP(t)$ + periodic OK** 가족의 신규 entry. 그러나 그 댓가로 $\bfZ$ 닫힘이 사라짐. ([본인 HST₀ 노트](./260520_7c3a9e.html) 가 이 trade-off 의 분기점을 정확히 짚는다 — HST₀ 만 스펙트럴 가족 안.)
+이 표가 보여주는 자리: HST 는 **$\boldsymbol{y}$ 반영 + non-homogeneous $\mathbf{P}(t)$ + periodic OK** 가족의 신규 entry. 그러나 그 댓가로 $\mathbf{Z}$ 닫힘이 사라짐. ([본인 HST₀ 노트](./260520_7c3a9e.html) 가 이 trade-off 의 분기점을 정확히 짚는다 — HST₀ 만 스펙트럴 가족 안.)
 
 ---
 
 ## 5. 결론 — "최고" 는 단순화
 
-`-` 스펙트럴 임베딩 / 스펙트럴 거리 family 는 **단일 reversible $\bfP$, 노드값 무관, undirected, 고정 scale, k=0 cochain** 의 다섯 가정 위에 서 있다.
+`-` 스펙트럴 임베딩 / 스펙트럴 거리 family 는 **단일 reversible $\mathbf{P}$, 노드값 무관, undirected, 고정 scale, k=0 cochain** 의 다섯 가정 위에 서 있다.
 
 `-` 이 다섯 가정이 다 만족되는 상황에서는 매우 강력. 그러나 5가지 모두 깰 수 있는 상황이 흔하다 — 그래서 family 밖에 더 풍부한 거리들이 존재한다.
 
-`-` 본 회사의 HST 가 메우는 자리도 정확히 그 family 밖 — 단일 $\bfP$ 가 아닌 시변 $\bfP(t)$ 위에 노드값 $\bsy$ 가 함께 누적되는 매우 일반적인 setting.
+`-` 본 회사의 HST 가 메우는 자리도 정확히 그 family 밖 — 단일 $\mathbf{P}$ 가 아닌 시변 $\mathbf{P}(t)$ 위에 노드값 $\boldsymbol{y}$ 가 함께 누적되는 매우 일반적인 setting.
 
 `-` "최고" 의 단일 답은 없고, **상황별 최선** 의 표 (§3) 가 답이다.
 

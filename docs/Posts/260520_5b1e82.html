@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>연구 ▷ HST ▷ 그래프거리 ▷ 스펙트럴 임베딩이 최고인가 — 한계 5가지와 상황별 최선 – 신록예찬’s Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -34,15 +37,14 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-165db4a5700707ee9723b4db2002e5ec.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-42eb1ed98d6b40681f6bda2512c0def3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -236,7 +238,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </section>
 <section id="무엇을-스펙트럴-임베딩이라-부르는가" class="level2">
 <h2 class="anchored" data-anchor-id="무엇을-스펙트럴-임베딩이라-부르는가">1. 무엇을 “스펙트럴 임베딩”이라 부르는가</h2>
-<p>좁은 의미로는 [Belkin-Niyogi 2003] Laplacian eigenmaps: 그래프 라플라시안 <span class="math inline">\(\bfL = \bfD - \bfW\)</span> 의 작은 고유값에 해당하는 고유벡터들로 노드를 좌표화. 노드 <span class="math inline">\(i, j\)</span> 거리는 좌표 차이의 유클리드 노름. 넓은 의미로는 <a href="./260518_618a48.html">리이의 책공부 팟캐스트</a> 가 통일한 <strong>스펙트럴 필터 family</strong>:</p>
+<p>좁은 의미로는 [Belkin-Niyogi 2003] Laplacian eigenmaps: 그래프 라플라시안 <span class="math inline">\(\mathbf{L} = \bfD - \bfW\)</span> 의 작은 고유값에 해당하는 고유벡터들로 노드를 좌표화. 노드 <span class="math inline">\(i, j\)</span> 거리는 좌표 차이의 유클리드 노름. 넓은 의미로는 <a href="./260518_618a48.html">리이의 책공부 팟캐스트</a> 가 통일한 <strong>스펙트럴 필터 family</strong>:</p>
 <p><span class="math display">\[d_f^2(i, j) \;=\; \sum_{k=2}^n f(\lambda_k)\,\big(\psi_k(i) - \psi_k(j)\big)^2.\]</span></p>
 <table class="caption-top table">
 <thead>
@@ -277,17 +279,17 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </section>
 <section id="한계-5가지" class="level2">
 <h2 class="anchored" data-anchor-id="한계-5가지">2. 한계 5가지</h2>
-<section id="노드값-bsy-무시" class="level3">
-<h3 class="anchored" data-anchor-id="노드값-bsy-무시">(1) 노드값 <span class="math inline">\(\bsy\)</span> 무시</h3>
-<p>스펙트럴은 <strong><span class="math inline">\(\bfL\)</span></strong> 만 본다. 그러나 실제 그래프 위 데이터는 <strong><span class="math inline">\((\bfL, \bsy)\)</span></strong> — 토폴로지 + 노드값의 쌍.</p>
-<p><code>-</code> 같은 그래프 위에 다른 신호 <span class="math inline">\(\bsy_1, \bsy_2\)</span> 가 올라가도 스펙트럴 거리 <span class="math inline">\(d_f(i,j)\)</span> 는 똑같다 (필터 <span class="math inline">\(f\)</span> 와 eigenpair 만 함수).</p>
-<p><code>-</code> Choi-Oh 2026 (HST 본 논문) §1 의 출발점이 정확히 이 관찰. HST 의 SD 는 <span class="math inline">\(\bsy\)</span> 의 history 가 누적된 양으로, 같은 <span class="math inline">\(\bfL\)</span> 위 다른 <span class="math inline">\(\bsy\)</span> 에 대해 다른 거리를 준다.</p>
+<section id="노드값-boldsymboly-무시" class="level3">
+<h3 class="anchored" data-anchor-id="노드값-boldsymboly-무시">(1) 노드값 <span class="math inline">\(\boldsymbol{y}\)</span> 무시</h3>
+<p>스펙트럴은 <strong><span class="math inline">\(\mathbf{L}\)</span></strong> 만 본다. 그러나 실제 그래프 위 데이터는 <strong><span class="math inline">\((\mathbf{L}, \boldsymbol{y})\)</span></strong> — 토폴로지 + 노드값의 쌍.</p>
+<p><code>-</code> 같은 그래프 위에 다른 신호 <span class="math inline">\(\boldsymbol{y}_1, \boldsymbol{y}_2\)</span> 가 올라가도 스펙트럴 거리 <span class="math inline">\(d_f(i,j)\)</span> 는 똑같다 (필터 <span class="math inline">\(f\)</span> 와 eigenpair 만 함수).</p>
+<p><code>-</code> Choi-Oh 2026 (HST 본 논문) §1 의 출발점이 정확히 이 관찰. HST 의 SD 는 <span class="math inline">\(\boldsymbol{y}\)</span> 의 history 가 누적된 양으로, 같은 <span class="math inline">\(\mathbf{L}\)</span> 위 다른 <span class="math inline">\(\boldsymbol{y}\)</span> 에 대해 다른 거리를 준다.</p>
 <p><code>-</code> graph signal processing 의 관점에서 보면, 스펙트럴 거리는 <strong>operator distance</strong> 일 뿐 <strong>signal-aware distance</strong> 가 아니다.</p>
 </section>
 <section id="reversibility-의존" class="level3">
 <h3 class="anchored" data-anchor-id="reversibility-의존">(2) Reversibility 의존</h3>
 <p>(6.34) 형식 <span class="math inline">\(\sum_k f(\lambda_k)|\langle \cdot, v_k\rangle|^2\)</span> 자체가 reversible chain (<span class="math inline">\(\pi_i P_{ij} = \pi_j P_{ji}\)</span>) 가정을 통해 self-adjointness 를 확보. 비대칭 <span class="math inline">\(\bfW\)</span> 면:</p>
-<p><code>-</code> 강제 대칭화 <span class="math inline">\(\bfL_s = (\bfL + \bfL^\top)/2\)</span> → 방향성 정보 손실 (directed cycle 의 cycle 방향이 완전히 사라짐. <a href="./260518_618a48.html">리이 팟캐스트 §directed cycle 예시</a>)</p>
+<p><code>-</code> 강제 대칭화 <span class="math inline">\(\mathbf{L}_s = (\mathbf{L} + \mathbf{L}^\top)/2\)</span> → 방향성 정보 손실 (directed cycle 의 cycle 방향이 완전히 사라짐. <a href="./260518_618a48.html">리이 팟캐스트 §directed cycle 예시</a>)</p>
 <p><code>-</code> 또는 Hermitian Laplacian (Cucuringu-Singh 2020, <code>ref/PAPER_CucuringuSingh2020_Hermitian.pdf</code>) → eigenstructure 가 복소수로 가게 되어 표준 스펙트럴 임베딩 식과 다른 framework 필요.</p>
 </section>
 <section id="큰-그래프-붕괴-von-luxburg-degeneracy" class="level3">
@@ -307,7 +309,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </section>
 <section id="고차-cochain-무지" class="level3">
 <h3 class="anchored" data-anchor-id="고차-cochain-무지">(5) 고차 cochain 무지</h3>
-<p>스펙트럴 라플라시안 <span class="math inline">\(\bfL\)</span> 은 <strong>vertex-domain (k=0 cochain)</strong> 위 연산자. 그러나 그래프 위 데이터에는 edge-flow (k=1), triangle-flow (k=2) 등 고차 cochain 이 있다.</p>
+<p>스펙트럴 라플라시안 <span class="math inline">\(\mathbf{L}\)</span> 은 <strong>vertex-domain (k=0 cochain)</strong> 위 연산자. 그러나 그래프 위 데이터에는 edge-flow (k=1), triangle-flow (k=2) 등 고차 cochain 이 있다.</p>
 <p><code>-</code> Lim 2020 <em>Hodge Laplacians on graphs</em>, Schaub 2020 <em>Random walks on simplicial complexes</em> 가 이 고차 일반화의 핵심 (<code>ref/PAPER_Schaub2020_SimplicialRandomWalks.pdf</code>).</p>
 <p><code>-</code> 본인의 <a href="./260517_8e4f12.html">HST × 토폴로지 시그널 v0.1</a> §3 의 일반화 후보 A/B/C 가 다루는 영역이 정확히 이쪽 — 스펙트럴이 손대지 못하는 곳.</p>
 <hr>
@@ -331,17 +333,17 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </thead>
 <tbody>
 <tr class="odd">
-<td><span class="math inline">\(\bsy\)</span> X, undirected, fixed scale 충분</td>
+<td><span class="math inline">\(\boldsymbol{y}\)</span> X, undirected, fixed scale 충분</td>
 <td><strong>스펙트럴 (Laplacian eigenmap / diffusion)</strong></td>
 <td>가장 자연스러운 적용역. Belkin-Niyogi 2003, Coifman-Lafon 2006.</td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(\bsy\)</span> X, directed</td>
+<td><span class="math inline">\(\boldsymbol{y}\)</span> X, directed</td>
 <td><strong>Hitting time / Hermitian Laplacian</strong></td>
 <td>비가역 chain. Cucuringu 2020.</td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\bsy\)</span> 있음, 노드값 + 구조 동시</td>
+<td><span class="math inline">\(\boldsymbol{y}\)</span> 있음, 노드값 + 구조 동시</td>
 <td><strong>HST <span class="math inline">\(SD(t)\)</span></strong> (본 회사 본업)</td>
 <td>본 회사가 신규로 메우는 자리.</td>
 </tr>
@@ -446,14 +448,14 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </tr>
 </tbody>
 </table>
-<p>이 표가 보여주는 자리: HST 는 <strong><span class="math inline">\(\bsy\)</span> 반영 + non-homogeneous <span class="math inline">\(\bfP(t)\)</span> + periodic OK</strong> 가족의 신규 entry. 그러나 그 댓가로 <span class="math inline">\(\bfZ\)</span> 닫힘이 사라짐. (<a href="./260520_7c3a9e.html">본인 HST₀ 노트</a> 가 이 trade-off 의 분기점을 정확히 짚는다 — HST₀ 만 스펙트럴 가족 안.)</p>
+<p>이 표가 보여주는 자리: HST 는 <strong><span class="math inline">\(\boldsymbol{y}\)</span> 반영 + non-homogeneous <span class="math inline">\(\mathbf{P}(t)\)</span> + periodic OK</strong> 가족의 신규 entry. 그러나 그 댓가로 <span class="math inline">\(\mathbf{Z}\)</span> 닫힘이 사라짐. (<a href="./260520_7c3a9e.html">본인 HST₀ 노트</a> 가 이 trade-off 의 분기점을 정확히 짚는다 — HST₀ 만 스펙트럴 가족 안.)</p>
 <hr>
 </section>
 <section id="결론-최고-는-단순화" class="level2">
 <h2 class="anchored" data-anchor-id="결론-최고-는-단순화">5. 결론 — “최고” 는 단순화</h2>
-<p><code>-</code> 스펙트럴 임베딩 / 스펙트럴 거리 family 는 <strong>단일 reversible <span class="math inline">\(\bfP\)</span>, 노드값 무관, undirected, 고정 scale, k=0 cochain</strong> 의 다섯 가정 위에 서 있다.</p>
+<p><code>-</code> 스펙트럴 임베딩 / 스펙트럴 거리 family 는 <strong>단일 reversible <span class="math inline">\(\mathbf{P}\)</span>, 노드값 무관, undirected, 고정 scale, k=0 cochain</strong> 의 다섯 가정 위에 서 있다.</p>
 <p><code>-</code> 이 다섯 가정이 다 만족되는 상황에서는 매우 강력. 그러나 5가지 모두 깰 수 있는 상황이 흔하다 — 그래서 family 밖에 더 풍부한 거리들이 존재한다.</p>
-<p><code>-</code> 본 회사의 HST 가 메우는 자리도 정확히 그 family 밖 — 단일 <span class="math inline">\(\bfP\)</span> 가 아닌 시변 <span class="math inline">\(\bfP(t)\)</span> 위에 노드값 <span class="math inline">\(\bsy\)</span> 가 함께 누적되는 매우 일반적인 setting.</p>
+<p><code>-</code> 본 회사의 HST 가 메우는 자리도 정확히 그 family 밖 — 단일 <span class="math inline">\(\mathbf{P}\)</span> 가 아닌 시변 <span class="math inline">\(\mathbf{P}(t)\)</span> 위에 노드값 <span class="math inline">\(\boldsymbol{y}\)</span> 가 함께 누적되는 매우 일반적인 setting.</p>
 <p><code>-</code> “최고” 의 단일 답은 없고, <strong>상황별 최선</strong> 의 표 (§3) 가 답이다.</p>
 <hr>
 <section id="참고" class="level3">
