@@ -300,79 +300,97 @@ window.Quarto = {
 </table>
 <p>Foster’s drift criterion (Assumption 1) 은 어떤 graph-level constant <span class="math inline">\(\varepsilon_B &gt; 0\)</span>, <span class="math inline">\(C_B \ge 0\)</span> 가 존재해서 모든 round 에서</p>
 <p><span class="math display">\[B(S_{t_r}) \;\le\; -\varepsilon_B\, M(S_{t_r}) + C_B\]</span></p>
-<p>가 성립하길 요구하는데, 여기서 <span class="math inline">\(B(S_{t_r}) = \sum_u \pi(u, S_{t_r}) \hbar(u, t_r)\)</span> 는 round 시작 시점의 weighted height deposit (Lemma 3 정의), <span class="math inline">\(\pi(u, S) = \mathbb{E}[\#_u | S_{t_r}]\)</span> 는 round 길이 동안 노드 <span class="math inline">\(u\)</span> 의 visit count 의 조건부 기댓값이다. 이 가정의 핵심 함의는 결국 height range <span class="math inline">\(M(t)\)</span> 가 시간 흐름에서 bounded 라는 것이다 — <span class="math inline">\(\varepsilon_B &gt; 0\)</span> 가 작동하면 큰 <span class="math inline">\(M\)</span> 에서 음의 drift 가 작용해 <span class="math inline">\(M\)</span> 이 다시 작아져 stationary 분포 위에 머문다 (positive Harris recurrence). 가정이 깨지면 <span class="math inline">\(M\)</span> 이 발산. 직관적으로 balanced 만 보장하는 그래프 (<span class="math inline">\(B \approx 0\)</span>, 평평) 와 Foster 가 발효되는 그래프 (large-<span class="math inline">\(M\)</span> 에서 <span class="math inline">\(B\)</span> 가 음수로 strictly 내려감) 의 차이가 large-<span class="math inline">\(M\)</span> tail 의 slope 부호 하나로 갈린다.</p>
+<p>가 성립하길 요구하는데, 여기서 <span class="math inline">\(B(S_{t_r}) = \sum_u \pi(u, S_{t_r}) \hbar(u, t_r)\)</span> 는 round 시작 시점의 weighted height deposit (Lemma 3 정의), <span class="math inline">\(\pi(u, S) = \mathbb{E}[\#_u | S_{t_r}]\)</span> 는 round 길이 동안 노드 <span class="math inline">\(u\)</span> 의 visit count 의 조건부 기댓값이다. 이 가정의 핵심 함의는 결국 height range <span class="math inline">\(M(t)\)</span> 가 시간 흐름에서 bounded 라는 것이다 — <span class="math inline">\(\varepsilon_B &gt; 0\)</span> 가 작동하면 큰 <span class="math inline">\(M\)</span> 에서 음의 drift 가 작용해 <span class="math inline">\(M\)</span> 이 다시 작아져 stationary 분포 위에 머문다 (positive Harris recurrence). 가정이 깨지면 <span class="math inline">\(M\)</span> 이 발산. 직관적으로 <strong>복원력은 large-<span class="math inline">\(M\)</span> 영역에서만 작동한다</strong> — 작은 <span class="math inline">\(M\)</span> 영역에선 <span class="math inline">\(C_B\)</span> term 가 noise 를 흡수해 <span class="math inline">\(B\)</span> 가 양수도 음수도 OK, balanced 만 만족하는 그래프와 Foster 가 발효되는 그래프가 사실상 구분 안 된다. 두 condition 의 차이는 <span class="math inline">\(-\varepsilon_B M\)</span> term 가 dominant 해지는 large-<span class="math inline">\(M\)</span> tail 의 slope 부호 하나로 갈린다.</p>
 <p><img src="attachments/260522_31c9e5_07.png" class="img-fluid"></p>
 <p>그러니 <span class="math inline">\(M\)</span> 시계열의 long-run behavior 가 가정의 진짜 의미를 직접 보여준다 — 위 시계열 figure 가 그 자체로 Assumption 1 의 graph-별 검증이다.</p>
 <p>가정의 정량 검증은 <span class="math inline">\(\mathbb{E}[B \mid M]\)</span> 의 large-<span class="math inline">\(M\)</span> 부호. instantaneous 추정 <span class="math inline">\(B^{\rm emp}_r := \sum_u \#_u(r) \hbar(u, t_r)\)</span> 를 round 별 sample 로 기록하고, <span class="math inline">\((M_r, B^{\rm emp}_r)\)</span> sample 들을 log-spaced <span class="math inline">\(M\)</span>-bin 으로 group 하여 bin 별 평균 <span class="math inline">\(\overline{B}_{\rm bin}\)</span> 을 직접 추정한다. 이 binned conditional 추정의 large-<span class="math inline">\(M\)</span> tail 의 linear fit slope 의 부호가 가정의 <span class="math inline">\(\varepsilon_B\)</span> 부호 판정의 정확한 양식이다 — 양수 slope = 가정 위반, 음수 slope = 가정 만족.</p>
 <p><img src="attachments/260522_31c9e5_05.png" class="img-fluid"></p>
-<p>11 그래프 각 panel 의 (<span class="math inline">\(M\)</span>-bin center, <span class="math inline">\(\overline{B}_{\rm bin}\)</span>) marker + 후미 절반 bin 의 linear fit. tail slope:</p>
+<p>11 그래프 각 panel 의 <span class="math inline">\((M_r, B^{\rm emp}_r)\)</span> scatter (회색) + (<span class="math inline">\(M\)</span>-bin center, <span class="math inline">\(\overline{B}_{\rm bin}\)</span>) marker (파랑) + 후미 절반 bin 의 linear fit (빨강 dashed) + jackknife (bin-level LOO) 로 추정한 slope 의 <span class="math inline">\(\pm 1.96\,\text{SE}\)</span> band. CI 가 0 의 한쪽에 strictly 머무는지가 판정 기준:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>그래프</th>
-<th>tail slope</th>
+<th>tail slope <span class="math inline">\(\pm\)</span> 1.96 SE</th>
+<th>95% CI</th>
 <th>Foster L1</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><span class="math inline">\(C_{20}\)</span> cycle</td>
-<td><span class="math inline">\(-0.157\)</span></td>
-<td><span class="math inline">\(\checkmark\)</span> hold</td>
+<td><span class="math inline">\(-0.157 \pm 0.103\)</span></td>
+<td><span class="math inline">\([-0.26,\,-0.05]\)</span></td>
+<td><span class="math inline">\(\checkmark\)</span> <strong>hold</strong></td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(K_{10}\)</span> complete</td>
-<td><span class="math inline">\(-0.119\)</span></td>
-<td><span class="math inline">\(\checkmark\)</span> hold</td>
+<td><span class="math inline">\(-0.119 \pm 0.317\)</span></td>
+<td><span class="math inline">\([-0.44,\,+0.20]\)</span></td>
+<td>? border (CI <span class="math inline">\(\ni 0\)</span>)</td>
 </tr>
 <tr class="odd">
 <td>Cyl Inter-bidir</td>
-<td><span class="math inline">\(-0.041\)</span></td>
-<td><span class="math inline">\(\checkmark\)</span> hold</td>
+<td><span class="math inline">\(-0.041 \pm 0.057\)</span></td>
+<td><span class="math inline">\([-0.10,\,+0.02]\)</span></td>
+<td>? border (CI <span class="math inline">\(\ni 0\)</span>)</td>
 </tr>
 <tr class="even">
 <td>Bidir Path</td>
-<td><span class="math inline">\(+0.0008\)</span></td>
-<td><span class="math inline">\(\times\)</span> violate (<span class="math inline">\(\approx 0\)</span>)</td>
+<td><span class="math inline">\(+0.001 \pm 0.012\)</span></td>
+<td><span class="math inline">\([-0.01,\,+0.01]\)</span></td>
+<td>? border (CI <span class="math inline">\(\ni 0\)</span>)</td>
 </tr>
 <tr class="odd">
 <td>Wheel Bidir</td>
-<td><span class="math inline">\(+0.003\)</span></td>
-<td><span class="math inline">\(\times\)</span> violate (<span class="math inline">\(\approx 0\)</span>)</td>
+<td><span class="math inline">\(+0.003 \pm 0.010\)</span></td>
+<td><span class="math inline">\([-0.01,\,+0.01]\)</span></td>
+<td>? border (CI <span class="math inline">\(\ni 0\)</span>)</td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(C_{60}\)</span>+pendant</td>
-<td><span class="math inline">\(+0.010\)</span></td>
-<td><span class="math inline">\(\times\)</span> violate (작음)</td>
+<td>Bidir Ring</td>
+<td><span class="math inline">\(+0.020 \pm 0.109\)</span></td>
+<td><span class="math inline">\([-0.09,\,+0.13]\)</span></td>
+<td>? border (CI <span class="math inline">\(\ni 0\)</span>)</td>
 </tr>
 <tr class="odd">
-<td>Bidir Ring</td>
-<td><span class="math inline">\(+0.020\)</span></td>
-<td><span class="math inline">\(\times\)</span> violate (작음)</td>
+<td><span class="math inline">\(C_{60}\)</span>+pendant</td>
+<td><span class="math inline">\(+0.010 \pm 0.002\)</span></td>
+<td><span class="math inline">\([+0.008,\,+0.012]\)</span></td>
+<td><span class="math inline">\(\times\)</span> violate</td>
 </tr>
 <tr class="even">
 <td>D-Helm Bidir</td>
-<td><span class="math inline">\(+0.107\)</span></td>
+<td><span class="math inline">\(+0.107 \pm 0.014\)</span></td>
+<td><span class="math inline">\([+0.09,\,+0.12]\)</span></td>
 <td><span class="math inline">\(\times\)</span> violate</td>
 </tr>
 <tr class="odd">
 <td>kite</td>
-<td><span class="math inline">\(+0.333\)</span></td>
+<td><span class="math inline">\(+0.333 \pm 0.006\)</span></td>
+<td><span class="math inline">\([+0.33,\,+0.34]\)</span></td>
 <td><span class="math inline">\(\times\)</span> violate</td>
 </tr>
 <tr class="even">
 <td>Helm Bidir</td>
-<td><span class="math inline">\(+0.807\)</span></td>
+<td><span class="math inline">\(+0.807 \pm 0.006\)</span></td>
+<td><span class="math inline">\([+0.80,\,+0.81]\)</span></td>
 <td><span class="math inline">\(\times\)</span> violate</td>
 </tr>
 <tr class="odd">
 <td>Star Outward</td>
-<td><span class="math inline">\(+0.993\)</span></td>
+<td><span class="math inline">\(+0.993 \pm 0.0003\)</span></td>
+<td><span class="math inline">\([+0.99,\,+0.99]\)</span></td>
 <td><span class="math inline">\(\times\)</span> violate</td>
 </tr>
 </tbody>
 </table>
-<p>그룹 A 5 그래프 (<span class="math inline">\(M\)</span> 시계열 진단 기준) 중 정확한 binned 추정에서는 <span class="math inline">\(K_{10}/C_{20}/\text{Cyl Inter-bidir}\)</span> 3 그래프만 가정 만족, Bidir Ring/Wheel Bidir/<span class="math inline">\(C_{60}\)</span>+pendant/Bidir Path 는 slope ≈ 0 의 borderline 으로 갈라진다. <span class="math inline">\(M\)</span> 시계열의 bounded class 자체는 stationary recurrence 보장이지만, <span class="math inline">\(\overline{B}_{\rm bin}\)</span> 의 정확한 부호는 graph geometry 의 mixing speed (ACF 진단의 <span class="math inline">\(K_{10}\)</span> 만 빠름 / 나머지 long-range correlated) 와 연결되어, finite-<span class="math inline">\(\tau\)</span> noise 가 borderline 그래프의 slope 부호를 결정한다.</p>
+<p>jackknife CI 를 같이 보면 옛 “tail slope 부호만” 양식보다 판정 reliability 가 훨씬 명확해진다. 강 violate 5 그래프 (kite, <span class="math inline">\(C_{60}\)</span>+pendant, Star Outward, Helm Bidir, D-Helm Bidir) 는 CI 가 strictly positive — Foster L1 분명 위배. 그룹 A 5 그래프 (<span class="math inline">\(M\)</span> 시계열 진단 기준) 중에서는 <span class="math inline">\(C_{20}\)</span> 만 CI 가 strictly negative 로 분명한 hold, 나머지 4 그래프 (<span class="math inline">\(K_{10}/\)</span>Cyl Inter-bidir/Wheel Bidir/Bidir Ring) 는 모두 CI 가 0 을 포함하는 <strong>borderline</strong> 으로 떨어진다 — large-<span class="math inline">\(M\)</span> 영역의 sample 밀도가 낮아 마지막 bin 의 outlier 영향이 jackknife SE 를 크게 만들기 때문 (<span class="math inline">\(K_{10}\)</span> 의 SE <span class="math inline">\(=0.32\)</span> 가 대표적). <span class="math inline">\(M\)</span> 시계열의 bounded class 자체는 stationary recurrence 보장이지만, <span class="math inline">\(\overline{B}_{\rm bin}\)</span> 의 정확한 large-<span class="math inline">\(M\)</span> 부호는 graph geometry 의 mixing speed (ACF 진단의 <span class="math inline">\(K_{10}\)</span> 만 빠름 / 나머지 long-range correlated) 와 finite-<span class="math inline">\(\tau\)</span> noise 의 영향이 결합되어, hold/violate 의 strict 판정을 어렵게 한다.</p>
 <p>위 11 그래프 결과는 본문 시뮬의 graph instance 별 finite-<span class="math inline">\(n\)</span> 측정. borderline 그래프 (slope <span class="math inline">\(\approx 0\)</span>) 가 graph 의 본질적 성질인지 아니면 finite-<span class="math inline">\(n\)</span> artifact 인지 확인하려면 같은 그래프 family 의 <span class="math inline">\(n\)</span> 을 가변해 sweep 해야 한다. 본인 Wheel Bidir / Bidir Path / <span class="math inline">\(C_n\)</span>+pendant 3 family 에 대해 <span class="math inline">\(n=10\sim 1001\)</span> 범위로 추가 시뮬한 결과:</p>
 <p><img src="attachments/260522_31c9e5_06.png" class="img-fluid"></p>
 <p>세 family 의 <span class="math inline">\(n\)</span>-의존성이 정반대다.</p>
@@ -382,7 +400,7 @@ window.Quarto = {
 <li><strong><span class="math inline">\(C_n\)</span>+pendant</strong> (<span class="math inline">\(n=21 \to 61 \to 201 \to 1001\)</span>): slope <span class="math inline">\(+0.027 \to +0.010 \to +0.003 \to -0.0015\)</span>. <span class="math inline">\(n=1001\)</span> 에서 hold 로 도달 — pendant 비중 <span class="math inline">\(= 1/n \to 0\)</span> 라 큰 ring 의 perturbation 이 사라지며 ring 자체의 균등성에 수렴.</li>
 </ul>
 <p>본문 11 그래프 중 <span class="math inline">\(C_n\)</span>+pendant (<span class="math inline">\(n=61\)</span> small-n violate) 는 사실상 hold 그래프 (asymptotic), Bidir Path (<span class="math inline">\(n=60\)</span> slope <span class="math inline">\(+0.0008\)</span> borderline) 는 약한 violate. Wheel Bidir 는 <span class="math inline">\(n=11\)</span> 에서 slope 가 <span class="math inline">\(\approx 0\)</span> 이지만 <span class="math inline">\(n\)</span> 이 커질수록 violate 강화. <strong>borderline 측정 자체가 finite-<span class="math inline">\(n\)</span> 의 artifact 일 수 있어, 그래프 클래스의 Foster L1 hold/violate 판정은 asymptotic 거동 (<span class="math inline">\(n \to \infty\)</span>) 으로 확인해야 robust 하다.</strong></p>
-<p>결론적으로 Assumption 1 은 ABC 의 핵심 hypothesis 임에도 모든 그래프에서 자동 성립하는 보편 명제가 아니다. Theorem A (balanced) 의 적용 범위는 사실상 fully symmetric + strong mixing 그래프 (Cycle, Complete, Ring, 그리고 large-<span class="math inline">\(n\)</span> pendant-perturbed ring) 로 제한될 가능성이 있고, 비대칭이 graph 크기에 따라 발산하는 그래프 (Star Outward, Helm 류, kite, Wheel, Bidir Path) 에서는 Foster-Lyapunov 가 직접 적용되지 않을 수 있다. Brémaud Lem 8.2.3 (essential edge) + Thm 8.3.8 (Rayleigh) 의 graph geometry 도구로 위반 mechanism (small-conductance bottleneck) 의 정확한 식별이 후속 과제.</p>
+<p>결론적으로 Assumption 1 은 ABC 의 핵심 hypothesis 임에도 모든 그래프에서 자동 성립하는 보편 명제가 아니다. 본 11 그래프 검증에서 jackknife CI 기준 strict hold 는 <span class="math inline">\(C_{20}\)</span> 1 그래프 뿐, strict violate 는 비대칭 5 그래프 (kite, <span class="math inline">\(C_{60}\)</span>+pendant, Star Outward, Helm/D-Helm Bidir), 나머지 5 그래프 (<span class="math inline">\(K_{10}\)</span>, Cyl Inter-bidir, Wheel Bidir, Bidir Path, Bidir Ring) 는 finite-<span class="math inline">\(\tau\)</span> noise 에 압도되는 borderline 으로 판정 보류. Theorem A (balanced) 의 적용 범위는 사실상 fully symmetric + strong mixing 그래프 (large-<span class="math inline">\(n\)</span> Cycle, 그리고 large-<span class="math inline">\(n\)</span> pendant-perturbed ring) 로 제한될 가능성이 있고, 비대칭이 graph 크기에 따라 발산하는 그래프 (Star Outward, Helm 류, kite, Wheel) 에서는 Foster-Lyapunov 가 직접 적용되지 않을 수 있다. Brémaud Lem 8.2.3 (essential edge) + Thm 8.3.8 (Rayleigh) 의 graph geometry 도구로 위반 mechanism (small-conductance bottleneck) 의 정확한 식별, 그리고 borderline 5 그래프의 본질 판정 (finite-<span class="math inline">\(\tau\)</span> artifact vs 본질적 borderline) 이 후속 과제.</p>
 <section id="어펜딕스.-표기-정리-에이-abc공유용_v2.tex-1.1-3.3-3.4" class="level2">
 <h2 class="anchored" data-anchor-id="어펜딕스.-표기-정리-에이-abc공유용_v2.tex-1.1-3.3-3.4">어펜딕스. 표기 정리 (에이 <code>abc공유용_v2.tex</code> §1.1, §3.3, §3.4)</h2>
 <table class="caption-top table">
@@ -431,8 +449,8 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<section id="시뮬-코드와-figure-생성-코드는-본인-책상에-보관-260523_소미_foster_verify_modela.py-full-hst-step-wise-iid-b_s-260523_소미_foster_m_series_modela.py-m-시계열-260523_소미_foster_m_diag_modela.py-acf-tightness-260523_소미_foster_m_bin_conditional_modela.py-m-bin-conditional-260523_소미_wheel_n_sweep_modela.py-260523_소미_borderline_n_sweep_modela.py-n-sweep.-raw-캐시-resultsnumeric260523_소미_foster_verify_modela.py_foster_verify_modela.npz." class="level5">
-<h5 class="anchored" data-anchor-id="시뮬-코드와-figure-생성-코드는-본인-책상에-보관-260523_소미_foster_verify_modela.py-full-hst-step-wise-iid-b_s-260523_소미_foster_m_series_modela.py-m-시계열-260523_소미_foster_m_diag_modela.py-acf-tightness-260523_소미_foster_m_bin_conditional_modela.py-m-bin-conditional-260523_소미_wheel_n_sweep_modela.py-260523_소미_borderline_n_sweep_modela.py-n-sweep.-raw-캐시-resultsnumeric260523_소미_foster_verify_modela.py_foster_verify_modela.npz.">시뮬 코드와 figure 생성 코드는 본인 책상에 보관: <code>260523_소미_foster_verify_modelA.py</code> (full HST + step-wise iid <span class="math inline">\(b'_s\)</span>), <code>260523_소미_foster_M_series_modelA.py</code> (<span class="math inline">\(M\)</span> 시계열), <code>260523_소미_foster_M_diag_modelA.py</code> (ACF + tightness), <code>260523_소미_foster_M_bin_conditional_modelA.py</code> (<span class="math inline">\(M\)</span>-bin conditional), <code>260523_소미_wheel_n_sweep_modelA.py</code> + <code>260523_소미_borderline_n_sweep_modelA.py</code> (<span class="math inline">\(n\)</span>-sweep). raw 캐시: <code>results/numeric/260523_소미_foster_verify_modelA.py/*_foster_verify_modelA.npz</code>.</h5>
+<section id="시뮬-코드와-figure-생성-코드는-본인-책상에-보관-260523_소미_foster_verify_modela.py-full-hst-step-wise-iid-b_s-260523_소미_foster_m_series_modela.py-m-시계열-260523_소미_foster_m_diag_modela.py-acf-tightness-260523_소미_foster_m_bin_with_scatter.py-m-bin-conditional-scatter-jackknife-ci-260523_소미_wheel_n_sweep_modela.py-260523_소미_borderline_n_sweep_modela.py-n-sweep-260523_소미_foster_graph_layouts.py-11-그래프-layout-260523_소미_foster_intuition.py-foster-부등식-직관.-raw-캐시-resultsnumeric260523_소미_foster_verify_modela.py_foster_verify_modela.npz." class="level5">
+<h5 class="anchored" data-anchor-id="시뮬-코드와-figure-생성-코드는-본인-책상에-보관-260523_소미_foster_verify_modela.py-full-hst-step-wise-iid-b_s-260523_소미_foster_m_series_modela.py-m-시계열-260523_소미_foster_m_diag_modela.py-acf-tightness-260523_소미_foster_m_bin_with_scatter.py-m-bin-conditional-scatter-jackknife-ci-260523_소미_wheel_n_sweep_modela.py-260523_소미_borderline_n_sweep_modela.py-n-sweep-260523_소미_foster_graph_layouts.py-11-그래프-layout-260523_소미_foster_intuition.py-foster-부등식-직관.-raw-캐시-resultsnumeric260523_소미_foster_verify_modela.py_foster_verify_modela.npz.">시뮬 코드와 figure 생성 코드는 본인 책상에 보관: <code>260523_소미_foster_verify_modelA.py</code> (full HST + step-wise iid <span class="math inline">\(b'_s\)</span>), <code>260523_소미_foster_M_series_modelA.py</code> (<span class="math inline">\(M\)</span> 시계열), <code>260523_소미_foster_M_diag_modelA.py</code> (ACF + tightness), <code>260523_소미_foster_M_bin_with_scatter.py</code> (<span class="math inline">\(M\)</span>-bin conditional + scatter + jackknife CI), <code>260523_소미_wheel_n_sweep_modelA.py</code> + <code>260523_소미_borderline_n_sweep_modelA.py</code> (<span class="math inline">\(n\)</span>-sweep), <code>260523_소미_foster_graph_layouts.py</code> (11 그래프 layout), <code>260523_소미_foster_intuition.py</code> (Foster 부등식 직관). raw 캐시: <code>results/numeric/260523_소미_foster_verify_modelA.py/*_foster_verify_modelA.npz</code>.</h5>
 
 
 </section>
