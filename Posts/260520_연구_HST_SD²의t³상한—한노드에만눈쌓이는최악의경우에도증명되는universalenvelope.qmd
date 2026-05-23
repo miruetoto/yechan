@@ -23,23 +23,11 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 >
 > 책상 .tex 원본: [`★★★-SD제곱의t삼승상한(연).pdf`](https://miruetoto.github.io/yechan/) (PDF 6쪽)
 
-### TL;DR
+**한 줄 요지**. Theorem 1 (Deterministic universal upper bound) — 어떤 그래프·초기 측도·walk 동역학에서도 (full HST 의 block/flow 포함) $\mathrm{SD}^2_{ij}(t) \le b^2 t^3/3 + O(t^2)$. Theorem 2 (Almost-sure tighter bound) — SLLN ($\rho_i(t) \to \rho_i$ a.s.) 이 작동하면 $\limsup_t \mathrm{SD}^2_{ij}(t)/t^3 \le \bar b^2 (\rho_i - \rho_j)^2/3 \le \bar b^2/3 = b^2/12$ a.s. 등호 ($|\rho_i - \rho_j| = 1$) 달성 조건은 한 노드 점유율이 1 로 가는 경우 — Thm C drift regime 의 최악 case.
 
-**Theorem 1 (Deterministic universal upper bound)** — 어떤 그래프·초기 측도·walk 동역학에서도 (full HST 의 block/flow 포함):
+## 출발점·증명·정밀화
 
-$$\mathrm{SD}^2_{ij}(t) \;\le\; \frac{b^2}{3} t^3 \;+\; O(t^2).$$
-
-**Theorem 2 (Almost-sure tighter bound)** — SLLN ($\rho_i(t) \to \rho_i$ a.s.) 이 작동하면:
-
-$$\limsup_{t\to\infty} \frac{\mathrm{SD}^2_{ij}(t)}{t^3} \;\le\; \frac{\bar b^2 (\rho_i - \rho_j)^2}{3} \;\le\; \frac{\bar b^2}{3} \;=\; \frac{b^2}{12} \quad \text{a.s.}$$
-
-등호 ($|\rho_i - \rho_j| = 1$) 달성 조건: 한 노드 점유율이 1 로 가는 경우 — Thm C drift regime 의 최악 case.
-
----
-
-## 1. 출발점 — 대표 질문이 가리키는 극단
-
-"한 쪽 노드에만 눈이 쌓이는" 상황을 수학적으로 정의하면:
+"한 쪽 노드에만 눈이 쌓이는" 상황을 수학적으로 정의하면
 
 $$h(v_i, t) = \bar b\, t, \qquad h(v_j, t) = 0 \quad (\text{충분히 큰 } t).$$
 
@@ -47,37 +35,19 @@ $$h(v_i, t) = \bar b\, t, \qquad h(v_j, t) = 0 \quad (\text{충분히 큰 } t).$
 
 $$\mathrm{SD}^2_{ij}(t) \;=\; \sum_{s=0}^t (\bar b s - 0)^2 \;=\; \bar b^2\,\frac{t(t+1)(2t+1)}{6} \;\sim\; \frac{\bar b^2}{3} t^3.$$
 
-정확히 $t^3$ 오더. 그리고 이게 *Thm C drift 의 최대 case* — 에이 Thm C 의 상수 $\bar b^2(\rho_i - \rho_j)^2/3$ 에서 $(\rho_i-\rho_j)^2 = 1$ 등호.
+정확히 $t^3$ 오더. 그리고 이게 Thm C drift 의 최대 case — 에이 Thm C 의 상수 $\bar b^2(\rho_i - \rho_j)^2/3$ 에서 $(\rho_i-\rho_j)^2 = 1$ 등호다. 대표 질문의 핵심은 이 극단을 능가하는 더 빠른 성장이 가능한가, 였고 답은 불가능. $t^3$ 가 거리 성장의 천장이다.
 
-대표 질문의 핵심은: **이 극단을 능가하는 더 빠른 성장이 가능한가?** 답은 *불가능*. $t^3$ 가 거리 성장의 **천장**.
-
----
-
-## 2. Deterministic 증명 — 한 줄
-
-핵심은 *각 노드의 height 가 매 step 최대 $b$ 만 적립* 이라는 결정론적 사실:
+Deterministic 증명은 한 줄이다. 핵심은 각 노드의 height 가 매 step 최대 $b$ 만 적립이라는 결정론적 사실:
 
 $$h(v_k, s) \;=\; \sum_{r=1}^s b'_r \mathbf{1}\{X_r = v_k\} \;\le\; \sum_{r=1}^s b \;=\; b\,s.$$
 
-두 노드 height 의 차이도 같은 상한:
-
-$$|h(v_i, s) - h(v_j, s)| \;\le\; \max(h(v_i, s),\, h(v_j, s)) \;\le\; b\,s.$$
-
-(둘 다 비음수라 차이 절댓값이 큰 쪽보다 작음.) 제곱해서 합치면
+두 노드 height 의 차이도 같은 상한 $|h(v_i, s) - h(v_j, s)| \le \max(h(v_i, s),\, h(v_j, s)) \le b\,s$ (둘 다 비음수라 차이 절댓값이 큰 쪽보다 작음). 제곱해서 합치면
 
 $$\mathrm{SD}^2_{ij}(t) \;\le\; \sum_{s=0}^t b^2 s^2 \;=\; b^2 \cdot \frac{t(t+1)(2t+1)}{6} \;\le\; \frac{b^2}{3} t^3 + O(t^2).$$
 
-끝. **그래프 구조도 walk 동역학도 안 씀** — 오직 $b'_s \in [0, b]$. 즉 full HST 에서도, $\mathrm{HST}_0$ 에서도, irreducibility 깨진 disconnected 경우에도 동일. 그래서 *universal*.
+끝. 그래프 구조도 walk 동역학도 안 쓴다 — 오직 $b'_s \in [0, b]$. 즉 full HST 에서도, $\mathrm{HST}_0$ 에서도, irreducibility 깨진 disconnected 경우에도 동일하다. 그래서 universal. 상수 $b^2/3$ 의 sharpness 는 매 step $X_r = v_i$ 이고 $b'_r = b$ 인 극단에서 정확히 등호 — 실제 달성 가능한 worst case 이다.
 
-상수 $b^2/3$ 의 sharpness: 매 step $X_r = v_i$ 이고 $b'_r = b$ 인 극단에서 정확히 등호. 즉 실제 달성 가능한 worst case.
-
----
-
-## 3. a.s. tighter bound — 평균으로 좁힘
-
-Deterministic 증명은 $b'_s$ 의 *상한* 만 씀. 실제로는 $b'_s \sim \mathrm{Unif}(0, b)$ 의 *평균* $\bar b = b/2$ 가 작동. 따라서 a.s. 의미에서는 더 좁은 상한:
-
-**SLLN 으로** $h(v_k, s)/s \to \bar b \rho_k$ a.s. ($\rho_k$ 는 점유율의 a.s. 극한). 그러면
+Deterministic 증명은 $b'_s$ 의 상한만 썼지만, 실제로는 $b'_s \sim \mathrm{Unif}(0, b)$ 의 평균 $\bar b = b/2$ 가 작동한다. 따라서 a.s. 의미에서는 더 좁은 상한이 가능하다. SLLN 으로 $h(v_k, s)/s \to \bar b \rho_k$ a.s. ($\rho_k$ 는 점유율의 a.s. 극한). 그러면
 
 $$\frac{h(v_i, s) - h(v_j, s)}{s} \;\to\; \bar b\,(\rho_i - \rho_j) \quad \text{a.s.}$$
 
@@ -85,33 +55,19 @@ $$\frac{h(v_i, s) - h(v_j, s)}{s} \;\to\; \bar b\,(\rho_i - \rho_j) \quad \text{
 
 $$\frac{\mathrm{SD}^2_{ij}(t)}{t^3} \;=\; \frac{1}{t^3}\sum_{s=0}^t s^2 \left(\frac{h_i(s) - h_j(s)}{s}\right)^2 \;\to\; \frac{1}{3}\,\bar b^2(\rho_i - \rho_j)^2 \quad \text{a.s.}$$
 
-여기서 $|\rho_i - \rho_j| \le 1$ (점유율 vector $\rho$ 가 probability simplex 위에 있으므로):
+여기서 $|\rho_i - \rho_j| \le 1$ (점유율 vector $\rho$ 가 probability simplex 위에 있으므로)
 
 $$\limsup_t \frac{\mathrm{SD}^2_{ij}(t)}{t^3} \;\le\; \frac{\bar b^2}{3} \;=\; \frac{b^2}{12} \quad \text{a.s.}$$
 
-Deterministic bound 의 $b^2/3$ 보다 **4배 더 좁음** ($\bar b^2 = b^2/4$).
+Deterministic bound 의 $b^2/3$ 보다 4배 더 좁다 ($\bar b^2 = b^2/4$).
+
+등호 달성 조건 — $|\rho_i - \rho_j| = 1$ 은 점유율 vector $\rho = (\rho_1, \dots, \rho_n)$ 의 극단 ($\rho_i = 1, \rho_j = 0$ 또는 반대) 이다. 즉 walker 가 거의 모든 시간을 한 노드 ($v_i$) 에서 보내고, 다른 노드 ($v_j$) 는 한 번도 방문 안 하는 상황. 이 극단이 실제로 발생할 수 있는 graph/dynamics 예시는 (1) Disconnected pair — $v_j$ 가 $\boldsymbol\mu_0$ 의 support 와 닿지 않는 component 에 있을 때, 표준 HST 의 irreducibility 가정으로 보통 배제, (2) Quasi-absorbing trap (Wheel 의 hub 가 self-loop 강할 때 등) — 표준 ergodic chain 에선 $\rho_k = \pi_k \in (0, 1)$ 라서 strict 1 은 안 되지만 $\pi_i \to 1$ 의 한계로 근접, (3) Full HST with extreme block dynamics — block 메커니즘이 매우 aggressive 면 walker 가 결국 한 노드에 모이게 될 수 있음 (이건 FL+Doeblin 으로 정밀 분석). 어느 경우든 Theorem 1 의 deterministic bound 는 무조건 성립 — 그래서 "universal" 이라 부를 자격이 있다.
 
 ---
 
-## 4. 등호 달성 조건
+## 세 regime·구조·implications
 
-$|\rho_i - \rho_j| = 1$ 은 점유율 vector $\rho = (\rho_1, \dots, \rho_n)$ 의 극단 — $\rho_i = 1, \rho_j = 0$ (또는 반대). 즉 walker 가 거의 모든 시간을 한 노드 ($v_i$) 에서 보내고, 다른 노드 ($v_j$) 는 한 번도 방문 안 하는 상황.
-
-이 극단이 *실제로* 발생할 수 있는 graph/dynamics 예시:
-
-1. **Disconnected pair**: $v_j$ 가 $\boldsymbol\mu_0$ 의 support 와 닿지 않는 component 에 있을 때. 표준 HST 의 irreducibility 가정으로 보통 배제.
-
-2. **Quasi-absorbing trap (Wheel 의 hub 가 self-loop 강할 때 등)**: 표준 ergodic chain 에선 $\rho_k = \pi_k \in (0, 1)$ 라서 strict 1 은 안 됨. 다만 $\pi_i \to 1$ 의 한계로 *근접*.
-
-3. **Full HST with extreme block dynamics**: block 메커니즘이 매우 aggressive 면 walker 가 결국 한 노드에 모이게 될 수 있음 — 이건 FL+Doeblin (에이 §3) 으로 정밀 분석.
-
-어느 경우든 **Theorem 1 의 deterministic bound 는 무조건 성립** — 그래서 "universal" 이라 부를 자격이 있음.
-
----
-
-## 5. 세 regime 과의 관계 — 같은 이야기를 두 각도에서
-
-에이의 [모델A통합증명_ABC](https://miruetoto.github.io/yechan/) 가 정리한 세 regime:
+에이의 [모델A통합증명_ABC](https://miruetoto.github.io/yechan/) 가 정리한 세 regime 과 본 envelope 의 관계는 다음과 같다:
 
 | Regime | leading order | 본인 $t^3$-envelope 내 위치 |
 |---|---|---|
@@ -119,43 +75,13 @@ $|\rho_i - \rho_j| = 1$ 은 점유율 vector $\rho = (\rho_1, \dots, \rho_n)$ �
 | **Thm B** intermediate ($\rho_i = \rho_j$, drift 상쇄) | $\mathrm{SD}^2 \sim \bar b^2 \sigma^2 t^2/2$ | $\mathrm{SD}^2/t^3 \to 0$ — envelope 안 |
 | **Thm C** drift ($\rho_i \neq \rho_j$) | $\mathrm{SD}^2 \sim \bar b^2(\rho_i-\rho_j)^2 t^3/3$ | $\mathrm{SD}^2/t^3 \to (\rho_i-\rho_j)^2/3$ — envelope 의 *어디든* |
 
-`-` Thm A/B 쌍은 envelope $\bar b^2/3$ 보다 *훨씬 아래* — 사실 $t^3$ scale 에서 0 으로 수렴. envelope 가 매우 *느슨함* (slack).
-`-` Thm C 쌍은 envelope 의 정확한 위치에 안착 — $(\rho_i-\rho_j)^2$ 의 값에 따라 0 ~ 1 사이.
-`-` $|\rho_i - \rho_j| = 1$ 인 극단에서 envelope = exact limit.
+Thm A/B 쌍은 envelope $\bar b^2/3$ 보다 훨씬 아래 — 사실 $t^3$ scale 에서 0 으로 수렴 (envelope 가 매우 느슨함). Thm C 쌍은 envelope 의 정확한 위치에 안착하며, $(\rho_i-\rho_j)^2$ 의 값에 따라 0 ~ 1 사이에 떨어진다. $|\rho_i - \rho_j| = 1$ 인 극단에서 envelope = exact limit. 즉 본 노트의 envelope 와 에이 Thm A/B/C 는 충돌하지 않고 보완 — envelope 는 worst-case 라는 큰 그림을, 세 regime 은 어디에 정확히 안착하는지를 말한다.
 
-즉 본 노트의 envelope 와 에이 Thm A/B/C 는 *충돌하지 않고 보완*. envelope 는 worst-case 라는 큰 그림을, 세 regime 은 어디에 정확히 안착하는지를 말한다.
+$t^3$ 가 왜 구조적으로 등장하는지는 세 관점에서 본다. **조합론적**으로 $h \sim t^1$ (적립), $h^2 \sim t^2$ (제곱), $\sum h^2 \sim t^3$ (시간 적분) — 세 번의 $t$ 곱셈이 누적된 결과다. **확률론적**으로는 $h_i - h_j$ 의 drift 가 $\sim t$ (점유율 차이), 변동이 $\sim \sqrt t$ (CLT). drift 가 잡힐 때 ($\rho_i \neq \rho_j$) $(h_i - h_j)^2 \sim t^2$ → $\mathrm{SD}^2 \sim t^3$. drift 상쇄 ($\rho_i = \rho_j$) 면 변동만 남아 $(h_i-h_j)^2 \sim t$ → $\mathrm{SD}^2 \sim t^2$ (Thm B) — regime 분기점이 바로 leading term 의 교체점이다. **Scaling** 관점에서는 시간 rescale $\tilde s = s/t$, height $h(v_k, ts) \approx \bar b \rho_k t \tilde s$ 로 보면 $\mathrm{SD}^2(t) \sim t^2 \cdot t = t^3$ ($h^2$ 의 $t^2$ × 시간 적분의 추가 $t$). 이 세 관점이 모두 같은 $t^3$ 를 가리킨다 — 우연이 아니라 구조다.
 
----
+Implications 는 세 가지. 첫째 No regime exceeds $t^3$ — 본 노트의 Theorem 1 은 full HST 의 어떤 dynamics 에서도 $\mathrm{SD}^2 \le b^2 t^3/3$, 즉 SD 자체는 $O(t^{3/2})$ 보다 빠르게 자랄 수 없다 (에이 Thm A/B/C 를 상한 측면에서 보완). 둘째 에이의 lower estimate 와 결합 — Thm C 는 $\mathrm{SD}^2/t^3 \to \bar b^2(\rho_i - \rho_j)^2/3 > 0$ (exact), 본 노트가 $\le \bar b^2/3$ (envelope) — 둘이 합쳐서 exact 식 + worst-case envelope 의 짝. 셋째 Spectral side 와의 연결 — [본인 HST₀ 노트](./260520_dcd721.html) 가 Thm B intermediate 의 정확 상수를 spectral filter $(1+\lambda)/(1-\lambda)$ 로 닫고, 본 노트가 Thm C 의 envelope 를 universal 하게 닫는다. 두 노트의 짝 + Thm A 의 exact 상수 (open) 가 세 regime 의 완전한 정량화로 가는 다음 단계다.
 
-## 6. $t^3$ 가 왜 구조적 — 세 관점
-
-**조합론적**: $h \sim t^1$ (적립), $h^2 \sim t^2$ (제곱), $\sum h^2 \sim t^3$ (시간 적분). 세 번의 $t$ 곱셈이 누적된 결과.
-
-**확률론적**: $h_i - h_j$ 의 drift 가 $\sim t$ (점유율 차이), 변동이 $\sim \sqrt t$ (CLT). drift 가 잡힐 때 ($\rho_i \neq \rho_j$) $(h_i - h_j)^2 \sim t^2$ → $\mathrm{SD}^2 \sim t^3$. drift 상쇄 ($\rho_i = \rho_j$) 면 변동만 남아 $(h_i-h_j)^2 \sim t$ → $\mathrm{SD}^2 \sim t^2$ (Thm B). regime 분기점이 바로 leading term 의 교체점.
-
-**Scaling**: 시간 rescale $\tilde s = s/t$, height $h(v_k, ts) \approx \bar b \rho_k t \tilde s$. 그러면 $\mathrm{SD}^2(t) \sim t^2 \cdot t = t^3$ ($h^2$ 의 $t^2$ × 시간 적분의 추가 $t$).
-
-이 세 관점이 모두 같은 $t^3$ 를 가리킴 — *우연이 아니라 구조*.
-
----
-
-## 7. Implications
-
-**No regime exceeds $t^3$.** 본 노트의 Theorem 1 은 *full HST 의 어떤 dynamics 에서도* $\mathrm{SD}^2 \le b^2 t^3/3$. 즉 SD 자체는 $O(t^{3/2})$ 보다 빠르게 자랄 수 없음. 에이 Thm A/B/C 를 *상한* 측면에서 보완.
-
-**에이의 lower estimate 와 결합**. Thm C 는 $\mathrm{SD}^2/t^3 \to \bar b^2(\rho_i - \rho_j)^2/3 > 0$ — *exact*. 본 노트가 $\le \bar b^2/3$ — *envelope*. 둘이 합쳐서 *exact 식 + worst-case envelope* 의 짝.
-
-**Spectral side 와의 연결**. [본인 HST₀ 노트](./260520_dcd721.html) 가 Thm B intermediate 의 정확 상수를 spectral filter $(1+\lambda)/(1-\lambda)$ 로 닫음. 본 노트가 Thm C 의 envelope 를 universal 하게 닫음. 두 노트의 짝 + Thm A 의 exact 상수 (open) 가 세 regime 의 완전한 정량화로 가는 다음 단계.
-
----
-
-## 8. 다음 follow-up
-
-`-` *Sharper a.s. bound including fluctuation.* leading $t^3$ 만 잡았으나 $O(t^{5/2})$ fluctuation 은 미해결. CLT-type 정밀화 가능.
-
-`-` *Anti-concentration.* $\liminf_t \mathrm{SD}^2/t^3$ 의 비자명 하한? drift regime 에서는 limsup = liminf. 다른 regime 에서는 $t^3$ scale 에서 liminf = 0 이지만 $t^2$ scale 에서는 nontrivial.
-
-`-` *Closed-form bridge.* drift 항 $\bar b^2(\rho_i-\rho_j)^2 t^3/3$ + spectral 항 ($\mathbf{Z}$-eigenvalue sum 의 $t^2$ 항) 의 통일된 단일 식 — 본 노트 + HST_0 노트의 자연스러운 다음 정리.
+자연스러운 follow-up 으로 *Sharper a.s. bound including fluctuation* (leading $t^3$ 만 잡았으나 $O(t^{5/2})$ fluctuation 은 미해결, CLT-type 정밀화 가능), *Anti-concentration* ($\liminf_t \mathrm{SD}^2/t^3$ 의 비자명 하한 — drift regime 에서는 limsup = liminf, 다른 regime 에서는 $t^3$ scale 에서 liminf = 0 이지만 $t^2$ scale 에서는 nontrivial), *Closed-form bridge* (drift 항 $\bar b^2(\rho_i-\rho_j)^2 t^3/3$ + spectral 항 ($\mathbf{Z}$-eigenvalue sum 의 $t^2$ 항) 의 통일된 단일 식 — 본 노트 + HST_0 노트의 자연스러운 다음 정리) 이 떠오른다.
 
 ---
 

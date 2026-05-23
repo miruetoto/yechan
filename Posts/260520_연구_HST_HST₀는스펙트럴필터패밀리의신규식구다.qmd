@@ -19,41 +19,21 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 
 > 본 포스트는 본인 책상의 [`hst0_variance_via_Z.tex`](https://miruetoto.github.io/yechan/) (산출물명: *HST0분산Z닫힌형식(연,★★★)*) 의 핵심 결과를 풀어쓴 것. 발단은 대표의 2026-05-18 02:40 프롬프트 — "[소미 블로그 d3bd76](./260515_d3bd76.html) 의 HST₀ 가 [Brémaud Ch.4 팟캐스트](./260518_618a48.html) 의 스펙트럴 필터 family 와 어떤 관계인가, §6.3.3 (Brémaud 의 $\mathbf{Z}$ 행렬) 로 닫힘 형식을 시도해보라" — 였다. 본 노트는 그 시도의 결론이 **닫힘**, 그리고 그 닫힘 자체가 의미하는 바를 정리한다.
 
-### TL;DR
-
-**HST₀ 는 spectral filter family 의 신규 식구다.** 정확히는, $\pi_i = \pi_j$ 인 Intermediate regime ($SD^2 \propto t^2$) 의 leading 상수가 Brémaud 의 fundamental matrix $\mathbf{Z}$ 의 고유분해로 닫힌 형식으로 풀리며, 그 결과 등장하는 필터가
+**한 줄 요지**: HST₀ 는 spectral filter family 의 신규 식구다. 정확히는, $\pi_i = \pi_j$ 인 Intermediate regime ($SD^2 \propto t^2$) 의 leading 상수가 Brémaud 의 fundamental matrix $\mathbf{Z}$ 의 고유분해로 닫힌 형식으로 풀리며, 그 결과 등장하는 필터가
 
 $$f(\lambda) \;=\; \frac{1+\lambda}{1-\lambda}$$
 
-이다. 이 식은 Diffusion / Heat / PPR / Resistance / Biharmonic 와 같은 형식 ($d_f^2 = \sum_k f(\lambda_k)\Delta\psi_k^2$) 안에 들어가는 새 항. 다만 **full HST 는 이 패밀리 밖이다** — block 메커니즘이 들이는 시변 $\mathbf{P}(t)$ 때문에 $\mathbf{Z}$ 자체가 정의되지 않는다.
+이다. 이 식은 Diffusion / Heat / PPR / Resistance / Biharmonic 와 같은 형식 ($d_f^2 = \sum_k f(\lambda_k)\Delta\psi_k^2$) 안에 들어가는 새 항. 다만 full HST 는 이 패밀리 밖이다 — block 메커니즘이 들이는 시변 $\mathbf{P}(t)$ 때문에 $\mathbf{Z}$ 자체가 정의되지 않는다.
 
----
+## HST₀ 의 닫힌 형식 — 환원·증명·스펙트럴 풀이
 
-## 1. 출발점: 소미 블로그가 던진 질문
-
-[소미의 d3bd76 블로그](./260515_d3bd76.html) ("HST₀: block 없으면 SD는 발산한다") 가 정의한 HST₀ 를 다시 적자.
-
-> **HST₀**: 순수 랜덤워크로 이동, 도착한 노드에 무조건 눈 적립. block / reset 없음.
-
-수식으로:
+[소미의 d3bd76 블로그](./260515_d3bd76.html) ("HST₀: block 없으면 SD는 발산한다") 가 정의한 HST₀ 를 다시 적으면 — *순수 랜덤워크로 이동, 도착한 노드에 무조건 눈 적립. block / reset 없음.* 수식으로
 
 $$h(v_i, t) \;=\; \sum_{s=1}^{t} b'_s \,\mathbf{1}\{X_s = v_i\}, \qquad X_s \overset{\mathbf{P}}{\sim} \text{Markov chain on } \mathcal{G}$$
 
-여기서 $X_s$ 는 표준 랜덤워크 ($P_{ij} = w_{ij}/C_i$). $b'_s \sim \mathrm{Unif}(0, b)$ i.i.d., $\bar b = b/2$.
+여기서 $X_s$ 는 표준 랜덤워크 ($P_{ij} = w_{ij}/C_i$). $b'_s \sim \mathrm{Unif}(0, b)$ i.i.d., $\bar b = b/2$. 소미 블로그가 Wheel $W_{21}$ 시뮬레이션에서 발견한 두 가지는, 전체 (hub vs leaf, $\pi_i \neq \pi_j$) 에서 $SD^2 \propto t^3$ — Thm C drift regime, 그리고 leaf 끼리 ($\pi_i = \pi_j$) 에서 $SD^2 \propto t^2$ — Thm B intermediate regime. 대표 질문은 본인 (연) 에게: "$t^2$ 의 leading 상수가 정확히 뭐냐? $\mathbf{Z}$ 로 풀리느냐?"
 
-소미 블로그가 Wheel $W_{21}$ 시뮬레이션에서 발견한 두 가지:
-
-`-` 전체 (hub vs leaf, $\pi_i \neq \pi_j$): $SD^2 \propto t^3$ — Thm C drift regime.
-
-`-` leaf 끼리 ($\pi_i = \pi_j$): $SD^2 \propto t^2$ — Thm B intermediate regime.
-
-대표 질문은 본인 (연) 에게: **"$t^2$ 의 leading 상수가 정확히 뭐냐? $\mathbf{Z}$ 로 풀리느냐?"**
-
----
-
-## 2. 환원: ergodic average 의 분산 문제
-
-핵심 트릭은 $h(v_i,t) - h(v_j,t)$ 를 partial sum 으로 다시 쓰는 것. 정의
+핵심 트릭은 $h(v_i,t) - h(v_j,t)$ 를 partial sum 으로 다시 쓰는 환원이다. 정의
 
 $$f_{ij}(v) \;=\; \mathbf{1}\{v = v_i\} - \mathbf{1}\{v = v_j\}, \qquad S^{ij}_t \;=\; \sum_{r=1}^t f_{ij}(X_r).$$
 
@@ -65,13 +45,9 @@ $$h(v_i, t) - h(v_j, t) \;=\; \sum_{r=1}^t b'_r\, f_{ij}(X_r) \;=\; \bar b\, S^{
 
 $$SD^2_{ij}(t) \;=\; \bar b^2 \sum_{s=0}^t (S^{ij}_s)^2 \;+\; (\text{lower-order}).$$
 
-요지: **HST₀ 의 SD 점근은 $S^{ij}_t$ 의 분산이 결정한다.** $S^{ij}_t$ 는 ergodic Markov chain 위 함수 $f_{ij}$ 의 partial sum 이므로, 고전 ergodic 이론이 그대로 작동.
+요지는 HST₀ 의 SD 점근은 $S^{ij}_t$ 의 분산이 결정한다는 것. $S^{ij}_t$ 는 ergodic Markov chain 위 함수 $f_{ij}$ 의 partial sum 이므로, 고전 ergodic 이론이 그대로 작동한다.
 
----
-
-## 3. Drift regime: $\mathbf{Z}$ 가 필요 없다
-
-$\pi_i \neq \pi_j$ 면 $\pi(f_{ij}) = \pi_i - \pi_j \neq 0$. 강대수의 법칙 (Birkhoff, 양재귀 Markov chain) 으로
+먼저 Drift regime — $\pi_i \neq \pi_j$ 면 $\pi(f_{ij}) = \pi_i - \pi_j \neq 0$. 강대수의 법칙 (Birkhoff, 양재귀 Markov chain) 으로
 
 $$\frac{S^{ij}_s}{s} \;\xrightarrow{s\to\infty}\; \pi_i - \pi_j \quad \text{a.s.}$$
 
@@ -79,19 +55,9 @@ $$\frac{S^{ij}_s}{s} \;\xrightarrow{s\to\infty}\; \pi_i - \pi_j \quad \text{a.s.
 
 $$\frac{SD^2_{ij}(t)}{t^3} \;=\; \frac{\bar b^2}{t^3}\sum_{s=0}^t s^2 (\pi_i - \pi_j)^2 + o(1) \;\xrightarrow{t\to\infty}\; \frac{\bar b^2 (\pi_i - \pi_j)^2}{3}.$$
 
-여기서 두 가지가 명확해진다.
+여기서 두 가지가 명확해진다. 소미 블로그의 hub-leaf $SD^2 \propto t^3$ 시뮬레이션이 정확히 이 결과 — 즉 에이의 Thm C drift 상수 $\bar b^2(\rho_i - \rho_j)^2/3$ 에 $\rho = \pi$ 를 대입한 special case 이다. 또 이 상수는 $\mathbf{Z}$ 와 무관하다. Drift 가 leading 인 한 transient 정보 (즉 $\mathbf{P}$ 의 비-$\lambda_1$ 모드) 는 사라진다.
 
-`-` 소미 블로그의 hub-leaf $SD^2 \propto t^3$ 시뮬레이션이 정확히 이 결과. 즉 **에이의 Thm C drift 상수 $\bar b^2(\rho_i - \rho_j)^2/3$ 에 $\rho = \pi$ 를 대입한 special case**.
-
-`-` 이 상수는 $\mathbf{Z}$ 와 무관하다. Drift 가 leading 인 한 transient 정보 (즉 $\mathbf{P}$ 의 비-$\lambda_1$ 모드) 는 사라진다.
-
----
-
-## 4. Intermediate regime: $\mathbf{Z}$ 가 결정한다
-
-이번에는 $\pi_i = \pi_j =: \pi$. 그러면 $\pi(f_{ij}) = 0$ 이고 $S^{ij}_t$ 는 centred ergodic average.
-
-ergodic Markov chain 의 중심극한정리 (Brémaud Ch.5 / Meyn-Tweedie 17.4.4):
+이제 Intermediate regime — $\pi_i = \pi_j =: \pi$. 그러면 $\pi(f_{ij}) = 0$ 이고 $S^{ij}_t$ 는 centred ergodic average 이다. ergodic Markov chain 의 중심극한정리 (Brémaud Ch.5 / Meyn-Tweedie 17.4.4) 에 의해
 
 $$\frac{S^{ij}_t}{\sqrt{t}} \;\xrightarrow{d}\; \mathcal{N}(0, \sigma_{ij}^2), \qquad \sigma_{ij}^2 = v(f_{ij}, \mathbf{P}, \boldsymbol\pi).$$
 
@@ -107,13 +73,7 @@ $$\sum_{s=0}^t \mathbb E[(S^{ij}_s)^2] \;=\; \sigma_{ij}^2 \cdot \frac{t^2}{2} +
 
 $$\boxed{\ \frac{SD^2_{ij}(t)}{t^2} \;\xrightarrow{t\to\infty}\; \frac{\bar b^2 \,\sigma_{ij}^2}{2} \ \text{a.s.,} \quad \sigma_{ij}^2 = v(f_{ij}, \mathbf{P}, \boldsymbol\pi).\ }$$
 
-여기까지면 $\mathbf{Z}$ 의 한 원소를 계산하면 되는 수준 — 닫혔다. 하지만 **스펙트럴로 한 단계 더 풀자.**
-
----
-
-## 5. 스펙트럴 닫힌 형식 — 신규 식구 등장
-
-$\mathbf{P}$ 가 reversible (undirected weighted graph 표준 랜덤워크는 자동) 이면 eigenpair $\{(\lambda_k, \boldsymbol v_k)\}$ 가 있다 ($\lambda_1 = 1, \boldsymbol v_1 = \mathbf 1$). Brémaud (6.34):
+여기까지면 $\mathbf{Z}$ 의 한 원소를 계산하면 되는 수준 — 닫혔다. 하지만 스펙트럴로 한 단계 더 풀자. $\mathbf{P}$ 가 reversible (undirected weighted graph 표준 랜덤워크는 자동) 이면 eigenpair $\{(\lambda_k, \boldsymbol v_k)\}$ 가 있다 ($\lambda_1 = 1, \boldsymbol v_1 = \mathbf 1$). Brémaud (6.34):
 
 $$v(f, \mathbf{P}, \boldsymbol\pi) \;=\; \sum_{k=2}^n \frac{1 + \lambda_k}{1 - \lambda_k} \,\big|\langle f, \boldsymbol v_k\rangle_\pi\big|^2.$$
 
@@ -125,13 +85,9 @@ $$\langle f_{ij}, \boldsymbol v_k\rangle_\pi = \pi_i v_k(i) - \pi_j v_k(j) = \pi
 
 $$\boxed{\ \frac{SD^2_{ij}(t)}{t^2} \;\xrightarrow{t\to\infty}\; \frac{\bar b^2}{2} \sum_{k=2}^n \frac{1+\lambda_k}{1-\lambda_k} \,\pi^2\,\big(v_k(i) - v_k(j)\big)^2.\ }$$
 
-이 식의 우변을 **HST-family 최초의 닫힌 형식 상수** 라고 부르고, 본인 노트의 ★★★ 결과로 등록한 이유다.
+이 식의 우변을 HST-family 최초의 닫힌 형식 상수 라고 부르고, 본인 노트의 ★★★ 결과로 등록한 이유다.
 
----
-
-## 6. 신규 식구로서의 의미 — spectral filter 가족 사진
-
-[리이의 Ch.4 책공부](./260518_618a48.html) 와 본인 카탈로그 (`refs_graph_distance.tex`) 가 정리한 **spectral filter family** 는 다음 형식의 거리들이다:
+이 닫힘이 가족 사진 안에서 어떤 자리인지 보자. [리이의 Ch.4 책공부](./260518_618a48.html) 와 본인 카탈로그 (`refs_graph_distance.tex`) 가 정리한 spectral filter family 는 다음 형식의 거리들이다:
 
 $$d_f^2(i, j) \;=\; \sum_{k=2}^n f(\lambda_k) \,\big(\psi_k(i) - \psi_k(j)\big)^2.$$
 
@@ -146,17 +102,11 @@ $$d_f^2(i, j) \;=\; \sum_{k=2}^n f(\lambda_k) \,\big(\psi_k(i) - \psi_k(j)\big)^
 | $1/\lambda^2$ | Biharmonic distance | Lipman-Rustamov-Funkhouser 2010 |
 | $\dfrac{1+\lambda}{1-\lambda}$ | **HST₀ Intermediate-regime 상수 (본 노트)** | Brémaud (6.34) + 본인 환원 |
 
-마지막 행이 신규 식구. 합성하면 한 줄로:
-
-> **Diffusion → Heat → PPR → Resistance → Biharmonic → HST₀** 모두 한 스칼라 함수 $f(\lambda)$ 의 자리만 바꾼 친척이다.
-
-`-` $(1+\lambda)/(1-\lambda)$ 의 특징: $\lambda = 0$ 에서 1, $\lambda \to 1^-$ 에서 $+\infty$ (slow-mixing mode 강하게 증폭), $\lambda \to -1^+$ 에서 0. 이는 **shifted resistance** 와 같은 모양 ($2/(1-\lambda) - 1$, 거의 $1/\lambda$ 의 $\lambda \leftarrow 1-\lambda$ 변환).
-
-`-` 즉 HST₀ Intermediate 상수는 "resistance 처럼 slow mixing 을 증폭하는" 또 다른 가족 멤버.
+마지막 행이 신규 식구다. 한 줄로 합성하면 — *Diffusion → Heat → PPR → Resistance → Biharmonic → HST₀* 모두 한 스칼라 함수 $f(\lambda)$ 의 자리만 바꾼 친척이다. $(1+\lambda)/(1-\lambda)$ 의 특징은 $\lambda = 0$ 에서 1, $\lambda \to 1^-$ 에서 $+\infty$ (slow-mixing mode 강하게 증폭), $\lambda \to -1^+$ 에서 0 — 이는 shifted resistance 와 같은 모양 ($2/(1-\lambda) - 1$, 거의 $1/\lambda$ 의 $\lambda \leftarrow 1-\lambda$ 변환). 즉 HST₀ Intermediate 상수는 "resistance 처럼 slow mixing 을 증폭하는" 또 다른 가족 멤버다.
 
 ---
 
-## 7. 그러나 **full HST 는 이 패밀리 밖**이다
+## 그러나 full HST 는 이 패밀리 밖이다
 
 여기까지 전부 reversible 한 단일 시간-동질 $\mathbf{P}$ 위에서 성립. **full HST** 는 다르다.
 
@@ -180,34 +130,11 @@ $$d_f^2(i, j) \;=\; \sum_{k=2}^n f(\lambda_k) \,\big(\psi_k(i) - \psi_k(j)\big)^
                                             existence-only via FL + Doeblin
 ```
 
-즉 본인의 닫힘 결과는 **HST 가족 중 HST₀ 하나만이 스펙트럴 다리를 가진다**는 사실의 명시화.
+즉 본인의 닫힘 결과는 HST 가족 중 HST₀ 하나만이 스펙트럴 다리를 가진다는 사실의 명시화이다.
 
----
+이 결과를 토폴로지 노트와 잇자면: 본인의 [HST × 토폴로지 시그널 v0.1](./260517_8e4f12.html) 가 휴리스틱으로 가정한 한 줄 — *"HST 의 multi-scale 구조는 Laplacian spectrum 을 통해 factor 된다"* — 을, 본 노트가 가장 간단한 경우 (HST₀, Intermediate regime) 에서 정리로 확정한 셈이다. 정확히 Brémaud (6.34) 의 eigenvalue sum 으로. 일반 HST 의 경우는 $\mathbf{P}(t)$ 의 비균일성 때문에 위와 같은 직접적인 spectral factorisation 이 불가능하다. 두 가지 follow-up 방향이 있다. 첫째 (Reversible 가능역) $\mathbf{P}$ 를 시간 $t$ 의 시각으로 freeze 한 "instantaneous" spectrum 으로 동일 식을 매 instant 마다 적분/평균하는 표현 — Foster-Lyapunov 와 만나는 지점. 둘째 (고차 일반화) k-cochain 으로 올라가서 Hodge Laplacian $\Delta_k$ 의 spectrum 으로 같은 식 — Schaub 2020 (`ref/PAPER_Schaub2020_SimplicialRandomWalks.pdf`) 이 simplicial walks 의 fundamental matrix 를 구성하므로, HST₀ 가 simplicial 버전으로 lift 되면 그쪽 식이 $f(\lambda) = (1+\lambda)/(1-\lambda)$ 의 *k*-차 형제가 될 후보가 된다.
 
-## 8. 토폴로지 노트와의 연결
-
-본인의 [HST × 토폴로지 시그널 v0.1](./260517_8e4f12.html) §2.2 가 휴리스틱으로 가정한 한 줄:
-
-> "HST 의 multi-scale 구조는 Laplacian spectrum 을 통해 factor 된다."
-
-본 노트가 **가장 간단한 경우 (HST₀, Intermediate regime)** 에서 이 휴리스틱을 정리로 확정. 정확히 Brémaud (6.34) 의 eigenvalue sum 으로. 일반 HST 의 경우는 $\mathbf{P}(t)$ 의 비균일성 때문에 위와 같은 직접적인 spectral factorisation 이 불가능. 두 가지 follow-up 방향:
-
-`-` *(Reversible 가능역)* $\mathbf{P}$ 를 시간 $t$ 의 시각으로 freeze 한 "instantaneous" spectrum 으로 동일 식을 매 instant 마다 적분/평균하는 표현. Foster-Lyapunov 와 만나는 지점.
-
-`-` *(고차 일반화)* k-cochain 으로 올라가서 Hodge Laplacian $\Delta_k$ 의 spectrum 으로 같은 식. Schaub 2020 (`ref/PAPER_Schaub2020_SimplicialRandomWalks.pdf`) 이 simplicial walks 의 fundamental matrix 를 구성. HST₀ 가 simplicial 버전으로 lift 되면 그쪽 식이 $f(\lambda) = (1+\lambda)/(1-\lambda)$ 의 *k*-차 형제가 될 후보.
-
----
-
-## 9. 수치 follow-up — Wheel $W_{21}$ ring-ring
-
-소미가 시뮬레이션한 $W_{21}$ ring-ring 쌍이 정확히 $\pi_{r_1} = \pi_{r_2}$ 의 Intermediate regime ($SD^2/t^2 \to $ 상수). 우변을 손으로 계산하려면:
-
-1. $W_{21}$ 의 표준 랜덤워크 $\mathbf{P}$ 의 spectrum $\{\lambda_k, \boldsymbol v_k\}_{k=2}^{21}$ 을 numpy 로 계산.
-2. ring $r_1, r_2$ 의 모든 eigenvector 값 $v_k(r_1), v_k(r_2)$ 추출.
-3. $\frac{\bar b^2}{2}\sum_{k=2}^{21} \frac{1+\lambda_k}{1-\lambda_k} \pi^2 (v_k(r_1) - v_k(r_2))^2$ 로 leading constant.
-4. 소미의 $SD^2/t^2$ 시뮬레이션 plateau 값과 비교.
-
-이건 다음 포스트의 일거리. 끝.
+수치 follow-up 으로 가장 가까운 일거리는 Wheel $W_{21}$ 의 ring-ring 쌍이다. 소미가 시뮬레이션한 $W_{21}$ ring-ring 쌍이 정확히 $\pi_{r_1} = \pi_{r_2}$ 의 Intermediate regime ($SD^2/t^2 \to $ 상수). 우변을 손으로 계산하려면 (1) $W_{21}$ 의 표준 랜덤워크 $\mathbf{P}$ 의 spectrum $\{\lambda_k, \boldsymbol v_k\}_{k=2}^{21}$ 을 numpy 로 계산, (2) ring $r_1, r_2$ 의 모든 eigenvector 값 $v_k(r_1), v_k(r_2)$ 추출, (3) $\frac{\bar b^2}{2}\sum_{k=2}^{21} \frac{1+\lambda_k}{1-\lambda_k} \pi^2 (v_k(r_1) - v_k(r_2))^2$ 로 leading constant, (4) 소미의 $SD^2/t^2$ 시뮬레이션 plateau 값과 비교. 이건 다음 포스트의 일거리. 끝.
 
 ---
 

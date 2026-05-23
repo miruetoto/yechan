@@ -234,71 +234,24 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><strong>Q2.</strong> SD 를 cMDS 하는 것과 PCA 하는 것의 차이?</p>
 <p>본 포스트의 답: <strong>임베딩의 좌표 방향은 네 가지 모두 동일.</strong> 다만 (i) eigenvalue 의 스케일이 다르고, (ii) <strong>어떤 regime 정보 (Thm A/B/C) 가 dominant axis 로 떠오르느냐</strong> 가 t-나누기 선택에 따라 갈린다. cMDS = PCA 는 SD 가 Euclidean 거리 family 이므로 자동 동치.</p>
 </blockquote>
-<section id="tldr" class="level3">
-<h3 class="anchored" data-anchor-id="tldr">TL;DR</h3>
-<ul>
-<li><p><strong>Q2 답</strong>: SD 는 height 함수의 <span class="math inline">\(L^2\)</span> 거리이므로 정확히 Euclidean. 이 경우 cMDS 와 PCA 는 <em>동일한 임베딩 좌표</em> 를 준다 (Young-Householder 정리). 차이가 있다면 PCA 가 추가로 <em>variable directions</em> (height 좌표 공간의 방향) 를 함께 주는 정도.</p></li>
-<li><p><strong>Q1 답</strong>: <span class="math inline">\(SD\)</span> / <span class="math inline">\(SD^2/t\)</span> / <span class="math inline">\(SD^2/t^2\)</span> / <span class="math inline">\(SD^2/t^3\)</span> 의 PCA — eigenvector (좌표 <em>방향</em>) 는 모두 같음. eigenvalue 가 <span class="math inline">\(t\)</span> 의 거듭제곱만큼 스케일. 하지만 <strong>multi-regime situation</strong> (어떤 pair 는 Thm A, 어떤 pair 는 B, 어떤 pair 는 C 에 속할 때) 에서는 nontrivial: scale factor 가 큰 (Thm C drift) pair 가 raw SD 에서는 첫 두 PC 를 독점하지만, <span class="math inline">\(t^3\)</span> 로 나누면 그 drift component 가 normalize 되어 다른 regime 의 정보가 PC 에 드러난다.</p></li>
-</ul>
-<hr>
-</section>
-<section id="기본-정리-pca-cmds-euclidean-거리에서" class="level2">
-<h2 class="anchored" data-anchor-id="기본-정리-pca-cmds-euclidean-거리에서">1. 기본 정리 — PCA = cMDS (Euclidean 거리에서)</h2>
-<section id="두-알고리즘" class="level3">
-<h3 class="anchored" data-anchor-id="두-알고리즘">1.1 두 알고리즘</h3>
-<p><strong>PCA.</strong> 점 <span class="math inline">\(h_1, \dots, h_n \in \mathbb R^d\)</span> 가 있다고 하자 (각 <span class="math inline">\(h_i\)</span> 는 height 함수의 시간 sequence). 중심화 <span class="math inline">\(\tilde h_i := h_i - \bar h\)</span>, 데이터 행렬 <span class="math inline">\(\tilde X = [\tilde h_1 \cdots \tilde h_n]^\top \in \mathbb R^{n \times d}\)</span>. PCA 는 <span class="math inline">\(d \times d\)</span> covariance</p>
+<p><strong>한 줄 요지</strong> (Q2 답): SD 는 height 함수의 <span class="math inline">\(L^2\)</span> 거리이므로 정확히 Euclidean. cMDS 와 PCA 는 동일한 임베딩 좌표를 준다 (Young-Householder 정리). 차이가 있다면 PCA 가 추가로 variable directions (height 좌표 공간의 방향) 를 함께 주는 정도. (Q1 답): <span class="math inline">\(SD\)</span> / <span class="math inline">\(SD^2/t\)</span> / <span class="math inline">\(SD^2/t^2\)</span> / <span class="math inline">\(SD^2/t^3\)</span> 의 PCA 는 eigenvector (좌표 방향) 가 모두 같음. eigenvalue 가 <span class="math inline">\(t\)</span> 의 거듭제곱만큼 스케일. 그러나 multi-regime situation 에서는 nontrivial — scale factor 가 큰 (Thm C drift) pair 가 raw SD 에서는 첫 두 PC 를 독점하지만, <span class="math inline">\(t^3\)</span> 로 나누면 그 drift component 가 normalize 되어 다른 regime 의 정보가 PC 에 드러난다.</p>
+<section id="pca-cmds-t-나누기-multi-regime-분석" class="level2">
+<h2 class="anchored" data-anchor-id="pca-cmds-t-나누기-multi-regime-분석">PCA = cMDS, t-나누기, multi-regime 분석</h2>
+<p>먼저 두 알고리즘을 짚는다. <strong>PCA</strong> 에서는 점 <span class="math inline">\(h_1, \dots, h_n \in \mathbb R^d\)</span> (각 <span class="math inline">\(h_i\)</span> 는 height 함수의 시간 sequence) 에 대해 중심화 <span class="math inline">\(\tilde h_i := h_i - \bar h\)</span>, 데이터 행렬 <span class="math inline">\(\tilde X = [\tilde h_1 \cdots \tilde h_n]^\top \in \mathbb R^{n \times d}\)</span> 를 구성하고, <span class="math inline">\(d \times d\)</span> covariance</p>
 <p><span class="math display">\[C \;=\; \frac{1}{n}\tilde X^\top \tilde X\]</span></p>
-<p>의 eigen-분해 <span class="math inline">\(C = V \Lambda V^\top\)</span> 를 한 뒤, 각 점을 top-<span class="math inline">\(k\)</span> 방향에 사영하여 좌표 <span class="math inline">\(Z = \tilde X V_{:, 1:k} \in \mathbb R^{n \times k}\)</span> 를 얻는다.</p>
-<p><strong>Classical MDS.</strong> 거리 행렬 <span class="math inline">\(D \in \mathbb R^{n \times n}\)</span> 만 주어졌을 때, 그 제곱을 double-centering:</p>
-<p><span class="math display">\[B \;=\; -\tfrac{1}{2}\,H\,D^{(2)}\,H, \qquad H := I - \tfrac{1}{n}\mathbf 1\mathbf 1^\top.\]</span></p>
-<p><span class="math inline">\(B\)</span> 의 eigen-분해 <span class="math inline">\(B = U \Sigma U^\top\)</span> 에서 top-<span class="math inline">\(k\)</span> 만 살려 좌표 <span class="math inline">\(Y = U_{:, 1:k}\, \Sigma_{1:k}^{1/2} \in \mathbb R^{n \times k}\)</span>.</p>
-</section>
-<section id="동치" class="level3">
-<h3 class="anchored" data-anchor-id="동치">1.2 동치</h3>
-<p>거리 <span class="math inline">\(D_{ij} = \|h_i - h_j\|_2\)</span> 가 (어떤 Euclidean embedding 의) 거리라면 — 즉 <span class="math inline">\(B \succeq 0\)</span> 이면 —</p>
-<p><span class="math display">\[B \;=\; \tilde X \tilde X^\top \quad (\text{Gram matrix})\]</span></p>
-<p>이고, <span class="math inline">\(\tilde X = U \Sigma^{1/2} V^\top\)</span> 의 SVD 에서</p>
-<p><span class="math display">\[\tilde X^\top \tilde X = V \Sigma V^\top \;\Rightarrow\; nC = V \Sigma V^\top,\]</span> <span class="math display">\[\tilde X \tilde X^\top = U \Sigma U^\top \;=\; B.\]</span></p>
-<p>따라서 **PCA 의 principal scores $X V_{:,1:k} = U_{:,1:k}, _{1:k}^{1/2} = $ cMDS 의 좌표 <span class="math inline">\(Y\)</span>.** 즉</p>
+<p>의 eigen-분해 <span class="math inline">\(C = V \Lambda V^\top\)</span> 를 한 뒤, 각 점을 top-<span class="math inline">\(k\)</span> 방향에 사영하여 좌표 <span class="math inline">\(Z = \tilde X V_{:, 1:k} \in \mathbb R^{n \times k}\)</span> 를 얻는다. <strong>Classical MDS</strong> 에서는 거리 행렬 <span class="math inline">\(D \in \mathbb R^{n \times n}\)</span> 만 주어졌을 때, 그 제곱을 double-centering</p>
+<p><span class="math display">\[B \;=\; -\tfrac{1}{2}\,H\,D^{(2)}\,H, \qquad H := I - \tfrac{1}{n}\mathbf 1\mathbf 1^\top\]</span></p>
+<p>한 뒤 <span class="math inline">\(B\)</span> 의 eigen-분해 <span class="math inline">\(B = U \Sigma U^\top\)</span> 에서 top-<span class="math inline">\(k\)</span> 만 살려 좌표 <span class="math inline">\(Y = U_{:, 1:k}\, \Sigma_{1:k}^{1/2} \in \mathbb R^{n \times k}\)</span> 로 떨어진다.</p>
+<p>두 알고리즘의 동치는: 거리 <span class="math inline">\(D_{ij} = \|h_i - h_j\|_2\)</span> 가 어떤 Euclidean embedding 의 거리라면 (즉 <span class="math inline">\(B \succeq 0\)</span> 이면) <span class="math inline">\(B = \tilde X \tilde X^\top\)</span> (Gram matrix) 이고, <span class="math inline">\(\tilde X = U \Sigma^{1/2} V^\top\)</span> 의 SVD 에서 <span class="math inline">\(\tilde X^\top \tilde X = V \Sigma V^\top \Rightarrow nC = V \Sigma V^\top\)</span> 그리고 <span class="math inline">\(\tilde X \tilde X^\top = U \Sigma U^\top = B\)</span>. 따라서 PCA 의 principal scores <span class="math inline">\(\tilde X V_{:,1:k} = U_{:,1:k}\, \Sigma_{1:k}^{1/2}\)</span> = cMDS 의 좌표 <span class="math inline">\(Y\)</span> — 즉</p>
 <p><span class="math display">\[\boxed{\quad Y_{\mathrm{cMDS}}(D) \;=\; Z_{\mathrm{PCA}}(\tilde X) \quad \text{(Euclidean 거리에서)}\quad}\]</span></p>
-<p>— 동일한 좌표를 얻는다. 이게 Young-Householder 1938 의 고전 결과.</p>
-</section>
-<section id="sd-가-euclidean-임의-확인" class="level3">
-<h3 class="anchored" data-anchor-id="sd-가-euclidean-임의-확인">1.3 SD 가 Euclidean 임의 확인</h3>
-<p>SD 의 정의 (<a href="./260520_dcd721.html">본인 HST₀ 노트</a> §1 등 참조):</p>
+<p>동일한 좌표를 얻는다. 이게 Young-Householder 1938 의 고전 결과다.</p>
+<p>SD 가 Euclidean 임은 정의로 바로 확인된다. SD 의 정의는</p>
 <p><span class="math display">\[SD^2_{ij}(t) \;=\; \sum_{s=0}^{t}\bigl(h(v_i, s) - h(v_j, s)\bigr)^2 \;=\; \|h_i^{(t)} - h_j^{(t)}\|_2^2,\]</span></p>
-<p>여기서 <span class="math inline">\(h_i^{(t)} := (h(v_i, 0), h(v_i, 1), \dots, h(v_i, t)) \in \mathbb R^{t+1}\)</span>. <strong>명백히 <span class="math inline">\(L^2\)</span> 거리</strong> — Euclidean. 따라서 SD 의 cMDS 와 height 좌표 <span class="math inline">\(h_i^{(t)}\)</span> 의 PCA 는 동치.</p>
-<p>이게 Q2 의 답: <strong>차이 없음</strong> (좌표 한정). PCA 가 추가로 주는 것은 height-coordinate 공간 <span class="math inline">\(\mathbb R^{t+1}\)</span> 의 <em>시간축 방향</em> — 즉 어느 시점 <span class="math inline">\(s\)</span> 가 임베딩에 가장 기여하는지를 보여주는 <span class="math inline">\(V_{1:k}\)</span>. cMDS 에는 없는 정보지만 실용적으로 잘 안 봄.</p>
-<hr>
-</section>
-</section>
-<section id="t-나누기는-좌표-방향을-바꾸지-않는다-uniform-rescale-의-효과" class="level2">
-<h2 class="anchored" data-anchor-id="t-나누기는-좌표-방향을-바꾸지-않는다-uniform-rescale-의-효과">2. t-나누기는 좌표 방향을 바꾸지 않는다 — uniform rescale 의 효과</h2>
-<section id="좌표-한-줄-변환" class="level3">
-<h3 class="anchored" data-anchor-id="좌표-한-줄-변환">2.1 좌표 한 줄 변환</h3>
-<p><span class="math inline">\(SD\)</span> 를 <span class="math inline">\(t^\alpha\)</span> 로 나눈다는 것은 height 좌표 <span class="math inline">\(h_i^{(t)}\)</span> 에 동일한 스칼라 <span class="math inline">\(t^{-\alpha/2}\)</span> 를 곱하는 것과 같다 (모든 점에 같은 양으로):</p>
+<p>여기서 <span class="math inline">\(h_i^{(t)} := (h(v_i, 0), h(v_i, 1), \dots, h(v_i, t)) \in \mathbb R^{t+1}\)</span>. 명백히 <span class="math inline">\(L^2\)</span> 거리 — Euclidean. 따라서 SD 의 cMDS 와 height 좌표 <span class="math inline">\(h_i^{(t)}\)</span> 의 PCA 는 동치. 이게 Q2 의 답이다 — 차이 없음 (좌표 한정). PCA 가 추가로 줄 수 있는 것은 height-coordinate 공간 <span class="math inline">\(\mathbb R^{t+1}\)</span> 의 시간축 방향, 즉 어느 시점 <span class="math inline">\(s\)</span> 가 임베딩에 가장 기여하는지를 보여주는 <span class="math inline">\(V_{1:k}\)</span> — cMDS 에는 없는 정보지만 실용적으로 잘 안 본다.</p>
+<p>다음으로 t-나누기는 좌표 방향을 바꾸지 않는다 — uniform rescale 의 효과일 뿐임을 본다. <span class="math inline">\(SD\)</span> 를 <span class="math inline">\(t^\alpha\)</span> 로 나눈다는 것은 height 좌표 <span class="math inline">\(h_i^{(t)}\)</span> 에 동일한 스칼라 <span class="math inline">\(t^{-\alpha/2}\)</span> 를 곱하는 것과 같다 (모든 점에 같은 양으로):</p>
 <p><span class="math display">\[\frac{SD^2_{ij}(t)}{t^{2\alpha}} \;=\; \bigl\|t^{-\alpha} h_i^{(t)} - t^{-\alpha} h_j^{(t)}\bigr\|_2^2.\]</span></p>
-<p>(여기 <span class="math inline">\(\alpha = 1/2\)</span> 면 <span class="math inline">\(SD^2/t\)</span>, <span class="math inline">\(\alpha = 1\)</span> 이면 <span class="math inline">\(SD^2/t^2\)</span>, <span class="math inline">\(\alpha = 3/2\)</span> 면 <span class="math inline">\(SD^2/t^3\)</span> 에 해당.)</p>
-</section>
-<section id="pca-에서의-효과" class="level3">
-<h3 class="anchored" data-anchor-id="pca-에서의-효과">2.2 PCA 에서의 효과</h3>
-<p>데이터 행렬을 <span class="math inline">\(\tilde X \to t^{-\alpha} \tilde X\)</span> 로 균일하게 스케일. 그러면</p>
-<p><span class="math display">\[C \to t^{-2\alpha}\, C, \qquad B \to t^{-2\alpha}\, B.\]</span></p>
-<p>eigen-분해 <span class="math inline">\(C = V \Lambda V^\top\)</span> → <span class="math inline">\(t^{-2\alpha} C = V (t^{-2\alpha}\Lambda) V^\top\)</span>. <strong>eigenvector <span class="math inline">\(V\)</span> 는 그대로, eigenvalue 만 <span class="math inline">\(t^{-2\alpha}\)</span> 곱.</strong></p>
-<p>cMDS 좌표 <span class="math inline">\(Y = U \Sigma^{1/2}\)</span> → <span class="math inline">\(t^{-\alpha} U \Sigma^{1/2} = t^{-\alpha} Y\)</span>. 즉 좌표 전체에 균일한 축소.</p>
-<p><strong>결론:</strong> <em>상대적인 임베딩 모양</em> — nodes 의 배치 — 은 완전히 동일. 단지 좌표축의 단위가 <span class="math inline">\(t^\alpha\)</span> 만큼 바뀔 뿐.</p>
-</section>
-<section id="그래서-차이가-없다" class="level3">
-<h3 class="anchored" data-anchor-id="그래서-차이가-없다">2.3 그래서 차이가 없다?</h3>
-<p>여기까지면 답은 “<strong><span class="math inline">\(t\)</span> 로 나누든 말든 PCA 임베딩은 같다</strong>” 라는 무미건조한 결론. 그러나 한 가지 더 봐야 한다.</p>
-<hr>
-</section>
-</section>
-<section id="nontrivial-한-차이-multi-regime-situation" class="level2">
-<h2 class="anchored" data-anchor-id="nontrivial-한-차이-multi-regime-situation">3. nontrivial 한 차이 — multi-regime situation</h2>
-<section id="hst-의-세-regime-이-한-그래프에-동시에-살-때" class="level3">
-<h3 class="anchored" data-anchor-id="hst-의-세-regime-이-한-그래프에-동시에-살-때">3.1 HST 의 세 regime 이 한 그래프에 동시에 살 때</h3>
-<p>같은 그래프 위 다른 노드 쌍이 다른 regime 에 속하는 경우를 생각해 보자. 예를 들어 Wheel <span class="math inline">\(W_{21}\)</span> (<a href="./260515_d3bd76.html">소미 blog d3bd76</a>) 에서:</p>
+<p>(여기 <span class="math inline">\(\alpha = 1/2\)</span> 면 <span class="math inline">\(SD^2/t\)</span>, <span class="math inline">\(\alpha = 1\)</span> 이면 <span class="math inline">\(SD^2/t^2\)</span>, <span class="math inline">\(\alpha = 3/2\)</span> 면 <span class="math inline">\(SD^2/t^3\)</span> 에 해당.) PCA 에서의 효과는, 데이터 행렬을 <span class="math inline">\(\tilde X \to t^{-\alpha} \tilde X\)</span> 로 균일하게 스케일하므로 <span class="math inline">\(C \to t^{-2\alpha}\, C\)</span>, <span class="math inline">\(B \to t^{-2\alpha}\, B\)</span>. eigen-분해 <span class="math inline">\(C = V \Lambda V^\top\)</span> 가 <span class="math inline">\(t^{-2\alpha} C = V (t^{-2\alpha}\Lambda) V^\top\)</span> 가 되어 eigenvector <span class="math inline">\(V\)</span> 는 그대로, eigenvalue 만 <span class="math inline">\(t^{-2\alpha}\)</span> 곱이다. cMDS 좌표 <span class="math inline">\(Y = U \Sigma^{1/2}\)</span> 도 <span class="math inline">\(t^{-\alpha} U \Sigma^{1/2} = t^{-\alpha} Y\)</span> 로 균일한 축소. 결론: 상대적인 임베딩 모양 — nodes 의 배치 — 은 완전히 동일하고, 단지 좌표축의 단위가 <span class="math inline">\(t^\alpha\)</span> 만큼 바뀔 뿐이다.</p>
+<p>여기까지면 답은 “<span class="math inline">\(t\)</span> 로 나누든 말든 PCA 임베딩은 같다” 라는 무미건조한 결론. 그러나 한 가지 더 봐야 한다 — multi-regime situation 에서의 nontrivial 한 차이다. 같은 그래프 위 다른 노드 쌍이 다른 regime 에 속하는 경우를 생각해 보자. 예를 들어 Wheel <span class="math inline">\(W_{21}\)</span> (<a href="./260515_d3bd76.html">소미 blog d3bd76</a>) 에서:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -330,44 +283,9 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </tr>
 </tbody>
 </table>
-<p><span class="math inline">\(t\)</span> 가 충분히 큰 시점의 SD² 행렬을 보면, <strong>모든 entry 가 가장 빠르게 자라는 (= drift) 쌍에 의해 dominate</strong> — Thm C 쌍의 <span class="math inline">\(SD^2\)</span> 가 <span class="math inline">\(t^3\)</span> 로 커지는 데 비해 Thm A 쌍은 <span class="math inline">\(t^1\)</span> 로 자란다. 두 항의 비율이 <span class="math inline">\(t^2\)</span>.</p>
-</section>
-<section id="raw-sd2-의-pca" class="level3">
-<h3 class="anchored" data-anchor-id="raw-sd2-의-pca">3.2 raw <span class="math inline">\(SD^2\)</span> 의 PCA</h3>
-<p>PC1, PC2 가 잡는 것은 SD² 행렬의 분산이 큰 방향. drift 쌍이 모든 분산을 독점하므로 — <em>PC1, PC2 는 drift 정보만 보여준다.</em> Thm A/B 의 미세 구조는 PC3 이후로 밀려 사실상 노이즈 안에 묻힘.</p>
-</section>
-<section id="sd2t3-의-pca" class="level3">
-<h3 class="anchored" data-anchor-id="sd2t3-의-pca">3.3 <span class="math inline">\(SD^2/t^3\)</span> 의 PCA</h3>
-<p>drift 쌍이 유한 상수로 수렴 (<span class="math inline">\(\frac{\bar b^2(\rho_i-\rho_j)^2}{3}\)</span>). Thm A 쌍은 <span class="math inline">\(SD^2/t^3 \to 0\)</span>, Thm B 쌍도 <span class="math inline">\(SD^2/t^3 \to 0\)</span>. 따라서 PCA 의 dispersion 은 여전히 drift 쌍이 dominate, 다만 <em>작은 유한 값</em> 으로 normalize.</p>
-</section>
-<section id="sd2t2-의-pca-thm-b-가-살아남는-normalization" class="level3">
-<h3 class="anchored" data-anchor-id="sd2t2-의-pca-thm-b-가-살아남는-normalization">3.4 <span class="math inline">\(SD^2/t^2\)</span> 의 PCA — Thm B 가 살아남는 normalization</h3>
-<p>여기서 흥미. <span class="math inline">\(SD^2/t^2\)</span> 의 큰-<span class="math inline">\(t\)</span> 거동:</p>
-<ul>
-<li>Thm A 쌍: <span class="math inline">\(SD^2/t^2 \sim c/t \to 0\)</span>.</li>
-<li>Thm B 쌍: <span class="math inline">\(SD^2/t^2 \to \bar b^2 \sigma_{ij}^2/2\)</span> (유한 상수).</li>
-<li>Thm C 쌍: <span class="math inline">\(SD^2/t^2 \sim \bar b^2(\rho_i-\rho_j)^2 t /3 \to \infty\)</span> — <em>발산</em> 하지만 <span class="math inline">\(t\)</span> 에 선형.</li>
-</ul>
-<p>큰 <span class="math inline">\(t\)</span> 에서 SD² <span class="math inline">\(/t^2\)</span> 행렬은:</p>
-<ul>
-<li>Thm C entry: <span class="math inline">\(\sim t\)</span></li>
-<li>Thm B entry: <span class="math inline">\(\sim 1\)</span></li>
-<li>Thm A entry: <span class="math inline">\(\sim 1/t\)</span></li>
-</ul>
-<p>여전히 Thm C 가 dominant 하지만 <span class="math inline">\(t\)</span> 의 거듭제곱이 <span class="math inline">\(t^3 \to t\)</span> 로 <em>낮아짐</em>. 즉 raw SD² 보다 Thm B 가 임베딩에 좀 더 기여한다.</p>
-</section>
-<section id="sd2t-의-pca-thm-a-가-살아남는-normalization" class="level3">
-<h3 class="anchored" data-anchor-id="sd2t-의-pca-thm-a-가-살아남는-normalization">3.5 <span class="math inline">\(SD^2/t\)</span> 의 PCA — Thm A 가 살아남는 normalization</h3>
-<p>마지막으로 <span class="math inline">\(SD^2/t\)</span> :</p>
-<ul>
-<li>Thm A: <span class="math inline">\(SD^2/t \to c\)</span> (유한 상수).</li>
-<li>Thm B: <span class="math inline">\(SD^2/t \sim \bar b^2\sigma^2 t/2 \to \infty\)</span>.</li>
-<li>Thm C: <span class="math inline">\(SD^2/t \sim \bar b^2(\rho_i-\rho_j)^2 t^2/3 \to \infty\)</span>.</li>
-</ul>
-<p>큰 <span class="math inline">\(t\)</span> 에서 Thm A 만 유한, 나머지 발산. PCA 는 여전히 발산 항이 dominate. 그러나 Thm A 쌍 사이의 미세한 거리 차이가 <em>상대적으로</em> 더 잘 보임.</p>
-</section>
-<section id="정리-t-normalization-은-regime-의-강조-시프트" class="level3">
-<h3 class="anchored" data-anchor-id="정리-t-normalization-은-regime-의-강조-시프트">3.6 정리 — t-normalization 은 regime 의 강조 시프트</h3>
+<p><span class="math inline">\(t\)</span> 가 충분히 큰 시점의 SD² 행렬을 보면, 모든 entry 가 가장 빠르게 자라는 (= drift) 쌍에 의해 dominate — Thm C 쌍의 <span class="math inline">\(SD^2\)</span> 가 <span class="math inline">\(t^3\)</span> 로 커지는 데 비해 Thm A 쌍은 <span class="math inline">\(t^1\)</span> 로 자란다. 두 항의 비율이 <span class="math inline">\(t^2\)</span>. 그래서 raw <span class="math inline">\(SD^2\)</span> 의 PCA 에서는 PC1, PC2 가 잡는 것이 SD² 행렬의 분산이 큰 방향 — drift 쌍이 모든 분산을 독점하므로, PC1, PC2 는 drift 정보만 보여준다. Thm A/B 의 미세 구조는 PC3 이후로 밀려 사실상 노이즈 안에 묻힌다. <span class="math inline">\(SD^2/t^3\)</span> 의 PCA 에서는 drift 쌍이 유한 상수로 수렴 (<span class="math inline">\(\frac{\bar b^2(\rho_i-\rho_j)^2}{3}\)</span>) 하고, Thm A 쌍은 <span class="math inline">\(SD^2/t^3 \to 0\)</span>, Thm B 쌍도 <span class="math inline">\(SD^2/t^3 \to 0\)</span>. 따라서 PCA 의 dispersion 은 여전히 drift 쌍이 dominate, 다만 작은 유한 값으로 normalize 된다.</p>
+<p><span class="math inline">\(SD^2/t^2\)</span> 의 PCA — Thm B 가 살아남는 normalization 이 흥미롭다. <span class="math inline">\(SD^2/t^2\)</span> 의 큰-<span class="math inline">\(t\)</span> 거동은 Thm A 쌍이 <span class="math inline">\(\sim c/t \to 0\)</span>, Thm B 쌍이 <span class="math inline">\(\to \bar b^2 \sigma_{ij}^2/2\)</span> (유한 상수), Thm C 쌍이 <span class="math inline">\(\sim \bar b^2(\rho_i-\rho_j)^2 t /3 \to \infty\)</span> (발산하지만 <span class="math inline">\(t\)</span> 에 선형). 큰 <span class="math inline">\(t\)</span> 에서 SD² <span class="math inline">\(/t^2\)</span> 행렬은 Thm C entry <span class="math inline">\(\sim t\)</span>, Thm B entry <span class="math inline">\(\sim 1\)</span>, Thm A entry <span class="math inline">\(\sim 1/t\)</span>. 여전히 Thm C 가 dominant 하지만 <span class="math inline">\(t\)</span> 의 거듭제곱이 <span class="math inline">\(t^3 \to t\)</span> 로 낮아진다 — 즉 raw SD² 보다 Thm B 가 임베딩에 좀 더 기여한다. 마지막으로 <span class="math inline">\(SD^2/t\)</span> 의 PCA 에서는 Thm A 가 유한 상수, Thm B 가 <span class="math inline">\(\sim \bar b^2\sigma^2 t/2 \to \infty\)</span>, Thm C 가 <span class="math inline">\(\sim \bar b^2(\rho_i-\rho_j)^2 t^2/3 \to \infty\)</span>. 큰 <span class="math inline">\(t\)</span> 에서 Thm A 만 유한, 나머지 발산. PCA 는 여전히 발산 항이 dominate 하지만 Thm A 쌍 사이의 미세한 거리 차이가 상대적으로 더 잘 보인다.</p>
+<p>정리하면 t-normalization 은 regime 의 강조 시프트다:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 20%">
@@ -416,38 +334,13 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </tr>
 </tbody>
 </table>
-<p><em>항상 가장 큰 거듭제곱 쪽이 dominate</em>. 그러나 <span class="math inline">\(t \to \infty\)</span> 에서:</p>
-<ul>
-<li>raw <span class="math inline">\(SD^2\)</span>: PC1/PC2 는 <strong>drift 의 형상</strong> (모든 정보가 drift 방향에 집중)</li>
-<li><span class="math inline">\(SD^2/t^3\)</span>: PC1/PC2 도 drift 형상이지만 <strong>각 pair 가 stable 유한값</strong> → 깨끗한 representation</li>
-<li><span class="math inline">\(SD^2/t^2\)</span>, <span class="math inline">\(SD^2/t\)</span>: drift 와 다른 regime 의 <em>조합</em> 이 보이지만 발산 항이 여전히 dominate</li>
-</ul>
-<p>만약 <strong>drift 쌍을 빼고 (subtract out)</strong> PCA 한다면 — 즉 drift component 를 분리한 잔차에 대해 PCA — 그때 <span class="math inline">\(SD^2/t^2\)</span> normalization 이 Thm B 의 spectral 구조 (<a href="./260520_dcd721.html">본인 HST₀ 노트</a> Theorem 2 의 <span class="math inline">\(f(\lambda) = (1+\lambda)/(1-\lambda)\)</span> 임베딩) 를 가장 깔끔히 노출한다.</p>
+<p>항상 가장 큰 거듭제곱 쪽이 dominate 하지만 <span class="math inline">\(t \to \infty\)</span> 에서 raw <span class="math inline">\(SD^2\)</span> 는 PC1/PC2 가 drift 의 형상 (모든 정보가 drift 방향에 집중), <span class="math inline">\(SD^2/t^3\)</span> 는 PC1/PC2 도 drift 형상이지만 각 pair 가 stable 유한값 → 깨끗한 representation, <span class="math inline">\(SD^2/t^2\)</span>·<span class="math inline">\(SD^2/t\)</span> 는 drift 와 다른 regime 의 조합이 보이지만 발산 항이 여전히 dominate. 만약 drift 쌍을 빼고 (subtract out) PCA 한다면 — 즉 drift component 를 분리한 잔차에 대해 PCA — 그때 <span class="math inline">\(SD^2/t^2\)</span> normalization 이 Thm B 의 spectral 구조 (<a href="./260520_dcd721.html">본인 HST₀ 노트</a> Theorem 2 의 <span class="math inline">\(f(\lambda) = (1+\lambda)/(1-\lambda)\)</span> 임베딩) 를 가장 깔끔히 노출한다.</p>
 <hr>
 </section>
-</section>
-<section id="종합-답" class="level2">
-<h2 class="anchored" data-anchor-id="종합-답">4. 종합 답</h2>
-<p><strong>Q1.</strong> “SD 를 <span class="math inline">\(t\)</span> 로 나누고 PCA” vs “raw SD 의 PCA” 의 차이:</p>
-<ul>
-<li><em>순수한 임베딩의 모양</em>: 같다 (eigenvector 동일).</li>
-<li><em>eigenvalue 의 절대값</em>: <span class="math inline">\(t^{2\alpha}\)</span> 만큼 다름.</li>
-<li><em>어떤 regime 이 dominant axis 로 떠오르는가</em>: <strong>다름</strong>. raw 는 가장 강한 거듭제곱 (Thm C drift) 만 보이고, <span class="math inline">\(t^3\)</span> 로 나누면 drift 자체는 같지만 stable 유한값. 잔차 분석 (drift 제거 후) 을 곁들이면 <span class="math inline">\(t^2\)</span> normalization 이 Thm B intermediate 의 spectral 구조 (<span class="math inline">\(f(\lambda) = (1+\lambda)/(1-\lambda)\)</span>) 를 노출.</li>
-</ul>
-<p><strong>Q2.</strong> SD 의 cMDS vs PCA:</p>
-<ul>
-<li>SD 는 height 좌표 <span class="math inline">\(h_i^{(t)} \in \mathbb R^{t+1}\)</span> 의 <span class="math inline">\(L^2\)</span> 거리 → Euclidean. Young-Householder 정리에 의해 <strong>cMDS 좌표 = PCA principal scores</strong>, 동일.</li>
-<li>PCA 가 추가로 줄 수 있는 것은 <em>height-좌표 공간의 방향</em> (어느 시각 <span class="math inline">\(s\)</span> 가 임베딩에 기여하는지) — 실용적으로는 거의 안 봄.</li>
-</ul>
-<p><strong>합 칠 한 줄.</strong> Q1·Q2 둘 다 “표면적으론 차이 없음” 의 trivial 답이 있지만, <em>진짜 의미 있는 차이</em> 는 — Q1 에서 — <strong>regime separation 의 강조 시프트</strong> 에 있다. raw SD² PCA 가 보여주는 것은 Thm C drift 의 그림자이고, drift 를 정규화·제거하면 그제서야 Thm A/B 의 그래프-신호 상호작용 구조가 드러난다.</p>
-<hr>
-</section>
-<section id="다음-follow-up" class="level2">
-<h2 class="anchored" data-anchor-id="다음-follow-up">5. 다음 follow-up</h2>
-<p>이 결과는 다음 분석으로 자연스레 이어진다:</p>
-<p><code>-</code> <em>Drift 잔차의 spectral 분석.</em> drift component 를 빼고 남은 <span class="math inline">\(SD^2 - \frac{\bar b^2(\rho_i-\rho_j)^2}{3}t^3\)</span> 의 PCA. 이 잔차의 PCA 가 Thm B intermediate 의 <a href="./260520_dcd721.html">HST₀ 의 spectral filter <span class="math inline">\((1+\lambda)/(1-\lambda)\)</span></a> 와 어떻게 연결되는지.</p>
-<p><code>-</code> <em>Wheel <span class="math inline">\(W_{21}\)</span> 수치 실험.</em> 위 표의 dominant regime 시프트가 실제 수치에서 어떻게 보이는지. <a href="./260515_d3bd76.html">소미의 d3bd76 시뮬레이션</a> 데이터를 재활용해 raw vs <span class="math inline">\(t^2\)</span> vs <span class="math inline">\(t^3\)</span> normalize 의 PC1/PC2 좌표를 직접 비교.</p>
-<p><code>-</code> <em>Sammon dual.</em> 비-Euclidean 변형 (예: drift 잔차의 sign 차이) 에서는 cMDS 와 PCA 가 갈라질 수 있다. 그때 source/sink 분리가 어떻게 정보를 드러내는지.</p>
+<section id="종합-답과-follow-up" class="level2">
+<h2 class="anchored" data-anchor-id="종합-답과-follow-up">종합 답과 follow-up</h2>
+<p>Q1 “SD 를 <span class="math inline">\(t\)</span> 로 나누고 PCA” vs “raw SD 의 PCA” 의 차이는 (i) 순수한 임베딩의 모양은 같다 (eigenvector 동일), (ii) eigenvalue 의 절대값은 <span class="math inline">\(t^{2\alpha}\)</span> 만큼 다름, (iii) 어떤 regime 이 dominant axis 로 떠오르는가는 다름 — raw 는 가장 강한 거듭제곱 (Thm C drift) 만 보이고, <span class="math inline">\(t^3\)</span> 로 나누면 drift 자체는 같지만 stable 유한값. 잔차 분석 (drift 제거 후) 을 곁들이면 <span class="math inline">\(t^2\)</span> normalization 이 Thm B intermediate 의 spectral 구조 (<span class="math inline">\(f(\lambda) = (1+\lambda)/(1-\lambda)\)</span>) 를 노출한다. Q2 SD 의 cMDS vs PCA 는 — SD 가 height 좌표 <span class="math inline">\(h_i^{(t)} \in \mathbb R^{t+1}\)</span> 의 <span class="math inline">\(L^2\)</span> 거리 → Euclidean 이므로 Young-Householder 정리에 의해 cMDS 좌표 = PCA principal scores, 동일하다. PCA 가 추가로 줄 수 있는 것은 height-좌표 공간의 방향 (어느 시각 <span class="math inline">\(s\)</span> 가 임베딩에 기여하는지) — 실용적으로는 거의 안 본다. 한 줄로 합치면, Q1·Q2 둘 다 “표면적으론 차이 없음” 의 trivial 답이 있지만, 진짜 의미 있는 차이는 (Q1 에서) regime separation 의 강조 시프트에 있다. raw SD² PCA 가 보여주는 것은 Thm C drift 의 그림자이고, drift 를 정규화·제거하면 그제서야 Thm A/B 의 그래프-신호 상호작용 구조가 드러난다.</p>
+<p>이 결과는 다음 분석으로 자연스레 이어진다. 먼저 <em>Drift 잔차의 spectral 분석</em> — drift component 를 빼고 남은 <span class="math inline">\(SD^2 - \frac{\bar b^2(\rho_i-\rho_j)^2}{3}t^3\)</span> 의 PCA 가 Thm B intermediate 의 <a href="./260520_dcd721.html">HST₀ 의 spectral filter <span class="math inline">\((1+\lambda)/(1-\lambda)\)</span></a> 와 어떻게 연결되는지. 둘째 <em>Wheel <span class="math inline">\(W_{21}\)</span> 수치 실험</em> — 위 표의 dominant regime 시프트가 실제 수치에서 어떻게 보이는지, <a href="./260515_d3bd76.html">소미의 d3bd76 시뮬레이션</a> 데이터를 재활용해 raw vs <span class="math inline">\(t^2\)</span> vs <span class="math inline">\(t^3\)</span> normalize 의 PC1/PC2 좌표를 직접 비교. 셋째 <em>Sammon dual</em> — 비-Euclidean 변형 (예: drift 잔차의 sign 차이) 에서는 cMDS 와 PCA 가 갈라질 수 있고, 그때 source/sink 분리가 어떻게 정보를 드러내는지.</p>
 <hr>
 <section id="참고" class="level3">
 <h3 class="anchored" data-anchor-id="참고">참고</h3>

@@ -21,7 +21,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 >
 > 이 직관을 정식 분해로 풀어쓴 노트. **세 regime (Thm A/B/C) 의 $t^1, t^2, t^3$ 가 우연이 아니라 — $(h_i - h_j)^2$ 의 *cancellation tier* × *시간 적분이 한 차원 올림* 의 곱.** 세 regime + 본인 노트 세 개 (Z닫힌형식, $t^3$ 상한, $t$-나누기) + 에이 ABC + 소미 d3bd76 가 하나의 그림으로 통합.
 
-### TL;DR
+**한 줄 요지**:
 
 | Tier | Cancellation | $(h_i - h_j)^2$ base | $\sum_s$ 적분 | $\mathrm{SD}^2$ |
 |---|---|---|---|---|
@@ -29,38 +29,21 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 | 1 | drift cancel ($\rho_i = \rho_j$) | $\sim t^1$ (fluctuation 분산) | × $t^1$ | $\sim t^2$ (Thm B) |
 | 2 | drift + fluctuation 둘 다 cancel | $\sim t^0$ (bounded) | × $t^1$ | $\sim t^1$ (Thm A) |
 
-핵심 한 줄: **각 tier 가 base 의 order 를 한 단계씩 내림. 시간 적분 $\sum_s$ 가 항상 한 단계 올림.** 두 효과의 합이 $t^3 \to t^2 \to t^1$ 이라는 사다리.
+각 tier 가 base 의 order 를 한 단계씩 내리고, 시간 적분 $\sum_s$ 가 항상 한 단계 올린다. 두 효과의 합이 $t^3 \to t^2 \to t^1$ 이라는 사다리. HST 의 block 메커니즘은 두 cancellation 단계를 그래프 구조와 무관하게 강제 — 이게 HST 의 본질적 가치. HST₀ (block 없음) 은 tier 0 만, 운 좋으면 tier 1 부분구조. full HST 만 tier 2 까지 도달 가능.
 
-HST 의 **block 메커니즘은 두 cancellation 단계를 *그래프 구조와 무관하게* 강제** — 이게 HST 의 본질적 가치. HST₀ (block 없음) 은 tier 0 만, 운 좋으면 tier 1 부분구조. full HST 만 tier 2 까지 도달 가능.
+## Cancellation tier 분해 — 세 regime 의 통일된 메커니즘
 
----
-
-## 1. 출발점 — drift + fluctuation 분해
-
-$h_i(s) - h_j(s)$ 를 LLN + CLT 의 정신으로 분해. SLLN 으로 $h(v_k, s)/s \to \bar b\,\rho_k$, 즉 leading order 가 *선형 in $s$*. 그 위에 CLT-type 변동.
+출발점은 drift + fluctuation 분해다. $h_i(s) - h_j(s)$ 를 LLN + CLT 의 정신으로 분해 — SLLN 으로 $h(v_k, s)/s \to \bar b\,\rho_k$, 즉 leading order 가 선형 in $s$ 이고 그 위에 CLT-type 변동:
 
 $$h(v_i, s) - h(v_j, s) \;=\; \underbrace{\bar b\,(\rho_i - \rho_j)\,s}_{=:\, D_{ij}(s),\ \text{drift}} \;+\; \underbrace{\xi_{ij}(s)}_{\text{fluctuation}}$$
 
-여기서:
+여기서 drift $D_{ij}(s) = \bar b(\rho_i - \rho_j) s$ 는 deterministic, $s$ 에 선형 (｜$\rho_i - \rho_j$ 가 0 이면 drift = 0), fluctuation $\xi_{ij}(s)$ 는 random, mean 0, CLT 로 $\mathrm{Var}(\xi_{ij}(s)) \sim \sigma_{ij}^2 s$ (즉 $\xi \sim \sqrt s$). 두 항의 출처는 drift 가 $b'_s$ 의 mean $\bar b$ 와 점유율 $\rho_k$ 의 leading 효과, fluctuation 이 (i) $b'_s$ 의 분산 $b^2/12$ 과 (ii) walker 위치의 random 변동에서 온다.
 
-`-` **drift** $D_{ij}(s) = \bar b(\rho_i - \rho_j) s$ — *deterministic*, $s$ 에 선형. $\rho_i - \rho_j$ 가 0 이면 drift = 0.
-
-`-` **fluctuation** $\xi_{ij}(s)$ — *random*, mean 0, CLT 로 $\mathrm{Var}(\xi_{ij}(s)) \sim \sigma_{ij}^2 s$ (즉 $\xi \sim \sqrt s$).
-
-두 항의 출처:
-
-  - drift 는 $b'_s$ 의 mean $\bar b$ 와 점유율 $\rho_k$ 의 leading 효과
-  - fluctuation 은 (i) $b'_s$ 의 분산 $b^2/12$ 과 (ii) walker 위치의 random 변동에서 옴
-
-## 2. 제곱 후 세 항의 지배 — base order 결정
-
-대표 직관의 핵심 — *그래서 base 가 뭐 됨?*
-
-제곱 전개:
+제곱 전개로 base order 가 결정된다:
 
 $$\bigl(h_i(s) - h_j(s)\bigr)^2 \;=\; \bigl(D_{ij}(s) + \xi_{ij}(s)\bigr)^2 \;=\; D^2 \;+\; 2 D\,\xi \;+\; \xi^2.$$
 
-각 항의 order:
+각 항의 order 는:
 
 | 항 | 구성 | order |
 |---|---|---|
@@ -68,76 +51,37 @@ $$\bigl(h_i(s) - h_j(s)\bigr)^2 \;=\; \bigl(D_{ij}(s) + \xi_{ij}(s)\bigr)^2 \;=\
 | $2 D_{ij}(s)\, \xi_{ij}(s)$ | 교차항 | $\bar b(\rho_i-\rho_j)\,s \cdot \sqrt s = \bar b(\rho_i-\rho_j) s^{3/2}$ (random) |
 | $\xi_{ij}(s)^2$ | fluctuation 제곱 | $\sigma_{ij}^2\, s$ (in expectation) |
 
-## 3. Tier 0 — nothing cancels (Thm C drift)
-
-$\rho_i \neq \rho_j$, 모든 항이 살아 있는 가장 일반적인 경우. dominant 는 **$D^2$ 항 = $\bar b^2(\rho_i-\rho_j)^2 s^2$**. 다른 두 항은 lower order.
-
-$\mathrm{SD}^2$ 적분:
+**Tier 0 — nothing cancels (Thm C drift).** $\rho_i \neq \rho_j$, 모든 항이 살아 있는 가장 일반적인 경우. dominant 는 $D^2$ 항 $= \bar b^2(\rho_i-\rho_j)^2 s^2$. 다른 두 항은 lower order. $\mathrm{SD}^2$ 적분으로
 
 $$\mathrm{SD}^2_{ij}(t) \;=\; \sum_{s=0}^t (h_i-h_j)^2 \;\approx\; \bar b^2(\rho_i-\rho_j)^2 \sum_{s=0}^t s^2 \;=\; \bar b^2(\rho_i-\rho_j)^2 \cdot \frac{t(t+1)(2t+1)}{6}$$
 
-따라서
+이고 따라서
 
 $$\frac{\mathrm{SD}^2_{ij}(t)}{t^3} \;\xrightarrow{t\to\infty}\; \frac{\bar b^2(\rho_i-\rho_j)^2}{3}.$$
 
-→ **Thm C drift regime** 의 leading 상수. 에이 [모델A통합증명_ABC](https://miruetoto.github.io/yechan/) Thm C 와 정확히 일치.
+이는 Thm C drift regime 의 leading 상수. 에이 [모델A통합증명_ABC](https://miruetoto.github.io/yechan/) Thm C 와 정확히 일치.
 
-## 4. Tier 1 — drift cancels (Thm B intermediate)
+**Tier 1 — drift cancels (Thm B intermediate).** $\rho_i = \rho_j$ 면 $D_{ij}(s) \equiv 0$. 그러면 $D^2 = 0$, $D\xi = 0$. 남는 건 $\xi^2 \approx \sigma_{ij}^2 s$ 항만. $\mathrm{SD}^2$ 적분으로
 
-$\rho_i = \rho_j$ 면 $D_{ij}(s) \equiv 0$. 그러면 $D^2 = 0$, $D\xi = 0$. 남는 건 **$\xi^2 \approx \sigma_{ij}^2 s$ 항만**.
+$$\mathrm{SD}^2_{ij}(t) \;\approx\; \sum_{s=0}^t \mathbb E[\xi(s)^2] \;\approx\; \sigma_{ij}^2 \sum_{s=0}^t s \;=\; \sigma_{ij}^2 \cdot \frac{t(t+1)}{2}$$
 
-$\mathrm{SD}^2$ 적분:
-
-$$\mathrm{SD}^2_{ij}(t) \;\approx\; \sum_{s=0}^t \mathbb E[\xi(s)^2] \;\approx\; \sigma_{ij}^2 \sum_{s=0}^t s \;=\; \sigma_{ij}^2 \cdot \frac{t(t+1)}{2}.$$
-
-따라서
+이고 따라서
 
 $$\frac{\mathrm{SD}^2_{ij}(t)}{t^2} \;\xrightarrow{t\to\infty}\; \frac{\sigma_{ij}^2}{2} \quad (\text{또는 } \bar b^2 \sigma_{ij}^2 / 2 \text{ 단위 문제에 따라})$$
 
-→ **Thm B intermediate regime**.
-
-여기 $\sigma_{ij}^2$ 은 ergodic chain 의 CLT-asymptotic variance — Brémaud (6.31). 본인 HST₀ 노트에서 본 그 양:
+이는 Thm B intermediate regime. 여기 $\sigma_{ij}^2$ 은 ergodic chain 의 CLT-asymptotic variance — Brémaud (6.31). 본인 HST₀ 노트에서 본 그 양
 
 $$\sigma_{ij}^2 \;=\; v(f_{ij}, \mathbf{P}, \boldsymbol\pi) \;=\; \sum_{k=2}^n \frac{1+\lambda_k}{1-\lambda_k}\,\pi^2 (v_k(i) - v_k(j))^2.$$
 
-즉 [본인 Z닫힌형식 노트](./260520_dcd721.html) 의 spectral filter $(1+\lambda)/(1-\lambda)$ 는 *Tier 1 의 base 가 정확히 무엇인지* 를 알려주는 식.
+즉 [본인 Z닫힌형식 노트](./260520_dcd721.html) 의 spectral filter $(1+\lambda)/(1-\lambda)$ 는 Tier 1 의 base 가 정확히 무엇인지를 알려주는 식이다. 대표 직관 그대로 — "$t^2$ 은 원래 $t^1$ 으로 갈 게 (=$\xi^2 \sim t$) 시간 적분되어 ($\sum \sim t^2$) 한 차원 올라간 것."
 
-대표 직관 그대로: "$t^2$ 은 원래 $t^1$ 으로 갈 게 (=$\xi^2 \sim t$) 시간 적분되어 ($\sum \sim t^2$) 한 차원 올라간 것."
-
-## 5. Tier 2 — fluctuation 도 cancels (Thm A balanced)
-
-drift 가 cancel 된 위에 **fluctuation 까지 cancel** 되면 어떻게 되나?
-
-이건 자명하지 않다. $\xi^2 \sim t$ 가 *원래* 이는 fluctuation 의 누적 분산. 그것까지 cancel 되려면 walker 의 fluctuation 자체가 어떤 방식으로 control 되어야 한다.
-
-**HST 본 논문 (Choi-Oh 2026, hst.tex)** 의 Thm A 가 정확히 이를 다룬다 — block + flow 가 fluctuation 의 누적을 cap 하는 메커니즘. 결과: $(h_i - h_j)^2 = O(1)$ (bounded, $s$ 에 무관).
-
-$\mathrm{SD}^2$ 적분:
-
-$$\mathrm{SD}^2_{ij}(t) \;\approx\; \sum_{s=0}^t O(1) \;=\; O(t).$$
-
-따라서
+**Tier 2 — fluctuation 도 cancels (Thm A balanced).** drift 가 cancel 된 위에 fluctuation 까지 cancel 되면 어떻게 되나? 이건 자명하지 않다. $\xi^2 \sim t$ 가 원래 fluctuation 의 누적 분산이라서, 그것까지 cancel 되려면 walker 의 fluctuation 자체가 어떤 방식으로 control 되어야 한다. HST 본 논문 (Choi-Oh 2026, hst.tex) 의 Thm A 가 정확히 이를 다룬다 — block + flow 가 fluctuation 의 누적을 cap 하는 메커니즘이다. 결과는 $(h_i - h_j)^2 = O(1)$ (bounded, $s$ 에 무관). $\mathrm{SD}^2$ 적분 $\approx \sum_{s=0}^t O(1) = O(t)$ 이므로
 
 $$\frac{\mathrm{SD}^2_{ij}(t)}{t} \;\to\; c_{ij} \in [0, \infty).$$
 
-→ **Thm A balanced regime**. base 가 $t^0$ 이라 시간 적분 후 $t^1$.
+→ Thm A balanced regime. base 가 $t^0$ 이라 시간 적분 후 $t^1$. 이 단계는 HST₀ 에서는 불가능하다 — block 없는 단순 random walk 의 fluctuation 은 $\xi^2 \sim t$ 로 자라기 마련 (CLT). Full HST 에서만 가능하다. block 메커니즘이 walker 가 한 지점에 "갇히려고" 하는 순간 reset 함으로써 fluctuation 누적을 끊는다.
 
-`-` 이 단계는 HST₀ 에서는 *불가능*. block 없는 단순 random walk 의 fluctuation 은 $\xi^2 \sim t$ 로 자라기 마련 (CLT).
-`-` Full HST 에서만 가능. block 메커니즘이 walker 가 한 지점에 "갇히려고" 하는 순간 reset 함으로써 fluctuation 누적을 끊는다.
-
-## 6. 시간 적분의 단조 효과 — $\sum_s s^k \sim t^{k+1}$
-
-이 그림이 통일적으로 보이는 이유는 시간 적분 $\sum_{s=0}^t$ 의 단순한 성질:
-
-$$\sum_{s=0}^t s^k \;\sim\; \frac{t^{k+1}}{k+1} \qquad (t \to \infty,\, k \ge 0).$$
-
-`-` $k = 0$: $\sum 1 = t + 1 \sim t^1$.
-`-` $k = 1$: $\sum s \sim t^2/2$.
-`-` $k = 2$: $\sum s^2 \sim t^3/3$.
-
-즉 시간 적분이 *항상 한 차원 올림*. base 의 order 가 정확히 $k$ 이면 $\mathrm{SD}^2$ 의 order 는 정확히 $k+1$.
-
-base 의 order = drift cancellation 의 tier:
+이 그림이 통일적으로 보이는 이유는 시간 적분 $\sum_{s=0}^t$ 의 단순한 성질 — $\sum_{s=0}^t s^k \sim t^{k+1}/(k+1)$ ($t \to \infty$, $k \ge 0$). 즉 $k=0$: $\sum 1 \sim t$; $k=1$: $\sum s \sim t^2/2$; $k=2$: $\sum s^2 \sim t^3/3$. 시간 적분이 항상 한 차원 올린다. base 의 order 가 정확히 $k$ 이면 $\mathrm{SD}^2$ 의 order 는 정확히 $k+1$. base 의 order = drift cancellation 의 tier:
 
 | Tier | base order $k$ | $\mathrm{SD}^2$ order $k+1$ | regime |
 |---|---|---|---|
@@ -145,11 +89,13 @@ base 의 order = drift cancellation 의 tier:
 | 1 | 1 | **2** | Thm B |
 | 2 | 0 | **1** | Thm A |
 
-이게 세 regime 의 $t^1, t^2, t^3$ 의 *깔끔한 출처*.
+이게 세 regime 의 $t^1, t^2, t^3$ 의 깔끔한 출처다.
 
-## 7. Wheel $W_{21}$ — 세 tier 가 한 그래프에 공존
+---
 
-[소미의 d3bd76 시뮬레이션](./260515_d3bd76.html) 이 보인 그림. Wheel $W_{21}$ 위 HST₀ (block 없음):
+## HST 의 block 의 의미와 본인 노트들의 통합
+
+먼저 Wheel $W_{21}$ 의 [소미 d3bd76 시뮬레이션](./260515_d3bd76.html) — block 없는 HST₀ 가 보인 그림은 다음과 같다:
 
 | 노드 쌍 | $\rho$ | tier | $\mathrm{SD}^2$ |
 |---|---|---|---|
@@ -157,98 +103,37 @@ base 의 order = drift cancellation 의 tier:
 | leaf vs leaf (symmetric) | $\rho_{r_1} = \rho_{r_2}$, drift cancel | 1 | $\propto t^2$ ✓ (시뮬레이션) |
 | (Tier 2) | block 없으니 불가 | — | — |
 
-같은 그래프에 **두 tier 가 공존** — 대표 직관 그대로. PCA 임베딩 ([본인 t-나누기 노트](./260520_baf177.html)) 가 $t^k$ normalization 을 통해 어느 tier 를 강조할지 선택하는 이유.
-
-Full HST 가 같은 그래프에 적용되면:
+같은 그래프에 두 tier 가 공존한다 — 대표 직관 그대로. PCA 임베딩 ([본인 t-나누기 노트](./260520_baf177.html)) 가 $t^k$ normalization 을 통해 어느 tier 를 강조할지 선택하는 이유다. Full HST 가 같은 그래프에 적용되면:
 
 | 노드 쌍 | block 효과 | tier | $\mathrm{SD}^2$ |
 |---|---|---|---|
 | hub vs leaf | block 이 $\rho_h = \rho_l = 1/n$ 강제 | 1 (drift cancel) | $\propto t^2$ |
 | 모든 쌍 | block 이 fluctuation 까지 cap | 2 (full cancel) | $\propto t$ (Thm A) |
 
-block 의 효과로 **모든 쌍이 tier 2 까지 내려옴** — 그래프 위 정보가 $t^1$ scale 의 균등한 representation 으로 압축됨.
+block 의 효과로 모든 쌍이 tier 2 까지 내려온다 — 그래프 위 정보가 $t^1$ scale 의 균등한 representation 으로 압축된다.
 
-## 8. HST 의 block 이 두 cancellation 을 어떻게 강제하나
-
-이게 본 회사 본업의 핵심 의미. 분리해서 보자.
-
-### 8.1 Drift cancellation
-
-HST₀: 표준 random walk → $\rho_i \to \pi_i$ (stationary). 일반적으로 $\pi_i \neq \pi_j$ (degree 다양) → drift 살아 있음 → tier 0. 부분구조 (symmetric pair) 에서만 운 좋게 tier 1.
-
-Full HST: block 메커니즘이 *높이가 임계 넘으면 reset*. 효과는 — walker 가 한 노드에 오래 머물지 못함, 그 결과 점유율이 *동등화*. limit:
+본 회사 본업의 핵심 의미를 두 cancellation 으로 분리해서 보면, 먼저 **drift cancellation** 은 HST₀ 의 경우 표준 random walk → $\rho_i \to \pi_i$ (stationary) 가 일반적으로 $\pi_i \neq \pi_j$ (degree 다양) 라서 drift 살아 있음 → tier 0, 부분구조 (symmetric pair) 에서만 운 좋게 tier 1 이다. Full HST 의 경우 block 메커니즘이 높이가 임계 넘으면 reset, 효과는 walker 가 한 노드에 오래 머물지 못해 점유율이 동등화 — limit 으로
 
 $$\rho_i \;=\; \frac{1}{n} \quad \text{for all } i \quad (\text{full HST, block on}).$$
 
-이건 그래프 구조 (degree, weight) 와 무관. block 이 강제하는 *동등 점유율*. 그러면 $\rho_i = \rho_j$ for all pairs → drift cancel 자동. 모든 쌍이 *적어도* tier 1.
+이건 그래프 구조 (degree, weight) 와 무관하게 block 이 강제하는 동등 점유율이다. 그러면 $\rho_i = \rho_j$ for all pairs → drift cancel 자동. 모든 쌍이 적어도 tier 1.
 
-### 8.2 Fluctuation cancellation
+**Fluctuation cancellation** — drift 만 cancel 한다고 tier 2 는 안 된다. CLT 가 작동하면 $\xi^2 \sim t$, 즉 tier 1 에 멈춘다. Full HST 의 flow + block 이 더 한 단계 한다 — walker 의 fluctuation 누적 자체를 bound. 직관은: 표준 random walk 가 매 step 독립적인 randomness 누적 → $\xi^2 \sim t$ 발산하는 데 반해, HST flow + block 은 높이가 기울기를 만들고 walker 가 그 기울기를 따라가니까 random 한 부분이 결정론적 flow 로 대체된다. 누적 fluctuation 의 분산이 bounded → $\xi^2 = O(1)$. 이 단계는 Foster-Lyapunov drift + Doeblin minorization 의 영역으로 [에이 모델A통합증명_ABC](https://miruetoto.github.io/yechan/) §3 가 정밀히 다룬다. 결과는 existence-only — exact 상수 $c_{ij}$ 가 무엇인지는 open.
 
-drift 만 cancel 한다고 tier 2 는 안 됨. CLT 가 작동하면 $\xi^2 \sim t$, 즉 tier 1 에 멈춤.
-
-Full HST 의 *flow* + block 가 더 한 단계 함: walker 의 fluctuation 누적 자체를 bound 함. 직관:
-
-`-` 표준 random walk: 매 step 독립적인 randomness 누적 → $\xi^2 \sim t$ 발산
-`-` HST flow + block: 높이가 *기울기* 를 만들고 walker 가 그 기울기를 따라가니까 random 한 부분이 *결정론적 flow 로 대체*. 누적 fluctuation 의 분산이 bounded → $\xi^2 = O(1)$.
-
-이 단계는 Foster-Lyapunov drift + Doeblin minorization 의 영역. [에이 모델A통합증명_ABC](https://miruetoto.github.io/yechan/) §3 가 정밀히 다룸. 결과는 *existence-only* — exact 상수 $c_{ij}$ 가 무엇인지는 open.
-
-### 8.3 종합
+종합하면:
 
 | HST 변종 | drift cancel | fluctuation cancel | 도달 가능 tier |
 |---|---|---|---|
 | HST₀ (vanilla random walk) | symmetry 시에만 부분구조 | × | 0 (전체), 1 (부분) |
 | Full HST (block + flow) | ✓ (모든 쌍, $\rho_i = 1/n$) | ✓ (block 이 cap) | 2 (Thm A) |
 
-**block 의 두 기능 = HST 의 두 단계 다운시프트.** 이게 HST 의 가치이고 hst.tex 본문의 정확한 의미.
+block 의 두 기능 = HST 의 두 단계 다운시프트. 이게 HST 의 가치이고 hst.tex 본문의 정확한 의미다.
 
-## 9. 본인 노트들의 통합 — 세 정리, 한 그림
+본인이 지금까지 만든 노트 세 개가 사실 이 한 그림의 세 face 다. [Z닫힌형식](./260520_dcd721.html) 노트는 Tier 1 의 정확한 base — HST₀ 의 $\rho_i = \rho_j$ 경우 (tier 1) 의 base $\sigma_{ij}^2$ 가 Brémaud 의 fundamental matrix $\mathbf{Z}$ 로 닫힌 형식 $\sigma_{ij}^2 = \sum_{k=2}^n \frac{1+\lambda_k}{1-\lambda_k} \pi^2 (v_k(i) - v_k(j))^2$. 즉 tier 1 의 base 가 정확히 무엇인지의 spectral 표현이다. [$t^3$ 상한 노트](./260520_a76e02.html) 는 Tier 0 의 universal envelope — 어떤 그래프·동역학에서도 tier 0 의 base 는 $\le \bar b^2(\rho_i-\rho_j)^2 s^2 \le \bar b^2 s^2$ 이고 적분 후 $\mathrm{SD}^2 \le \bar b^2 t^3 / 3$ — universal envelope, tier 0 의 worst case 천장. [$t$-나누기 노트](./260520_baf177.html) 는 Tier 들이 PCA 에서 어떻게 보이나 — 같은 그래프에 tier 0, 1, 2 가 공존하면 PCA 의 첫 두 PC 는 가장 빨리 자라는 tier 0 만 본다. $t^k$ normalize 가 어느 tier 를 visible 하게 끌어올리는지의 그림이다. 본 노트는 위 셋을 한 framework 으로 묶고, HST 의 block 이 tier 0 → 1 → 2 의 다운시프트를 어떻게 강제하는지 명시. 네 노트가 합쳐서 HST 의 세 regime 의 완전한 정량적 + 메커니즘적 그림이 된다.
 
-본인이 지금까지 만든 노트 세 개가 사실 이 한 그림의 세 face:
+자연스럽게 던지는 open questions 가 몇 가지 있다. *Tier 1.5 가 가능한가?* drift 가 부분적으로 cancel — $\rho_i \approx \rho_j$ 이지만 정확히 같진 않음, cross-over 영역의 정량적 분석, block 이 부분적으로 작동하는 경우. *Tier 2 의 exact $c_{ij}$.* Thm A 의 leading 상수는 existence-only 가 현재 상태 (에이 §3). HST_0 의 Z-방법이 tier 1 에서 작동했듯, tier 2 에서 작동할 다른 spectral / functional analytic 도구가 있는가? FL+Doeblin 으로는 유한임을 보였으나 $c_{ij}$ 의 닫힘은 아직. *Tier 3 가 존재할 수 있는가?* $\mathrm{SD}^2 = O(t^0) = O(1)$ — 즉 거리가 bounded. 모든 cancellation 이 끝까지 일어나야. 모든 fluctuation 의 누적 효과까지 cancel. 강력한 mixing 가정 + 또 한 단계의 reset 필요. 본 회사 setup 에서는 보통 안 일어남. *고차 cochain 확장*. [본인 토폴로지 노트](./260517_8e4f12.html) 의 k=1, k=2 cochain 으로 올라가면 tier 분해가 어떻게 보이나? Hodge $\Delta_k$ 의 spectrum 이 base 의 spectral form 을 바꾸는 정도 vs tier 의 일반화. *Spectral filter family 와 tier 의 정확한 대응*. [리이의 Ch.4 팟캐스트](./260518_618a48.html) 의 spectral filter $f(\lambda)$ family — 각 filter 가 tier 의 어느 단계와 대응하나? diffusion ($t$-parameter) 가 한 family 안에서 tier 이동시키는 효과?
 
-### 9.1 [Z닫힌형식](./260520_dcd721.html) — Tier 1 의 정확한 base
-
-HST₀ 의 $\rho_i = \rho_j$ 경우 (tier 1) 의 base $\sigma_{ij}^2$ 가 Brémaud 의 fundamental matrix $\mathbf{Z}$ 로 닫힌 형식:
-
-$$\sigma_{ij}^2 \;=\; \sum_{k=2}^n \frac{1+\lambda_k}{1-\lambda_k} \pi^2 (v_k(i) - v_k(j))^2.$$
-
-즉 *tier 1 의 base 가 정확히 무엇인지* 의 spectral 표현.
-
-### 9.2 [$t^3$ 상한 노트](./260520_a76e02.html) — Tier 0 의 universal envelope
-
-어떤 그래프·동역학에서도 tier 0 의 base 는 $\le \bar b^2(\rho_i-\rho_j)^2 s^2 \le \bar b^2 s^2$. 적분 후 $\mathrm{SD}^2 \le \bar b^2 t^3 / 3$ — universal 한 envelope. tier 0 의 worst case 천장.
-
-### 9.3 [$t$-나누기 노트](./260520_baf177.html) — Tier 들이 PCA 에서 어떻게 보이나
-
-같은 그래프에 tier 0, 1, 2 가 공존하면 PCA 의 첫 두 PC 는 가장 빨리 자라는 tier 0 만 본다. $t^k$ normalize 가 어느 tier 를 visible 하게 끌어올리는지의 그림.
-
-### 9.4 본 노트 — 세 tier 의 정의 + HST 의 block 의 의미
-
-위 셋을 한 framework 으로 묶고, HST 의 block 이 tier 0 → 1 → 2 의 다운시프트를 어떻게 강제하는지 명시.
-
-네 노트가 합쳐서 **HST 의 세 regime 의 완전한 정량적 + 메커니즘적 그림**.
-
-## 10. Open questions
-
-이 framework 가 자연스럽게 던지는 질문들:
-
-`-` **Tier 1.5 가 가능한가?** drift 가 부분적으로 cancel — $\rho_i \approx \rho_j$ 이지만 정확히 같진 않음. cross-over 영역의 정량적 분석. block 이 부분적으로 작동하는 경우.
-
-`-` **Tier 2 의 exact $c_{ij}$.** Thm A 의 leading 상수는 *existence-only* 가 현재 상태 (에이 §3). HST_0 의 Z-방법이 tier 1 에서 작동했듯, tier 2 에서 작동할 다른 spectral / functional analytic 도구가 있는가? FL+Doeblin 으로는 *유한* 임을 보였으나 $c_{ij}$ 의 닫힘은 아직.
-
-`-` **Tier 3 가 존재할 수 있는가?** $\mathrm{SD}^2 = O(t^0) = O(1)$ — 즉 거리가 *bounded*. 모든 cancellation 이 끝까지 일어나야. *모든* fluctuation 의 누적 효과까지 cancel. 강력한 mixing 가정 + 또 한 단계의 reset 필요. 본 회사 setup 에서는 보통 안 일어남.
-
-`-` **고차 cochain 확장.** [본인 토폴로지 노트](./260517_8e4f12.html) 의 k=1, k=2 cochain 으로 올라가면 tier 분해가 어떻게 보이나? Hodge $\Delta_k$ 의 spectrum 이 base 의 spectral form 을 바꾸는 정도 vs tier 의 일반화.
-
-`-` **Spectral filter family 와 tier 의 정확한 대응.** [리이의 Ch.4 팟캐스트](./260518_618a48.html) 의 spectral filter $f(\lambda)$ family — 각 filter 가 tier 의 어느 단계와 대응하나? diffusion ($t$-parameter) 가 한 family 안에서 tier 이동시키는 효과?
-
----
-
-## 정리
-
-대표의 한 문장 직관 — "$t^2$ 는 단독이 아니라 부분구조" — 가 사실은 HST 의 세 regime 전체를 *cancellation tier* 라는 통일된 시점으로 보게 하는 열쇠. 본인 노트 세 개를 한 framework 으로 묶고, HST 의 block 이 *왜* 본질적인지를 정량적으로 답하는 그림.
-
-핵심 한 줄: **base order × 시간 적분 의 곱. base order 는 cancellation tier 가 결정. 시간 적분은 항상 한 차원 올림.**
+요컨대 대표의 한 문장 직관 — "$t^2$ 는 단독이 아니라 부분구조" — 가 사실은 HST 의 세 regime 전체를 cancellation tier 라는 통일된 시점으로 보게 하는 열쇠. 본인 노트 세 개를 한 framework 으로 묶고, HST 의 block 이 왜 본질적인지를 정량적으로 답하는 그림이다. 한 줄로: base order × 시간 적분의 곱. base order 는 cancellation tier 가 결정. 시간 적분은 항상 한 차원 올림.
 
 ---
 
