@@ -71,7 +71,19 @@ $$B(S_{t_r}) \;\le\; -\varepsilon_B\, M(S_{t_r}) + C_B$$
 
 그룹 A 5 그래프 ($M$ 시계열 진단 기준) 중 정확한 binned 추정에서는 $K_{10}/C_{20}/\text{Bidir Ring}$ 3 그래프만 가정 만족, Cyl Inter-bidir/Wheel Bidir/$C_{60}$+pendant/Bidir Path 는 slope ≈ 0 의 borderline 으로 갈라진다. $M$ 시계열의 bounded class 자체는 stationary recurrence 보장이지만, $\overline{B}_{\rm bin}$ 의 정확한 부호는 graph geometry 의 mixing speed (ACF 진단의 $K_{10}$ 만 빠름 / 나머지 long-range correlated) 와 연결되어, finite-$\tau$ noise 가 borderline 그래프의 slope 부호를 결정한다.
 
-결론적으로 Assumption 1 은 ABC 의 핵심 hypothesis 임에도 모든 그래프에서 자동 성립하는 보편 명제가 아니다. Theorem A (balanced) 의 적용 범위는 사실상 fully symmetric + strong mixing 그래프 (Cycle, Complete, Ring) 로 좁게 제한될 가능성이 있고, 비대칭 그래프 (Star Outward, Helm 류, kite, pendant 류) 에서는 Foster-Lyapunov 가 직접 적용되지 않을 수 있다. Brémaud Lem 8.2.3 (essential edge) + Thm 8.3.8 (Rayleigh) 의 graph geometry 도구로 위반 mechanism (small-conductance bottleneck) 의 정확한 식별이 후속 과제.
+위 11 그래프 결과는 본문 시뮬의 graph instance 별 finite-$n$ 측정. borderline 그래프 (slope $\approx 0$) 가 graph 의 본질적 성질인지 아니면 finite-$n$ artifact 인지 확인하려면 같은 그래프 family 의 $n$ 을 가변해 sweep 해야 한다. 본인 Wheel Bidir / Bidir Path / $C_n$+pendant 3 family 에 대해 $n=10\sim 1001$ 범위로 추가 시뮬한 결과:
+
+![](attachments/260522_31c9e5_06.png)
+
+세 family 의 $n$-의존성이 정반대다.
+
+- **Wheel Bidir** ($n=11 \to 21 \to 51 \to 101$): tail slope $+0.006 \to +0.13 \to +0.21 \to +0.24$. $n$ 클수록 violate 강화 — hub deg $= n-1 \to \infty$ 와 ring node deg $= 3$ 고정의 비대칭이 graph 크기 따라 발산.
+- **Bidir Path** ($n=10 \to 30 \to 100 \to 300$): slope $-0.026 \to -0.011 \to +0.017 \to +0.044$. $n=30$ 부근 transition — 작은 path 는 hold, 큰 path 는 violate. 양 끝 deg $=1$ 의 trap 효과가 path 길이 따라 더 강하게 작용.
+- **$C_n$+pendant** ($n=21 \to 61 \to 201 \to 1001$): slope $+0.028 \to +0.011 \to +0.003 \to -0.0008$. $n=1001$ 에서 hold 로 도달 — pendant 비중 $= 1/n \to 0$ 라 큰 ring 의 perturbation 이 사라지며 ring 자체의 균등성에 수렴.
+
+본문 11 그래프 중 $C_n$+pendant ($n=61$ small-n violate) 는 사실상 hold 그래프 (asymptotic), Bidir Path ($n=60$ slope $+0.0008$ borderline) 는 본질적 violate. Wheel Bidir 는 어느 $n$ 에서도 violate. **borderline 측정 자체가 finite-$n$ 의 artifact 일 수 있어, 그래프 클래스의 Foster L1 hold/violate 판정은 asymptotic 거동 ($n \to \infty$) 으로 확인해야 robust 하다.**
+
+결론적으로 Assumption 1 은 ABC 의 핵심 hypothesis 임에도 모든 그래프에서 자동 성립하는 보편 명제가 아니다. Theorem A (balanced) 의 적용 범위는 사실상 fully symmetric + strong mixing 그래프 (Cycle, Complete, Ring, 그리고 large-$n$ pendant-perturbed ring) 로 제한될 가능성이 있고, 비대칭이 graph 크기에 따라 발산하는 그래프 (Star Outward, Helm 류, kite, Wheel, Bidir Path) 에서는 Foster-Lyapunov 가 직접 적용되지 않을 수 있다. Brémaud Lem 8.2.3 (essential edge) + Thm 8.3.8 (Rayleigh) 의 graph geometry 도구로 위반 mechanism (small-conductance bottleneck) 의 정확한 식별이 후속 과제.
 
 ## 어펜딕스. 표기 정리 (에이 `abc공유용_v2.tex` §1.1, §3.3, §3.4)
 
