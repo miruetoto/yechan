@@ -9,7 +9,9 @@ fontsize: 0.85em
 <!-- 소유권자: 소미 | 사용자: 소미 -->
 <!-- Modified: 2026-05-22 by 소미 -->
 
-에이의 ABC 통합증명 PDF §3.4 의 Foster's drift criterion (Assumption 1) 이 그래프와 파라미터에 따라 실제로 잘 성립하는지 실험으로 본다.
+에이의 ABC 통합증명 PDF §3.4 의 Foster's drift criterion (Assumption 1) 이 그래프와 파라미터에 따라 실제로 잘 성립하는지 실험으로 본다. 검증 대상은 다음 11 그래프 — 4 base ($K_{10}$ complete, $C_{20}$ cycle, kite, $C_{60}$+pendant) + `examples_24` 예제 7개 (Star Outward, Wheel/Helm/D-Helm Bidir, Bidir Path/Ring, Cyl Inter-bidir). degree heterogeneity 와 graph symmetry 가 다양하게 분포하도록 골랐다.
+
+![](attachments/260522_31c9e5_01.png)
 
 ![](attachments/260522_31c9e5_02.png)
 
@@ -28,7 +30,7 @@ fontsize: 0.85em
 
 ![](attachments/260522_31c9e5_03.png)
 
-###### sample autocorrelation $\rho(k) := \mathrm{Corr}(M_r, M_{r+k})$ — i.i.d. 이면 lag 1 부터 $\pm 1.96/\sqrt{n}$ 신뢰구간 안. 그룹 A 5 그래프 모두 lag-1 ACF $\rho(1) \in [0.90, 0.9996]$ — 강 양상관, 명백히 독립이 아니다. mixing 속도는 그래프마다 차이가 크다. $K_{10}$ 은 lag 100 부근에서 $\rho \approx 0$ 으로 수렴 — 짧은 lag 안에 mixing. $C_{20}$ 은 lag 100 에서도 $\rho \approx 0.53$, Cyl Inter-bidir 는 $\rho \approx 0.71$, Bidir Ring 은 $\rho \approx 0.90$, Wheel Bidir 는 $\rho \approx 0.97$ 로 mixing 이 매우 느리다 — 같은 그룹 A 안에서도 mixing speed 는 $K_{10}$ 만 빠르고 나머지는 long-range correlated.
+sample autocorrelation $\rho(k) := \mathrm{Corr}(M_r, M_{r+k})$ — i.i.d. 이면 lag 1 부터 $\pm 1.96/\sqrt{n}$ 신뢰구간 안. 그룹 A 5 그래프 모두 lag-1 ACF $\rho(1) \in [0.90, 0.9996]$ — 강 양상관, 명백히 독립이 아니다. mixing 속도는 그래프마다 차이가 크다. $K_{10}$ 은 lag 100 부근에서 $\rho \approx 0$ 으로 수렴 — 짧은 lag 안에 mixing. $C_{20}$ 은 lag 100 에서도 $\rho \approx 0.53$, Cyl Inter-bidir 는 $\rho \approx 0.71$, Bidir Ring 은 $\rho \approx 0.90$, Wheel Bidir 는 $\rho \approx 0.97$ 로 mixing 이 매우 느리다 — 같은 그룹 A 안에서도 mixing speed 는 $K_{10}$ 만 빠르고 나머지는 long-range correlated.
 
 ![](attachments/260522_31c9e5_04.png)
 
@@ -47,7 +49,11 @@ Foster's drift criterion (Assumption 1) 은 어떤 graph-level constant $\vareps
 
 $$B(S_{t_r}) \;\le\; -\varepsilon_B\, M(S_{t_r}) + C_B$$
 
-가 성립하길 요구하는데, 여기서 $B(S_{t_r}) = \sum_u \pi(u, S_{t_r}) \hbar(u, t_r)$ 는 round 시작 시점의 weighted height deposit (Lemma 3 정의), $\pi(u, S) = \mathbb{E}[\#_u | S_{t_r}]$ 는 round 길이 동안 노드 $u$ 의 visit count 의 조건부 기댓값이다. 이 가정의 핵심 함의는 결국 height range $M(t)$ 가 시간 흐름에서 bounded 라는 것이다 — $\varepsilon_B > 0$ 가 작동하면 큰 $M$ 에서 음의 drift 가 작용해 $M$ 이 다시 작아져 stationary 분포 위에 머문다 (positive Harris recurrence). 가정이 깨지면 $M$ 이 발산. 그러니 $M$ 시계열의 long-run behavior 가 가정의 진짜 의미를 직접 보여준다 — 위 figure 가 그 자체로 Assumption 1 의 graph-별 검증이다.
+가 성립하길 요구하는데, 여기서 $B(S_{t_r}) = \sum_u \pi(u, S_{t_r}) \hbar(u, t_r)$ 는 round 시작 시점의 weighted height deposit (Lemma 3 정의), $\pi(u, S) = \mathbb{E}[\#_u | S_{t_r}]$ 는 round 길이 동안 노드 $u$ 의 visit count 의 조건부 기댓값이다. 이 가정의 핵심 함의는 결국 height range $M(t)$ 가 시간 흐름에서 bounded 라는 것이다 — $\varepsilon_B > 0$ 가 작동하면 큰 $M$ 에서 음의 drift 가 작용해 $M$ 이 다시 작아져 stationary 분포 위에 머문다 (positive Harris recurrence). 가정이 깨지면 $M$ 이 발산. 직관적으로 balanced 만 보장하는 그래프 ($B \approx 0$, 평평) 와 Foster 가 발효되는 그래프 (large-$M$ 에서 $B$ 가 음수로 strictly 내려감) 의 차이가 large-$M$ tail 의 slope 부호 하나로 갈린다.
+
+![](attachments/260522_31c9e5_07.png)
+
+그러니 $M$ 시계열의 long-run behavior 가 가정의 진짜 의미를 직접 보여준다 — 위 시계열 figure 가 그 자체로 Assumption 1 의 graph-별 검증이다.
 
 가정의 정량 검증은 $\mathbb{E}[B \mid M]$ 의 large-$M$ 부호. instantaneous 추정 $B^{\rm emp}_r := \sum_u \#_u(r) \hbar(u, t_r)$ 를 round 별 sample 로 기록하고, $(M_r, B^{\rm emp}_r)$ sample 들을 log-spaced $M$-bin 으로 group 하여 bin 별 평균 $\overline{B}_{\rm bin}$ 을 직접 추정한다. 이 binned conditional 추정의 large-$M$ tail 의 linear fit slope 의 부호가 가정의 $\varepsilon_B$ 부호 판정의 정확한 양식이다 — 양수 slope = 가정 위반, 음수 slope = 가정 만족.
 
