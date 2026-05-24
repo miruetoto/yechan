@@ -97,6 +97,20 @@ jackknife CI 를 같이 보면 판정 reliability 가 명확해진다. **strict 
 
 본문 11 그래프 중 Wheel Bidir 는 small-$n$ ($n\le 21$) 에서 strict hold 이고 large-$n$ ($n\ge 51$) 에서 violate 로 transition — graph instance 한 점만 측정하면 잘못된 분류 가능. $C_n$+pendant 는 large-$n$ 에서 hold 로 수렴, Bidir Path 는 모든 $n$ 에서 strict hold. **그래프 클래스의 Foster L1 hold/violate 판정은 asymptotic 거동 ($n \to \infty$) 으로 확인해야 robust 하다.**
 
+---
+
+본문의 Cyl Inter-bidir 는 둘레 ring 을 축 방향으로 쌓고 layer 간 bidir 로 이은 grid 다. 이 grid 의 축을 **어떻게 닫느냐** 에 따라 경계(boundary) 가 달라진다 — 닫지 않으면 cylinder (경계 2), 축도 cycle 로 닫으면 torus (경계 0, 모든 노드 degree 4 균일), 닫되 폭을 한 번 뒤집으면(half-twist) Möbius 띠 (경계 1, non-orientable). 경계의 유무가 노드 점유율 $\rho_i$ 의 균등성에 영향을 줄 것으로 기대해 세 위상에 같은 Foster 검증을 적용했다.
+
+![](attachments/260522_2f5c08_09.png)
+
+| 구조 | 경계 | tail slope $\pm$ 1.96 SE | Foster L1 |
+|---|---|---|---|
+| Cylinder ($20 \times 14$) | 2 | $+0.30 \pm 1.02$ | ? border (CI $\ni 0$) |
+| Torus ($8 \times 60$) | 0 | $+0.22 \pm 0.52$ | ? border (CI $\ni 0$) |
+| M\"obius ($7 \times 90$) | 1 | $+0.16 \pm 0.38$ | ? border (CI $\ni 0$) |
+
+흥미롭게도 세 구조 **모두 border** 다. $B^{\rm emp}$ tail mean 은 셋 다 음수 ($\approx -0.27$) 로 평균 sense 의 약한 Foster 는 만족하지만, large-$M$ slope 의 부호는 통계적으로 확정되지 않는다 (CI 가 0 을 포함). 경계 위상 (0/1/2) 자체가 Foster L1 을 명확히 가르지는 않았다 — degree 가 완전 균일한 torus (경계 0) 조차 strict hold 로 떨어지지 않는다. 다만 slope 점추정의 경향 ($+0.30 > +0.22 > +0.16$) 은 경계가 많을수록 violate 쪽으로 미약하게 기운다. torus $8\times 60$ 은 작은 instance 라, 본질적 border 인지 finite-$n$ artifact 인지는 위 Wheel/Path 처럼 $n$-sweep 으로 확인해야 한다.
+
 결론적으로 Assumption 1 은 ABC 의 핵심 hypothesis 로서 graph geometry 에 따라 strictly 만족·strictly 위반·border 의 세 영역으로 갈린다. 본 11 그래프 검증에서 jackknife CI 기준 **strict hold 4 그래프** ($C_{20}$, Wheel Bidir, Bidir Ring, Bidir Path), **strict violate 4 그래프** (kite, Star Outward, Helm Bidir, $C_{60}$+pendant), **border 3 그래프** ($K_{10}$, D-Helm Bidir, Cyl Inter-bidir) 로 갈린다. 평균 sense ($B^{\rm emp}$ tail mean 음수) 의 weak Foster 는 그룹 A 6 그래프 모두 만족하지만, strict large-$M$ slope 검증은 더 엄격. Theorem A (balanced) 의 적용 범위는 large-$n$ Cycle 류, large-$n$ pendant-perturbed ring, fully symmetric Wheel small-$n$, Path 등으로 확장되지만, 비대칭이 graph 크기에 따라 발산하는 그래프 (Star Outward, Helm, kite, Wheel large-$n$) 에서는 Foster-Lyapunov 가 직접 적용되지 않는다. Brémaud Lem 8.2.3 (essential edge) + Thm 8.3.8 (Rayleigh) 의 graph geometry 도구로 위반 mechanism (small-conductance bottleneck) 의 정확한 식별, 그리고 border 3 그래프의 본질 판정 (finite-$\tau$ artifact vs 본질적 borderline) 이 후속 과제.
 
 ## 어펜딕스. 표기 정리 (에이 `abc공유용_v2.tex` §1.1, §3.3, §3.4)
@@ -112,4 +126,4 @@ jackknife CI 를 같이 보면 판정 reliability 가 명확해진다. **strict 
 | $\varepsilon_B, C_B$ | graph-level Foster drift constants ($\varepsilon_B > 0$, $C_B \ge 0$) |
 | $C_{M\text{-free}} := (T_{\max} + 1) b^2 [T_{\max}/2 + (n-1)/(3n)]$ | universal remainder bound ($n$, $b$, $T_{\max}$ 만 의존) |
 
-##### 시뮬 코드와 figure 생성 코드는 본인 책상에 보관: `260524_소미_foster_verify_modelB.py` (정본 algorithm + model B), `260524_소미_foster_M_series.py` ($M$ 시계열), `260524_소미_foster_B_series.py` ($B^{\rm emp}$ 시계열), `260524_소미_foster_M_diag.py` (ACF + tightness), `260524_소미_foster_M_bin_with_scatter.py` ($M$-bin conditional + scatter + jackknife CI), `260524_소미_wheel_n_sweep.py` + `260524_소미_borderline_n_sweep.py` ($n$-sweep), `260524_소미_foster_combined_view.py` (4-view), `260523_소미_foster_intuition.py` (Foster 부등식 직관, sim 무관). raw 캐시: `results/numeric/260524_소미_foster_verify_modelB.py/*_foster_verify_modelB.npz`.
+##### 시뮬 코드와 figure 생성 코드는 본인 책상에 보관: `260524_소미_foster_verify_modelB.py` (정본 algorithm + model B), `260524_소미_foster_M_series.py` ($M$ 시계열), `260524_소미_foster_B_series.py` ($B^{\rm emp}$ 시계열), `260524_소미_foster_M_diag.py` (ACF + tightness), `260524_소미_foster_M_bin_with_scatter.py` ($M$-bin conditional + scatter + jackknife CI), `260524_소미_wheel_n_sweep.py` + `260524_소미_borderline_n_sweep.py` ($n$-sweep), `260524_소미_foster_combined_view.py` (4-view), `260523_소미_foster_intuition.py` (Foster 부등식 직관, sim 무관), `260524_소미_foster_topology3.py` (cylinder/torus/Möbius 위상 검증) + `260524_소미_foster_topo3_fig.py` (위상 scatter figure). raw 캐시: `results/numeric/260524_소미_foster_verify_modelB.py/*_foster_verify_modelB.npz`, `results/numeric/260524_소미_foster_topology3.py/*_foster_topology3.npz`.
