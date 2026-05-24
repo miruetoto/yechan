@@ -5,28 +5,19 @@ date: 2026-05-24
 output-file: 260524_6ffa3d.html
 fontsize: 0.85em
 draft: false
-# 판정: (A) 학습·이해용 — Lemma 4 (Pushforward density) 증명 노트. 대표 지시: 글 전체 파란 증명 callout
+# 판정: (A) 학습·이해용 — Lemma 4 (Pushforward density) 증명 노트
 ---
 
 $\Delta_1\boldsymbol{\xi} := (\xi_2-\xi_1,\ldots,\xi_n-\xi_1)$은 HST 초기 설정에서 **상대 높이 벡터**다.
 절대 높이 $\xi_i$는 시간이 지날수록 무한히 커지지만, 상대 높이는 bounded region에 머문다.
-Lemma 4는 이 벡터의 pushforward density에 대한 하한을 준다.
+Lemma 4는 이 벡터의 pushforward density가 특정 영역 안에서 아래로 균일하게 bound됨을 보인다.
 
-::: {.callout-note icon=false}
-
-## Lemma 4 (Pushforward density)
-
-Let $\xi_1,\ldots,\xi_n\overset{\text{iid}}{\sim}\text{Unif}(0,b)$ and $\Delta_1\boldsymbol{\xi}:=(\xi_2-\xi_1,\ldots,\xi_n-\xi_1)\in\mathbb{R}^{n-1}$.
-The density $\rho$ of $\Delta_1\boldsymbol{\xi}$ satisfies
-
+**Lemma 4 (Pushforward density).** Let $\xi_1,\ldots,\xi_n\overset{\text{iid}}{\sim}\text{Unif}(0,b)$ and $\Delta_1\boldsymbol{\xi}:=(\xi_2-\xi_1,\ldots,\xi_n-\xi_1)\in\mathbb{R}^{n-1}$. The density $\rho$ of $\Delta_1\boldsymbol{\xi}$ satisfies
 $$\rho(\mathbf{v})\;\geq\;\frac{b^{1-n}}{2}\qquad\text{whenever }\|\mathbf{v}\|_\infty<\frac{b}{4}.$$
 
-**Proof.**
+**Proof.** We use two claims.
 
-We use two claims.
-
-**Claim 1.** $\rho(\mathbf{v})=b^{-n}\,\ell(\mathbf{v})$, where
-$$\ell(\mathbf{v}):=\left|[0,b]\;\cap\;\bigcap_{i=1}^{n-1}[-v_i,\,b-v_i]\right|.$$
+**Claim 1.** $\rho(\mathbf{v})=b^{-n}\,\ell(\mathbf{v})$, where $\ell(\mathbf{v}):=\bigl|[0,b]\cap\bigcap_{i=1}^{n-1}[-v_i,\,b-v_i]\bigr|$.
 
 **Claim 2.** $\|\mathbf{v}\|_\infty<b/4\;\Rightarrow\;\ell(\mathbf{v})>b/2$.
 
@@ -36,8 +27,7 @@ It remains to prove the claims.
 
 ---
 
-**Proof of Claim 1.**
-Set $\eta_0:=\xi_1$ and define the bijection
+**Proof of Claim 1.** Set $\eta_0:=\xi_1$ and define the bijection
 $$\Phi(\boldsymbol{\xi}):=(\xi_1,\;\xi_2-\xi_1,\;\ldots,\;\xi_n-\xi_1)=:(\eta_0,\,\Delta_1\boldsymbol{\xi}).$$
 $D\Phi$ is lower-triangular with all diagonal entries equal to $1$, so $|\det D\Phi|=1$.
 Hence the joint density of $(\eta_0,\mathbf{v})$ is $b^{-n}\cdot\mathbf{1}[\boldsymbol{\xi}\in[0,b]^n]$.
@@ -46,13 +36,12 @@ $$\boldsymbol{\xi}\in[0,b]^n\;\Leftrightarrow\;\eta_0\in[0,b]\,\cap\,\bigcap_{i=
 Marginalizing over $\eta_0$:
 $$\rho(\mathbf{v})=\int_\mathbb{R}b^{-n}\,\mathbf{1}[\eta_0\in\mathcal{I}(\mathbf{v})]\,d\eta_0=b^{-n}\,\ell(\mathbf{v}).$$
 
-**Proof of Claim 2.**
-Write $\mathcal{I}(\mathbf{v})=[\eta_0^-,\,\eta_0^+]$ where
+**Proof of Claim 2.** Write $\mathcal{I}(\mathbf{v})=[\eta_0^-,\,\eta_0^+]$ where
 $$\eta_0^+=b-\max(0,\,\max_i v_i),\qquad\eta_0^-=\max(0,\,-\min_i v_i).$$
 Under $\|\mathbf{v}\|_\infty<b/4$:
-$$\max_i v_i<\frac{b}{4}\;\Rightarrow\;\max(0,\max_i v_i)<\frac{b}{4}\;\Rightarrow\;\eta_0^+>\frac{3b}{4},$$
-$$-\min_i v_i<\frac{b}{4}\;\Rightarrow\;\max(0,-\min_i v_i)<\frac{b}{4}\;\Rightarrow\;\eta_0^-<\frac{b}{4}.$$
-Therefore
-$$\ell(\mathbf{v})=\eta_0^+-\eta_0^->\frac{3b}{4}-\frac{b}{4}=\frac{b}{2}.\qquad\square$$
+$$\max_i v_i<\frac{b}{4}\;\Rightarrow\;\eta_0^+>\frac{3b}{4},\qquad -\min_i v_i<\frac{b}{4}\;\Rightarrow\;\eta_0^-<\frac{b}{4}.$$
+Therefore $\ell(\mathbf{v})=\eta_0^+-\eta_0^->b/2$. $\square$
 
-:::
+---
+
+**해설.** 핵심 아이디어는 $\Phi$로 좌표를 바꾸면 $\xi_1=\eta_0$ 하나에만 적분이 남는다는 것이다. $b/4$ 조건은 $n$개의 uniform 구간 $[0,b]$, $[-v_i, b-v_i]$의 공통 부분이 길이 $b/2$ 이상임을 보장한다. $n$이 커질수록 하한 $b^{1-n}/2$은 작아지지만, 영역 $\|\mathbf{v}\|_\infty < b/4$ 안에서 density가 **uniformly positive**하다는 성질은 보존된다.
