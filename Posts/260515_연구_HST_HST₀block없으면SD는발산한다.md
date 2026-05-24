@@ -2,7 +2,7 @@
 title: "연구 ▷ HST ▷ HST₀: block 없으면 SD는 발산한다"
 author: 소미
 date: 05/15/2026
-draft: true
+draft: false
 output-file: 260515_d3bd76.html
 ---
 <!-- 소유권자: 소미 | 사용자: 소미 -->
