@@ -246,7 +246,11 @@ window.Quarto = {
 <ul>
 <li><strong>정본 알고리즘 = downstream-filter.</strong> “낮은 지형을 찾는다 → 없으면 블락(block)”. (옛 “랜덤 이웃 선택 후 오르막이면 블락”은 오류본이었음 — 2026-05 정정.) 원본 A.5의 전이확률 서술은 이 정본 기준으로 재확인되어야 한다.</li>
 <li><strong>Model A vs Model B.</strong> 눈 적설량 <span class="math inline">\(b'\)</span>를 매 스텝 독립 추출(A)하느냐, 라운드마다 한 번 고정 추출(B)하느냐. 두 모형의 극한 상수는 적설 분포의 모멘트 비로 연결된다: <span class="math display">\[c^A_{ij} = \frac{\bar b^2}{\mathbb{E}[(b')^2]}\,c^B_{ij} = \frac{3}{4}\,c^B_{ij}.\]</span></li>
-<li><strong>세 regime.</strong> 노드 쌍의 “drift 상쇄 정도”에 따라 <span class="math inline">\(SD^2_{ij}(t)\)</span>의 증가 차수가 달라진다 — Theorem A (<span class="math inline">\(\rho_i=\rho_j=1/n\)</span>, <span class="math inline">\(t^1\)</span>), B (<span class="math inline">\(\rho_i=\rho_j\ne1/n\)</span>, <span class="math inline">\(t^2\)</span>), C (<span class="math inline">\(\rho_i\ne\rho_j\)</span>, <span class="math inline">\(t^3\)</span>). 위 1.1의 <span class="math inline">\(c_{ij}\)</span>는 Theorem A의 <span class="math inline">\(t^1\)</span> 계수다.</li>
+<li><strong>세 regime.</strong> 노드 쌍의 “drift 상쇄 정도”에 따라 <span class="math inline">\(SD^2_{ij}(t)\)</span>의 증가 차수가 달라진다 — Theorem A (<span class="math inline">\(\rho_i=\rho_j=1/n\)</span>, <span class="math inline">\(t^1\)</span>), B (<span class="math inline">\(\rho_i=\rho_j\ne1/n\)</span>, <span class="math inline">\(t^2\)</span>), C (<span class="math inline">\(\rho_i\ne\rho_j\)</span>, <span class="math inline">\(t^3\)</span>). 위 1.1의 <span class="math inline">\(c_{ij}\)</span>는 Theorem A의 <span class="math inline">\(t^1\)</span> 계수다.
+<ul>
+<li>★ <strong>새 방향 J — Drift-Tier Exponent Map.</strong> 증가지수 자체를 새 pairwise 불변량으로 본다. 쌍마다 <span class="math inline">\(SD^2_{ij}(t)\sim t^{k(i,j)}\)</span>, <span class="math inline">\(k\in\{1,2,3\}\)</span> — 원본이 모든 것을 <span class="math inline">\(c_{ij}\)</span>(<span class="math inline">\(t^1\)</span> 계수)로 collapse하고 전환을 전역 <span class="math inline">\(t_0^*\)</span> 로만 봤다면, <span class="math inline">\(\{1,2,3\}\)</span>-값 tier map <span class="math inline">\(k(i,j)\)</span> 는 “이 쌍에서 신호(3)·그래프(1) 중 무엇이 지배하는가”를 국소적으로 표시한다. cliff 감지(원본 Fig 5)가 tier-3 경계일 가능성. <em>첫 스텝:</em> ring data에서 <span class="math inline">\(SD^2_{ij}(t)\)</span> 의 log-log 기울기를 쌍별로 재 tier 색칠 (시뮬 1개).</li>
+</ul></li>
+<li>★ <strong>새 방향 L — Generalized HST Family.</strong> Part 2에서 보듯 <span class="math inline">\(c_{ij}\propto\mathbb{E}[(b')^2]\)</span> 이므로 <strong>적설 분포(deposit law) 자체가 임베딩을 형성하는 설계 변수</strong>다. 위 <span class="math inline">\(3/4\)</span> 비율은 균일분포의 두 모멘트 비라는 특수례일 뿐 — heavy-tail 적설은 다른 <span class="math inline">\(\alpha\)</span>, 다른 임베딩을 준다. “deposit law로 매개된 일반화 HST 족.”</li>
 </ul>
 <hr>
 </section>
@@ -272,6 +276,14 @@ window.Quarto = {
 <p><span class="math display">\[c_{ij} \;\propto\; \sum_{k\ge2}\underbrace{\frac{1}{\mu_k}}_{=\int_0^\infty e^{-\mu_k s}ds}\big(\phi_k(i)-\phi_k(j)\big)^2 \;\sim\; \int_0^\infty DD^2_{ij}(s)\,ds.\]</span></p>
 <p>따라서 <strong><span class="math inline">\(c_{ij}\)</span> = 시간적분된 diffusion distance = commute time = resistance</strong>. HST가 <span class="math inline">\(\frac1t SD^2 \to c_{ij}\)</span> 로 시간평균을 취하는 행위 자체가 확산을 <span class="math inline">\(t\to\infty\)</span>까지 적분하는 것과 같은 구조이며, 이것이 원본 2월 추측이 옳은 <em>근거</em>다.</p>
 <p><strong>남은 미지수.</strong> 스칼라 <span class="math inline">\(\alpha(G)\)</span> 가 진짜로 그래프-클래스 불변인지, 아니면 resistance 형태에 흡수되는지가 열려 있다. (참고로 정상분포에서 직접 계산하는 경로가, 변동 분산의 점근률을 통한 우회 경로보다 정직하다 — 후자는 “유계 평형 모멘트”와 “비유계 누적합 분산”을 혼동하게 만든다.)</p>
+</section>
+<section id="새-방향-k-non-reversible-snow-theory" class="level2">
+<h2 class="anchored" data-anchor-id="새-방향-k-non-reversible-snow-theory">2.3 ★ 새 방향 K — Non-Reversible Snow Theory</h2>
+<p>정본 downstream-filter walk은 “높은 곳→낮은 곳” 방향성이라 flat 극한 외에는 <strong>비가역</strong>이다. 그런데 위 2.1–2.2의 좋은 스펙트럼 도구(resistance·가역 분산 공식·SLEM)는 모두 가역성을 요구한다 — 정상분포 우회 경로가 깨지는 근본 원인이 여기 있다. 따라서 Theorem B/C(intermediate·drift, transient·비가역) regime은 second fundamental matrix <span class="math inline">\(Z=(I-(P-\Pi))^{-1}\)</span> (가역성 불필요) + 비동차 마르코프 ergodicity 도구로 전개해야 한다. <em>첫 스텝:</em> 작은 그래프에서 Model B 정본 <span class="math inline">\(Z\)</span> 계산 → <span class="math inline">\(\mathbb{E}_i[T_j]=(z_{jj}-z_{ij})/\pi(j)\)</span> 가 시뮬과 맞는지 (가역 안 거치고).</p>
+</section>
+<section id="새-방향-m-bto0-scaling-limit" class="level2">
+<h2 class="anchored" data-anchor-id="새-방향-m-bto0-scaling-limit">2.4 ★ 새 방향 M — <span class="math inline">\(b\to0\)</span> Scaling Limit</h2>
+<p>2.2의 “시간적분된 확산” 관점을 연속체로 밀면 자연스러운 극한 질문이 나온다. 적설 스케일 <span class="math inline">\(b\to0\)</span> (<span class="math inline">\(b'\sim\mathrm{Unif}(0,b)\)</span> 의 상한)과 <span class="math inline">\(t\to\infty\)</span> 의 diffusive scaling에서 HST가 그래프 위 반사 확산/SDE로 수렴하는가? 성립하면 HST에 연속체 기술(continuum “snow PDE”)을 부여하고 heat kernel(연속 Laplacian)과 직접 연결된다.</p>
 <hr>
 </section>
 </section>
@@ -328,7 +340,7 @@ window.Quarto = {
 </section>
 <section id="part-5.-응용-새-노드-보간과-입력-복원" class="level1">
 <h1>Part 5. 응용: 새 노드 보간과 입력 복원</h1>
-<p>원본 C·G를 묶는다 (단, identifiability는 아래 새 방향 I 로 승격).</p>
+<p>원본 C·G를 묶는다 (identifiability·복원은 §5.3에서 새 방향 I 로 정리).</p>
 <section id="barycentric-snow-interpolation" class="level2">
 <h2 class="anchored" data-anchor-id="barycentric-snow-interpolation">5.1 Barycentric Snow Interpolation</h2>
 <p>새 노드 <span class="math inline">\(v_{N+1}\)</span> 의 연결 <span class="math inline">\(\{W_{N+1,j}\}\)</span> 은 알지만 <span class="math inline">\(y(v_{N+1})\)</span> 은 모를 때:</p>
@@ -342,9 +354,14 @@ window.Quarto = {
 <li><strong>분해능(C.7):</strong> <span class="math inline">\(\|W_N(t)-W_M(t)|_{\mathcal{V}_N}\|_F\to0\)</span> (<span class="math inline">\(M,N\to\infty\)</span>) 가 성립하면 C.1의 전제가 검증됨. random geometric/kernel graph + regenerative 구조 + concentration 으로 <span class="math inline">\(O(1/\sqrt N)\)</span> bound 기대.</li>
 </ul>
 </section>
-<section id="wt-로부터-입력-복원" class="level2">
-<h2 class="anchored" data-anchor-id="wt-로부터-입력-복원">5.3 <span class="math inline">\(W(t)\)</span> 로부터 입력 복원</h2>
-<p><span class="math inline">\(W(0)=W^E\to\mathbf{y}\)</span>, <span class="math inline">\(W(\infty)=W^G\to\mathcal{G}\)</span>, 중간 궤적 <span class="math inline">\(\to\)</span> 두 정보의 상호작용. “encode–decode 시스템으로서의 HST” 관점. (정량적 핵심은 새 방향 I 가 제공.)</p>
+<section id="입력-복원과-새-방향-i-snow-to-laplacian-inversion" class="level2">
+<h2 class="anchored" data-anchor-id="입력-복원과-새-방향-i-snow-to-laplacian-inversion">5.3 입력 복원과 ★ 새 방향 I — Snow-to-Laplacian Inversion</h2>
+<p><span class="math inline">\(W(0)=W^E\to\mathbf{y}\)</span>, <span class="math inline">\(W(\infty)=W^G\to\mathcal{G}\)</span>, 중간 궤적 <span class="math inline">\(\to\)</span> 두 정보의 상호작용 — “encode–decode 시스템으로서의 HST” 관점. 그 정량적 핵심이 다음 복원 정리다.</p>
+<p>연결 그래프에서 유효저항 행렬 <span class="math inline">\(R=[R_{\mathrm{eff}}(i,j)]\)</span> 는 Laplacian <span class="math inline">\(L\)</span> 을 유일하게 결정한다 (역공식 <span class="math inline">\(R_{ij}=L^+_{ii}+L^+_{jj}-2L^+_{ij}\)</span>). Part 2에서 <span class="math inline">\(C=[c_{ij}]\)</span> 가 <span class="math inline">\(R\)</span> 의 알려진 스칼라 배이므로:</p>
+<blockquote class="blockquote">
+<p><strong>명제 (Snow Inversion).</strong> Theorem A regime에서 극한 행렬 <span class="math inline">\(C\)</span> 는 그래프 Laplacian <span class="math inline">\(L\)</span> 을 (degree-conductance 기준) <strong>유일하게 복원</strong>한다. 즉 <span class="math inline">\(\lim_t\frac1t SD^2 \Rightarrow \mathcal{G}\)</span>.</p>
+</blockquote>
+<p>이는 원본 C.6(Gordon–Luecke identifiability)이 추측으로 둔 것을 <strong>역공식까지 갖춘 정리</strong>로 승격한다. <em>첫 스텝:</em> 시뮬의 <span class="math inline">\(K_{10}\)</span>/<span class="math inline">\(C_{20}\)</span> <span class="math inline">\(c_{ij}\)</span> 행렬을 역공식에 넣어 원 Laplacian 복원을 수치 확인 (반나절, <span class="math inline">\(\alpha(G)\)</span> factor 와 맞물림).</p>
 <hr>
 </section>
 </section>
@@ -357,35 +374,6 @@ window.Quarto = {
 <p>⚠️ 현재 §6의 주장들은 heuristic 수준 — 독립 복사본 CLT, 앙상블 고유값 분산 bound, <span class="math inline">\(t\)</span>–<span class="math inline">\(B\)</span> 최적 trade-off 를 형식 정리로 승격하는 별도 이론이 필요하다 (원본 열린문제 5).</p>
 </blockquote>
 <hr>
-</section>
-<section id="part-7.-새-연구방향-연-2026-05-24" class="level1">
-<h1>Part 7. ★ 새 연구방향 (연, 2026-05-24)</h1>
-<p>원본 A~H를 발판으로, 최근 발전(정본 알고리즘·Model A/B·commute/resistance·비가역성)이 새로 열어주는 방향들.</p>
-<section id="i.-snow-to-laplacian-inversion-hst를-정확한-그래프-복원-연산자로" class="level2">
-<h2 class="anchored" data-anchor-id="i.-snow-to-laplacian-inversion-hst를-정확한-그래프-복원-연산자로">I. Snow-to-Laplacian Inversion — HST를 <em>정확한 그래프 복원 연산자</em>로</h2>
-<p>연결 그래프에서 유효저항 행렬 <span class="math inline">\(R=[R_{\mathrm{eff}}(i,j)]\)</span> 는 Laplacian <span class="math inline">\(L\)</span> 을 유일하게 결정한다 (명시적 역공식 <span class="math inline">\(R_{ij}=L^+_{ii}+L^+_{jj}-2L^+_{ij}\)</span> 의 역전). Part 2에서 <span class="math inline">\(C=[c_{ij}]\)</span> 가 <span class="math inline">\(R\)</span> 의 알려진 스칼라 배이므로:</p>
-<blockquote class="blockquote">
-<p><strong>명제(Snow Inversion).</strong> Theorem A regime에서 극한 행렬 <span class="math inline">\(C\)</span> 는 그래프 Laplacian <span class="math inline">\(L\)</span> 을 (degree-conductance 기준) <strong>유일하게 복원</strong>한다. 즉 <span class="math inline">\(\lim_t\frac1t SD^2 \Rightarrow \mathcal{G}\)</span>.</p>
-</blockquote>
-<p>이것은 §5.3(복원)·원본 C.6(Gordon–Luecke identifiability)이 정성적·추측으로 다룬 것을 <strong>역공식까지 갖춘 정리</strong>로 승격한다. 첫 스텝: 시뮬의 <span class="math inline">\(K_{10}\)</span>/<span class="math inline">\(C_{20}\)</span> <span class="math inline">\(c_{ij}\)</span> 행렬을 역공식에 넣어 원 Laplacian 복원을 수치 확인 (반나절, <span class="math inline">\(\alpha(G)\)</span> factor 와 맞물림).</p>
-</section>
-<section id="j.-drift-tier-exponent-map-증가지수-kij-를-새-pairwise-불변량으로" class="level2">
-<h2 class="anchored" data-anchor-id="j.-drift-tier-exponent-map-증가지수-kij-를-새-pairwise-불변량으로">J. Drift-Tier Exponent Map — 증가지수 <span class="math inline">\(k(i,j)\)</span> 를 새 pairwise 불변량으로</h2>
-<p>세 regime은 쌍마다 <span class="math inline">\(SD^2_{ij}(t)\sim t^{k(i,j)}\)</span>, <span class="math inline">\(k\in\{1,2,3\}\)</span> 를 준다. 원본은 모든 것을 <span class="math inline">\(c_{ij}\)</span>(<span class="math inline">\(=t^1\)</span> 계수) 하나로, 전환은 전역 <span class="math inline">\(t_0^*\)</span> 로만 봤지만, <strong>지수 자체가 쌍마다 다른 장</strong>이다. <span class="math inline">\(\{1,2,3\}\)</span>-값 tier map <span class="math inline">\(k(i,j)\)</span> 는 “이 쌍에서 신호가 지배(3)하나 그래프가 지배(1)하나”를 국소적으로 표시 — cliff 감지(원본 Fig 5)가 사실 tier-3 경계일 가능성. 첫 스텝: ring data에서 <span class="math inline">\(SD^2_{ij}(t)\)</span> 의 log-log 기울기를 쌍별로 재서 tier로 색칠, cluster/cliff 경계와 일치 확인 (시뮬 1개).</p>
-</section>
-<section id="k.-non-reversible-snow-theory-downstream-filter의-방향성을-정면으로" class="level2">
-<h2 class="anchored" data-anchor-id="k.-non-reversible-snow-theory-downstream-filter의-방향성을-정면으로">K. Non-Reversible Snow Theory — downstream-filter의 <em>방향성</em>을 정면으로</h2>
-<p>정본 downstream-filter walk은 “높은 곳→낮은 곳” 방향성이라 flat 극한 외에는 <strong>비가역</strong>이다. 그런데 좋은 스펙트럼 도구(SLEM·resistance·가역 분산 공식)는 모두 가역성을 요구한다 — 이것이 변동 분산 우회 경로가 깨지는 근본 원인이다. Theorem B/C(intermediate/drift, transient·비가역) regime을 second fundamental matrix <span class="math inline">\(Z=(I-(P-\Pi))^{-1}\)</span> (가역성 불필요) + 비동차 마르코프 ergodicity 도구로 전개. 첫 스텝: 작은 그래프에서 Model B 정본 <span class="math inline">\(Z\)</span> 계산 → <span class="math inline">\(\mathbb{E}_i[T_j]=(z_{jj}-z_{ij})/\pi(j)\)</span> 가 시뮬과 맞는지 (가역 안 거치고).</p>
-</section>
-<section id="l.-generalized-hst-family-적설-분포를-설계-변수로" class="level2">
-<h2 class="anchored" data-anchor-id="l.-generalized-hst-family-적설-분포를-설계-변수로">L. Generalized HST Family — 적설 분포를 설계 변수로</h2>
-<p><span class="math inline">\(c_{ij}\propto\mathbb{E}[(b')^2]\)</span> 이므로 <strong>눈 적설 분포(deposit law)가 임베딩을 형성하는 설계 변수</strong>다. Model A/B의 <span class="math inline">\(3/4\)</span> 비율이 그 특수례 (균일분포 두 모멘트의 비). heavy-tail 적설 → 다른 <span class="math inline">\(\alpha\)</span> → 임베딩 튜닝. “deposit law로 매개된 일반화 HST 족.”</p>
-</section>
-<section id="m.-bto0-scaling-limit-연속체-snow-pde" class="level2">
-<h2 class="anchored" data-anchor-id="m.-bto0-scaling-limit-연속체-snow-pde">M. <span class="math inline">\(b\to0\)</span> Scaling Limit — 연속체 “snow PDE”</h2>
-<p>원본 A.1이 <span class="math inline">\(b\to0\)</span> 를 언급만 했다 (여기서 <span class="math inline">\(b\)</span> = 적설 스케일, 즉 <span class="math inline">\(b'\sim\mathrm{Unif}(0,b)\)</span> 의 상한). diffusive scaling (<span class="math inline">\(b\to0\)</span>, <span class="math inline">\(t\to\infty\)</span> 동시)에서 HST가 그래프 위 반사 확산/SDE로 수렴하는지 — HST에 연속체 기술을 부여하고 heat kernel(연속 Laplacian)과 연결.</p>
-<hr>
-</section>
 </section>
 <section id="part-8.-열린-문제-종합" class="level1">
 <h1>Part 8. 열린 문제 종합</h1>
@@ -434,19 +422,34 @@ window.Quarto = {
 <td>열림</td>
 </tr>
 <tr class="odd">
-<td><strong>새</strong></td>
-<td>Snow Inversion 정리 (방향 I)</td>
+<td>새-I</td>
+<td>Snow Inversion 정리 → §5.3</td>
 <td>신규 — 역공식 수치 검증부터</td>
 </tr>
 <tr class="even">
-<td><strong>새</strong></td>
-<td>비가역 regime 스펙트럼 이론 (방향 K)</td>
+<td>새-J</td>
+<td>Drift-Tier Exponent Map → §1.2</td>
+<td>신규 — log-log tier 색칠</td>
+</tr>
+<tr class="odd">
+<td>새-K</td>
+<td>비가역 regime 스펙트럼 이론 → §2.3</td>
 <td>신규 — <span class="math inline">\(Z\)</span>-행렬 경로</td>
+</tr>
+<tr class="even">
+<td>새-L</td>
+<td>Generalized HST family → §1.2</td>
+<td>신규 — deposit law 설계 변수</td>
+</tr>
+<tr class="odd">
+<td>새-M</td>
+<td><span class="math inline">\(b\to0\)</span> scaling limit → §2.4</td>
+<td>신규 — 연속체 snow PDE</td>
 </tr>
 </tbody>
 </table>
 <hr>
-<p><em>재구성·새 방향 제안: 연(연구팀), 2026-05-24. 원본 [260208 보충아이디어 정리]의 A~H 중복 통합 + 2~5월 발전 반영(정본 알고리즘·Model A/B·세 regime) + 새 방향 I~M 추가.</em></p>
+<p><em>재구성·새 방향 제안: 연(연구팀), 2026-05-24. 원본 [260208 보충아이디어 정리]의 A~H 중복 통합 + 2~5월 발전 반영(정본 알고리즘·Model A/B·세 regime) + 새 방향 I~M 을 별도 섹션이 아니라 주제별 Part 에 분산 통합 (J·L→§1.2, K·M→§2.3–2.4, I→§5.3).</em></p>
 
 
 </section>
