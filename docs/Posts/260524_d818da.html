@@ -260,7 +260,7 @@ window.Quarto = {
 <p>HST의 snow distance는 시간이 흐를수록(<span class="math inline">\(t\to\infty\)</span>) 노드 쌍마다 어떤 극한값으로 수렴한다. balanced regime에서 그 극한은 두 노드의 높이 fluctuation <span class="math inline">\(\delta_i, \delta_j\)</span>의 평균제곱거리 <span class="math inline">\(c_{ij}=\mathbb{E}_\pi[(\delta_i-\delta_j)^2]\)</span>다. 자연스러운 역질문이 하나 떠오른다 — <strong>이 거리 행렬 <span class="math inline">\(\mathbf{C}=[c_{ij}]\)</span>만 손에 쥐고, 원래 그래프를 거꾸로 되찾을 수 있을까?</strong> 연구팀(연)이 정리한 Snow Inversion이 여기에 정확한 답을 준다. 핵심 도구는 고전 다차원척도법(MDS)의 double-centering 하나다.</p>
 <p>어떤 행렬 <span class="math inline">\(\mathbf{C}\)</span>가 벡터들의 제곱거리, 즉 <span class="math inline">\(c_{ij}=\|\zeta_i-\zeta_j\|^2\)</span> 꼴이면, 가운데를 빼는 연산 <span class="math inline">\(-\tfrac12\mathbf{J}\mathbf{C}\mathbf{J}\)</span> (여기서 <span class="math inline">\(\mathbf{J}=\mathbf{I}-\tfrac1n\mathbf{1}\mathbf{1}^\top\)</span>는 centering 사영)가 그 벡터들의 Gram 행렬 <span class="math inline">\(\langle\zeta_i,\zeta_j\rangle\)</span>을 <strong>정확히</strong> 되살린다. 이것이 Gower의 double-centering 항등식이다. HST의 <span class="math inline">\(c_{ij}\)</span>는 <span class="math inline">\(L^2(\pi)\)</span> 안의 fluctuation <span class="math inline">\(\delta_i\)</span>의 제곱거리라, <span class="math inline">\(-\tfrac12\mathbf{J}\mathbf{C}\mathbf{J}=\boldsymbol{\Sigma}\)</span> (정상 상태 공분산)가 <strong>무조건</strong> 성립한다. 그래프 구조에 대한 어떤 가정도 필요 없다.</p>
 <p>작은 path 그래프 <span class="math inline">\(P_5\)</span>로 직접 확인해 보자. 저항거리 행렬 <span class="math inline">\(\mathbf{R}\)</span>이 제곱거리 행렬의 역할을 한다(<span class="math inline">\(P_5\)</span>에서는 <span class="math inline">\(R_{ij}=|i-j|\)</span>로 깔끔하다).</p>
-<div id="ad4f71eb" class="cell" data-execution_count="1">
+<div id="f8a8ea15" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># P_5 path Laplacian</span></span>
@@ -286,7 +286,7 @@ window.Quarto = {
 </div>
 </div>
 <p>이제 double-centering으로 Gram을 복원하고, 거기에 한 단계만 더 얹으면 그래프가 통째로 돌아온다. 만약 이 Gram <span class="math inline">\(\boldsymbol{\Sigma}\)</span>가 Laplacian의 유사역행렬에 비례하면 — <span class="math inline">\(\boldsymbol{\Sigma}=\kappa\,\mathbf{L}^{+}\)</span>, 이것이 연구팀 Part-2에서 “resistance form”이라 부르는 조건이다 — 유사역행렬은 대칭행렬에서 involution(두 번 취하면 제자리)이므로 <span class="math inline">\(\mathrm{pinv}(\boldsymbol{\Sigma})=\tfrac1\kappa\mathbf{L}\)</span>이 된다. 즉 <strong>그래프 Laplacian을 global scale <span class="math inline">\(\kappa\)</span>만 빼고 정확히 복원</strong>한다. Laplacian의 비대각 성분이 곧 (부호 반전된) 인접행렬이므로, 어느 쌍이 간선인지와 상대 가중치가 그대로 읽힌다.</p>
-<div id="8486f46e" class="cell" data-execution_count="2">
+<div id="b47cea56" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># double-centering → 유사역행렬 → Laplacian 복원</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>J <span class="op">=</span> np.eye(N) <span class="op">-</span> np.ones((N, N)) <span class="op">/</span> N</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Sigma <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span> <span class="op">*</span> J <span class="op">@</span> R <span class="op">@</span> J          <span class="co"># = L^+ (무조건)</span></span>
@@ -306,7 +306,7 @@ window.Quarto = {
 </div>
 </div>
 <p>오차가 <span class="math inline">\(10^{-15}\)</span> 수준 — 기계 정밀도다. 거리행렬에서 출발해 그래프를 정확히 되돌렸다. 이 방법은 spectral 방법과 달리 <strong>고윳값 중복(multiplicity) 장애가 없다</strong> — 개별 고윳값이 아니라 행렬 <span class="math inline">\(\mathbf{L}\)</span> 자체를 복원하므로, 고윳값이 겹치는 대칭 그래프(<span class="math inline">\(K_n\)</span>, vertex-transitive)에서도 똑같이 깨끗하게 작동한다. 대표적 대칭 그래프인 3-정칙 Petersen 그래프로 확인해 보자.</p>
-<div id="d93d5def" class="cell" data-execution_count="3">
+<div id="e3fe25e9" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> petersen():</span>
@@ -327,23 +327,34 @@ window.Quarto = {
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>iu <span class="op">=</span> np.triu_indices(<span class="dv">10</span>, <span class="dv">1</span>)</span>
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> np.corrcoef(Wp[iu], Arec[iu])[<span class="dv">0</span>, <span class="dv">1</span>]</span>
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="fl">2.6</span>))</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].imshow(Wp, cmap<span class="op">=</span><span class="st">"Blues"</span>)<span class="op">;</span> ax[<span class="dv">0</span>].set_title(<span class="vs">r"true </span><span class="dv">$\m</span><span class="vs">athbf{A}</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].imshow(Arec, cmap<span class="op">=</span><span class="st">"Blues"</span>)<span class="op">;</span> ax[<span class="dv">1</span>].set_title(<span class="vs">rf"recovered </span><span class="kw">(</span><span class="vs">corr </span><span class="sc">{</span>corr<span class="sc">:.3f}</span><span class="kw">)</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a <span class="kw">in</span> ax:</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    a.set_xticks([])<span class="op">;</span> a.set_yticks([])</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Petersen 표준 layout (바깥 오각형 + 안쪽 오각성)</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>ang <span class="op">=</span> np.pi <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> np.arange(<span class="dv">5</span>) <span class="op">/</span> <span class="dv">5</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> np.vstack([np.c_[np.cos(ang), np.sin(ang)],</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>                 <span class="fl">0.5</span> <span class="op">*</span> np.c_[np.cos(ang), np.sin(ang)]])</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="fl">6.5</span>, <span class="fl">3.3</span>))</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k, (Amat, title) <span class="kw">in</span> <span class="bu">enumerate</span>([(Wp, <span class="st">"true Petersen graph"</span>),</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>                                    (Arec, <span class="vs">rf"recovered </span><span class="kw">(</span><span class="vs">corr </span><span class="sc">{</span>corr<span class="sc">:.3f}</span><span class="kw">)</span><span class="vs">"</span>)]):</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, <span class="dv">10</span>):</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>            w <span class="op">=</span> Amat[i, j]</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> w <span class="op">&gt;</span> <span class="fl">0.08</span>:   <span class="co"># 복원 weight 가 큰 간선만 (non-edge ≈ 0 은 그리지 않음)</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>                ax[k].plot([pos[i, <span class="dv">0</span>], pos[j, <span class="dv">0</span>]], [pos[i, <span class="dv">1</span>], pos[j, <span class="dv">1</span>]],</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"-"</span>, color<span class="op">=</span><span class="st">"C0"</span>, lw<span class="op">=</span><span class="fl">0.6</span> <span class="op">+</span> <span class="fl">2.6</span> <span class="op">*</span> w, alpha<span class="op">=</span><span class="bu">min</span>(<span class="dv">1</span>, <span class="fl">0.35</span> <span class="op">+</span> <span class="fl">0.65</span> <span class="op">*</span> w))</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    ax[k].scatter(pos[:, <span class="dv">0</span>], pos[:, <span class="dv">1</span>], s<span class="op">=</span><span class="dv">70</span>, c<span class="op">=</span><span class="st">"0.2"</span>, zorder<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    ax[k].set_title(title, fontsize<span class="op">=</span><span class="dv">10</span>)<span class="op">;</span> ax[k].set_aspect(<span class="st">"equal"</span>)<span class="op">;</span> ax[k].axis(<span class="st">"off"</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260524_연구_HST_snowdistance로그래프되찾기_files/figure-html/cell-4-output-1.png" width="466" height="251" class="figure-img"></p>
+<p><img src="260524_연구_HST_snowdistance로그래프되찾기_files/figure-html/cell-4-output-1.png" width="614" height="313" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>복원된 인접행렬이 참 인접행렬과 거의 일치한다(상관 <span class="math inline">\(\approx 1\)</span>). 연구팀 실험에서는 한 걸음 더 나아가, 그래프를 <strong>모르는 채</strong> HST를 앙상블로 돌려 얻은 snow distance만으로 복원을 시도했고, Petersen 그래프에서 상관 <span class="math inline">\(0.998\)</span>, <span class="math inline">\(C_{20}\)</span>에서 <span class="math inline">\(0.850\)</span>을 얻었다.</p>
+<p>왼쪽이 실제 Petersen 그래프(바깥 오각형 + 안쪽 오각성 + 살, 간선 15개)이고, 오른쪽은 거리행렬만으로 복원한 간선이다 — 간선 두께를 복원된 가중치로 줬는데, 실제 간선만 굵게 살아나고 나머지 노드 쌍은 가중치가 0에 가까워 그려지지 않는다. 즉 그래프 모양이 그대로 되살아난다(상관 <span class="math inline">\(\approx 1\)</span>). 연구팀 실험에서는 한 걸음 더 나아가, 그래프를 <strong>모르는 채</strong> HST를 앙상블로 돌려 얻은 snow distance만으로 복원을 시도했고, Petersen 그래프에서 상관 <span class="math inline">\(0.998\)</span>, <span class="math inline">\(C_{20}\)</span>에서 <span class="math inline">\(0.850\)</span>을 얻었다.</p>
 <p>복원한 Laplacian은 그 자체로 끝이 아니라 <strong>실용 도구</strong>가 된다. 응용 하나를 보자 — ring 위에 신호가 놓여 있는데 일부 노드의 관측값이 빠진(missing) 상황을, 복원한 그래프 구조로 메우는(imputation) 것이다. ring <span class="math inline">\(C_{40}\)</span> 위에 저주파 sinusoid(모드 2와 3을 섞은) 신호를 깔고 관측 noise를 더한 뒤, 12개 노드를 가린다. sinusoid는 Laplacian의 저주파 모드라 graph smoothness로 잘 메워진다 — 관측값에 맞추면서 <span class="math inline">\(f^\top \mathbf{L} f\)</span>(매끄러움)를 작게 하는 graph Tikhonov 해 <span class="math inline">\((\mathbf{M}+\gamma\mathbf{L})f=\mathbf{M}y\)</span>를 쓴다(<span class="math inline">\(\mathbf{M}\)</span>은 관측 노드 마스크).</p>
-<div id="3d6c7d21" class="cell" data-execution_count="4">
+<div id="9043ae14" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">40</span></span>
