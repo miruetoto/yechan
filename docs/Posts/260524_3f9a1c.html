@@ -234,7 +234,10 @@ window.Quarto = {
 <p><span class="math display">\[\overline{SD}^2_{ij}(t) := \frac{1}{t}\,SD^2_{ij}(t) \xrightarrow{\;t\to\infty\;} c_{ij} \quad\text{a.s.}\]</span></p>
 <p>극한 상수는 정상분포 기댓값으로 특징지어진다:</p>
 <p><span class="math display">\[c_{ij} = \mathbb{E}_{\pi}\big[(\delta_i-\delta_j)^2\big].\]</span></p>
-<p>이 극한은 <span class="math inline">\(\mathbf{y}\)</span>의 <strong>거시적 스케일에 완전히 독립</strong>이고, 격자 경계를 정하는 <span class="math inline">\(\mathbf{y}\bmod b\)</span> 에만 국소적으로 종속한다 (<span class="math inline">\(b\to0\)</span> 에서 그 종속성도 사라짐).</p>
+<p>이 극한은 <span class="math inline">\(\mathbf{y}\)</span> 에 <strong>완전히 독립</strong>이다 — 그래프·적설분포·알고리즘만의 함수다.</p>
+<blockquote class="blockquote">
+<p>⚠️ <strong>2월 원본 정정.</strong> 원본은 적설량을 고정값 <span class="math inline">\(b\)</span> 로 보아 “격자 <span class="math inline">\(b\mathbb{Z}\)</span> 경계”, 즉 <span class="math inline">\(\mathbf{y}\bmod b\)</span> 에 국소적으로 종속한다고 적었다. 그러나 정본 모형은 적설량 <span class="math inline">\(b'\)</span> 를 매 스텝(Model A)·라운드(Model B)마다 <strong>랜덤 추출</strong>하므로 높이가 연속값이 되어 <strong>고정 격자 자체가 존재하지 않는다</strong>. 게다가 높이차 체인의 Harris 에르고드성이 초기 <span class="math inline">\(\mathbf{y}\)</span> 를 잊으므로, “<span class="math inline">\(\mathbf{y}\bmod b\)</span> 잔여 종속” 항은 폐기되고 <span class="math inline">\(c_{ij}\)</span> 는 <span class="math inline">\(\mathbf{y}\)</span> 에 완전 독립이 된다.</p>
+</blockquote>
 <p><strong>약에르고드성과의 논리적 독립(중요).</strong> 원 논문 Theorem A.5의 약에르고드성은 비동차 전이행렬 <span class="math inline">\(\mathbf{P}(t)\)</span>의 <em>분포</em> 수렴만 준다. 우리가 실제로 쓰는 것은 <em>시간평균</em>의 a.s. 수렴이며, 둘은 논리적으로 독립이다. 모든 방향은 A.5가 아니라 위 Main Theorem에 기반해야 한다.</p>
 </section>
 <section id="갱신-알고리즘-정본-model-ab-세-regime" class="level2">
@@ -278,8 +281,8 @@ window.Quarto = {
 <section id="궤적-임베딩과-pseudo-metric" class="level2">
 <h2 class="anchored" data-anchor-id="궤적-임베딩과-pseudo-metric">3.1 궤적 임베딩과 pseudo-metric</h2>
 <p><span class="math inline">\(\boldsymbol{\eta}_i(t) := (h(v_i,0),\dots,h(v_i,t))\in\mathbb{R}^{t+1}\)</span> 를 노드의 <strong>snow height trajectory</strong> 라 하면 <span class="math inline">\(SD_{ij}(t) = \|\boldsymbol{\eta}_i(t)-\boldsymbol{\eta}_j(t)\|_2\)</span>. 즉 HST는 각 노드를 시간이 지나며 차원이 늘어나는 유클리드 공간에 임베딩하는 것이고, <span class="math inline">\(SD\)</span> 는 그 거리다. 좌표별 차이는</p>
-<p><span class="math display">\[h(v_i,s)-h(v_j,s) = \underbrace{y(v_i)-y(v_j)}_{\text{유클리드}} + \underbrace{b\,(N_i(s)-N_j(s))}_{\text{방문빈도 (그래프 구조)}}\]</span></p>
-<p>이며 (<span class="math inline">\(N_i(s)\)</span> = <span class="math inline">\(s\)</span>까지 <span class="math inline">\(v_i\)</span> 방문 횟수), <span class="math inline">\(SD\)</span>는 <span class="math inline">\(\mathbb{R}^{t+1}\)</span> 유클리드 거리의 계승으로 <strong>pseudo-metric</strong> (일반적으로 <span class="math inline">\(y\)</span> 가 generic하면 metric).</p>
+<p><span class="math display">\[h(v_i,s)-h(v_j,s) = \underbrace{y(v_i)-y(v_j)}_{\text{유클리드}} + \underbrace{\big(B_i(s)-B_j(s)\big)}_{\text{누적 적설 차 (그래프 구조)}}\]</span></p>
+<p>이며 (<span class="math inline">\(B_i(s):=\sum_{\ell\le s:\,X_\ell=i} b'_\ell\)</span> = <span class="math inline">\(s\)</span>까지 <span class="math inline">\(v_i\)</span> 에 쌓인 눈의 합, 적설량 <span class="math inline">\(b'_\ell\)</span> 은 매 스텝(A)·라운드(B) 랜덤). 고정 적설 <span class="math inline">\(b\)</span> 였다면 <span class="math inline">\(B_i(s)=b\,N_i(s)\)</span> (<span class="math inline">\(N_i\)</span>=방문 횟수) 로 환원된다. <span class="math inline">\(SD\)</span>는 <span class="math inline">\(\mathbb{R}^{t+1}\)</span> 유클리드 거리의 계승으로 <strong>pseudo-metric</strong> (일반적으로 <span class="math inline">\(y\)</span> 가 generic하면 metric).</p>
 </section>
 <section id="단조성과-gromovhausdorff-수렴" class="level2">
 <h2 class="anchored" data-anchor-id="단조성과-gromovhausdorff-수렴">3.2 단조성과 Gromov–Hausdorff 수렴</h2>
@@ -380,7 +383,7 @@ window.Quarto = {
 </section>
 <section id="m.-bto0-scaling-limit-연속체-snow-pde" class="level2">
 <h2 class="anchored" data-anchor-id="m.-bto0-scaling-limit-연속체-snow-pde">M. <span class="math inline">\(b\to0\)</span> Scaling Limit — 연속체 “snow PDE”</h2>
-<p>원본 A.1이 <span class="math inline">\(b\to0\)</span> 를 언급만 했다. diffusive scaling (<span class="math inline">\(b\to0\)</span>, <span class="math inline">\(t\to\infty\)</span> 동시)에서 HST가 그래프 위 반사 확산/SDE로 수렴하는지 — HST에 연속체 기술을 부여하고 heat kernel(연속 Laplacian)과 연결.</p>
+<p>원본 A.1이 <span class="math inline">\(b\to0\)</span> 를 언급만 했다 (여기서 <span class="math inline">\(b\)</span> = 적설 스케일, 즉 <span class="math inline">\(b'\sim\mathrm{Unif}(0,b)\)</span> 의 상한). diffusive scaling (<span class="math inline">\(b\to0\)</span>, <span class="math inline">\(t\to\infty\)</span> 동시)에서 HST가 그래프 위 반사 확산/SDE로 수렴하는지 — HST에 연속체 기술을 부여하고 heat kernel(연속 Laplacian)과 연결.</p>
 <hr>
 </section>
 </section>
