@@ -1,0 +1,97 @@
+---
+title: "연구 ▷ HST ▷ snow distance로 그래프를 되찾을 수 있을까 — Snow Inversion"
+author: 소미
+date: 05/24/2026
+draft: false
+output-file: 260524_d818da.html
+fontsize: 0.85em
+# 판정: (A) 학습·이해용 (연구팀 Snow Inversion 정리 풀이 + imputation 응용) — §2.6/2.7 코드+figure 페어 적용
+---
+<!-- 소유권자: 소미 | 사용자: 소미 -->
+
+HST의 snow distance는 시간이 흐를수록($t\to\infty$) 노드 쌍마다 어떤 극한값으로 수렴한다. balanced regime에서 그 극한은 두 노드의 높이 fluctuation $\delta_i, \delta_j$의 평균제곱거리 $c_{ij}=\mathbb{E}_\pi[(\delta_i-\delta_j)^2]$다. 자연스러운 역질문이 하나 떠오른다 — **이 거리 행렬 $\mathbf{C}=[c_{ij}]$만 손에 쥐고, 원래 그래프를 거꾸로 되찾을 수 있을까?** 연구팀(연)이 정리한 Snow Inversion이 여기에 정확한 답을 준다. 핵심 도구는 고전 다차원척도법(MDS)의 double-centering 하나다.
+
+어떤 행렬 $\mathbf{C}$가 벡터들의 제곱거리, 즉 $c_{ij}=\|\zeta_i-\zeta_j\|^2$ 꼴이면, 가운데를 빼는 연산 $-\tfrac12\mathbf{J}\mathbf{C}\mathbf{J}$ (여기서 $\mathbf{J}=\mathbf{I}-\tfrac1n\mathbf{1}\mathbf{1}^\top$는 centering 사영)가 그 벡터들의 Gram 행렬 $\langle\zeta_i,\zeta_j\rangle$을 **정확히** 되살린다. 이것이 Gower의 double-centering 항등식이다. HST의 $c_{ij}$는 $L^2(\pi)$ 안의 fluctuation $\delta_i$의 제곱거리라, $-\tfrac12\mathbf{J}\mathbf{C}\mathbf{J}=\boldsymbol{\Sigma}$ (정상 상태 공분산)가 **무조건** 성립한다. 그래프 구조에 대한 어떤 가정도 필요 없다.
+
+작은 path 그래프 $P_5$로 직접 확인해 보자. 저항거리 행렬 $\mathbf{R}$이 제곱거리 행렬의 역할을 한다($P_5$에서는 $R_{ij}=|i-j|$로 깔끔하다).
+
+```{python}
+import numpy as np
+
+# P_5 path Laplacian
+N = 5
+W = np.zeros((N, N))
+for i in range(N - 1):
+    W[i, i + 1] = W[i + 1, i] = 1.0
+L = np.diag(W.sum(1)) - W
+
+# 저항거리 행렬 R (제곱거리 행렬)
+Lp = np.linalg.pinv(L)
+d = np.diag(Lp)
+R = d[:, None] + d[None, :] - 2 * Lp
+print("저항거리 행렬 R (제곱거리):")
+print(R)
+```
+
+이제 double-centering으로 Gram을 복원하고, 거기에 한 단계만 더 얹으면 그래프가 통째로 돌아온다. 만약 이 Gram $\boldsymbol{\Sigma}$가 Laplacian의 유사역행렬에 비례하면 — $\boldsymbol{\Sigma}=\kappa\,\mathbf{L}^{+}$, 이것이 연구팀 Part-2에서 "resistance form"이라 부르는 조건이다 — 유사역행렬은 대칭행렬에서 involution(두 번 취하면 제자리)이므로 $\mathrm{pinv}(\boldsymbol{\Sigma})=\tfrac1\kappa\mathbf{L}$이 된다. 즉 **그래프 Laplacian을 global scale $\kappa$만 빼고 정확히 복원**한다. Laplacian의 비대각 성분이 곧 (부호 반전된) 인접행렬이므로, 어느 쌍이 간선인지와 상대 가중치가 그대로 읽힌다.
+
+```{python}
+# double-centering → 유사역행렬 → Laplacian 복원
+J = np.eye(N) - np.ones((N, N)) / N
+Sigma = -0.5 * J @ R @ J          # = L^+ (무조건)
+L_rec = np.linalg.pinv(Sigma)     # pinv → L 복원
+print("복원된 -L_rec (비대각 = 인접행렬):")
+print(np.round(-L_rec, 2))
+print(f"\n복원 오차 ||L_rec - L|| / ||L|| = {np.linalg.norm(L_rec - L)/np.linalg.norm(L):.2e}")
+```
+
+오차가 $10^{-15}$ 수준 — 기계 정밀도다. 거리행렬에서 출발해 그래프를 정확히 되돌렸다. 이 방법은 spectral 방법과 달리 **고윳값 중복(multiplicity) 장애가 없다** — 개별 고윳값이 아니라 행렬 $\mathbf{L}$ 자체를 복원하므로, 고윳값이 겹치는 대칭 그래프($K_n$, vertex-transitive)에서도 똑같이 깨끗하게 작동한다. 연구팀 실험에서는 그래프를 **모르는 채** HST를 앙상블로 돌려 얻은 snow distance만으로 복원을 시도했고, 3-정칙 Petersen 그래프에서 복원·실제 인접행렬의 상관 $0.998$, $C_{20}$에서 $0.850$을 얻었다.
+
+복원한 Laplacian은 그 자체로 끝이 아니라 **실용 도구**가 된다. 응용 하나를 보자 — ring 위에 신호가 놓여 있는데 일부 노드의 관측값이 빠진(missing) 상황을, 복원한 그래프 구조로 메우는(imputation) 것이다. ring $C_{40}$ 위에 저주파 sinusoid(모드 2와 3을 섞은) 신호를 깔고 관측 noise를 더한 뒤, 12개 노드를 가린다. sinusoid는 Laplacian의 저주파 모드라 graph smoothness로 잘 메워진다 — 관측값에 맞추면서 $f^\top \mathbf{L} f$(매끄러움)를 작게 하는 graph Tikhonov 해 $(\mathbf{M}+\gamma\mathbf{L})f=\mathbf{M}y$를 쓴다($\mathbf{M}$은 관측 노드 마스크).
+
+```{python}
+import matplotlib.pyplot as plt
+rng = np.random.default_rng(42)
+n = 40
+
+# ring C_40 → snow distance(저항) → Laplacian 복원
+W = np.zeros((n, n))
+for i in range(n):
+    W[i, (i + 1) % n] = W[(i + 1) % n, i] = 1.0
+L_true = np.diag(W.sum(1)) - W
+Lpv = np.linalg.pinv(L_true); dd = np.diag(Lpv)
+Rr = dd[:, None] + dd[None, :] - 2 * Lpv
+Jn = np.eye(n) - np.ones((n, n)) / n
+L_rec = np.linalg.pinv(-0.5 * Jn @ Rr @ Jn)   # 복원한 Laplacian
+
+# ring 위 sinusoid 신호 (모드 2,3) + 관측 noise
+th = 2 * np.pi * np.arange(n) / n
+f_true = np.sin(2 * th) + 0.6 * np.sin(3 * th)
+y = f_true + rng.normal(0, 0.15, n)
+
+# 일부 노드 missing
+miss = np.sort(rng.choice(n, 12, replace=False))
+obs = np.setdiff1d(np.arange(n), miss)
+mask = np.zeros(n); mask[obs] = 1.0
+
+# graph Tikhonov imputation: (M + γ L_rec) f = M y
+f_imp = np.linalg.solve(np.diag(mask) + 0.8 * L_rec, mask * y)
+print(f"missing {len(miss)}개 impute RMSE = {np.sqrt(np.mean((f_imp[miss]-f_true[miss])**2)):.3f}")
+
+fig, ax = plt.subplots(figsize=(7.5, 3))
+ax.plot(range(n), f_true, "-", color="0.5", lw=1.2, label="true")
+ax.plot(obs, y[obs], "o", color="C0", ms=4, label="observed (+noise)")
+ax.plot(miss, f_true[miss], "x", color="0.6", ms=6, label="missing (hidden)")
+ax.plot(miss, f_imp[miss], "s", color="C3", ms=5, label="imputed")
+ax.set_xlabel(r"node on ring $C_{40}$", fontsize=9); ax.set_ylabel(r"signal $f$", fontsize=9)
+ax.legend(fontsize=7, ncol=2); ax.grid(alpha=0.25)
+plt.tight_layout(); plt.show()
+```
+
+가려진 12개 노드(회색 ✕)의 값을 관측값(파란 점)과 복원한 그래프 구조만으로 추정한 결과(빨간 ■)가 참값을 잘 따라간다. sinusoid가 그래프의 저주파 모드라 Laplacian smoothness가 효과적으로 작동한 것이다.
+
+이 모든 것의 핵심은 복원이 가능한 **조건**에 있다. Snow Inversion이 성립할 필요충분조건은 정상 공분산이 Laplacian 유사역행렬에 비례한다는 것($\mathrm{Cov}_\pi(\delta)\propto\mathbf{L}^{+}$), 바로 Part-2가 남겨둔 commute/resistance 닫힌형식이다. 즉 "거리에서 그래프 복원"이라는 어려워 보이는 역문제가 이미 알려진 한 가지 질문으로 정확히 환원되고, 동시에 복원 품질 자체가 그 resistance form이 얼마나 잘 성립하는지를 재는 수치 진단이 된다. 다만 이 전개는 balanced regime에 한정된다 — drift가 있는 경우($\rho_i\ne\rho_j$) 평균항 $(\mathbb{E}_\pi\delta_i-\mathbb{E}_\pi\delta_j)^2$이 centering으로 사라지지 않아 별도 취급이 필요하다.
+
+원문(연구팀, working draft v0.1)은 아래 PDF에 정리되어 있다. 정리·증명·수치 검증의 전체 전개를 참고할 수 있다.
+
+[Snow Inversion 원문 PDF (연구팀)](attachments/260524_d818da_01.pdf){.pdf-link}
