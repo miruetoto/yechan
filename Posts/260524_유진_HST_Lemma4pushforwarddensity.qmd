@@ -8,17 +8,19 @@ draft: false
 # 판정: (A) 학습·이해용 — Lemma 4 (Pushforward density) 증명 노트
 ---
 
-$U_i':=U_i-U_1$으로 정의하면 $\Delta_1 U := (U_2',\ldots,U_n')$은 HST 초기 설정에서 **상대 높이 벡터**다.
-절대 높이 $U_i$는 시간이 지날수록 무한히 커지지만, 상대 높이는 bounded region에 머문다.
+$(X_2-X_1,\ldots,X_n-X_1)$은 HST 초기 설정에서 **상대 높이 벡터**다.
+절대 높이 $X_i$는 시간이 지날수록 무한히 커지지만, 상대 높이는 bounded region에 머문다.
 Lemma 4는 이 벡터의 pushforward density가 특정 영역 안에서 아래로 균일하게 bound됨을 보인다.
 
-**Lemma 4 (Pushforward density).** Let $U_1,\ldots,U_n\overset{\text{iid}}{\sim}\text{Unif}(0,b)$ and $\Delta_1 U:=(U_2',\ldots,U_n')\in\mathbb{R}^{n-1}$ where $U_i':=U_i-U_1$. The density $f_{\text{pdf}}$ of $\Delta_1 U$ satisfies
-$$f_{\text{pdf}}(u')\;\geq\;\frac{b^{1-n}}{2}\qquad\text{whenever }\|u'\|_\infty<\frac{b}{4}.$$
+**Lemma 4 (Pushforward density).** Let $X_1,\ldots,X_n\overset{\text{iid}}{\sim}\text{Unif}(0,b)$. The density $f_{\text{pdf}}$ of $(X_2-X_1,\ldots,X_n-X_1)$ satisfies
+$$f_{\text{pdf}}(y_2,\ldots,y_n)\;\geq\;\frac{b^{1-n}}{2}\qquad\text{whenever }\max_{i\geq 2}|y_i|<\frac{b}{4}.$$
 
-**Proof.** The map $(U_1,\ldots,U_n)\mapsto(U_1,U_2',\ldots,U_n')$ is lower-triangular with Jacobian $1$. The inverse $U_i=U_1+U_i'$ gives
-$$U\in[0,b]^n\;\Leftrightarrow\;U_1\in[0,b]\cap\bigcap_{i=2}^{n}[-U_i',\,b-U_i'].$$
-Setting $c^+=b-\max(0,\max_i\,U_i')$ and $c^-=\max(0,-\min_i\,U_i')$, this interval is $[c^-,c^+]$, so marginalizing over $U_1$ gives $f_{\text{pdf}}(u')=b^{-n}(c^+-c^-)$. Under $\|u'\|_\infty<b/4$: $c^+>3b/4$ and $c^-<b/4$, giving $f_{\text{pdf}}(u')>b^{1-n}/2$. $\square$
+**Proof.** Set $Y_1:=X_1$ and $Y_i:=X_i-X_1$ for $i\geq 2$. The map $(X_1,\ldots,X_n)\mapsto(Y_1,\ldots,Y_n)$ is lower-triangular with Jacobian $1$. The inverse $X_1=Y_1$, $X_i=Y_1+Y_i$ gives
+$$X\in[0,b]^n\;\Leftrightarrow\;Y_1\in[0,b]\cap\bigcap_{i=2}^{n}[-Y_i,\,b-Y_i].$$
+Setting $c^+=b-\max(0,\max_{i\geq 2}Y_i)$ and $c^-=\max(0,-\min_{i\geq 2}Y_i)$, this interval is $[c^-,c^+]$, so marginalizing over $Y_1$:
+$$f_{\text{pdf}}(y_2,\ldots,y_n)=b^{-n}(c^+-c^-).$$
+Under $\max_{i\geq 2}|y_i|<b/4$: $c^+>3b/4$ and $c^-<b/4$, giving $f_{\text{pdf}}>b^{1-n}/2$. $\square$
 
 ---
 
-**해설.** 핵심 아이디어는 $U_i':=U_i-U_1$으로 좌표를 바꾸면 $U_1$ 하나에만 적분이 남는다는 것이다. $b/4$ 조건은 $n$개의 uniform 구간 $[0,b]$, $[-U_i',\,b-U_i']$의 공통 부분이 길이 $b/2$ 이상임을 보장한다. $n$이 커질수록 하한 $b^{1-n}/2$은 작아지지만, 영역 $\|u'\|_\infty<b/4$ 안에서 density가 **uniformly positive**하다는 성질은 보존된다.
+**해설.** 핵심 아이디어는 $Y_i:=X_i-X_1$으로 좌표를 바꾸면 $Y_1$ 하나에만 적분이 남는다는 것이다. $b/4$ 조건은 $n$개의 uniform 구간 $[0,b]$, $[-Y_i,\,b-Y_i]$의 공통 부분이 길이 $b/2$ 이상임을 보장한다. $n$이 커질수록 하한 $b^{1-n}/2$은 작아지지만, $\max_{i\geq 2}|y_i|<b/4$ 안에서 density가 **uniformly positive**하다는 성질은 보존된다.
