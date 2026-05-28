@@ -5,75 +5,136 @@ date: 2026-05-28
 output-file: 260528_c9e1a4.html
 fontsize: 0.85em
 draft: false
-# 판정: (A) 학습·이해용 — C_n diffusion map 임베딩의 여러 링 현상: Fourier harmonic 구조 설명
+# 판정: (A) 학습·이해용 — C_12 구체 예시로 diffusion map 여러 링 현상 한 스텝씩
 ---
 
-- **H.** 링 그래프를 diffusion map으로 임베딩하면 링이 여러 개 나오잖아. 왜야?
+- **H.** 링 그래프를 diffusion map으로 임베딩하면 링이 여러 개 나온다는데, 왜야?
 
-**G.** 핵심은 $C_n$ (사이클 그래프)의 random walk eigenvector가 정확히 **discrete Fourier harmonic**이라는 사실이다.
+**G.** $C_{12}$ (12개 노드의 사이클 그래프)를 예시로 한 스텝씩 보자. Random walk 전이행렬 $P$의 고유값은 $k = 0, 1, \ldots, 11$에 대해
 
-$n$개 노드를 0, 1, …, $n-1$로 번호 매긴 링 그래프에서, 각 노드에서 양쪽 이웃으로 확률 $1/2$씩 이동하는 random walk를 생각하자. 이 전이행렬의 eigenvalue와 eigenvector가 closed form으로 구해진다:
+$$\lambda_k = \cos\!\Bigl(\frac{2\pi k}{12}\Bigr).$$
 
-$$\lambda_k = \cos\!\left(\frac{2\pi k}{n}\right), \qquad k = 0, 1, \ldots, n-1,$$
+$k=0$은 stationary ($\lambda_0=1$). 비정상 모드 중 첫 두 쌍의 고유값:
 
-그리고 $k \geq 1$에서 두 eigenvector가 쌍으로 등장한다:
+| $k$ | $\lambda_k$ |
+|---|---|
+| 1 | $\cos(30°) \approx 0.866$ |
+| 2 | $\cos(60°) = 0.500$ |
 
-$$\phi_k(j) = \cos\!\left(\frac{2\pi k j}{n}\right), \qquad \psi_k(j) = \sin\!\left(\frac{2\pi k j}{n}\right).$$
+각 $k$에 대해 두 고유벡터가 쌍으로 존재한다:
 
-이것이 주파수 $k$인 discrete Fourier mode다.
-
----
-
-- **H.** 그게 링이랑 무슨 관계야?
-
-**G.** $k$번째 eigenpair로 노드 $j$를 2D 평면에 찍어보자:
-
-$$\text{embed}_k(j) = \lambda_k^t \cdot \bigl(\phi_k(j),\; \psi_k(j)\bigr) = \lambda_k^t \cdot \bigl(\cos(2\pi kj/n),\; \sin(2\pi kj/n)\bigr).$$
-
-$j$가 $0$에서 $n-1$까지 증가하면 각도 $\theta_j = 2\pi kj/n$은 $0$에서 $2\pi k$까지 간다. 즉 **반지름 $\lambda_k^t$인 원을 $k$번 감는** 곡선이다.
-
-- $k=1$: 원을 1번 감음 → 노드 $n$개가 원 위에 고르게 분포한 링 하나
-- $k=2$: 원을 2번 감음 → $n$개 노드가 절반씩 겹쳐가며 두 바퀴, 반지름은 $\lambda_2^t$
-- $k=3$: 세 바퀴, 반지름은 $\lambda_3^t$
+$$\phi_k^{\cos}(j) = \cos\!\Bigl(\frac{2\pi k j}{12}\Bigr), \qquad \phi_k^{\sin}(j) = \sin\!\Bigl(\frac{2\pi k j}{12}\Bigr).$$
 
 ---
 
-- **H.** "여러 링"이 구체적으로 어떻게 나와?
+- **H.** 각 노드가 2D에서 어디로 가는지 수치로 보여줘.
 
-**G.** Diffusion map은 하나의 2D 그림이 아니라 여러 eigenpair를 동시에 사용한다. 시간 $t$에서 노드 $j$의 full embedding은 고차원 벡터다:
+**G.** $k=1$과 $k=2$ 쌍에서 노드 $j = 0, \ldots, 11$의 좌표를 직접 계산하면:
 
-$$\Psi_t(j) = \bigl(\lambda_1^t \phi_1(j),\; \lambda_1^t \psi_1(j),\; \lambda_2^t \phi_2(j),\; \lambda_2^t \psi_2(j),\; \ldots\bigr) \in \mathbb{R}^{n-1}.$$
+```{python}
+import numpy as np
 
-이걸 eigenpair별로 2D 패널에 시각화하면 — 패널마다 링 하나씩:
-
-| 패널 | 좌표 | 반지름 |
-|------|------|--------|
-| 1번 | $(\phi_1, \psi_1)$ | $\lambda_1^t$ |
-| 2번 | $(\phi_2, \psi_2)$ | $\lambda_2^t$ |
-| 3번 | $(\phi_3, \psi_3)$ | $\lambda_3^t$ |
-
-각 패널이 링 하나 — 그래서 여러 링.
-
----
-
-- **H.** 근데 반지름이 왜 다 달라?
-
-**G.** $\lambda_k = \cos(2\pi k/n)$은 $k$가 커질수록 감소한다. $k=0$은 $\lambda_0 = 1$, $k=1$은 $\lambda_1 = \cos(2\pi/n) \approx 1$, $k$가 $n/4$에 가까워지면 $\lambda_k \approx 0$, $n/2$에서 $\lambda_{n/2} = -1$이 된다.
-
-$t$를 고정했을 때 $|\lambda_k|^t$는 $k$가 커질수록 빠르게 작아진다 — **낮은 주파수(low $k$)는 큰 링, 높은 주파수(high $k$)는 작은 링**. 이 크기 차이가 "여러 링" 시각화에서 각 링의 반지름 차이로 나타난다.
+n = 12
+for k in [1, 2]:
+    lam = np.cos(2*np.pi*k/n)
+    print(f"k={k}  (λ_k = {lam:.3f})")
+    for j in range(n):
+        c = np.cos(2*np.pi*k*j/n)
+        s = np.sin(2*np.pi*k*j/n)
+        marker = "  ← j=0과 같은 점!" if (k==2 and j==6) else ""
+        print(f"  j={j:2d}: ({c:+.3f}, {s:+.3f}){marker}")
+    print()
+```
 
 ---
 
-- **H.** $t$가 커지면 어떻게 돼?
+- **H.** $k=1$ 쌍은 링이 나오는 게 보이는데, $k=2$는 왜 달라?
 
-**G.** $t \to \infty$에서:
+**G.** $k=1$에서는 각도 $\theta_j = 2\pi j/12$가 $j=0$일 때 $0°$, $j=11$일 때 $330°$ — 12개 점이 원 위에 고르게 퍼져서 **링 하나**.
 
-$$\lambda_1^t \gg \lambda_2^t \gg \lambda_3^t \gg \cdots \to 0.$$
+$k=2$에서는 각도가 $\theta_j = 4\pi j/12 = 2\pi j/6$으로, $j=6$일 때 $\theta_6 = 2\pi$, 즉 $j=0$의 $\theta_0=0$과 **완전히 같은 점**이다. 위 출력에서 $j=6$에 표시가 붙는 이유가 바로 이것.
 
-$k=1$ 링의 반지름만 상대적으로 크게 남고, 나머지 링들은 원점으로 쪼그라든다. 결국 **큰 $t$에서는 첫 번째 (lowest frequency) 링 하나만 살아남아** 사이클 그래프의 가장 큰 스케일 구조를 담게 된다.
+결과적으로 12개 노드가 6개 위치로 **쌍쌍이 겹친다**:
+
+$$\{j,\; j+6\} \;\mapsto\; \text{같은 2D 좌표} \qquad (j = 0,1,2,3,4,5).$$
+
+반지름은 $\lambda_2^t = 0.5^t$ — $k=1$의 $0.866^t$보다 훨씬 작다.
+
+---
+
+- **H.** 그래서 "여러 링"이 어떻게 보여? 코드+그림으로 보여줘.
+
+**G.** $k=1$ 패널과 $k=2$ 패널을 나란히 놓으면 된다. 노드를 색으로 구분했다 — 파랑($j=0,\ldots,5$)과 빨강($j=6,\ldots,11$)이 $k=2$ 패널에서 완전히 겹치는 것을 확인할 수 있다.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+plt.rcParams.update({
+    'text.usetex': True,
+    'font.size': 9,
+    'axes.titlesize': 9,
+})
+
+n = 12
+t = 1
+lam1 = np.cos(2*np.pi*1/n)
+lam2 = np.cos(2*np.pi*2/n)
+j = np.arange(n)
+
+# 원래 그래프 노드 위치
+theta0 = 2*np.pi*j/n
+xg, yg = np.cos(theta0), np.sin(theta0)
+
+# 임베딩 좌표
+x1 = lam1**t * np.cos(2*np.pi*1*j/n)
+y1 = lam1**t * np.sin(2*np.pi*1*j/n)
+x2 = lam2**t * np.cos(2*np.pi*2*j/n)
+y2 = lam2**t * np.sin(2*np.pi*2*j/n)
+
+# j<6 파랑, j>=6 빨강 (k=2에서 겹침 강조)
+colors = ['royalblue' if i < n//2 else 'tomato' for i in range(n)]
+
+fig, axes = plt.subplots(1, 3, figsize=(8, 3))
+
+specs = [
+    (xg, yg, r'$C_{12}$: original graph'),
+    (x1, y1, rf'$k=1$ (radius $\approx {lam1:.2f}$)'),
+    (x2, y2, rf'$k=2$ (radius $={lam2:.2f}$, overlap)'),
+]
+
+for ax, (x, y, title) in zip(axes, specs):
+    for i in range(n):
+        ax.plot([x[i], x[(i+1)%n]], [y[i], y[(i+1)%n]],
+                'k-', lw=0.8, alpha=0.2)
+    ax.scatter(x, y, c=colors, s=55, zorder=5, alpha=0.9)
+    ax.set_title(title)
+    ax.set_aspect('equal')
+    ax.set_box_aspect(1)
+    ax.axis('off')
+
+plt.tight_layout()
+plt.savefig(
+    'results/figures/260528_유진_DiffusionMap_MultipleRings.qmd/rings_embedding.png',
+    dpi=150, bbox_inches='tight'
+)
+plt.show()
+```
+
+$k=1$ 패널: 12개 점이 고르게 퍼진 **큰 링**. $k=2$ 패널: 6개 위치에 파랑·빨강이 겹쳐 있는 **작은 링**. 이 두 패널을 나란히 보면 크기 다른 링이 두 개 — "여러 링"의 정체다.
+
+---
+
+- **H.** $t$가 커지면 어떻게 달라져?
+
+**G.** $t$가 커질수록 반지름 $\lambda_k^t$가 $k$에 따라 다른 속도로 줄어든다:
+
+$$\lambda_1^t = 0.866^t \;\gg\; \lambda_2^t = 0.5^t \;\gg\; \cdots$$
+
+$t=1$에서는 두 링이 모두 보이지만, $t=5$면 $0.866^5 \approx 0.51$ vs $0.5^5 \approx 0.03$ — $k=2$ 링은 거의 원점으로 쪼그라든다. **큰 $t$에서는 $k=1$ 링만 살아남는다.**
 
 ---
 
 - **H.** 한 줄 요약.
 
-**G.** $C_n$의 eigenvector가 Fourier harmonic $(\cos(2\pi kj/n), \sin(2\pi kj/n))$이라 $k$번째 eigenpair를 2D에 찍으면 반지름 $\lambda_k^t$인 링이 나오고, 여러 eigenpair를 각 패널에 시각화하면 크기 다른 링 여러 개 — 이것이 "여러 링" 현상의 전부다.
+**G.** $C_{12}$의 $k$번째 eigenpair를 2D에 찍으면 반지름 $\lambda_k^t$인 링이 나오되 ($k=2$에서는 노드 $j$와 $j+6$이 겹쳐 12→6 압축), 여러 $k$ 패널을 나란히 보면 크기 다른 링 여러 개 — 이것이 "여러 링" 현상이다.
