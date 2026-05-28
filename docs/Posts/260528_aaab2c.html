@@ -282,7 +282,7 @@ window.Quarto = {
 <section id="현상-1-누적-적설량이-단순-기대와-어긋난다-cov-잔차" class="level2">
 <h2 class="anchored" data-anchor-id="현상-1-누적-적설량이-단순-기대와-어긋난다-cov-잔차">현상 1 — 누적 적설량이 단순 기대와 어긋난다 (Cov 잔차)</h2>
 <p>실험 그래프는 노드 10 개의 완전그래프 <span class="math inline">\(K_{10}\)</span> — 모든 노드 쌍이 직접 이웃이고 차수가 9로 균일, vertex-transitive (모든 노드가 구조적으로 동등).</p>
-<div id="2a49d1bf" class="cell" data-execution_count="1">
+<div id="97f31918" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
@@ -308,7 +308,7 @@ window.Quarto = {
 <p><span class="math inline">\(K_{10}\)</span> 위에서 <span class="math inline">\(b=0.05\)</span>, <span class="math inline">\(T\)</span> step 시뮬한다. 매 step 의 <span class="math inline">\(b'\)</span> 기대값은 두 모델 모두 <span class="math inline">\(\bar b=b/2=0.025\)</span>이고, vertex-transitive 대칭으로 walker 의 stationary 방문율도 두 모델 모두 <span class="math inline">\(\rho_i=1/n=0.1\)</span> 로 결정된다. 그래서 노드 <span class="math inline">\(i\)</span>의 적설률 <span class="math inline">\(\tilde\rho_i:=\lim_t h_i(t)/t\)</span> 는 <em>순진한 기대</em>로</p>
 <p><span class="math display">\[\tilde\rho_i \;\stackrel{?}{=}\; \bar b\,\rho_i \;=\; 0.025\times 0.1 \;=\; 0.0025\]</span></p>
 <p>이 되어야 할 것 같다. 시뮬로 두 모델을 같은 walker 규칙으로 돌려보자.</p>
-<div id="c94d5f70" class="cell" data-execution_count="2">
+<div id="4b1169d9" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -379,77 +379,197 @@ window.Quarto = {
 <p>(여기서 <span class="math inline">\(\mathrm{Cov}_i:=\mathrm{Cov}_\pi(b'^{(r)},N_r^{(i)})\)</span> 는 시뮬에서야 측정되는 graph+dynamics joint 잔차.)</p>
 <p>AAA 는 그래프에서 결정되는 <span class="math inline">\((\rho_i-\rho_j)\)</span> 와 <span class="math inline">\(\bar b\)</span> 만의 깔끔한 닫힌형으로 떨어진다. BAB 는 같은 자리에 <span class="math inline">\((\mathrm{Cov}_i-\mathrm{Cov}_j)/\bar m\)</span> 가 끼어들어 안 예쁘다. Tier 1·Tier 2 의 한계 상수도 같은 양상으로 Cov 류 항이 들러붙어 — 이것이 첫 번째 현상의 핵심 문제다.</p>
 </section>
-<section id="현상-2-k_2의-핑퐁-동역학이-높이차에-atom을-만든다" class="level2">
-<h2 class="anchored" data-anchor-id="현상-2-k_2의-핑퐁-동역학이-높이차에-atom을-만든다">현상 2 — <span class="math inline">\(K_2\)</span>의 핑퐁 동역학이 높이차에 atom을 만든다</h2>
-<p>가장 작은 connected 그래프 <span class="math inline">\(K_2\)</span>에서 BAB를 한 step씩 따라가 보자. 라운드 시작 Fall: 한 노드(예: 0)에 deposit <span class="math inline">\(b'^{(r)}\)</span>. <span class="math inline">\(h=(b'^{(r)},0)\)</span>, <span class="math inline">\(Z=0\)</span>. Step 2: walker at 0, 이웃 <span class="math inline">\(=\{1\}\)</span>, <span class="math inline">\(h_1=0\le h_0=b'^{(r)}\)</span> → flow, <span class="math inline">\(h_1\mathrel{+}=b'^{(r)}\)</span>. <span class="math inline">\(h=(b'^{(r)},b'^{(r)})\)</span>, <span class="math inline">\(Z=1\)</span>. Step 3: walker at 1, 이웃 <span class="math inline">\(=\{0\}\)</span>, <span class="math inline">\(h_0=b'^{(r)}\le h_1=b'^{(r)}\)</span> → flow, <span class="math inline">\(h_0\mathrel{+}=b'^{(r)}\)</span>. <span class="math inline">\(h=(2b'^{(r)},b'^{(r)})\)</span>, <span class="math inline">\(Z=2\)</span>. 핑퐁이 계속되며 — 모든 deposit이 같은 <span class="math inline">\(b'^{(r)}\)</span>이므로 — 높이차 <span class="math inline">\(\delta=h_2-h_1\)</span>이 정확히 <span class="math inline">\(0\)</span>과 <span class="math inline">\(b'^{(r)}\)</span>를 번갈아 오간다.</p>
-<p>라운드는 <span class="math inline">\(Z\)</span>가 <span class="math inline">\(T_{\max}\)</span>에 닿을 때 끝나는데, <strong>그 시점의 <span class="math inline">\(\delta\)</span>는 라운드 안 deposit 수의 홀짝에 따라 결정</strong>된다. <span class="math inline">\(1+T_{\max}\)</span>가 짝수면(예: <span class="math inline">\(T_{\max}=3\)</span>) 라운드 경계의 <span class="math inline">\(\delta\)</span>가 정확히 <span class="math inline">\(0\)</span>으로 돌아오는 경우가 발생해, 전체 step 가운데 <span class="math inline">\(\delta=0\)</span>인 비율이 정확히 50%가 된다. AAA에선 같은 핑퐁이라도 매 step의 <span class="math inline">\(b'_s\)</span>가 독립이라 <span class="math inline">\(\delta\)</span>에 독립 증분이 누적되어 연속 분포로 퍼진다.</p>
-<div id="de702d6c" class="cell" data-execution_count="3">
+<section id="현상-2-k_2의-핑퐁이-bab-수렴-증명에-불필요한-가정을-강요한다" class="level2">
+<h2 class="anchored" data-anchor-id="현상-2-k_2의-핑퐁이-bab-수렴-증명에-불필요한-가정을-강요한다">현상 2 — <span class="math inline">\(K_2\)</span>의 핑퐁이 BAB 수렴 증명에 불필요한 가정을 강요한다</h2>
+<p>이번엔 가장 작은 connected 그래프 — 노드 두 개, 엣지 하나 — 인 <span class="math inline">\(K_2\)</span> 를 본다.</p>
+<div id="0f84f56e" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>W2 <span class="op">=</span> np.array([[<span class="fl">0.</span>, <span class="fl">1.</span>], [<span class="fl">1.</span>, <span class="fl">0.</span>]])</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>T2 <span class="op">=</span> <span class="dv">150_000</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_delta(model, fixed_maxflow, seed<span class="op">=</span><span class="dv">7</span>):</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> mu0 <span class="op">=</span> np.array([<span class="fl">0.5</span>, <span class="fl">0.5</span>])<span class="op">;</span> nb <span class="op">=</span> [np.array([<span class="dv">1</span>]), np.array([<span class="dv">0</span>])]</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    rng <span class="op">=</span> np.random.default_rng(seed)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> np.zeros(<span class="dv">2</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    draw_mf <span class="op">=</span> <span class="kw">lambda</span>: <span class="bu">int</span>(rng.integers(n, <span class="dv">2</span><span class="op">*</span>n<span class="op">+</span><span class="dv">1</span>)) <span class="cf">if</span> model <span class="op">==</span> <span class="st">"AAA"</span> <span class="cf">else</span> fixed_maxflow</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    maxflow <span class="op">=</span> draw_mf()<span class="op">;</span> Z <span class="op">=</span> maxflow<span class="op">;</span> X <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> b_round <span class="op">=</span> <span class="bu">float</span>(rng.uniform(<span class="dv">0</span>, B))</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> np.empty(T2)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(T2):</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> Z <span class="op">&gt;=</span> maxflow:</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>            maxflow <span class="op">=</span> draw_mf()<span class="op">;</span> b_round <span class="op">=</span> <span class="bu">float</span>(rng.uniform(<span class="dv">0</span>, B))<span class="op">;</span> Z <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>            b_step <span class="op">=</span> <span class="bu">float</span>(rng.uniform(<span class="dv">0</span>, B)) <span class="cf">if</span> model <span class="op">==</span> <span class="st">"AAA"</span> <span class="cf">else</span> b_round</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            X <span class="op">=</span> <span class="bu">int</span>(rng.choice(<span class="dv">2</span>, p<span class="op">=</span>mu0))</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>            b_step <span class="op">=</span> <span class="bu">float</span>(rng.uniform(<span class="dv">0</span>, B)) <span class="cf">if</span> model <span class="op">==</span> <span class="st">"AAA"</span> <span class="cf">else</span> b_round</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>            nb_x <span class="op">=</span> nb[X]<span class="op">;</span> down <span class="op">=</span> nb_x[h[nb_x] <span class="op">&lt;=</span> h[X]]</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(down) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                X <span class="op">=</span> <span class="bu">int</span>(down[<span class="dv">0</span>])<span class="op">;</span> Z <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                Z <span class="op">=</span> maxflow</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>        h[X] <span class="op">+=</span> b_step<span class="op">;</span> out[t] <span class="op">=</span> h[<span class="dv">1</span>] <span class="op">-</span> h[<span class="dv">0</span>]</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>d_bab <span class="op">=</span> run_delta(<span class="st">"BAB"</span>, <span class="dv">3</span>)        <span class="co"># 1+T_max = 4 (짝수)</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>d_aaa <span class="op">=</span> run_delta(<span class="st">"AAA"</span>, <span class="va">None</span>)</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tag, d <span class="kw">in</span> [(<span class="st">"BAB(1+Tmax even)"</span>, d_bab), (<span class="st">"AAA"</span>, d_aaa)]:</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"[</span><span class="sc">{</span>tag<span class="sc">:18}</span><span class="ss">] P(δ=0) = </span><span class="sc">{</span>np<span class="sc">.</span>mean(np.<span class="bu">abs</span>(d)<span class="op">&lt;</span><span class="fl">1e-12</span>)<span class="sc">:6.1%}</span><span class="ss">   "</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"고유 δ값 수 = </span><span class="sc">{</span><span class="bu">len</span>(np.unique(np.<span class="bu">round</span>(d,<span class="dv">6</span>)))<span class="sc">:6d}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>G2 <span class="op">=</span> nx.Graph()<span class="op">;</span> G2.add_edge(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> {<span class="dv">1</span>: (<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">0</span>), <span class="dv">2</span>: (<span class="fl">0.5</span>, <span class="dv">0</span>)}</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">3.0</span>, <span class="fl">1.4</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>nx.draw_networkx_edges(G2, pos, ax<span class="op">=</span>ax, width<span class="op">=</span><span class="fl">1.2</span>, edge_color<span class="op">=</span><span class="st">'#888888'</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>nx.draw_networkx_nodes(G2, pos, ax<span class="op">=</span>ax, node_size<span class="op">=</span><span class="dv">600</span>, node_color<span class="op">=</span><span class="st">'#4c72b0'</span>, edgecolors<span class="op">=</span><span class="st">'k'</span>, linewidths<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>nx.draw_networkx_labels(G2, pos, ax<span class="op">=</span>ax, font_size<span class="op">=</span><span class="dv">10</span>, font_color<span class="op">=</span><span class="st">'white'</span>, labels<span class="op">=</span>{<span class="dv">1</span>: <span class="vs">r'</span><span class="dv">$</span><span class="vs">v_1</span><span class="dv">$</span><span class="vs">'</span>, <span class="dv">2</span>: <span class="vs">r'</span><span class="dv">$</span><span class="vs">v_2</span><span class="dv">$</span><span class="vs">'</span>})</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()<span class="op">;</span> ax.set_aspect(<span class="st">'equal'</span>)<span class="op">;</span> ax.set_xlim(<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">1.0</span>)<span class="op">;</span> ax.set_ylim(<span class="op">-</span><span class="fl">0.4</span>, <span class="fl">0.4</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="260528_연구_HST_왜AAA인가_ModelB의두병목_files/figure-html/cell-4-output-1.png" width="278" height="123" class="figure-img"></p>
+<figcaption>실험 대상 <span class="math inline">\(K_2\)</span> — 두 노드 <span class="math inline">\(v_1, v_2\)</span> 가 엣지 하나로 연결된 가장 작은 connected 그래프.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>시나리오</strong>. BAB 는 라운드 시작에 <em>그 라운드의 눈 크기</em> 를 한 번 뽑아, 그 라운드의 모든 step 에 같은 양만큼 눈을 쌓는다. 예컨대 어떤 라운드에는 매 step 눈이 1.0 씩 떨어지고, 다음 라운드에는 매 step 2.3 씩 떨어지는 식이다. 라운드 길이가 4 (block timer 상한 3) 인 경우로, 두 라운드를 한 step 씩 따라가 step 별 적립을 표로 그리면 다음과 같다.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">step</th>
+<th style="text-align: center;">라운드</th>
+<th style="text-align: center;">동작</th>
+<th style="text-align: center;">walker</th>
+<th style="text-align: center;"><span class="math inline">\(v_1\)</span> 높이</th>
+<th style="text-align: center;"><span class="math inline">\(v_2\)</span> 높이</th>
+<th style="text-align: center;">두 높이의 차 (<span class="math inline">\(v_2-v_1\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1번 (눈 = <strong>1.0</strong>)</td>
+<td style="text-align: center;">Fall (새 위치 <span class="math inline">\(v_1\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(v_1\)</span></td>
+<td style="text-align: center;">1.0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><strong>−1.0</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1번</td>
+<td style="text-align: center;">Flow <span class="math inline">\(v_1\to v_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(v_2\)</span></td>
+<td style="text-align: center;">1.0</td>
+<td style="text-align: center;">1.0</td>
+<td style="text-align: center;"><strong>0</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1번</td>
+<td style="text-align: center;">Flow <span class="math inline">\(v_2\to v_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(v_1\)</span></td>
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;">1.0</td>
+<td style="text-align: center;"><strong>−1.0</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1번</td>
+<td style="text-align: center;">Flow <span class="math inline">\(v_1\to v_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(v_2\)</span></td>
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;"><strong>0</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">2번 (눈 = <strong>2.3</strong>)</td>
+<td style="text-align: center;">Fall (새 위치 <span class="math inline">\(v_1\)</span>)</td>
+<td style="text-align: center;"><span class="math inline">\(v_1\)</span></td>
+<td style="text-align: center;">4.3</td>
+<td style="text-align: center;">2.0</td>
+<td style="text-align: center;"><strong>−2.3</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">2번</td>
+<td style="text-align: center;">Flow <span class="math inline">\(v_1\to v_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(v_2\)</span></td>
+<td style="text-align: center;">4.3</td>
+<td style="text-align: center;">4.3</td>
+<td style="text-align: center;"><strong>0</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">2번</td>
+<td style="text-align: center;">Flow <span class="math inline">\(v_2\to v_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(v_1\)</span></td>
+<td style="text-align: center;">6.6</td>
+<td style="text-align: center;">4.3</td>
+<td style="text-align: center;"><strong>−2.3</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">2번</td>
+<td style="text-align: center;">Flow <span class="math inline">\(v_1\to v_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(v_2\)</span></td>
+<td style="text-align: center;">6.6</td>
+<td style="text-align: center;">6.6</td>
+<td style="text-align: center;"><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p>walker 가 두 노드를 핑퐁하면서, <strong>한 라운드 안에서 두 높이의 차가 “그 라운드의 눈 크기” 와 0 사이를 정확히 번갈아 오간다</strong> — 1번 라운드에선 −1.0 과 0, 2번 라운드에선 −2.3 과 0. 라운드의 절반 step (위 표의 짝수 step 2, 4, 6, 8) 에서 두 높이의 차가 정확히 0 이다. 라운드 길이가 짝수이면 이 패턴이 모든 라운드에 유지되어 — 전체 step 중 <strong>두 높이의 차가 정확히 0 인 비율이 50%</strong>.</p>
+<p>AAA 에선 매 step 의 눈 크기가 <em>독립적으로</em> 새로 뽑힌다 — 위 표에서 1번 라운드의 1.0, 1.0, 1.0, 1.0 자리에 네 개의 서로 다른 (랜덤) 값이, 2번 라운드의 2.3 자리에도 네 개의 다른 값이 들어간다. 그러면 두 높이의 차에 서로 다른 독립 증분이 누적되어 연속 분포로 퍼진다 — 한 점 (0) 에 절반이 몰리는 일은 일어나지 않는다.</p>
+<div id="da3ed82e" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>W2 <span class="op">=</span> np.array([[<span class="fl">0.</span>, <span class="fl">1.</span>], [<span class="fl">1.</span>, <span class="fl">0.</span>]])</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>T2 <span class="op">=</span> <span class="dv">150_000</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_delta(model, fixed_maxflow, seed<span class="op">=</span><span class="dv">7</span>):</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> mu0 <span class="op">=</span> np.array([<span class="fl">0.5</span>, <span class="fl">0.5</span>])<span class="op">;</span> nb <span class="op">=</span> [np.array([<span class="dv">1</span>]), np.array([<span class="dv">0</span>])]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    rng <span class="op">=</span> np.random.default_rng(seed)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> np.zeros(<span class="dv">2</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    draw_mf <span class="op">=</span> <span class="kw">lambda</span>: <span class="bu">int</span>(rng.integers(n, <span class="dv">2</span><span class="op">*</span>n<span class="op">+</span><span class="dv">1</span>)) <span class="cf">if</span> model <span class="op">==</span> <span class="st">"AAA"</span> <span class="cf">else</span> fixed_maxflow</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    maxflow <span class="op">=</span> draw_mf()<span class="op">;</span> Z <span class="op">=</span> maxflow<span class="op">;</span> X <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> b_round <span class="op">=</span> <span class="bu">float</span>(rng.uniform(<span class="dv">0</span>, B))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> np.empty(T2)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(T2):</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> Z <span class="op">&gt;=</span> maxflow:</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>            maxflow <span class="op">=</span> draw_mf()<span class="op">;</span> b_round <span class="op">=</span> <span class="bu">float</span>(rng.uniform(<span class="dv">0</span>, B))<span class="op">;</span> Z <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            b_step <span class="op">=</span> <span class="bu">float</span>(rng.uniform(<span class="dv">0</span>, B)) <span class="cf">if</span> model <span class="op">==</span> <span class="st">"AAA"</span> <span class="cf">else</span> b_round</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            X <span class="op">=</span> <span class="bu">int</span>(rng.choice(<span class="dv">2</span>, p<span class="op">=</span>mu0))</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>            b_step <span class="op">=</span> <span class="bu">float</span>(rng.uniform(<span class="dv">0</span>, B)) <span class="cf">if</span> model <span class="op">==</span> <span class="st">"AAA"</span> <span class="cf">else</span> b_round</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>            nb_x <span class="op">=</span> nb[X]<span class="op">;</span> down <span class="op">=</span> nb_x[h[nb_x] <span class="op">&lt;=</span> h[X]]</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(down) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                X <span class="op">=</span> <span class="bu">int</span>(down[<span class="dv">0</span>])<span class="op">;</span> Z <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>                Z <span class="op">=</span> maxflow</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        h[X] <span class="op">+=</span> b_step<span class="op">;</span> out[t] <span class="op">=</span> h[<span class="dv">1</span>] <span class="op">-</span> h[<span class="dv">0</span>]</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>d_bab <span class="op">=</span> run_delta(<span class="st">"BAB"</span>, <span class="dv">3</span>)        <span class="co"># 1+T_max = 4 (짝수)</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>d_aaa <span class="op">=</span> run_delta(<span class="st">"AAA"</span>, <span class="va">None</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tag, d <span class="kw">in</span> [(<span class="st">"BAB(1+Tmax even)"</span>, d_bab), (<span class="st">"AAA"</span>, d_aaa)]:</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"[</span><span class="sc">{</span>tag<span class="sc">:18}</span><span class="ss">] P(δ=0) = </span><span class="sc">{</span>np<span class="sc">.</span>mean(np.<span class="bu">abs</span>(d)<span class="op">&lt;</span><span class="fl">1e-12</span>)<span class="sc">:6.1%}</span><span class="ss">   "</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>          <span class="ss">f"고유 δ값 수 = </span><span class="sc">{</span><span class="bu">len</span>(np.unique(np.<span class="bu">round</span>(d,<span class="dv">6</span>)))<span class="sc">:6d}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[BAB(1+Tmax even)  ] P(δ=0) =  50.0%   고유 δ값 수 =  31304
 [AAA               ] P(δ=0) =   0.0%   고유 δ값 수 =  80930</code></pre>
 </div>
 </div>
-<div id="fde10557" class="cell" data-execution_count="4">
+<div id="aab82086" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">7.0</span>, <span class="fl">2.7</span>))</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">0.14</span>, <span class="fl">0.14</span>, <span class="dv">57</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ax.hist(d_aaa, bins<span class="op">=</span>bins, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, color<span class="op">=</span><span class="st">"#1f77b4"</span>, label<span class="op">=</span><span class="vs">r"AAA </span><span class="kw">(</span><span class="vs">continuous</span><span class="kw">)</span><span class="vs">"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>ax.hist(d_bab, bins<span class="op">=</span>bins, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"#d62728"</span>, label<span class="op">=</span><span class="vs">r"BAB, </span><span class="dv">$</span><span class="vs">1{</span><span class="op">+</span><span class="vs">}T_{</span><span class="dv">\m</span><span class="vs">ax}</span><span class="dv">$</span><span class="vs"> even"</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">22</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"#d62728"</span>, lw<span class="op">=</span><span class="fl">1.0</span>, ls<span class="op">=</span><span class="st">"--"</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>ax.annotate(<span class="vs">r"</span><span class="dv">$\d</span><span class="vs">elta=0</span><span class="dv">$</span><span class="vs"> atom </span><span class="dv">$</span><span class="ch">\a</span><span class="vs">pprox50</span><span class="ch">\%</span><span class="dv">$</span><span class="vs">"</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">(off-scale, singular)"</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>            xy<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">22</span>), xytext<span class="op">=</span>(<span class="fl">0.30</span>, <span class="fl">0.6</span>), textcoords<span class="op">=</span><span class="st">"axes fraction"</span>,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>            fontsize<span class="op">=</span><span class="dv">8</span>, color<span class="op">=</span><span class="st">"#d62728"</span>,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>            arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"-&gt;"</span>, color<span class="op">=</span><span class="st">"#d62728"</span>, lw<span class="op">=</span><span class="fl">0.9</span>))</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r"</span><span class="dv">$\d</span><span class="vs">elta = h_2 - h_1</span><span class="dv">$</span><span class="vs"> on </span><span class="dv">$</span><span class="vs">K_2</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"density"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>, loc<span class="op">=</span><span class="st">"upper left"</span>)<span class="op">;</span> ax.tick_params(labelsize<span class="op">=</span><span class="dv">8</span>)<span class="op">;</span> ax.grid(alpha<span class="op">=</span><span class="fl">0.25</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">7.0</span>, <span class="fl">2.7</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">0.14</span>, <span class="fl">0.14</span>, <span class="dv">57</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ax.hist(d_aaa, bins<span class="op">=</span>bins, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, color<span class="op">=</span><span class="st">"#1f77b4"</span>, label<span class="op">=</span><span class="vs">r"AAA </span><span class="kw">(</span><span class="vs">continuous</span><span class="kw">)</span><span class="vs">"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ax.hist(d_bab, bins<span class="op">=</span>bins, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">"#d62728"</span>, label<span class="op">=</span><span class="vs">r"BAB, </span><span class="dv">$</span><span class="vs">1{</span><span class="op">+</span><span class="vs">}T_{</span><span class="dv">\m</span><span class="vs">ax}</span><span class="dv">$</span><span class="vs"> even"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">22</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"#d62728"</span>, lw<span class="op">=</span><span class="fl">1.0</span>, ls<span class="op">=</span><span class="st">"--"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>ax.annotate(<span class="vs">r"</span><span class="dv">$\d</span><span class="vs">elta=0</span><span class="dv">$</span><span class="vs"> atom </span><span class="dv">$</span><span class="ch">\a</span><span class="vs">pprox50</span><span class="ch">\%</span><span class="dv">$</span><span class="vs">"</span> <span class="op">+</span> <span class="st">"</span><span class="ch">\n</span><span class="st">(off-scale, singular)"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            xy<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">22</span>), xytext<span class="op">=</span>(<span class="fl">0.30</span>, <span class="fl">0.6</span>), textcoords<span class="op">=</span><span class="st">"axes fraction"</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            fontsize<span class="op">=</span><span class="dv">8</span>, color<span class="op">=</span><span class="st">"#d62728"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>            arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"-&gt;"</span>, color<span class="op">=</span><span class="st">"#d62728"</span>, lw<span class="op">=</span><span class="fl">0.9</span>))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r"</span><span class="dv">$\d</span><span class="vs">elta = h_2 - h_1</span><span class="dv">$</span><span class="vs"> on </span><span class="dv">$</span><span class="vs">K_2</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"density"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>, loc<span class="op">=</span><span class="st">"upper left"</span>)<span class="op">;</span> ax.tick_params(labelsize<span class="op">=</span><span class="dv">8</span>)<span class="op">;</span> ax.grid(alpha<span class="op">=</span><span class="fl">0.25</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="260528_연구_HST_왜AAA인가_ModelB의두병목_files/figure-html/cell-5-output-1.png" width="650" height="247" class="figure-img"></p>
+<p><img src="260528_연구_HST_왜AAA인가_ModelB의두병목_files/figure-html/cell-6-output-1.png" width="650" height="247" class="figure-img"></p>
 <figcaption><span class="math inline">\(K_2\)</span>에서 높이차 <span class="math inline">\(\delta=h_2-h_1\)</span>의 분포. AAA는 평균 0 근처의 연속 종형(파랑); BAB(<span class="math inline">\(1{+}T_{\max}\)</span> 짝수)는 <span class="math inline">\([-b, b]\)</span>에 갇히고 <span class="math inline">\(\delta=0\)</span>에 50% 질량의 atom(빨강, 막대가 축 위로 off-scale)이 솟는다.</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>AAA(파랑)는 평균 0 근처의 매끈한 연속 분포. BAB(<span class="math inline">\(1+T_{\max}\)</span> 짝수, 빨강)는 <span class="math inline">\(\delta\)</span>가 <span class="math inline">\([-b,b]\)</span>에 갇히고 <strong><span class="math inline">\(\delta=0\)</span>에 절반의 질량이 atom으로 솟는다</strong> — Lebesgue-영집합 위에 양의 질량이 얹힌 것, 즉 <span class="math inline">\(\delta\)</span>의 법칙이 절대연속이 아닌 특이 성분을 갖는다. 라운드의 핑퐁 동역학과 같은 <span class="math inline">\(b'^{(r)}\)</span>의 라운드 내 재사용이 결합해 만들어 낸 결과다.</p>
+<p>AAA(파랑)는 평균 0 근처의 매끈한 연속 분포. BAB (<span class="math inline">\(1+T_{\max}\)</span> 짝수, 빨강) 는 <span class="math inline">\(\delta\)</span> 가 <span class="math inline">\([-b,b]\)</span> 에 갇히고 <strong><span class="math inline">\(\delta=0\)</span> 에 절반의 질량이 atom 으로 솟는다</strong> — Lebesgue-영집합 위에 양의 질량이 얹힌 특이 성분.</p>
+<p><strong>이 atom 이 수렴 증명에 미치는 영향.</strong> Tier 2 (balanced) 수렴 증명의 표준 도구는 <span class="math inline">\(\delta\)</span> 의 마르코프 연쇄가 유일한 정상분포로 섞임을 받쳐 주는 <em>Doeblin minorization</em> 이다 — 어떤 단계 수 뒤에는 <span class="math inline">\(\delta\)</span> 의 전이확률에 균일한 <em>밀도 바닥</em> <span class="math inline">\(\eta\,\nu\)</span> 가 깔려야 한다. BAB 의 <span class="math inline">\(\delta\)</span> 는 한 점에 양의 질량을 두는 특이 분포라 그런 밀도 바닥 자체가 깔리지 않는다. 그래서 BAB 증명은 <em>atom 을 빼고 도달가능 부분집합 위에서만 minorization 한다</em> 같은 단서/가정을 별도로 끼워 우회해야 한다. AAA 에선 매 step 독립으로 <span class="math inline">\(\delta\)</span> 가 연속 밀도를 가져 전체 공간에서 표준 Doeblin 이 그대로 통한다 — 그런 우회 단서가 필요 없다. <strong>핑퐁이 만든 한 점의 atom 이 BAB 수렴 증명에 불필요한 가정을 강요하고, 증명 도구를 복잡하게 만든다.</strong></p>
 <hr>
 <p>두 현상의 출처는 같다 — BAB의 <em>라운드 동안 같은 <span class="math inline">\(b'\)</span> 재사용</em>(snowfall B)이다. AAA의 per-step 독립(snowfall A)에서는 식 <span class="math inline">\((\ast)\,(\ast\ast)\)</span>의 공분산이 <span class="math inline">\(\equiv 0\)</span>이 되고, <span class="math inline">\(K_2\)</span> 핑퐁이 만든 atom은 연속 증분에 풀려 사라진다.</p>
 
