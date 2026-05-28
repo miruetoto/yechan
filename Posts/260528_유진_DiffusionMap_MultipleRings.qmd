@@ -5,136 +5,126 @@ date: 2026-05-28
 output-file: 260528_c9e1a4.html
 fontsize: 0.85em
 draft: false
-# 판정: (A) 학습·이해용 — C_12 구체 예시로 diffusion map 여러 링 현상 한 스텝씩
+# 판정: (A) 학습·이해용 — C_12 concrete 예시, 각도 공식 하나로 여러 링 도출
 ---
 
-- **H.** 링 그래프를 diffusion map으로 임베딩하면 링이 여러 개 나온다는데, 왜야?
+- **H.** 링 그래프 임베딩하면 왜 링이 여러 개야?
 
-**G.** $C_{12}$ (12개 노드의 사이클 그래프)를 예시로 한 스텝씩 보자. Random walk 전이행렬 $P$의 고유값은 $k = 0, 1, \ldots, 11$에 대해
+**G.** 핵심은 딱 한 가지다. 노드 $j$를 2D에 찍을 때 쓰는 "각도 공식"이 $k$마다 다르다:
 
-$$\lambda_k = \cos\!\Bigl(\frac{2\pi k}{12}\Bigr).$$
+$$\text{노드 } j \;\longmapsto\; \Bigl(\cos\!\tfrac{2\pi k j}{n},\;\sin\!\tfrac{2\pi k j}{n}\Bigr).$$
 
-$k=0$은 stationary ($\lambda_0=1$). 비정상 모드 중 첫 두 쌍의 고유값:
-
-| $k$ | $\lambda_k$ |
-|---|---|
-| 1 | $\cos(30°) \approx 0.866$ |
-| 2 | $\cos(60°) = 0.500$ |
-
-각 $k$에 대해 두 고유벡터가 쌍으로 존재한다:
-
-$$\phi_k^{\cos}(j) = \cos\!\Bigl(\frac{2\pi k j}{12}\Bigr), \qquad \phi_k^{\sin}(j) = \sin\!\Bigl(\frac{2\pi k j}{12}\Bigr).$$
+$k=1$이면 각도가 $j$당 $360°/n$씩 증가한다. $k=2$이면 각도가 두 배 빠르게 $2 \times 360°/n$씩 증가한다. 이 차이가 전부다.
 
 ---
 
-- **H.** 각 노드가 2D에서 어디로 가는지 수치로 보여줘.
+- **H.** "두 배 빠르다"는 게 무슨 결과를 낳아?
 
-**G.** $k=1$과 $k=2$ 쌍에서 노드 $j = 0, \ldots, 11$의 좌표를 직접 계산하면:
+**G.** $C_{12}$ ($n=12$)에서 $k=1$과 $k=2$를 직접 비교해보자.
+
+$k=1$: $j=0$은 $0°$, $j=1$은 $30°$, $j=2$는 $60°$, … $j=11$은 $330°$. 12개 노드가 $0°$에서 $330°$까지 **고르게 퍼진다** → 원 한 바퀴 → 링 하나.
+
+$k=2$: $j=0$은 $0°$, $j=1$은 $60°$, $j=2$는 $120°$, … $j=6$은 $360° = 0°$. **$j=6$이 $j=0$과 같은 위치**다. $j=7$은 $j=1$과 같고, $j=8$은 $j=2$와 같고, … 결국 12개 노드가 **6개 위치**에 둘씩 겹쳐 앉는다.
 
 ```{python}
-import numpy as np
-
-n = 12
-for k in [1, 2]:
-    lam = np.cos(2*np.pi*k/n)
-    print(f"k={k}  (λ_k = {lam:.3f})")
-    for j in range(n):
-        c = np.cos(2*np.pi*k*j/n)
-        s = np.sin(2*np.pi*k*j/n)
-        marker = "  ← j=0과 같은 점!" if (k==2 and j==6) else ""
-        print(f"  j={j:2d}: ({c:+.3f}, {s:+.3f}){marker}")
-    print()
+#| echo: false
+print("k=2에서 각 노드의 각도 (n=12):")
+for j in range(12):
+    angle = 2 * 2 * j * 30  # k=2, 360/12=30
+    note = f"  ← j={j-6}과 같은 위치!" if j >= 6 else ""
+    print(f"  j={j:2d}: {angle:4d}° = {angle % 360:3d}°{note}")
 ```
 
 ---
 
-- **H.** $k=1$ 쌍은 링이 나오는 게 보이는데, $k=2$는 왜 달라?
+- **H.** 겹친다는 건 알겠는데, 그게 왜 "여러 링"이야?
 
-**G.** $k=1$에서는 각도 $\theta_j = 2\pi j/12$가 $j=0$일 때 $0°$, $j=11$일 때 $330°$ — 12개 점이 원 위에 고르게 퍼져서 **링 하나**.
-
-$k=2$에서는 각도가 $\theta_j = 4\pi j/12 = 2\pi j/6$으로, $j=6$일 때 $\theta_6 = 2\pi$, 즉 $j=0$의 $\theta_0=0$과 **완전히 같은 점**이다. 위 출력에서 $j=6$에 표시가 붙는 이유가 바로 이것.
-
-결과적으로 12개 노드가 6개 위치로 **쌍쌍이 겹친다**:
-
-$$\{j,\; j+6\} \;\mapsto\; \text{같은 2D 좌표} \qquad (j = 0,1,2,3,4,5).$$
-
-반지름은 $\lambda_2^t = 0.5^t$ — $k=1$의 $0.866^t$보다 훨씬 작다.
-
----
-
-- **H.** 그래서 "여러 링"이 어떻게 보여? 코드+그림으로 보여줘.
-
-**G.** $k=1$ 패널과 $k=2$ 패널을 나란히 놓으면 된다. 노드를 색으로 구분했다 — 파랑($j=0,\ldots,5$)과 빨강($j=6,\ldots,11$)이 $k=2$ 패널에서 완전히 겹치는 것을 확인할 수 있다.
+**G.** 이제 두 결과를 그림으로 보자. 같은 좌표계에 $k=1$ 임베딩(파랑)과 $k=2$ 임베딩(빨강)을 겹쳐 그리면:
 
 ```{python}
 import numpy as np
 import matplotlib.pyplot as plt
 
-plt.rcParams.update({
-    'text.usetex': True,
-    'font.size': 9,
-    'axes.titlesize': 9,
-})
+plt.rcParams.update({'text.usetex': True, 'font.size': 9})
 
 n = 12
 t = 1
-lam1 = np.cos(2*np.pi*1/n)
-lam2 = np.cos(2*np.pi*2/n)
 j = np.arange(n)
 
-# 원래 그래프 노드 위치
-theta0 = 2*np.pi*j/n
-xg, yg = np.cos(theta0), np.sin(theta0)
+lam1 = np.cos(2*np.pi / n)
+lam2 = np.cos(4*np.pi / n)
 
-# 임베딩 좌표
-x1 = lam1**t * np.cos(2*np.pi*1*j/n)
-y1 = lam1**t * np.sin(2*np.pi*1*j/n)
-x2 = lam2**t * np.cos(2*np.pi*2*j/n)
-y2 = lam2**t * np.sin(2*np.pi*2*j/n)
+x1 = lam1**t * np.cos(2*np.pi * j / n)
+y1 = lam1**t * np.sin(2*np.pi * j / n)
 
-# j<6 파랑, j>=6 빨강 (k=2에서 겹침 강조)
-colors = ['royalblue' if i < n//2 else 'tomato' for i in range(n)]
+x2 = lam2**t * np.cos(4*np.pi * j / n)
+y2 = lam2**t * np.sin(4*np.pi * j / n)
 
-fig, axes = plt.subplots(1, 3, figsize=(8, 3))
+fig, axes = plt.subplots(1, 2, figsize=(8, 4))
 
-specs = [
-    (xg, yg, r'$C_{12}$: original graph'),
-    (x1, y1, rf'$k=1$ (radius $\approx {lam1:.2f}$)'),
-    (x2, y2, rf'$k=2$ (radius $={lam2:.2f}$, overlap)'),
-]
+# --- 왼쪽: 원래 그래프 ---
+ax = axes[0]
+theta = 2*np.pi*j/n
+xg, yg = np.cos(theta), np.sin(theta)
+for i in range(n):
+    ax.plot([xg[i], xg[(i+1)%n]], [yg[i], yg[(i+1)%n]], 'k-', lw=1)
+ax.scatter(xg, yg, s=70, c='royalblue', zorder=5)
+for i in range(n):
+    ax.annotate(str(i), (xg[i]*1.22, yg[i]*1.22),
+                ha='center', va='center', fontsize=7)
+ax.set_title(r'$C_{12}$: original graph', fontsize=10)
+ax.set_aspect('equal')
+ax.set_box_aspect(1)
+ax.axis('off')
 
-for ax, (x, y, title) in zip(axes, specs):
-    for i in range(n):
-        ax.plot([x[i], x[(i+1)%n]], [y[i], y[(i+1)%n]],
-                'k-', lw=0.8, alpha=0.2)
-    ax.scatter(x, y, c=colors, s=55, zorder=5, alpha=0.9)
-    ax.set_title(title)
-    ax.set_aspect('equal')
-    ax.set_box_aspect(1)
-    ax.axis('off')
+# --- 오른쪽: k=1, k=2 겹쳐서 ---
+ax = axes[1]
+
+# k=1 (파랑, 큰 링)
+for i in range(n):
+    ax.plot([x1[i], x1[(i+1)%n]], [y1[i], y1[(i+1)%n]],
+            'b-', lw=0.8, alpha=0.3)
+ax.scatter(x1, y1, c='royalblue', s=70, zorder=5,
+           label=rf'$k=1$, radius$\approx{lam1:.2f}$ (12 pts)')
+
+# k=2 (빨강, 작은 링 — 6 위치에 둘씩 겹침)
+for i in range(n):
+    ax.plot([x2[i], x2[(i+1)%n]], [y2[i], y2[(i+1)%n]],
+            'r-', lw=0.8, alpha=0.3)
+ax.scatter(x2, y2, c='tomato', s=70, zorder=4,
+           label=rf'$k=2$, radius$={lam2:.2f}$ (6 pos, pairs overlap)')
+
+# 겹치는 쌍 강조: j=0과 j=6
+ax.annotate('', xy=(x2[6]+0.05, y2[6]+0.05), xytext=(x2[6]-0.15, y2[6]-0.15),
+            arrowprops=dict(arrowstyle='->', color='black', lw=1))
+ax.text(x2[6]-0.18, y2[6]-0.18, r'$j{=}0,6$', fontsize=7, ha='right')
+
+ax.legend(loc='lower right', fontsize=7, framealpha=0.8)
+ax.set_title(r'Diffusion embedding: two rings', fontsize=10)
+ax.set_aspect('equal')
+ax.set_box_aspect(1)
+ax.axis('off')
 
 plt.tight_layout()
 plt.savefig(
-    'results/figures/260528_유진_DiffusionMap_MultipleRings.qmd/rings_embedding.png',
+    'results/figures/260528_유진_DiffusionMap_MultipleRings.qmd/rings_concentric.png',
     dpi=150, bbox_inches='tight'
 )
 plt.show()
 ```
 
-$k=1$ 패널: 12개 점이 고르게 퍼진 **큰 링**. $k=2$ 패널: 6개 위치에 파랑·빨강이 겹쳐 있는 **작은 링**. 이 두 패널을 나란히 보면 크기 다른 링이 두 개 — "여러 링"의 정체다.
+파란 링(큰, $k=1$)과 빨간 링(작은, $k=2$)이 같은 원점에서 동심원으로 나타난다. 이것이 "여러 링"의 정체다.
+
+$k=1$과 $k=2$의 반지름이 다른 이유는 eigenvalue $\lambda_k^t$ 때문이다 — $\lambda_1 = \cos(30°) \approx 0.87 > \lambda_2 = \cos(60°) = 0.5$. 링마다 반지름이 달라 동심원처럼 보인다.
 
 ---
 
-- **H.** $t$가 커지면 어떻게 달라져?
+- **H.** $k$가 더 커지면?
 
-**G.** $t$가 커질수록 반지름 $\lambda_k^t$가 $k$에 따라 다른 속도로 줄어든다:
-
-$$\lambda_1^t = 0.866^t \;\gg\; \lambda_2^t = 0.5^t \;\gg\; \cdots$$
-
-$t=1$에서는 두 링이 모두 보이지만, $t=5$면 $0.866^5 \approx 0.51$ vs $0.5^5 \approx 0.03$ — $k=2$ 링은 거의 원점으로 쪼그라든다. **큰 $t$에서는 $k=1$ 링만 살아남는다.**
+**G.** 같은 원리로 $k=3$이면 각도가 세 배 빠르고, $j$와 $j+4$가 겹쳐 4개 위치만 남는다 (4-gon). $k=4$이면 $j$와 $j+3$이 겹쳐 3개 위치(triangle). 하지만 $C_{12}$에서는 $\lambda_3 = \cos(90°) = 0$이라 $k=3$ 링은 반지름이 0 — 보이지 않는다.
 
 ---
 
 - **H.** 한 줄 요약.
 
-**G.** $C_{12}$의 $k$번째 eigenpair를 2D에 찍으면 반지름 $\lambda_k^t$인 링이 나오되 ($k=2$에서는 노드 $j$와 $j+6$이 겹쳐 12→6 압축), 여러 $k$ 패널을 나란히 보면 크기 다른 링 여러 개 — 이것이 "여러 링" 현상이다.
+**G.** 노드 $j$가 각도 $2\pi k j/n$으로 원 위에 찍히는데, $k$가 클수록 각도가 빠르게 증가해 일부 노드가 겹치고 반지름 $\lambda_k^t$도 달라진다 — $k$마다 다른 반지름의 링이 나오는 것, 그게 "여러 링"이다.
