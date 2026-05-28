@@ -282,7 +282,7 @@ window.Quarto = {
 <section id="현상-1-누적-적설량이-단순-기대와-어긋난다-cov-잔차" class="level2">
 <h2 class="anchored" data-anchor-id="현상-1-누적-적설량이-단순-기대와-어긋난다-cov-잔차">현상 1 — 누적 적설량이 단순 기대와 어긋난다 (Cov 잔차)</h2>
 <p>실험 그래프는 노드 10 개의 완전그래프 <span class="math inline">\(K_{10}\)</span> — 모든 노드 쌍이 직접 이웃이고 차수가 9로 균일, vertex-transitive (모든 노드가 구조적으로 동등).</p>
-<div id="950808ff" class="cell" data-execution_count="1">
+<div id="2a49d1bf" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
@@ -308,7 +308,7 @@ window.Quarto = {
 <p><span class="math inline">\(K_{10}\)</span> 위에서 <span class="math inline">\(b=0.05\)</span>, <span class="math inline">\(T\)</span> step 시뮬한다. 매 step 의 <span class="math inline">\(b'\)</span> 기대값은 두 모델 모두 <span class="math inline">\(\bar b=b/2=0.025\)</span>이고, vertex-transitive 대칭으로 walker 의 stationary 방문율도 두 모델 모두 <span class="math inline">\(\rho_i=1/n=0.1\)</span> 로 결정된다. 그래서 노드 <span class="math inline">\(i\)</span>의 적설률 <span class="math inline">\(\tilde\rho_i:=\lim_t h_i(t)/t\)</span> 는 <em>순진한 기대</em>로</p>
 <p><span class="math display">\[\tilde\rho_i \;\stackrel{?}{=}\; \bar b\,\rho_i \;=\; 0.025\times 0.1 \;=\; 0.0025\]</span></p>
 <p>이 되어야 할 것 같다. 시뮬로 두 모델을 같은 walker 규칙으로 돌려보자.</p>
-<div id="5c40465f" class="cell" data-execution_count="2">
+<div id="c94d5f70" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -371,17 +371,19 @@ window.Quarto = {
 \;=\;\frac{\bar b\,\mathbb E_\pi[m_r]+\mathrm{Cov}_\pi(b'^{(r)},m_r)}{\bar m}
 \;=\;\bar b+\frac{\mathrm{Cov}_\pi(b'^{(r)},m_r)}{\bar m}\qquad(\ast)\]</span></p>
 <p>다. 즉 <em>큰 <span class="math inline">\(b'\)</span>를 뽑은 라운드가 평균보다 길거나 짧으면</em> 누적 적설량이 <span class="math inline">\(\bar b\)</span>에서 그만큼 어긋난다. <span class="math inline">\(K_{10}\)</span> 측정에서 <span class="math inline">\(\mathrm{Cov}_\pi(b'^{(r)},m_r)&gt;0\)</span> — 큰 <span class="math inline">\(b'\)</span>의 라운드가 약간 더 길다 — 그 결합이 +16% 잉여로 나타난다.</p>
-<p>이 +16% 잉여는 단순히 <span class="math inline">\(K_{10}\)</span> 의 누적 적설량 한 숫자에 그치지 않는다. 진짜 문제는 한 단계 위 — three-tier 수렴 정리의 <strong>한계 상수</strong> 자체가 BAB 에선 깔끔하게 떨어지지 않는다는 것이다. 세 수렴 속도</p>
-<p><span class="math display">\[\frac{\mathrm{SD}^2_{ij}(t)}{t^{3-k}}\;\xrightarrow{t\to\infty}\;c^{(k)}_{ij}\qquad(k=0,1,2)\]</span></p>
-<p>가운데 가장 거친 Tier 0 (drift regime, <span class="math inline">\(\rho_i\neq\rho_j\)</span>) 의 한계 <span class="math inline">\(c^{(0)}_{ij}\)</span> 는 두 노드의 <em>유효</em> 적설률 차이 <span class="math inline">\(\tilde\rho_i-\tilde\rho_j\)</span> 가 그대로 결정한다. <strong>노드별 분해는</strong> 라운드 식 <span class="math inline">\((\ast)\)</span>의 노드 버전</p>
-<p><span class="math display">\[\tilde\rho_i\;=\;\bar b\,\rho_i\;+\;\frac{\mathrm{Cov}_\pi(b'^{(r)},N_r^{(i)})}{\bar m}\qquad(\ast\ast)\]</span></p>
-<p>으로 적힌다. AAA 에선 매 step 의 <span class="math inline">\(b'_s\)</span> 가 위치 <span class="math inline">\(X_s\)</span> 와 독립이라 <span class="math inline">\(\mathrm{Cov}\equiv 0\)</span>, 식 <span class="math inline">\((\ast\ast)\)</span> 가 즉시 <span class="math inline">\(\tilde\rho_i=\bar b\rho_i\)</span> 로 닫혀, <span class="math inline">\(c^{(0)}_{ij}\)</span> 가 <em>그래프에서 결정되는</em> <span class="math inline">\(\rho_i-\rho_j\)</span> 와 <span class="math inline">\(\bar b\)</span> 만의 <strong>깔끔한 닫힌형</strong> 으로 떨어진다. BAB 에선 <span class="math inline">\(\mathrm{Cov}_i\neq 0\)</span> 이라 같은 자리에 <span class="math inline">\((\mathrm{Cov}_i-\mathrm{Cov}_j)/\bar m\)</span> — 시뮬해야 값이 나오는 <em>graph+dynamics joint 잔차</em> — 가 한계 상수 안까지 따라 들어간다. Tier 1, Tier 2 의 <span class="math inline">\(c^{(1)}_{ij}, c^{(2)}_{ij}\)</span> 도 같은 양상으로 Cov 류 항이 끼어 닫힌형이 <em>예쁘게 떨어지지 않는다</em>. <span class="math inline">\(\rho_i\)</span> 는 그래프 구조에서 예측되는 양이지만 <span class="math inline">\(\mathrm{Cov}_i\)</span> 는 walk dynamics + 그래프 구조 결합에서만 나오는 양이라, 같은 한계 상수가 AAA 에선 그래프 + <span class="math inline">\(b\)</span> 의 예쁜 함수로 떨어지고 BAB 에선 그렇지 않다 — 이것이 첫 번째 현상의 핵심 문제다.</p>
+<p>이 +16% 잉여는 단순한 <span class="math inline">\(K_{10}\)</span> 한 숫자에 그치지 않는다 — three-tier 수렴 정리의 한계 상수 자체가 두 모델에서 다르게 떨어진다. Tier 0 (drift, <span class="math inline">\(\rho_i\neq\rho_j\)</span>) 에서 <span class="math inline">\(\mathrm{SD}^2_{ij}/t^3\)</span> 이 어디로 가는지 비교하면:</p>
+<ul>
+<li><strong>AAA</strong>: <span class="math inline">\(\displaystyle \frac{\mathrm{SD}^2_{ij}(t)}{t^3} \;\xrightarrow{t\to\infty}\; \frac{\bar b^{\,2}(\rho_i-\rho_j)^2}{3}\)</span></li>
+<li><strong>BAB</strong>: <span class="math inline">\(\displaystyle \frac{\mathrm{SD}^2_{ij}(t)}{t^3} \;\xrightarrow{t\to\infty}\; \frac{1}{3}\Big[\bar b(\rho_i-\rho_j) + \tfrac{\mathrm{Cov}_i-\mathrm{Cov}_j}{\bar m}\Big]^2\)</span></li>
+</ul>
+<p>(여기서 <span class="math inline">\(\mathrm{Cov}_i:=\mathrm{Cov}_\pi(b'^{(r)},N_r^{(i)})\)</span> 는 시뮬에서야 측정되는 graph+dynamics joint 잔차.)</p>
+<p>AAA 는 그래프에서 결정되는 <span class="math inline">\((\rho_i-\rho_j)\)</span> 와 <span class="math inline">\(\bar b\)</span> 만의 깔끔한 닫힌형으로 떨어진다. BAB 는 같은 자리에 <span class="math inline">\((\mathrm{Cov}_i-\mathrm{Cov}_j)/\bar m\)</span> 가 끼어들어 안 예쁘다. Tier 1·Tier 2 의 한계 상수도 같은 양상으로 Cov 류 항이 들러붙어 — 이것이 첫 번째 현상의 핵심 문제다.</p>
 </section>
 <section id="현상-2-k_2의-핑퐁-동역학이-높이차에-atom을-만든다" class="level2">
 <h2 class="anchored" data-anchor-id="현상-2-k_2의-핑퐁-동역학이-높이차에-atom을-만든다">현상 2 — <span class="math inline">\(K_2\)</span>의 핑퐁 동역학이 높이차에 atom을 만든다</h2>
 <p>가장 작은 connected 그래프 <span class="math inline">\(K_2\)</span>에서 BAB를 한 step씩 따라가 보자. 라운드 시작 Fall: 한 노드(예: 0)에 deposit <span class="math inline">\(b'^{(r)}\)</span>. <span class="math inline">\(h=(b'^{(r)},0)\)</span>, <span class="math inline">\(Z=0\)</span>. Step 2: walker at 0, 이웃 <span class="math inline">\(=\{1\}\)</span>, <span class="math inline">\(h_1=0\le h_0=b'^{(r)}\)</span> → flow, <span class="math inline">\(h_1\mathrel{+}=b'^{(r)}\)</span>. <span class="math inline">\(h=(b'^{(r)},b'^{(r)})\)</span>, <span class="math inline">\(Z=1\)</span>. Step 3: walker at 1, 이웃 <span class="math inline">\(=\{0\}\)</span>, <span class="math inline">\(h_0=b'^{(r)}\le h_1=b'^{(r)}\)</span> → flow, <span class="math inline">\(h_0\mathrel{+}=b'^{(r)}\)</span>. <span class="math inline">\(h=(2b'^{(r)},b'^{(r)})\)</span>, <span class="math inline">\(Z=2\)</span>. 핑퐁이 계속되며 — 모든 deposit이 같은 <span class="math inline">\(b'^{(r)}\)</span>이므로 — 높이차 <span class="math inline">\(\delta=h_2-h_1\)</span>이 정확히 <span class="math inline">\(0\)</span>과 <span class="math inline">\(b'^{(r)}\)</span>를 번갈아 오간다.</p>
 <p>라운드는 <span class="math inline">\(Z\)</span>가 <span class="math inline">\(T_{\max}\)</span>에 닿을 때 끝나는데, <strong>그 시점의 <span class="math inline">\(\delta\)</span>는 라운드 안 deposit 수의 홀짝에 따라 결정</strong>된다. <span class="math inline">\(1+T_{\max}\)</span>가 짝수면(예: <span class="math inline">\(T_{\max}=3\)</span>) 라운드 경계의 <span class="math inline">\(\delta\)</span>가 정확히 <span class="math inline">\(0\)</span>으로 돌아오는 경우가 발생해, 전체 step 가운데 <span class="math inline">\(\delta=0\)</span>인 비율이 정확히 50%가 된다. AAA에선 같은 핑퐁이라도 매 step의 <span class="math inline">\(b'_s\)</span>가 독립이라 <span class="math inline">\(\delta\)</span>에 독립 증분이 누적되어 연속 분포로 퍼진다.</p>
-<div id="956abea1" class="cell" data-execution_count="3">
+<div id="de702d6c" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>W2 <span class="op">=</span> np.array([[<span class="fl">0.</span>, <span class="fl">1.</span>], [<span class="fl">1.</span>, <span class="fl">0.</span>]])</span>
@@ -420,7 +422,7 @@ window.Quarto = {
 [AAA               ] P(δ=0) =   0.0%   고유 δ값 수 =  80930</code></pre>
 </div>
 </div>
-<div id="618d68bc" class="cell" data-execution_count="4">
+<div id="fde10557" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="fl">7.0</span>, <span class="fl">2.7</span>))</span>

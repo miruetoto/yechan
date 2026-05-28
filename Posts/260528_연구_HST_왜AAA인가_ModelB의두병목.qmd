@@ -113,15 +113,14 @@ $$\frac{\mathbb E_\pi\!\big[b'^{(r)}m_r\big]}{\mathbb E_\pi[m_r]}
 
 다. 즉 *큰 $b'$를 뽑은 라운드가 평균보다 길거나 짧으면* 누적 적설량이 $\bar b$에서 그만큼 어긋난다. $K_{10}$ 측정에서 $\mathrm{Cov}_\pi(b'^{(r)},m_r)>0$ — 큰 $b'$의 라운드가 약간 더 길다 — 그 결합이 +16% 잉여로 나타난다.
 
-이 +16% 잉여는 단순히 $K_{10}$ 의 누적 적설량 한 숫자에 그치지 않는다. 진짜 문제는 한 단계 위 — three-tier 수렴 정리의 **한계 상수** 자체가 BAB 에선 깔끔하게 떨어지지 않는다는 것이다. 세 수렴 속도
+이 +16% 잉여는 단순한 $K_{10}$ 한 숫자에 그치지 않는다 — three-tier 수렴 정리의 한계 상수 자체가 두 모델에서 다르게 떨어진다. Tier 0 (drift, $\rho_i\neq\rho_j$) 에서 $\mathrm{SD}^2_{ij}/t^3$ 이 어디로 가는지 비교하면:
 
-$$\frac{\mathrm{SD}^2_{ij}(t)}{t^{3-k}}\;\xrightarrow{t\to\infty}\;c^{(k)}_{ij}\qquad(k=0,1,2)$$
+- **AAA**: $\displaystyle \frac{\mathrm{SD}^2_{ij}(t)}{t^3} \;\xrightarrow{t\to\infty}\; \frac{\bar b^{\,2}(\rho_i-\rho_j)^2}{3}$
+- **BAB**: $\displaystyle \frac{\mathrm{SD}^2_{ij}(t)}{t^3} \;\xrightarrow{t\to\infty}\; \frac{1}{3}\Big[\bar b(\rho_i-\rho_j) + \tfrac{\mathrm{Cov}_i-\mathrm{Cov}_j}{\bar m}\Big]^2$
 
-가운데 가장 거친 Tier 0 (drift regime, $\rho_i\neq\rho_j$) 의 한계 $c^{(0)}_{ij}$ 는 두 노드의 *유효* 적설률 차이 $\tilde\rho_i-\tilde\rho_j$ 가 그대로 결정한다. **노드별 분해는** 라운드 식 $(\ast)$의 노드 버전
+(여기서 $\mathrm{Cov}_i:=\mathrm{Cov}_\pi(b'^{(r)},N_r^{(i)})$ 는 시뮬에서야 측정되는 graph+dynamics joint 잔차.)
 
-$$\tilde\rho_i\;=\;\bar b\,\rho_i\;+\;\frac{\mathrm{Cov}_\pi(b'^{(r)},N_r^{(i)})}{\bar m}\qquad(\ast\ast)$$
-
-으로 적힌다. AAA 에선 매 step 의 $b'_s$ 가 위치 $X_s$ 와 독립이라 $\mathrm{Cov}\equiv 0$, 식 $(\ast\ast)$ 가 즉시 $\tilde\rho_i=\bar b\rho_i$ 로 닫혀, $c^{(0)}_{ij}$ 가 *그래프에서 결정되는* $\rho_i-\rho_j$ 와 $\bar b$ 만의 **깔끔한 닫힌형** 으로 떨어진다. BAB 에선 $\mathrm{Cov}_i\neq 0$ 이라 같은 자리에 $(\mathrm{Cov}_i-\mathrm{Cov}_j)/\bar m$ — 시뮬해야 값이 나오는 *graph+dynamics joint 잔차* — 가 한계 상수 안까지 따라 들어간다. Tier 1, Tier 2 의 $c^{(1)}_{ij}, c^{(2)}_{ij}$ 도 같은 양상으로 Cov 류 항이 끼어 닫힌형이 *예쁘게 떨어지지 않는다*. $\rho_i$ 는 그래프 구조에서 예측되는 양이지만 $\mathrm{Cov}_i$ 는 walk dynamics + 그래프 구조 결합에서만 나오는 양이라, 같은 한계 상수가 AAA 에선 그래프 + $b$ 의 예쁜 함수로 떨어지고 BAB 에선 그렇지 않다 — 이것이 첫 번째 현상의 핵심 문제다.
+AAA 는 그래프에서 결정되는 $(\rho_i-\rho_j)$ 와 $\bar b$ 만의 깔끔한 닫힌형으로 떨어진다. BAB 는 같은 자리에 $(\mathrm{Cov}_i-\mathrm{Cov}_j)/\bar m$ 가 끼어들어 안 예쁘다. Tier 1·Tier 2 의 한계 상수도 같은 양상으로 Cov 류 항이 들러붙어 — 이것이 첫 번째 현상의 핵심 문제다.
 
 ## 현상 2 — $K_2$의 핑퐁 동역학이 높이차에 atom을 만든다
 
