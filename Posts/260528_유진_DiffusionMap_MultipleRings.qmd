@@ -1,0 +1,79 @@
+---
+title: "연구 ▷ Diffusion Map ▷ 링 그래프를 임베딩하면 왜 여러 링이 나오나"
+author: 유진
+date: 2026-05-28
+output-file: 260528_c9e1a4.html
+fontsize: 0.85em
+draft: false
+# 판정: (A) 학습·이해용 — C_n diffusion map 임베딩의 여러 링 현상: Fourier harmonic 구조 설명
+---
+
+- **H.** 링 그래프를 diffusion map으로 임베딩하면 링이 여러 개 나오잖아. 왜야?
+
+**G.** 핵심은 $C_n$ (사이클 그래프)의 random walk eigenvector가 정확히 **discrete Fourier harmonic**이라는 사실이다.
+
+$n$개 노드를 0, 1, …, $n-1$로 번호 매긴 링 그래프에서, 각 노드에서 양쪽 이웃으로 확률 $1/2$씩 이동하는 random walk를 생각하자. 이 전이행렬의 eigenvalue와 eigenvector가 closed form으로 구해진다:
+
+$$\lambda_k = \cos\!\left(\frac{2\pi k}{n}\right), \qquad k = 0, 1, \ldots, n-1,$$
+
+그리고 $k \geq 1$에서 두 eigenvector가 쌍으로 등장한다:
+
+$$\phi_k(j) = \cos\!\left(\frac{2\pi k j}{n}\right), \qquad \psi_k(j) = \sin\!\left(\frac{2\pi k j}{n}\right).$$
+
+이것이 주파수 $k$인 discrete Fourier mode다.
+
+---
+
+- **H.** 그게 링이랑 무슨 관계야?
+
+**G.** $k$번째 eigenpair로 노드 $j$를 2D 평면에 찍어보자:
+
+$$\text{embed}_k(j) = \lambda_k^t \cdot \bigl(\phi_k(j),\; \psi_k(j)\bigr) = \lambda_k^t \cdot \bigl(\cos(2\pi kj/n),\; \sin(2\pi kj/n)\bigr).$$
+
+$j$가 $0$에서 $n-1$까지 증가하면 각도 $\theta_j = 2\pi kj/n$은 $0$에서 $2\pi k$까지 간다. 즉 **반지름 $\lambda_k^t$인 원을 $k$번 감는** 곡선이다.
+
+- $k=1$: 원을 1번 감음 → 노드 $n$개가 원 위에 고르게 분포한 링 하나
+- $k=2$: 원을 2번 감음 → $n$개 노드가 절반씩 겹쳐가며 두 바퀴, 반지름은 $\lambda_2^t$
+- $k=3$: 세 바퀴, 반지름은 $\lambda_3^t$
+
+---
+
+- **H.** "여러 링"이 구체적으로 어떻게 나와?
+
+**G.** Diffusion map은 하나의 2D 그림이 아니라 여러 eigenpair를 동시에 사용한다. 시간 $t$에서 노드 $j$의 full embedding은 고차원 벡터다:
+
+$$\Psi_t(j) = \bigl(\lambda_1^t \phi_1(j),\; \lambda_1^t \psi_1(j),\; \lambda_2^t \phi_2(j),\; \lambda_2^t \psi_2(j),\; \ldots\bigr) \in \mathbb{R}^{n-1}.$$
+
+이걸 eigenpair별로 2D 패널에 시각화하면 — 패널마다 링 하나씩:
+
+| 패널 | 좌표 | 반지름 |
+|------|------|--------|
+| 1번 | $(\phi_1, \psi_1)$ | $\lambda_1^t$ |
+| 2번 | $(\phi_2, \psi_2)$ | $\lambda_2^t$ |
+| 3번 | $(\phi_3, \psi_3)$ | $\lambda_3^t$ |
+
+각 패널이 링 하나 — 그래서 여러 링.
+
+---
+
+- **H.** 근데 반지름이 왜 다 달라?
+
+**G.** $\lambda_k = \cos(2\pi k/n)$은 $k$가 커질수록 감소한다. $k=0$은 $\lambda_0 = 1$, $k=1$은 $\lambda_1 = \cos(2\pi/n) \approx 1$, $k$가 $n/4$에 가까워지면 $\lambda_k \approx 0$, $n/2$에서 $\lambda_{n/2} = -1$이 된다.
+
+$t$를 고정했을 때 $|\lambda_k|^t$는 $k$가 커질수록 빠르게 작아진다 — **낮은 주파수(low $k$)는 큰 링, 높은 주파수(high $k$)는 작은 링**. 이 크기 차이가 "여러 링" 시각화에서 각 링의 반지름 차이로 나타난다.
+
+---
+
+- **H.** $t$가 커지면 어떻게 돼?
+
+**G.** $t \to \infty$에서:
+
+$$\lambda_1^t \gg \lambda_2^t \gg \lambda_3^t \gg \cdots \to 0.$$
+
+$k=1$ 링의 반지름만 상대적으로 크게 남고, 나머지 링들은 원점으로 쪼그라든다. 결국 **큰 $t$에서는 첫 번째 (lowest frequency) 링 하나만 살아남아** 사이클 그래프의 가장 큰 스케일 구조를 담게 된다.
+
+---
+
+- **H.** 한 줄 요약.
+
+**G.** $C_n$의 eigenvector가 Fourier harmonic $(\cos(2\pi kj/n), \sin(2\pi kj/n))$이라 $k$번째 eigenpair를 2D에 찍으면 반지름 $\lambda_k^t$인 링이 나오고, 여러 eigenpair를 각 패널에 시각화하면 크기 다른 링 여러 개 — 이것이 "여러 링" 현상의 전부다.
