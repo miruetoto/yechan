@@ -32,13 +32,19 @@ $$\lambda_k^{2t} \to 0 \quad \text{as } t \to \infty \qquad \forall k \geq 1.$$
 
 - **H.** 직관이 뭐야?
 
-**G.** Random walk를 $t$번 돌리면 분포가 stationary distribution $\pi$로 수렴한다:
+**G.** 이 현상의 이름이 **mixing** (혼합)이다. Random walk를 $t$번 돌리면 분포가 stationary distribution $\pi$로 수렴한다:
 
 $$p^t(x, \cdot) \;\to\; \pi(\cdot) \quad \text{as } t \to \infty, \qquad \text{for all } x.$$
 
 시작점이 $x$이든 $y$이든, $t$가 충분히 크면 $t$번 후의 분포가 둘 다 $\pi$에 가까워진다.
 
-Diffusion distance는 "$x$에서 출발한 random walk의 $t$번 후 분포"와 "$y$에서 출발한 경우"의 차이를 측정한다. 두 분포가 모두 $\pi$로 수렴하면 차이가 사라지고, 거리도 사라진다. **Diffusion이 너무 많이 섞여버려서 출발점 정보가 지워진 것.**
+Diffusion distance는 "$x$에서 출발한 random walk의 $t$번 후 분포"와 "$y$에서 출발한 경우"의 차이를 측정한다. 두 분포가 모두 $\pi$로 수렴하면 차이가 사라지고, 거리도 사라진다. **Diffusion이 너무 많이 섞여버려서 출발점 정보가 지워진 것** — 이것이 mixing이다.
+
+수렴의 양적 표현은 total variation distance로 쓴다:
+
+$$\| p^t(x, \cdot) - \pi \|_{\mathrm{TV}} \;\leq\; C \, \lambda_1^t,$$
+
+즉 **geometric ergodicity** — 수렴 속도가 $\lambda_1^t$로 지수적으로 빠르다 (Levin, Peres & Wilmer, 2017, Ch. 12).
 
 ---
 
@@ -56,7 +62,7 @@ $$t_{\mathrm{mix}} \;\approx\; \frac{1}{1 - \lambda_1}.$$
 
 $t \ll t_{\mathrm{mix}}$: 아직 local. $t \gg t_{\mathrm{mix}}$: 이미 붕괴. $t \sim t_{\mathrm{mix}}$ 부근이 global 구조를 가장 잘 포착한다.
 
-이것이 diffusion maps 문헌에서 $t$를 data-dependent하게 선택하는 이유다 — 그래프마다 spectral gap이 다르다.
+Coifman & Lafon (2006) §3은 이 $t$ 선택 문제를 직접 다루며, spectral gap이 작은 (천천히 섞이는) 그래프일수록 diffusion distance가 유의미한 $t$ 범위가 넓다고 말한다. 이것이 diffusion maps 문헌에서 $t$를 data-dependent하게 선택하는 이유다.
 
 ---
 
@@ -72,4 +78,11 @@ $\lambda_1^{2t}$로 normalize한 거리는 $k=1$ 항만 남아 $(\phi_1(x) - \ph
 
 - **H.** 한 줄 요약.
 
-**G.** $D_t(x,y)^2 = \sum_k \lambda_k^{2t}(\phi_k(x) - \phi_k(y))^2$에서 $|\lambda_k| < 1$이라 $t \to \infty$에서 모든 가중치가 0으로 사라지고, 직관적으로는 random walk가 stationary에 수렴해 출발점 정보를 잃기 때문이다.
+**G.** $D_t(x,y)^2 = \sum_k \lambda_k^{2t}(\phi_k(x) - \phi_k(y))^2$에서 $|\lambda_k| < 1$이라 $t \to \infty$에서 모든 가중치가 0으로 사라지고, 직관적으로는 random walk의 **mixing** (geometric ergodicity, 수렴율 $\lambda_1^t$)으로 출발점 정보를 잃기 때문이다. 적절한 $t$는 **spectral gap** $1-\lambda_1$이 결정하는 **mixing time** $t_{\mathrm{mix}}$ 부근.
+
+---
+
+**References**
+
+- Coifman, R.R. & Lafon, S. (2006). Diffusion maps. *Applied and Computational Harmonic Analysis*, 21(1), 5–30. — diffusion distance 정의 + $t$ 선택 문제 (§3)
+- Levin, D.A., Peres, Y. & Wilmer, E.L. (2017). *Markov Chains and Mixing Times* (2nd ed.). AMS. — mixing, spectral gap, geometric ergodicity 표준 교재 (Ch. 12–13)
