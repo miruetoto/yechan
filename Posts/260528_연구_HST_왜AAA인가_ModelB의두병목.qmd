@@ -11,19 +11,19 @@ fontsize: 0.85em
 
 HST의 한 step에는 세 차원의 자유도가 있다. 각 차원의 *옵션 A* — 본 글의 정본 — 를 풀어 적으면 다음과 같다.
 
-1. **snowfall — 매 step 쌓는 눈 크기 $b'$를 어떻게 뽑을지.** 옵션은 네 가지.
-    - *옵션 A* (정본): 매 step 새로 $b'_{t+1}\sim\mathrm{Unif}(0,b)$ 를 *독립적으로* 뽑는다 — past randomness 와 무관, 다음 step 의 추첨과도 무관.
-    - *옵션 B*: 라운드 시작에 한 번 $b'^{(r)}\sim\mathrm{Unif}(0,b)$ 를 뽑아 그 라운드의 *모든* deposit 에 같은 값을 재사용한다 — 라운드 내부 deposit 은 *완전 상관*.
-    - *옵션 C*: B 처럼 라운드 시작에 한 번 $b'^{(r)}\sim\mathrm{Unif}(0,b)$ 를 뽑은 뒤 step-내 감쇠 함수 $f$ 를 곱해 $b'_{t_r+s} := b'^{(r)} f(s)$ 로 쓴다 — 라운드 안에서 deposit 이 점진적으로 변하는 양식. 감쇠 $f$ 는 사전에 정해 두는 추가 자유도. 본 글은 미사용.
-    - *옵션 D*: deterministic. 매 step $b'_s = b$ 로 고정, 추첨 없음. legacy 양식, 본 글은 미사용.
+1. **snowfall — 매 step 쌓는 눈 크기 $b'$ 를 어떻게 뽑을지.**
+    - **A** (정본): 매 step 새로 $b'_{t+1}\sim\mathrm{Unif}(0,b)$ 독립.
+    - **B**: 라운드 시작 1번 $b'^{(r)}\sim\mathrm{Unif}(0,b)$ → 라운드 내 모든 deposit 에 재사용.
+    - **C**: B + step-내 감쇠 $b'_{t_r+s}=b'^{(r)}f(s)$ (본 글 미사용).
+    - **D**: $b'_s=b$ 고정 (legacy).
 
-2. **flow — walker 가 현재 노드에서 어디로 흐를지.** 옵션은 두 가지(C/D 없음).
-    - *옵션 A* (정본): *downstream-filter* — 현재 노드 $X_t$ 의 이웃 중 *높이가 같거나 낮은* 노드 집합 $\mathcal D_t=\{u\sim X_t : h(u,t)\le h(X_t,t)\}$ 에서만 차수-가중 확률로 다음 노드를 뽑는다. uphill 로는 절대 흐르지 않는다.
-    - *옵션 B*: 모든 이웃에서 일단 뽑은 뒤 *결과가 uphill 이면* 그 step 을 block 처리(=walker 제자리, 다음 step Fall).
+2. **flow — walker 가 어디로 흐를지.** (옵션 두 가지)
+    - **A** (정본): downstream-filter — $\mathcal D_t=\{u\sim X_t : h(u,t)\le h(X_t,t)\}$ 에서만 차수-가중 pick.
+    - **B**: 모든 이웃에서 pick → uphill 이면 block 처리.
 
-3. **$T_{\max}$ — block timer 상한값을 어떻게 정할지.** 옵션은 두 가지(C/D 없음).
-    - *옵션 A* (정본): 라운드마다 새로 $T_{\max}^{(r)}\sim\mathrm{Unif}\{n,\dots,2n\}$ 을 뽑아 라운드별로 다른 timer 한계를 쓴다 — 즉 $T_{\max}$ 자체가 $n$ 과 $2n$ 사이의 random 정수.
-    - *옵션 B*: 입력 매개변수로 받은 상수를 모든 라운드에 고정으로 쓴다.
+3. **$T_{\max}$ — block timer 상한.** (옵션 두 가지)
+    - **A** (정본): 라운드마다 $T_{\max}^{(r)}\sim\mathrm{Unif}\{n,\dots,2n\}$.
+    - **B**: 입력 상수 고정.
 
 세 차원의 옵션을 한 글자씩 모아 모델 코드 $\langle$snowfall$\rangle\langle$flow$\rangle\langle T_{\max}\rangle$ 로 적는다. snowfall 은 4 종, flow·$T_{\max}$ 는 각각 2 종이라 가능한 모델 코드는 $4\times 2\times 2 = 16$ 가지. 우리가 정본으로 쓰는 모델은 **AAA** = (A, A, A) — 세 차원 모두 옵션 A. 비교 대상은 **BAB** = (B, A, B) — flow 차원은 양쪽 모두 A 에 둔 채 snowfall 과 $T_{\max}$ 만 옵션 B 로 바꾼 모델.
 
@@ -113,37 +113,15 @@ $$\frac{\mathbb E_\pi\!\big[b'^{(r)}m_r\big]}{\mathbb E_\pi[m_r]}
 
 다. 즉 *큰 $b'$를 뽑은 라운드가 평균보다 길거나 짧으면* 누적 적설량이 $\bar b$에서 그만큼 어긋난다. $K_{10}$ 측정에서 $\mathrm{Cov}_\pi(b'^{(r)},m_r)>0$ — 큰 $b'$의 라운드가 약간 더 길다 — 그 결합이 +16% 잉여로 나타난다.
 
-노드별로 분해해도 같은 식의 노드 버전:
+이 +16% 잉여는 단순히 $K_{10}$ 의 누적 적설량 한 숫자에 그치지 않는다. 진짜 문제는 한 단계 위 — three-tier 수렴 정리의 **한계 상수** 자체가 BAB 에선 깔끔하게 떨어지지 않는다는 것이다. 세 수렴 속도
 
-$$\tilde\rho_i\;=\;\bar b\,\rho_i+\frac{\mathrm{Cov}_\pi(b'^{(r)},N_r^{(i)})}{\bar m}\qquad(\ast\ast)$$
+$$\frac{\mathrm{SD}^2_{ij}(t)}{t^{3-k}}\;\xrightarrow{t\to\infty}\;c^{(k)}_{ij}\qquad(k=0,1,2)$$
 
-**AAA**에선 매 step의 $b'_s$가 그 step의 위치 $X_s$와 독립이므로 $\mathrm{Cov}\equiv 0$, 식 $(\ast\ast)$가 즉시 $\tilde\rho_i=\bar b\rho_i$로 닫혀 **그래프에서 결정되는 $\rho_i$와 $b$만 알면 노드별 적설률이 끝**난다 — 시뮬 없이 답이 떨어진다.
+가운데 가장 거친 Tier 0 (drift regime, $\rho_i\neq\rho_j$) 의 한계 $c^{(0)}_{ij}$ 는 두 노드의 *유효* 적설률 차이 $\tilde\rho_i-\tilde\rho_j$ 가 그대로 결정한다. **노드별 분해는** 라운드 식 $(\ast)$의 노드 버전
 
-**BAB**에선 라운드 내내 같은 $b'^{(r)}$가 모든 deposit에 들어가고, 그 라운드의 walker 패턴 $N_r^{(i)}$는 같은 $b'^{(r)}$가 만든 높이지형에서 결정되어 $\mathrm{Cov}_i\neq 0$. 그리고 이 잔차는 $\bar b$나 $\rho_i$ 같은 *그래프 invariant 하나*로 환원되지 않는다 — 큰 $b'$가 어느 정도로 더 긴 라운드 / 더 많은 특정 노드 방문과 결합되는지는 walk dynamics와 그래프 구조의 joint 통계라, **시뮬해야 비로소 값이 나온다**. 그래프만 보고는 16%인지 5%인지 50%인지 미리 추측할 수 없다.
+$$\tilde\rho_i\;=\;\bar b\,\rho_i\;+\;\frac{\mathrm{Cov}_\pi(b'^{(r)},N_r^{(i)})}{\bar m}\qquad(\ast\ast)$$
 
-이 잔차를 노드별로 띄우면 다음과 같다.
-
-```{python}
-#| code-fold: true
-#| fig-cap: "$K_{10}$에서 노드별 excess $\\tilde\\rho_i-\\bar b\\rho_i$ (= 식 $(\\ast\\ast)$의 $\\mathrm{Cov}_i/\\bar m$). AAA는 정확히 0이라 $\\tilde\\rho_i=\\bar b\\rho_i$가 시뮬에서 그대로 재현된다. BAB는 노드별 균등 +0.4×10⁻³ — 잉여 16% — 이지만 그 *크기 자체*는 그래프 구조에서 예측 안 되고 시뮬에서 측정된 graph+dynamics joint 통계다."
-import matplotlib
-matplotlib.rcParams["text.usetex"] = True
-matplotlib.rcParams["font.family"] = "serif"
-matplotlib.rcParams["text.latex.preamble"] = r"\usepackage{amsmath}\usepackage{amssymb}"
-import matplotlib.pyplot as plt
-
-fig, ax = plt.subplots(figsize=(7.0, 2.7))
-idx = np.arange(n); w = 0.4
-ax.bar(idx - w/2, res["BAB"]*1e3, w, label=r"BAB (per-round $b'$)", color="#d62728", edgecolor="k", lw=0.3)
-ax.bar(idx + w/2, res["AAA"]*1e3, w, label=r"AAA (per-step $b'$)", color="#1f77b4", edgecolor="k", lw=0.3)
-ax.axhline(0, color="k", lw=0.7)
-ax.set_xlabel(r"node $i$ ($K_{10}$)", fontsize=9)
-ax.set_ylabel(r"$\tilde\rho_i-\bar b\rho_i\ (\times10^{-3})$", fontsize=9)
-ax.legend(fontsize=8); ax.tick_params(labelsize=8); ax.grid(axis="y", alpha=0.25)
-fig.tight_layout(); plt.show()
-```
-
-$K_{10}$의 대칭성으로 $\mathrm{Cov}_i$가 노드별 균등해, BAB의 잉여도 모든 노드에서 동일한 +0.4×10⁻³이다. 그러니 *balance*($\tilde\rho_i$의 노드 간 동일성) 자체는 우연히 보존된다. 다만 그 *값*은 $\bar b\rho_i$가 아니라 graph+dynamics joint 통계에 의해 결정되어 시뮬에서야 보인다는 점이 현상의 핵심이다.
+으로 적힌다. AAA 에선 매 step 의 $b'_s$ 가 위치 $X_s$ 와 독립이라 $\mathrm{Cov}\equiv 0$, 식 $(\ast\ast)$ 가 즉시 $\tilde\rho_i=\bar b\rho_i$ 로 닫혀, $c^{(0)}_{ij}$ 가 *그래프에서 결정되는* $\rho_i-\rho_j$ 와 $\bar b$ 만의 **깔끔한 닫힌형** 으로 떨어진다. BAB 에선 $\mathrm{Cov}_i\neq 0$ 이라 같은 자리에 $(\mathrm{Cov}_i-\mathrm{Cov}_j)/\bar m$ — 시뮬해야 값이 나오는 *graph+dynamics joint 잔차* — 가 한계 상수 안까지 따라 들어간다. Tier 1, Tier 2 의 $c^{(1)}_{ij}, c^{(2)}_{ij}$ 도 같은 양상으로 Cov 류 항이 끼어 닫힌형이 *예쁘게 떨어지지 않는다*. $\rho_i$ 는 그래프 구조에서 예측되는 양이지만 $\mathrm{Cov}_i$ 는 walk dynamics + 그래프 구조 결합에서만 나오는 양이라, 같은 한계 상수가 AAA 에선 그래프 + $b$ 의 예쁜 함수로 떨어지고 BAB 에선 그렇지 않다 — 이것이 첫 번째 현상의 핵심 문제다.
 
 ## 현상 2 — $K_2$의 핑퐁 동역학이 높이차에 atom을 만든다
 
