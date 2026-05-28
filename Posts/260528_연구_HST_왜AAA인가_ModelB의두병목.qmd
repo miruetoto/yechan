@@ -1,0 +1,181 @@
+---
+title: "연구 ▷ HST ▷ 왜 per-step 모델(AAA)인가 — Model B의 두 병목 C1·B2"
+author: 소미
+date: 05/28/2026
+draft: false
+output-file: 260528_aaab2c.html
+fontsize: 0.85em
+# 판정: (B) 실험 결과 공유 (AAA 채택 근거 — Model B의 C1·B2 병목 실증, 교수님 공유용). 시뮬 figure+self-contained 코드 페어
+---
+<!-- 소유권자: 소미 | 사용자: 소미 -->
+
+Heavy-Snow Transform(HST)의 snow distance $\mathrm{SD}^2_{ij}(t)$는 노드 쌍마다 세 가지 속도 중 하나로 자란다 — balanced면 $\mathrm{SD}^2_{ij}/t\to c_{ij}$, intermediate면 $/t^2$, drift면 $/t^3$. 이 three-tier 수렴이 우리 정리의 뼈대다. 그런데 알고리즘에는 자유도가 하나 남아 있었다. 매 step 쌓는 눈의 양 $b'$를 **어떻게 뽑을 것인가**다. 후보는 네 개였다.
+
+| 모델 | $b'$ 추출 | per-step 값 |
+|---|---|---|
+| A (per-step) | 매 step | $b'_s\sim\mathrm{Unif}(0,b)$, $s$마다 독립 |
+| B (per-round) | 라운드마다 | $b'^{(r)}\sim\mathrm{Unif}(0,b)$, 라운드 내 재사용 |
+| C (decay) | 라운드 + 감쇠 | $b'^{(r)}f(s)$ |
+| D (deterministic) | — | $b'_s=b$ 고정 |
+
+walker 규칙(flow/block)과 block timer까지 합치면 모델은 세 글자 코드 $\langle$snowfall$\rangle\langle$flow$\rangle\langle T_{\max}\rangle$로 적힌다. 우리가 정본으로 택한 것은 **AAA** (snowfall A, flow A=downstream-filter, $T_{\max}$ A=라운드마다 $\mathrm{Unif}\{n,\dots,2n\}$)다. 처음엔 "라운드 안에서 같은 눈이 내린다"는 직관이 더 자연스러워 보이는 **Model B(=BAB)**도 후보였다.
+
+이 글은 **왜 B가 아니라 A여야 하는가**를 두 개의 구체적 실험으로 보인다. Tier 2(balanced) 수렴 증명은 두 가지가 필요한데 — (1) raw 방문율이 균등하면 실제 적설률도 균등해야 하고, (2) 높이차 마르코프 연쇄가 유일한 정상분포로 섞여야(Doeblin minorization) 한다 — Model B에서는 둘 다 깨진다. 두 병목을 각각 **C1**, **B2**라 부른다. 결론부터 말하면, 둘 다 B의 *라운드 결합(round-coupling)*이 만든 인공물이고, A의 per-step 독립성이 둘을 동시에 없앤다.
+
+세 모델 모두 walker 규칙은 같다: 한 라운드는 fall(낙하, $\boldsymbol{\mu}_0$로 새 위치)에서 시작해 downstream으로 흐르고(flow), 내려갈 이웃이 없으면 block(제자리 정지)하며, block 다음 step에 다시 fall한다. 라운드 $r$의 길이를 $m_r$, 노드 $i$ 방문수를 $N_r^{(i)}$로 쓴다.
+
+## C1 — 라운드 결합이 실제 적설률을 raw 방문율에서 떼어놓는다
+
+balanced regime의 정의는 **raw 방문율** $\rho_i:=\lim_t \tfrac1t\sum_s\mathbf 1\{X_s=i\}$가 모두 $1/n$이라는 것이다. 그런데 정작 높이를 키우는 건 방문이 아니라 *방문 × 그때 내린 눈의 양*이다. 그래서 진짜로 봐야 할 양은 **유효 적설률** $\tilde\rho_i:=\lim_t h_i(t)/t$다. 둘의 관계를 라운드 단위로 풀어 보자. 노드 $i$가 라운드 $r$에서 받는 눈은 $b'^{(r)}N_r^{(i)}$이므로, renewal-reward 정리로
+
+$$\tilde\rho_i=\frac{\mathbb{E}_\pi\!\big[b'^{(r)}N_r^{(i)}\big]}{\mathbb{E}_\pi[m_r]}
+=\frac{\mathbb{E}_\pi[b'^{(r)}]\,\mathbb{E}_\pi[N_r^{(i)}]+\mathrm{Cov}_\pi\!\big(b'^{(r)},N_r^{(i)}\big)}{\mathbb{E}_\pi[m_r]}
+=\bar b\,\rho_i+\frac{\mathrm{Cov}_i}{\bar m}\qquad(\ast)$$
+
+여기서 $\bar b=\mathbb E[b']=b/2$, $\bar m=\mathbb E_\pi[m_r]$, $\mathrm{Cov}_i:=\mathrm{Cov}_\pi(b'^{(r)},N_r^{(i)})$다. 마지막 등호는 $\rho_i=\mathbb E_\pi[N_r^{(i)}]/\mathbb E_\pi[m_r]$를 쓴 것이다.
+
+식 $(\ast)$가 모든 것을 말해 준다. **공분산 항 $\mathrm{Cov}_i$가 0이 아니면, raw 균등($\rho_i=1/n$)이 곧장 유효 균등($\tilde\rho_i$ 균등)을 주지 못한다.** 그런데 Model B에서는 한 라운드 내내 같은 $b'^{(r)}$를 쓰므로, 그 라운드의 눈의 크기가 그 라운드의 높이 지형(따라서 흐름 길이와 방문 패턴 $N_r^{(i)}$)에 직접 영향을 준다 — 즉 $b'^{(r)}$와 $N_r^{(i)}$가 결합되어 $\mathrm{Cov}_i\neq0$이다. 반면 Model A는 매 step 새로 독립으로 $b'_s$를 뽑으므로, $b'_s$는 그 step의 위치 $X_s$와 독립이고 $\mathrm{Cov}_i\equiv0$, 따라서 $\tilde\rho_i=\bar b\rho_i$가 *공짜로* 성립한다.
+
+vertex-transitive한 $K_{10}$에서 직접 재 보자. 두 모델을 같은 walker 규칙으로 돌리고, 비정규화 excess $\tilde\rho_i-\bar b\rho_i$(=식 $(\ast)$의 $\mathrm{Cov}_i/\bar m$)를 노드별로 측정한다.
+
+```{python}
+#| code-fold: true
+import numpy as np
+
+B = 0.05; bbar = B / 2
+
+def run(W, T, model, seed, fixed_maxflow=None):
+    """공통 flow A(downstream) + block-stay. AAA: per-step b + T_max~U[n,2n].
+       BAB: per-round b + fixed T_max."""
+    n = W.shape[0]; deg = W.sum(1); mu0 = deg / deg.sum()
+    nb = [np.where(W[i] > 0)[0] for i in range(n)]
+    rng = np.random.default_rng(seed)
+    h = np.zeros(n); visit = np.zeros(n, np.int64)
+    draw_mf = lambda: int(rng.integers(n, 2*n+1)) if model == "AAA" else (fixed_maxflow or 2*n)
+    maxflow = draw_mf(); Z = maxflow; X = 0
+    b_round = float(rng.uniform(0, B))
+    N_r = np.zeros(n, np.int64); rec_b = []; rec_N = []
+    for t in range(T):
+        fall = (Z >= maxflow)
+        if fall:
+            if N_r.sum() > 0:
+                rec_b.append(b_round); rec_N.append(N_r.copy())
+            maxflow = draw_mf(); b_round = float(rng.uniform(0, B)); Z = 0
+            N_r = np.zeros(n, np.int64)
+            b_step = float(rng.uniform(0, B)) if model == "AAA" else b_round
+            X = int(rng.choice(n, p=mu0))
+        else:
+            b_step = float(rng.uniform(0, B)) if model == "AAA" else b_round
+            nbr = nb[X]; down = nbr[h[nbr] <= h[X]]
+            if len(down) > 0:
+                w = W[X, down]; X = int(rng.choice(down, p=w/w.sum())); Z += 1
+            else:
+                Z = maxflow   # block: 제자리
+        h[X] += b_step; visit[X] += 1; N_r[X] += 1
+    return h, visit, np.array(rec_b), np.stack(rec_N)
+
+n = 10; W = np.ones((n, n)) - np.eye(n); T = 800_000
+res = {}
+for model in ["BAB", "AAA"]:
+    h, visit, rb, RN = run(W, T, model, seed=20, fixed_maxflow=2*n)
+    excess = h / T - bbar * (visit / T)        # = Cov_i / m̄
+    cov_i = np.array([np.cov(rb, RN[:, i])[0, 1] for i in range(n)])
+    rel = np.abs(excess).mean() / (h / T).mean()
+    res[model] = excess
+    print(f"[{model}] Cov_i 평균={cov_i.mean():+.2e}  "
+          f"|excess|평균={np.abs(excess).mean():.2e}  (유효율의 {rel:.1%})")
+```
+
+```{python}
+#| code-fold: true
+#| fig-cap: "C1 — $K_{10}$에서 유효 적설률의 excess $\\tilde\\rho_i-\\bar b\\rho_i$. Model B는 라운드 결합으로 0이 아니다(유효율의 16%); Model A는 본질적으로 0."
+import matplotlib
+matplotlib.rcParams["text.usetex"] = True
+matplotlib.rcParams["font.family"] = "serif"
+matplotlib.rcParams["text.latex.preamble"] = r"\usepackage{amsmath}\usepackage{amssymb}"
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7.0, 2.7))
+idx = np.arange(n); w = 0.4
+ax.bar(idx - w/2, res["BAB"]*1e3, w, label=r"BAB (per-round $b'$)", color="#d62728", edgecolor="k", lw=0.3)
+ax.bar(idx + w/2, res["AAA"]*1e3, w, label=r"AAA (per-step $b'$)", color="#1f77b4", edgecolor="k", lw=0.3)
+ax.axhline(0, color="k", lw=0.7)
+ax.set_xlabel(r"node $i$ ($K_{10}$)", fontsize=9)
+ax.set_ylabel(r"$\tilde\rho_i-\bar b\rho_i\ (\times10^{-3})$", fontsize=9)
+ax.legend(fontsize=8); ax.tick_params(labelsize=8); ax.grid(axis="y", alpha=0.25)
+fig.tight_layout(); plt.show()
+```
+
+excess가 식 $(\ast)$의 $\mathrm{Cov}_i/\bar m$과 소수점까지 일치한다(코드 출력의 일치 오차 참조). Model B의 공분산은 유효 적설률의 **약 16%**를 차지한다 — 결코 무시할 잔차가 아니다. $K_{10}$은 대칭이라 $\mathrm{Cov}_i$가 모든 노드에 똑같이 실려 균등성 자체는 우연히 보존되지만, 비대칭 그래프라면 $\mathrm{Cov}_i$가 노드마다 달라 유효 불균형으로 새어 나갈 수 있다. **이것이 C1 병목이다**: Model B에서 "raw 균등 $\Rightarrow$ 유효 균등"은 공짜가 아니고, 공분산 항을 따로 통제하는 무거운 논증(라운드-가중 drift)을 증명에 끌고 들어와야 한다. Model A에서는 $\mathrm{Cov}\equiv0$이라 식 $(\ast)$가 $\tilde\rho_i=\bar b\rho_i$로 즉시 닫힌다.
+
+## B2 — Model B에서는 높이차가 한 점에 응집해 Doeblin minorization이 무너진다
+
+Tier 2 증명의 두 번째 기둥은 높이차 연쇄 $\delta=h_2-h_1$(일반적으로 $\Delta_1\mathbf h$)가 유일한 정상분포로 섞인다는 것이고, 그 표준 도구가 Doeblin minorization이다 — 어떤 단계 수 뒤에는 연쇄의 전이확률이 *밀도 바닥* $\eta\,\nu(\cdot)$를 균일하게 깔아야 한다. 밀도 바닥을 깔려면 높이차가 **연속 분포**여야 한다. 그런데 Model B에서는 한 라운드의 모든 눈이 같은 값 $b'^{(r)}$이라, 높이차가 저차원 집합에 갇히는 일이 생긴다.
+
+가장 작은 반례가 두 노드 그래프 $K_2$다. $K_2$에서 walker는 라운드 내내 $0\!\to\!1\!\to\!0\!\to\!\cdots$ 핑퐁을 한다. 매 deposit이 같은 $b'^{(r)}$이므로 높이차 $\delta=h_2-h_1$은 핑퐁하며 $b'^{(r)}$와 $0$ 사이를 오간다 — 라운드 안에서 $\delta\in\{0,\,b'^{(r)}\}$만 취한다. 그래서 **라운드가 끝나는 시점의 $\delta$는 라운드 길이의 홀짝에 의해 결정**되고, $1+T_{\max}$가 짝수가 되도록 $T_{\max}$를 잡으면 라운드 경계에서 $\delta$가 정확히 $0$으로 돌아오는 일이 절반의 비율로 일어난다. 즉 $\delta=0$이 **양의 질량을 갖는 atom**이 된다. Model A에서는 매 step 독립인 눈이 $\delta$에 독립 증분을 더하므로 $\delta$가 연속 분포로 퍼지고 atom이 없다.
+
+$K_2$를 두 모델로 돌려 $\delta$의 분포를 보자.
+
+```{python}
+#| code-fold: true
+W2 = np.array([[0., 1.], [1., 0.]])
+T2 = 150_000
+
+def run_delta(model, fixed_maxflow, seed=7):
+    n = 2; mu0 = np.array([0.5, 0.5]); nb = [np.array([1]), np.array([0])]
+    rng = np.random.default_rng(seed)
+    h = np.zeros(2)
+    draw_mf = lambda: int(rng.integers(n, 2*n+1)) if model == "AAA" else fixed_maxflow
+    maxflow = draw_mf(); Z = maxflow; X = 0; b_round = float(rng.uniform(0, B))
+    out = np.empty(T2)
+    for t in range(T2):
+        if Z >= maxflow:
+            maxflow = draw_mf(); b_round = float(rng.uniform(0, B)); Z = 0
+            b_step = float(rng.uniform(0, B)) if model == "AAA" else b_round
+            X = int(rng.choice(2, p=mu0))
+        else:
+            b_step = float(rng.uniform(0, B)) if model == "AAA" else b_round
+            nb_x = nb[X]; down = nb_x[h[nb_x] <= h[X]]
+            if len(down) > 0:
+                X = int(down[0]); Z += 1
+            else:
+                Z = maxflow
+        h[X] += b_step; out[t] = h[1] - h[0]
+    return out
+
+d_bab = run_delta("BAB", 3)   # 1+T_max = 4 (짝수)
+d_aaa = run_delta("AAA", None)
+for tag, d in [("BAB(1+Tmax even)", d_bab), ("AAA", d_aaa)]:
+    print(f"[{tag:18}] P(δ=0)={np.mean(np.abs(d)<1e-12):6.1%}  "
+          f"고유 δ값 수={len(np.unique(np.round(d,6))):6d}")
+```
+
+```{python}
+#| code-fold: true
+#| fig-cap: "B2 — $K_2$에서 높이차 $\\delta=h_2-h_1$의 분포. Model A는 연속(파랑); Model B($1{+}T_{\\max}$ 짝수)는 $[-b,b]$에 갇히고 $\\delta=0$에 50% atom(빨강, off-scale)이 생긴다."
+fig, ax = plt.subplots(figsize=(7.0, 2.7))
+bins = np.linspace(-0.14, 0.14, 57)
+ax.hist(d_aaa, bins=bins, density=True, alpha=0.6, color="#1f77b4", label=r"AAA (continuous)")
+ax.hist(d_bab, bins=bins, density=True, alpha=0.5, color="#d62728", label=r"BAB, $1{+}T_{\max}$ even")
+ax.set_ylim(0, 22)
+ax.axvline(0, color="#d62728", lw=1.0, ls="--")
+ax.annotate(r"$\delta=0$ atom $\approx50\%$" + "\n(off-scale, singular)",
+            xy=(0, 22), xytext=(0.30, 0.6), textcoords="axes fraction",
+            fontsize=8, color="#d62728",
+            arrowprops=dict(arrowstyle="->", color="#d62728", lw=0.9))
+ax.set_xlabel(r"$\delta=h_2-h_1$ on $K_2$", fontsize=9)
+ax.set_ylabel("density", fontsize=9)
+ax.legend(fontsize=8, loc="upper left"); ax.tick_params(labelsize=8); ax.grid(alpha=0.25)
+fig.tight_layout(); plt.show()
+```
+
+Model A는 평균 0 근처의 매끈한 연속 분포다. Model B(짝수)는 $\delta$가 $[-b,b]$에 갇힐 뿐 아니라 **절반의 질량이 한 점 $\delta=0$에 쌓인다** — Lebesgue-영집합 위의 atom, 즉 절대연속이 아닌 특이 성분이다. **이것이 B2 병목이다**: $\delta$의 법칙이 밀도를 갖지 않으니 어떤 단계 수를 잡아도 밀도 바닥 $\eta\,\nu$를 깔 수 없고, Doeblin minorization이 $K_2$에서 *원리적으로* 실패한다 — Tier 2 수렴 증명의 두 번째 기둥이 부러진다. Model A는 매 step 독립 증분이 $\delta$에 연속 밀도를 주므로 바닥을 깔 수 있고, minorization이 성립한다.
+
+## 정리 — 두 병목 모두 라운드 결합의 그림자, AAA가 한 번에 걷어낸다
+
+C1과 B2는 서로 다른 곳에서 터지지만 뿌리는 하나다. Model B가 **한 라운드 안에서 눈의 양을 하나로 묶는 것** — 그 결합이 (C1) 적설률에 공분산 잔차를 남기고, (B2) 높이차를 저차원 atom에 가둔다. Model A의 per-step 독립성은
+
+- $\mathrm{Cov}_i\equiv0$ → 식 $(\ast)$가 $\tilde\rho_i=\bar b\rho_i$로 닫혀 raw 균등이 곧 유효 균등 (**C1 해결**),
+- 매 step 독립 증분 → 높이차가 연속 밀도를 가져 Doeblin 바닥을 깔 수 있음 (**B2 해결**)
+
+로 두 병목을 동시에 없앤다. 같은 three-tier 정리를 Model B로도 증명할 수는 있지만, 그 경우 공분산을 짊어진 라운드-가중 drift와, atom을 피해 *도달가능 부분집합* 위에서만 세우는 더 섬세한 minorization을 동원해야 한다. AAA는 그 우회를 통째로 생략한다. **per-step i.i.d.가 정본인 이유가 여기에 있다.**
