@@ -1,0 +1,105 @@
+---
+title: "연구 ▷ HST ▷ Snow Distance vs Diffusion Distance"
+author: 유진
+date: 2026-05-29
+output-file: 260529_a4b2c8.html
+fontsize: 0.85em
+draft: false
+# 판정: (A) 학습·이해용 — SD(HST) vs Diffusion Distance: 원리·t→∞·HST근접성 비교 (f=0 가정)
+---
+
+**설정**: $f = 0$ (모든 노드 초기 높이 0). Snow distance는 $SD_{ij}(t) = h(v_i, t) - h(v_j, t)$.
+
+---
+
+## (1) 원리의 차이
+
+- **H.** SD랑 Diffusion distance 같은 거야?
+
+**G.** 전혀 다르다. 원리부터 다르고, 무엇을 "거리"로 삼는지도 다르다.
+
+**SD** (Snow Distance): walker가 노드를 돌아다니면서 지나갈 때마다 눈 $b$를 쌓는다. $f=0$이면 $h(v_i, t)$는 순수하게 누적 방문량이다:
+
+$$h(v_i, t) = b \cdot (\text{시각 } 1 \sim t \text{ 동안 } v_i \text{ 방문 횟수}).$$
+
+그래서
+
+$$SD_{ij}(t) = h(v_i, t) - h(v_j, t) = b \cdot \bigl(N_t^{(i)} - N_t^{(j)}\bigr),$$
+
+$N_t^{(i)}$는 $v_i$의 방문 횟수. **방문 횟수 차이**가 곧 거리다.
+
+**Diffusion distance**: $v_1$과 $v_2$ 각각에서 잉크를 떨어뜨려 $t$번 확산시켰을 때, 두 잉크의 퍼짐 패턴이 얼마나 다른지를 잰다:
+
+$$D_t(v_1, v_2)^2 = \sum_u \frac{\bigl(p^t(v_1, u) - p^t(v_2, u)\bigr)^2}{\pi(u)}.$$
+
+$p^t(v, u)$는 "$v$에서 출발해 $t$번 이동 후 $u$에 있을 확률." **두 출발점의 $t$-step 분포 차이**가 거리다.
+
+---
+
+- **H.** 내가 "v에서 잉크를 떨어뜨렸을 때 v1, v2에 비슷하게 오면 가깝다"고 했는데 맞아?
+
+**G.** 방향이 하나 뒤집혀 있다. 정확한 설명은: $v_1$에서 잉크를 떨어뜨린 패턴과 $v_2$에서 잉크를 떨어뜨린 패턴이 비슷하면 $v_1$과 $v_2$가 가깝다. 고정된 출처 $v$에서 $v_1$, $v_2$에 얼마나 오는지를 비교하는 게 아니다.
+
+직관: $v_1$과 $v_2$가 그래프에서 "같은 동네"에 있으면, 거기서 출발한 random walk는 $t$번 후에도 비슷한 곳에 있을 가능성이 높다 → $p^t(v_1, \cdot) \approx p^t(v_2, \cdot)$ → $D_t(v_1, v_2) \approx 0$.
+
+---
+
+- **H.** 그럼 SD에서 "가까운 노드"란 정확히 뭐야?
+
+**G.** 방문 횟수가 **비슷한** 노드. 둘 다 자주 방문받는다고 가까운 게 아니라, 방문 횟수가 엇비슷해야 $|N_t^{(i)} - N_t^{(j)}|$가 작아진다. 장기적으로 방문 횟수는 stationary distribution $\pi(v)$에 비례하므로, **$\pi(v_i) \approx \pi(v_j)$인 노드들이 SD 기준으로 가깝다** — 차이가 없는 노드들.
+
+---
+
+## (2) $t \to \infty$에서의 동작 차이
+
+- **H.** $t$가 커지면 SD랑 Diffusion이 어떻게 달라져?
+
+**G.** 방향 자체가 반대다.
+
+**SD**: $t \to \infty$에서 발산하거나 커진다. 장기적으로 $h(v_i, t)/t \to \rho_i$ (유효 적립률)이므로
+
+$$SD_{ij}(t) = h(v_i, t) - h(v_j, t) \approx (\rho_i - \rho_j)\,t.$$
+
+$\rho_i \neq \rho_j$이면 (drift case, Tier 0) $SD_{ij}(t) \to \infty$ — **선형 발산**. $\rho_i = \rho_j$인 balanced case (Tier 2)에서도 martingale 항이 남아 $SD_{ij}(t) \sim \sqrt{t}$ — **느리게 성장**.
+
+**Diffusion**: $\lambda_k^{2t} \to 0$이라 $D_t(v_1, v_2) \to 0$ — **모든 거리가 붕괴**.
+
+요약:
+
+| | $t \to \infty$ |
+|---|---|
+| SD (drift) | $\to \infty$ (선형) |
+| SD (balanced) | $\sim \sqrt{t}$ (성장) |
+| Diffusion distance | $\to 0$ (붕괴) |
+
+---
+
+- **H.** 직관이 뭐야?
+
+**G.** SD는 **누적(cumulative)** 양이다 — 시간이 갈수록 눈이 쌓이고, 적립 속도 차이가 누적되어 커진다. Diffusion은 **스냅샷(snapshot)** 이다 — $t$번 뒤 분포가 얼마나 다른지를 재는데, 분포가 모두 $\pi$로 수렴하면서 차이가 사라진다.
+
+비유: SD는 두 사람의 저금통 잔액 차이 (시간이 갈수록 차이가 벌어질 수 있다). Diffusion은 두 사람이 어디 있는지의 위치 분포 차이 (오래되면 둘 다 "어디에나 있을 수 있음"이 되어 차이가 없어진다).
+
+---
+
+## (3) HST와 가장 가까운 거리는?
+
+- **H.** 그럼 HST의 SD랑 개념적으로 가장 가까운 기존 거리는 뭐야?
+
+**G.** 경우에 따라 다르다.
+
+**Tier 0 (drift, $\rho_i \neq \rho_j$)**: $SD_{ij}(t) \approx (\rho_i - \rho_j)t$. 스케일을 제거하면 $|\rho_i - \rho_j|$인데, $\rho_i \propto \pi(v_i)$ (stationary distribution)이므로 이건 $|\pi(v_i) - \pi(v_j)|$에 가깝다. 기존 거리로는 마땅한 이름이 없다 — **stationary distribution 차이**라고 부를 수 있다.
+
+**Tier 2 (balanced, $\rho_i = \rho_j$)**: drift가 사라지고 martingale 항만 남는다. 이 경우 $\text{Var}[SD_{ij}(t)] \sim t \cdot \sigma_{ij}^2$에서 $\sigma_{ij}^2$는 두 노드의 "방문 횟수 공분산 구조"에 의존한다. 이것은 그래프의 **effective resistance** (저항 거리)와 구조적으로 연결된다:
+
+$$\sigma_{ij}^2 \;\propto\; R_{\mathrm{eff}}(v_i, v_j),$$
+
+여기서 $R_{\mathrm{eff}}$는 전기 회로 비유의 $v_i$-$v_j$ 간 등가 저항. 이 경우 SD는 개념적으로 **commute distance / resistance distance**에 가장 가깝다.
+
+**Diffusion distance**: SD와 원리가 다르고 방향도 반대 ($t \to \infty$에서 붕괴 vs 발산)이므로 가장 가깝다고 보기 어렵다.
+
+---
+
+- **H.** 한 줄 요약.
+
+**G.** SD는 walker의 누적 방문 횟수 차이 (커진다), Diffusion은 $t$-step 분포의 스냅샷 차이 (줄어든다) — 방향이 반대다. SD는 Tier에 따라 stationary distribution 차이 (Tier 0) 또는 resistance distance (Tier 2)에 가장 가깝고, Diffusion distance와는 개념적으로 구별된다.
