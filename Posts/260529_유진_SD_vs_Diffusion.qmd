@@ -54,52 +54,72 @@ $p^t(v, u)$는 "$v$에서 출발해 $t$번 이동 후 $u$에 있을 확률." **�
 
 - **H.** $t$가 커지면 SD랑 Diffusion이 어떻게 달라져?
 
-**G.** 방향 자체가 반대다.
+**G.** balanced case만 보자 (drift가 없는 경우, $\rho_i = \rho_j$). 이 경우 drift 항이 상쇄되고 martingale 항만 남아
 
-**SD**: $t \to \infty$에서 발산하거나 커진다. 장기적으로 $h(v_i, t)/t \to \rho_i$ (유효 적립률)이므로
+$$SD_{ij}(t) \;\sim\; \sqrt{t} \quad (t \to \infty) \quad \text{--- 성장}.$$
 
-$$SD_{ij}(t) = h(v_i, t) - h(v_j, t) \approx (\rho_i - \rho_j)\,t.$$
+반면 Diffusion은 $\lambda_k^{2t} \to 0$이라
 
-$\rho_i \neq \rho_j$이면 (drift case, Tier 0) $SD_{ij}(t) \to \infty$ — **선형 발산**. $\rho_i = \rho_j$인 balanced case (Tier 2)에서도 martingale 항이 남아 $SD_{ij}(t) \sim \sqrt{t}$ — **느리게 성장**.
+$$D_t(v_1, v_2) \to 0 \quad (t \to \infty) \quad \text{--- 붕괴}.$$
 
-**Diffusion**: $\lambda_k^{2t} \to 0$이라 $D_t(v_1, v_2) \to 0$ — **모든 거리가 붕괴**.
-
-요약:
-
-| | $t \to \infty$ |
-|---|---|
-| SD (drift) | $\to \infty$ (선형) |
-| SD (balanced) | $\sim \sqrt{t}$ (성장) |
-| Diffusion distance | $\to 0$ (붕괴) |
+방향이 정반대다. SD는 자라고, Diffusion은 줄어든다.
 
 ---
 
-- **H.** 직관이 뭐야?
+- **H.** 왜 방향이 반대야?
 
-**G.** SD는 **누적(cumulative)** 양이다 — 시간이 갈수록 눈이 쌓이고, 적립 속도 차이가 누적되어 커진다. Diffusion은 **스냅샷(snapshot)** 이다 — $t$번 뒤 분포가 얼마나 다른지를 재는데, 분포가 모두 $\pi$로 수렴하면서 차이가 사라진다.
+**G.** 근본 원인은 **누적 vs 스냅샷**이다.
 
-비유: SD는 두 사람의 저금통 잔액 차이 (시간이 갈수록 차이가 벌어질 수 있다). Diffusion은 두 사람이 어디 있는지의 위치 분포 차이 (오래되면 둘 다 "어디에나 있을 수 있음"이 되어 차이가 없어진다).
+SD는 $h(v_i, t) = b \sum_{s=1}^{t} \mathbf{1}[X_s = v_i]$ — 시각 $1$부터 $t$까지의 **모든 방문을 합산**한다. 시간이 갈수록 쌓인다.
+
+Diffusion은 $p^t(v_1, \cdot)$ — 딱 **시각 $t$ 하나**의 분포를 본다. 이 분포가 $\pi$로 수렴하면서 두 출발점 간 차이가 사라진다.
 
 ---
 
 ## (3) HST와 가장 가까운 거리는?
 
-- **H.** 그럼 HST의 SD랑 개념적으로 가장 가까운 기존 거리는 뭐야?
+- **H.** 둘을 억지로 연결하면? 어떻게 비슷해지게 만들 수 있어?
 
-**G.** 경우에 따라 다르다.
+**G.** 연결고리가 하나 있다. 핵심은 **무엇을 비교하느냐**다.
 
-**Tier 0 (drift, $\rho_i \neq \rho_j$)**: $SD_{ij}(t) \approx (\rho_i - \rho_j)t$. 스케일을 제거하면 $|\rho_i - \rho_j|$인데, $\rho_i \propto \pi(v_i)$ (stationary distribution)이므로 이건 $|\pi(v_i) - \pi(v_j)|$에 가깝다. 기존 거리로는 마땅한 이름이 없다 — **stationary distribution 차이**라고 부를 수 있다.
+$f = 0$이면 $h(v_i, t) = b \cdot N_t^{(i)}$ — 순수 방문 횟수. 이때 전체 시간에 걸친 이력을 벡터로 쌓으면:
 
-**Tier 2 (balanced, $\rho_i = \rho_j$)**: drift가 사라지고 martingale 항만 남는다. 이 경우 $\text{Var}[SD_{ij}(t)] \sim t \cdot \sigma_{ij}^2$에서 $\sigma_{ij}^2$는 두 노드의 "방문 횟수 공분산 구조"에 의존한다. 이것은 그래프의 **effective resistance** (저항 거리)와 구조적으로 연결된다:
+$$\mathbf{h}_i = \bigl(h(v_i, 1),\; h(v_i, 2),\; \ldots,\; h(v_i, T)\bigr).$$
 
-$$\sigma_{ij}^2 \;\propto\; R_{\mathrm{eff}}(v_i, v_j),$$
+HST의 SD는 이 벡터의 **마지막 성분 차이** $|h(v_i, T) - h(v_j, T)|$를 거리로 쓴다 — 전체 이력을 누적한 뒤 최종값 하나를 꺼낸 것이다.
 
-여기서 $R_{\mathrm{eff}}$는 전기 회로 비유의 $v_i$-$v_j$ 간 등가 저항. 이 경우 SD는 개념적으로 **commute distance / resistance distance**에 가장 가깝다.
+Diffusion은 어떤가. $v_0$에서 출발한 random walk의 $t$-step 분포 $p^t(v_0, \cdot)$를 기준으로 두 노드를 비교한다. 이것은 **딱 시각 $t$ 하나의 스냅샷**이다. 이력 없음.
 
-**Diffusion distance**: SD와 원리가 다르고 방향도 반대 ($t \to \infty$에서 붕괴 vs 발산)이므로 가장 가깝다고 보기 어렵다.
+둘이 닮으려면 HST 쪽을 바꿔야 한다: 마지막 성분만 보는 게 아니라, **전체 이력을 무시하고** $p^T(v_0, v_i)$ 하나만 비교하도록 제한하면 — 그제야 Diffusion distance 구조에 가까워진다. 즉 닮은 게 아니라, HST의 일부를 Diffusion처럼 취급하면 닮아진다.
+
+---
+
+- **H.** 수학적으로는 어떻게 연결돼?
+
+**G.** 기댓값으로 보면 연결된다.
+
+$$\mathbb{E}\bigl[h(v_i, T)\bigr] = b \sum_{s=1}^{T} p^s(v_0, v_i).$$
+
+이 합 $\sum_{s=1}^{T} p^s(v_0, v_i)$는 그래프 이론에서 **potential kernel** (또는 Green's function)이라 불린다 — 시각 $1$부터 $T$까지 $v_0$에서 $v_i$로 도달할 전체 "교통량"을 더한 것이다.
+
+반면 Diffusion은 $p^T(v_0, v_i)$ **하나**만 본다.
+
+$$\underbrace{\sum_{s=1}^{T} p^s(v_0, v_i)}_{\text{HST (기댓값): 전체 이력}} \;\leftrightarrow\; \underbrace{p^T(v_0, v_i)}_{\text{Diffusion: 마지막 프레임만}}.$$
+
+HST는 전체 영화, Diffusion은 마지막 장면 하나. $t \to \infty$에서 Diffusion은 마지막 장면이 $\pi$로 균등해져 거리가 사라지고, HST는 영화 전체가 쌓여 거리가 커지는 것이다.
+
+---
+
+- **H.** 그럼 HST의 SD랑 개념적으로 가장 가까운 기존 거리는?
+
+**G.** 위 구조에서 보면: HST(기댓값) = potential kernel 차이다. $T \to \infty$ 극한에서 potential kernel은 그래프의 **effective resistance** (저항 거리)와 연결된다:
+
+$$\sum_{s=0}^{\infty} \bigl(p^s(v_i, u) - p^s(v_j, u)\bigr)^2 \;\propto\; R_{\mathrm{eff}}(v_i, v_j).$$
+
+따라서 SD (balanced case, $f=0$)는 개념적으로 **commute distance / resistance distance**에 가장 가깝다. Diffusion distance와는 시간 통합 방식이 다르고 — 발산 vs 붕괴 — 방향도 반대다.
 
 ---
 
 - **H.** 한 줄 요약.
 
-**G.** SD는 walker의 누적 방문 횟수 차이 (커진다), Diffusion은 $t$-step 분포의 스냅샷 차이 (줄어든다) — 방향이 반대다. SD는 Tier에 따라 stationary distribution 차이 (Tier 0) 또는 resistance distance (Tier 2)에 가장 가깝고, Diffusion distance와는 개념적으로 구별된다.
+**G.** HST는 전체 이력 $\sum_s p^s$ (potential kernel)를 쌓아 커지고, Diffusion은 마지막 프레임 $p^T$ 하나만 보다가 $\pi$에 균등화되어 사라진다. 둘은 같은 random walk에서 출발하지만 **어느 시점을 쓰느냐**가 정반대 — HST의 SD는 저항 거리에, Diffusion은 고유벡터 거리에 가깝다.
