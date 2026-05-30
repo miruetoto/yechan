@@ -1,0 +1,88 @@
+---
+title: "연구 ▷ Diffusion Distance ▷ 연속 버전과 이산 버전"
+author: 유진
+date: 2026-05-30
+output-file: 260530_d8c894.html
+fontsize: 0.85em
+draft: false
+# 판정: (A) 학습·이해용 — diffusion distance 연속(heat kernel)/이산(random walk) 대응 정리
+---
+
+**한 줄**: 이름은 같고 정의역만 다르다 — heat kernel이 $P^t$로, 적분이 합산으로 바뀐다.
+
+---
+
+- **H.** 디퓨전 distance에 이산 버전이 있어?
+
+**G.** 있다 — 아니, 우리가 지금까지 써온 게 이미 이산 버전이다. 원본과 이산 버전을 나란히 놓으면:
+
+|  | **연속 버전** | **이산 버전** |
+|--|--------------|--------------|
+| 정의역 | Riemannian manifold $\mathcal{M}$ | 유한 그래프 $G = (V, E)$ |
+| 확산 커널 | heat kernel $K_t(x, y)$ | $p^t(v, u) = (P^t)_{vu}$ |
+| 거리 제곱 | $\int_z \frac{(K_t(x,z) - K_t(y,z))^2}{\rho(z)}\, dz$ | $\sum_u \frac{(p^t(v_1, u) - p^t(v_2, u))^2}{\pi(u)}$ |
+| 가중치 | volume form $\rho(z)$ | stationary distribution $\pi(u)$ |
+
+구조가 완전히 같다. 적분 $\int$ → 합산 $\sum$, heat kernel $K_t$ → 전이행렬의 $t$-거듭제곱 $P^t$, 부피 가중치 $\rho$ → 정류분포 $\pi$.
+
+---
+
+- **H.** 왜 같은 구조가 나와?
+
+**G.** 근원이 같기 때문이다. 연속 heat equation $\partial_t u = \Delta u$와 이산 random walk는 **같은 스펙트럴 구조**의 연속/이산 대응이다.
+
+연속: Laplace–Beltrami 연산자 $\Delta$의 eigenfunctions $\phi_k$와 eigenvalues $\lambda_k$로 heat kernel을 쓰면
+
+$$K_t(x, y) = \sum_k e^{-\lambda_k t}\, \phi_k(x)\, \phi_k(y).$$
+
+이산: 그래프 random walk 전이행렬 $P$의 right eigenvectors $\phi_k$와 eigenvalues $\lambda_k$로 $p^t$를 쓰면
+
+$$p^t(v, u) = \sum_k \lambda_k^t\, \phi_k(v)\, \phi_k(u)\, \pi(u).$$
+
+$e^{-\lambda_k t}$ (연속) ↔ $\lambda_k^t$ (이산) — 지수감쇠 vs 거듭제곱 감쇠. 두 버전 모두 diffusion distance의 제곱은 결국
+
+$$D_t^2 = \sum_{k \geq 1} (\text{감쇠인자})_k \cdot (\phi_k(x) - \phi_k(y))^2$$
+
+로 쓸 수 있다.
+
+---
+
+- **H.** 그럼 $t \to \infty$에서 둘 다 0으로 가?
+
+**G.** 그렇다. 연결된(ergodic) 경우:
+
+- **연속**: $e^{-\lambda_k t} \to 0$ ($\lambda_k > 0$ for $k \geq 1$) → $K_t(x, \cdot) \to \rho$ → 거리 붕괴.
+- **이산**: $|\lambda_k| < 1$ for $k \geq 1$ → $\lambda_k^t \to 0$ → $p^t(v, \cdot) \to \pi$ → 거리 붕괴.
+
+두 버전 모두 **mixing** (장기 확산 후 출발점 정보 소멸)으로 거리가 사라진다.
+
+---
+
+- **H.** 참조 정리해줘.
+
+**G.** 두 버전의 표준 참조:
+
+**연속 버전 (원본)**:
+
+> Coifman, R.R. & Lafon, S. (2006). Diffusion maps. *Applied and Computational Harmonic Analysis*, **21**(1), 5–30.
+
+manifold 위 heat kernel 기반 diffusion distance 정의 + diffusion map 알고리즘. §2에 기본 정의, §3에 $t$ 선택 문제.
+
+**이산 버전 (그래프)**:
+
+> Nadler, B., Lafon, S., Coifman, R.R., & Kevrekidis, I.G. (2006). Diffusion maps, spectral clustering and reaction coordinates of dynamical systems. *Applied and Computational Harmonic Analysis*, **21**(1), 113–127.
+
+유한 데이터 포인트(그래프) 위의 diffusion distance. 이산 전이행렬 $P^t$ 기반. Coifman & Lafon (2006)과 같은 호에 실린 후속 논문.
+
+---
+
+- **H.** 한 줄 요약.
+
+**G.** 연속 버전은 heat kernel $K_t$, 이산 버전은 $P^t$ — 이름은 같고 정의역(manifold vs 그래프)과 적분 방식(integral vs sum)만 다르며, 스펙트럴 구조는 동일하다.
+
+---
+
+**References**
+
+- Coifman, R.R. & Lafon, S. (2006). Diffusion maps. *Applied and Computational Harmonic Analysis*, 21(1), 5–30.
+- Nadler, B., Lafon, S., Coifman, R.R., & Kevrekidis, I.G. (2006). Diffusion maps, spectral clustering and reaction coordinates of dynamical systems. *Applied and Computational Harmonic Analysis*, 21(1), 113–127.
