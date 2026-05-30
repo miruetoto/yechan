@@ -1,5 +1,5 @@
 ---
-title: 연구 ▷ HST ▷ 마팅게일 SLLN — Durrett 4.5.3 책공부 + HST Theorem C 의 출발점
+title: 책공부 ▷ HST ▷ 마팅게일 SLLN — Durrett 4.5.3 + HST Theorem C 의 출발점
 author: 리이
 date: 05/22/2026
 draft: false
