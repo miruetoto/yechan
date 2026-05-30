@@ -1,5 +1,5 @@
 ---
-title: "연구 ▷ HST ▷ AAA 알고리즘 정리 + BAB에서 본 두 현상 (Cov 잔차·핑퐁 atom)"
+title: "연구 ▷ HST ▷ AAA vs BAB"
 author: 소미
 date: 05/28/2026
 draft: false
@@ -9,29 +9,27 @@ fontsize: 0.85em
 ---
 <!-- 소유권자: 소미 | 사용자: 소미 -->
 
-HST의 한 step에는 세 차원의 자유도가 있다. 각 차원의 *옵션 A* — 본 글이 채택한 양식 — 를 풀어 적으면 다음과 같다.
+HST의 알고리즘 종류는 아래와 같이 세분화된 버전을 생각할 수 있다. 
 
 1. **snowfall — 매 step 쌓는 눈 크기 $b'$ 를 어떻게 뽑을지.**
-    - **A** (채택): 매 step 새로 $b'_{t+1}\sim\mathrm{Unif}(0,b)$ 독립.
-    - **B**: 라운드 시작 1번 $b'^{(r)}\sim\mathrm{Unif}(0,b)$ → 라운드 내 모든 deposit 에 재사용.
-    - **C**: B + step-내 감쇠 $b'_{t_r+s}=b'^{(r)}f(s)$ (본 글 미사용).
+    - **A**: 매 step 새로 $b'_{t+1}\sim\mathrm{Unif}(0,b)$ 독립.
+    - **B**: 라운드 시작 1번 $b'^{(r)}\sim\mathrm{Unif}(0,b)$.
+    - **C**: B + step-내 감쇠 $b'_{t_r+s}=b'^{(r)}f(s)$.
     - **D**: $b'_s=b$ 고정 (legacy).
 
-2. **flow — walker 가 어디로 흐를지.** (옵션 두 가지)
-    - **A** (채택): downstream-filter — $\mathcal D_t=\{u\sim X_t : h(u,t)\le h(X_t,t)\}$ 에서만 차수-가중 pick.
+2. **flow — walker 가 어디로 흐를지.** 
+    - **A** (채택): downstream에서만 pick. (downstream이 없으면 block)
     - **B**: 모든 이웃에서 pick → uphill 이면 block 처리.
 
-3. **$T_{\max}$ — block timer 상한.** (옵션 두 가지)
+3. **$T_{\max}$ — block timer 상한.** 
     - **A** (채택): 라운드마다 $T_{\max}^{(r)}\sim\mathrm{Unif}\{n,\dots,2n\}$.
     - **B**: 입력 상수 고정.
 
-세 차원의 옵션을 한 글자씩 모아 모델 코드 $\langle$snowfall$\rangle\langle$flow$\rangle\langle T_{\max}\rangle$ 로 적는다. snowfall 은 4 종, flow·$T_{\max}$ 는 각각 2 종이라 가능한 모델 코드는 $4\times 2\times 2 = 16$ 가지. 본 글이 채택해 쓰는 모델은 **AAA** = (A, A, A) — 세 차원 모두 옵션 A. 비교 대상은 **BAB** = (B, A, B) — flow 차원은 양쪽 모두 A 에 둔 채 snowfall 과 $T_{\max}$ 만 옵션 B 로 바꾼 모델.
-
-본 글은 BAB 에서 시뮬로 관찰되는 두 현상 — 누적 적설량이 단순 기대와 어긋나게 만드는 Cov 잔차, 그리고 $K_2$ 의 높이차에 atom 을 만드는 핑퐁 동역학 — 을 정리한다. 두 현상 모두 snowfall A→B 의 차이가 만들어낸다. 한 라운드는 Fall 로 시작해 Flow 를 이어가다 Block (또는 timer 소진) 으로 끝나며, 라운드 $r$ 의 길이를 $m_r$, 라운드 동안 노드 $i$ 의 방문수를 $N_r^{(i)}$ ($m_r=\sum_i N_r^{(i)}$) 로 적는다 — 아래 식에서 쓴다.
+기존에 생각한 가장 좋은 알고리즘은 BAB 였으나, AAA가 더 좋은 옵션일 수도 있겠다는 생각이 들어서 고민중임. 
 
 ## 현상 1 — 누적 적설량이 단순 기대와 어긋난다 (Cov 잔차)
 
-실험 그래프는 노드 10 개의 완전그래프 $K_{10}$ — 모든 노드 쌍이 직접 이웃이고 차수가 9로 균일, vertex-transitive (모든 노드가 구조적으로 동등).
+실험 그래프는 노드 10 개의 완전그래프: 모든 노드 쌍이 직접 이웃이고 차수가 9로 균일, vertex-transitive (모든 노드가 구조적으로 동등).
 
 ```{python}
 #| code-fold: true
@@ -48,11 +46,11 @@ ax.set_axis_off(); ax.set_aspect('equal')
 fig.tight_layout(); plt.show()
 ```
 
-$K_{10}$ 위에서 $b=0.05$, $T$ step 시뮬한다. 매 step 의 $b'$ 기대값은 두 모델 모두 $\bar b=b/2=0.025$이고, vertex-transitive 대칭으로 walker 의 stationary 방문율도 두 모델 모두 $\rho_i=1/n=0.1$ 로 결정된다. 그래서 노드 $i$의 적설률 $\tilde\rho_i:=\lim_t h_i(t)/t$ 는 *순진한 기대*로
+노드 $i$의 적설률 $\tilde\rho_i:=\lim_t h_i(t)/t$ 는 *순진한 기대*로
 
 $$\tilde\rho_i \;\stackrel{?}{=}\; \bar b\,\rho_i \;=\; 0.025\times 0.1 \;=\; 0.0025$$
 
-이 되어야 할 것 같다. 시뮬로 두 모델을 같은 walker 규칙으로 돌려보자.
+이 되어야 할 것 같다. 그런데 시뮬로 두 모델을 돌려보면 기대와 다르다. 
 
 ```{python}
 #| code-fold: true
@@ -105,24 +103,24 @@ for model in ["BAB", "AAA"]:
     res[model] = excess
 ```
 
-AAA는 시뮬값이 순진한 기대 $0.0025$와 정확히 일치한다. **BAB는 노드당 약 $0.0029$** — 기대보다 16% 더 쌓인다. 매 step의 $b'$ 평균은 두 모델 모두 $\bar b$로 같은데, 왜 BAB만 더 쌓이는가? 라운드 단위로 풀면 보인다. BAB에서 라운드 $r$의 총 적설은 $b'^{(r)}m_r$이므로 한 step당 평균 적설은
+AAA는 시뮬값이 순진한 기대 $0.0025$와 정확히 일치한다. BAB는 노드당 약 $0.0029$, 기대보다 16% 더 쌓인다. 매 step의 $b'$ 평균은 두 모델 모두 $\bar b$로 같은데, 왜 BAB만 더 쌓이는가? 라운드 $r$의 총 적설은 $b'^{(r)}m_r$이므로 한 step당 평균 적설은
 
 $$\frac{\mathbb E_\pi\!\big[b'^{(r)}m_r\big]}{\mathbb E_\pi[m_r]}
 \;=\;\frac{\bar b\,\mathbb E_\pi[m_r]+\mathrm{Cov}_\pi(b'^{(r)},m_r)}{\bar m}
 \;=\;\bar b+\frac{\mathrm{Cov}_\pi(b'^{(r)},m_r)}{\bar m}\qquad(\ast)$$
 
-다. 즉 *큰 $b'$를 뽑은 라운드가 평균보다 길거나 짧으면* 누적 적설량이 $\bar b$에서 그만큼 어긋난다. $K_{10}$ 측정에서 $\mathrm{Cov}_\pi(b'^{(r)},m_r)>0$ — 큰 $b'$의 라운드가 약간 더 길다 — 그 결합이 +16% 잉여로 나타난다.
+다. 여기에서 Cov가 AAA모델에서는 0인데 BAB에서는 0이 아니다 (큰 $b'$의 라운드가 약간 더 길다). 이것이 +16% 잉여로 나타난다.
 
-이 +16% 잉여는 단순한 $K_{10}$ 한 숫자에 그치지 않는다 — three-tier 수렴 정리의 한계 상수 자체가 두 모델에서 다르게 떨어진다. Tier 0 (drift, $\rho_i\neq\rho_j$) 에서 $\mathrm{SD}^2_{ij}/t^3$ 이 어디로 가는지 비교하면:
+Cov텀의 존재는 $\mathrm{SD}^2_{ij}/t^3$ 의 수렴값에 영향을 준다. 
 
 - **AAA**: $\displaystyle \frac{\mathrm{SD}^2_{ij}(t)}{t^3} \;\xrightarrow{t\to\infty}\; \frac{\bar b^{\,2}(\rho_i-\rho_j)^2}{3}$
 - **BAB**: $\displaystyle \frac{\mathrm{SD}^2_{ij}(t)}{t^3} \;\xrightarrow{t\to\infty}\; \frac{1}{3}\Big[\bar b(\rho_i-\rho_j) + \tfrac{\mathrm{Cov}_i-\mathrm{Cov}_j}{\bar m}\Big]^2$
 
 (여기서 $\mathrm{Cov}_i:=\mathrm{Cov}_\pi(b'^{(r)},N_r^{(i)})$ 는 시뮬에서야 측정되는 graph+dynamics joint 잔차.)
 
-AAA 는 그래프에서 결정되는 $(\rho_i-\rho_j)$ 와 $\bar b$ 만의 깔끔한 닫힌형으로 떨어진다. BAB 는 같은 자리에 $(\mathrm{Cov}_i-\mathrm{Cov}_j)/\bar m$ 가 끼어들어 안 예쁘다. Tier 1·Tier 2 의 한계 상수도 같은 양상으로 Cov 류 항이 들러붙어 — 이것이 첫 번째 현상의 핵심 문제다.
+---
 
-## 현상 2 — $K_2$의 핑퐁이 BAB 수렴 증명에 불필요한 가정을 강요한다
+## 현상 2 
 
 이번엔 가장 작은 connected 그래프 — 노드 두 개, 엣지 하나 — 인 $K_2$ 를 본다.
 
@@ -139,80 +137,61 @@ ax.set_axis_off(); ax.set_aspect('equal'); ax.set_xlim(-1.0, 1.0); ax.set_ylim(-
 fig.tight_layout(); plt.show()
 ```
 
-**시나리오**. BAB 는 라운드 시작에 *그 라운드의 눈 크기* 를 한 번 뽑아, 그 라운드의 모든 step 에 같은 양만큼 눈을 쌓는다. 예컨대 어떤 라운드에는 매 step 눈이 1.0 씩 떨어지고, 다음 라운드에는 매 step 2.3 씩 떨어지는 식이다. 라운드 길이가 4 (block timer 상한 3) 인 경우로, 두 라운드를 한 step 씩 따라가 step 별 적립을 표로 그리면 다음과 같다.
-
-| step | 라운드 | 동작 | walker | $v_1$ 높이 | $v_2$ 높이 | 두 높이의 차 ($v_2-v_1$) |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 1 | 1번 (눈 = **1.0**) | Fall (새 위치 $v_1$) | $v_1$ | 1.0 | 0 | **−1.0** |
-| 2 | 1번 | Flow $v_1\to v_2$ | $v_2$ | 1.0 | 1.0 | **0** |
-| 3 | 1번 | Flow $v_2\to v_1$ | $v_1$ | 2.0 | 1.0 | **−1.0** |
-| 4 | 1번 | Flow $v_1\to v_2$ | $v_2$ | 2.0 | 2.0 | **0** |
-| 5 | 2번 (눈 = **2.3**) | Fall (새 위치 $v_1$) | $v_1$ | 4.3 | 2.0 | **−2.3** |
-| 6 | 2번 | Flow $v_1\to v_2$ | $v_2$ | 4.3 | 4.3 | **0** |
-| 7 | 2번 | Flow $v_2\to v_1$ | $v_1$ | 6.6 | 4.3 | **−2.3** |
-| 8 | 2번 | Flow $v_1\to v_2$ | $v_2$ | 6.6 | 6.6 | **0** |
-
-walker 가 두 노드를 핑퐁하면서, **한 라운드 안에서 두 높이의 차가 "그 라운드의 눈 크기" 와 0 사이를 정확히 번갈아 오간다** — 1번 라운드에선 −1.0 과 0, 2번 라운드에선 −2.3 과 0. 라운드의 절반 step (위 표의 짝수 step 2, 4, 6, 8) 에서 두 높이의 차가 정확히 0 이다. 라운드 길이가 짝수이면 이 패턴이 모든 라운드에 유지되어 — 전체 step 중 **두 높이의 차가 정확히 0 인 비율이 50%**.
-
-AAA 에선 매 step 의 눈 크기가 *독립적으로* 새로 뽑힌다 — 위 표에서 1번 라운드의 1.0, 1.0, 1.0, 1.0 자리에 네 개의 서로 다른 (랜덤) 값이, 2번 라운드의 2.3 자리에도 네 개의 다른 값이 들어간다. 그러면 두 높이의 차에 서로 다른 독립 증분이 누적되어 연속 분포로 퍼진다 — 한 점 (0) 에 절반이 몰리는 일은 일어나지 않는다.
-
-```{python}
-#| code-fold: true
-W2 = np.array([[0., 1.], [1., 0.]])
-T2 = 150_000
-
-def run_delta(model, fixed_maxflow, seed=7):
-    n = 2; mu0 = np.array([0.5, 0.5]); nb = [np.array([1]), np.array([0])]
-    rng = np.random.default_rng(seed)
-    h = np.zeros(2)
-    draw_mf = lambda: int(rng.integers(n, 2*n+1)) if model == "AAA" else fixed_maxflow
-    maxflow = draw_mf(); Z = maxflow; X = 0; b_round = float(rng.uniform(0, B))
-    out = np.empty(T2)
-    for t in range(T2):
-        if Z >= maxflow:
-            maxflow = draw_mf(); b_round = float(rng.uniform(0, B)); Z = 0
-            b_step = float(rng.uniform(0, B)) if model == "AAA" else b_round
-            X = int(rng.choice(2, p=mu0))
-        else:
-            b_step = float(rng.uniform(0, B)) if model == "AAA" else b_round
-            nb_x = nb[X]; down = nb_x[h[nb_x] <= h[X]]
-            if len(down) > 0:
-                X = int(down[0]); Z += 1
-            else:
-                Z = maxflow
-        h[X] += b_step; out[t] = h[1] - h[0]
-    return out
-
-d_bab = run_delta("BAB", 3)        # 1+T_max = 4 (짝수)
-d_aaa = run_delta("AAA", None)
-for tag, d in [("BAB(1+Tmax even)", d_bab), ("AAA", d_aaa)]:
-    print(f"[{tag:18}] P(δ=0) = {np.mean(np.abs(d)<1e-12):6.1%}   "
-          f"고유 δ값 수 = {len(np.unique(np.round(d,6))):6d}")
-```
-
-```{python}
-#| code-fold: true
-#| fig-cap: "$K_2$에서 높이차 $\\delta=h_2-h_1$의 분포. AAA는 평균 0 근처의 연속 종형(파랑); BAB($1{+}T_{\\max}$ 짝수)는 $[-b, b]$에 갇히고 $\\delta=0$에 50% 질량의 atom(빨강, 막대가 축 위로 off-scale)이 솟는다."
-fig, ax = plt.subplots(figsize=(7.0, 2.7))
-bins = np.linspace(-0.14, 0.14, 57)
-ax.hist(d_aaa, bins=bins, density=True, alpha=0.6, color="#1f77b4", label=r"AAA (continuous)")
-ax.hist(d_bab, bins=bins, density=True, alpha=0.5, color="#d62728", label=r"BAB, $1{+}T_{\max}$ even")
-ax.set_ylim(0, 22)
-ax.axvline(0, color="#d62728", lw=1.0, ls="--")
-ax.annotate(r"$\delta=0$ atom $\approx50\%$" + "\n(off-scale, singular)",
-            xy=(0, 22), xytext=(0.30, 0.6), textcoords="axes fraction",
-            fontsize=8, color="#d62728",
-            arrowprops=dict(arrowstyle="->", color="#d62728", lw=0.9))
-ax.set_xlabel(r"$\delta = h_2 - h_1$ on $K_2$", fontsize=9)
-ax.set_ylabel("density", fontsize=9)
-ax.legend(fontsize=8, loc="upper left"); ax.tick_params(labelsize=8); ax.grid(alpha=0.25)
-fig.tight_layout(); plt.show()
-```
-
-AAA(파랑)는 평균 0 근처의 매끈한 연속 분포. BAB ($1+T_{\max}$ 짝수, 빨강) 는 $\delta$ 가 $[-b,b]$ 에 갇히고 **$\delta=0$ 에 절반의 질량이 atom 으로 솟는다** — Lebesgue-영집합 위에 양의 질량이 얹힌 특이 성분.
-
-**이 atom 이 수렴 증명에 미치는 영향.** Tier 2 (balanced) 수렴 증명의 표준 도구는 $\delta$ 의 마르코프 연쇄가 유일한 정상분포로 섞임을 받쳐 주는 *Doeblin minorization* 이다 — 어떤 단계 수 뒤에는 $\delta$ 의 전이확률에 균일한 *밀도 바닥* $\eta\,\nu$ 가 깔려야 한다. BAB 의 $\delta$ 는 한 점에 양의 질량을 두는 특이 분포라 그런 밀도 바닥 자체가 깔리지 않는다. 그래서 BAB 증명은 *atom 을 빼고 도달가능 부분집합 위에서만 minorization 한다* 같은 단서/가정을 별도로 끼워 우회해야 한다. AAA 에선 매 step 독립으로 $\delta$ 가 연속 밀도를 가져 전체 공간에서 표준 Doeblin 이 그대로 통한다 — 그런 우회 단서가 필요 없다. **핑퐁이 만든 한 점의 atom 이 BAB 수렴 증명에 불필요한 가정을 강요하고, 증명 도구를 복잡하게 만든다.**
+매라운드별로 항상 짝수번 눈이 쌓이다고 가정하면 ($T_{max}$를 조정) 눈은 두 노드사이를 항상 핑퐁한다. 이것은 랜덤성을 깨뜨려 이론전개를 불필요하게 어렵게 만든다.
 
 ---
 
-두 현상의 출처는 같다 — BAB의 *라운드 동안 같은 $b'$ 재사용*(snowfall B)이다. AAA의 per-step 독립(snowfall A)에서는 식 $(\ast)\,(\ast\ast)$의 공분산이 $\equiv 0$이 되고, $K_2$ 핑퐁이 만든 atom은 연속 증분에 풀려 사라진다.
+## 현상 3 — 적설량 분해: AAA는 2항으로 정확히 떨어지고, Model B는 3항이다
+
+한 노드의 적설량 $h_i(t)$ 자체를 분해해 보면, 매 step 의 눈 $b'_s$ 를 평균 $\bar b$ 와 편차로 쪼개
+
+$$h_i(t)-h_i(0) \;=\; \underbrace{\bar b\sum_{s\le t}\mathbf 1\{X_s=v_i\}}_{\text{drift } (\bar b N_i)} \;+\; \underbrace{\sum_{s\le t}(b'_s-\bar b)\mathbf 1\{X_s=v_i\}}_{\text{martingale } M_i(t)}$$
+
+가 된다. **AAA** 에선 $b'_s$ 가 매 step 독립이고 walker 이동이 $b'_s$ 를 안 보므로 $M_i$ 가 깨끗한 마팅게일($\mathbb E[\,\cdot\mid\mathcal F_{s-1}]=0$) — 분해가 **정확히 두 항**이고 *남는 잔차가 없다*. Model B 에선 한 라운드 내내 같은 $b'^{(r)}$ 를 쓰므로 관측 시점의 **마지막 미완료 라운드가 깨끗한 2항에 안 들어가 세 번째 항(incomplete-round residual)으로 남는다**.
+
+그 차이는 **drift 로부터의 편차** $S_i(t):=h_i(t)-\bar b\,N_i(t)$ 를 보면 바로 드러난다. AAA 에선 $S_i=M_i$ (마팅게일)라 $S_i\sim\sqrt t$, 즉 $S_i/t\to 0$ ($o(t)$). Model B 에선 라운드 결합으로 $\mathbb E[S_i]=(\text{라운드수})\times\mathrm{Cov}_i = O(t)$ — 즉 $S_i/t\to \mathrm{Cov}_i/\bar m\neq 0$. K$_{10}$ 에서 $\mathrm{rms}(S)/t$ 를 시간에 따라 보자.
+
+```{python}
+#| code-fold: true
+def run_S(W, T, model, seed, fixed_maxflow=None, n_ck=40):
+    n=W.shape[0]; deg=W.sum(1); mu0=deg/deg.sum(); nb=[np.where(W[i]>0)[0] for i in range(n)]
+    rng=np.random.default_rng(seed); h=np.zeros(n); visit=np.zeros(n,np.int64)
+    draw=lambda: int(rng.integers(n,2*n+1)) if model[2]=="A" else (fixed_maxflow or 2*n)
+    sfA=(model[0]=="A"); mf=draw(); Z=mf; X=0; b_round=float(rng.uniform(0,B))
+    ck=np.unique(np.geomspace(1000,T,n_ck).astype(int)); ci=0; cks=[]; rms=[]
+    for t in range(1,T+1):
+        b_step=float(rng.uniform(0,B)) if sfA else b_round
+        if Z>=mf:
+            mf=draw(); b_round=float(rng.uniform(0,B))
+            if not sfA: b_step=b_round
+            X=int(rng.choice(n,p=mu0)); h[X]+=b_step; Z=0
+        else:
+            nbr=nb[X]; down=nbr[h[nbr]<=h[X]]
+            if len(down)>0:
+                w=W[X,down]; X=int(rng.choice(down,p=w/w.sum())); h[X]+=b_step; Z+=1
+            else:
+                h[X]+=b_step; Z=mf
+        visit[X]+=1
+        if ci<len(ck) and t==ck[ci]:
+            S=h-bbar*visit; cks.append(t); rms.append(np.sqrt((S**2).mean())); ci+=1
+    return np.array(cks), np.array(rms)
+
+n=10; W=np.ones((n,n))-np.eye(n); T=500_000
+cA,rA=run_S(W,T,"AAA",0); cB,rB=run_S(W,T,"BAB",0,fixed_maxflow=2*n)
+print(f"[AAA] rms(S)/t : t=10^4 {rA[np.searchsorted(cA,10**4)]/cA[np.searchsorted(cA,10**4)]:.2e} → t={T:,} {rA[-1]/cA[-1]:.2e}  (→0, o(t))")
+print(f"[BAB] rms(S)/t : t=10^4 {rB[np.searchsorted(cB,10**4)]/cB[np.searchsorted(cB,10**4)]:.2e} → t={T:,} {rB[-1]/cB[-1]:.2e}  (→const, O(t))")
+```
+
+```{python}
+#| code-fold: true
+#| fig-cap: "$S_i=h_i-\\bar bN_i$ (적설량의 drift 편차) 의 rms$/t$. AAA(파랑)는 $0$ 으로 감($S_i=$마팅게일$\\sim\\sqrt t$, $o(t)$). BAB(빨강)는 양의 상수로 saturate ($O(t)$) — 이게 §현상1의 Cov, 곧 분해에서 Model B 에만 남는 incomplete-round residual."
+fig,ax=plt.subplots(figsize=(7.0,2.7))
+ax.semilogx(cA, rA/cA, "-o", ms=2.5, color="#1f77b4", label=r"AAA: $\mathrm{rms}(S)/t\to0$ ($o(t)$)")
+ax.semilogx(cB, rB/cB, "-s", ms=2.5, color="#d62728", label=r"BAB: $\mathrm{rms}(S)/t\to$ const ($O(t)$)")
+ax.axhline(0, color="k", lw=0.6)
+ax.set_xlabel(r"$t$", fontsize=9); ax.set_ylabel(r"$\mathrm{rms}_i\,(h_i-\bar bN_i)\,/\,t$", fontsize=8.5)
+ax.legend(fontsize=8); ax.tick_params(labelsize=8); ax.grid(alpha=0.25, which="both")
+fig.tight_layout(); plt.show()
+```
+
+AAA 의 $S_i/t$ 는 $0$ 으로 가고(적설량이 drift $\bar bN_i$ 에서 $\sqrt t$ 만큼만 벗어나는 마팅게일), BAB 는 양의 상수로 떠 있다(적설량이 drift 에서 $O(t)$ 로 체계적으로 벗어남). 이 $O(t)$ 잔차가 §현상1 에서 본 $\mathrm{Cov}_i/\bar m$ 이고, 적설량 분해로 보면 **Model B 에만 있는 세 번째 항(incomplete-round residual)** 이다. AAA 는 per-step 독립 덕분에 분해가 *깨끗한 2항* 이라 이 잔차가 아예 없다.
