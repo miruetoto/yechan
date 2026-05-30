@@ -2,15 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="리이">
 <meta name="dcterms.date" content="2026-05-22">
 
-<title>연구 ▷ HST ▷ 마팅게일이 살아남으면 — SLLN, CLT, Optional Stopping, Concentration – 신록예찬’s Blog</title>
+<title>책공부 ▷ HST ▷ 마팅게일이 살아남으면 — SLLN, CLT, Optional Stopping, Concentration – 신록예찬’s Blog</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -69,15 +72,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-165db4a5700707ee9723b4db2002e5ec.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-42eb1ed98d6b40681f6bda2512c0def3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -107,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -225,7 +227,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">연구 ▷ HST ▷ 마팅게일이 살아남으면 — SLLN, CLT, Optional Stopping, Concentration</h1>
+<h1 class="title">책공부 ▷ HST ▷ 마팅게일이 살아남으면 — SLLN, CLT, Optional Stopping, Concentration</h1>
 </div>
 
 
@@ -267,7 +269,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><strong>H.</strong> 지난 글에서 마팅게일이 뭔지 봤잖아요 — <span class="math inline">\(E[X_{n+1} \mid \mathcal F_n] = X_n\)</span>, 공정한 게임. 오늘은 그 조건 하나가 살아 있을 때 따라오는 네 가지 결과를 보려고 해요. SLLN, CLT, optional stopping, concentration.</p>
 <p><strong>G.</strong> 전부 다 마팅게일 하나에서 나오는 건가요?</p>
 <p><strong>H.</strong> 네, 전부 <span class="math inline">\(E[X_{n+1} \mid \mathcal F_n] = X_n\)</span> 단 하나에서. 공통 설정 먼저 짤게요.</p>
-<div id="e2c8aa7d" class="cell" data-execution_count="1">
+<div id="470c19c4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">"seaborn-v0_8-whitegrid"</span>)</span>
@@ -288,7 +290,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><strong>H.</strong> 첫 번째. bounded increment martingale <span class="math inline">\(\{M_n\}\)</span>, <span class="math inline">\(|\Delta M_k| \leq c\)</span> 라 하면 <span class="math inline">\(M_n / n \to 0\)</span> a.s. 이게 마팅게일 SLLN (Durrett 4.5.3, 상세: <a href="260522_210331.html"><code>260522_210331.html</code></a>).</p>
 <p><strong>G.</strong> <span class="math inline">\(M_n\)</span> 자체는 커지는데 <span class="math inline">\(n\)</span> 으로 나누면 0 이 된다는 거죠?</p>
 <p><strong>H.</strong> 맞아요. <span class="math inline">\(M_n \sim \sqrt{n}\)</span> 규모로 흩어지지만, <span class="math inline">\(n\)</span> 으로 나누면 <span class="math inline">\(1/\sqrt{n} \to 0\)</span>. fair walk 으로 직접 볼게요.</p>
-<div id="ca841aac" class="cell" data-execution_count="2">
+<div id="1058ef0a" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="dv">3000</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> np.arange(<span class="dv">1</span>, T <span class="op">+</span> <span class="dv">1</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> rng.choice([<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">1.0</span>], size<span class="op">=</span>(NPATH, T))</span>
@@ -299,13 +301,13 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <pre><code>array([ 0.036,  0.014, -0.014])</code></pre>
 </div>
 </div>
-<div id="3daa4ec4" class="cell" data-execution_count="3">
+<div id="6ce424d1" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ratio[:, <span class="op">-</span><span class="dv">1</span>].mean(), ratio[:, <span class="op">-</span><span class="dv">1</span>].std()    <span class="co"># ensemble 끝값: 평균 ≈ 0, std 작아짐</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>(np.float64(0.0025866666666666664), np.float64(0.020708190542767263))</code></pre>
 </div>
 </div>
-<div id="f2585d71" class="cell" data-execution_count="4">
+<div id="903e27c4" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(NPATH):</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>].plot(t, M[k], lw<span class="op">=</span><span class="fl">0.4</span>, alpha<span class="op">=</span><span class="fl">0.4</span>, color<span class="op">=</span><span class="st">"C0"</span>)</span>
@@ -323,7 +325,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260522_0cfeac_files/figure-html/cell-5-output-1.png" width="757" height="374" class="figure-img"></p>
+<p><img src="260522_책공부_HST_마팅게일이살아남으면—SLLN,CLT,OptionalStopping,Concentration_files/figure-html/cell-5-output-1.png" width="757" height="374" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -337,7 +339,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><strong>H.</strong> 두 번째는 더 정밀한 질문이에요. <span class="math inline">\(M_n / n \to 0\)</span> 은 알겠는데, 그럼 <span class="math inline">\(M_n\)</span> 이 정확히 <strong>얼마나</strong> 크게 자라느냐. 답은 정확히 <span class="math inline">\(\sqrt{n}\)</span>, 그리고 <span class="math inline">\(M_n / \sqrt{n}\)</span> 의 분포가 <span class="math inline">\(N(0,1)\)</span> 로 수렴해요.</p>
 <p><strong>G.</strong> 마팅게일 CLT네요. <span class="math inline">\(n\)</span> 이 커질수록 히스토그램이 정규분포 모양으로?</p>
 <p><strong>H.</strong> 직접 볼게요. 5000개 iid 복제본을 여러 <span class="math inline">\(n\)</span> 에서 히스토그램으로.</p>
-<div id="be1dca87" class="cell" data-execution_count="5">
+<div id="f3002083" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>eps2 <span class="op">=</span> rng.choice([<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">1.0</span>], size<span class="op">=</span>(<span class="dv">5000</span>, <span class="dv">2000</span>))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>M2 <span class="op">=</span> np.cumsum(eps2, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>n_vals <span class="op">=</span> [<span class="dv">50</span>, <span class="dv">200</span>, <span class="dv">500</span>, <span class="dv">2000</span>]</span>
@@ -351,7 +353,7 @@ n=  500:  mean=+0.0124  std=1.0030  (theory: 0, 1)
 n= 2000:  mean=+0.0127  std=0.9977  (theory: 0, 1)</code></pre>
 </div>
 </div>
-<div id="e8d3c9c6" class="cell" data-execution_count="6">
+<div id="f4f70990" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.5</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">300</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>normal <span class="op">=</span> np.exp(<span class="op">-</span>x<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> <span class="dv">2</span>) <span class="op">/</span> np.sqrt(<span class="dv">2</span> <span class="op">*</span> np.pi)</span>
@@ -366,7 +368,7 @@ n= 2000:  mean=+0.0127  std=0.9977  (theory: 0, 1)</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260522_0cfeac_files/figure-html/cell-7-output-1.png" width="758" height="348" class="figure-img"></p>
+<p><img src="260522_책공부_HST_마팅게일이살아남으면—SLLN,CLT,OptionalStopping,Concentration_files/figure-html/cell-7-output-1.png" width="758" height="348" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -380,7 +382,7 @@ n= 2000:  mean=+0.0127  std=0.9977  (theory: 0, 1)</code></pre>
 <p><strong>H.</strong> 세 번째가 제일 직관에 반하는 결과예요. 공정한 게임에서 <strong>어떤 전략으로 멈춰도</strong> 평균 손익은 0. Doob 의 optional stopping theorem.</p>
 <p><strong>G.</strong> 전략을 잘 짜면 이길 수 있지 않아요?</p>
 <p><strong>H.</strong> 그게 안 된다는 거예요. <span class="math inline">\(E[X_\tau] = E[X_0]\)</span> — 멈추는 시점 <span class="math inline">\(\tau\)</span> 가 어떤 stopping time 이어도. 세 가지 전략 비교해 볼게요.</p>
-<div id="c1cf57ab" class="cell" data-execution_count="7">
+<div id="9137f965" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>N_rep, T_stop <span class="op">=</span> <span class="dv">10000</span>, <span class="dv">2000</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>eps3 <span class="op">=</span> rng.choice([<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">1.0</span>], size<span class="op">=</span>(N_rep, T_stop))</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>X3 <span class="op">=</span> np.cumsum(eps3, axis<span class="op">=</span><span class="dv">1</span>)   <span class="co"># fair walk, X_0 = 0</span></span>
@@ -407,7 +409,7 @@ E[X_τ]  전략 B (첫 +10 도달):   -0.1346  (theory: 0)
 E[X_τ]  전략 C (첫 -10 도달):   -0.2894  (theory: 0)</code></pre>
 </div>
 </div>
-<div id="1f116744" class="cell" data-execution_count="8">
+<div id="97bb105e" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.5</span>))</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, vals, label <span class="kw">in</span> <span class="bu">zip</span>(axes,</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    [X_A, X_B, X_C],</span>
@@ -421,7 +423,7 @@ E[X_τ]  전략 C (첫 -10 도달):   -0.2894  (theory: 0)</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260522_0cfeac_files/figure-html/cell-9-output-1.png" width="758" height="348" class="figure-img"></p>
+<p><img src="260522_책공부_HST_마팅게일이살아남으면—SLLN,CLT,OptionalStopping,Concentration_files/figure-html/cell-9-output-1.png" width="758" height="348" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -437,7 +439,7 @@ E[X_τ]  전략 C (첫 -10 도달):   -0.2894  (theory: 0)</code></pre>
 <p><span class="math inline">\(c_k = 1\)</span> (fair walk) 이면 <span class="math inline">\(P(|M_n| \geq t) \leq 2e^{-2t^2/n}\)</span>.</p>
 <p><strong>G.</strong> 편차가 <span class="math inline">\(t\)</span> 이상일 확률이 이중 지수로 감소한다는 거죠?</p>
 <p><strong>H.</strong> 맞아요. 특히 <span class="math inline">\(t = O(\sqrt{n})\)</span> 으로 잡으면 확률이 <span class="math inline">\(e^{-O(1)}\)</span> 수준이고, <span class="math inline">\(t = O(n)\)</span> 으로 잡으면 <span class="math inline">\(e^{-O(n)}\)</span> — 지수적으로 희귀해져요. 이론 상한 vs 실제 경험 확률을 비교해 볼게요.</p>
-<div id="7f4a69b1" class="cell" data-execution_count="9">
+<div id="5bc341fd" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>n_conc <span class="op">=</span> <span class="dv">500</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>M5 <span class="op">=</span> np.cumsum(rng.choice([<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">1.0</span>], size<span class="op">=</span>(<span class="dv">50000</span>, n_conc)), axis<span class="op">=</span><span class="dv">1</span>)[:, <span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>t_vals <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">60</span>, <span class="dv">200</span>)</span>
@@ -456,7 +458,7 @@ t=30:  empirical=0.196400   Azuma=0.054647   ratio=3.594
 t=40:  empirical=0.082840   Azuma=0.003323   ratio=24.928</code></pre>
 </div>
 </div>
-<div id="4133f638" class="cell" data-execution_count="10">
+<div id="48df9243" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ax.plot(t_vals, emp,   lw<span class="op">=</span><span class="fl">2.0</span>, color<span class="op">=</span><span class="st">"C0"</span>, label<span class="op">=</span><span class="vs">r"empirical </span><span class="dv">$</span><span class="vs">P</span><span class="kw">(</span><span class="cf">|</span><span class="vs">M_n</span><span class="cf">|</span><span class="vs"> </span><span class="er">\</span><span class="vs">geq t</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ax.plot(t_vals, azuma, lw<span class="op">=</span><span class="fl">2.0</span>, ls<span class="op">=</span><span class="st">"--"</span>, color<span class="op">=</span><span class="st">"crimson"</span>,</span>
@@ -468,7 +470,7 @@ t=40:  empirical=0.082840   Azuma=0.003323   ratio=24.928</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="260522_0cfeac_files/figure-html/cell-11-output-1.png" width="662" height="374" class="figure-img"></p>
+<p><img src="260522_책공부_HST_마팅게일이살아남으면—SLLN,CLT,OptionalStopping,Concentration_files/figure-html/cell-11-output-1.png" width="662" height="374" class="figure-img"></p>
 </figure>
 </div>
 </div>
