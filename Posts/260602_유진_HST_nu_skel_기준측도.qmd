@@ -71,29 +71,35 @@ plt.rcParams.update({
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 3.6))
 
 # --- Left: continuous coordinate, Unif(U) on chamber ---
-ax1.set_xlim(-3, 3); ax1.set_ylim(-3, 3); ax1.set_aspect('equal')
+# (schematic, not to scale; box radii keep the true ratio O:O† = (b/4):(b/16) = 4:1)
+ax1.set_xlim(-2.4, 2.4); ax1.set_ylim(-2.4, 2.4); ax1.set_aspect('equal')
 ax1.set_title(r'continuous part: $\mathrm{Unif}(U)$ on $\mathbb{R}^{n-1}$', fontsize=9.5)
 ax1.set_xlabel(r'$\Delta h_{21}$', fontsize=9); ax1.set_ylabel(r'$\Delta h_{31}$', fontsize=9)
-ax1.axhline(0, color='#ddd', lw=0.5); ax1.axvline(0, color='#ddd', lw=0.5)
 
-# O, O†, U nested boxes
-for r, fc, ec, lbl, tx, ty in [
-    (2.0, 'none',    '#e74c3c', r'$\mathcal{O}$',        2.05, 2.1),
-    (0.9, 'none',    '#c0392b', r'$\mathcal{O}^\dagger$', 0.95, -1.15),
+# three final-equality lines U must avoid: Δh21=0, Δh31=0, Δh21=Δh31
+ax1.axhline(0, color='gray', ls=':', lw=1.0, zorder=2)
+ax1.axvline(0, color='gray', ls=':', lw=1.0, zorder=2)
+ax1.plot([-2.4, 2.4], [-2.4, 2.4], color='gray', ls=':', lw=1.0, zorder=2)
+ax1.text(-2.25, -1.85, r'final-equality lines', color='gray', fontsize=6.5, rotation=45)
+
+# O, O† nested OPEN boxes — dashed boundary (boundary not included); radii 4:1
+for r, ec, lbl, tx, ty in [
+    (2.0, '#e74c3c', r'$\mathcal{O}$',         2.02, 1.7),
+    (0.5, '#c0392b', r'$\mathcal{O}^\dagger$', 0.53, -0.62),
 ]:
-    ax1.add_patch(Rectangle((-r, -r), 2*r, 2*r, lw=1.6, edgecolor=ec, facecolor=fc, zorder=3))
+    ax1.add_patch(Rectangle((-r, -r), 2*r, 2*r, lw=1.6, edgecolor=ec,
+                            facecolor='none', linestyle='--', zorder=3))
     ax1.text(tx, ty, lbl, color=ec, fontsize=10, zorder=6)
 
-# chamber U: filled (uniform shading), offset to avoid the equality hyperplane (diagonal)
-ucx, ucy, uh = 0.35, 0.35, 0.32
-ax1.add_patch(Rectangle((ucx-uh, ucy-uh), 2*uh, 2*uh, lw=1.8,
-                        edgecolor='navy', facecolor='#7fa8e0', alpha=0.85, zorder=5))
-ax1.text(ucx+uh+0.1, ucy, r'$U$', color='navy', fontsize=10, fontweight='bold', zorder=7)
+# chamber U: OPEN (dashed boundary), in a clean sector away from all three lines
+ucx, ucy, uh = 0.30, 0.12, 0.07
+ax1.add_patch(Rectangle((ucx-uh, ucy-uh), 2*uh, 2*uh, lw=1.5,
+                        edgecolor='navy', facecolor='#7fa8e0', alpha=0.7,
+                        linestyle='--', zorder=5))
+ax1.text(ucx+uh+0.08, ucy, r'$U$', color='navy', fontsize=9.5, fontweight='bold', zorder=7)
 
-# the "final-equality hyperplane" U avoids
-ax1.plot([-3, 3], [-3, 3], color='gray', ls=':', lw=1.2, zorder=2)
-ax1.text(-2.4, -2.0, r'final-equality', color='gray', fontsize=7, rotation=45)
-ax1.annotate(r'$\kappa_U$', xy=(0.05, 0.18), xytext=(-0.9, 0.9),
+# κ_U: gap from U to the nearest final-equality line (the diagonal)
+ax1.annotate(r'$\kappa_U$', xy=(0.20, 0.205), xytext=(-0.55, 0.65),
              fontsize=8, color='navy',
              arrowprops=dict(arrowstyle='->', color='navy', lw=0.8))
 
