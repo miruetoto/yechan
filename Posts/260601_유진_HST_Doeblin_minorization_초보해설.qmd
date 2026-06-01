@@ -1,0 +1,182 @@
+---
+title: "연구 ▷ HST ▷ Doeblin Minorization — 초보 해설"
+author: 유진
+date: 2026-06-01
+output-file: 260601_0963ce.html
+fontsize: 0.85em
+draft: false
+# 판정: (A) 학습·이해용 — Doeblin minorization (round skeleton, C_0, nL falls, chamber U) 초보 해설 + 그림
+---
+
+**설정**: $n$개 노드 그래프 위의 HST. Round skeleton $\{S_{t_r}\}$가 상태공간 $\bar{\mathcal{X}} = \mathbb{R}^{n-1}\times V$ (높이차 + 노드) 위에서 Markov. 이 chain이 장기적으로 잘 섞이는가?
+
+---
+
+- **H.** "minorization"이 뭐야? 왜 필요해?
+
+**G.** 한 줄: "어느 출발점에서 시작해도 $L$라운드 후에는 공통 기준분포 $\nu_{\rm skel}$에 최소 $\eta > 0$ 확률로 도달한다."
+
+$$P_{\rm skel}^{nL}(s, \cdot) \;\geq\; \eta\, \nu_{\rm skel}(\cdot) \qquad \forall s \in C_0.$$
+
+이게 성립하면 Meyn-Tweedie 기계가 작동해 chain이 유일한 정류분포로 기하적으로 수렴한다. 반대로 이 조건 없이는 수렴 자체를 보장 못 한다.
+
+---
+
+- **H.** $C_0$이 뭐야?
+
+**G.** "중심부" — 높이가 너무 극단적이지 않은 상태들의 집합이다.
+
+$$C_0 := \bigl\{s \in \bar{\mathcal{X}} : M(s) \leq M_0\bigr\}, \qquad M_0 := \frac{2C_4}{\varepsilon_F}.$$
+
+$M(\cdot)$은 Lyapunov 함수 (높이차의 크기를 재는 함수). $C_0$ 밖에서는 Foster 조건으로 chain이 자연히 $C_0$ 안으로 끌려온다 — $C_0$이 "소용돌이의 중심"이다.
+
+---
+
+- **H.** $L$, $N$, $\mathcal{O}$, $\mathcal{O}^\dagger$는 각각 뭐야?
+
+**G.** 한 줄씩.
+
+$$L := \left\lceil \frac{16M_0}{b} + 1 \right\rceil, \quad N := nL, \quad \mathcal{O} := \bigl\{|\mathbf{y}|_\infty < b/4\bigr\}, \quad \mathcal{O}^\dagger := \bigl\{|\mathbf{y}|_\infty < b/16\bigr\}.$$
+
+- **$L$**: 창 크기. $M_0/b$는 "극단 높이 / fall 1회 효과"이므로, $L$라운드면 $C_0$의 최악 상태도 $\mathcal{O}$로 들어온다.
+- **$N = nL$**: $L$라운드 × $n$개 노드 = 총 fall step 수.
+- **$\mathcal{O}$, $\mathcal{O}^\dagger$**: 높이차 공간에서 원점 주변 큰/작은 박스. 아래 그림 참고.
+
+---
+
+- **H.** 왜 $nL$번의 fall이 핵심이야?
+
+**G.** Fall step만이 진짜 랜덤성을 공급하기 때문이다.
+
+- **Fall step**: 새 노드로 점프 + $b' \sim \mathrm{Unif}(0, b)$ i.i.d. deposit. 연속 랜덤성의 원천.
+- **Flow/Block**: 이동 or 제자리, deposit $\leq \varepsilon_{\rm D} \ll b$. 잔차 수준.
+
+$L$라운드에 정확히 $nL$번의 fall이 있고, 각각이 i.i.d. $\mathrm{Unif}(0,b)$를 공급한다. 이 $nL$개의 독립 deposit이 높이차 벡터 $\mathbf{y} \in \mathbb{R}^{n-1}$에 full $(n-1)$차원 Lebesgue 밀도를 만들어낸다.
+
+Non-fall 잔차는 $\varepsilon_{\rm D}$로 묶여 $\mathcal{O}$의 마진 안에 흡수된다.
+
+---
+
+- **H.** 그림으로 보여줘.
+
+**G.** 세 패널로 정리했다.
+
+```{python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from matplotlib.patches import Rectangle, FancyBboxPatch
+
+plt.rcParams.update({
+    'text.usetex': True,
+    'font.size': 9,
+    'text.latex.preamble': r'\usepackage{amsmath,amsfonts,amssymb}'
+})
+
+fig = plt.figure(figsize=(10, 5.5))
+
+# Panel A
+ax1 = fig.add_axes([0.04, 0.57, 0.92, 0.37])
+ax1.set_xlim(-0.5, 30.5); ax1.set_ylim(-0.35, 1.6); ax1.axis('off')
+ax1.set_title(r'Panel A.\ $L$-round window: $nL$ fall steps carry all randomness', fontsize=10, pad=4)
+
+steps = ['F','W','W','B','W','F','W','B','W','W','F','W','W','W','B']
+colors = {'F': '#e74c3c', 'W': '#3498db', 'B': '#95a5a6'}
+labels_tex = {'F': r'F', 'W': r'$\to$', 'B': r'$=$'}
+
+for i, typ in enumerate(steps):
+    ax1.add_patch(FancyBboxPatch((i+0.05, 0.4), 0.85, 0.55,
+        boxstyle="round,pad=0.05", lw=1.2,
+        edgecolor='black', facecolor=colors[typ], alpha=0.85, zorder=3))
+    ax1.text(i+0.5, 0.67, labels_tex[typ], ha='center', va='center',
+             fontsize=9, color='white', fontweight='bold', zorder=4)
+
+for r, (s, e) in enumerate([(0,5),(5,10),(10,15)]):
+    ax1.annotate('', xy=(e-0.15,0.05), xytext=(s+0.15,0.05),
+                 arrowprops=dict(arrowstyle='<->', color='black', lw=1.0))
+    ax1.text((s+e)/2, -0.22, f'round {r+1}', ha='center', va='top', fontsize=8)
+
+for fp in [0, 5, 10]:
+    ax1.annotate('', xy=(fp+0.5,0.95), xytext=(fp+0.5,1.38),
+                 arrowprops=dict(arrowstyle='->', color='#c0392b', lw=1.5))
+
+ax1.text(15.8, 1.48, r'$nL$ fall steps (red): i.i.d.\ $\mathrm{Unif}(0,b)$ deposit', fontsize=8.5, color='#c0392b', va='center')
+ax1.text(15.8, 1.18, r'non-fall (blue/grey): bounded by $\varepsilon_{\mathrm{D}} \ll b$', fontsize=8.5, color='#555', va='center')
+
+ax1.legend(handles=[
+    mpatches.Patch(color='#e74c3c', label=r'Fall: fresh $\mu_0$-draw $+$ $b\sim\mathrm{Unif}(0,b)$'),
+    mpatches.Patch(color='#3498db', label=r'Flow: $\leq\varepsilon_{\mathrm{D}}$ deposit'),
+    mpatches.Patch(color='#95a5a6', label=r'Block: stay, $\leq\varepsilon_{\mathrm{D}}$'),
+], loc='upper left', fontsize=8, framealpha=0.9, bbox_to_anchor=(0.0, 1.08), ncol=3)
+
+# Panel B
+ax2 = fig.add_axes([0.04, 0.05, 0.44, 0.46])
+ax2.set_xlim(-3,3); ax2.set_ylim(-3,3); ax2.set_aspect('equal')
+ax2.set_xlabel(r'$y_1 = h(v_2)-h(v_1)$', fontsize=9)
+ax2.set_ylabel(r'$y_2 = h(v_3)-h(v_1)$', fontsize=9)
+ax2.set_title(r'Panel B.\ Nested regions in $\mathbb{R}^{n-1}$', fontsize=10)
+ax2.axhline(0, color='#ccc', lw=0.5); ax2.axvline(0, color='#ccc', lw=0.5)
+
+theta = np.linspace(0,2*np.pi,300)
+ax2.fill(2.4*np.cos(theta)*1.1, 2.4*np.sin(theta)*0.85, color='#f3e8ff', alpha=0.8, zorder=1)
+ax2.plot(2.4*np.cos(theta)*1.1, 2.4*np.sin(theta)*0.85, color='purple', lw=1.5, ls='--', zorder=2, label=r'$C_0=\{M(s)\leq M_0\}$')
+ax2.text(2.0, 1.9, r'$C_0$', color='purple', fontsize=11, zorder=5)
+
+for (r, fc, ec, lbl, short, tx, ty) in [
+    (1.3, '#ffe8e8', '#e74c3c', r'$\mathcal{O}=\{|\mathbf{y}|_\infty<b/4\}$', r'$\mathcal{O}$', 1.38, 1.45),
+    (0.5, '#ffcccc', '#c0392b', r'$\mathcal{O}^\dagger=\{|\mathbf{y}|_\infty<b/16\}$', r'$\mathcal{O}^\dagger$', 0.55, -0.75),
+]:
+    ax2.add_patch(Rectangle((-r,-r),2*r,2*r, lw=2, edgecolor=ec, facecolor=fc, zorder=3, label=lbl))
+    ax2.text(tx, ty, short, color=ec, fontsize=10, zorder=6)
+
+ax2.add_patch(Rectangle((-0.22,-0.22),0.44,0.44, lw=2, edgecolor='navy', facecolor='#cce0ff', zorder=5))
+ax2.text(0, 0, r'$U$', ha='center', va='center', color='navy', fontsize=9, fontweight='bold', zorder=7)
+ax2.legend(loc='lower right', fontsize=7.5, framealpha=0.95)
+
+# Panel C
+ax3 = fig.add_axes([0.54, 0.05, 0.44, 0.46])
+ax3.set_xlim(0,1); ax3.set_ylim(0,1); ax3.axis('off')
+ax3.set_title(r'Panel C.\ Logic chain', fontsize=10)
+
+for (y, txt, fc, ec) in [
+    (0.87, r'Start in $C_0$ (heights not extreme)', '#f3e8ff', 'purple'),
+    (0.64, r'$nL$ i.i.d.\ falls $\Rightarrow$ full $(n{-}1)$-dim density on $\mathcal{O}$', '#ffe8e8', '#c0392b'),
+    (0.40, r'Density $\geq m_*>0$ on chamber $U$ (right-inverse transport)', '#fff3e0', '#e67e22'),
+    (0.16, r'$P_{\mathrm{skel}}^{nL}(s,\cdot)\geq\eta\,\nu_{\mathrm{skel}}$ for all $s\in C_0$', '#e8ffe8', '#27ae60'),
+]:
+    ax3.add_patch(FancyBboxPatch((0.05,y-0.10),0.9,0.19, boxstyle='round,pad=0.02',
+                                  facecolor=fc, edgecolor=ec, lw=1.8, zorder=2))
+    ax3.text(0.5, y, txt, ha='center', va='center', fontsize=8, zorder=3)
+
+for y_f, y_t in [(0.77,0.75),(0.54,0.51),(0.30,0.27)]:
+    ax3.annotate('', xy=(0.5,y_t), xytext=(0.5,y_f),
+                 arrowprops=dict(arrowstyle='->', color='black', lw=1.5))
+
+ax3.text(0.5, 0.025, r'non-fall residual $\leq\varepsilon_{\mathrm{D}}\ll b$: absorbed into $\mathcal{O}$ margin',
+         ha='center', fontsize=7.5, color='gray')
+
+import os
+os.makedirs('results/figures/260601_유진_HST_Doeblin_minorization_초보해설.qmd', exist_ok=True)
+plt.savefig('results/figures/260601_유진_HST_Doeblin_minorization_초보해설.qmd/doeblin_minorization.png',
+            dpi=150, bbox_inches='tight')
+plt.show()
+```
+
+**Panel A**: $L$라운드 창. 빨강(Fall)만 진짜 랜덤성, 파랑/회색은 잔차.
+
+**Panel B**: 높이차 공간의 중첩 박스. $C_0 \supset \mathcal{O} \supset \mathcal{O}^\dagger \supset U$ 순서.
+
+**Panel C**: 논리 사슬. $C_0$ → $nL$ falls → chamber $U$ density → Minorization.
+
+---
+
+- **H.** $\varepsilon_{\rm D}$는 왜 필요해?
+
+**G.** Flow/block의 deposit이 크면 fall의 기여를 덮어버릴 수 있다. $\varepsilon_{\rm D} \ll b$로 묶어서 non-fall 잔차가 $\mathcal{O}$의 마진 안에 흡수되도록 강제한다 — 즉 "fall이 만든 퍼짐을 non-fall이 망가뜨리지 않게" 하는 안전장치다.
+
+---
+
+- **H.** 한 줄 요약.
+
+**G.** $C_0$ 안 어디서 출발해도 $nL$번의 i.i.d.\ fall이 높이차 공간에 full 밀도를 만들고, right-inverse transport로 chamber $U$ 위의 밀도 $\geq m_*$를 확보해, $P_{\rm skel}^{nL}(s,\cdot) \geq \eta\,\nu_{\rm skel}$ — 이것이 Doeblin minorization이다.
