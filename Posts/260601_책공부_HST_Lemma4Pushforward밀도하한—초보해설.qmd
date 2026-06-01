@@ -6,7 +6,7 @@ draft: false
 output-file: 260601_35456f.html
 fontsize: 0.85em
 # 판정: (A) 학습·이해용 — 에이(페이퍼팀) hst_AAA.tex Lemma 4 초보 해설
-# 기호: 변환 전 xi, 변환 후 xi'. marginal density = rho (plain)
+# 기호: 변환 전 xi / 변환 후 xi'. 밀도 f_{xi}, f_{xi'}. O → (-b/4,b/4)^{n-1}
 ---
 <!-- 소유권자: 리이 | 사용자: 리이 -->
 
@@ -49,7 +49,15 @@ b = 1.0
 
 $$\xi'_1 = \xi_1, \qquad \xi'_i = \xi_i - \xi_1 \quad (i = 2, \ldots, n)$$
 
-행렬로 쓰면 $\boldsymbol{\xi}' = J\boldsymbol{\xi}$ 예요. 관심 있는 건 변환 후 차이 부분 $(\xi'_2, \ldots, \xi'_n)$ 의 밀도 $\rho$ 가 $\mathcal{O} := \{\max_{i \geq 2} |\xi'_i| < b/4\}$ 위에서 $\rho \geq b^{1-n}/2$ 를 만족하는가 예요.
+행렬로 쓰면 $\boldsymbol{\xi}' = J\boldsymbol{\xi}$. 우리의 목표: 변환 후 차이 부분 $(\xi'_2, \ldots, \xi'_n)$ 의 밀도 $f_{\boldsymbol{\xi}'}$ 가
+
+$$f_{\boldsymbol{\xi}'}(\xi'_2, \ldots, \xi'_n) \;\geq\; \frac{b^{1-n}}{2} \qquad \text{on } (-b/4,\, b/4)^{n-1}$$
+
+을 만족함을 보이는 것이에요.
+
+**G.** $(-b/4, b/4)^{n-1}$ 이 무슨 뜻인가요?
+
+**H.** **모든** 성분 $\xi'_2, \ldots, \xi'_n$ 이 동시에 $(-b/4, b/4)$ 안에 있다는 거예요. 즉 원점을 중심으로 한 변의 길이 $b/2$ 인 정육면체예요. $n=3$ 이면 $(\xi'_2, \xi'_3) \in (-b/4, b/4)^2$ — 정사각형. $n=4$ 이면 정육면체. $\max_{i \geq 2} |\xi'_i| < b/4$ 라고 쓰면 "$i=2,\ldots,n$ 중 절댓값이 가장 큰 성분도 $b/4$ 보다 작다" 는 뜻이에요.
 
 ```{python}
 n = 4
@@ -63,19 +71,22 @@ for row in xi:
 print(f"\nxi' (변환 후): xi'_1=xi_1 고정, xi'_i=xi_i-xi_1 (i>=2):")
 for row in xi_prime:
     print("  " + "  ".join(f"{v:+.3f}" for v in row))
+print(f"\n(-b/4, b/4) = ({-b/4:.3f}, {b/4:.3f})")
+print("각 행의 xi'_2 ~ xi'_4 가 이 구간 안에 있는지:")
+for row in xi_prime:
+    inside = all(abs(v) < b/4 for v in row[1:])
+    print("  " + "  ".join(f"{v:+.3f}" for v in row[1:]) + f"  -> {'안' if inside else '밖'}")
 ```
 
-**G.** $\xi'_i$ 가 음수도 될 수 있네요.
+**G.** 대부분의 샘플이 범위 밖에 있네요. 꽤 좁은 영역이군요.
 
-**H.** 당연해요. $\xi_2 < \xi_1$ 이면 $\xi'_2 = \xi_2 - \xi_1 < 0$. 범위는 $(-b, b)$.
+**H.** 맞아요. 그만큼 "차이가 작은" 영역이에요. 이 안에서 밀도가 충분히 두텁다는 게 핵심이에요.
 
 ---
 
 **H.** **Step 1: 변수 변환 — Jacobian 확인**.
 
-$\boldsymbol{\xi}' = J\boldsymbol{\xi}$ 의 변환 행렬:
-
-$$J = \begin{pmatrix} 1 & 0 & \cdots & 0 \\ -1 & 1 & \cdots & 0 \\ \vdots & & \ddots & \vdots \\ -1 & 0 & \cdots & 1 \end{pmatrix}$$
+$\boldsymbol{\xi}' = J\boldsymbol{\xi}$, 변환 전 밀도 $f_{\boldsymbol{\xi}} = b^{-n}\mathbf{1}_{[0,b]^n}$.
 
 ```{python}
 n = 4
@@ -84,26 +95,32 @@ J[1:, 0] = -1.0
 
 print(f"J (n={n}):")
 print(J.astype(int))
-print(f"\ndet(J) = {np.linalg.det(J):.1f}   <- unimodular: 밀도 보존")
+print(f"\ndet(J) = {np.linalg.det(J):.1f}   <- unimodular: f_xi = f_xi' = b^(-n)")
 ```
 
 **G.** 행렬식이 1이에요.
 
-**H.** $|\det J| = 1$ 이라 변환 전후로 부피 요소가 보존돼요. $\boldsymbol{\xi}$ 의 joint density 가 $b^{-n}$ 이면, $\boldsymbol{\xi}'$ 의 joint density 도 $b^{-n}$ 그대로예요. 단 유효 범위가 생겨요 — 원래 $\xi_i = \xi'_1 + \xi'_i \in [0, b]$ 이어야 하므로:
+**H.** $|\det J| = 1$ 이라 변수 변환 공식에서 Jacobian 인자가 1 — 변환 후 밀도도 그대로예요:
 
-$$\xi'_1 \;\in\; [0, b] \cap \bigcap_{i=2}^{n} [-\xi'_i,\ b - \xi'_i]$$
+$$f_{\boldsymbol{\xi}'}(\xi'_1, \xi'_2, \ldots, \xi'_n) \;=\; f_{\boldsymbol{\xi}}(\boldsymbol{\xi}) \;=\; b^{-n}$$
+
+단 유효 범위: 원래 $\xi_i = \xi'_1 + \xi'_i \in [0,b]$ 이어야 하므로, $\xi'_1$ 은
+
+$$\xi'_1 \;\in\; [0,b] \cap \bigcap_{i=2}^{n} [-\xi'_i,\ b - \xi'_i]$$
+
+안에만 있을 수 있어요.
 
 ---
 
 **H.** **Step 2: $\xi'_1$ 적분 (marginalize)**.
 
-$(\xi'_2, \ldots, \xi'_n)$ 의 marginal density $\rho$ 를 얻으려면 $\xi'_1$ 을 적분으로 날려요. 고정된 $(\xi'_2, \ldots, \xi'_n)$ 에서 가능한 $\xi'_1$ 범위의 길이 $\times\ b^{-n}$ 이에요:
+$(\xi'_2, \ldots, \xi'_n)$ 의 marginal density $f_{\boldsymbol{\xi}'}$ 를 얻으려면 $\xi'_1$ 을 적분으로 날려요. $f_{\boldsymbol{\xi}'} = b^{-n}$ 이므로, 가능한 $\xi'_1$ 구간의 **길이** $\times\ b^{-n}$ 이에요:
 
-$$\rho(\xi'_2, \ldots, \xi'_n) \;=\; b^{-n}\left|[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\ b-\xi'_i]\right|$$
+$$f_{\boldsymbol{\xi}'}(\xi'_2, \ldots, \xi'_n) \;=\; b^{-n}\left|[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\ b-\xi'_i]\right|$$
 
 ```{python}
 def marginal_density(xi_prime_rest, b=1.0):
-    """rho(xi'_2,...,xi'_n) = b^{-n} * |[0,b] ∩ ∩_i [-xi'_i, b-xi'_i]|."""
+    """f_{xi'} = b^{-n} * |[0,b] ∩ ∩_i [-xi'_i, b-xi'_i]|."""
     lo, hi = 0.0, b
     for xp in xi_prime_rest:
         lo = max(lo, -xp)
@@ -112,30 +129,30 @@ def marginal_density(xi_prime_rest, b=1.0):
     n = len(xi_prime_rest) + 1
     return (b ** (-n)) * length
 
-# n=2 (xi'_2 가 스칼라) 에서 밀도 곡선
+# n=2 에서 밀도 곡선
 xp_grid   = np.linspace(-b + 0.001, b - 0.001, 400)
-rho_vals  = np.array([marginal_density([v], b) for v in xp_grid])
-rho_lower = b ** (1 - 2) / 2
+fxi_vals  = np.array([marginal_density([v], b) for v in xp_grid])
+lower_n2  = b ** (1 - 2) / 2
 
 fig, ax = plt.subplots(figsize=(7, 3.5))
-ax.plot(xp_grid, rho_vals, lw=2, color="C0",
-        label=r"$\rho(\xi'_2)$, $n=2$")
-ax.axhline(rho_lower, color="crimson", ls="--", lw=1.5,
-           label=rf"lower bound $b^{{1-n}}/2 = {rho_lower:.2f}$")
+ax.plot(xp_grid, fxi_vals, lw=2, color="C0",
+        label=r"$f_{\boldsymbol{\xi}'}(\xi'_2)$, $n=2$")
+ax.axhline(lower_n2, color="crimson", ls="--", lw=1.5,
+           label=rf"lower bound $b^{{1-n}}/2 = {lower_n2:.2f}$")
 ax.axvspan(-b/4, b/4, alpha=0.12, color="C2",
-           label=r"$\mathcal{O}$: $|\xi'_2|<b/4$")
+           label=r"$(-b/4,\,b/4)$")
 ax.set_xlabel(r"$\xi'_2$")
-ax.set_ylabel(r"$\rho(\xi'_2)$")
-ax.set_title(r"$n=2$: $\rho(\xi'_2)=b^{-2}|[0,b]\cap[-\xi'_2,\,b-\xi'_2]|$")
+ax.set_ylabel(r"$f_{\boldsymbol{\xi}'}(\xi'_2)$")
+ax.set_title(r"$n=2$: $f_{\boldsymbol{\xi}'}(\xi'_2)=b^{-2}|[0,b]\cap[-\xi'_2,\,b-\xi'_2]|$")
 ax.legend(fontsize=9)
 plt.tight_layout(); plt.show()
 ```
 
-**G.** $\mathcal{O}$ 안에서 밀도가 빨간 점선 위에 있어요.
+**G.** 좁은 영역 안에서 밀도가 빨간 점선 위에 있네요.
 
 ---
 
-**H.** **Step 3: 왜 $\mathcal{O}$ 위에서 길이 $\geq b/2$ 인가**.
+**H.** **Step 3: 왜 $(-b/4, b/4)^{n-1}$ 위에서 길이 $\geq b/2$ 인가**.
 
 $|\xi'_i| < b/4$ 이면 각 구간 $[-\xi'_i,\ b - \xi'_i]$ 가 $[b/4, 3b/4]$ 를 항상 포함해요.
 
@@ -180,11 +197,11 @@ $$-\xi'_i \leq b/4 \quad\text{and}\quad b - \xi'_i \geq 3b/4$$
 
 이므로 $[b/4, 3b/4] \subseteq [-\xi'_i, b-\xi'_i]$. 모든 $i \geq 2$ 와 $[0,b]$ 에 동시 적용:
 
-$$[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i] \;\supseteq\; [b/4,\,3b/4]$$
+$$[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i] \;\supseteq\; [b/4,\,3b/4], \qquad \text{length} \geq b/2$$
 
-길이 $b/2$. 따라서:
+따라서:
 
-$$\rho(\xi'_2, \ldots, \xi'_n) \;\geq\; b^{-n}\cdot\frac{b}{2} \;=\; \frac{b^{1-n}}{2}$$
+$$f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n) \;\geq\; b^{-n}\cdot\frac{b}{2} \;=\; \frac{b^{1-n}}{2}$$
 
 ---
 
@@ -192,34 +209,35 @@ $$\rho(\xi'_2, \ldots, \xi'_n) \;\geq\; b^{-n}\cdot\frac{b}{2} \;=\; \frac{b^{1-
 
 ```{python}
 N_GRID = 60
-xp_ax   = np.linspace(-b/2, b/2, N_GRID)
-XP2, XP3 = np.meshgrid(xp_ax, xp_ax)   # xi'_2, xi'_3 for n=3
-RHO = np.array([[marginal_density([XP2[i,j], XP3[i,j]], b)
-                 for j in range(N_GRID)] for i in range(N_GRID)])
+xp_ax = np.linspace(-b/2, b/2, N_GRID)
+XP2, XP3 = np.meshgrid(xp_ax, xp_ax)
+F_XI = np.array([[marginal_density([XP2[i,j], XP3[i,j]], b)
+                  for j in range(N_GRID)] for i in range(N_GRID)])
 lower_n3 = b**(1-3) / 2
 
 fig, axes = plt.subplots(1, 2, figsize=(8, 3.5))
 
-cf = axes[0].contourf(XP2, XP3, RHO, levels=20, cmap="Blues")
+cf = axes[0].contourf(XP2, XP3, F_XI, levels=20, cmap="Blues")
 plt.colorbar(cf, ax=axes[0])
 sq = plt.Rectangle((-b/4,-b/4), b/2, b/2,
-                   fill=False, edgecolor="crimson", lw=2, label=r"$\mathcal{O}$")
+                   fill=False, edgecolor="crimson", lw=2,
+                   label=r"$(-b/4,b/4)^2$")
 axes[0].add_patch(sq)
-axes[0].set_title(r"$\rho(\xi'_2, \xi'_3)$, $n=3$")
+axes[0].set_title(r"$f_{\boldsymbol{\xi}'}(\xi'_2,\xi'_3)$, $n=3$")
 axes[0].set_xlabel(r"$\xi'_2$"); axes[0].set_ylabel(r"$\xi'_3$")
 axes[0].legend(fontsize=9)
 
-in_O = (np.abs(XP2) < b/4) & (np.abs(XP3) < b/4)
-rho_in_O = RHO[in_O]
-axes[1].hist(rho_in_O, bins=30, color="C0", alpha=0.8)
+in_box = (np.abs(XP2) < b/4) & (np.abs(XP3) < b/4)
+fxi_in_box = F_XI[in_box]
+axes[1].hist(fxi_in_box, bins=30, color="C0", alpha=0.8)
 axes[1].axvline(lower_n3, color="crimson", lw=2, ls="--",
                 label=rf"$b^{{1-n}}/2 = {lower_n3:.4f}$")
-axes[1].set_title(r"$\rho$ inside $\mathcal{O}$ ($n=3$)")
-axes[1].set_xlabel(r"$\rho(\xi'_2,\xi'_3)$")
+axes[1].set_title(r"$f_{\boldsymbol{\xi}'}$ inside $(-b/4,b/4)^2$ ($n=3$)")
+axes[1].set_xlabel(r"$f_{\boldsymbol{\xi}'}(\xi'_2,\xi'_3)$")
 axes[1].legend(fontsize=9)
 
 print(f"n=3 lower bound b^(1-n)/2 = {lower_n3:.4f}")
-print(f"min rho inside O          = {rho_in_O.min():.4f}  (>= lower: {rho_in_O.min() >= lower_n3})")
+print(f"min f inside box          = {fxi_in_box.min():.4f}  (>= lower: {fxi_in_box.min() >= lower_n3})")
 plt.tight_layout(); plt.show()
 ```
 
@@ -227,4 +245,4 @@ plt.tight_layout(); plt.show()
 
 **H.** 한 줄 요약:
 
-$$|\xi'_i| < b/4 \;\Rightarrow\; [b/4,3b/4]\subseteq\text{intersection} \;\Rightarrow\; \text{length}\geq b/2 \;\Rightarrow\; \rho(\xi'_2,\ldots,\xi'_n) \geq b^{1-n}/2$$
+$$(\xi'_2,\ldots,\xi'_n)\in(-b/4,b/4)^{n-1} \;\Rightarrow\; [b/4,3b/4]\subseteq\text{intersection} \;\Rightarrow\; \text{length}\geq b/2 \;\Rightarrow\; f_{\boldsymbol{\xi}'} \geq b^{1-n}/2$$

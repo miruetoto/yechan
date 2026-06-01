@@ -269,7 +269,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><strong>H.</strong> 오늘 Lemma 4 한 장을 처음부터 끝까지 풀어요. 핵심 질문: <span class="math inline">\(n\)</span>개 균등 난수를 “차이”로 변환했을 때, 그 밀도가 원점 근방에서 얼마나 큰가?</p>
 <p><strong>G.</strong> 밀도 하한이 왜 필요한가요?</p>
 <p><strong>H.</strong> Doeblin minorization 때문이에요. “어떤 영역에서 밀도가 균등 분포보다 무조건 이 이상 크다”는 보장이 있어야 mixing 증명이 돌아가요. Lemma 4 가 그 재료를 공급해요. 코드 설정부터.</p>
-<div id="e99b7e50" class="cell" data-execution_count="1">
+<div id="2a89bbda" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">"seaborn-v0_8-whitegrid"</span>)</span>
@@ -287,8 +287,12 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <hr>
 <p><strong>H.</strong> 기호부터. <span class="math inline">\(n\)</span>개 퇴적량 <span class="math inline">\(\boldsymbol{\xi} = (\xi_1, \ldots, \xi_n) \stackrel{\mathrm{iid}}{\sim} \mathrm{Unif}(0, b)\)</span> 에 shear 변환을 적용해요:</p>
 <p><span class="math display">\[\xi'_1 = \xi_1, \qquad \xi'_i = \xi_i - \xi_1 \quad (i = 2, \ldots, n)\]</span></p>
-<p>행렬로 쓰면 <span class="math inline">\(\boldsymbol{\xi}' = J\boldsymbol{\xi}\)</span> 예요. 관심 있는 건 변환 후 차이 부분 <span class="math inline">\((\xi'_2, \ldots, \xi'_n)\)</span> 의 밀도 <span class="math inline">\(\rho\)</span> 가 <span class="math inline">\(\mathcal{O} := \{\max_{i \geq 2} |\xi'_i| &lt; b/4\}\)</span> 위에서 <span class="math inline">\(\rho \geq b^{1-n}/2\)</span> 를 만족하는가 예요.</p>
-<div id="205f8056" class="cell" data-execution_count="2">
+<p>행렬로 쓰면 <span class="math inline">\(\boldsymbol{\xi}' = J\boldsymbol{\xi}\)</span>. 우리의 목표: 변환 후 차이 부분 <span class="math inline">\((\xi'_2, \ldots, \xi'_n)\)</span> 의 밀도 <span class="math inline">\(f_{\boldsymbol{\xi}'}\)</span> 가</p>
+<p><span class="math display">\[f_{\boldsymbol{\xi}'}(\xi'_2, \ldots, \xi'_n) \;\geq\; \frac{b^{1-n}}{2} \qquad \text{on } (-b/4,\, b/4)^{n-1}\]</span></p>
+<p>을 만족함을 보이는 것이에요.</p>
+<p><strong>G.</strong> <span class="math inline">\((-b/4, b/4)^{n-1}\)</span> 이 무슨 뜻인가요?</p>
+<p><strong>H.</strong> <strong>모든</strong> 성분 <span class="math inline">\(\xi'_2, \ldots, \xi'_n\)</span> 이 동시에 <span class="math inline">\((-b/4, b/4)\)</span> 안에 있다는 거예요. 즉 원점을 중심으로 한 변의 길이 <span class="math inline">\(b/2\)</span> 인 정육면체예요. <span class="math inline">\(n=3\)</span> 이면 <span class="math inline">\((\xi'_2, \xi'_3) \in (-b/4, b/4)^2\)</span> — 정사각형. <span class="math inline">\(n=4\)</span> 이면 정육면체. <span class="math inline">\(\max_{i \geq 2} |\xi'_i| &lt; b/4\)</span> 라고 쓰면 “<span class="math inline">\(i=2,\ldots,n\)</span> 중 절댓값이 가장 큰 성분도 <span class="math inline">\(b/4\)</span> 보다 작다” 는 뜻이에요.</p>
+<div id="c2467138" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">4</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>xi <span class="op">=</span> rng.uniform(<span class="dv">0</span>, b, size<span class="op">=</span>(<span class="dv">8</span>, n))</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>xi_prime <span class="op">=</span> xi.copy()</span>
@@ -299,7 +303,12 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"  "</span> <span class="op">+</span> <span class="st">"  "</span>.join(<span class="ss">f"</span><span class="sc">{</span>v<span class="sc">:.3f}</span><span class="ss">"</span> <span class="cf">for</span> v <span class="kw">in</span> row))</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">xi' (변환 후): xi'_1=xi_1 고정, xi'_i=xi_i-xi_1 (i&gt;=2):"</span>)</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> xi_prime:</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"  "</span> <span class="op">+</span> <span class="st">"  "</span>.join(<span class="ss">f"</span><span class="sc">{</span>v<span class="sc">:+.3f}</span><span class="ss">"</span> <span class="cf">for</span> v <span class="kw">in</span> row))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"  "</span> <span class="op">+</span> <span class="st">"  "</span>.join(<span class="ss">f"</span><span class="sc">{</span>v<span class="sc">:+.3f}</span><span class="ss">"</span> <span class="cf">for</span> v <span class="kw">in</span> row))</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">(-b/4, b/4) = (</span><span class="sc">{</span><span class="op">-</span>b<span class="op">/</span><span class="dv">4</span><span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>b<span class="op">/</span><span class="dv">4</span><span class="sc">:.3f}</span><span class="ss">)"</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"각 행의 xi'_2 ~ xi'_4 가 이 구간 안에 있는지:"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> xi_prime:</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    inside <span class="op">=</span> <span class="bu">all</span>(<span class="bu">abs</span>(v) <span class="op">&lt;</span> b<span class="op">/</span><span class="dv">4</span> <span class="cf">for</span> v <span class="kw">in</span> row[<span class="dv">1</span>:])</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"  "</span> <span class="op">+</span> <span class="st">"  "</span>.join(<span class="ss">f"</span><span class="sc">{</span>v<span class="sc">:+.3f}</span><span class="ss">"</span> <span class="cf">for</span> v <span class="kw">in</span> row[<span class="dv">1</span>:]) <span class="op">+</span> <span class="ss">f"  -&gt; </span><span class="sc">{</span><span class="st">'안'</span> <span class="cf">if</span> inside <span class="cf">else</span> <span class="st">'밖'</span><span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>xi  (변환 전, n=4):
   0.965  0.754  0.948  0.685
@@ -319,23 +328,33 @@ xi' (변환 후): xi'_1=xi_1 고정, xi'_i=xi_i-xi_1 (i&gt;=2):
   +0.827  -0.559  -0.139  -0.274
   +0.244  +0.073  +0.049  -0.238
   +0.551  -0.335  +0.228  +0.253
-  +0.078  +0.345  +0.211  +0.420</code></pre>
+  +0.078  +0.345  +0.211  +0.420
+
+(-b/4, b/4) = (-0.250, 0.250)
+각 행의 xi'_2 ~ xi'_4 가 이 구간 안에 있는지:
+  -0.210  -0.017  -0.280  -&gt; 밖
+  +0.382  +0.185  +0.162  -&gt; 밖
+  +0.466  +0.085  +0.398  -&gt; 밖
+  +0.055  -0.502  -0.749  -&gt; 밖
+  -0.559  -0.139  -0.274  -&gt; 밖
+  +0.073  +0.049  -0.238  -&gt; 안
+  -0.335  +0.228  +0.253  -&gt; 밖
+  +0.345  +0.211  +0.420  -&gt; 밖</code></pre>
 </div>
 </div>
-<p><strong>G.</strong> <span class="math inline">\(\xi'_i\)</span> 가 음수도 될 수 있네요.</p>
-<p><strong>H.</strong> 당연해요. <span class="math inline">\(\xi_2 &lt; \xi_1\)</span> 이면 <span class="math inline">\(\xi'_2 = \xi_2 - \xi_1 &lt; 0\)</span>. 범위는 <span class="math inline">\((-b, b)\)</span>.</p>
+<p><strong>G.</strong> 대부분의 샘플이 범위 밖에 있네요. 꽤 좁은 영역이군요.</p>
+<p><strong>H.</strong> 맞아요. 그만큼 “차이가 작은” 영역이에요. 이 안에서 밀도가 충분히 두텁다는 게 핵심이에요.</p>
 <hr>
 <p><strong>H.</strong> <strong>Step 1: 변수 변환 — Jacobian 확인</strong>.</p>
-<p><span class="math inline">\(\boldsymbol{\xi}' = J\boldsymbol{\xi}\)</span> 의 변환 행렬:</p>
-<p><span class="math display">\[J = \begin{pmatrix} 1 &amp; 0 &amp; \cdots &amp; 0 \\ -1 &amp; 1 &amp; \cdots &amp; 0 \\ \vdots &amp; &amp; \ddots &amp; \vdots \\ -1 &amp; 0 &amp; \cdots &amp; 1 \end{pmatrix}\]</span></p>
-<div id="a0deff08" class="cell" data-execution_count="3">
+<p><span class="math inline">\(\boldsymbol{\xi}' = J\boldsymbol{\xi}\)</span>, 변환 전 밀도 <span class="math inline">\(f_{\boldsymbol{\xi}} = b^{-n}\mathbf{1}_{[0,b]^n}\)</span>.</p>
+<div id="afeebbac" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">4</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>J <span class="op">=</span> np.eye(n)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>J[<span class="dv">1</span>:, <span class="dv">0</span>] <span class="op">=</span> <span class="op">-</span><span class="fl">1.0</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"J (n=</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss">):"</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(J.astype(<span class="bu">int</span>))</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">det(J) = </span><span class="sc">{</span>np<span class="sc">.</span>linalg<span class="sc">.</span>det(J)<span class="sc">:.1f}</span><span class="ss">   &lt;- unimodular: 밀도 보존"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">det(J) = </span><span class="sc">{</span>np<span class="sc">.</span>linalg<span class="sc">.</span>det(J)<span class="sc">:.1f}</span><span class="ss">   &lt;- unimodular: f_xi = f_xi' = b^(-n)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>J (n=4):
 [[ 1  0  0  0]
@@ -343,19 +362,22 @@ xi' (변환 후): xi'_1=xi_1 고정, xi'_i=xi_i-xi_1 (i&gt;=2):
  [-1  0  1  0]
  [-1  0  0  1]]
 
-det(J) = 1.0   &lt;- unimodular: 밀도 보존</code></pre>
+det(J) = 1.0   &lt;- unimodular: f_xi = f_xi' = b^(-n)</code></pre>
 </div>
 </div>
 <p><strong>G.</strong> 행렬식이 1이에요.</p>
-<p><strong>H.</strong> <span class="math inline">\(|\det J| = 1\)</span> 이라 변환 전후로 부피 요소가 보존돼요. <span class="math inline">\(\boldsymbol{\xi}\)</span> 의 joint density 가 <span class="math inline">\(b^{-n}\)</span> 이면, <span class="math inline">\(\boldsymbol{\xi}'\)</span> 의 joint density 도 <span class="math inline">\(b^{-n}\)</span> 그대로예요. 단 유효 범위가 생겨요 — 원래 <span class="math inline">\(\xi_i = \xi'_1 + \xi'_i \in [0, b]\)</span> 이어야 하므로:</p>
-<p><span class="math display">\[\xi'_1 \;\in\; [0, b] \cap \bigcap_{i=2}^{n} [-\xi'_i,\ b - \xi'_i]\]</span></p>
+<p><strong>H.</strong> <span class="math inline">\(|\det J| = 1\)</span> 이라 변수 변환 공식에서 Jacobian 인자가 1 — 변환 후 밀도도 그대로예요:</p>
+<p><span class="math display">\[f_{\boldsymbol{\xi}'}(\xi'_1, \xi'_2, \ldots, \xi'_n) \;=\; f_{\boldsymbol{\xi}}(\boldsymbol{\xi}) \;=\; b^{-n}\]</span></p>
+<p>단 유효 범위: 원래 <span class="math inline">\(\xi_i = \xi'_1 + \xi'_i \in [0,b]\)</span> 이어야 하므로, <span class="math inline">\(\xi'_1\)</span> 은</p>
+<p><span class="math display">\[\xi'_1 \;\in\; [0,b] \cap \bigcap_{i=2}^{n} [-\xi'_i,\ b - \xi'_i]\]</span></p>
+<p>안에만 있을 수 있어요.</p>
 <hr>
 <p><strong>H.</strong> <strong>Step 2: <span class="math inline">\(\xi'_1\)</span> 적분 (marginalize)</strong>.</p>
-<p><span class="math inline">\((\xi'_2, \ldots, \xi'_n)\)</span> 의 marginal density <span class="math inline">\(\rho\)</span> 를 얻으려면 <span class="math inline">\(\xi'_1\)</span> 을 적분으로 날려요. 고정된 <span class="math inline">\((\xi'_2, \ldots, \xi'_n)\)</span> 에서 가능한 <span class="math inline">\(\xi'_1\)</span> 범위의 길이 <span class="math inline">\(\times\ b^{-n}\)</span> 이에요:</p>
-<p><span class="math display">\[\rho(\xi'_2, \ldots, \xi'_n) \;=\; b^{-n}\left|[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\ b-\xi'_i]\right|\]</span></p>
-<div id="90304213" class="cell" data-execution_count="4">
+<p><span class="math inline">\((\xi'_2, \ldots, \xi'_n)\)</span> 의 marginal density <span class="math inline">\(f_{\boldsymbol{\xi}'}\)</span> 를 얻으려면 <span class="math inline">\(\xi'_1\)</span> 을 적분으로 날려요. <span class="math inline">\(f_{\boldsymbol{\xi}'} = b^{-n}\)</span> 이므로, 가능한 <span class="math inline">\(\xi'_1\)</span> 구간의 <strong>길이</strong> <span class="math inline">\(\times\ b^{-n}\)</span> 이에요:</p>
+<p><span class="math display">\[f_{\boldsymbol{\xi}'}(\xi'_2, \ldots, \xi'_n) \;=\; b^{-n}\left|[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\ b-\xi'_i]\right|\]</span></p>
+<div id="1e084dda" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> marginal_density(xi_prime_rest, b<span class="op">=</span><span class="fl">1.0</span>):</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""rho(xi'_2,...,xi'_n) = b^{-n} * |[0,b] ∩ ∩_i [-xi'_i, b-xi'_i]|."""</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""f_{xi'} = b^{-n} * |[0,b] ∩ ∩_i [-xi'_i, b-xi'_i]|."""</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    lo, hi <span class="op">=</span> <span class="fl">0.0</span>, b</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> xp <span class="kw">in</span> xi_prime_rest:</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        lo <span class="op">=</span> <span class="bu">max</span>(lo, <span class="op">-</span>xp)</span>
@@ -364,21 +386,21 @@ det(J) = 1.0   &lt;- unimodular: 밀도 보존</code></pre>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(xi_prime_rest) <span class="op">+</span> <span class="dv">1</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (b <span class="op">**</span> (<span class="op">-</span>n)) <span class="op">*</span> length</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># n=2 (xi'_2 가 스칼라) 에서 밀도 곡선</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># n=2 에서 밀도 곡선</span></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>xp_grid   <span class="op">=</span> np.linspace(<span class="op">-</span>b <span class="op">+</span> <span class="fl">0.001</span>, b <span class="op">-</span> <span class="fl">0.001</span>, <span class="dv">400</span>)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>rho_vals  <span class="op">=</span> np.array([marginal_density([v], b) <span class="cf">for</span> v <span class="kw">in</span> xp_grid])</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>rho_lower <span class="op">=</span> b <span class="op">**</span> (<span class="dv">1</span> <span class="op">-</span> <span class="dv">2</span>) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>fxi_vals  <span class="op">=</span> np.array([marginal_density([v], b) <span class="cf">for</span> v <span class="kw">in</span> xp_grid])</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>lower_n2  <span class="op">=</span> b <span class="op">**</span> (<span class="dv">1</span> <span class="op">-</span> <span class="dv">2</span>) <span class="op">/</span> <span class="dv">2</span></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">3.5</span>))</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>ax.plot(xp_grid, rho_vals, lw<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">"C0"</span>,</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="vs">r"</span><span class="dv">$</span><span class="ch">\r</span><span class="vs">ho</span><span class="kw">(</span><span class="er">\</span><span class="vs">xi'_2</span><span class="kw">)</span><span class="dv">$</span><span class="vs">, </span><span class="dv">$</span><span class="vs">n=2</span><span class="dv">$</span><span class="vs">"</span>)</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>ax.axhline(rho_lower, color<span class="op">=</span><span class="st">"crimson"</span>, ls<span class="op">=</span><span class="st">"--"</span>, lw<span class="op">=</span><span class="fl">1.5</span>,</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>           label<span class="op">=</span><span class="vs">rf"lower bound </span><span class="dv">$</span><span class="vs">b</span><span class="dv">^</span><span class="ch">{{</span><span class="vs">1-n</span><span class="ch">}}</span><span class="vs">/2 = </span><span class="sc">{</span>rho_lower<span class="sc">:.2f}</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>ax.plot(xp_grid, fxi_vals, lw<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">"C0"</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="vs">r"</span><span class="dv">$</span><span class="vs">f_{</span><span class="dv">\b</span><span class="vs">oldsymbol{</span><span class="er">\</span><span class="vs">xi}'}</span><span class="kw">(</span><span class="er">\</span><span class="vs">xi'_2</span><span class="kw">)</span><span class="dv">$</span><span class="vs">, </span><span class="dv">$</span><span class="vs">n=2</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>ax.axhline(lower_n2, color<span class="op">=</span><span class="st">"crimson"</span>, ls<span class="op">=</span><span class="st">"--"</span>, lw<span class="op">=</span><span class="fl">1.5</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>           label<span class="op">=</span><span class="vs">rf"lower bound </span><span class="dv">$</span><span class="vs">b</span><span class="dv">^</span><span class="ch">{{</span><span class="vs">1-n</span><span class="ch">}}</span><span class="vs">/2 = </span><span class="sc">{</span>lower_n2<span class="sc">:.2f}</span><span class="dv">$</span><span class="vs">"</span>)</span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>ax.axvspan(<span class="op">-</span>b<span class="op">/</span><span class="dv">4</span>, b<span class="op">/</span><span class="dv">4</span>, alpha<span class="op">=</span><span class="fl">0.12</span>, color<span class="op">=</span><span class="st">"C2"</span>,</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>           label<span class="op">=</span><span class="vs">r"</span><span class="dv">$\m</span><span class="vs">athcal{O}</span><span class="dv">$</span><span class="vs">: </span><span class="dv">$</span><span class="cf">|</span><span class="er">\</span><span class="vs">xi'_2</span><span class="cf">|</span><span class="vs">&lt;b/4</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>           label<span class="op">=</span><span class="vs">r"</span><span class="dv">$</span><span class="kw">(</span><span class="vs">-b/4,</span><span class="ch">\,</span><span class="vs">b/4</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span>)</span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">xi'_2</span><span class="dv">$</span><span class="vs">"</span>)</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="ch">\r</span><span class="vs">ho</span><span class="kw">(</span><span class="er">\</span><span class="vs">xi'_2</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span>)</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="vs">r"</span><span class="dv">$</span><span class="vs">n=2</span><span class="dv">$</span><span class="vs">: </span><span class="dv">$</span><span class="ch">\r</span><span class="vs">ho</span><span class="kw">(</span><span class="er">\</span><span class="vs">xi'_2</span><span class="kw">)</span><span class="vs">=b</span><span class="dv">^</span><span class="vs">{-2}</span><span class="cf">|</span><span class="pp">[0,b]</span><span class="er">\</span><span class="vs">cap</span><span class="pp">[-</span><span class="er">\</span><span class="pp">xi'_2,</span><span class="ch">\,</span><span class="pp">b-</span><span class="er">\</span><span class="pp">xi'_2]</span><span class="cf">|</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">f_{</span><span class="dv">\b</span><span class="vs">oldsymbol{</span><span class="er">\</span><span class="vs">xi}'}</span><span class="kw">(</span><span class="er">\</span><span class="vs">xi'_2</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="vs">r"</span><span class="dv">$</span><span class="vs">n=2</span><span class="dv">$</span><span class="vs">: </span><span class="dv">$</span><span class="vs">f_{</span><span class="dv">\b</span><span class="vs">oldsymbol{</span><span class="er">\</span><span class="vs">xi}'}</span><span class="kw">(</span><span class="er">\</span><span class="vs">xi'_2</span><span class="kw">)</span><span class="vs">=b</span><span class="dv">^</span><span class="vs">{-2}</span><span class="cf">|</span><span class="pp">[0,b]</span><span class="er">\</span><span class="vs">cap</span><span class="pp">[-</span><span class="er">\</span><span class="pp">xi'_2,</span><span class="ch">\,</span><span class="pp">b-</span><span class="er">\</span><span class="pp">xi'_2]</span><span class="cf">|</span><span class="dv">$</span><span class="vs">"</span>)</span>
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
 <span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
@@ -389,11 +411,11 @@ det(J) = 1.0   &lt;- unimodular: 밀도 보존</code></pre>
 </div>
 </div>
 </div>
-<p><strong>G.</strong> <span class="math inline">\(\mathcal{O}\)</span> 안에서 밀도가 빨간 점선 위에 있어요.</p>
+<p><strong>G.</strong> 좁은 영역 안에서 밀도가 빨간 점선 위에 있네요.</p>
 <hr>
-<p><strong>H.</strong> <strong>Step 3: 왜 <span class="math inline">\(\mathcal{O}\)</span> 위에서 길이 <span class="math inline">\(\geq b/2\)</span> 인가</strong>.</p>
+<p><strong>H.</strong> <strong>Step 3: 왜 <span class="math inline">\((-b/4, b/4)^{n-1}\)</span> 위에서 길이 <span class="math inline">\(\geq b/2\)</span> 인가</strong>.</p>
 <p><span class="math inline">\(|\xi'_i| &lt; b/4\)</span> 이면 각 구간 <span class="math inline">\([-\xi'_i,\ b - \xi'_i]\)</span> 가 <span class="math inline">\([b/4, 3b/4]\)</span> 를 항상 포함해요.</p>
-<div id="02242c0f" class="cell" data-execution_count="5">
+<div id="ebc16773" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">3</span>))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cases <span class="op">=</span> [</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    (<span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">xi'_i = 0</span><span class="dv">$</span><span class="vs">"</span>,    <span class="fl">0.0</span>),</span>
@@ -436,45 +458,46 @@ det(J) = 1.0   &lt;- unimodular: 밀도 보존</code></pre>
 <p><strong>H.</strong> 형식적으로: <span class="math inline">\(|\xi'_i| &lt; b/4\)</span> 이면</p>
 <p><span class="math display">\[-\xi'_i \leq b/4 \quad\text{and}\quad b - \xi'_i \geq 3b/4\]</span></p>
 <p>이므로 <span class="math inline">\([b/4, 3b/4] \subseteq [-\xi'_i, b-\xi'_i]\)</span>. 모든 <span class="math inline">\(i \geq 2\)</span> 와 <span class="math inline">\([0,b]\)</span> 에 동시 적용:</p>
-<p><span class="math display">\[[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i] \;\supseteq\; [b/4,\,3b/4]\]</span></p>
-<p>길이 <span class="math inline">\(b/2\)</span>. 따라서:</p>
-<p><span class="math display">\[\rho(\xi'_2, \ldots, \xi'_n) \;\geq\; b^{-n}\cdot\frac{b}{2} \;=\; \frac{b^{1-n}}{2}\]</span></p>
+<p><span class="math display">\[[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i] \;\supseteq\; [b/4,\,3b/4], \qquad \text{length} \geq b/2\]</span></p>
+<p>따라서:</p>
+<p><span class="math display">\[f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n) \;\geq\; b^{-n}\cdot\frac{b}{2} \;=\; \frac{b^{1-n}}{2}\]</span></p>
 <hr>
 <p><strong>H.</strong> <span class="math inline">\(n=3\)</span> 에서 격자 계산으로 확인해요.</p>
-<div id="3511a6cf" class="cell" data-execution_count="6">
+<div id="e1eadbde" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>N_GRID <span class="op">=</span> <span class="dv">60</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>xp_ax   <span class="op">=</span> np.linspace(<span class="op">-</span>b<span class="op">/</span><span class="dv">2</span>, b<span class="op">/</span><span class="dv">2</span>, N_GRID)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>XP2, XP3 <span class="op">=</span> np.meshgrid(xp_ax, xp_ax)   <span class="co"># xi'_2, xi'_3 for n=3</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>RHO <span class="op">=</span> np.array([[marginal_density([XP2[i,j], XP3[i,j]], b)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                 <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(N_GRID)] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N_GRID)])</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>xp_ax <span class="op">=</span> np.linspace(<span class="op">-</span>b<span class="op">/</span><span class="dv">2</span>, b<span class="op">/</span><span class="dv">2</span>, N_GRID)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>XP2, XP3 <span class="op">=</span> np.meshgrid(xp_ax, xp_ax)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>F_XI <span class="op">=</span> np.array([[marginal_density([XP2[i,j], XP3[i,j]], b)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                  <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(N_GRID)] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(N_GRID)])</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>lower_n3 <span class="op">=</span> b<span class="op">**</span>(<span class="dv">1</span><span class="op">-</span><span class="dv">3</span>) <span class="op">/</span> <span class="dv">2</span></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.5</span>))</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>cf <span class="op">=</span> axes[<span class="dv">0</span>].contourf(XP2, XP3, RHO, levels<span class="op">=</span><span class="dv">20</span>, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>cf <span class="op">=</span> axes[<span class="dv">0</span>].contourf(XP2, XP3, F_XI, levels<span class="op">=</span><span class="dv">20</span>, cmap<span class="op">=</span><span class="st">"Blues"</span>)</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.colorbar(cf, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>sq <span class="op">=</span> plt.Rectangle((<span class="op">-</span>b<span class="op">/</span><span class="dv">4</span>,<span class="op">-</span>b<span class="op">/</span><span class="dv">4</span>), b<span class="op">/</span><span class="dv">2</span>, b<span class="op">/</span><span class="dv">2</span>,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                   fill<span class="op">=</span><span class="va">False</span>, edgecolor<span class="op">=</span><span class="st">"crimson"</span>, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="vs">r"</span><span class="dv">$\m</span><span class="vs">athcal{O}</span><span class="dv">$</span><span class="vs">"</span>)</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].add_patch(sq)</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="vs">r"</span><span class="dv">$</span><span class="ch">\r</span><span class="vs">ho</span><span class="kw">(</span><span class="er">\</span><span class="vs">xi'_2, </span><span class="er">\</span><span class="vs">xi'_3</span><span class="kw">)</span><span class="dv">$</span><span class="vs">, </span><span class="dv">$</span><span class="vs">n=3</span><span class="dv">$</span><span class="vs">"</span>)</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">xi'_2</span><span class="dv">$</span><span class="vs">"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">xi'_3</span><span class="dv">$</span><span class="vs">"</span>)</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>in_O <span class="op">=</span> (np.<span class="bu">abs</span>(XP2) <span class="op">&lt;</span> b<span class="op">/</span><span class="dv">4</span>) <span class="op">&amp;</span> (np.<span class="bu">abs</span>(XP3) <span class="op">&lt;</span> b<span class="op">/</span><span class="dv">4</span>)</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>rho_in_O <span class="op">=</span> RHO[in_O]</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].hist(rho_in_O, bins<span class="op">=</span><span class="dv">30</span>, color<span class="op">=</span><span class="st">"C0"</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axvline(lower_n3, color<span class="op">=</span><span class="st">"crimson"</span>, lw<span class="op">=</span><span class="dv">2</span>, ls<span class="op">=</span><span class="st">"--"</span>,</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>                label<span class="op">=</span><span class="vs">rf"</span><span class="dv">$</span><span class="vs">b</span><span class="dv">^</span><span class="ch">{{</span><span class="vs">1-n</span><span class="ch">}}</span><span class="vs">/2 = </span><span class="sc">{</span>lower_n3<span class="sc">:.4f}</span><span class="dv">$</span><span class="vs">"</span>)</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="vs">r"</span><span class="dv">$</span><span class="ch">\r</span><span class="vs">ho</span><span class="dv">$</span><span class="vs"> inside </span><span class="dv">$\m</span><span class="vs">athcal{O}</span><span class="dv">$</span><span class="vs"> </span><span class="kw">(</span><span class="dv">$</span><span class="vs">n=3</span><span class="dv">$</span><span class="kw">)</span><span class="vs">"</span>)</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="ch">\r</span><span class="vs">ho</span><span class="kw">(</span><span class="er">\</span><span class="vs">xi'_2,</span><span class="er">\</span><span class="vs">xi'_3</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span>)</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"n=3 lower bound b^(1-n)/2 = </span><span class="sc">{</span>lower_n3<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"min rho inside O          = </span><span class="sc">{</span>rho_in_O<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.4f}</span><span class="ss">  (&gt;= lower: </span><span class="sc">{</span>rho_in_O<span class="sc">.</span><span class="bu">min</span>() <span class="op">&gt;=</span> lower_n3<span class="sc">}</span><span class="ss">)"</span>)</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                   fill<span class="op">=</span><span class="va">False</span>, edgecolor<span class="op">=</span><span class="st">"crimson"</span>, lw<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                   label<span class="op">=</span><span class="vs">r"</span><span class="dv">$</span><span class="kw">(</span><span class="vs">-b/4,b/4</span><span class="kw">)</span><span class="dv">^</span><span class="vs">2</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].add_patch(sq)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="vs">r"</span><span class="dv">$</span><span class="vs">f_{</span><span class="dv">\b</span><span class="vs">oldsymbol{</span><span class="er">\</span><span class="vs">xi}'}</span><span class="kw">(</span><span class="er">\</span><span class="vs">xi'_2,</span><span class="er">\</span><span class="vs">xi'_3</span><span class="kw">)</span><span class="dv">$</span><span class="vs">, </span><span class="dv">$</span><span class="vs">n=3</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">xi'_2</span><span class="dv">$</span><span class="vs">"</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">xi'_3</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>in_box <span class="op">=</span> (np.<span class="bu">abs</span>(XP2) <span class="op">&lt;</span> b<span class="op">/</span><span class="dv">4</span>) <span class="op">&amp;</span> (np.<span class="bu">abs</span>(XP3) <span class="op">&lt;</span> b<span class="op">/</span><span class="dv">4</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>fxi_in_box <span class="op">=</span> F_XI[in_box]</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].hist(fxi_in_box, bins<span class="op">=</span><span class="dv">30</span>, color<span class="op">=</span><span class="st">"C0"</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].axvline(lower_n3, color<span class="op">=</span><span class="st">"crimson"</span>, lw<span class="op">=</span><span class="dv">2</span>, ls<span class="op">=</span><span class="st">"--"</span>,</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>                label<span class="op">=</span><span class="vs">rf"</span><span class="dv">$</span><span class="vs">b</span><span class="dv">^</span><span class="ch">{{</span><span class="vs">1-n</span><span class="ch">}}</span><span class="vs">/2 = </span><span class="sc">{</span>lower_n3<span class="sc">:.4f}</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="vs">r"</span><span class="dv">$</span><span class="vs">f_{</span><span class="dv">\b</span><span class="vs">oldsymbol{</span><span class="er">\</span><span class="vs">xi}'}</span><span class="dv">$</span><span class="vs"> inside </span><span class="dv">$</span><span class="kw">(</span><span class="vs">-b/4,b/4</span><span class="kw">)</span><span class="dv">^</span><span class="vs">2</span><span class="dv">$</span><span class="vs"> </span><span class="kw">(</span><span class="dv">$</span><span class="vs">n=3</span><span class="dv">$</span><span class="kw">)</span><span class="vs">"</span>)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">f_{</span><span class="dv">\b</span><span class="vs">oldsymbol{</span><span class="er">\</span><span class="vs">xi}'}</span><span class="kw">(</span><span class="er">\</span><span class="vs">xi'_2,</span><span class="er">\</span><span class="vs">xi'_3</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend(fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"n=3 lower bound b^(1-n)/2 = </span><span class="sc">{</span>lower_n3<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"min f inside box          = </span><span class="sc">{</span>fxi_in_box<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.4f}</span><span class="ss">  (&gt;= lower: </span><span class="sc">{</span>fxi_in_box<span class="sc">.</span><span class="bu">min</span>() <span class="op">&gt;=</span> lower_n3<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>n=3 lower bound b^(1-n)/2 = 0.5000
-min rho inside O          = 0.5085  (&gt;= lower: True)</code></pre>
+min f inside box          = 0.5085  (&gt;= lower: True)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -486,7 +509,7 @@ min rho inside O          = 0.5085  (&gt;= lower: True)</code></pre>
 </div>
 <p><strong>G.</strong> 전부 하한 오른쪽에 있네요.</p>
 <p><strong>H.</strong> 한 줄 요약:</p>
-<p><span class="math display">\[|\xi'_i| &lt; b/4 \;\Rightarrow\; [b/4,3b/4]\subseteq\text{intersection} \;\Rightarrow\; \text{length}\geq b/2 \;\Rightarrow\; \rho(\xi'_2,\ldots,\xi'_n) \geq b^{1-n}/2\]</span></p>
+<p><span class="math display">\[(\xi'_2,\ldots,\xi'_n)\in(-b/4,b/4)^{n-1} \;\Rightarrow\; [b/4,3b/4]\subseteq\text{intersection} \;\Rightarrow\; \text{length}\geq b/2 \;\Rightarrow\; f_{\boldsymbol{\xi}'} \geq b^{1-n}/2\]</span></p>
 
 
 
