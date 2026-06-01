@@ -6,7 +6,7 @@ draft: false
 output-file: 260601_35456f.html
 fontsize: 0.85em
 # 판정: (A) 학습·이해용 — 에이(페이퍼팀) hst_AAA.tex Lemma 4 초보 해설
-# 기호: 변환 전 xi / 변환 후 xi'. 밀도 f_{xi}, f_{xi'}. O → (-b/4,b/4)^{n-1}
+# 기호: 변환 전 xi, 변환 후 xi'. 밀도 f_{xi}, f_{xi'}. 산문 최소, 수식 위주.
 ---
 <!-- 소유권자: 리이 | 사용자: 리이 -->
 
@@ -19,13 +19,19 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </style>
 ```
 
-> *(스튜디오. 화면에 Lemma 4 카드가 걸려 있다.)*
+> *(스튜디오. Lemma 4 카드 한 장.)*
 
-**H.** 오늘 Lemma 4 한 장을 처음부터 끝까지 풀어요. 핵심 질문: $n$개 균등 난수를 "차이"로 변환했을 때, 그 밀도가 원점 근방에서 얼마나 큰가?
+**H.** $n$개 균등 퇴적량의 차이 벡터가 원점 근방에서 갖는 밀도 하한을 보여요. 목표:
 
-**G.** 밀도 하한이 왜 필요한가요?
+$$f_{\boldsymbol{\xi}'}(\xi'_2, \ldots, \xi'_n) \;\geq\; \frac{b^{1-n}}{2} \qquad \text{on } (-b/4,\, b/4)^{n-1}$$
 
-**H.** Doeblin minorization 때문이에요. "어떤 영역에서 밀도가 균등 분포보다 무조건 이 이상 크다"는 보장이 있어야 mixing 증명이 돌아가요. Lemma 4 가 그 재료를 공급해요. 코드 설정부터.
+**G.** $f_{\boldsymbol{\xi}'}$ 가 뭔가요?
+
+**H.** 변환을 먼저 정의해요. $\boldsymbol{\xi} = (\xi_1, \ldots, \xi_n) \stackrel{\mathrm{iid}}{\sim} \mathrm{Unif}(0,b)$,
+
+$$\boldsymbol{\xi}' \;:=\; J\boldsymbol{\xi}, \qquad J_{ij} = \begin{cases} 1 & i = j \\ -1 & i \geq 2,\, j = 1 \\ 0 & \text{otherwise} \end{cases}$$
+
+즉 $\xi'_1 = \xi_1$, $\xi'_i = \xi_i - \xi_1$ ($i \geq 2$). $f_{\boldsymbol{\xi}'}$ 는 이 변환 후 $(\xi'_2, \ldots, \xi'_n)$ 의 marginal density 예요.
 
 ```{python}
 import numpy as np
@@ -36,270 +42,127 @@ plt.rcParams.update({
     "text.latex.preamble": r"\usepackage{amsmath,amssymb}",
     "font.family": "serif",
     "font.size": 10,
-    "axes.titlesize": 11,
+    "axes.titlesize": 10,
     "axes.labelsize": 10,
 })
 rng = np.random.default_rng(20260601)
 b = 1.0
+n = 4
+xi = rng.uniform(0, b, size=(6, n))
+xip = xi.copy(); xip[:, 1:] -= xip[:, :1]
+print("xi  (before):", *[f"({','.join(f'{v:.2f}' for v in r)})" for r in xi], sep="\n  ")
+print("xi' (after) :", *[f"({','.join(f'{v:+.2f}' for v in r)})" for r in xip], sep="\n  ")
 ```
 
 ---
 
-**H.** 기호부터. $n$개 퇴적량 $\boldsymbol{\xi} = (\xi_1, \ldots, \xi_n) \stackrel{\mathrm{iid}}{\sim} \mathrm{Unif}(0, b)$ 에 shear 변환을 적용해요:
+**H.** 밀도를 세 단계로 구해요.
 
-$$\xi'_1 = \xi_1, \qquad \xi'_i = \xi_i - \xi_1 \quad (i = 2, \ldots, n)$$
+**변환 후 밀도.** $|\det J| = 1$ 이므로 변수 변환 공식에 의해
 
-행렬로 쓰면 $\boldsymbol{\xi}' = J\boldsymbol{\xi}$. 우리의 목표: 변환 후 차이 부분 $(\xi'_2, \ldots, \xi'_n)$ 의 밀도 $f_{\boldsymbol{\xi}'}$ 가
-
-$$f_{\boldsymbol{\xi}'}(\xi'_2, \ldots, \xi'_n) \;\geq\; \frac{b^{1-n}}{2} \qquad \text{on } (-b/4,\, b/4)^{n-1}$$
-
-을 만족함을 보이는 것이에요.
-
-**G.** $(-b/4, b/4)^{n-1}$ 이 무슨 뜻인가요?
-
-**H.** **모든** 성분 $\xi'_2, \ldots, \xi'_n$ 이 동시에 $(-b/4, b/4)$ 안에 있다는 거예요. 즉 원점을 중심으로 한 변의 길이 $b/2$ 인 정육면체예요. $n=3$ 이면 $(\xi'_2, \xi'_3) \in (-b/4, b/4)^2$ — 정사각형. $n=4$ 이면 정육면체. $\max_{i \geq 2} |\xi'_i| < b/4$ 라고 쓰면 "$i=2,\ldots,n$ 중 절댓값이 가장 큰 성분도 $b/4$ 보다 작다" 는 뜻이에요.
+$$f_{\boldsymbol{\xi}'}(\xi'_1, \ldots, \xi'_n) \;=\; f_{\boldsymbol{\xi}}(J^{-1}\boldsymbol{\xi}')\cdot|\det J|^{-1} \;=\; b^{-n} \qquad (\because |\det J| = 1)$$
 
 ```{python}
-n = 4
-xi = rng.uniform(0, b, size=(8, n))
-xi_prime = xi.copy()
-xi_prime[:, 1:] = xi[:, 1:] - xi[:, 0:1]   # xi'_i = xi_i - xi_1 (i >= 2)
-
-print(f"xi  (변환 전, n={n}):")
-for row in xi:
-    print("  " + "  ".join(f"{v:.3f}" for v in row))
-print(f"\nxi' (변환 후): xi'_1=xi_1 고정, xi'_i=xi_i-xi_1 (i>=2):")
-for row in xi_prime:
-    print("  " + "  ".join(f"{v:+.3f}" for v in row))
-print(f"\n(-b/4, b/4) = ({-b/4:.3f}, {b/4:.3f})")
-print("각 행의 xi'_2 ~ xi'_4 가 이 구간 안에 있는지:")
-for row in xi_prime:
-    inside = all(abs(v) < b/4 for v in row[1:])
-    print("  " + "  ".join(f"{v:+.3f}" for v in row[1:]) + f"  -> {'안' if inside else '밖'}")
+J = np.eye(n); J[1:, 0] = -1.0
+print(f"det(J) = {np.linalg.det(J):.1f}")
 ```
 
-**G.** 대부분의 샘플이 범위 밖에 있네요. 꽤 좁은 영역이군요.
+**유효 범위.** $\xi_i = \xi'_1 + \xi'_i \in [0, b]$ 이어야 하므로 각 $i \geq 2$ 에 대해
 
-**H.** 맞아요. 그만큼 "차이가 작은" 영역이에요. 이 안에서 밀도가 충분히 두텁다는 게 핵심이에요.
+$$\begin{aligned}
+0 \;\leq\; \xi'_1 + \xi'_i \;\leq\; b
+&\;\Leftrightarrow\; \xi'_1 \in [-\xi'_i,\; b - \xi'_i]
+\end{aligned}$$
 
----
+또한 $\xi'_1 = \xi_1 \in [0, b]$. 두 조건을 합하면
 
-**H.** **Step 1: 변수 변환 — Jacobian 확인**.
+$$\xi'_1 \;\in\; [0,b] \cap \bigcap_{i=2}^{n}[-\xi'_i,\; b - \xi'_i] \tag*{$(\ast)$}$$
 
-$\boldsymbol{\xi}' = J\boldsymbol{\xi}$, 변환 전 밀도 $f_{\boldsymbol{\xi}} = b^{-n}\mathbf{1}_{[0,b]^n}$.
+**G.** $[-\xi'_i, b - \xi'_i]$ 가 왜 나오는지 $n=2$ 예시로 볼게요.
 
-```{python}
-n = 4
-J = np.eye(n)
-J[1:, 0] = -1.0
+**H.** $b=1$, $\xi'_2 = \xi_2 - \xi_1$. $\xi_2 = \xi'_1 + \xi'_2 \in [0,1]$ 에서:
 
-print(f"J (n={n}):")
-print(J.astype(int))
-print(f"\ndet(J) = {np.linalg.det(J):.1f}   <- unimodular: f_xi = f_xi' = b^(-n)")
-```
-
-**G.** 행렬식이 1이에요.
-
-**H.** $|\det J| = 1$ 이라 변수 변환 공식에서 Jacobian 인자가 1 — 변환 후 밀도도 그대로예요:
-
-$$f_{\boldsymbol{\xi}'}(\xi'_1, \xi'_2, \ldots, \xi'_n) \;=\; f_{\boldsymbol{\xi}}(\boldsymbol{\xi}) \;=\; b^{-n}$$
-
-단 유효 범위: 원래 $\xi_i = \xi'_1 + \xi'_i \in [0,b]$ 이어야 하므로, $\xi'_1$ 은
-
-$$\xi'_1 \;\in\; [0,b] \cap \bigcap_{i=2}^{n} [-\xi'_i,\ b - \xi'_i]$$
-
-안에만 있을 수 있어요.
-
-**G.** 잠깐, 이게 잘 이해가 안 돼요. $\xi'_1$ 이 왜 $[-\xi'_i, b-\xi'_i]$ 안에 있어야 하나요?
-
-**H.** $n=2$, $b=1$ 로 구체적으로 봐요. 변환 전에 $\xi_1, \xi_2 \in [0, 1]$ 이에요. 변환 후 $\xi'_1 = \xi_1$, $\xi'_2 = \xi_2 - \xi_1$.
-
-역변환으로 되돌리면: $\xi_2 = \xi'_1 + \xi'_2$.
-
-$\xi_2 \in [0,1]$ 이어야 하므로 $0 \leq \xi'_1 + \xi'_2 \leq 1$, 즉 $\xi'_1 \in [-\xi'_2,\ 1 - \xi'_2]$.
-
-세 가지 예시를 보면:
+$$\begin{aligned}
+\xi'_2 = +0.3 &\;\Rightarrow\; \xi'_1 \in [-0.3,\;0.7] \;\Rightarrow\; \xi'_1 \in [0,\;0.7] &&(\text{length } 0.7) \\
+\xi'_2 = \phantom{+}0 &\;\Rightarrow\; \xi'_1 \in [\phantom{+}0,\;1.0\,] \;\Rightarrow\; \xi'_1 \in [0,\;1.0] &&(\text{length } 1.0) \\
+\xi'_2 = -0.3 &\;\Rightarrow\; \xi'_1 \in [\phantom{+}0.3,\;1.3] \;\Rightarrow\; \xi'_1 \in [0.3,\;1.0] &&(\text{length } 0.7)
+\end{aligned}$$
 
 ```{python}
-b = 1.0
-cases_ex = [
-    (r"$\xi'_2 = +0.3$",  0.3),
-    (r"$\xi'_2 = \;\;0$",  0.0),
-    (r"$\xi'_2 = -0.3$", -0.3),
-]
-
-print(f"{'xi_2 prime':>18}  {'[-xi2, b-xi2]':>16}  {'∩ [0,b]':>14}  {'length':>8}")
-print("-" * 65)
-for label, xp2 in cases_ex:
-    lo_i = -xp2;  hi_i = b - xp2          # interval from xi_2 constraint
-    lo_f = max(0.0, lo_i)
-    hi_f = min(b,   hi_i)
-    print(f"  {xp2:+.1f}            [{lo_i:+.1f}, {hi_i:+.1f}]          [{lo_f:.1f}, {hi_f:.1f}]       {hi_f-lo_f:.1f}")
-```
-
-```{python}
-fig, axes = plt.subplots(1, 3, figsize=(8, 3.5))
-
-for ax, (label, xp2) in zip(axes, cases_ex):
+cases = [(0.3, "xi'_2=+0.3"), (0.0, "xi'_2= 0"), (-0.3, "xi'_2=-0.3")]
+fig, axes = plt.subplots(1, 3, figsize=(8, 2.8))
+for ax, (xp2, lbl) in zip(axes, cases):
     lo_i, hi_i = -xp2, b - xp2
-    lo_f = max(0.0, lo_i); hi_f = min(b, hi_i)
-
-    # xi'_1 축 위에 구간 그리기
-    ax.broken_barh([(0, b)],             (0.55, 0.2), facecolors="C0", alpha=0.6,
-                   label=r"$\xi'_1\in[0,b]$")
-    ax.broken_barh([(lo_i, hi_i-lo_i)], (0.3, 0.2),  facecolors="C1", alpha=0.6,
-                   label=r"$\xi_2\in[0,b]$ constraint")
+    lo_f, hi_f = max(0., lo_i), min(b, hi_i)
+    ax.broken_barh([(0,b)],          (0.55,.2), facecolors="C0", alpha=.5, label=r"$[0,b]$")
+    ax.broken_barh([(lo_i,hi_i-lo_i)],(0.30,.2),facecolors="C1", alpha=.5, label=r"$[-\xi'_2,b-\xi'_2]$")
     if hi_f > lo_f:
-        ax.broken_barh([(lo_f, hi_f-lo_f)], (0.05, 0.2), facecolors="crimson", alpha=0.8,
-                       label=rf"intersection (len {hi_f-lo_f:.1f})")
-    ax.set_xlim(-0.15, 1.15); ax.set_ylim(-0.05, 0.9); ax.set_yticks([])
-    ax.set_xlabel(r"$\xi'_1$"); ax.set_title(label, fontsize=10)
-    ax.axvline(lo_f, color="crimson", ls=":", lw=1.2)
-    ax.axvline(hi_f, color="crimson", ls=":", lw=1.2)
-    if ax is axes[0]:
-        ax.legend(fontsize=7.5, loc="upper right")
-
-plt.suptitle(r"valid range of $\xi'_1$ given fixed $\xi'_2$ ($b=1$)", fontsize=10)
+        ax.broken_barh([(lo_f,hi_f-lo_f)],(0.05,.65),facecolors="crimson",alpha=.25,
+                       label=rf"intersection {hi_f-lo_f:.1f}")
+    ax.set_xlim(-.15,1.15); ax.set_ylim(-.05,.9); ax.set_yticks([])
+    ax.set_xlabel(r"$\xi'_1$"); ax.set_title(lbl, fontsize=9)
+    if ax is axes[0]: ax.legend(fontsize=7)
 plt.tight_layout(); plt.show()
 ```
-
-**G.** 아, 이제 보여요. $\xi'_2 = 0.3$ 이면 "$\xi_2$ 가 $\xi_1$ 보다 0.3 크다"는 뜻이니까, $\xi_1$ 이 너무 크면 $\xi_2 = \xi_1 + 0.3 > 1$ 이 돼서 안 되는 거네요.
-
-**H.** 정확히. $\xi'_2 = 0.3$ 이면 $\xi'_1 \leq 1 - 0.3 = 0.7$ 이어야 해요. $\xi'_2 = -0.3$ 이면 반대로 $\xi'_1 \geq 0.3$ 이어야 하고요. 두 경우 모두 교집합 길이는 $0.7 > b/2 = 0.5$ — 그게 하한의 원천이에요.
 
 ---
 
-**H.** **Step 2: $\xi'_1$ 적분 (marginalize)**.
+**H.** **Marginalize.** $(\ast)$ 에서 $f_{\boldsymbol{\xi}'} = b^{-n}$ 을 $\xi'_1$ 에 대해 적분하면
 
-$(\xi'_2, \ldots, \xi'_n)$ 의 marginal density $f_{\boldsymbol{\xi}'}$ 를 얻으려면 $\xi'_1$ 을 적분으로 날려요. $f_{\boldsymbol{\xi}'} = b^{-n}$ 이므로, 가능한 $\xi'_1$ 구간의 **길이** $\times\ b^{-n}$ 이에요:
+$$f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n) \;=\; \int f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n)\,d\xi'_1 \;=\; b^{-n}\left|[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i]\right| \tag*{$(\star)$}$$
 
-$$f_{\boldsymbol{\xi}'}(\xi'_2, \ldots, \xi'_n) \;=\; b^{-n}\left|[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\ b-\xi'_i]\right|$$
+**Lower bound.** $(\xi'_2,\ldots,\xi'_n)\in(-b/4,b/4)^{n-1}$ 이면 각 $i\geq 2$ 에 대해
 
-```{python}
-def marginal_density(xi_prime_rest, b=1.0):
-    """f_{xi'} = b^{-n} * |[0,b] ∩ ∩_i [-xi'_i, b-xi'_i]|."""
-    lo, hi = 0.0, b
-    for xp in xi_prime_rest:
-        lo = max(lo, -xp)
-        hi = min(hi, b - xp)
-    length = max(0.0, hi - lo)
-    n = len(xi_prime_rest) + 1
-    return (b ** (-n)) * length
+$$\begin{aligned}
+|\xi'_i| < b/4
+&\;\Rightarrow\; -\xi'_i \leq b/4 \;\text{ and }\; b-\xi'_i \geq 3b/4 \\
+&\;\Rightarrow\; [b/4,\,3b/4] \;\subseteq\; [-\xi'_i,\,b-\xi'_i]
+\end{aligned}$$
 
-# n=2 에서 밀도 곡선
-xp_grid   = np.linspace(-b + 0.001, b - 0.001, 400)
-fxi_vals  = np.array([marginal_density([v], b) for v in xp_grid])
-lower_n2  = b ** (1 - 2) / 2
+이를 모든 $i\geq 2$ 와 $[0,b]$ 에 동시 적용하면
 
-fig, ax = plt.subplots(figsize=(7, 3.5))
-ax.plot(xp_grid, fxi_vals, lw=2, color="C0",
-        label=r"$f_{\boldsymbol{\xi}'}(\xi'_2)$, $n=2$")
-ax.axhline(lower_n2, color="crimson", ls="--", lw=1.5,
-           label=rf"lower bound $b^{{1-n}}/2 = {lower_n2:.2f}$")
-ax.axvspan(-b/4, b/4, alpha=0.12, color="C2",
-           label=r"$(-b/4,\,b/4)$")
-ax.set_xlabel(r"$\xi'_2$")
-ax.set_ylabel(r"$f_{\boldsymbol{\xi}'}(\xi'_2)$")
-ax.set_title(r"$n=2$: $f_{\boldsymbol{\xi}'}(\xi'_2)=b^{-2}|[0,b]\cap[-\xi'_2,\,b-\xi'_2]|$")
-ax.legend(fontsize=9)
-plt.tight_layout(); plt.show()
-```
-
-**G.** 좁은 영역 안에서 밀도가 빨간 점선 위에 있네요.
-
----
-
-**H.** **Step 3: 왜 $(-b/4, b/4)^{n-1}$ 위에서 길이 $\geq b/2$ 인가**.
-
-$|\xi'_i| < b/4$ 이면 각 구간 $[-\xi'_i,\ b - \xi'_i]$ 가 $[b/4, 3b/4]$ 를 항상 포함해요.
+$$\begin{aligned}
+[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i] &\;\supseteq\; [b/4,\,3b/4] \\
+\Rightarrow\quad \left|[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i]\right| &\;\geq\; b/2 \\
+\Rightarrow\quad f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n) &\;\geq\; b^{-n}\cdot\frac{b}{2} \;=\; \frac{b^{1-n}}{2} \qquad (\because (\star))
+\end{aligned}$$
 
 ```{python}
-fig, axes = plt.subplots(1, 3, figsize=(8, 3))
-cases = [
-    (r"$\xi'_i = 0$",    0.0),
-    (r"$\xi'_i = +b/5$", b/5),
-    (r"$\xi'_i = -b/5$", -b/5),
-]
-for ax, (label, xp) in zip(axes, cases):
-    lo_i, hi_i = -xp, b - xp
-    lo_f = max(0.0, lo_i); hi_f = min(b, hi_i)
+def f_xip(xi_rest, b=1.0):
+    lo, hi = 0., b
+    for xp in xi_rest:
+        lo = max(lo, -xp); hi = min(hi, b - xp)
+    return max(0., hi - lo) * b**(-len(xi_rest)-1)
 
-    ax.broken_barh([(0, b)],             (0.6, 0.2), facecolors="C0", alpha=0.5,
-                   label="$[0,b]$")
-    ax.broken_barh([(lo_i, hi_i-lo_i)], (0.3, 0.2), facecolors="C1", alpha=0.5,
-                   label=r"$[-\xi'_i,\,b-\xi'_i]$")
-    ax.broken_barh([(b/4, b/2)],         (0.0, 0.2), facecolors="C2", alpha=0.8,
-                   label=r"$[b/4,\,3b/4]$")
-    if hi_f > lo_f:
-        ax.broken_barh([(lo_f, hi_f-lo_f)], (0.15, 0.35),
-                       facecolors="none", edgecolors="crimson", linewidth=2,
-                       label="intersection")
-    ax.set_xlim(-0.1, 1.1); ax.set_ylim(-0.1, 1.0); ax.set_yticks([])
-    ax.set_title(label, fontsize=9)
-    ax.axvline(b/4, color="C2", ls=":", lw=1)
-    ax.axvline(3*b/4, color="C2", ls=":", lw=1)
-    if ax is axes[0]:
-        ax.legend(fontsize=7, loc="upper right")
+xp_grid = np.linspace(-b+.001, b-.001, 400)
+fig, axes = plt.subplots(1, 2, figsize=(8, 3.2))
 
-plt.suptitle(r"$[b/4,3b/4]\subseteq[0,b]\cap[-\xi'_i,\,b-\xi'_i]$ when $|\xi'_i|<b/4$",
-             fontsize=9)
+# n=2
+fv = np.array([f_xip([v]) for v in xp_grid])
+axes[0].plot(xp_grid, fv, lw=2, color="C0", label=r"$f_{\boldsymbol{\xi}'}(\xi'_2)$")
+axes[0].axhline(b**(1-2)/2, color="crimson", ls="--", lw=1.5,
+                label=rf"$b^{{1-n}}/2={b**(1-2)/2:.2f}$")
+axes[0].axvspan(-b/4, b/4, alpha=.12, color="C2", label=r"$(-b/4,b/4)$")
+axes[0].set_xlabel(r"$\xi'_2$"); axes[0].set_title(r"$n=2$"); axes[0].legend(fontsize=8)
+
+# n=3 grid
+N = 60; ax1 = np.linspace(-b/2, b/2, N)
+XP2, XP3 = np.meshgrid(ax1, ax1)
+F = np.array([[f_xip([XP2[i,j],XP3[i,j]]) for j in range(N)] for i in range(N)])
+cf = axes[1].contourf(XP2, XP3, F, levels=20, cmap="Blues")
+plt.colorbar(cf, ax=axes[1])
+axes[1].add_patch(plt.Rectangle((-b/4,-b/4),b/2,b/2,fill=False,edgecolor="crimson",lw=2,
+                                 label=r"$(-b/4,b/4)^2$"))
+axes[1].set_xlabel(r"$\xi'_2$"); axes[1].set_ylabel(r"$\xi'_3$")
+axes[1].set_title(r"$n=3$: $f_{\boldsymbol{\xi}'}(\xi'_2,\xi'_3)$"); axes[1].legend(fontsize=8)
 plt.tight_layout(); plt.show()
+
+in_box = (np.abs(XP2)<b/4)&(np.abs(XP3)<b/4)
+print(f"n=3  lower bound = {b**(1-3)/2:.4f},  min inside box = {F[in_box].min():.4f}")
 ```
 
-**G.** 세 경우 모두 초록색 $[b/4, 3b/4]$ 가 교집합 안에 있네요.
+**G.** 왼쪽에서 $(-b/4, b/4)$ 안 값들이 전부 빨간 점선 위에 있고, 오른쪽 등고선에서도 빨간 사각형 안이 균일하게 높네요.
 
-**H.** 형식적으로: $|\xi'_i| < b/4$ 이면
+**H.** 한 줄로 요약하면:
 
-$$-\xi'_i \leq b/4 \quad\text{and}\quad b - \xi'_i \geq 3b/4$$
-
-이므로 $[b/4, 3b/4] \subseteq [-\xi'_i, b-\xi'_i]$. 모든 $i \geq 2$ 와 $[0,b]$ 에 동시 적용:
-
-$$[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i] \;\supseteq\; [b/4,\,3b/4], \qquad \text{length} \geq b/2$$
-
-따라서:
-
-$$f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n) \;\geq\; b^{-n}\cdot\frac{b}{2} \;=\; \frac{b^{1-n}}{2}$$
-
----
-
-**H.** $n=3$ 에서 격자 계산으로 확인해요.
-
-```{python}
-N_GRID = 60
-xp_ax = np.linspace(-b/2, b/2, N_GRID)
-XP2, XP3 = np.meshgrid(xp_ax, xp_ax)
-F_XI = np.array([[marginal_density([XP2[i,j], XP3[i,j]], b)
-                  for j in range(N_GRID)] for i in range(N_GRID)])
-lower_n3 = b**(1-3) / 2
-
-fig, axes = plt.subplots(1, 2, figsize=(8, 3.5))
-
-cf = axes[0].contourf(XP2, XP3, F_XI, levels=20, cmap="Blues")
-plt.colorbar(cf, ax=axes[0])
-sq = plt.Rectangle((-b/4,-b/4), b/2, b/2,
-                   fill=False, edgecolor="crimson", lw=2,
-                   label=r"$(-b/4,b/4)^2$")
-axes[0].add_patch(sq)
-axes[0].set_title(r"$f_{\boldsymbol{\xi}'}(\xi'_2,\xi'_3)$, $n=3$")
-axes[0].set_xlabel(r"$\xi'_2$"); axes[0].set_ylabel(r"$\xi'_3$")
-axes[0].legend(fontsize=9)
-
-in_box = (np.abs(XP2) < b/4) & (np.abs(XP3) < b/4)
-fxi_in_box = F_XI[in_box]
-axes[1].hist(fxi_in_box, bins=30, color="C0", alpha=0.8)
-axes[1].axvline(lower_n3, color="crimson", lw=2, ls="--",
-                label=rf"$b^{{1-n}}/2 = {lower_n3:.4f}$")
-axes[1].set_title(r"$f_{\boldsymbol{\xi}'}$ inside $(-b/4,b/4)^2$ ($n=3$)")
-axes[1].set_xlabel(r"$f_{\boldsymbol{\xi}'}(\xi'_2,\xi'_3)$")
-axes[1].legend(fontsize=9)
-
-print(f"n=3 lower bound b^(1-n)/2 = {lower_n3:.4f}")
-print(f"min f inside box          = {fxi_in_box.min():.4f}  (>= lower: {fxi_in_box.min() >= lower_n3})")
-plt.tight_layout(); plt.show()
-```
-
-**G.** 전부 하한 오른쪽에 있네요.
-
-**H.** 한 줄 요약:
-
-$$(\xi'_2,\ldots,\xi'_n)\in(-b/4,b/4)^{n-1} \;\Rightarrow\; [b/4,3b/4]\subseteq\text{intersection} \;\Rightarrow\; \text{length}\geq b/2 \;\Rightarrow\; f_{\boldsymbol{\xi}'} \geq b^{1-n}/2$$
+$$(\xi'_2,\ldots,\xi'_n)\in(-b/4,b/4)^{n-1} \;\Rightarrow\; [b/4,3b/4]\subseteq(\ast) \;\Rightarrow\; \text{length}\geq b/2 \;\Rightarrow\; f_{\boldsymbol{\xi}'}\geq b^{1-n}/2$$
