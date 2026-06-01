@@ -6,7 +6,7 @@ draft: false
 output-file: 260601_35456f.html
 fontsize: 0.85em
 # 판정: (A) 학습·이해용 — 에이(페이퍼팀) hst_AAA.tex Lemma 4 초보 해설
-# 기호: Λ 출력 = Δ₁ξ (= Δ₁h 의 fall 버전), 초기 신호 y 와 분리
+# 기호: 변환 전 xi, 변환 후 xi'. marginal density = rho (plain)
 ---
 <!-- 소유권자: 리이 | 사용자: 리이 -->
 
@@ -21,19 +21,11 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 
 > *(스튜디오. 화면에 Lemma 4 카드가 걸려 있다.)*
 
-**H.** 오늘 Lemma 4 한 장을 처음부터 끝까지 풀어요. 핵심 질문: $n$개 균등 난수의 **차이 벡터**가 갖는 밀도가 원점 근방에서 얼마나 큰가?
+**H.** 오늘 Lemma 4 한 장을 처음부터 끝까지 풀어요. 핵심 질문: $n$개 균등 난수를 "차이"로 변환했을 때, 그 밀도가 원점 근방에서 얼마나 큰가?
 
 **G.** 밀도 하한이 왜 필요한가요?
 
-**H.** Doeblin minorization 때문이에요. "어떤 영역에서 밀도가 균등 분포보다 무조건 이 이상 크다"는 보장이 있어야 mixing 증명이 돌아가요. Lemma 4 가 그 재료를 공급해요.
-
-**G.** 기호가 좀 헷갈리는데요. $\mathbf{y}$ 가 여기서도 나오는데 초기 신호 $y_i = h(v_i, 0)$ 랑 다른 건가요?
-
-**H.** 맞아요, 그게 핵심 포인트예요. Lemma 4 에서 다루는 "차이 벡터"는 **퇴적량**의 차이 — $\xi_i - \xi_1$. 이건 초기 신호 $\mathbf{y}$ 와 완전히 다른 양이에요. 에이 tex 의 높이 차이 벡터 $\Delta_1\mathbf{h}$ 와 같은 양식으로 fall 버전을 직접 정의해요:
-
-$$\Delta_1\boldsymbol{\xi} \;:=\; (\xi_2 - \xi_1,\ \ldots,\ \xi_n - \xi_1) \;\in\; \mathbb{R}^{n-1}$$
-
-코드 설정.
+**H.** Doeblin minorization 때문이에요. "어떤 영역에서 밀도가 균등 분포보다 무조건 이 이상 크다"는 보장이 있어야 mixing 증명이 돌아가요. Lemma 4 가 그 재료를 공급해요. 코드 설정부터.
 
 ```{python}
 import numpy as np
@@ -53,87 +45,88 @@ b = 1.0
 
 ---
 
-**H.** $n=4$ 에서 $\Delta_1\boldsymbol{\xi}$ 를 직접 계산해봐요.
+**H.** 기호부터. $n$개 퇴적량 $\boldsymbol{\xi} = (\xi_1, \ldots, \xi_n) \stackrel{\mathrm{iid}}{\sim} \mathrm{Unif}(0, b)$ 에 shear 변환을 적용해요:
+
+$$\xi'_1 = \xi_1, \qquad \xi'_i = \xi_i - \xi_1 \quad (i = 2, \ldots, n)$$
+
+행렬로 쓰면 $\boldsymbol{\xi}' = J\boldsymbol{\xi}$ 예요. 관심 있는 건 변환 후 차이 부분 $(\xi'_2, \ldots, \xi'_n)$ 의 밀도 $\rho$ 가 $\mathcal{O} := \{\max_{i \geq 2} |\xi'_i| < b/4\}$ 위에서 $\rho \geq b^{1-n}/2$ 를 만족하는가 예요.
 
 ```{python}
 n = 4
 xi = rng.uniform(0, b, size=(8, n))
-d1xi = xi[:, 1:] - xi[:, 0:1]   # Delta_1 xi = (xi2-xi1, xi3-xi1, xi4-xi1)
+xi_prime = xi.copy()
+xi_prime[:, 1:] = xi[:, 1:] - xi[:, 0:1]   # xi'_i = xi_i - xi_1 (i >= 2)
 
-print(f"xi  (8 samples, n={n}):")
+print(f"xi  (변환 전, n={n}):")
 for row in xi:
     print("  " + "  ".join(f"{v:.3f}" for v in row))
-print(f"\nDelta_1 xi = xi[1:] - xi[0]  (shape {d1xi.shape}):")
-for row in d1xi:
+print(f"\nxi' (변환 후): xi'_1=xi_1 고정, xi'_i=xi_i-xi_1 (i>=2):")
+for row in xi_prime:
     print("  " + "  ".join(f"{v:+.3f}" for v in row))
 ```
 
-**G.** $(\Delta_1\boldsymbol{\xi})_i = \xi_i - \xi_1$ 이 음수도 되네요.
+**G.** $\xi'_i$ 가 음수도 될 수 있네요.
 
-**H.** 당연해요. $\xi_2 < \xi_1$ 이면 $(\Delta_1\boldsymbol{\xi})_2 < 0$. 범위는 $(-b, b)$. $\rho_{\Delta_1\boldsymbol{\xi}}$ 는 이 차이 벡터가 어떤 값 근방에 떨어질 확률 밀도예요.
+**H.** 당연해요. $\xi_2 < \xi_1$ 이면 $\xi'_2 = \xi_2 - \xi_1 < 0$. 범위는 $(-b, b)$.
 
 ---
 
-**H.** **Step 1: 변수 변환 (unimodular shear)**.
+**H.** **Step 1: 변수 변환 — Jacobian 확인**.
 
-$(\xi_1, \ldots, \xi_n) \mapsto (\xi_1,\ (\Delta_1\boldsymbol{\xi})_2,\ \ldots,\ (\Delta_1\boldsymbol{\xi})_n)$ 로 바꿔요. 행렬로:
+$\boldsymbol{\xi}' = J\boldsymbol{\xi}$ 의 변환 행렬:
 
-$$\begin{pmatrix} \xi_1 \\ (\Delta_1\boldsymbol{\xi})_2 \\ \vdots \\ (\Delta_1\boldsymbol{\xi})_n \end{pmatrix} = \underbrace{\begin{pmatrix} 1 & 0 & \cdots & 0 \\ -1 & 1 & \cdots & 0 \\ \vdots & & \ddots & \vdots \\ -1 & 0 & \cdots & 1 \end{pmatrix}}_{J} \begin{pmatrix} \xi_1 \\ \xi_2 \\ \vdots \\ \xi_n \end{pmatrix}$$
+$$J = \begin{pmatrix} 1 & 0 & \cdots & 0 \\ -1 & 1 & \cdots & 0 \\ \vdots & & \ddots & \vdots \\ -1 & 0 & \cdots & 1 \end{pmatrix}$$
 
 ```{python}
 n = 4
 J = np.eye(n)
 J[1:, 0] = -1.0
 
-print(f"Jacobian J (n={n}):")
+print(f"J (n={n}):")
 print(J.astype(int))
-print(f"\ndet(J) = {np.linalg.det(J):.1f}   <- unimodular")
+print(f"\ndet(J) = {np.linalg.det(J):.1f}   <- unimodular: 밀도 보존")
 ```
 
 **G.** 행렬식이 1이에요.
 
-**H.** 변환 전후로 부피 요소가 보존돼요. 그래서 새 좌표 $(\xi_1, \Delta_1\boldsymbol{\xi})$ 의 joint density 도 $b^{-n}$ 그대로예요. 단 유효 범위: $\xi_1 \in [0,b]$ 이고 $\xi_i = \xi_1 + (\Delta_1\boldsymbol{\xi})_i \in [0,b]$, 즉
+**H.** $|\det J| = 1$ 이라 변환 전후로 부피 요소가 보존돼요. $\boldsymbol{\xi}$ 의 joint density 가 $b^{-n}$ 이면, $\boldsymbol{\xi}'$ 의 joint density 도 $b^{-n}$ 그대로예요. 단 유효 범위가 생겨요 — 원래 $\xi_i = \xi'_1 + \xi'_i \in [0, b]$ 이어야 하므로:
 
-$$\xi_1 \in [-(\Delta_1\boldsymbol{\xi})_i,\ b - (\Delta_1\boldsymbol{\xi})_i] \quad \text{for each } i.$$
+$$\xi'_1 \;\in\; [0, b] \cap \bigcap_{i=2}^{n} [-\xi'_i,\ b - \xi'_i]$$
 
 ---
 
-**H.** **Step 2: $\xi_1$ 적분 (marginalize)**.
+**H.** **Step 2: $\xi'_1$ 적분 (marginalize)**.
 
-$\rho_{\Delta_1\boldsymbol{\xi}}$ 를 얻으려면 $\xi_1$ 을 적분으로 날려요. 고정된 $\Delta_1\boldsymbol{\xi}$ 에서 가능한 $\xi_1$ 범위:
+$(\xi'_2, \ldots, \xi'_n)$ 의 marginal density $\rho$ 를 얻으려면 $\xi'_1$ 을 적분으로 날려요. 고정된 $(\xi'_2, \ldots, \xi'_n)$ 에서 가능한 $\xi'_1$ 범위의 길이 $\times\ b^{-n}$ 이에요:
 
-$$\xi_1 \in [0, b] \cap \bigcap_{i=2}^{n} \bigl[-(\Delta_1\boldsymbol{\xi})_i,\ b - (\Delta_1\boldsymbol{\xi})_i\bigr]$$
-
-이 구간의 길이 $\times\ b^{-n}$ 이 $\rho_{\Delta_1\boldsymbol{\xi}}$ 예요:
-
-$$\rho_{\Delta_1\boldsymbol{\xi}} \;=\; b^{-n}\Bigl|[0,b]\cap\bigcap_{i=2}^{n}\bigl[-(\Delta_1\boldsymbol{\xi})_i,\; b-(\Delta_1\boldsymbol{\xi})_i\bigr]\Bigr|$$
+$$\rho(\xi'_2, \ldots, \xi'_n) \;=\; b^{-n}\left|[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\ b-\xi'_i]\right|$$
 
 ```{python}
-def pushforward_density(d1xi_vec, b=1.0):
-    """rho_{Delta_1 xi} = b^{-n} * length of [0,b] ∩ ∩_i [-dxi_i, b-dxi_i]."""
+def marginal_density(xi_prime_rest, b=1.0):
+    """rho(xi'_2,...,xi'_n) = b^{-n} * |[0,b] ∩ ∩_i [-xi'_i, b-xi'_i]|."""
     lo, hi = 0.0, b
-    for dxi in d1xi_vec:
-        lo = max(lo, -dxi)
-        hi = min(hi, b - dxi)
+    for xp in xi_prime_rest:
+        lo = max(lo, -xp)
+        hi = min(hi, b - xp)
     length = max(0.0, hi - lo)
-    n = len(d1xi_vec) + 1
+    n = len(xi_prime_rest) + 1
     return (b ** (-n)) * length
 
-# n=2 (Delta_1 xi 가 스칼라) 에서 밀도 곡선
-d1xi_grid = np.linspace(-b + 0.001, b - 0.001, 400)
-rho_vals  = np.array([pushforward_density([v], b) for v in d1xi_grid])
+# n=2 (xi'_2 가 스칼라) 에서 밀도 곡선
+xp_grid   = np.linspace(-b + 0.001, b - 0.001, 400)
+rho_vals  = np.array([marginal_density([v], b) for v in xp_grid])
 rho_lower = b ** (1 - 2) / 2
 
 fig, ax = plt.subplots(figsize=(7, 3.5))
-ax.plot(d1xi_grid, rho_vals, lw=2, color="C0",
-        label=r"$\rho_{\Delta_1\boldsymbol{\xi}}$, $n=2$")
+ax.plot(xp_grid, rho_vals, lw=2, color="C0",
+        label=r"$\rho(\xi'_2)$, $n=2$")
 ax.axhline(rho_lower, color="crimson", ls="--", lw=1.5,
            label=rf"lower bound $b^{{1-n}}/2 = {rho_lower:.2f}$")
 ax.axvspan(-b/4, b/4, alpha=0.12, color="C2",
-           label=r"$\mathcal{O}$: $|\Delta_1\xi|<b/4$")
-ax.set_xlabel(r"$\Delta_1\xi$")
-ax.set_ylabel(r"$\rho_{\Delta_1\boldsymbol{\xi}}$")
-ax.set_title(r"$n=2$: $\rho_{\Delta_1\boldsymbol{\xi}}=b^{-2}|[0,b]\cap[-\Delta_1\xi,\,b-\Delta_1\xi]|$")
+           label=r"$\mathcal{O}$: $|\xi'_2|<b/4$")
+ax.set_xlabel(r"$\xi'_2$")
+ax.set_ylabel(r"$\rho(\xi'_2)$")
+ax.set_title(r"$n=2$: $\rho(\xi'_2)=b^{-2}|[0,b]\cap[-\xi'_2,\,b-\xi'_2]|$")
 ax.legend(fontsize=9)
 plt.tight_layout(); plt.show()
 ```
@@ -144,24 +137,24 @@ plt.tight_layout(); plt.show()
 
 **H.** **Step 3: 왜 $\mathcal{O}$ 위에서 길이 $\geq b/2$ 인가**.
 
-$|(\Delta_1\boldsymbol{\xi})_i| < b/4$ 이면 각 구간 $[-(\Delta_1\boldsymbol{\xi})_i,\ b-(\Delta_1\boldsymbol{\xi})_i]$ 가 $[b/4, 3b/4]$ 를 항상 포함해요.
+$|\xi'_i| < b/4$ 이면 각 구간 $[-\xi'_i,\ b - \xi'_i]$ 가 $[b/4, 3b/4]$ 를 항상 포함해요.
 
 ```{python}
 fig, axes = plt.subplots(1, 3, figsize=(8, 3))
 cases = [
-    (r"$(\Delta_1\xi)_i = 0$",    0.0),
-    (r"$(\Delta_1\xi)_i = +b/5$", b/5),
-    (r"$(\Delta_1\xi)_i = -b/5$", -b/5),
+    (r"$\xi'_i = 0$",    0.0),
+    (r"$\xi'_i = +b/5$", b/5),
+    (r"$\xi'_i = -b/5$", -b/5),
 ]
-for ax, (label, dxi) in zip(axes, cases):
-    lo_i, hi_i = -dxi, b - dxi
+for ax, (label, xp) in zip(axes, cases):
+    lo_i, hi_i = -xp, b - xp
     lo_f = max(0.0, lo_i); hi_f = min(b, hi_i)
 
-    ax.broken_barh([(0, b)],          (0.6, 0.2), facecolors="C0", alpha=0.5,
+    ax.broken_barh([(0, b)],             (0.6, 0.2), facecolors="C0", alpha=0.5,
                    label="$[0,b]$")
     ax.broken_barh([(lo_i, hi_i-lo_i)], (0.3, 0.2), facecolors="C1", alpha=0.5,
-                   label=r"$[-(\Delta_1\xi)_i,\,b-(\Delta_1\xi)_i]$")
-    ax.broken_barh([(b/4, b/2)],      (0.0, 0.2), facecolors="C2", alpha=0.8,
+                   label=r"$[-\xi'_i,\,b-\xi'_i]$")
+    ax.broken_barh([(b/4, b/2)],         (0.0, 0.2), facecolors="C2", alpha=0.8,
                    label=r"$[b/4,\,3b/4]$")
     if hi_f > lo_f:
         ax.broken_barh([(lo_f, hi_f-lo_f)], (0.15, 0.35),
@@ -174,24 +167,24 @@ for ax, (label, dxi) in zip(axes, cases):
     if ax is axes[0]:
         ax.legend(fontsize=7, loc="upper right")
 
-plt.suptitle(r"$[b/4,3b/4]\subseteq[0,b]\cap[-(\Delta_1\xi)_i,\,b-(\Delta_1\xi)_i]$ "
-             r"when $|(\Delta_1\xi)_i|<b/4$", fontsize=9)
+plt.suptitle(r"$[b/4,3b/4]\subseteq[0,b]\cap[-\xi'_i,\,b-\xi'_i]$ when $|\xi'_i|<b/4$",
+             fontsize=9)
 plt.tight_layout(); plt.show()
 ```
 
 **G.** 세 경우 모두 초록색 $[b/4, 3b/4]$ 가 교집합 안에 있네요.
 
-**H.** 형식적으로: $(\Delta_1\boldsymbol{\xi})_i \in (-b/4, b/4)$ 이면
+**H.** 형식적으로: $|\xi'_i| < b/4$ 이면
 
-$$-(\Delta_1\boldsymbol{\xi})_i \leq b/4 \quad\text{and}\quad b - (\Delta_1\boldsymbol{\xi})_i \geq 3b/4$$
+$$-\xi'_i \leq b/4 \quad\text{and}\quad b - \xi'_i \geq 3b/4$$
 
-이므로 $[b/4, 3b/4] \subseteq [-(\Delta_1\boldsymbol{\xi})_i, b-(\Delta_1\boldsymbol{\xi})_i]$. 모든 $i$ 와 $[0,b]$ 에 동시 적용:
+이므로 $[b/4, 3b/4] \subseteq [-\xi'_i, b-\xi'_i]$. 모든 $i \geq 2$ 와 $[0,b]$ 에 동시 적용:
 
-$$[0,b]\cap\bigcap_{i=2}^{n}\bigl[-(\Delta_1\boldsymbol{\xi})_i,\,b-(\Delta_1\boldsymbol{\xi})_i\bigr] \;\supseteq\; [b/4,\,3b/4]$$
+$$[0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i] \;\supseteq\; [b/4,\,3b/4]$$
 
 길이 $b/2$. 따라서:
 
-$$\rho_{\Delta_1\boldsymbol{\xi}} \;\geq\; b^{-n}\cdot\frac{b}{2} \;=\; \frac{b^{1-n}}{2}$$
+$$\rho(\xi'_2, \ldots, \xi'_n) \;\geq\; b^{-n}\cdot\frac{b}{2} \;=\; \frac{b^{1-n}}{2}$$
 
 ---
 
@@ -199,31 +192,30 @@ $$\rho_{\Delta_1\boldsymbol{\xi}} \;\geq\; b^{-n}\cdot\frac{b}{2} \;=\; \frac{b^
 
 ```{python}
 N_GRID = 60
-ax1_grid = np.linspace(-b/2, b/2, N_GRID)
-DX2, DX3 = np.meshgrid(ax1_grid, ax1_grid)   # components of Delta_1 xi for n=3
-RHO = np.array([[pushforward_density([DX2[i,j], DX3[i,j]], b)
+xp_ax   = np.linspace(-b/2, b/2, N_GRID)
+XP2, XP3 = np.meshgrid(xp_ax, xp_ax)   # xi'_2, xi'_3 for n=3
+RHO = np.array([[marginal_density([XP2[i,j], XP3[i,j]], b)
                  for j in range(N_GRID)] for i in range(N_GRID)])
 lower_n3 = b**(1-3) / 2
 
 fig, axes = plt.subplots(1, 2, figsize=(8, 3.5))
 
-cf = axes[0].contourf(DX2, DX3, RHO, levels=20, cmap="Blues")
+cf = axes[0].contourf(XP2, XP3, RHO, levels=20, cmap="Blues")
 plt.colorbar(cf, ax=axes[0])
 sq = plt.Rectangle((-b/4,-b/4), b/2, b/2,
                    fill=False, edgecolor="crimson", lw=2, label=r"$\mathcal{O}$")
 axes[0].add_patch(sq)
-axes[0].set_title(r"$\rho_{\Delta_1\boldsymbol{\xi}}$, $n=3$")
-axes[0].set_xlabel(r"$(\Delta_1\boldsymbol{\xi})_2$")
-axes[0].set_ylabel(r"$(\Delta_1\boldsymbol{\xi})_3$")
+axes[0].set_title(r"$\rho(\xi'_2, \xi'_3)$, $n=3$")
+axes[0].set_xlabel(r"$\xi'_2$"); axes[0].set_ylabel(r"$\xi'_3$")
 axes[0].legend(fontsize=9)
 
-in_O = (np.abs(DX2) < b/4) & (np.abs(DX3) < b/4)
+in_O = (np.abs(XP2) < b/4) & (np.abs(XP3) < b/4)
 rho_in_O = RHO[in_O]
 axes[1].hist(rho_in_O, bins=30, color="C0", alpha=0.8)
 axes[1].axvline(lower_n3, color="crimson", lw=2, ls="--",
                 label=rf"$b^{{1-n}}/2 = {lower_n3:.4f}$")
-axes[1].set_title(r"$\rho_{\Delta_1\boldsymbol{\xi}}$ inside $\mathcal{O}$ ($n=3$)")
-axes[1].set_xlabel(r"$\rho_{\Delta_1\boldsymbol{\xi}}$")
+axes[1].set_title(r"$\rho$ inside $\mathcal{O}$ ($n=3$)")
+axes[1].set_xlabel(r"$\rho(\xi'_2,\xi'_3)$")
 axes[1].legend(fontsize=9)
 
 print(f"n=3 lower bound b^(1-n)/2 = {lower_n3:.4f}")
@@ -235,6 +227,4 @@ plt.tight_layout(); plt.show()
 
 **H.** 한 줄 요약:
 
-$$|(\Delta_1\boldsymbol{\xi})_i| < b/4 \;\Rightarrow\; [b/4,3b/4]\subseteq\text{intersection} \;\Rightarrow\; \text{length}\geq b/2 \;\Rightarrow\; \rho_{\Delta_1\boldsymbol{\xi}} \geq b^{1-n}/2$$
-
-$\Delta_1\boldsymbol{\xi}$ 가 $\Delta_1\mathbf{h}$ 와 같은 공간 $\mathbb{R}^{n-1}$ 에 살고, Lemma 4 는 그 공간에서 퇴적 차이의 밀도가 충분히 두텁다는 것을 보여요 — Doeblin minorization 의 재료가 이렇게 만들어져요.
+$$|\xi'_i| < b/4 \;\Rightarrow\; [b/4,3b/4]\subseteq\text{intersection} \;\Rightarrow\; \text{length}\geq b/2 \;\Rightarrow\; \rho(\xi'_2,\ldots,\xi'_n) \geq b^{1-n}/2$$

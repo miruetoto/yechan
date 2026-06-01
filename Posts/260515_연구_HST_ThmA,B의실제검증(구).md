@@ -2,7 +2,7 @@
 title: 연구 ▷ HST ▷ Thm A, B의 실제 검증 (구)
 author: 소미
 date: 05/15/2026
-draft: true
+draft: false
 output-file: 260515_86e68b.html
 ---
 
