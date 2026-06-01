@@ -23,7 +23,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 
 > *(스튜디오. Lemma 7 카드 한 장.)*
 
-**H.** 오늘 Lemma 7 이에요. 핵심 한 줄: **fall 들이 cyclic 하게 떨어지는 이벤트 위에서, "각 노드 총 fall 량의 노드 1 대비 차이"를 fall 양들의 선형사상 $\Sigma$ 로 보면, 이 $\Sigma$ 가 full rank · 우역원(right inverse) · 깔끔한 Jacobian 을 가진다.**
+**H.** 오늘 Lemma 7 이에요. 핵심 한 줄: **fall 들이 cyclic 하게 떨어지는 이벤트 위에서, "각 노드 총 fall 량의 노드 $v_1$ 대비 차이"를 fall 양들의 선형사상 $\Sigma$ 로 보면, 이 $\Sigma$ 가 full rank · 우역원(right inverse) · 깔끔한 Jacobian 을 가진다.**
 
 **G.** 셋업부터요.
 
@@ -63,27 +63,27 @@ rng = np.random.default_rng(20260601)
 
 **H.** 핵심 사상 $\Sigma : \mathbb{R}^N \to \mathbb{R}^{n-1}$ 는 두 단계로 만들어져요.
 
-**1단계 — 노드별 총 fall 량.** 각 노드 $k$ 에 $L$ 사이클 동안 쌓인 fall 을 다 더해요:
+**1단계 — 노드별 총 fall 량.** 각 노드 $v_k$ 에 $L$ 사이클 동안 쌓인 fall 을 다 더해요:
 
-$$S_k := \sum_{\ell=1}^{L} b'_{k,\ell} \qquad (k = 1, \ldots, n)$$
+$$S_{v_k} := \sum_{\ell=1}^{L} b'_{k,\ell} \qquad (k = 1, \ldots, n)$$
 
-**2단계 — 노드 1 기준 차이(anchoring).** 노드 1 의 총량 $S_1$ 을 기준점으로 빼요:
+**2단계 — 노드 $v_1$ 기준 차이(anchoring).** 노드 $v_1$ 의 총량 $S_{v_1}$ 을 기준점으로 빼요:
 
-$$\Sigma b' = (S_2 - S_1,\ S_3 - S_1,\ \ldots,\ S_n - S_1) \in \mathbb{R}^{n-1}$$
+$$\Sigma b' = (S_{v_2} - S_{v_1},\ S_{v_3} - S_{v_1},\ \ldots,\ S_{v_n} - S_{v_1}) \in \mathbb{R}^{n-1}$$
 
-성분이 $n-1$ 개인 이유: 노드 $n$ 개 중 기준 노드 1 자신($S_1 - S_1 = 0$)은 빠지니까요. 절대 높이는 눈이 쌓여 계속 커지지만 **노드 간 차이**만 의미가 있어서 이렇게 anchor 해요 (HST augmented state 의 $\Delta_1\mathbf{h}$ 와 같은 정신).
+성분이 $n-1$ 개인 이유: 노드 $n$ 개 중 기준 노드 $v_1$ 자신($S_{v_1} - S_{v_1} = 0$)은 빠지니까요. 절대 높이는 눈이 쌓여 계속 커지지만 **노드 간 차이**만 의미가 있어서 이렇게 anchor 해요 (HST augmented state 의 $\Delta_1\mathbf{h}$ 와 같은 정신).
 
 이름 "cumulative centred fall shift" 를 풀면:
 
 - **cumulative** = $L$ 사이클 누적 합 ($\sum_\ell$)
-- **centred** = 노드 1 기준 centering (anchoring)
+- **centred** = 노드 $v_1$ 기준 centering (anchoring)
 - **fall shift** = fall 로 생긴 높이 이동
 
 구체 예시로 ($n=3$, $L=2$):
 
-$$S_1 = b'_{1,1}+b'_{1,2}, \quad S_2 = b'_{2,1}+b'_{2,2}, \quad S_3 = b'_{3,1}+b'_{3,2} \;\Rightarrow\; \Sigma b' = (S_2 - S_1,\ S_3 - S_1) \in \mathbb{R}^2$$
+$$S_{v_1} = b'_{1,1}+b'_{1,2}, \quad S_{v_2} = b'_{2,1}+b'_{2,2}, \quad S_{v_3} = b'_{3,1}+b'_{3,2} \;\Rightarrow\; \Sigma b' = (S_{v_2} - S_{v_1},\ S_{v_3} - S_{v_1}) \in \mathbb{R}^2$$
 
-숫자로 ($b=1$): 사이클 1 이 $(0.2, 0.6, 0.9)$, 사이클 2 가 $(0.1, 0.5, 0.8)$ 이면 $(S_1, S_2, S_3) = (0.3, 1.1, 1.7)$, 따라서 $\Sigma b' = (0.8,\ 1.4)$.
+숫자로 ($b=1$): 사이클 1 이 $(0.2, 0.6, 0.9)$, 사이클 2 가 $(0.1, 0.5, 0.8)$ 이면 $(S_{v_1}, S_{v_2}, S_{v_3}) = (0.3, 1.1, 1.7)$, 따라서 $\Sigma b' = (0.8,\ 1.4)$.
 
 **G.** Lemma 4 랑 닮았는데요?
 
@@ -107,9 +107,9 @@ print(Sigma.astype(int))
 print(f"\nrank(Sigma) = {np.linalg.matrix_rank(Sigma)}  (= d = {d})")
 ```
 
-**G.** 각 행이 "노드 $k$ 자리에 +1, 노드 1 자리에 −1" 패턴이네요.
+**G.** 각 행이 "노드 $v_k$ 자리에 +1, 노드 $v_1$ 자리에 −1" 패턴이네요.
 
-**H.** 맞아요. 행 하나가 한 노드의 (노드 1 대비) 차이를 뽑아요. 이제 네 가지 결론을 봐요.
+**H.** 맞아요. 행 하나가 한 노드의 (노드 $v_1$ 대비) 차이를 뽑아요. 이제 네 가지 결론을 봐요.
 
 ---
 
@@ -189,13 +189,13 @@ $$\mathrm{Range}(\Sigma^\top) = \{c\in\mathbb{R}^N : c_{k,\ell} = a_k\ \text{($\
 
 **rank 와 우역원.** $\Sigma$ 는 Lemma 4 의 per-block 차이사상 $\Delta_1$ 의 $L$-fold sum 이고, $\Delta_1$ 은 rank $n-1$ 이다. 따라서 $\mathrm{rank}\,\Sigma = n-1$ (full row rank) 이고, full row rank 행렬은 우역원을 가지므로 $\Sigma Q = I_{n-1}$ 인 $Q$ 가 존재한다. $Q$ 를 유한차원 행렬로 잡으면 $C_Q = \|Q\|_{\infty\to\infty} < \infty$.
 
-**Gram 계산과 Jacobian.** 각 행이 "노드 $k$ 자리 $+1$, 노드 1 자리 $-1$" 의 $L$ 사이클 합이므로, 행 $i$ 와 행 $j$ 의 내적은
+**Gram 계산과 Jacobian.** 각 행이 "노드 $v_k$ 자리 $+1$, 노드 $v_1$ 자리 $-1$" 의 $L$ 사이클 합이므로, 행 $i$ 와 행 $j$ 의 내적은
 
 $$\begin{aligned}
 (\Sigma\Sigma^\top)_{ij}
 &= \sum_\ell \big[\text{(행 $i$)}_\ell \cdot \text{(행 $j$)}_\ell\big] \\
 &= \begin{cases} L\cdot(1^2 + 1^2) = 2L & i = j \\[2pt] L\cdot(1\cdot 1) = L & i \neq j \end{cases}
-   && (\because \text{노드 1 자리 공유 + 자기 노드 자리}) \\
+   && (\because \text{노드 } v_1 \text{ 자리 공유 + 자기 노드 자리}) \\
 \Rightarrow\quad \Sigma\Sigma^\top &= L\,(I_{n-1} + \mathbf{1}\mathbf{1}^\top)
 \end{aligned}$$
 

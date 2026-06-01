@@ -268,7 +268,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <blockquote class="blockquote">
 <p><em>(스튜디오. Lemma 7 카드 한 장.)</em></p>
 </blockquote>
-<p><strong>H.</strong> 오늘 Lemma 7 이에요. 핵심 한 줄: <strong>fall 들이 cyclic 하게 떨어지는 이벤트 위에서, “각 노드 총 fall 량의 노드 1 대비 차이”를 fall 양들의 선형사상 <span class="math inline">\(\Sigma\)</span> 로 보면, 이 <span class="math inline">\(\Sigma\)</span> 가 full rank · 우역원(right inverse) · 깔끔한 Jacobian 을 가진다.</strong></p>
+<p><strong>H.</strong> 오늘 Lemma 7 이에요. 핵심 한 줄: <strong>fall 들이 cyclic 하게 떨어지는 이벤트 위에서, “각 노드 총 fall 량의 노드 <span class="math inline">\(v_1\)</span> 대비 차이”를 fall 양들의 선형사상 <span class="math inline">\(\Sigma\)</span> 로 보면, 이 <span class="math inline">\(\Sigma\)</span> 가 full rank · 우역원(right inverse) · 깔끔한 Jacobian 을 가진다.</strong></p>
 <p><strong>G.</strong> 셋업부터요.</p>
 <p><strong>H.</strong> 이벤트 <span class="math inline">\(\mathcal{A}_1\)</span> 위에서 시작해요 — <span class="math inline">\(nL\)</span> 개 fall 의 <strong>착지 노드 순서</strong>가 <span class="math inline">\(v_1, \ldots, v_n\)</span> 을 <strong>cyclic 하게 <span class="math inline">\(L\)</span> 사이클</strong> 도는 사건이에요. 노드 <span class="math inline">\(n\)</span> 개를 한 바퀴 도는 걸 <span class="math inline">\(L\)</span> 번.</p>
 <p><strong>G.</strong> <span class="math inline">\(nL\)</span> 개 fall 이 연속으로 <span class="math inline">\(v_1, v_2, \ldots\)</span> 떨어진다는 건가요?</p>
@@ -282,7 +282,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <li><span class="math inline">\(\sum_\ell b'_{k,\ell}\)</span> : 노드 <span class="math inline">\(k\)</span> 에 <span class="math inline">\(L\)</span> 사이클 동안 쌓인 <strong>총 fall 량</strong> (flow/block deposit 은 제외 — 이건 다른 보조정리에서 residual 로 처리)</li>
 </ul>
 <p><strong>왜 fall 만 모으나</strong>: fall 의 목적지는 <span class="math inline">\(\mu_0\)</span> (full support) 라 <strong>임의 노드로 양의 확률로 보낼 수 있어요</strong>. flow 는 현재 height 에 의존(downstream 으로만)해서 통제가 안 돼요. 그래서 “모든 노드를 균등하게 <span class="math inline">\(L\)</span> 번씩 커버”하는 통제는 fall 의 <span class="math inline">\(\mu_0\)</span> draw 로만 가능하고, <span class="math inline">\(\Sigma\)</span> 가 fall 양만 모으는 거예요.</p>
-<div id="a3acc0f5" class="cell" data-execution_count="1">
+<div id="c77c2747" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">"seaborn-v0_8-whitegrid"</span>)</span>
@@ -297,23 +297,23 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">20260601</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>H.</strong> 핵심 사상 <span class="math inline">\(\Sigma : \mathbb{R}^N \to \mathbb{R}^{n-1}\)</span> 는 두 단계로 만들어져요.</p>
-<p><strong>1단계 — 노드별 총 fall 량.</strong> 각 노드 <span class="math inline">\(k\)</span> 에 <span class="math inline">\(L\)</span> 사이클 동안 쌓인 fall 을 다 더해요:</p>
-<p><span class="math display">\[S_k := \sum_{\ell=1}^{L} b'_{k,\ell} \qquad (k = 1, \ldots, n)\]</span></p>
-<p><strong>2단계 — 노드 1 기준 차이(anchoring).</strong> 노드 1 의 총량 <span class="math inline">\(S_1\)</span> 을 기준점으로 빼요:</p>
-<p><span class="math display">\[\Sigma b' = (S_2 - S_1,\ S_3 - S_1,\ \ldots,\ S_n - S_1) \in \mathbb{R}^{n-1}\]</span></p>
-<p>성분이 <span class="math inline">\(n-1\)</span> 개인 이유: 노드 <span class="math inline">\(n\)</span> 개 중 기준 노드 1 자신(<span class="math inline">\(S_1 - S_1 = 0\)</span>)은 빠지니까요. 절대 높이는 눈이 쌓여 계속 커지지만 <strong>노드 간 차이</strong>만 의미가 있어서 이렇게 anchor 해요 (HST augmented state 의 <span class="math inline">\(\Delta_1\mathbf{h}\)</span> 와 같은 정신).</p>
+<p><strong>1단계 — 노드별 총 fall 량.</strong> 각 노드 <span class="math inline">\(v_k\)</span> 에 <span class="math inline">\(L\)</span> 사이클 동안 쌓인 fall 을 다 더해요:</p>
+<p><span class="math display">\[S_{v_k} := \sum_{\ell=1}^{L} b'_{k,\ell} \qquad (k = 1, \ldots, n)\]</span></p>
+<p><strong>2단계 — 노드 <span class="math inline">\(v_1\)</span> 기준 차이(anchoring).</strong> 노드 <span class="math inline">\(v_1\)</span> 의 총량 <span class="math inline">\(S_{v_1}\)</span> 을 기준점으로 빼요:</p>
+<p><span class="math display">\[\Sigma b' = (S_{v_2} - S_{v_1},\ S_{v_3} - S_{v_1},\ \ldots,\ S_{v_n} - S_{v_1}) \in \mathbb{R}^{n-1}\]</span></p>
+<p>성분이 <span class="math inline">\(n-1\)</span> 개인 이유: 노드 <span class="math inline">\(n\)</span> 개 중 기준 노드 <span class="math inline">\(v_1\)</span> 자신(<span class="math inline">\(S_{v_1} - S_{v_1} = 0\)</span>)은 빠지니까요. 절대 높이는 눈이 쌓여 계속 커지지만 <strong>노드 간 차이</strong>만 의미가 있어서 이렇게 anchor 해요 (HST augmented state 의 <span class="math inline">\(\Delta_1\mathbf{h}\)</span> 와 같은 정신).</p>
 <p>이름 “cumulative centred fall shift” 를 풀면:</p>
 <ul>
 <li><strong>cumulative</strong> = <span class="math inline">\(L\)</span> 사이클 누적 합 (<span class="math inline">\(\sum_\ell\)</span>)</li>
-<li><strong>centred</strong> = 노드 1 기준 centering (anchoring)</li>
+<li><strong>centred</strong> = 노드 <span class="math inline">\(v_1\)</span> 기준 centering (anchoring)</li>
 <li><strong>fall shift</strong> = fall 로 생긴 높이 이동</li>
 </ul>
 <p>구체 예시로 (<span class="math inline">\(n=3\)</span>, <span class="math inline">\(L=2\)</span>):</p>
-<p><span class="math display">\[S_1 = b'_{1,1}+b'_{1,2}, \quad S_2 = b'_{2,1}+b'_{2,2}, \quad S_3 = b'_{3,1}+b'_{3,2} \;\Rightarrow\; \Sigma b' = (S_2 - S_1,\ S_3 - S_1) \in \mathbb{R}^2\]</span></p>
-<p>숫자로 (<span class="math inline">\(b=1\)</span>): 사이클 1 이 <span class="math inline">\((0.2, 0.6, 0.9)\)</span>, 사이클 2 가 <span class="math inline">\((0.1, 0.5, 0.8)\)</span> 이면 <span class="math inline">\((S_1, S_2, S_3) = (0.3, 1.1, 1.7)\)</span>, 따라서 <span class="math inline">\(\Sigma b' = (0.8,\ 1.4)\)</span>.</p>
+<p><span class="math display">\[S_{v_1} = b'_{1,1}+b'_{1,2}, \quad S_{v_2} = b'_{2,1}+b'_{2,2}, \quad S_{v_3} = b'_{3,1}+b'_{3,2} \;\Rightarrow\; \Sigma b' = (S_{v_2} - S_{v_1},\ S_{v_3} - S_{v_1}) \in \mathbb{R}^2\]</span></p>
+<p>숫자로 (<span class="math inline">\(b=1\)</span>): 사이클 1 이 <span class="math inline">\((0.2, 0.6, 0.9)\)</span>, 사이클 2 가 <span class="math inline">\((0.1, 0.5, 0.8)\)</span> 이면 <span class="math inline">\((S_{v_1}, S_{v_2}, S_{v_3}) = (0.3, 1.1, 1.7)\)</span>, 따라서 <span class="math inline">\(\Sigma b' = (0.8,\ 1.4)\)</span>.</p>
 <p><strong>G.</strong> Lemma 4 랑 닮았는데요?</p>
 <p><strong>H.</strong> 정확해요. Lemma 4 의 <span class="math inline">\(\Delta_1\boldsymbol{\xi} = (\xi_2-\xi_1, \ldots, \xi_n-\xi_1)\)</span> 랑 같은 구조인데, <strong>한 번이 아니라 <span class="math inline">\(L\)</span> 사이클 합</strong>으로 한 거예요. 그래서 <span class="math inline">\(\Sigma\)</span> 는 per-block 차이사상 <span class="math inline">\(\Delta_1\)</span> 의 <strong><span class="math inline">\(L\)</span>-fold sum</strong> 이에요.</p>
-<div id="bcab25e7" class="cell" data-execution_count="2">
+<div id="2d8a823b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 작은 예: n=3, L=4 → N=12, d=2 인 Sigma 행렬 구성</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n, L <span class="op">=</span> <span class="dv">3</span>, <span class="dv">4</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>N, d <span class="op">=</span> n <span class="op">*</span> L, n <span class="op">-</span> <span class="dv">1</span></span>
@@ -338,15 +338,15 @@ Sigma (d×N):
 rank(Sigma) = 2  (= d = 2)</code></pre>
 </div>
 </div>
-<p><strong>G.</strong> 각 행이 “노드 <span class="math inline">\(k\)</span> 자리에 +1, 노드 1 자리에 −1” 패턴이네요.</p>
-<p><strong>H.</strong> 맞아요. 행 하나가 한 노드의 (노드 1 대비) 차이를 뽑아요. 이제 네 가지 결론을 봐요.</p>
+<p><strong>G.</strong> 각 행이 “노드 <span class="math inline">\(v_k\)</span> 자리에 +1, 노드 <span class="math inline">\(v_1\)</span> 자리에 −1” 패턴이네요.</p>
+<p><strong>H.</strong> 맞아요. 행 하나가 한 노드의 (노드 <span class="math inline">\(v_1\)</span> 대비) 차이를 뽑아요. 이제 네 가지 결론을 봐요.</p>
 <hr>
 <p><strong>H.</strong> <strong>(1) <span class="math inline">\(\mathrm{rank}\,\Sigma = n-1\)</span>.</strong> <span class="math inline">\(\Delta_1\)</span> 이 rank <span class="math inline">\(n-1\)</span> 라 <span class="math inline">\(L\)</span>-fold sum 인 <span class="math inline">\(\Sigma\)</span> 도 rank <span class="math inline">\(n-1\)</span> — 출력공간 <span class="math inline">\(\mathbb{R}^{n-1}\)</span> 를 꽉 채워요.</p>
 <p><strong>(2) coarea Jacobian <span class="math inline">\(J(\Sigma) = \sqrt{\det(\Sigma\Sigma^\top)} = \sqrt{L^{n-1}n}\)</span>.</strong> Gram 행렬을 계산하면</p>
 <p><span class="math display">\[\Sigma\Sigma^\top = L\,(I_{n-1} + \mathbf{1}\mathbf{1}^\top)\]</span></p>
 <p>이고, 행렬식 보조정리로</p>
 <p><span class="math display">\[\det(I_{n-1} + \mathbf{1}\mathbf{1}^\top) = 1 + \mathbf{1}^\top\mathbf{1} = 1 + (n-1) = n \;\Rightarrow\; \det(\Sigma\Sigma^\top) = L^{n-1}\cdot n = L^{n-1}n\]</span></p>
-<div id="06339ca1" class="cell" data-execution_count="3">
+<div id="0ca8d2ee" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Gram <span class="op">=</span> Sigma <span class="op">@</span> Sigma.T</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Gram = Sigma Sigma^T:"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Gram.astype(<span class="bu">int</span>))</span>
@@ -366,7 +366,7 @@ J(Sigma)=sqrt(det) = 6.9282  vs  sqrt(L^(n-1)n) = 6.9282</code></pre>
 </div>
 </div>
 <p><strong>(3) 우역원 <span class="math inline">\(Q\)</span> 존재, <span class="math inline">\(\Sigma Q = I_{n-1}\)</span>, <span class="math inline">\(C_Q = \|Q\|_{\infty\to\infty} &lt; \infty\)</span>.</strong> full row rank 라 오른쪽 역사상이 존재해요. “원하는 차이 벡터 <span class="math inline">\(z\)</span> 를 만들려면 fall 양을 이렇게 잡아라”가 <span class="math inline">\(Qz\)</span>. <span class="math inline">\(C_Q &lt; \infty\)</span> 는 그 구성이 <strong>유계</strong> — 입력이 크지 않으면 필요한 fall 양도 폭주 안 함.</p>
-<div id="972295f8" class="cell" data-execution_count="4">
+<div id="bbfa759e" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 우역원 Q (Moore-Penrose pseudo-inverse 가 한 예)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> Sigma.T <span class="op">@</span> np.linalg.inv(Sigma <span class="op">@</span> Sigma.T)   <span class="co"># right inverse: Sigma Q = I_d</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sigma Q = I_d 확인:"</span>)</span>
@@ -418,12 +418,12 @@ Sigma (Q z) = [ 0.7 -0.3]   (= z 복원)</code></pre>
 <p><span class="math display">\[\mathrm{Range}(\Sigma^\top) = \{c\in\mathbb{R}^N : c_{k,\ell} = a_k\ \text{($\ell$ 무관)},\ \textstyle\sum_k a_k = 0\}\]</span></p>
 <p><strong>Proof.</strong></p>
 <p><strong>rank 와 우역원.</strong> <span class="math inline">\(\Sigma\)</span> 는 Lemma 4 의 per-block 차이사상 <span class="math inline">\(\Delta_1\)</span> 의 <span class="math inline">\(L\)</span>-fold sum 이고, <span class="math inline">\(\Delta_1\)</span> 은 rank <span class="math inline">\(n-1\)</span> 이다. 따라서 <span class="math inline">\(\mathrm{rank}\,\Sigma = n-1\)</span> (full row rank) 이고, full row rank 행렬은 우역원을 가지므로 <span class="math inline">\(\Sigma Q = I_{n-1}\)</span> 인 <span class="math inline">\(Q\)</span> 가 존재한다. <span class="math inline">\(Q\)</span> 를 유한차원 행렬로 잡으면 <span class="math inline">\(C_Q = \|Q\|_{\infty\to\infty} &lt; \infty\)</span>.</p>
-<p><strong>Gram 계산과 Jacobian.</strong> 각 행이 “노드 <span class="math inline">\(k\)</span> 자리 <span class="math inline">\(+1\)</span>, 노드 1 자리 <span class="math inline">\(-1\)</span>” 의 <span class="math inline">\(L\)</span> 사이클 합이므로, 행 <span class="math inline">\(i\)</span> 와 행 <span class="math inline">\(j\)</span> 의 내적은</p>
+<p><strong>Gram 계산과 Jacobian.</strong> 각 행이 “노드 <span class="math inline">\(v_k\)</span> 자리 <span class="math inline">\(+1\)</span>, 노드 <span class="math inline">\(v_1\)</span> 자리 <span class="math inline">\(-1\)</span>” 의 <span class="math inline">\(L\)</span> 사이클 합이므로, 행 <span class="math inline">\(i\)</span> 와 행 <span class="math inline">\(j\)</span> 의 내적은</p>
 <p><span class="math display">\[\begin{aligned}
 (\Sigma\Sigma^\top)_{ij}
 &amp;= \sum_\ell \big[\text{(행 $i$)}_\ell \cdot \text{(행 $j$)}_\ell\big] \\
 &amp;= \begin{cases} L\cdot(1^2 + 1^2) = 2L &amp; i = j \\[2pt] L\cdot(1\cdot 1) = L &amp; i \neq j \end{cases}
-   &amp;&amp; (\because \text{노드 1 자리 공유 + 자기 노드 자리}) \\
+   &amp;&amp; (\because \text{노드 } v_1 \text{ 자리 공유 + 자기 노드 자리}) \\
 \Rightarrow\quad \Sigma\Sigma^\top &amp;= L\,(I_{n-1} + \mathbf{1}\mathbf{1}^\top)
 \end{aligned}\]</span></p>
 <p>행렬식 보조정리 <span class="math inline">\(\det(I_{n-1} + uv^\top) = 1 + v^\top u\)</span> 를 <span class="math inline">\(u = v = \mathbf{1}\)</span> 에 적용하면</p>
