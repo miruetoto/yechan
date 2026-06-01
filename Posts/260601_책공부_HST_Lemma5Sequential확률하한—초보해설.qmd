@@ -83,7 +83,7 @@ $$\mathbb{P}(b'_s \leq \varepsilon_s \mid \mathcal{F}_{s-1}) \;=\; \frac{\vareps
 
 조건을 걸어도 깔끔하게 $\varepsilon_s/b$ 가 나와요. 이걸 **tower property** — 조건부 기댓값을 순차적으로 쌓는 것 — 로 $\leq K$ 개 스텝에 이어 붙이면
 
-$$\mathbb{P}(\mathcal{E} \mid \mathcal{F}_0) \;\geq\; \prod_{s:\, C_s = 1} \frac{\varepsilon_s}{b} \;\geq\; \left(\frac{\varepsilon_{\min}}{b}\right)^{K}, \qquad \varepsilon_{\min} := \min_s \varepsilon_s$$
+$$\mathbb{P}(\mathcal{E} \mid \mathcal{F}_0) \;\geq\; \prod_{s \in \{s\,:\, C_s = 1\}} \frac{\varepsilon_s}{b} \;\geq\; \left(\frac{\varepsilon_{\min}}{b}\right)^{K}, \qquad \varepsilon_{\min} := \min_s \varepsilon_s$$
 
 마지막 부등식은 각 비율 $\varepsilon_s/b$ 를 가장 작은 $\varepsilon_{\min}/b$ 로 갈아끼우고 개수를 최대 $K$ 로 잡은 거예요. 비율이 1보다 작으니 많이 곱할수록 작아져서 $K$ 제곱이 하한.
 
@@ -159,11 +159,11 @@ print(f"하한 (eps_min/b)^K = {lower_seq[-1]:.5f}")
 
 **Lemma.** $\{b'_s\}_{s\geq 1}$ 을 $\mathrm{Unif}(0,b)$ i.i.d. 라 하고, filtration $\{\mathcal{F}_s\}$ 위에서 $b'_s \perp \mathcal{F}_{s-1}$ 이라 하자. $\{C_s\}_{s\geq 1}$ 을 binary $\{\mathcal{F}_{s-1}\}$-predictable classification ($\{C_s = 1\}\in\mathcal{F}_{s-1}$) 이라 하자. 고정된 bound $0 < \varepsilon_s \leq b$ 와 사건
 
-$$\mathcal{E} \;:=\; \bigcap_{s:\, C_s = 1}\{b'_s \leq \varepsilon_s\}$$
+$$\mathcal{E} \;:=\; \bigcap_{s \in \{s\,:\, C_s = 1\}}\{b'_s \leq \varepsilon_s\}$$
 
 에 대해, $\leq K$ 개의 conditioned step 으로 이루어진 window 에 제한하면
 
-$$\mathbb{P}(\mathcal{E}\mid\mathcal{F}_0) \;\geq\; \prod_{s:\, C_s = 1}\frac{\varepsilon_s}{b} \;\geq\; \left(\frac{\varepsilon_{\min}}{b}\right)^{K}, \qquad \varepsilon_{\min} := \min_s \varepsilon_s$$
+$$\mathbb{P}(\mathcal{E}\mid\mathcal{F}_0) \;\geq\; \prod_{s \in \{s\,:\, C_s = 1\}}\frac{\varepsilon_s}{b} \;\geq\; \left(\frac{\varepsilon_{\min}}{b}\right)^{K}, \qquad \varepsilon_{\min} := \min_s \varepsilon_s$$
 
 **Proof.**
 
@@ -191,15 +191,15 @@ $$\begin{aligned}
 
 여기서 $\mathbf{1}\{\cdot\}$ 은 사건의 지시함수 (성립 시 1, 아니면 0). 안쪽 $m-1$ 개에 같은 단계를 반복하면
 
-$$\mathbb{P}(\mathcal{E}\mid\mathcal{F}_0) \;=\; \prod_{j=1}^{m}\frac{\varepsilon_{s_j}}{b} \;=\; \prod_{s:\, C_s = 1}\frac{\varepsilon_s}{b}$$
+$$\mathbb{P}(\mathcal{E}\mid\mathcal{F}_0) \;=\; \prod_{j=1}^{m}\frac{\varepsilon_{s_j}}{b} \;=\; \prod_{s \in \{s\,:\, C_s = 1\}}\frac{\varepsilon_s}{b}$$
 
 (엄밀히는 일반 dependence 하에서 각 step 이 부등식 방향으로만 보장되므로 $\geq$ 로 둔다.)
 
 **균등 하한.** 각 $s$ 에서 $\varepsilon_s \geq \varepsilon_{\min}$ 이므로 $\varepsilon_s/b \geq \varepsilon_{\min}/b$. 또 conditioned step 수 $m \leq K$ 이고 각 인자 $\varepsilon_s/b \leq 1$ 이므로
 
 $$\begin{aligned}
-\prod_{s:\, C_s = 1}\frac{\varepsilon_s}{b}
-&\geq \prod_{s:\, C_s = 1}\frac{\varepsilon_{\min}}{b} && (\because \varepsilon_s \geq \varepsilon_{\min}) \\
+\prod_{s \in \{s\,:\, C_s = 1\}}\frac{\varepsilon_s}{b}
+&\geq \prod_{s \in \{s\,:\, C_s = 1\}}\frac{\varepsilon_{\min}}{b} && (\because \varepsilon_s \geq \varepsilon_{\min}) \\
 &= \left(\frac{\varepsilon_{\min}}{b}\right)^{m} \\
 &\geq \left(\frac{\varepsilon_{\min}}{b}\right)^{K} && \left(\because \frac{\varepsilon_{\min}}{b}\leq 1,\; m\leq K\right)
 \end{aligned}$$
