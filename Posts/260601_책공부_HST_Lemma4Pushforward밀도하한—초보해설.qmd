@@ -62,7 +62,7 @@ print("xi' (after) :", *[f"({','.join(f'{v:+.2f}' for v in r)})" for r in xip], 
 
 **변환 후 밀도.** $|\det J| = 1$ 이므로 변수 변환 공식에 의해
 
-$$f_{\boldsymbol{\xi}'}(\xi'_1, \ldots, \xi'_n) \;=\; f_{\boldsymbol{\xi}}(J^{-1}\boldsymbol{\xi}')\cdot|\det J|^{-1} \;=\; b^{-n} \qquad (\because |\det J| = 1)$$
+$$f_{\boldsymbol{\xi}'}(\xi'_1, \ldots, \xi'_n) \;=\; f_{\boldsymbol{\xi}}(\xi_1, \ldots, \xi_n)\cdot|\det J|^{-1} \;=\; b^{-n} \qquad (\because |\det J| = 1)$$
 
 ```{python}
 J = np.eye(n); J[1:, 0] = -1.0
@@ -203,7 +203,7 @@ Lemma 4 없이는 single-round 밀도가 0 일 수 있고, 그러면 $L$ 겹 con
 
 # 2. 논문직접삽입버전
 
-**Lemma.** $\xi_1,\ldots,\xi_n \stackrel{\mathrm{iid}}{\sim}\mathrm{Unif}(0,b)$. 변환 $\boldsymbol{\xi}' = J\boldsymbol{\xi}$ 를
+**Lemma.** $\xi_1,\ldots,\xi_n \stackrel{\mathrm{iid}}{\sim}\mathrm{Unif}(0,b)$. 변환을
 
 $$\xi'_1 := \xi_1, \qquad \xi'_i := \xi_i - \xi_1 \quad (i = 2,\ldots,n)$$
 
@@ -213,13 +213,19 @@ $$f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n) \;\geq\; \frac{b^{1-n}}{2} \qquad 
 
 **Proof.**
 
+**기호.** 집합 $A$ 의 지시함수 (indicator function) 를
+
+$$\mathbf{1}_A(x) \;:=\; \begin{cases} 1 & x \in A \\[2pt] 0 & x \notin A \end{cases}$$
+
+로 정의한다. 또 구간 $I = [\alpha, \beta]$ 의 길이를 $|I| := \beta - \alpha$ 로 쓴다.
+
 **원래 밀도.** $\xi_1,\ldots,\xi_n$ 이 $[0,b]$ 위 i.i.d. 균등분포이므로
 
 $$f_{\boldsymbol{\xi}}(\xi_1,\ldots,\xi_n) \;=\; b^{-n}\,\mathbf{1}_{[0,b]^n}(\xi_1,\ldots,\xi_n)$$
 
-**Jacobian 계산.** 변환 행렬 $J \in \mathbb{R}^{n\times n}$ 은
+**Jacobian 계산.** 위 변환 $\xi'_1 = \xi_1$, $\xi'_i = \xi_i - \xi_1$ $(i\geq 2)$ 을 행렬로 쓰면 $\boldsymbol{\xi}' = J\boldsymbol{\xi}$, 여기서
 
-$$J = \begin{pmatrix} 1 & 0 & 0 & \cdots & 0 \\ -1 & 1 & 0 & \cdots & 0 \\ -1 & 0 & 1 & \cdots & 0 \\ \vdots & & & \ddots & \vdots \\ -1 & 0 & 0 & \cdots & 1 \end{pmatrix}$$
+$$J = \begin{pmatrix} 1 & 0 & 0 & \cdots & 0 \\ -1 & 1 & 0 & \cdots & 0 \\ -1 & 0 & 1 & \cdots & 0 \\ \vdots & & & \ddots & \vdots \\ -1 & 0 & 0 & \cdots & 1 \end{pmatrix} \in \mathbb{R}^{n\times n}$$
 
 행 2, 3, …, $n$ 에 행 1 을 더하는 기본 행 연산 (행렬식 불변) 을 적용하면
 
@@ -227,20 +233,18 @@ $$J \;\xrightarrow{\text{row}_k \,+\,\text{row}_1,\; k\geq 2}\; I_n \qquad \Righ
 
 따라서 $|\det J| = 1$.
 
-**변환 후 결합 밀도.** 변수 변환 공식에 의해
-
-역변환은 $\xi_1 = \xi'_1$, $\xi_i = \xi'_1 + \xi'_i$ $(i\geq 2)$ 이므로 변수 변환 공식에 의해
+**변환 후 결합 밀도.** 역변환은 $\xi_1 = \xi'_1$, $\xi_i = \xi'_1 + \xi'_i$ $(i\geq 2)$ 이므로, 변수 변환 공식에 의해
 
 $$\begin{aligned}
 f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n)
 &= f_{\boldsymbol{\xi}}(\xi_1,\ldots,\xi_n)\cdot|\det J|^{-1} \\
-&= f_{\boldsymbol{\xi}}(\xi_1,\ldots,\xi_n) \cdot 1 && (\because |\det J|=1) \\
+&= f_{\boldsymbol{\xi}}(\xi_1,\ldots,\xi_n) && (\because |\det J|=1) \\
 &= b^{-n}\,\mathbf{1}_{[0,b]^n}(\xi_1,\ldots,\xi_n)
 \end{aligned}$$
 
-이 지시함수는 모든 좌표가 $[0,b]$ 에 있을 때 1 이고, 위 역변환을 대입하면
+$\mathbf{1}_{[0,b]^n}(\xi_1,\ldots,\xi_n) = 1$ 이 되는 조건에 역변환을 대입하면
 
-$$\mathbf{1}_{[0,b]^n}(\xi_1,\ldots,\xi_n) = 1 \;\Leftrightarrow\; \xi'_1 \in [0,b] \;\text{ and }\; \xi'_1 + \xi'_i \in [0,b] \;\text{ for all } i \geq 2$$
+$$\xi_1,\ldots,\xi_n \in [0,b] \;\Leftrightarrow\; \xi'_1 \in [0,b] \;\text{ and }\; \xi'_1 + \xi'_i \in [0,b] \;\text{ for all } i \geq 2$$
 
 각 조건 $\xi'_1 + \xi'_i \in [0,b]$ 을 $\xi'_1$ 에 대해 풀면
 
@@ -250,21 +254,21 @@ $$\begin{aligned}
 &\;\Leftrightarrow\; \xi'_1 \in [-\xi'_i,\; b-\xi'_i]
 \end{aligned}$$
 
-따라서
-
-$$f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n) \;=\; b^{-n}\,\mathbf{1}_{\{\xi'_1\,\in\, [0,b]\,\cap\,\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i]\}}$$
-
-**Marginalize.** 구간
+따라서, 구간
 
 $$I \;:=\; [0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i]$$
 
-를 정의하면 ($|I|$ = 1차원 Lebesgue 측도, 즉 구간 $I=[\alpha,\beta]$ 의 길이 $\beta-\alpha$)
+를 정의하면
+
+$$f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n) \;=\; b^{-n}\,\mathbf{1}_{I}(\xi'_1)$$
+
+**Marginalize.** 위 밀도를 $\xi'_1$ 에 대해 적분하면
 
 $$\begin{aligned}
 f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n)
 &= \int_{-\infty}^{\infty} f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n)\,d\xi'_1 \\
-&= \int_{-\infty}^{\infty} b^{-n}\,\mathbf{1}_{\{\xi'_1 \in I\}}\,d\xi'_1 \\
-&= b^{-n} \int_I d\xi'_1 \\
+&= \int_{-\infty}^{\infty} b^{-n}\,\mathbf{1}_{I}(\xi'_1)\,d\xi'_1 \\
+&= b^{-n} \int_{I} d\xi'_1 && (\because \mathbf{1}_I(\xi'_1) = 0 \text{ for } \xi'_1 \notin I) \\
 &= b^{-n}\,|I| \qquad (\star)
 \end{aligned}$$
 
