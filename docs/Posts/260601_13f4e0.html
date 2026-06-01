@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="리이">
+<meta name="dcterms.date" content="2026-06-01">
+
+<title>책공부 ▷ HST ▷ Lemma 6 — L겹 합성곱 하한, 초보 해설 – 신록예찬’s Blog</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-42eb1ed98d6b40681f6bda2512c0def3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">신록예찬’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DL2024/"> 
+<span class="menu-text">DL2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/AP2023/"> 
+<span class="menu-text">AP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/PP2024/"> 
+<span class="menu-text">PP2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DV2023/"> 
+<span class="menu-text">DV2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/MP2023/"> 
+<span class="menu-text">MP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SC2024/"> 
+<span class="menu-text">SC2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DS2022/"> 
+<span class="menu-text">DS2022</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SP2023/"> 
+<span class="menu-text">SP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/IR2021/"> 
+<span class="menu-text">IR2021</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan/"> 
+<span class="menu-text">yechan</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan2/"> 
+<span class="menu-text">yechan2</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/miruetoto/yechan"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">책공부 ▷ HST ▷ Lemma 6 — L겹 합성곱 하한, 초보 해설</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>리이 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 1, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- 소유권자: 리이 | 사용자: 리이 -->
+<style>
+.math.display { text-align: left; }
+mjx-container[display="true"] { text-align: left !important; margin-left: 0 !important; }
+.katex-display { text-align: left !important; }
+.katex-display > .katex { text-align: left !important; }
+</style>
+<section id="팟캐스트-버전" class="level1">
+<h1>1. 팟캐스트 버전</h1>
+<blockquote class="blockquote">
+<p><em>(스튜디오. Lemma 6 카드 한 장.)</em></p>
+</blockquote>
+<p><strong>H.</strong> 오늘 Lemma 6 이에요. 핵심 한 줄: <strong>한 라운드에 어떤 영역 <span class="math inline">\(\mathcal{O}\)</span> 에서 밀도가 바닥값 이상이면, <span class="math inline">\(L\)</span> 라운드를 합쳤을 때 <span class="math inline">\(L\)</span> 배 큰 영역 <span class="math inline">\(L\cdot\mathcal{O}\)</span> 내부 어디서든 밀도가 양수다.</strong></p>
+<p><strong>G.</strong> 등장인물부터요.</p>
+<p><strong>H.</strong> 셋이에요.</p>
+<ul>
+<li><span class="math inline">\(f\)</span> : 확률밀도. 어떤 유계 열린집합 <span class="math inline">\(\mathcal{O}\)</span> 위에서 바닥값 <span class="math inline">\(c_f &gt; 0\)</span> 이상 (<span class="math inline">\(f \geq c_f\)</span> on <span class="math inline">\(\mathcal{O}\)</span>). Lemma 4 의 결론이랑 똑같은 모양이에요</li>
+<li><span class="math inline">\(f^{*L}\)</span> : <span class="math inline">\(f\)</span> 를 자기자신과 <span class="math inline">\(L\)</span> 번 <strong>합성곱(convolution)</strong> 한 것</li>
+<li><span class="math inline">\(L\cdot\mathcal{O}\)</span> : <span class="math inline">\(\mathcal{O}\)</span> 의 <strong>Minkowski <span class="math inline">\(L\)</span>-겹 합</strong></li>
+</ul>
+<div id="e365725a" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">"seaborn-v0_8-whitegrid"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text.usetex"</span>: <span class="va">True</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text.latex.preamble"</span>: <span class="vs">r"</span><span class="er">\</span><span class="vs">usepackage{amsmath,amssymb}"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"font.family"</span>: <span class="st">"serif"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"font.size"</span>: <span class="dv">10</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"axes.titlesize"</span>: <span class="dv">10</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"axes.labelsize"</span>: <span class="dv">10</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">20260601</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>G.</strong> 합성곱이 뭐였는지 다시요.</p>
+<p><strong>H.</strong> <span class="math inline">\(f\)</span> 가 확률변수 <span class="math inline">\(X\)</span> 의 밀도면, <span class="math inline">\(f^{*L}\)</span> 은 <strong>독립 합</strong> <span class="math inline">\(X_1 + X_2 + \cdots + X_L\)</span> 의 밀도예요 (각 <span class="math inline">\(X_i\)</span> 가 밀도 <span class="math inline">\(f\)</span>). HST 맥락에선 <span class="math inline">\(X_i\)</span> 가 “<span class="math inline">\(i\)</span> 번째 라운드 퇴적 차이”이고 <span class="math inline">\(f^{*L}\)</span> 은 “<span class="math inline">\(L\)</span> 라운드 누적 차이”의 밀도.</p>
+<p><strong>Minkowski 합</strong> 은</p>
+<p><span class="math display">\[L\cdot\mathcal{O} \;:=\; \{x_1 + x_2 + \cdots + x_L \;:\; x_i \in \mathcal{O}\}\]</span></p>
+<p><span class="math inline">\(\mathcal{O}\)</span> 에서 점 <span class="math inline">\(L\)</span> 개 골라 더해서 나올 수 있는 모든 값이에요. <span class="math inline">\(\mathcal{O} = (-c, c)\)</span> 면 <span class="math inline">\(L\cdot\mathcal{O} = (-Lc, Lc)\)</span> — <span class="math inline">\(L\)</span> 배로 커진 영역.</p>
+<hr>
+<p><strong>H.</strong> 1차원에서 균등밀도 <span class="math inline">\(f = \mathrm{Unif}(-1,1)\)</span> 로 <span class="math inline">\(f^{*L}\)</span> 이 어떻게 퍼지고 양수가 되는지 직접 볼게요.</p>
+<div id="7bdb72b8" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># f = Uniform(-1, 1) 의 L겹 합성곱을 수치적으로</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">6</span>, <span class="dv">6</span> <span class="op">+</span> dx, dx)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 단일 밀도 f: O = (-1,1) 에서 1/2, 밖에서 0</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> np.where(np.<span class="bu">abs</span>(x) <span class="op">&lt;</span> <span class="fl">1.0</span>, <span class="fl">0.5</span>, <span class="fl">0.0</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>c_f <span class="op">=</span> <span class="fl">0.5</span>   <span class="co"># f &gt;= c_f on O=(-1,1)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convolve_density(f, dx, L):</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    g <span class="op">=</span> f.copy()</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(L <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        g <span class="op">=</span> np.convolve(g, f, mode<span class="op">=</span><span class="st">"same"</span>) <span class="op">*</span> dx</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> g</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">3.4</span>))</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> L, color <span class="kw">in</span> [(<span class="dv">1</span>, <span class="st">"C0"</span>), (<span class="dv">2</span>, <span class="st">"C1"</span>), (<span class="dv">3</span>, <span class="st">"C2"</span>), (<span class="dv">4</span>, <span class="st">"C3"</span>)]:</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    fL <span class="op">=</span> convolve_density(f, dx, L)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    ax.plot(x, fL, lw<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span>color, label<span class="op">=</span><span class="vs">rf"</span><span class="dv">$</span><span class="vs">f</span><span class="dv">^</span><span class="ch">{{</span><span class="op">*</span><span class="sc">{</span>L<span class="sc">}</span><span class="ch">}}</span><span class="dv">$</span><span class="vs"> on </span><span class="dv">$</span><span class="vs">L</span><span class="er">\</span><span class="vs">cdot</span><span class="dv">\m</span><span class="vs">athcal</span><span class="ch">{{</span><span class="vs">O</span><span class="ch">}}</span><span class="vs">=</span><span class="kw">(</span><span class="vs">-</span><span class="sc">{</span>L<span class="sc">}</span><span class="vs">,</span><span class="sc">{</span>L<span class="sc">}</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"k"</span>, lw<span class="op">=</span><span class="fl">0.8</span>, ls<span class="op">=</span><span class="st">":"</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">z</span><span class="dv">$</span><span class="vs">"</span>)<span class="op">;</span> ax.set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">f</span><span class="dv">^</span><span class="vs">{</span><span class="op">*</span><span class="vs">L}</span><span class="kw">(</span><span class="vs">z</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="vs">r"</span><span class="dv">$</span><span class="vs">f=</span><span class="dv">\m</span><span class="vs">athrm{Unif}</span><span class="kw">(</span><span class="vs">-1,1</span><span class="kw">)</span><span class="dv">$</span><span class="vs">: </span><span class="dv">$</span><span class="vs">f</span><span class="dv">^</span><span class="vs">{</span><span class="op">*</span><span class="vs">L}</span><span class="dv">$</span><span class="vs"> positive on </span><span class="dv">$\m</span><span class="vs">athrm{int}</span><span class="kw">(</span><span class="vs">L</span><span class="er">\</span><span class="vs">cdot</span><span class="dv">\m</span><span class="vs">athcal{O}</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="260601_책공부_HST_Lemma6Lfold합성곱하한—초보해설_files/figure-html/cell-3-output-1.png" width="662" height="317" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>G.</strong> <span class="math inline">\(L\)</span> 이 커질수록 support 가 <span class="math inline">\((-L, L)\)</span> 로 넓어지고, 그 내부에서 밀도가 양수네요.</p>
+<p><strong>H.</strong> 정확히. support 가 정확히 <span class="math inline">\(L\cdot\mathcal{O} = (-L, L)\)</span> 이고, 그 <strong>내부</strong> <span class="math inline">\(\mathrm{int}(L\cdot\mathcal{O})\)</span> 어디서든 양수예요. 끝점에서만 0 으로 떨어져요. 이게 결론 (b) 예요.</p>
+<hr>
+<p><strong>H.</strong> 세 결론을 정리하면:</p>
+<p><strong>(a) <span class="math inline">\(f^{*L}\)</span> 은 연속.</strong> 유계이고 compact support 인 밀도들의 합성곱은 연속이에요. <span class="math inline">\(f * f\)</span> 가 연속이고, 결합법칙으로 <span class="math inline">\(f^{*L}\)</span> 도 물려받아요.</p>
+<p><strong>(b) <span class="math inline">\(z \in \mathrm{int}(L\cdot\mathcal{O})\)</span> 면 <span class="math inline">\(f^{*L}(z) &gt; 0\)</span>.</strong> <span class="math inline">\(z\)</span> 가 내부점이면 <span class="math inline">\(z\)</span> 를 “<span class="math inline">\(\mathcal{O}\)</span> 점 <span class="math inline">\(L\)</span> 개 합”으로 쓰는 방법이 한 묶음(열린 근방)으로 존재해서, 그 위에서 <span class="math inline">\(c_f\)</span> 이상을 적분 → 양수.</p>
+<p><strong>(c) compact <span class="math inline">\(K \subset \mathrm{int}(L\cdot\mathcal{O})\)</span> 면 <span class="math inline">\(c_K := \inf_{z\in K} f^{*L}(z) &gt; 0\)</span>.</strong> (a) 연속 + (b) 양수 → 컴팩트셋에서 최솟값(inf)도 양수. 이 <span class="math inline">\(c_K\)</span> 가 <strong>균일 하한</strong>.</p>
+<div id="a60af70d" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (c) 균일 하한: K = [-2.5, 2.5] ⊂ int(5·O) 에서 inf</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>fL <span class="op">=</span> convolve_density(f, dx, L)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>K_mask <span class="op">=</span> np.<span class="bu">abs</span>(x) <span class="op">&lt;=</span> <span class="fl">2.5</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>c_K <span class="op">=</span> fL[K_mask].<span class="bu">min</span>()</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">3.2</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ax.plot(x, fL, lw<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">"C3"</span>, label<span class="op">=</span><span class="vs">rf"</span><span class="dv">$</span><span class="vs">f</span><span class="dv">^</span><span class="ch">{{</span><span class="op">*</span><span class="sc">{</span>L<span class="sc">}</span><span class="ch">}}</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ax.axvspan(<span class="op">-</span><span class="fl">2.5</span>, <span class="fl">2.5</span>, alpha<span class="op">=</span><span class="fl">0.12</span>, color<span class="op">=</span><span class="st">"C2"</span>, label<span class="op">=</span><span class="vs">r"</span><span class="dv">$</span><span class="vs">K=</span><span class="pp">[-2.5,2.5]</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ax.axhline(c_K, color<span class="op">=</span><span class="st">"crimson"</span>, ls<span class="op">=</span><span class="st">"--"</span>, lw<span class="op">=</span><span class="fl">1.5</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>           label<span class="op">=</span><span class="vs">rf"</span><span class="dv">$</span><span class="vs">c_K=</span><span class="er">\</span><span class="vs">inf_K f</span><span class="dv">^</span><span class="ch">{{</span><span class="op">*</span><span class="vs">L</span><span class="ch">}}</span><span class="vs">=</span><span class="sc">{</span>c_K<span class="sc">:.4f}</span><span class="vs">&gt;0</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="op">-</span><span class="dv">6</span>, <span class="dv">6</span>)<span class="op">;</span> ax.set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">z</span><span class="dv">$</span><span class="vs">"</span>)<span class="op">;</span> ax.set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">f</span><span class="dv">^</span><span class="vs">{</span><span class="op">*</span><span class="vs">L}</span><span class="kw">(</span><span class="vs">z</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="vs">r"</span><span class="kw">(</span><span class="vs">c</span><span class="kw">)</span><span class="vs"> uniform lower bound </span><span class="dv">$</span><span class="vs">c_K</span><span class="dv">$</span><span class="vs"> on compact </span><span class="dv">$</span><span class="vs">K</span><span class="dv">\s</span><span class="vs">ubset</span><span class="dv">\m</span><span class="vs">athrm{int}</span><span class="kw">(</span><span class="vs">L</span><span class="er">\</span><span class="vs">cdot</span><span class="dv">\m</span><span class="vs">athcal{O}</span><span class="kw">)</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>ax.legend(fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"L=5, K=[-2.5,2.5]:  c_K = inf_K f^*L = </span><span class="sc">{</span>c_K<span class="sc">:.5f}</span><span class="ss">  (&gt; 0)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="260601_책공부_HST_Lemma6Lfold합성곱하한—초보해설_files/figure-html/cell-4-output-1.png" width="662" height="298" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>L=5, K=[-2.5,2.5]:  c_K = inf_K f^*L = 0.04929  (&gt; 0)</code></pre>
+</div>
+</div>
+<p><strong>G.</strong> <span class="math inline">\(K\)</span> 안에서 밀도가 빨간 점선(<span class="math inline">\(c_K\)</span>) 위로 항상 떠 있네요.</p>
+<p><strong>H.</strong> 그게 균일 하한이에요. Doeblin minorization 에서 이 <span class="math inline">\(c_K\)</span> 가 그대로 minorization 상수가 돼요.</p>
+<hr>
+<p><strong>H.</strong> Lemma 4·5 와의 관계로 마무리할게요.</p>
+<ul>
+<li><strong>Lemma 4</strong>: single round 밀도 하한 — <span class="math inline">\(f \geq c_f\)</span> on <span class="math inline">\(\mathcal{O}\)</span></li>
+<li><strong>Lemma 5</strong>: 이산 사건 확률 하한 — <span class="math inline">\((\varepsilon_{\min}/b)^K\)</span></li>
+<li><strong>Lemma 6</strong>: Lemma 4 를 <span class="math inline">\(L\)</span> 번 합치면 <span class="math inline">\(L\cdot\mathcal{O}\)</span> 내부 어디서든 양수, compact set 에선 균일 하한 <span class="math inline">\(c_K\)</span></li>
+</ul>
+<p><span class="math inline">\(L\cdot\mathcal{O}\)</span> 가 <span class="math inline">\(\mathcal{O}\)</span> 보다 훨씬 넓으니까, “여러 라운드를 모으면 chain 을 넓은 목표 영역 어디로든 양의 밀도로 보낼 수 있다” → <strong>Doeblin minorization</strong> 의 핵심 재료예요.</p>
+<p><strong>G.</strong> 주사위 비유로 하면요?</p>
+<p><strong>H.</strong> 주사위 한 번은 1~6 만 나오지만(<span class="math inline">\(\mathcal{O}\)</span>), 여러 번 합치면 범위가 넓어지고 중앙부는 <strong>어떤 값이든 양의 확률</strong>로 나와요. Lemma 6 은 그 “중앙부 <span class="math inline">\(\mathrm{int}(L\cdot\mathcal{O})\)</span> 에서 밀도 양수, 컴팩트셋에선 균일하게 양수”를 정밀하게 말하는 거예요.</p>
+<hr>
+</section>
+<section id="논문직접삽입버전" class="level1">
+<h1>2. 논문직접삽입버전</h1>
+<p><strong>Lemma.</strong> <span class="math inline">\(f:\mathbb{R}^d \to [0,\infty)\)</span> 를 확률밀도라 하고, 유계 열린집합 <span class="math inline">\(\mathcal{O}\subset\mathbb{R}^d\)</span> 위에서 <span class="math inline">\(f \geq c_f &gt; 0\)</span> 이라 하자. <span class="math inline">\(f^{*L}\)</span> 을 <span class="math inline">\(f\)</span> 의 <span class="math inline">\(L\)</span>-겹 합성곱 (<span class="math inline">\(L\geq 2\)</span>) 이라 하자. 그러면</p>
+<ol type="a">
+<li><p><span class="math inline">\(f^{*L}\)</span> 은 <span class="math inline">\(\mathbb{R}^d\)</span> 위에서 연속이다;</p></li>
+<li><p>Minkowski <span class="math inline">\(L\)</span>-겹 합 <span class="math inline">\(L\cdot\mathcal{O} := \{x_1+\cdots+x_L : x_i\in\mathcal{O}\}\)</span> 에 대해, 모든 <span class="math inline">\(z\in\mathrm{int}(L\cdot\mathcal{O})\)</span> 에서 <span class="math inline">\(f^{*L}(z) &gt; 0\)</span>;</p></li>
+<li><p>임의의 compact <span class="math inline">\(K\subset\mathrm{int}(L\cdot\mathcal{O})\)</span> 에 대해 <span class="math inline">\(c_K := \inf_{z\in K} f^{*L}(z) &gt; 0\)</span>.</p></li>
+</ol>
+<p><strong>Proof.</strong></p>
+<p><strong>(a) 연속성.</strong> <span class="math inline">\(f\)</span> 는 유계 (<span class="math inline">\(\mathcal{O}\)</span> 가 유계라 compact support) 확률밀도이다. 두 유계·compact-support 밀도의 합성곱은 연속이므로 <span class="math inline">\(f * f\)</span> 가 연속이고, 합성곱의 결합법칙</p>
+<p><span class="math display">\[f^{*L} \;=\; \underbrace{f * f}_{\text{연속}} * \underbrace{f * \cdots * f}_{L-2}\]</span></p>
+<p>에 의해 <span class="math inline">\(f^{*L}\)</span> (<span class="math inline">\(L\geq 2\)</span>) 도 연속을 물려받는다.</p>
+<p><strong>(b) 내부에서 양수.</strong> <span class="math inline">\(z\in\mathrm{int}(L\cdot\mathcal{O})\)</span> 를 고정한다. 합성곱을 처음 <span class="math inline">\(L-1\)</span> 개 좌표로 적분 표현하면</p>
+<p><span class="math display">\[f^{*L}(z) \;=\; \int_{\mathbb{R}^{(L-1)d}} \Big(\prod_{w=1}^{L-1} f(y_w)\Big)\, f\Big(z - \textstyle\sum_{w=1}^{L-1} y_w\Big)\, dy_1\cdots dy_{L-1}\]</span></p>
+<p>피적분함수가 양수인 영역, 즉 모든 인자가 <span class="math inline">\(\mathcal{O}\)</span> 에 들어가는 <span class="math inline">\((y_1,\ldots,y_{L-1})\)</span> 들의 집합을</p>
+<p><span class="math display">\[P_z \;:=\; \Big\{(y_1,\ldots,y_{L-1})\in\mathcal{O}^{L-1} \;:\; z - \textstyle\sum_{w=1}^{L-1} y_w \;\in\; \mathcal{O}\Big\}\]</span></p>
+<p>라 하자. <span class="math inline">\(P_z\)</span> 위에서 모든 인자 <span class="math inline">\(f(\cdot)\geq c_f\)</span> 이므로</p>
+<p><span class="math display">\[f^{*L}(z) \;\geq\; c_f^{\,L}\cdot\mathrm{Leb}(P_z)\]</span></p>
+<p>이제 <span class="math inline">\(\mathrm{Leb}(P_z) &gt; 0\)</span> 을 보인다. <span class="math inline">\(z\in\mathrm{int}(L\cdot\mathcal{O})\)</span> 이므로 점 <span class="math inline">\((z/L,\ldots,z/L)\in\mathcal{O}^{L-1}\)</span> 은 <span class="math inline">\(P_z\)</span> 의 점이고 (<span class="math inline">\(z - (L-1)(z/L) = z/L\in\mathcal{O}\)</span>), <span class="math inline">\(\mathcal{O}\)</span> 가 열린집합이고 <span class="math inline">\(z\)</span> 가 내부점이라 이 점의 어떤 열린 근방 전체가 <span class="math inline">\(P_z\)</span> 에 포함된다. 따라서 <span class="math inline">\(\mathrm{Leb}(P_z) &gt; 0\)</span>, 즉</p>
+<p><span class="math display">\[f^{*L}(z) \;\geq\; c_f^{\,L}\cdot\mathrm{Leb}(P_z) \;&gt;\; 0\]</span></p>
+<p><strong>(c) 컴팩트셋 균일 하한.</strong> (a) 에 의해 <span class="math inline">\(f^{*L}\)</span> 은 연속이고, (b) 에 의해 열린집합 <span class="math inline">\(\mathrm{int}(L\cdot\mathcal{O})\)</span> 위에서 점마다 양수이다. compact <span class="math inline">\(K\subset\mathrm{int}(L\cdot\mathcal{O})\)</span> 위에서 연속함수 <span class="math inline">\(f^{*L}\)</span> 은 최솟값을 달성하며 (<span class="math inline">\(K\)</span> compact), 그 최솟값은 (b) 에 의해 양수이므로</p>
+<p><span class="math display">\[c_K \;=\; \inf_{z\in K} f^{*L}(z) \;=\; \min_{z\in K} f^{*L}(z) \;&gt;\; 0\]</span></p>
+<p><span class="math inline">\(\square\)</span></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
