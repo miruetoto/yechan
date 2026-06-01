@@ -203,25 +203,25 @@ Lemma 4 없이는 single-round 밀도가 0 일 수 있고, 그러면 $L$ 겹 con
 
 # 2. 논문직접삽입버전
 
+**기호.** 집합 $A \subseteq \mathbb{R}$ 의 지시함수 (indicator function) 를
+
+$$\mathbf{1}_A(x) \;:=\; \begin{cases} 1 & x \in A \\[2pt] 0 & x \notin A \end{cases}$$
+
+로 정의한다. 또 구간 $I = [\alpha, \beta]$ 의 길이를 $|I| := \beta - \alpha$ 로 쓴다.
+
 **Lemma.** $\xi_1,\ldots,\xi_n \stackrel{\mathrm{iid}}{\sim}\mathrm{Unif}(0,b)$. 변환을
 
 $$\xi'_1 := \xi_1, \qquad \xi'_i := \xi_i - \xi_1 \quad (i = 2,\ldots,n)$$
 
 로 정의하고, $f_{\boldsymbol{\xi}'}$ 를 $(\xi'_2,\ldots,\xi'_n)$ 의 marginal density 라 하자. 그러면
 
-$$f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n) \;\geq\; \frac{b^{1-n}}{2} \qquad \text{for } -\frac{b}{4} < \xi'_2, \ldots, \xi'_n < \frac{b}{4}$$
+$$f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n) \;\geq\; \frac{b^{1-n}}{2}\prod_{i=2}^{n}\mathbf{1}_{(-b/4,\,b/4)}(\xi'_i)$$
 
 **Proof.**
 
-**기호.** 집합 $A$ 의 지시함수 (indicator function) 를
+**원래 밀도.** $\xi_1,\ldots,\xi_n$ 이 $[0,b]$ 위 i.i.d. 균등분포이므로, 각 좌표 밀도 $b^{-1}\mathbf{1}_{[0,b]}(\xi_i)$ 의 곱으로
 
-$$\mathbf{1}_A(x) \;:=\; \begin{cases} 1 & x \in A \\[2pt] 0 & x \notin A \end{cases}$$
-
-로 정의한다. 또 구간 $I = [\alpha, \beta]$ 의 길이를 $|I| := \beta - \alpha$ 로 쓴다.
-
-**원래 밀도.** $\xi_1,\ldots,\xi_n$ 이 $[0,b]$ 위 i.i.d. 균등분포이므로
-
-$$f_{\boldsymbol{\xi}}(\xi_1,\ldots,\xi_n) \;=\; b^{-n}\,\mathbf{1}_{[0,b]^n}(\xi_1,\ldots,\xi_n)$$
+$$f_{\boldsymbol{\xi}}(\xi_1,\ldots,\xi_n) \;=\; \prod_{i=1}^{n} b^{-1}\mathbf{1}_{[0,b]}(\xi_i) \;=\; b^{-n}\prod_{i=1}^{n}\mathbf{1}_{[0,b]}(\xi_i)$$
 
 **Jacobian 계산.** 위 변환 $\xi'_1 = \xi_1$, $\xi'_i = \xi_i - \xi_1$ $(i\geq 2)$ 을 행렬로 쓰면 $\boldsymbol{\xi}' = J\boldsymbol{\xi}$, 여기서
 
@@ -239,28 +239,33 @@ $$\begin{aligned}
 f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n)
 &= f_{\boldsymbol{\xi}}(\xi_1,\ldots,\xi_n)\cdot|\det J|^{-1} \\
 &= f_{\boldsymbol{\xi}}(\xi_1,\ldots,\xi_n) && (\because |\det J|=1) \\
-&= b^{-n}\,\mathbf{1}_{[0,b]^n}(\xi_1,\ldots,\xi_n)
+&= b^{-n}\prod_{i=1}^{n}\mathbf{1}_{[0,b]}(\xi_i)
 \end{aligned}$$
 
-$\mathbf{1}_{[0,b]^n}(\xi_1,\ldots,\xi_n) = 1$ 이 되는 조건에 역변환을 대입하면
+역변환 $\xi_1 = \xi'_1$, $\xi_i = \xi'_1 + \xi'_i$ $(i\geq 2)$ 을 각 인자에 대입하면
 
-$$\xi_1,\ldots,\xi_n \in [0,b] \;\Leftrightarrow\; \xi'_1 \in [0,b] \;\text{ and }\; \xi'_1 + \xi'_i \in [0,b] \;\text{ for all } i \geq 2$$
+$$f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n) \;=\; b^{-n}\,\mathbf{1}_{[0,b]}(\xi'_1)\prod_{i=2}^{n}\mathbf{1}_{[0,b]}(\xi'_1 + \xi'_i)$$
 
-각 조건 $\xi'_1 + \xi'_i \in [0,b]$ 을 $\xi'_1$ 에 대해 풀면
+$i\geq 2$ 의 각 인자는 $\xi'_1$ 의 지시함수로 다시 쓸 수 있다:
 
 $$\begin{aligned}
-0 \leq \xi'_1 + \xi'_i \leq b
+\mathbf{1}_{[0,b]}(\xi'_1 + \xi'_i) = 1
+&\;\Leftrightarrow\; 0 \leq \xi'_1 + \xi'_i \leq b \\
 &\;\Leftrightarrow\; -\xi'_i \leq \xi'_1 \leq b - \xi'_i \\
-&\;\Leftrightarrow\; \xi'_1 \in [-\xi'_i,\; b-\xi'_i]
+&\;\Leftrightarrow\; \mathbf{1}_{[-\xi'_i,\,b-\xi'_i]}(\xi'_1) = 1
 \end{aligned}$$
 
-따라서, 구간
+따라서
+
+$$f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n) \;=\; b^{-n}\,\mathbf{1}_{[0,b]}(\xi'_1)\prod_{i=2}^{n}\mathbf{1}_{[-\xi'_i,\,b-\xi'_i]}(\xi'_1)$$
+
+스칼라 지시함수들의 곱은 그 집합들의 교집합 지시함수이므로, 구간
 
 $$I \;:=\; [0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i]$$
 
 를 정의하면
 
-$$f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n) \;=\; b^{-n}\,\mathbf{1}_{I}(\xi'_1)$$
+$$\mathbf{1}_{[0,b]}(\xi'_1)\prod_{i=2}^{n}\mathbf{1}_{[-\xi'_i,\,b-\xi'_i]}(\xi'_1) \;=\; \mathbf{1}_{I}(\xi'_1) \qquad \Rightarrow \qquad f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n) \;=\; b^{-n}\,\mathbf{1}_{I}(\xi'_1)$$
 
 **Marginalize.** 위 밀도를 $\xi'_1$ 에 대해 적분하면
 
@@ -290,13 +295,23 @@ $$\begin{aligned}
 \Rightarrow\quad |I| &\;\geq\; |[b/4,3b/4]| \;=\; 3b/4 - b/4 \;=\; b/2
 \end{aligned}$$
 
-**결론.** $(\star)$ 와 위 부등식을 합치면
+**결론.** 두 경우로 나눈다.
+
+(i) $\xi'_2,\ldots,\xi'_n \in (-b/4,\,b/4)$ 인 경우 — 이때 $\prod_{i=2}^{n}\mathbf{1}_{(-b/4,b/4)}(\xi'_i) = 1$ 이고, 위에서 $|I| \geq b/2$ 이므로
 
 $$\begin{aligned}
 f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n)
 &= b^{-n}\,|I| && (\because (\star)) \\
 &\geq b^{-n} \cdot \frac{b}{2} && (\because |I| \geq b/2) \\
-&= \frac{b^{1-n}}{2}
+&= \frac{b^{1-n}}{2} \;=\; \frac{b^{1-n}}{2}\prod_{i=2}^{n}\mathbf{1}_{(-b/4,b/4)}(\xi'_i)
 \end{aligned}$$
+
+(ii) 그 외의 경우 — 이때 $\prod_{i=2}^{n}\mathbf{1}_{(-b/4,b/4)}(\xi'_i) = 0$ 이고, 밀도는 항상 비음이므로
+
+$$f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n) \;=\; b^{-n}\,|I| \;\geq\; 0 \;=\; \frac{b^{1-n}}{2}\prod_{i=2}^{n}\mathbf{1}_{(-b/4,b/4)}(\xi'_i)$$
+
+두 경우 모두
+
+$$f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n) \;\geq\; \frac{b^{1-n}}{2}\prod_{i=2}^{n}\mathbf{1}_{(-b/4,b/4)}(\xi'_i)$$
 
 $\square$
