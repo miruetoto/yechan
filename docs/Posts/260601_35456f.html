@@ -274,7 +274,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><strong>H.</strong> 변환을 먼저 정의해요. <span class="math inline">\(\boldsymbol{\xi} = (\xi_1, \ldots, \xi_n) \stackrel{\mathrm{iid}}{\sim} \mathrm{Unif}(0,b)\)</span>,</p>
 <p><span class="math display">\[\boldsymbol{\xi}' \;:=\; J\boldsymbol{\xi}, \qquad J_{ij} = \begin{cases} 1 &amp; i = j \\ -1 &amp; i \geq 2,\, j = 1 \\ 0 &amp; \text{otherwise} \end{cases}\]</span></p>
 <p>즉 <span class="math inline">\(\xi'_1 = \xi_1\)</span>, <span class="math inline">\(\xi'_i = \xi_i - \xi_1\)</span> (<span class="math inline">\(i \geq 2\)</span>). <span class="math inline">\(f_{\boldsymbol{\xi}'}\)</span> 는 이 변환 후 <span class="math inline">\((\xi'_2, \ldots, \xi'_n)\)</span> 의 marginal density 예요.</p>
-<div id="5a577f76" class="cell" data-execution_count="1">
+<div id="03cf4894" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">"seaborn-v0_8-whitegrid"</span>)</span>
@@ -314,7 +314,7 @@ xi' (after) :
 <p><strong>H.</strong> 밀도를 세 단계로 구해요.</p>
 <p><strong>변환 후 밀도.</strong> <span class="math inline">\(|\det J| = 1\)</span> 이므로 변수 변환 공식에 의해</p>
 <p><span class="math display">\[f_{\boldsymbol{\xi}'}(\xi'_1, \ldots, \xi'_n) \;=\; f_{\boldsymbol{\xi}}(\xi_1, \ldots, \xi_n)\cdot|\det J|^{-1} \;=\; b^{-n} \qquad (\because |\det J| = 1)\]</span></p>
-<div id="5abe53a2" class="cell" data-execution_count="2">
+<div id="534bf6cc" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>J <span class="op">=</span> np.eye(n)<span class="op">;</span> J[<span class="dv">1</span>:, <span class="dv">0</span>] <span class="op">=</span> <span class="op">-</span><span class="fl">1.0</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"det(J) = </span><span class="sc">{</span>np<span class="sc">.</span>linalg<span class="sc">.</span>det(J)<span class="sc">:.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -335,7 +335,7 @@ xi' (after) :
 \xi'_2 = \phantom{+}0 &amp;\;\Rightarrow\; \xi'_1 \in [\phantom{+}0,\;1.0\,] \;\Rightarrow\; \xi'_1 \in [0,\;1.0] &amp;&amp;(\text{length } 1.0) \\
 \xi'_2 = -0.3 &amp;\;\Rightarrow\; \xi'_1 \in [\phantom{+}0.3,\;1.3] \;\Rightarrow\; \xi'_1 \in [0.3,\;1.0] &amp;&amp;(\text{length } 0.7)
 \end{aligned}\]</span></p>
-<div id="dfc668d9" class="cell" data-execution_count="3">
+<div id="72cc2ac2" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cases <span class="op">=</span> [(<span class="fl">0.3</span>, <span class="st">"xi'_2=+0.3"</span>), (<span class="fl">0.0</span>, <span class="st">"xi'_2= 0"</span>), (<span class="op">-</span><span class="fl">0.3</span>, <span class="st">"xi'_2=-0.3"</span>)]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">2.8</span>))</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (xp2, lbl) <span class="kw">in</span> <span class="bu">zip</span>(axes, cases):</span>
@@ -376,7 +376,7 @@ I &amp;\;\supseteq\; [b/4,\,3b/4] \\
 \Rightarrow\quad |I| &amp;\;\geq\; b/2 \\
 \Rightarrow\quad f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n) &amp;\;\geq\; b^{-n}\cdot\frac{b}{2} \;=\; \frac{b^{1-n}}{2} \qquad (\because (\star))
 \end{aligned}\]</span></p>
-<div id="24d09431" class="cell" data-execution_count="4">
+<div id="c062644b" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f_xip(xi_rest, b<span class="op">=</span><span class="fl">1.0</span>):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    lo, hi <span class="op">=</span> <span class="fl">0.</span>, b</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> xp <span class="kw">in</span> xi_rest:</span>
@@ -442,13 +442,11 @@ f_{\boldsymbol{\xi}'} &amp;\;\geq\; \frac{b^{1-n}}{2} \;\text{ on } (-b/4,b/4)^{
 </section>
 <section id="논문직접삽입버전" class="level1">
 <h1>2. 논문직접삽입버전</h1>
-<p><strong>기호.</strong> 집합 <span class="math inline">\(A \subseteq \mathbb{R}\)</span> 의 지시함수 (indicator function) 를</p>
-<p><span class="math display">\[\mathbf{1}_A(x) \;:=\; \begin{cases} 1 &amp; x \in A \\[2pt] 0 &amp; x \notin A \end{cases}\]</span></p>
-<p>로 정의한다. 또 구간 <span class="math inline">\(I = [\alpha, \beta]\)</span> 의 길이를 <span class="math inline">\(|I| := \beta - \alpha\)</span> 로 쓴다.</p>
 <p><strong>Lemma.</strong> <span class="math inline">\(\xi_1,\ldots,\xi_n \stackrel{\mathrm{iid}}{\sim}\mathrm{Unif}(0,b)\)</span>. 변환을</p>
 <p><span class="math display">\[\xi'_1 := \xi_1, \qquad \xi'_i := \xi_i - \xi_1 \quad (i = 2,\ldots,n)\]</span></p>
 <p>로 정의하고, <span class="math inline">\(f_{\boldsymbol{\xi}'}\)</span> 를 <span class="math inline">\((\xi'_2,\ldots,\xi'_n)\)</span> 의 marginal density 라 하자. 그러면</p>
 <p><span class="math display">\[f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n) \;\geq\; \frac{b^{1-n}}{2}\prod_{i=2}^{n}\mathbf{1}_{(-b/4,\,b/4)}(\xi'_i)\]</span></p>
+<p>여기서 <span class="math inline">\(\mathbf{1}_A(x)\)</span> 는 <span class="math inline">\(x\in A\)</span> 이면 1, 아니면 0 인 지시함수.</p>
 <p><strong>Proof.</strong></p>
 <p><strong>원래 밀도.</strong> <span class="math inline">\(\xi_1,\ldots,\xi_n\)</span> 이 <span class="math inline">\([0,b]\)</span> 위 i.i.d. 균등분포이므로, 각 좌표 밀도 <span class="math inline">\(b^{-1}\mathbf{1}_{[0,b]}(\xi_i)\)</span> 의 곱으로</p>
 <p><span class="math display">\[f_{\boldsymbol{\xi}}(\xi_1,\ldots,\xi_n) \;=\; \prod_{i=1}^{n} b^{-1}\mathbf{1}_{[0,b]}(\xi_i) \;=\; b^{-n}\prod_{i=1}^{n}\mathbf{1}_{[0,b]}(\xi_i)\]</span></p>
@@ -479,7 +477,7 @@ f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n)
 <p><span class="math display">\[I \;:=\; [0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i]\]</span></p>
 <p>를 정의하면</p>
 <p><span class="math display">\[\mathbf{1}_{[0,b]}(\xi'_1)\prod_{i=2}^{n}\mathbf{1}_{[-\xi'_i,\,b-\xi'_i]}(\xi'_1) \;=\; \mathbf{1}_{I}(\xi'_1) \qquad \Rightarrow \qquad f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n) \;=\; b^{-n}\,\mathbf{1}_{I}(\xi'_1)\]</span></p>
-<p><strong>Marginalize.</strong> 위 밀도를 <span class="math inline">\(\xi'_1\)</span> 에 대해 적분하면</p>
+<p><strong>Marginalize.</strong> 위 밀도를 <span class="math inline">\(\xi'_1\)</span> 에 대해 적분하면 (<span class="math inline">\(|I|\)</span> 는 구간 <span class="math inline">\(I=[\alpha,\beta]\)</span> 의 길이 <span class="math inline">\(\beta-\alpha\)</span>)</p>
 <p><span class="math display">\[\begin{aligned}
 f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n)
 &amp;= \int_{-\infty}^{\infty} f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n)\,d\xi'_1 \\
