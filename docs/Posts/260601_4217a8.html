@@ -270,12 +270,19 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </blockquote>
 <p><strong>H.</strong> 오늘 Lemma 7 이에요. 핵심 한 줄: <strong>fall 들이 cyclic 하게 떨어지는 이벤트 위에서, “각 노드 총 fall 량의 노드 1 대비 차이”를 fall 양들의 선형사상 <span class="math inline">\(\Sigma\)</span> 로 보면, 이 <span class="math inline">\(\Sigma\)</span> 가 full rank · 우역원(right inverse) · 깔끔한 Jacobian 을 가진다.</strong></p>
 <p><strong>G.</strong> 셋업부터요.</p>
-<p><strong>H.</strong> 이벤트 <span class="math inline">\(\mathcal{A}_1\)</span> 위에서 시작해요 — <span class="math inline">\(nL\)</span> 개 fall 이 노드 <span class="math inline">\(v_1, \ldots, v_n\)</span> 에 <strong>cyclic 순서로 <span class="math inline">\(L\)</span> 사이클</strong> 떨어지는 사건이에요. 노드 <span class="math inline">\(n\)</span> 개를 한 바퀴 도는 걸 <span class="math inline">\(L\)</span> 번.</p>
+<p><strong>H.</strong> 이벤트 <span class="math inline">\(\mathcal{A}_1\)</span> 위에서 시작해요 — <span class="math inline">\(nL\)</span> 개 fall 의 <strong>착지 노드 순서</strong>가 <span class="math inline">\(v_1, \ldots, v_n\)</span> 을 <strong>cyclic 하게 <span class="math inline">\(L\)</span> 사이클</strong> 도는 사건이에요. 노드 <span class="math inline">\(n\)</span> 개를 한 바퀴 도는 걸 <span class="math inline">\(L\)</span> 번.</p>
+<p><strong>G.</strong> <span class="math inline">\(nL\)</span> 개 fall 이 연속으로 <span class="math inline">\(v_1, v_2, \ldots\)</span> 떨어진다는 건가요?</p>
+<p><strong>H.</strong> ★ 아니에요, 거기가 핵심 오해예요. <strong>fall 은 연속으로 못 일어나요.</strong> 알고리즘상 fall 직후 <span class="math inline">\(Z_t = 0\)</span> 이 되고, 다음 스텝은 <span class="math inline">\(Z &lt; T_{\max}\)</span> 라 <strong>flow 시도</strong>(downstream 있으면 flow, 없으면 block) 예요. <span class="math inline">\(Z\)</span> 가 다시 <span class="math inline">\(T_{\max}\)</span> 에 도달해야 그 다음 fall 이 와요. 그래서 실제 trajectory 는</p>
+<p><span class="math display">\[\underbrace{\text{fall}\to v_1}_{\text{fall 1}} \to \underbrace{\text{flow/block}\cdots}_{\text{사이 스텝}} \to \underbrace{\text{fall}\to v_2}_{\text{fall 2}} \to \underbrace{\text{flow/block}\cdots}_{\text{사이 스텝}} \to \cdots\]</span></p>
+<p>처럼 <strong>fall 사이에 flow/block 이 반드시 끼어</strong> 있어요. <span class="math inline">\(\mathcal{A}_1\)</span> 은 그 중 <strong>fall 시점들만</strong> 추렸을 때 <span class="math inline">\(\mu_0\)</span> 착지 노드가 <span class="math inline">\(v_1, v_2, v_3, v_1, \ldots\)</span> cyclic 하게 나오는 사건이에요.</p>
+<p><strong>G.</strong> 그럼 <span class="math inline">\(b'_{k,\ell}\)</span> 의 인덱스는 시간 스텝이 아니네요?</p>
+<p><strong>H.</strong> 맞아요. <span class="math inline">\(k, \ell\)</span> 은 <strong>fall 만 센 인덱스</strong>예요 (시간 스텝 <span class="math inline">\(t\)</span> 아님).</p>
 <ul>
-<li><span class="math inline">\(b' = (b'_{k,\ell})\)</span> : fall 양. 인덱스 둘 — <span class="math inline">\(k\)</span> = 노드(<span class="math inline">\(1\sim n\)</span>), <span class="math inline">\(\ell\)</span> = 사이클(<span class="math inline">\(1\sim L\)</span>). 총 <span class="math inline">\(N = nL\)</span> 개, 각각 <span class="math inline">\([0,b]\)</span></li>
-<li><span class="math inline">\(\sum_\ell b'_{k,\ell}\)</span> : 노드 <span class="math inline">\(k\)</span> 에 <span class="math inline">\(L\)</span> 사이클 동안 쌓인 <strong>총 fall 량</strong></li>
+<li><span class="math inline">\(b' = (b'_{k,\ell})\)</span> : fall 양. <span class="math inline">\(k\)</span> = 착지 노드(<span class="math inline">\(1\sim n\)</span>), <span class="math inline">\(\ell\)</span> = 몇 번째 사이클(<span class="math inline">\(1\sim L\)</span>). 총 <span class="math inline">\(N = nL\)</span> 개, 각각 <span class="math inline">\([0,b]\)</span></li>
+<li><span class="math inline">\(\sum_\ell b'_{k,\ell}\)</span> : 노드 <span class="math inline">\(k\)</span> 에 <span class="math inline">\(L\)</span> 사이클 동안 쌓인 <strong>총 fall 량</strong> (flow/block deposit 은 제외 — 이건 다른 보조정리에서 residual 로 처리)</li>
 </ul>
-<div id="e5e8caea" class="cell" data-execution_count="1">
+<p><strong>왜 fall 만 모으나</strong>: fall 의 목적지는 <span class="math inline">\(\mu_0\)</span> (full support) 라 <strong>임의 노드로 양의 확률로 보낼 수 있어요</strong>. flow 는 현재 height 에 의존(downstream 으로만)해서 통제가 안 돼요. 그래서 “모든 노드를 균등하게 <span class="math inline">\(L\)</span> 번씩 커버”하는 통제는 fall 의 <span class="math inline">\(\mu_0\)</span> draw 로만 가능하고, <span class="math inline">\(\Sigma\)</span> 가 fall 양만 모으는 거예요.</p>
+<div id="6df69b04" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">"seaborn-v0_8-whitegrid"</span>)</span>
@@ -294,7 +301,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p>각 노드 총 fall 량에서 <strong>노드 1 총량을 뺀</strong> 차이 벡터예요. “anchored coordinate” — 노드 1 을 기준점으로 한 상대 좌표라 차원이 <span class="math inline">\(n\)</span> 이 아니라 <span class="math inline">\(d = n-1\)</span> 이에요.</p>
 <p><strong>G.</strong> Lemma 4 랑 닮았는데요?</p>
 <p><strong>H.</strong> 정확해요. Lemma 4 의 <span class="math inline">\(\Delta_1\boldsymbol{\xi} = (\xi_2-\xi_1, \ldots, \xi_n-\xi_1)\)</span> 랑 같은 구조인데, <strong>한 번이 아니라 <span class="math inline">\(L\)</span> 사이클 합</strong>으로 한 거예요. 그래서 <span class="math inline">\(\Sigma\)</span> 는 per-block 차이사상 <span class="math inline">\(\Delta_1\)</span> 의 <strong><span class="math inline">\(L\)</span>-fold sum</strong> 이에요.</p>
-<div id="dfb5fccd" class="cell" data-execution_count="2">
+<div id="4ae006d1" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 작은 예: n=3, L=4 → N=12, d=2 인 Sigma 행렬 구성</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n, L <span class="op">=</span> <span class="dv">3</span>, <span class="dv">4</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>N, d <span class="op">=</span> n <span class="op">*</span> L, n <span class="op">-</span> <span class="dv">1</span></span>
@@ -327,7 +334,7 @@ rank(Sigma) = 2  (= d = 2)</code></pre>
 <p><span class="math display">\[\Sigma\Sigma^\top = L\,(I_d + \mathbf{1}\mathbf{1}^\top)\]</span></p>
 <p>이고, 행렬식 보조정리로</p>
 <p><span class="math display">\[\det(I_d + \mathbf{1}\mathbf{1}^\top) = 1 + \mathbf{1}^\top\mathbf{1} = 1 + d = n \;\Rightarrow\; \det(\Sigma\Sigma^\top) = L^{d}\cdot n = L^{n-1}n\]</span></p>
-<div id="9ffe6338" class="cell" data-execution_count="3">
+<div id="e1a64a9b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Gram <span class="op">=</span> Sigma <span class="op">@</span> Sigma.T</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Gram = Sigma Sigma^T:"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Gram.astype(<span class="bu">int</span>))</span>
@@ -347,7 +354,7 @@ J(Sigma)=sqrt(det) = 6.9282  vs  sqrt(L^(n-1)n) = 6.9282</code></pre>
 </div>
 </div>
 <p><strong>(3) 우역원 <span class="math inline">\(Q\)</span> 존재, <span class="math inline">\(\Sigma Q = I_d\)</span>, <span class="math inline">\(C_Q = \|Q\|_{\infty\to\infty} &lt; \infty\)</span>.</strong> full row rank 라 오른쪽 역사상이 존재해요. “원하는 차이 벡터 <span class="math inline">\(z\)</span> 를 만들려면 fall 양을 이렇게 잡아라”가 <span class="math inline">\(Qz\)</span>. <span class="math inline">\(C_Q &lt; \infty\)</span> 는 그 구성이 <strong>유계</strong> — 입력이 크지 않으면 필요한 fall 양도 폭주 안 함.</p>
-<div id="36b78a7b" class="cell" data-execution_count="4">
+<div id="43dd9a6a" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 우역원 Q (Moore-Penrose pseudo-inverse 가 한 예)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> Sigma.T <span class="op">@</span> np.linalg.inv(Sigma <span class="op">@</span> Sigma.T)   <span class="co"># right inverse: Sigma Q = I_d</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sigma Q = I_d 확인:"</span>)</span>
@@ -393,7 +400,7 @@ Sigma (Q z) = [ 0.7 -0.3]   (= z 복원)</code></pre>
 </section>
 <section id="논문직접삽입버전" class="level1">
 <h1>2. 논문직접삽입버전</h1>
-<p><strong>Lemma.</strong> fall-target event <span class="math inline">\(\mathcal{A}_1\)</span> (<span class="math inline">\(nL\)</span> 개 fall 이 <span class="math inline">\(v_1,\ldots,v_n\)</span> 에 cyclic 순서로 <span class="math inline">\(L\)</span> 사이클 deposit) 위에서, fall 양을 <span class="math inline">\(b' = (b'_{k,\ell})_{1\leq k\leq n,\, 1\leq\ell\leq L}\in[0,b]^N\)</span>, <span class="math inline">\(N = nL\)</span> 이라 쓰자. anchored coordinate 의 cumulative centred fall shift 를 선형사상 <span class="math inline">\(\Sigma:\mathbb{R}^N\to\mathbb{R}^d\)</span> (<span class="math inline">\(S_t\)</span> 와는 별개),</p>
+<p><strong>Lemma.</strong> fall-target event <span class="math inline">\(\mathcal{A}_1\)</span> (<span class="math inline">\(nL\)</span> 개 fall 의 착지 노드가 <span class="math inline">\(v_1,\ldots,v_n\)</span> 을 cyclic 순서로 <span class="math inline">\(L\)</span> 사이클 도는 사건; fall 들은 연속이 아니라 사이사이 flow/block 스텝을 두고 일어난다) 위에서, fall 양을 <span class="math inline">\(b' = (b'_{k,\ell})_{1\leq k\leq n,\, 1\leq\ell\leq L}\in[0,b]^N\)</span>, <span class="math inline">\(N = nL\)</span> (<span class="math inline">\(k\)</span>=착지 노드, <span class="math inline">\(\ell\)</span>=사이클; 시간 스텝 아님) 이라 쓰자. anchored coordinate 의 cumulative centred fall shift 를 선형사상 <span class="math inline">\(\Sigma:\mathbb{R}^N\to\mathbb{R}^d\)</span> (<span class="math inline">\(S_t\)</span> 와는 별개),</p>
 <p><span class="math display">\[\Sigma b' = \Big(\textstyle\sum_\ell b'_{2,\ell} - \sum_\ell b'_{1,\ell},\ \ldots,\ \sum_\ell b'_{n,\ell} - \sum_\ell b'_{1,\ell}\Big)\in\mathbb{R}^d, \qquad d = n-1\]</span></p>
 <p>이라 하자. 그러면 <span class="math inline">\(\mathrm{rank}\,\Sigma = d\)</span>, coarea Jacobian 은 <span class="math inline">\(J(\Sigma) = \sqrt{\det(\Sigma\Sigma^\top)} = \sqrt{L^{n-1}n}\)</span>, 그리고 <span class="math inline">\(\Sigma\)</span> 는 우역원 <span class="math inline">\(Q:\mathbb{R}^d\to\mathbb{R}^N\)</span> (<span class="math inline">\(\Sigma Q = I_d\)</span>) 을 가지며 <span class="math inline">\(C_Q := \|Q\|_{\infty\to\infty} &lt; \infty\)</span>. 또한</p>
 <p><span class="math display">\[\mathrm{Range}(\Sigma^\top) = \{c\in\mathbb{R}^N : c_{k,\ell} = a_k\ \text{($\ell$ 무관)},\ \textstyle\sum_k a_k = 0\}\]</span></p>
