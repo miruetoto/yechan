@@ -62,9 +62,9 @@ plt.rcParams.update({
 rng = np.random.default_rng(20260601)
 ```
 
-**H.** 핵심 사상 $\Sigma : \mathbb{R}^N \to \mathbb{R}^{n-1}$ 는 두 단계로 만들어져요.
+**H.** 핵심 사상 $\Sigma : \mathbb{R}^N \to \mathbb{R}^{n-1}$ 는 위에서 정의한 **fall 양 벡터 $\mathbf{b}' = (b'_{k,\ell}) \in [0,b]^N$ 를 입력으로 받아** 두 단계로 차이 벡터를 만들어요.
 
-**1단계 — 노드별 총 fall 량.** 각 노드 $v_k$ 에 $L$ 사이클 동안 쌓인 fall 을 다 더해요:
+**1단계 — 노드별 총 fall 량.** $\mathbf{b}'$ 의 성분 중 각 노드 $v_k$ 에 $L$ 사이클 동안 쌓인 fall 을 다 더해요:
 
 $$T_{v_k} := \sum_{\ell=1}^{L} b'_{k,\ell} \qquad (k = 1, \ldots, n)$$
 
@@ -116,11 +116,11 @@ print(f"\nrank(Sigma) = {np.linalg.matrix_rank(Sigma)}  (= d = {d})")
 
 **H.** **(1) $\mathrm{rank}\,\Sigma = n-1$.** $\Delta_1$ 이 rank $n-1$ 라 $L$-fold sum 인 $\Sigma$ 도 rank $n-1$ — 출력공간 $\mathbb{R}^{n-1}$ 를 꽉 채워요.
 
-**(2) coarea Jacobian $J(\Sigma) = \sqrt{\det(\Sigma\Sigma^\top)} = \sqrt{L^{n-1}n}$.** Gram 행렬을 계산하면
+**(2) coarea Jacobian $J(\Sigma) = \sqrt{\det(\Sigma\Sigma^\top)} = \sqrt{L^{n-1}n}$.** 여기서 $J(\Sigma)$ 는 비정방 선형사상의 부피 확대율 (적분 변수변환 계수) 이에요. Gram 행렬을 계산하면
 
 $$\Sigma\Sigma^\top = L\,(I_{n-1} + \mathbf{1}\mathbf{1}^\top)$$
 
-이고, 행렬식 보조정리로
+여기서 $I_{n-1}$ 은 $(n-1)\times(n-1)$ 항등행렬, $\mathbf{1} = (1,\ldots,1)^\top \in \mathbb{R}^{n-1}$ 은 모든 성분이 1 인 벡터 (그래서 $\mathbf{1}\mathbf{1}^\top$ 은 모든 칸이 1 인 $(n-1)\times(n-1)$ 행렬). 행렬식 보조정리로
 
 $$\det(I_{n-1} + \mathbf{1}\mathbf{1}^\top) = 1 + \mathbf{1}^\top\mathbf{1} = 1 + (n-1) = n \;\Rightarrow\; \det(\Sigma\Sigma^\top) = L^{n-1}\cdot n = L^{n-1}n$$
 
@@ -134,7 +134,7 @@ print(f"L^(n-1)*n        = {L**(n-1) * n}")
 print(f"J(Sigma)=sqrt(det) = {np.sqrt(np.linalg.det(Gram)):.4f}  vs  sqrt(L^(n-1)n) = {np.sqrt(L**(n-1)*n):.4f}")
 ```
 
-**(3) 우역원 $Q$ 존재, $\Sigma Q = I_{n-1}$, $C_Q = \|Q\|_{\infty\to\infty} < \infty$.** full row rank 라 오른쪽 역사상이 존재해요. "원하는 차이 벡터 $z$ 를 만들려면 fall 양을 이렇게 잡아라"가 $Qz$. $C_Q < \infty$ 는 그 구성이 **유계** — 입력이 크지 않으면 필요한 fall 양도 폭주 안 함.
+**(3) 우역원 $Q$ 존재, $\Sigma Q = I_{n-1}$, $C_Q = \|Q\|_{\infty\to\infty} < \infty$.** full row rank 라 오른쪽 역사상이 존재해요. "원하는 차이 벡터 $z$ 를 만들려면 fall 양을 이렇게 잡아라"가 $Qz$. $\|Q\|_{\infty\to\infty}$ 는 $Q$ 의 행별 절댓값 합의 최대값(max row absolute-sum, $\ell^\infty\to\ell^\infty$ 연산자 노름) 이고, $C_Q < \infty$ 는 그 구성이 **유계** — 입력이 크지 않으면 필요한 fall 양도 폭주 안 함.
 
 ```{python}
 # 우역원 Q (Moore-Penrose pseudo-inverse 가 한 예)
@@ -187,6 +187,8 @@ $$\Sigma \mathbf{b}' = \Big(\textstyle\sum_\ell b'_{2,\ell} - \sum_\ell b'_{1,\e
 $$\mathrm{Range}(\Sigma^\top) = \{c\in\mathbb{R}^N : c_{k,\ell} = a_k\ \text{($\ell$ 무관)},\ \textstyle\sum_k a_k = 0\}$$
 
 **Proof.**
+
+이하에서 $I_{n-1}$ 은 $(n-1)\times(n-1)$ 항등행렬, $\mathbf{1} = (1,\ldots,1)^\top\in\mathbb{R}^{n-1}$ 은 all-ones 벡터, $\|Q\|_{\infty\to\infty}$ 는 $Q$ 의 행별 절댓값 합의 최대 ($\ell^\infty\to\ell^\infty$ 연산자 노름) 이다.
 
 **rank 와 우역원.** $\Sigma$ 는 Lemma 4 의 per-block 차이사상 $\Delta_1$ 의 $L$-fold sum 이고, $\Delta_1$ 은 rank $n-1$ 이다. 따라서 $\mathrm{rank}\,\Sigma = n-1$ (full row rank) 이고, full row rank 행렬은 우역원을 가지므로 $\Sigma Q = I_{n-1}$ 인 $Q$ 가 존재한다. $Q$ 를 유한차원 행렬로 잡으면 $C_Q = \|Q\|_{\infty\to\infty} < \infty$.
 

@@ -283,7 +283,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <li><span class="math inline">\(\sum_\ell b'_{k,\ell}\)</span> : 노드 <span class="math inline">\(v_k\)</span> 에 <span class="math inline">\(L\)</span> 사이클 동안 쌓인 <strong>총 fall 량</strong> (스칼라; flow/block deposit 은 제외 — 다른 보조정리에서 residual 로 처리)</li>
 </ul>
 <p><strong>왜 fall 만 모으나</strong>: fall 의 목적지는 <span class="math inline">\(\mu_0\)</span> (full support) 라 <strong>임의 노드로 양의 확률로 보낼 수 있어요</strong>. flow 는 현재 height 에 의존(downstream 으로만)해서 통제가 안 돼요. 그래서 “모든 노드를 균등하게 <span class="math inline">\(L\)</span> 번씩 커버”하는 통제는 fall 의 <span class="math inline">\(\mu_0\)</span> draw 로만 가능하고, <span class="math inline">\(\Sigma\)</span> 가 fall 양만 모으는 거예요.</p>
-<div id="00f970c3" class="cell" data-execution_count="1">
+<div id="a0aaccb1" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">"seaborn-v0_8-whitegrid"</span>)</span>
@@ -297,8 +297,8 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">20260601</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><strong>H.</strong> 핵심 사상 <span class="math inline">\(\Sigma : \mathbb{R}^N \to \mathbb{R}^{n-1}\)</span> 는 두 단계로 만들어져요.</p>
-<p><strong>1단계 — 노드별 총 fall 량.</strong> 각 노드 <span class="math inline">\(v_k\)</span> 에 <span class="math inline">\(L\)</span> 사이클 동안 쌓인 fall 을 다 더해요:</p>
+<p><strong>H.</strong> 핵심 사상 <span class="math inline">\(\Sigma : \mathbb{R}^N \to \mathbb{R}^{n-1}\)</span> 는 위에서 정의한 <strong>fall 양 벡터 <span class="math inline">\(\mathbf{b}' = (b'_{k,\ell}) \in [0,b]^N\)</span> 를 입력으로 받아</strong> 두 단계로 차이 벡터를 만들어요.</p>
+<p><strong>1단계 — 노드별 총 fall 량.</strong> <span class="math inline">\(\mathbf{b}'\)</span> 의 성분 중 각 노드 <span class="math inline">\(v_k\)</span> 에 <span class="math inline">\(L\)</span> 사이클 동안 쌓인 fall 을 다 더해요:</p>
 <p><span class="math display">\[T_{v_k} := \sum_{\ell=1}^{L} b'_{k,\ell} \qquad (k = 1, \ldots, n)\]</span></p>
 <p><strong>2단계 — 노드 <span class="math inline">\(v_1\)</span> 기준 차이(anchoring).</strong> 노드 <span class="math inline">\(v_1\)</span> 의 총량 <span class="math inline">\(T_{v_1}\)</span> 을 기준점으로 빼요:</p>
 <p><span class="math display">\[\Sigma \mathbf{b}' = (T_{v_2} - T_{v_1},\ T_{v_3} - T_{v_1},\ \ldots,\ T_{v_n} - T_{v_1}) \in \mathbb{R}^{n-1}\]</span></p>
@@ -314,7 +314,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p>숫자로 (<span class="math inline">\(b=1\)</span>): 사이클 1 이 <span class="math inline">\((0.2, 0.6, 0.9)\)</span>, 사이클 2 가 <span class="math inline">\((0.1, 0.5, 0.8)\)</span> 이면 <span class="math inline">\((T_{v_1}, T_{v_2}, T_{v_3}) = (0.3, 1.1, 1.7)\)</span>, 따라서 <span class="math inline">\(\Sigma \mathbf{b}' = (0.8,\ 1.4)\)</span>.</p>
 <p><strong>G.</strong> Lemma 4 랑 닮았는데요?</p>
 <p><strong>H.</strong> 정확해요. Lemma 4 의 <span class="math inline">\(\Delta_1\boldsymbol{\xi} = (\xi_2-\xi_1, \ldots, \xi_n-\xi_1)\)</span> 랑 같은 구조인데, <strong>한 번이 아니라 <span class="math inline">\(L\)</span> 사이클 합</strong>으로 한 거예요. 그래서 <span class="math inline">\(\Sigma\)</span> 는 per-block 차이사상 <span class="math inline">\(\Delta_1\)</span> 의 <strong><span class="math inline">\(L\)</span>-fold sum</strong> 이에요.</p>
-<div id="5d640a9b" class="cell" data-execution_count="2">
+<div id="854a5122" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 작은 예: n=3, L=4 → N=12, d=2 인 Sigma 행렬 구성</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n, L <span class="op">=</span> <span class="dv">3</span>, <span class="dv">4</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>N, d <span class="op">=</span> n <span class="op">*</span> L, n <span class="op">-</span> <span class="dv">1</span></span>
@@ -343,11 +343,11 @@ rank(Sigma) = 2  (= d = 2)</code></pre>
 <p><strong>H.</strong> 맞아요. 행 하나가 한 노드의 (노드 <span class="math inline">\(v_1\)</span> 대비) 차이를 뽑아요. 이제 네 가지 결론을 봐요.</p>
 <hr>
 <p><strong>H.</strong> <strong>(1) <span class="math inline">\(\mathrm{rank}\,\Sigma = n-1\)</span>.</strong> <span class="math inline">\(\Delta_1\)</span> 이 rank <span class="math inline">\(n-1\)</span> 라 <span class="math inline">\(L\)</span>-fold sum 인 <span class="math inline">\(\Sigma\)</span> 도 rank <span class="math inline">\(n-1\)</span> — 출력공간 <span class="math inline">\(\mathbb{R}^{n-1}\)</span> 를 꽉 채워요.</p>
-<p><strong>(2) coarea Jacobian <span class="math inline">\(J(\Sigma) = \sqrt{\det(\Sigma\Sigma^\top)} = \sqrt{L^{n-1}n}\)</span>.</strong> Gram 행렬을 계산하면</p>
+<p><strong>(2) coarea Jacobian <span class="math inline">\(J(\Sigma) = \sqrt{\det(\Sigma\Sigma^\top)} = \sqrt{L^{n-1}n}\)</span>.</strong> 여기서 <span class="math inline">\(J(\Sigma)\)</span> 는 비정방 선형사상의 부피 확대율 (적분 변수변환 계수) 이에요. Gram 행렬을 계산하면</p>
 <p><span class="math display">\[\Sigma\Sigma^\top = L\,(I_{n-1} + \mathbf{1}\mathbf{1}^\top)\]</span></p>
-<p>이고, 행렬식 보조정리로</p>
+<p>여기서 <span class="math inline">\(I_{n-1}\)</span> 은 <span class="math inline">\((n-1)\times(n-1)\)</span> 항등행렬, <span class="math inline">\(\mathbf{1} = (1,\ldots,1)^\top \in \mathbb{R}^{n-1}\)</span> 은 모든 성분이 1 인 벡터 (그래서 <span class="math inline">\(\mathbf{1}\mathbf{1}^\top\)</span> 은 모든 칸이 1 인 <span class="math inline">\((n-1)\times(n-1)\)</span> 행렬). 행렬식 보조정리로</p>
 <p><span class="math display">\[\det(I_{n-1} + \mathbf{1}\mathbf{1}^\top) = 1 + \mathbf{1}^\top\mathbf{1} = 1 + (n-1) = n \;\Rightarrow\; \det(\Sigma\Sigma^\top) = L^{n-1}\cdot n = L^{n-1}n\]</span></p>
-<div id="fbf99414" class="cell" data-execution_count="3">
+<div id="3f9f8f03" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Gram <span class="op">=</span> Sigma <span class="op">@</span> Sigma.T</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Gram = Sigma Sigma^T:"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Gram.astype(<span class="bu">int</span>))</span>
@@ -366,8 +366,8 @@ L^(n-1)*n        = 48
 J(Sigma)=sqrt(det) = 6.9282  vs  sqrt(L^(n-1)n) = 6.9282</code></pre>
 </div>
 </div>
-<p><strong>(3) 우역원 <span class="math inline">\(Q\)</span> 존재, <span class="math inline">\(\Sigma Q = I_{n-1}\)</span>, <span class="math inline">\(C_Q = \|Q\|_{\infty\to\infty} &lt; \infty\)</span>.</strong> full row rank 라 오른쪽 역사상이 존재해요. “원하는 차이 벡터 <span class="math inline">\(z\)</span> 를 만들려면 fall 양을 이렇게 잡아라”가 <span class="math inline">\(Qz\)</span>. <span class="math inline">\(C_Q &lt; \infty\)</span> 는 그 구성이 <strong>유계</strong> — 입력이 크지 않으면 필요한 fall 양도 폭주 안 함.</p>
-<div id="6861df95" class="cell" data-execution_count="4">
+<p><strong>(3) 우역원 <span class="math inline">\(Q\)</span> 존재, <span class="math inline">\(\Sigma Q = I_{n-1}\)</span>, <span class="math inline">\(C_Q = \|Q\|_{\infty\to\infty} &lt; \infty\)</span>.</strong> full row rank 라 오른쪽 역사상이 존재해요. “원하는 차이 벡터 <span class="math inline">\(z\)</span> 를 만들려면 fall 양을 이렇게 잡아라”가 <span class="math inline">\(Qz\)</span>. <span class="math inline">\(\|Q\|_{\infty\to\infty}\)</span> 는 <span class="math inline">\(Q\)</span> 의 행별 절댓값 합의 최대값(max row absolute-sum, <span class="math inline">\(\ell^\infty\to\ell^\infty\)</span> 연산자 노름) 이고, <span class="math inline">\(C_Q &lt; \infty\)</span> 는 그 구성이 <strong>유계</strong> — 입력이 크지 않으면 필요한 fall 양도 폭주 안 함.</p>
+<div id="6af7d6e0" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 우역원 Q (Moore-Penrose pseudo-inverse 가 한 예)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> Sigma.T <span class="op">@</span> np.linalg.inv(Sigma <span class="op">@</span> Sigma.T)   <span class="co"># right inverse: Sigma Q = I_d</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sigma Q = I_d 확인:"</span>)</span>
@@ -418,6 +418,7 @@ Sigma (Q z) = [ 0.7 -0.3]   (= z 복원)</code></pre>
 <p>이라 하자. 그러면 <span class="math inline">\(\mathrm{rank}\,\Sigma = n-1\)</span>, coarea Jacobian 은 <span class="math inline">\(J(\Sigma) = \sqrt{\det(\Sigma\Sigma^\top)} = \sqrt{L^{n-1}n}\)</span>, 그리고 <span class="math inline">\(\Sigma\)</span> 는 우역원 <span class="math inline">\(Q:\mathbb{R}^{n-1}\to\mathbb{R}^N\)</span> (<span class="math inline">\(\Sigma Q = I_{n-1}\)</span>) 을 가지며 <span class="math inline">\(C_Q := \|Q\|_{\infty\to\infty} &lt; \infty\)</span>. 또한</p>
 <p><span class="math display">\[\mathrm{Range}(\Sigma^\top) = \{c\in\mathbb{R}^N : c_{k,\ell} = a_k\ \text{($\ell$ 무관)},\ \textstyle\sum_k a_k = 0\}\]</span></p>
 <p><strong>Proof.</strong></p>
+<p>이하에서 <span class="math inline">\(I_{n-1}\)</span> 은 <span class="math inline">\((n-1)\times(n-1)\)</span> 항등행렬, <span class="math inline">\(\mathbf{1} = (1,\ldots,1)^\top\in\mathbb{R}^{n-1}\)</span> 은 all-ones 벡터, <span class="math inline">\(\|Q\|_{\infty\to\infty}\)</span> 는 <span class="math inline">\(Q\)</span> 의 행별 절댓값 합의 최대 (<span class="math inline">\(\ell^\infty\to\ell^\infty\)</span> 연산자 노름) 이다.</p>
 <p><strong>rank 와 우역원.</strong> <span class="math inline">\(\Sigma\)</span> 는 Lemma 4 의 per-block 차이사상 <span class="math inline">\(\Delta_1\)</span> 의 <span class="math inline">\(L\)</span>-fold sum 이고, <span class="math inline">\(\Delta_1\)</span> 은 rank <span class="math inline">\(n-1\)</span> 이다. 따라서 <span class="math inline">\(\mathrm{rank}\,\Sigma = n-1\)</span> (full row rank) 이고, full row rank 행렬은 우역원을 가지므로 <span class="math inline">\(\Sigma Q = I_{n-1}\)</span> 인 <span class="math inline">\(Q\)</span> 가 존재한다. <span class="math inline">\(Q\)</span> 를 유한차원 행렬로 잡으면 <span class="math inline">\(C_Q = \|Q\|_{\infty\to\infty} &lt; \infty\)</span>.</p>
 <p><strong>Gram 계산과 Jacobian.</strong> 각 행이 “노드 <span class="math inline">\(v_k\)</span> 자리 <span class="math inline">\(+1\)</span>, 노드 <span class="math inline">\(v_1\)</span> 자리 <span class="math inline">\(-1\)</span>” 의 <span class="math inline">\(L\)</span> 사이클 합이므로, 행 <span class="math inline">\(i\)</span> 와 행 <span class="math inline">\(j\)</span> 의 내적은</p>
 <p><span class="math display">\[\begin{aligned}
