@@ -19,6 +19,8 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 </style>
 ```
 
+# 1. 팟캐스트 버전
+
 > *(스튜디오. Lemma 4 카드 한 장.)*
 
 **H.** $n$개 균등 퇴적량의 차이 벡터가 원점 근방에서 갖는 밀도 하한을 보여요. 목표:
@@ -196,3 +198,99 @@ f_{\boldsymbol{\xi}'} &\;\geq\; \frac{b^{1-n}}{2} \;\text{ on } (-b/4,b/4)^{n-1}
 \end{aligned}$$
 
 Lemma 4 없이는 single-round 밀도가 0 일 수 있고, 그러면 $L$ 겹 convolution 후에도 목표 집합 도달 확률을 아래에서 bound 할 수 없어요. **이 lemma 가 chain 의 mixing 을 보장하는 출발점이에요.**
+
+---
+
+# 2. 논문직접삽입버전
+
+**Lemma.** $\xi_1,\ldots,\xi_n \stackrel{\mathrm{iid}}{\sim}\mathrm{Unif}(0,b)$. 변환 $\boldsymbol{\xi}' = J\boldsymbol{\xi}$ 를
+
+$$\xi'_1 := \xi_1, \qquad \xi'_i := \xi_i - \xi_1 \quad (i = 2,\ldots,n)$$
+
+로 정의하고, $f_{\boldsymbol{\xi}'}$ 를 $(\xi'_2,\ldots,\xi'_n)$ 의 marginal density 라 하자. 그러면
+
+$$f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n) \;\geq\; \frac{b^{1-n}}{2} \qquad \forall\,(\xi'_2,\ldots,\xi'_n)\in(-b/4,\,b/4)^{n-1}$$
+
+**Proof.**
+
+**원래 밀도.** $\xi_1,\ldots,\xi_n$ 이 $[0,b]$ 위 i.i.d. 균등분포이므로
+
+$$f_{\boldsymbol{\xi}}(\xi_1,\ldots,\xi_n) \;=\; b^{-n}\,\mathbf{1}_{[0,b]^n}(\xi_1,\ldots,\xi_n)$$
+
+**Jacobian 계산.** 변환 행렬 $J \in \mathbb{R}^{n\times n}$ 은
+
+$$J = \begin{pmatrix} 1 & 0 & 0 & \cdots & 0 \\ -1 & 1 & 0 & \cdots & 0 \\ -1 & 0 & 1 & \cdots & 0 \\ \vdots & & & \ddots & \vdots \\ -1 & 0 & 0 & \cdots & 1 \end{pmatrix}$$
+
+행 2, 3, …, $n$ 에 행 1 을 더하는 기본 행 연산 (행렬식 불변) 을 적용하면
+
+$$J \;\xrightarrow{\text{row}_k \,+\,\text{row}_1,\; k\geq 2}\; I_n \qquad \Rightarrow \qquad \det(J) = \det(I_n) = 1$$
+
+따라서 $|\det J| = 1$.
+
+**변환 후 결합 밀도.** 변수 변환 공식에 의해
+
+$$\begin{aligned}
+f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n)
+&= f_{\boldsymbol{\xi}}\!\left(J^{-1}\boldsymbol{\xi}'\right)\cdot|\det J|^{-1} \\
+&= f_{\boldsymbol{\xi}}\!\left(J^{-1}\boldsymbol{\xi}'\right) \cdot 1 && (\because |\det J|=1) \\
+&= b^{-n}\,\mathbf{1}_{[0,b]^n}\!\left(J^{-1}\boldsymbol{\xi}'\right)
+\end{aligned}$$
+
+역변환 $J^{-1}$ 은 $\xi_1 = \xi'_1$, $\xi_i = \xi'_1 + \xi'_i$ $(i\geq 2)$ 이므로
+
+$$\mathbf{1}_{[0,b]^n}(J^{-1}\boldsymbol{\xi}') = 1 \;\Leftrightarrow\; \xi'_1 \in [0,b] \;\text{ and }\; \xi'_1 + \xi'_i \in [0,b] \;\text{ for all } i \geq 2$$
+
+각 조건 $\xi'_1 + \xi'_i \in [0,b]$ 을 $\xi'_1$ 에 대해 풀면
+
+$$\begin{aligned}
+0 \leq \xi'_1 + \xi'_i \leq b
+&\;\Leftrightarrow\; -\xi'_i \leq \xi'_1 \leq b - \xi'_i \\
+&\;\Leftrightarrow\; \xi'_1 \in [-\xi'_i,\; b-\xi'_i]
+\end{aligned}$$
+
+따라서
+
+$$f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n) \;=\; b^{-n}\,\mathbf{1}_{\{\xi'_1\,\in\, [0,b]\,\cap\,\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i]\}}$$
+
+**Marginalize.** 구간
+
+$$I \;:=\; [0,b]\cap\bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i]$$
+
+를 정의하면 ($|I|$ = 1차원 Lebesgue 측도, 즉 구간 $I=[\alpha,\beta]$ 의 길이 $\beta-\alpha$)
+
+$$\begin{aligned}
+f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n)
+&= \int_{-\infty}^{\infty} f_{\boldsymbol{\xi}'}(\xi'_1,\ldots,\xi'_n)\,d\xi'_1 \\
+&= \int_{-\infty}^{\infty} b^{-n}\,\mathbf{1}_{\{\xi'_1 \in I\}}\,d\xi'_1 \\
+&= b^{-n} \int_I d\xi'_1 \\
+&= b^{-n}\,|I| \tag*{$(\star)$}
+\end{aligned}$$
+
+**$I \supseteq [b/4, 3b/4]$ 임을 보인다 (가정: $|\xi'_i|<b/4$, $i\geq 2$).** 임의의 $i \geq 2$ 에 대해
+
+$$\begin{aligned}
+|\xi'_i| < b/4
+&\;\Leftrightarrow\; -b/4 < \xi'_i < b/4 \\
+&\;\Rightarrow\; -b/4 < -\xi'_i \;\text{ (left end) } \;\text{and}\; b-\xi'_i > b - b/4 = 3b/4 \;\text{ (right end)} \\
+&\;\Rightarrow\; -\xi'_i < b/4 \;\text{ and }\; b-\xi'_i > 3b/4 \\
+&\;\Rightarrow\; b/4 \in (-\xi'_i,\, b-\xi'_i) \;\text{ and }\; 3b/4 \in (-\xi'_i,\, b-\xi'_i) \\
+&\;\Rightarrow\; [b/4,\, 3b/4] \;\subseteq\; [-\xi'_i,\, b-\xi'_i]
+\end{aligned}$$
+
+$[b/4,3b/4] \subseteq [0,b]$ 는 자명. 이를 모든 $i = 2,\ldots,n$ 에 교집합 적용:
+
+$$\begin{aligned}
+[b/4,3b/4] &\;\subseteq\; [0,b] \cap \bigcap_{i=2}^{n}[-\xi'_i,\,b-\xi'_i] \;=\; I \\
+\Rightarrow\quad |I| &\;\geq\; |[b/4,3b/4]| \;=\; 3b/4 - b/4 \;=\; b/2
+\end{aligned}$$
+
+**결론.** $(\star)$ 와 위 부등식을 합치면
+
+$$\begin{aligned}
+f_{\boldsymbol{\xi}'}(\xi'_2,\ldots,\xi'_n)
+&= b^{-n}\,|I| && (\because (\star)) \\
+&\geq b^{-n} \cdot \frac{b}{2} && (\because |I| \geq b/2) \\
+&= \frac{b^{1-n}}{2}
+\end{aligned}$$
+
+$\square$
