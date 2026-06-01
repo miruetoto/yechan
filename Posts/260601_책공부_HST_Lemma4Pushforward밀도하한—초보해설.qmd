@@ -172,3 +172,27 @@ print(f"n=3  lower bound = {b**(1-3)/2:.4f},  min inside box = {F[in_box].min():
 **H.** 한 줄로 요약하면:
 
 $$(\xi'_2,\ldots,\xi'_n)\in(-b/4,b/4)^{n-1} \;\Rightarrow\; I\supseteq[b/4,3b/4] \;\Rightarrow\; |I|\geq b/2 \;\Rightarrow\; f_{\boldsymbol{\xi}'}\geq b^{1-n}/2$$
+
+---
+
+**G.** 그래서 이 lemma 가 말하고 싶은 게 뭔가요?
+
+**H.** 한 마디로: **퇴적 차이가 원점 근방 어느 값이든 양의 확률로 도달할 수 있다** — 그 확률이 $b^{1-n}/2$ 이상으로 균일하게 bounded below.
+
+왜 중요한가 — HST 에서 높이 차이 벡터 $\Delta_1\mathbf{h}_t$ 는 매 라운드마다 퇴적 차이 $(\xi'_2, \ldots, \xi'_n)$ 가 누적돼서 변해요:
+
+$$\Delta_1\mathbf{h}_{t+1} \;=\; \Delta_1\mathbf{h}_t \;+\; (\xi'_2, \ldots, \xi'_n)$$
+
+Doeblin minorization 을 증명하려면 "어떤 상태에서 출발하든, $L$ 라운드 후 목표 집합 $U$ 에 양의 확률로 도달한다" 를 보여야 해요. 그 흐름:
+
+$$\begin{aligned}
+f_{\boldsymbol{\xi}'} &\;\geq\; \frac{b^{1-n}}{2} \;\text{ on } (-b/4,b/4)^{n-1}
+  && (\text{Lemma 4, single round}) \\
+\Rightarrow\quad f_{\boldsymbol{\xi}'^{(1)}+\cdots+\boldsymbol{\xi}'^{(L)}} &\;\geq\; c_L > 0 \;\text{ on } L\cdot(-b/4,b/4)^{n-1}
+  && (\because \text{convolution, } L \text{ rounds}) \\
+\Rightarrow\quad \Pr\!\left[\Delta_1\mathbf{h}_{t_L} \in U\right] &\;\geq\; \varepsilon > 0
+  && (\because U \subset L\cdot(-b/4,b/4)^{n-1}) \\
+\Rightarrow\quad &\text{Doeblin minorization holds}
+\end{aligned}$$
+
+Lemma 4 없이는 single-round 밀도가 0 일 수 있고, 그러면 $L$ 겹 convolution 후에도 목표 집합 도달 확률을 아래에서 bound 할 수 없어요. **이 lemma 가 chain 의 mixing 을 보장하는 출발점이에요.**
