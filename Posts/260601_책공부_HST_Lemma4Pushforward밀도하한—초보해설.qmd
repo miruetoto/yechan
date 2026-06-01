@@ -110,6 +110,63 @@ $$\xi'_1 \;\in\; [0,b] \cap \bigcap_{i=2}^{n} [-\xi'_i,\ b - \xi'_i]$$
 
 안에만 있을 수 있어요.
 
+**G.** 잠깐, 이게 잘 이해가 안 돼요. $\xi'_1$ 이 왜 $[-\xi'_i, b-\xi'_i]$ 안에 있어야 하나요?
+
+**H.** $n=2$, $b=1$ 로 구체적으로 봐요. 변환 전에 $\xi_1, \xi_2 \in [0, 1]$ 이에요. 변환 후 $\xi'_1 = \xi_1$, $\xi'_2 = \xi_2 - \xi_1$.
+
+역변환으로 되돌리면: $\xi_2 = \xi'_1 + \xi'_2$.
+
+$\xi_2 \in [0,1]$ 이어야 하므로 $0 \leq \xi'_1 + \xi'_2 \leq 1$, 즉 $\xi'_1 \in [-\xi'_2,\ 1 - \xi'_2]$.
+
+세 가지 예시를 보면:
+
+```{python}
+b = 1.0
+cases_ex = [
+    (r"$\xi'_2 = +0.3$",  0.3),
+    (r"$\xi'_2 = \;\;0$",  0.0),
+    (r"$\xi'_2 = -0.3$", -0.3),
+]
+
+print(f"{'xi_2 prime':>18}  {'[-xi2, b-xi2]':>16}  {'∩ [0,b]':>14}  {'length':>8}")
+print("-" * 65)
+for label, xp2 in cases_ex:
+    lo_i = -xp2;  hi_i = b - xp2          # interval from xi_2 constraint
+    lo_f = max(0.0, lo_i)
+    hi_f = min(b,   hi_i)
+    print(f"  {xp2:+.1f}            [{lo_i:+.1f}, {hi_i:+.1f}]          [{lo_f:.1f}, {hi_f:.1f}]       {hi_f-lo_f:.1f}")
+```
+
+```{python}
+fig, axes = plt.subplots(1, 3, figsize=(8, 3.5))
+
+for ax, (label, xp2) in zip(axes, cases_ex):
+    lo_i, hi_i = -xp2, b - xp2
+    lo_f = max(0.0, lo_i); hi_f = min(b, hi_i)
+
+    # xi'_1 축 위에 구간 그리기
+    ax.broken_barh([(0, b)],             (0.55, 0.2), facecolors="C0", alpha=0.6,
+                   label=r"$\xi'_1\in[0,b]$")
+    ax.broken_barh([(lo_i, hi_i-lo_i)], (0.3, 0.2),  facecolors="C1", alpha=0.6,
+                   label=r"$\xi_2\in[0,b]$ constraint")
+    if hi_f > lo_f:
+        ax.broken_barh([(lo_f, hi_f-lo_f)], (0.05, 0.2), facecolors="crimson", alpha=0.8,
+                       label=rf"intersection (len {hi_f-lo_f:.1f})")
+    ax.set_xlim(-0.15, 1.15); ax.set_ylim(-0.05, 0.9); ax.set_yticks([])
+    ax.set_xlabel(r"$\xi'_1$"); ax.set_title(label, fontsize=10)
+    ax.axvline(lo_f, color="crimson", ls=":", lw=1.2)
+    ax.axvline(hi_f, color="crimson", ls=":", lw=1.2)
+    if ax is axes[0]:
+        ax.legend(fontsize=7.5, loc="upper right")
+
+plt.suptitle(r"valid range of $\xi'_1$ given fixed $\xi'_2$ ($b=1$)", fontsize=10)
+plt.tight_layout(); plt.show()
+```
+
+**G.** 아, 이제 보여요. $\xi'_2 = 0.3$ 이면 "$\xi_2$ 가 $\xi_1$ 보다 0.3 크다"는 뜻이니까, $\xi_1$ 이 너무 크면 $\xi_2 = \xi_1 + 0.3 > 1$ 이 돼서 안 되는 거네요.
+
+**H.** 정확히. $\xi'_2 = 0.3$ 이면 $\xi'_1 \leq 1 - 0.3 = 0.7$ 이어야 해요. $\xi'_2 = -0.3$ 이면 반대로 $\xi'_1 \geq 0.3$ 이어야 하고요. 두 경우 모두 교집합 길이는 $0.7 > b/2 = 0.5$ — 그게 하한의 원천이에요.
+
 ---
 
 **H.** **Step 2: $\xi'_1$ 적분 (marginalize)**.
