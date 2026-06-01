@@ -71,16 +71,21 @@ plt.rcParams.update({
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 3.6))
 
 # --- Left: continuous coordinate, Unif(U) on chamber ---
-# (schematic, not to scale; box radii keep the true ratio O:O† = (b/4):(b/16) = 4:1)
-ax1.set_xlim(-2.4, 2.4); ax1.set_ylim(-2.4, 2.4); ax1.set_aspect('equal')
+# (schematic, not to scale; O:O† = (b/4):(b/16) = 4:1 exact; C_0 ≫ O so drawn shrunk)
+ax1.set_xlim(-3.4, 3.4); ax1.set_ylim(-3.4, 3.4); ax1.set_aspect('equal')
 ax1.set_title(r'continuous part: $\mathrm{Unif}(U)$ on $\mathbb{R}^{n-1}$', fontsize=9.5)
 ax1.set_xlabel(r'$\Delta h_{21}$', fontsize=9); ax1.set_ylabel(r'$\Delta h_{31}$', fontsize=9)
+
+# C_0 = {M ≤ M_0}: CLOSED start region (solid), much larger than O (shrunk to fit)
+ax1.add_patch(Rectangle((-3.0, -3.0), 6.0, 6.0, lw=1.6, edgecolor='purple',
+                        facecolor='#f3e8ff', alpha=0.55, linestyle='-', zorder=0))
+ax1.text(-2.9, 2.55, r'$C_0$ (start; $\gg\mathcal{O}$)', color='purple', fontsize=8.5, zorder=6)
 
 # three final-equality lines U must avoid: Δh21=0, Δh31=0, Δh21=Δh31
 ax1.axhline(0, color='gray', ls=':', lw=1.0, zorder=2)
 ax1.axvline(0, color='gray', ls=':', lw=1.0, zorder=2)
-ax1.plot([-2.4, 2.4], [-2.4, 2.4], color='gray', ls=':', lw=1.0, zorder=2)
-ax1.text(-2.25, -1.85, r'final-equality lines', color='gray', fontsize=6.5, rotation=45)
+ax1.plot([-3.0, 3.0], [-3.0, 3.0], color='gray', ls=':', lw=1.0, zorder=2)
+ax1.text(-2.15, -1.78, r'final-equality lines', color='gray', fontsize=6.5, rotation=45)
 
 # O, O† nested OPEN boxes — dashed boundary (boundary not included); radii 4:1
 for r, ec, lbl, tx, ty in [
@@ -123,7 +128,7 @@ plt.savefig('results/figures/260602_유진_HST_nu_skel_기준측도.qmd/nu_skel.
 plt.show()
 ```
 
-왼쪽(연속)은 $U$ 위에 균등하게 퍼지고, 오른쪽(이산)은 $v_n$ 하나에만 솟는다. $\nu_{\mathrm{skel}}$은 이 둘의 곱이다.
+왼쪽(연속)은 $U$ 위에 균등하게 퍼지고, 오른쪽(이산)은 $v_n$ 하나에만 솟는다. $\nu_{\mathrm{skel}}$은 이 둘의 곱이다. 왼쪽 패널의 옅은 보라 사각형 $C_0$(실선=닫힘)는 **출발영역**으로, 실제로는 $\mathcal{O}$보다 훨씬 크다($M_0 \gg b/4$) — 프레임에 맞추려 줄여 그렸다. "$C_0$ 어디서 출발해도 원점 근처 작은 $U$를 덮는다"가 한 그림에 담긴다.
 
 ---
 
