@@ -278,11 +278,12 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><strong>G.</strong> 그럼 <span class="math inline">\(b'_{k,\ell}\)</span> 의 인덱스는 시간 스텝이 아니네요?</p>
 <p><strong>H.</strong> 맞아요. <span class="math inline">\(k, \ell\)</span> 은 <strong>fall 만 센 인덱스</strong>예요 (시간 스텝 <span class="math inline">\(t\)</span> 아님).</p>
 <ul>
-<li><span class="math inline">\(b' = (b'_{k,\ell})\)</span> : fall 양. <span class="math inline">\(k\)</span> = 착지 노드(<span class="math inline">\(1\sim n\)</span>), <span class="math inline">\(\ell\)</span> = 몇 번째 사이클(<span class="math inline">\(1\sim L\)</span>). 총 <span class="math inline">\(N = nL\)</span> 개, 각각 <span class="math inline">\([0,b]\)</span></li>
-<li><span class="math inline">\(\sum_\ell b'_{k,\ell}\)</span> : 노드 <span class="math inline">\(k\)</span> 에 <span class="math inline">\(L\)</span> 사이클 동안 쌓인 <strong>총 fall 량</strong> (flow/block deposit 은 제외 — 이건 다른 보조정리에서 residual 로 처리)</li>
+<li><span class="math inline">\(\mathbf{b}' = (b'_{k,\ell})_{1\leq k\leq n,\,1\leq\ell\leq L} \in [0,b]^N\)</span> : fall 양 <strong>벡터</strong> (<span class="math inline">\(N = nL\)</span> 차원, bold 로 표기)</li>
+<li><span class="math inline">\(b'_{k,\ell} \in [0,b]\)</span> : 그 <strong>성분 (스칼라)</strong> — 노드 <span class="math inline">\(v_k\)</span>·사이클 <span class="math inline">\(\ell\)</span> 의 fall 양 (<span class="math inline">\(k\)</span>=착지 노드 <span class="math inline">\(1\sim n\)</span>, <span class="math inline">\(\ell\)</span>=사이클 <span class="math inline">\(1\sim L\)</span>)</li>
+<li><span class="math inline">\(\sum_\ell b'_{k,\ell}\)</span> : 노드 <span class="math inline">\(v_k\)</span> 에 <span class="math inline">\(L\)</span> 사이클 동안 쌓인 <strong>총 fall 량</strong> (스칼라; flow/block deposit 은 제외 — 다른 보조정리에서 residual 로 처리)</li>
 </ul>
 <p><strong>왜 fall 만 모으나</strong>: fall 의 목적지는 <span class="math inline">\(\mu_0\)</span> (full support) 라 <strong>임의 노드로 양의 확률로 보낼 수 있어요</strong>. flow 는 현재 height 에 의존(downstream 으로만)해서 통제가 안 돼요. 그래서 “모든 노드를 균등하게 <span class="math inline">\(L\)</span> 번씩 커버”하는 통제는 fall 의 <span class="math inline">\(\mu_0\)</span> draw 로만 가능하고, <span class="math inline">\(\Sigma\)</span> 가 fall 양만 모으는 거예요.</p>
-<div id="6cee49a2" class="cell" data-execution_count="1">
+<div id="00f970c3" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">"seaborn-v0_8-whitegrid"</span>)</span>
@@ -300,7 +301,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><strong>1단계 — 노드별 총 fall 량.</strong> 각 노드 <span class="math inline">\(v_k\)</span> 에 <span class="math inline">\(L\)</span> 사이클 동안 쌓인 fall 을 다 더해요:</p>
 <p><span class="math display">\[T_{v_k} := \sum_{\ell=1}^{L} b'_{k,\ell} \qquad (k = 1, \ldots, n)\]</span></p>
 <p><strong>2단계 — 노드 <span class="math inline">\(v_1\)</span> 기준 차이(anchoring).</strong> 노드 <span class="math inline">\(v_1\)</span> 의 총량 <span class="math inline">\(T_{v_1}\)</span> 을 기준점으로 빼요:</p>
-<p><span class="math display">\[\Sigma b' = (T_{v_2} - T_{v_1},\ T_{v_3} - T_{v_1},\ \ldots,\ T_{v_n} - T_{v_1}) \in \mathbb{R}^{n-1}\]</span></p>
+<p><span class="math display">\[\Sigma \mathbf{b}' = (T_{v_2} - T_{v_1},\ T_{v_3} - T_{v_1},\ \ldots,\ T_{v_n} - T_{v_1}) \in \mathbb{R}^{n-1}\]</span></p>
 <p>성분이 <span class="math inline">\(n-1\)</span> 개인 이유: 노드 <span class="math inline">\(n\)</span> 개 중 기준 노드 <span class="math inline">\(v_1\)</span> 자신(<span class="math inline">\(T_{v_1} - T_{v_1} = 0\)</span>)은 빠지니까요. 절대 높이는 눈이 쌓여 계속 커지지만 <strong>노드 간 차이</strong>만 의미가 있어서 이렇게 anchor 해요 (HST augmented state 의 <span class="math inline">\(\Delta_1\mathbf{h}\)</span> 와 같은 정신).</p>
 <p>이름 “cumulative centred fall shift” 를 풀면:</p>
 <ul>
@@ -309,11 +310,11 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <li><strong>fall shift</strong> = fall 로 생긴 높이 이동</li>
 </ul>
 <p>구체 예시로 (<span class="math inline">\(n=3\)</span>, <span class="math inline">\(L=2\)</span>):</p>
-<p><span class="math display">\[T_{v_1} = b'_{1,1}+b'_{1,2}, \quad T_{v_2} = b'_{2,1}+b'_{2,2}, \quad T_{v_3} = b'_{3,1}+b'_{3,2} \;\Rightarrow\; \Sigma b' = (T_{v_2} - T_{v_1},\ T_{v_3} - T_{v_1}) \in \mathbb{R}^2\]</span></p>
-<p>숫자로 (<span class="math inline">\(b=1\)</span>): 사이클 1 이 <span class="math inline">\((0.2, 0.6, 0.9)\)</span>, 사이클 2 가 <span class="math inline">\((0.1, 0.5, 0.8)\)</span> 이면 <span class="math inline">\((T_{v_1}, T_{v_2}, T_{v_3}) = (0.3, 1.1, 1.7)\)</span>, 따라서 <span class="math inline">\(\Sigma b' = (0.8,\ 1.4)\)</span>.</p>
+<p><span class="math display">\[T_{v_1} = b'_{1,1}+b'_{1,2}, \quad T_{v_2} = b'_{2,1}+b'_{2,2}, \quad T_{v_3} = b'_{3,1}+b'_{3,2} \;\Rightarrow\; \Sigma \mathbf{b}' = (T_{v_2} - T_{v_1},\ T_{v_3} - T_{v_1}) \in \mathbb{R}^2\]</span></p>
+<p>숫자로 (<span class="math inline">\(b=1\)</span>): 사이클 1 이 <span class="math inline">\((0.2, 0.6, 0.9)\)</span>, 사이클 2 가 <span class="math inline">\((0.1, 0.5, 0.8)\)</span> 이면 <span class="math inline">\((T_{v_1}, T_{v_2}, T_{v_3}) = (0.3, 1.1, 1.7)\)</span>, 따라서 <span class="math inline">\(\Sigma \mathbf{b}' = (0.8,\ 1.4)\)</span>.</p>
 <p><strong>G.</strong> Lemma 4 랑 닮았는데요?</p>
 <p><strong>H.</strong> 정확해요. Lemma 4 의 <span class="math inline">\(\Delta_1\boldsymbol{\xi} = (\xi_2-\xi_1, \ldots, \xi_n-\xi_1)\)</span> 랑 같은 구조인데, <strong>한 번이 아니라 <span class="math inline">\(L\)</span> 사이클 합</strong>으로 한 거예요. 그래서 <span class="math inline">\(\Sigma\)</span> 는 per-block 차이사상 <span class="math inline">\(\Delta_1\)</span> 의 <strong><span class="math inline">\(L\)</span>-fold sum</strong> 이에요.</p>
-<div id="d736a9d3" class="cell" data-execution_count="2">
+<div id="5d640a9b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 작은 예: n=3, L=4 → N=12, d=2 인 Sigma 행렬 구성</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n, L <span class="op">=</span> <span class="dv">3</span>, <span class="dv">4</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>N, d <span class="op">=</span> n <span class="op">*</span> L, n <span class="op">-</span> <span class="dv">1</span></span>
@@ -346,7 +347,7 @@ rank(Sigma) = 2  (= d = 2)</code></pre>
 <p><span class="math display">\[\Sigma\Sigma^\top = L\,(I_{n-1} + \mathbf{1}\mathbf{1}^\top)\]</span></p>
 <p>이고, 행렬식 보조정리로</p>
 <p><span class="math display">\[\det(I_{n-1} + \mathbf{1}\mathbf{1}^\top) = 1 + \mathbf{1}^\top\mathbf{1} = 1 + (n-1) = n \;\Rightarrow\; \det(\Sigma\Sigma^\top) = L^{n-1}\cdot n = L^{n-1}n\]</span></p>
-<div id="138c8dca" class="cell" data-execution_count="3">
+<div id="fbf99414" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Gram <span class="op">=</span> Sigma <span class="op">@</span> Sigma.T</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Gram = Sigma Sigma^T:"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Gram.astype(<span class="bu">int</span>))</span>
@@ -366,7 +367,7 @@ J(Sigma)=sqrt(det) = 6.9282  vs  sqrt(L^(n-1)n) = 6.9282</code></pre>
 </div>
 </div>
 <p><strong>(3) 우역원 <span class="math inline">\(Q\)</span> 존재, <span class="math inline">\(\Sigma Q = I_{n-1}\)</span>, <span class="math inline">\(C_Q = \|Q\|_{\infty\to\infty} &lt; \infty\)</span>.</strong> full row rank 라 오른쪽 역사상이 존재해요. “원하는 차이 벡터 <span class="math inline">\(z\)</span> 를 만들려면 fall 양을 이렇게 잡아라”가 <span class="math inline">\(Qz\)</span>. <span class="math inline">\(C_Q &lt; \infty\)</span> 는 그 구성이 <strong>유계</strong> — 입력이 크지 않으면 필요한 fall 양도 폭주 안 함.</p>
-<div id="cc90424b" class="cell" data-execution_count="4">
+<div id="6861df95" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 우역원 Q (Moore-Penrose pseudo-inverse 가 한 예)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> Sigma.T <span class="op">@</span> np.linalg.inv(Sigma <span class="op">@</span> Sigma.T)   <span class="co"># right inverse: Sigma Q = I_d</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sigma Q = I_d 확인:"</span>)</span>
@@ -393,7 +394,7 @@ Sigma (Q z) = [ 0.7 -0.3]   (= z 복원)</code></pre>
 <p><strong>(4) <span class="math inline">\(\mathrm{Range}(\Sigma^\top) = \{c : c_{k,\ell} = a_k\)</span> (<span class="math inline">\(\ell\)</span> 무관), <span class="math inline">\(\sum_k a_k = 0\}\)</span>.</strong> <span class="math inline">\(c = \Sigma^\top\theta\)</span> 를 풀면 사이클 <span class="math inline">\(\ell\)</span> 에 무관하게 <strong>노드별 상수</strong>이고 그 상수들의 <strong>합이 0</strong> — anchored + centred 구조가 그대로 드러나요.</p>
 <hr>
 <p><strong>H.</strong> 왜 필요한지 — Doeblin 맥락이에요.</p>
-<p>minorization 증명에서 target 분포 밀도를 <strong>coarea formula</strong> 로 fall 양 <span class="math inline">\(b'\)</span> 을 적분해 구해요. 그때:</p>
+<p>minorization 증명에서 target 분포 밀도를 <strong>coarea formula</strong> 로 fall 양 벡터 <span class="math inline">\(\mathbf{b}'\)</span> 을 적분해 구해요. 그때:</p>
 <ul>
 <li><span class="math inline">\(J(\Sigma)\)</span> : 적분 변수변환 Jacobian (필수)</li>
 <li><span class="math inline">\(Q\)</span> : “원하는 target shift 를 만드는 fall 양”을 명시 구성 (fiber 위 점 이동)</li>
@@ -407,13 +408,13 @@ Sigma (Q z) = [ 0.7 -0.3]   (= z 복원)</code></pre>
 <li><strong>Lemma 6</strong>: <span class="math inline">\(L\)</span> 겹 합성곱이 넓은 영역에서 양수</li>
 <li><strong>Lemma 7</strong>: 그 <span class="math inline">\(L\)</span> 겹 구조를 <strong>선형대수로 정밀하게 깔아주는 도구</strong> — coarea 적분을 굴리려면 <span class="math inline">\(\Sigma\)</span> 의 rank·Jacobian·우역원이 명시적으로 필요</li>
 </ul>
-<p>비유하면 <span class="math inline">\(b'\)</span> 은 <span class="math inline">\(nL\)</span> 개 손잡이(fall 양)이고 <span class="math inline">\(\Sigma\)</span> 는 그걸 돌려 만들 수 있는 “<span class="math inline">\(n-1\)</span> 차원 차이 벡터”를 읽어요. Lemma 7 은 “이 손잡이들로 원하는 차이를 <strong>다 만들 수 있고</strong>(full rank), 만드는 방법이 <strong>유계</strong>(<span class="math inline">\(C_Q\)</span>)이며, 부피 환산율이 <strong>정확히 <span class="math inline">\(\sqrt{L^{n-1}n}\)</span></strong>”임을 보장해요.</p>
+<p>비유하면 벡터 <span class="math inline">\(\mathbf{b}'\)</span> 은 <span class="math inline">\(nL\)</span> 개 손잡이(각 성분 <span class="math inline">\(b'_{k,\ell}\)</span> 이 fall 양)이고 <span class="math inline">\(\Sigma\)</span> 는 그걸 돌려 만들 수 있는 “<span class="math inline">\(n-1\)</span> 차원 차이 벡터”를 읽어요. Lemma 7 은 “이 손잡이들로 원하는 차이를 <strong>다 만들 수 있고</strong>(full rank), 만드는 방법이 <strong>유계</strong>(<span class="math inline">\(C_Q\)</span>)이며, 부피 환산율이 <strong>정확히 <span class="math inline">\(\sqrt{L^{n-1}n}\)</span></strong>”임을 보장해요.</p>
 <hr>
 </section>
 <section id="논문직접삽입버전" class="level1">
 <h1>2. 논문직접삽입버전</h1>
-<p><strong>Lemma.</strong> fall-target event <span class="math inline">\(\mathcal{A}_1\)</span> (<span class="math inline">\(nL\)</span> 개 fall 의 착지 노드가 <span class="math inline">\(v_1,\ldots,v_n\)</span> 을 cyclic 순서로 <span class="math inline">\(L\)</span> 사이클 도는 사건; fall 들은 연속이 아니라 사이사이 flow/block 스텝을 두고 일어난다) 위에서, fall 양을 <span class="math inline">\(b' = (b'_{k,\ell})_{1\leq k\leq n,\, 1\leq\ell\leq L}\in[0,b]^N\)</span>, <span class="math inline">\(N = nL\)</span> (<span class="math inline">\(k\)</span>=착지 노드, <span class="math inline">\(\ell\)</span>=사이클; 시간 스텝 아님) 이라 쓰자. anchored coordinate 의 cumulative centred fall shift 를 선형사상 <span class="math inline">\(\Sigma:\mathbb{R}^N\to\mathbb{R}^{n-1}\)</span> (<span class="math inline">\(S_t\)</span> 와는 별개),</p>
-<p><span class="math display">\[\Sigma b' = \Big(\textstyle\sum_\ell b'_{2,\ell} - \sum_\ell b'_{1,\ell},\ \ldots,\ \sum_\ell b'_{n,\ell} - \sum_\ell b'_{1,\ell}\Big)\in\mathbb{R}^{n-1}\]</span></p>
+<p><strong>Lemma.</strong> fall-target event <span class="math inline">\(\mathcal{A}_1\)</span> (<span class="math inline">\(nL\)</span> 개 fall 의 착지 노드가 <span class="math inline">\(v_1,\ldots,v_n\)</span> 을 cyclic 순서로 <span class="math inline">\(L\)</span> 사이클 도는 사건; fall 들은 연속이 아니라 사이사이 flow/block 스텝을 두고 일어난다) 위에서, fall 양 벡터를 <span class="math inline">\(\mathbf{b}' = (b'_{k,\ell})_{1\leq k\leq n,\, 1\leq\ell\leq L}\in[0,b]^N\)</span>, <span class="math inline">\(N = nL\)</span> (성분 <span class="math inline">\(b'_{k,\ell}\)</span> 은 스칼라; <span class="math inline">\(k\)</span>=착지 노드, <span class="math inline">\(\ell\)</span>=사이클이며 시간 스텝 아님) 이라 쓰자. anchored coordinate 의 cumulative centred fall shift 를 선형사상 <span class="math inline">\(\Sigma:\mathbb{R}^N\to\mathbb{R}^{n-1}\)</span> (<span class="math inline">\(S_t\)</span> 와는 별개),</p>
+<p><span class="math display">\[\Sigma \mathbf{b}' = \Big(\textstyle\sum_\ell b'_{2,\ell} - \sum_\ell b'_{1,\ell},\ \ldots,\ \sum_\ell b'_{n,\ell} - \sum_\ell b'_{1,\ell}\Big)\in\mathbb{R}^{n-1}\]</span></p>
 <p>이라 하자. 그러면 <span class="math inline">\(\mathrm{rank}\,\Sigma = n-1\)</span>, coarea Jacobian 은 <span class="math inline">\(J(\Sigma) = \sqrt{\det(\Sigma\Sigma^\top)} = \sqrt{L^{n-1}n}\)</span>, 그리고 <span class="math inline">\(\Sigma\)</span> 는 우역원 <span class="math inline">\(Q:\mathbb{R}^{n-1}\to\mathbb{R}^N\)</span> (<span class="math inline">\(\Sigma Q = I_{n-1}\)</span>) 을 가지며 <span class="math inline">\(C_Q := \|Q\|_{\infty\to\infty} &lt; \infty\)</span>. 또한</p>
 <p><span class="math display">\[\mathrm{Range}(\Sigma^\top) = \{c\in\mathbb{R}^N : c_{k,\ell} = a_k\ \text{($\ell$ 무관)},\ \textstyle\sum_k a_k = 0\}\]</span></p>
 <p><strong>Proof.</strong></p>
