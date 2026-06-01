@@ -256,20 +256,16 @@ window.Quarto = {
 </header>
 
 
-<ul>
-<li><strong>H.</strong> 링 그래프 임베딩하면 왜 링이 여러 개야?</li>
-</ul>
+<p><strong>H.</strong> 링 그래프 임베딩하면 왜 링이 여러 개야?</p>
 <p><strong>G.</strong> 핵심은 딱 한 가지다. 노드 <span class="math inline">\(j\)</span>를 2D에 찍을 때 쓰는 “각도 공식”이 <span class="math inline">\(k\)</span>마다 다르다:</p>
 <p><span class="math display">\[\text{노드 } j \;\longmapsto\; \Bigl(\cos\!\tfrac{2\pi k j}{n},\;\sin\!\tfrac{2\pi k j}{n}\Bigr).\]</span></p>
 <p><span class="math inline">\(k=1\)</span>이면 각도가 <span class="math inline">\(j\)</span>당 <span class="math inline">\(360°/n\)</span>씩 증가한다. <span class="math inline">\(k=2\)</span>이면 각도가 두 배 빠르게 <span class="math inline">\(2 \times 360°/n\)</span>씩 증가한다. 이 차이가 전부다.</p>
 <hr>
-<ul>
-<li><strong>H.</strong> “두 배 빠르다”는 게 무슨 결과를 낳아?</li>
-</ul>
+<p><strong>H.</strong> “두 배 빠르다”는 게 무슨 결과를 낳아?</p>
 <p><strong>G.</strong> <span class="math inline">\(C_{12}\)</span> (<span class="math inline">\(n=12\)</span>)에서 <span class="math inline">\(k=1\)</span>과 <span class="math inline">\(k=2\)</span>를 직접 비교해보자.</p>
 <p><span class="math inline">\(k=1\)</span>: <span class="math inline">\(j=0\)</span>은 <span class="math inline">\(0°\)</span>, <span class="math inline">\(j=1\)</span>은 <span class="math inline">\(30°\)</span>, <span class="math inline">\(j=2\)</span>는 <span class="math inline">\(60°\)</span>, … <span class="math inline">\(j=11\)</span>은 <span class="math inline">\(330°\)</span>. 12개 노드가 <span class="math inline">\(0°\)</span>에서 <span class="math inline">\(330°\)</span>까지 <strong>고르게 퍼진다</strong> → 원 한 바퀴 → 링 하나.</p>
 <p><span class="math inline">\(k=2\)</span>: <span class="math inline">\(j=0\)</span>은 <span class="math inline">\(0°\)</span>, <span class="math inline">\(j=1\)</span>은 <span class="math inline">\(60°\)</span>, <span class="math inline">\(j=2\)</span>는 <span class="math inline">\(120°\)</span>, … <span class="math inline">\(j=6\)</span>은 <span class="math inline">\(360° = 0°\)</span>. <strong><span class="math inline">\(j=6\)</span>이 <span class="math inline">\(j=0\)</span>과 같은 위치</strong>다. <span class="math inline">\(j=7\)</span>은 <span class="math inline">\(j=1\)</span>과 같고, <span class="math inline">\(j=8\)</span>은 <span class="math inline">\(j=2\)</span>와 같고, … 결국 12개 노드가 <strong>6개 위치</strong>에 둘씩 겹쳐 앉는다.</p>
-<div id="ee926943" class="cell" data-execution_count="1">
+<div id="f13abc40" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-stdout">
 <pre><code>k=2에서 각 노드의 각도 (n=12):
   j= 0:    0° =   0°
@@ -287,11 +283,9 @@ window.Quarto = {
 </div>
 </div>
 <hr>
-<ul>
-<li><strong>H.</strong> 겹친다는 건 알겠는데, 그게 왜 “여러 링”이야?</li>
-</ul>
+<p><strong>H.</strong> 겹친다는 건 알겠는데, 그게 왜 “여러 링”이야?</p>
 <p><strong>G.</strong> 이제 두 결과를 그림으로 보자. 같은 좌표계에 <span class="math inline">\(k=1\)</span> 임베딩(파랑)과 <span class="math inline">\(k=2\)</span> 임베딩(빨강)을 겹쳐 그리면:</p>
-<div id="e726b6ef" class="cell" data-execution_count="2">
+<div id="5b3a2451" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -372,14 +366,10 @@ window.Quarto = {
 <p>파란 링(큰, <span class="math inline">\(k=1\)</span>)과 빨간 링(작은, <span class="math inline">\(k=2\)</span>)이 같은 원점에서 동심원으로 나타난다. 이것이 “여러 링”의 정체다.</p>
 <p><span class="math inline">\(k=1\)</span>과 <span class="math inline">\(k=2\)</span>의 반지름이 다른 이유는 eigenvalue <span class="math inline">\(\lambda_k^t\)</span> 때문이다 — <span class="math inline">\(\lambda_1 = \cos(30°) \approx 0.87 &gt; \lambda_2 = \cos(60°) = 0.5\)</span>. 링마다 반지름이 달라 동심원처럼 보인다.</p>
 <hr>
-<ul>
-<li><strong>H.</strong> <span class="math inline">\(k\)</span>가 더 커지면?</li>
-</ul>
+<p><strong>H.</strong> <span class="math inline">\(k\)</span>가 더 커지면?</p>
 <p><strong>G.</strong> 같은 원리로 <span class="math inline">\(k=3\)</span>이면 각도가 세 배 빠르고, <span class="math inline">\(j\)</span>와 <span class="math inline">\(j+4\)</span>가 겹쳐 4개 위치만 남는다 (4-gon). <span class="math inline">\(k=4\)</span>이면 <span class="math inline">\(j\)</span>와 <span class="math inline">\(j+3\)</span>이 겹쳐 3개 위치(triangle). 하지만 <span class="math inline">\(C_{12}\)</span>에서는 <span class="math inline">\(\lambda_3 = \cos(90°) = 0\)</span>이라 <span class="math inline">\(k=3\)</span> 링은 반지름이 0 — 보이지 않는다.</p>
 <hr>
-<ul>
-<li><strong>H.</strong> 한 줄 요약.</li>
-</ul>
+<p><strong>H.</strong> 한 줄 요약.</p>
 <p><strong>G.</strong> 노드 <span class="math inline">\(j\)</span>가 각도 <span class="math inline">\(2\pi k j/n\)</span>으로 원 위에 찍히는데, <span class="math inline">\(k\)</span>가 클수록 각도가 빠르게 증가해 일부 노드가 겹치고 반지름 <span class="math inline">\(\lambda_k^t\)</span>도 달라진다 — <span class="math inline">\(k\)</span>마다 다른 반지름의 링이 나오는 것, 그게 “여러 링”이다.</p>
 
 

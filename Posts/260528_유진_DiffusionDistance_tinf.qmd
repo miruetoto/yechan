@@ -8,7 +8,7 @@ draft: false
 # 판정: (A) 학습·이해용 — diffusion distance t→∞ 극한: 모든 pairwise distance가 0으로 붕괴
 ---
 
-- **H.** Diffusion distance에서 $t \to \infty$로 가면 왜 거리가 무의미해져?
+**H.** Diffusion distance에서 $t \to \infty$로 가면 왜 거리가 무의미해져?
 
 **G.** 정의부터 보자. Diffusion distance는 이렇게 쓴다:
 
@@ -24,13 +24,13 @@ $$\lambda_k^{2t} \to 0 \quad \text{as } t \to \infty \qquad \forall k \geq 1.$$
 
 ---
 
-- **H.** 그러면 모든 점이 한 점으로 쪼그라든다는 거야?
+**H.** 그러면 모든 점이 한 점으로 쪼그라든다는 거야?
 
 **G.** 맞다. $t \to \infty$에서 diffusion distance 관점으로 보면 어떤 두 노드 $x$, $y$를 잡아도 거리가 $0$이다. 그래프 전체가 하나의 점으로 붕괴해서, 노드 간 구별이 불가능해진다.
 
 ---
 
-- **H.** 직관이 뭐야?
+**H.** 직관이 뭐야?
 
 **G.** 이 현상의 이름이 **mixing** (혼합)이다. Random walk를 $t$번 돌리면 분포가 stationary distribution $\pi$로 수렴한다:
 
@@ -48,13 +48,13 @@ $$\| p^t(x, \cdot) - \pi \|_{\mathrm{TV}} \;\leq\; C \, \lambda_1^t,$$
 
 ---
 
-- **H.** 그럼 너무 작은 $t$도 문제 있어?
+**H.** 그럼 너무 작은 $t$도 문제 있어?
 
 **G.** 있다. 아주 작은 $t$에서는 $p^t(x, \cdot)$이 $x$ 근방에 국소적으로 집중되어 있다. 이때 diffusion distance는 사실상 local graph distance (hop count)에 가까운 것만 측정한다. Diffusion의 장점 — 노이즈에 강하고, 긴 경로를 통한 global 구조를 포착 — 이 발휘되지 않는다.
 
 ---
 
-- **H.** 그러면 적절한 $t$는 어떻게 잡아?
+**H.** 그러면 적절한 $t$는 어떻게 잡아?
 
 **G.** 기준이 되는 것은 **spectral gap** $1 - \lambda_1$이다. 여기서 $\lambda_1$은 두 번째로 큰 eigenvalue (가장 느리게 감쇠하는 non-stationary 모드). 이를 이용한 **mixing time**:
 
@@ -66,7 +66,7 @@ Coifman & Lafon (2006) §3은 이 $t$ 선택 문제를 직접 다루며, spectra
 
 ---
 
-- **H.** 그럼 normalization으로 구제가 가능해?
+**H.** 그럼 normalization으로 구제가 가능해?
 
 **G.** 할 수는 있다. $D_t(x,y)$를 전체 평균 거리로 나누면 크기는 유지되지만, $t \to \infty$에서 leading term만 남는다:
 
@@ -76,7 +76,7 @@ $\lambda_1^{2t}$로 normalize한 거리는 $k=1$ 항만 남아 $(\phi_1(x) - \ph
 
 ---
 
-- **H.** 한 줄 요약.
+**H.** 한 줄 요약.
 
 **G.** $D_t(x,y)^2 = \sum_k \lambda_k^{2t}(\phi_k(x) - \phi_k(y))^2$에서 $|\lambda_k| < 1$이라 $t \to \infty$에서 모든 가중치가 0으로 사라지고, 직관적으로는 random walk의 **mixing** (geometric ergodicity, 수렴율 $\lambda_1^t$)으로 출발점 정보를 잃기 때문이다. 적절한 $t$는 **spectral gap** $1-\lambda_1$이 결정하는 **mixing time** $t_{\mathrm{mix}}$ 부근.
 
