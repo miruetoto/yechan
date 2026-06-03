@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -41,7 +41,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-b80d4d0c6b5ed6a4cb4a000b691bbaf5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -451,6 +451,22 @@ window.Quarto = {
 </ul>
 <p>분해: <span class="math inline">\(\widetilde{SD}^2_{ij}(t)=\underbrace{O(t_0^*/t)}_{\text{Phase I}\to0}+\underbrace{(\to c_{ij})}_{\text{Phase II}}\)</span>. 즉 Main Theorem 의 <span class="math inline">\(t\to\infty\)</span> 극한에 <strong>전환 시각 자체</strong>를 추적하는 관점을 더한다 (§A.2 위상 전환점에 수학적 기반 부여).</p>
 <p><strong>열린 문제.</strong> <span class="math inline">\(t_0^*\)</span> 사전 추정 — <span class="math inline">\(t_0^*\approx\dfrac{\max_{ij}|y_i-y_j|}{b\cdot\mathrm{gap}(\mathbf{P}^{\text{flat}})}\)</span> (신호 진폭 / 평탄 전이 spectral gap) 추측.</p>
+<p><strong>워크드 예제 — Outlier Cylinder (검증).</strong> 이 “두 도메인 단독으로 못 잡는 구조” 의 가장 깔끔한 실현은, 신호값과 구조위치가 <em>불일치</em> 하는 한 노드 <span class="math inline">\(\star\)</span> 다. bidir cylinder (위 ring <span class="math inline">\(-3\)</span> / 아래 ring <span class="math inline">\(+3\)</span>) 에서 <span class="math inline">\(+3\)</span> 그룹의 한 노드를 <span class="math inline">\(-3\)</span> 으로 뒤집으면, <span class="math inline">\(\star\)</span> 는 <strong>신호로는 <span class="math inline">\(-3\)</span> 군, 구조로는 <span class="math inline">\(+3\)</span>(자기 ring) 군</strong> 에 속한다. SD 임베딩에서 <span class="math inline">\(\star\)</span> 의 소속이 시간에 따라 갈린다:</p>
+<ul>
+<li>작은 <span class="math inline">\(t\)</span> (신호 지배): <span class="math inline">\(\star\)</span> 는 <span class="math inline">\(-3\)</span> 신호군에 흡수 — 그냥 <span class="math inline">\(-3\)</span> 노드로 보임.</li>
+<li>큰 <span class="math inline">\(t\)</span> (<span class="math inline">\(SD^2/t\to c\)</span>, 신호 망각): <span class="math inline">\(\star\)</span> 는 ring 이웃 <span class="math inline">\(= +3\)</span> 구조군에 흡수.</li>
+<li>그 사이 <strong>교차</strong>: <span class="math inline">\(\star\)</span> 의 cluster 정체성이 <span class="math inline">\(-3 \to +3\)</span> 으로 넘어간다.</li>
+</ul>
+<p><span class="math inline">\(60\)</span>-노드 bidir cylinder 를 <span class="math inline">\(10^9\)</span> step 돌린 결과, <span class="math inline">\(\star\)</span> 의 <span class="math inline">\(\sqrt{SD^2/t}\)</span> 가 <span class="math inline">\(+3\)</span> 구조군까지는 <span class="math inline">\(1.55\ (t{=}89{,}000) \to 0.053\ (t{=}10^9)\)</span>, <span class="math inline">\(-3\)</span> 신호군까지는 <span class="math inline">\(0.36 \to 0.055\)</span> 로, <strong><span class="math inline">\(t\approx 4.6\times10^8\)</span> 에서 교차</strong>해 <span class="math inline">\(\star\)</span> 가 신호군을 떠나 구조군에 안착했다. 신호-only 도 구조-only 도 <span class="math inline">\(\star\)</span> 를 각자 한 cluster 에 넣어 <em>불일치를 못 보지만</em>, HST 의 <span class="math inline">\(t\)</span>-궤적(교차)만이 그 mismatch 를 드러낸다.</p>
+</section>
+<section id="x-새-방향-n-joint-domain-anomaly-detection" class="level2">
+<h2 class="anchored" data-anchor-id="x-새-방향-n-joint-domain-anomaly-detection">4.x ★ 새 방향 N — Joint-Domain Anomaly Detection</h2>
+<p>위 워크드 예제는 하나의 capability 를 가리킨다: <strong>신호-cluster <span class="math inline">\(\ne\)</span> 구조-cluster 인 국소 이상치</strong> — 신호값으로 보면 한 그룹, 그래프 구조로 보면 다른 그룹에 속하는 노드 — 를 검출하는 일이다. 이 정보는 <em>두 도메인 거리의 어떤 선형결합으로도</em> 안 보인다. 이유: 신호 거리 <span class="math inline">\(d^E\)</span> 와 구조 거리 <span class="math inline">\(d^G\)</span> 의 가중합 <span class="math inline">\(\alpha d^E + \beta d^G\)</span> 은 <strong>정적 임베딩</strong>이라 <span class="math inline">\(\star\)</span> 를 한 위치(한 cluster)에 고정하지만, <span class="math inline">\(\star\)</span> 의 정체성은 <em>시간에 따라</em> <span class="math inline">\(-3 \to +3\)</span> 으로 옮겨가기 때문이다. 이를 받치는 두 독립 근거:</p>
+<ul>
+<li><strong>OT</strong>: Fused Gromov–Wasserstein 의 비용 <span class="math inline">\((1-\alpha)\cdot\text{feature} + \alpha\cdot\text{structure}\)</span> 는 convex(선형) 결합이라 cross 항을 못 담는다 — 어떤 <span class="math inline">\(\alpha\)</span> 도 정적 한 위치만 준다.</li>
+<li><strong>TDA</strong>: 2-parameter persistence 는 완전한 이산 불변량이 없고(Carlsson–Zomorodian), 1-parameter 직선-제한(선형결합)들의 모음으로 복원되지 않는다.</li>
+</ul>
+<p>HST 의 비선형 <span class="math inline">\(t\)</span>-궤적(cluster 교차)만이 이 불일치를 드러낸다 — GSP(신호-only)·그래프 방법(구조-only)·선형/convex fusion(FGW·weighted) 어느 쪽도 구조적으로 못 잡는 anomaly 를 HST 가 잡는다는 것이 핵심 차별점이다. <em>요건:</em> 이질적 그래프(구조 cluster 구별 가능) + 충분히 큰 <span class="math inline">\(t\)</span>(구조 regime 도달). <em>검증:</em> 위 Outlier bidir cylinder <span class="math inline">\(10^9\)</span> 시뮬에서 교차 확인.</p>
 </section>
 <section id="betti-curve-persistence-의-t-궤적-원본-a.3" class="level2">
 <h2 class="anchored" data-anchor-id="betti-curve-persistence-의-t-궤적-원본-a.3">4.2 Betti curve: persistence 의 <span class="math inline">\(t\)</span>-궤적 (원본 A.3)</h2>
