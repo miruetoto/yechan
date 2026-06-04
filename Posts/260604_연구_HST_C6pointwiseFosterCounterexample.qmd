@@ -1,0 +1,231 @@
+---
+title: 연구 ▷ HST ▷ C6에서 pointwise Foster가 깨지는 이유
+author: 미소
+date: 06/04/2026
+draft: false
+output-file: 260604_3588aa.html
+fontsize: 0.85em
+# 판정: (A) 학습·이해용 — figure+code 페어 적용. 새 시뮬 결과가 아니라 현재 Foster assumption의 반례 구조를 설명하는 포스트.
+---
+
+<style>
+.math.display { text-align: left; }
+mjx-container[display="true"] { text-align: left !important; margin-left: 0 !important; }
+.katex-display { text-align: left !important; }
+.katex-display > .katex { text-align: left !important; }
+.c6-wrap { margin: 1.5rem 0; }
+.c6-wrap svg { max-width: 760px; width: 100%; height: auto; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; }
+.caption { color: #4b5563; font-size: 0.92em; margin-top: 0.35rem; }
+</style>
+
+<!-- 소유권자: 미소 | 사용자: 대표 -->
+
+한 줄로 말하면, 연의 관찰은 맞다. Model AAA 에서 block 은 strict local minimum 에서만 일어나고, block-stay 는 그 local minimum 에 눈을 한 번 더 쌓는다. 그런데 현재 `hst_AAA.tex` 의 Foster assumption 은 round-start state $S_{t_r}$ 를 조건으로 하는 pointwise one-round 부등식이다. 이 조건에서는 $X_{t_r}$ 가 이미 정해져 있다. 그래서 “regular graph 이므로 fall target 이 uniform 이다”라는 평균화가 첫 non-fall step 에는 적용되지 않는다. 바로 이 지점에서 $C_6$ 반례가 나온다.
+
+현재 목표 부등식은 다음이다. $t_r$ 를 fall time, $\tilde X_j=X_{t_r+j}$, $m_r=t_{r+1}-t_r$ 라고 쓰면
+
+$$
+\begin{aligned}
+\#_u
+&:= \#\{1\le j\le m_r:\tilde X_j=u\},\\
+\pi(u,S)
+&:= \mathbb{E}[\#_u\mid S_{t_r}=S],\\
+B(S)
+&:= \sum_{u\in V}\pi(u,S)\hbar(u,t_r)\\
+&= \mathbb{E}_S\!\left[\sum_{j=1}^{m_r}\hbar(\tilde X_j,t_r)\right].
+\end{aligned}
+$$
+
+Foster assumption 은 어떤 $\varepsilon_B>0$, $C_B<\infty$ 가 있어서 모든 round-start state $S$ 에 대해
+
+$$
+B(S)\le -\varepsilon_B M(S)+C_B
+$$
+
+가 성립한다는 주장이다. 여기서 중요한 것은 조건부 상태 $S_{t_r}$ 가 이미 현재 walker $X_{t_r}$ 를 포함한다는 점이다. 즉 $X_{t_r}$ 는 조건을 걸고 나면 random 이 아니라 fixed 이다.
+
+반례 구조는 다음 $C_6$ 하나면 충분하다. 아래 코드는 그림의 좌표와 height label 을 만드는 재현 코드다. 포스트 안 그림은 같은 데이터를 정적 SVG로 그린 것이다.
+
+```python
+import math
+
+n = 6
+R = 1.0
+theta0 = math.pi
+coords = {
+    i: (
+        math.cos(theta0 - 2 * math.pi * i / n),
+        math.sin(theta0 - 2 * math.pi * i / n),
+    )
+    for i in range(n)
+}
+height = {
+    0: "R",
+    1: "2R",
+    2: "-5R/3",
+    3: "-5R/3",
+    4: "-5R/3",
+    5: "2R",
+}
+walker = 0
+edges = [(i, (i + 1) % n) for i in range(n)]
+```
+
+<div class="c6-wrap">
+<svg viewBox="0 0 760 430" role="img" aria-label="C6 positive local minimum counterexample">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#dc2626"></path>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="430" fill="#ffffff"></rect>
+  <text x="380" y="34" text-anchor="middle" font-size="24" font-weight="700" fill="#111827">C6 positive-local-minimum state</text>
+  <text x="380" y="64" text-anchor="middle" font-size="15" fill="#4b5563">current walker is fixed at v0 after conditioning on S(t_r)</text>
+  <g stroke="#9ca3af" stroke-width="4" fill="none">
+    <line x1="185" y1="215" x2="275" y2="92"></line>
+    <line x1="275" y1="92" x2="455" y2="92"></line>
+    <line x1="455" y1="92" x2="545" y2="215"></line>
+    <line x1="545" y1="215" x2="455" y2="338"></line>
+    <line x1="455" y1="338" x2="275" y2="338"></line>
+    <line x1="275" y1="338" x2="185" y2="215"></line>
+  </g>
+  <g font-family="system-ui, -apple-system, BlinkMacSystemFont, sans-serif">
+    <circle cx="185" cy="215" r="39" fill="#fef3c7" stroke="#d97706" stroke-width="4"></circle>
+    <text x="185" y="207" text-anchor="middle" font-size="21" font-weight="700" fill="#111827">v0</text>
+    <text x="185" y="232" text-anchor="middle" font-size="18" fill="#92400e">R</text>
+    <circle cx="275" cy="92" r="37" fill="#fee2e2" stroke="#dc2626" stroke-width="3"></circle>
+    <text x="275" y="84" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">v1</text>
+    <text x="275" y="109" text-anchor="middle" font-size="17" fill="#991b1b">2R</text>
+    <circle cx="455" cy="92" r="37" fill="#dbeafe" stroke="#2563eb" stroke-width="3"></circle>
+    <text x="455" y="84" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">v2</text>
+    <text x="455" y="109" text-anchor="middle" font-size="16" fill="#1d4ed8">-5R/3</text>
+    <circle cx="545" cy="215" r="37" fill="#dbeafe" stroke="#2563eb" stroke-width="3"></circle>
+    <text x="545" y="207" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">v3</text>
+    <text x="545" y="232" text-anchor="middle" font-size="16" fill="#1d4ed8">-5R/3</text>
+    <circle cx="455" cy="338" r="37" fill="#dbeafe" stroke="#2563eb" stroke-width="3"></circle>
+    <text x="455" y="330" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">v4</text>
+    <text x="455" y="355" text-anchor="middle" font-size="16" fill="#1d4ed8">-5R/3</text>
+    <circle cx="275" cy="338" r="37" fill="#fee2e2" stroke="#dc2626" stroke-width="3"></circle>
+    <text x="275" y="330" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">v5</text>
+    <text x="275" y="355" text-anchor="middle" font-size="17" fill="#991b1b">2R</text>
+  </g>
+  <path d="M128 215 C92 215 92 155 132 152" stroke="#dc2626" stroke-width="4" fill="none" marker-end="url(#arrow)"></path>
+  <text x="82" y="137" font-size="17" font-weight="700" fill="#dc2626">block-stay</text>
+  <text x="90" y="162" font-size="14" fill="#991b1b">D(v0)=empty</text>
+  <g>
+    <rect x="565" y="292" width="150" height="78" rx="9" fill="#f9fafb" stroke="#d1d5db"></rect>
+    <text x="640" y="317" text-anchor="middle" font-size="15" font-weight="700" fill="#111827">why local min?</text>
+    <text x="640" y="342" text-anchor="middle" font-size="14" fill="#374151">x1=x5=2R</text>
+    <text x="640" y="362" text-anchor="middle" font-size="14" fill="#374151">&gt; x0=R</text>
+  </g>
+</svg>
+<div class="caption">그림 1. $v_0$ 는 양의 height $R$ 을 갖지만 양쪽 이웃 $v_1,v_5$ 가 $2R$ 이므로 strict local minimum 이다.</div>
+</div>
+
+수식으로 쓰면 profile 은
+
+$$
+(x_0,x_1,x_2,x_3,x_4,x_5)
+=
+\left(
+R,\ 2R,\ -\frac{5R}{3},\ -\frac{5R}{3},\ -\frac{5R}{3},\ 2R
+\right),
+$$
+
+그리고 current walker 는
+
+$$
+X_{t_r}=v_0
+$$
+
+로 둔다. 먼저 centered 조건과 $M$ 을 확인한다.
+
+$$
+\begin{aligned}
+\sum_{i=0}^{5}x_i
+&= R+2R-\frac{5R}{3}-\frac{5R}{3}-\frac{5R}{3}+2R\\
+&= 5R-5R\\
+&=0,\\[4pt]
+M(S_R)
+&=\max_{0\le i\le5}|x_i|\\
+&=2R.
+\end{aligned}
+$$
+
+$v_0$ 의 두 이웃은 $v_1,v_5$ 이고
+
+$$
+x_1=x_5=2R>R=x_0.
+$$
+
+따라서 downstream set 은 비어 있다.
+
+$$
+\begin{aligned}
+\mathcal{D}_{t_r}(v_0)
+&=\{u\sim v_0:h(u,t_r)\le h(v_0,t_r)\}\\
+&=\{u\in\{v_1,v_5\}:x_u\le x_0\}\\
+&=\{u\in\{v_1,v_5\}:2R\le R\}\\
+&=\varnothing.
+\end{aligned}
+$$
+
+Model AAA 의 block rule 은 $\mathcal{D}_{t_r}=\varnothing$ 이면 stay 이므로
+
+$$
+X_{t_r+1}=v_0.
+$$
+
+이 block-stay 때문에 $B(S_R)$ 에 $x_0=R$ 이 그대로 들어간다. 그 다음 step 은 forced fall 이고, $C_6$ 는 regular 이므로 fall target $F$ 는 uniform 이다. uniform fall contribution 은 centered sum 때문에 사라진다.
+
+$$
+\begin{aligned}
+B(S_R)
+&= x_0+\mathbb{E}[x_F]\\
+&= R+\frac16\sum_{i=0}^{5}x_i\\
+&= R+\frac16\cdot0\\
+&=R.
+\end{aligned}
+$$
+
+이제 Foster inequality 와 충돌시킨다. 만약 어떤 $\varepsilon_B>0$, $C_B<\infty$ 가 모든 state 에 대해 존재한다면 모든 $R>0$ 에 대해
+
+$$
+\begin{aligned}
+B(S_R)
+&\le -\varepsilon_B M(S_R)+C_B,\\
+R
+&\le -\varepsilon_B(2R)+C_B,\\
+R+2\varepsilon_B R
+&\le C_B,\\
+(1+2\varepsilon_B)R
+&\le C_B.
+\end{aligned}
+$$
+
+하지만 $R\to\infty$ 로 보내면 오른쪽 $C_B$ 는 고정 상수인데 왼쪽은 무한히 커진다. 따라서 현재 pointwise one-round Foster assumption 은 $C_6$ 에서 이미 성립할 수 없다.
+
+여기서 오해하면 안 되는 지점이 있다. 연의 block-leveling intuition 이 틀린 게 아니다. “block 은 strict local minimum 에서 일어난다”와 “그 node 에 한 번 더 deposit 한다”는 사실은 맞다. 문제는 strict local minimum 이 항상 낮은 곳은 아니라는 점이다. $C_6$ 에서는 $R$ 높이의 $v_0$ 도 이웃 $2R,2R$ 사이에 끼면 local minimum 이다. local 이라는 말이 global low 를 뜻하지 않는다.
+
+따라서 현재 문서의 다음 움직임은 세 가지 중 하나여야 한다. 첫째, skeleton 을 pre-fall 로 바꿔서 fresh $\mu_0$ draw 를 조건부 평균 안에 넣는다. 그러면 uniform-start downhill bias 류의 증명이 다시 살아날 수 있다. 둘째, 현재 post-fall skeleton 을 유지하되 one-round pointwise drift 대신 $k$-round drift 로 바꾼다. positive local minimum block 이 한 round 에는 양의 기여를 하더라도, 이후 fresh fall 들이 walker 를 재분배하는 효과를 함께 봐야 한다. 셋째, graph class 를 좁힌다. 예를 들어 $K_n$ 에서는 strict local minimum 이 곧 global minimum 이므로 연의 block-leveling proof 가 닫힐 여지가 있다. 하지만 $C_n$ 전체, regular 전체, vertex-transitive 전체로는 위 $C_6$ obstruction 을 먼저 처리해야 한다.
+
+정리하면:
+
+$$
+\begin{aligned}
+\text{Model AAA block rule}
+&\Rightarrow
+\text{block at strict local minimum},\\
+\text{strict local minimum}
+&\not\Rightarrow
+\text{negative height of order }M,\\
+C_6\text{ positive local minimum state}
+&\Rightarrow
+B(S_R)=R,\quad M(S_R)=2R,\\
+R\to\infty
+&\Rightarrow
+\text{current pointwise asm:Foster fails.}
+\end{aligned}
+$$
+
+이 반례는 “regular 이면 Foster 를 가정하지 않아도 된다”는 방향을 막는다. 대신 정확한 수정 방향은 assumption 의 skeleton 을 바꾸거나, multi-round drift 로 바꾸거나, $K_n$ 같은 더 좁은 class 로 theorem 을 제한하는 것이다.
