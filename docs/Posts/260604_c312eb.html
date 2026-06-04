@@ -232,13 +232,51 @@ window.Quarto = {
 <p><span class="math display">\[\alpha(t) = \sup_{A\in\sigma(\text{past}),\, B\in\sigma(t\text{-future})} \bigl|\mathbb{P}(A\cap B) - \mathbb{P}(A)\mathbb{P}(B)\bigr| \;\to\; 0.\]</span></p>
 <p>“과거 <span class="math inline">\(\sigma\)</span>-대수와 미래 <span class="math inline">\(\sigma\)</span>-대수가 풀린다(decouple).”</p>
 <hr>
+<p><strong>H.</strong> <span class="math inline">\(\alpha\)</span>-mixing 말고도 mixing 계수가 더 있다던데?</p>
+<p><strong>G.</strong> 셋이 표준이다 — <span class="math inline">\(\alpha, \beta, \varphi\)</span>. 과거 <span class="math inline">\(\mathcal{P}_k = \sigma(X_t : t\leq k)\)</span>와 <span class="math inline">\(t\)</span>-미래 <span class="math inline">\(\mathcal{F}_{k+t} = \sigma(X_s : s\geq k+t)\)</span>의 의존성을 재는 <strong>세기 다른 척도</strong>다 (모두 <span class="math inline">\(t\to\infty\)</span>에 0이면 mixing).</p>
+<p><strong><span class="math inline">\(\alpha\)</span>-mixing (strong mixing)</strong> — 가장 약함. 과거·미래 사건의 독립으로부터의 최대 어긋남:</p>
+<p><span class="math display">\[\alpha(t) = \sup_{A\in\mathcal{P}_k,\, B\in\mathcal{F}_{k+t}} \bigl|\mathbb{P}(A\cap B) - \mathbb{P}(A)\mathbb{P}(B)\bigr|.\]</span></p>
+<p><strong><span class="math inline">\(\beta\)</span>-mixing (absolute regularity)</strong> — 중간. 미래의 조건부 분포가 무조건 분포로 가는 정도를 과거에 대해 평균낸 TV 거리:</p>
+<p><span class="math display">\[\beta(t) = \mathbb{E}\Bigl[\bigl\|\mathbb{P}(\mathcal{F}_{k+t}\in\cdot \mid \mathcal{P}_k) - \mathbb{P}(\mathcal{F}_{k+t}\in\cdot)\bigr\|_{\rm TV}\Bigr].\]</span></p>
+<p><strong><span class="math inline">\(\varphi\)</span>-mixing (uniform mixing)</strong> — 가장 강함. 어떤 과거 사건으로 조건화해도 미래 확률이 균일하게 수렴:</p>
+<p><span class="math display">\[\varphi(t) = \sup_{A\in\mathcal{P}_k,\, \mathbb{P}(A)&gt;0,\; B\in\mathcal{F}_{k+t}} \bigl|\mathbb{P}(B\mid A) - \mathbb{P}(B)\bigr|.\]</span></p>
+<p>세기 순서:</p>
+<p><span class="math display">\[\varphi\text{-mixing} \;\Longrightarrow\; \beta\text{-mixing} \;\Longrightarrow\; \alpha\text{-mixing}.\]</span></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>계수</th>
+<th>재는 것</th>
+<th>세기</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\alpha\)</span> (strong)</td>
+<td>과거·미래 사건의 독립 갭</td>
+<td>약</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta\)</span> (abs. regularity)</td>
+<td>미래 조건부 분포의 TV 수렴 (평균)</td>
+<td>중</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\varphi\)</span> (uniform)</td>
+<td>미래 확률의 과거-균일 수렴</td>
+<td>강</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math inline">\(\alpha\)</span>가 제일 약해 만족하기 쉽고, <span class="math inline">\(\varphi\)</span>가 제일 강하다.</p>
+<hr>
 <p><strong>H.</strong> 한쪽은 분포 수렴, 한쪽은 독립성. 완전 다른 거 아냐?</p>
 <p><strong>G.</strong> 겉보기엔 다른데, <strong>stationary Markov chain에선 사실상 같은 양</strong>이다. <span class="math inline">\(\beta\)</span>-mixing 계수가 정확히 평균 TV 거리거든:</p>
 <p><span class="math display">\[\beta(t) = \mathbb{E}_\pi\bigl[\|P^t(X_0,\cdot) - \pi\|_{\rm TV}\bigr].\]</span></p>
 <p>그래서</p>
 <p><span class="math display">\[\text{geometric ergodicity} \;\Longleftrightarrow\; \text{geometric } \beta\text{-mixing} \;\Longrightarrow\; \text{geometric } \alpha\text{-mixing}.\]</span></p>
 <p>즉 Markov 믹싱(TV 수렴)이 곧 SLT의 <span class="math inline">\(\beta\)</span>-mixing이고, 그게 <span class="math inline">\(\alpha\)</span>-mixing을 준다. <strong>같은 현상의 두 언어.</strong></p>
-<div id="6e33c8ce" class="cell" data-execution_count="1">
+<div id="ada08d0d" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -256,7 +294,8 @@ window.Quarto = {
 <p><strong>H.</strong> HST에선 어느 쪽이야?</p>
 <p><strong>G.</strong> Tier 2 증명은:</p>
 <p><span class="math display">\[\text{minorization} + \text{Foster drift} \;\Rightarrow\; \text{geometric ergodicity (Markov 믹싱)}.\]</span></p>
-<p>이게 곧 geometric <span class="math inline">\(\beta\)</span>-mixing (SLT 믹싱)이라, 의존 수열 <span class="math inline">\(g(S_s) = (h_i - h_j)^2\)</span>의 LLN/CLT를 정당화한다. 다만 논문 Tier 2는 SLT mixing-CLT가 아니라 <strong>Meyn–Tweedie positive Harris 에르고딕 정리(LLN)</strong>를 직접 써서 <span class="math inline">\(SD^2/t \to c\)</span>를 얻는다. SLT 믹싱은 같은 현상의 다른 언어 — 직접 인용은 안 하지만 바닥은 동일. (논문이 Davidson SLT를 인용하는 건 Tier 0의 martingale SLLN.)</p>
+<p>이게 곧 geometric <span class="math inline">\(\beta\)</span>-mixing (그리고 <span class="math inline">\(\beta\Rightarrow\alpha\)</span>이라 <span class="math inline">\(\alpha\)</span>-mixing)이라, 의존 수열 <span class="math inline">\(g(S_s) = (h_i - h_j)^2\)</span>의 LLN/CLT를 정당화한다. 다만 논문 Tier 2는 SLT mixing-CLT가 아니라 <strong>Meyn–Tweedie positive Harris 에르고딕 정리(LLN)</strong>를 직접 써서 <span class="math inline">\(SD^2/t \to c\)</span>를 얻는다. SLT 믹싱은 같은 현상의 다른 언어 — 직접 인용은 안 하지만 바닥은 동일. (논문이 Davidson SLT를 인용하는 건 Tier 0의 martingale SLLN.)</p>
+<p>참고로 <span class="math inline">\(\varphi\)</span>-mixing은 더 강해서 <strong>uniform ergodicity</strong>(Doeblin 조건, 전 공간 minorization)가 있어야 나온다. HST의 minorization은 small set <span class="math inline">\(C_0\)</span> 위에서만 성립하니 <span class="math inline">\(\beta\)</span>·<span class="math inline">\(\alpha\)</span>는 주지만 <span class="math inline">\(\varphi\)</span>는 일반적으로 안 준다.</p>
 <hr>
 <p><strong>H.</strong> 한 줄 요약.</p>
 <p><strong>G.</strong> 두 믹싱은 “의존성 소멸”의 다른 형식화 — <strong>Markov 믹싱 = <span class="math inline">\(\|P^t-\pi\|_{\rm TV}\)</span> 수렴</strong>, <strong>SLT 믹싱 = mixing coefficient(과거·미래 decoupling)</strong>. stationary Markov chain에선 <span class="math inline">\(\beta(t) = \mathbb{E}_\pi\|P^t-\pi\|_{\rm TV}\)</span>로 <strong>수치 일치</strong>(geometric ergodicity = geometric <span class="math inline">\(\beta\)</span>-mixing)하지만, SLT 믹싱은 비-Markov 수열에도 정의되는 더 일반 개념이다. HST Tier 2는 Meyn–Tweedie 에르고딕 정리로 가되 바닥은 같은 믹싱.</p>

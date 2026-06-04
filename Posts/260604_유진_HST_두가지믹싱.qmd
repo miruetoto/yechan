@@ -30,6 +30,36 @@ $$\alpha(t) = \sup_{A\in\sigma(\text{past}),\, B\in\sigma(t\text{-future})} \big
 
 ---
 
+**H.** $\alpha$-mixing 말고도 mixing 계수가 더 있다던데?
+
+**G.** 셋이 표준이다 — $\alpha, \beta, \varphi$. 과거 $\mathcal{P}_k = \sigma(X_t : t\leq k)$와 $t$-미래 $\mathcal{F}_{k+t} = \sigma(X_s : s\geq k+t)$의 의존성을 재는 **세기 다른 척도**다 (모두 $t\to\infty$에 0이면 mixing).
+
+**$\alpha$-mixing (strong mixing)** — 가장 약함. 과거·미래 사건의 독립으로부터의 최대 어긋남:
+
+$$\alpha(t) = \sup_{A\in\mathcal{P}_k,\, B\in\mathcal{F}_{k+t}} \bigl|\mathbb{P}(A\cap B) - \mathbb{P}(A)\mathbb{P}(B)\bigr|.$$
+
+**$\beta$-mixing (absolute regularity)** — 중간. 미래의 조건부 분포가 무조건 분포로 가는 정도를 과거에 대해 평균낸 TV 거리:
+
+$$\beta(t) = \mathbb{E}\Bigl[\bigl\|\mathbb{P}(\mathcal{F}_{k+t}\in\cdot \mid \mathcal{P}_k) - \mathbb{P}(\mathcal{F}_{k+t}\in\cdot)\bigr\|_{\rm TV}\Bigr].$$
+
+**$\varphi$-mixing (uniform mixing)** — 가장 강함. 어떤 과거 사건으로 조건화해도 미래 확률이 균일하게 수렴:
+
+$$\varphi(t) = \sup_{A\in\mathcal{P}_k,\, \mathbb{P}(A)>0,\; B\in\mathcal{F}_{k+t}} \bigl|\mathbb{P}(B\mid A) - \mathbb{P}(B)\bigr|.$$
+
+세기 순서:
+
+$$\varphi\text{-mixing} \;\Longrightarrow\; \beta\text{-mixing} \;\Longrightarrow\; \alpha\text{-mixing}.$$
+
+| 계수 | 재는 것 | 세기 |
+|---|---|---|
+| $\alpha$ (strong) | 과거·미래 사건의 독립 갭 | 약 |
+| $\beta$ (abs. regularity) | 미래 조건부 분포의 TV 수렴 (평균) | 중 |
+| $\varphi$ (uniform) | 미래 확률의 과거-균일 수렴 | 강 |
+
+$\alpha$가 제일 약해 만족하기 쉽고, $\varphi$가 제일 강하다.
+
+---
+
 **H.** 한쪽은 분포 수렴, 한쪽은 독립성. 완전 다른 거 아냐?
 
 **G.** 겉보기엔 다른데, **stationary Markov chain에선 사실상 같은 양**이다. $\beta$-mixing 계수가 정확히 평균 TV 거리거든:
@@ -100,7 +130,9 @@ plt.show()
 
 $$\text{minorization} + \text{Foster drift} \;\Rightarrow\; \text{geometric ergodicity (Markov 믹싱)}.$$
 
-이게 곧 geometric $\beta$-mixing (SLT 믹싱)이라, 의존 수열 $g(S_s) = (h_i - h_j)^2$의 LLN/CLT를 정당화한다. 다만 논문 Tier 2는 SLT mixing-CLT가 아니라 **Meyn–Tweedie positive Harris 에르고딕 정리(LLN)**를 직접 써서 $SD^2/t \to c$를 얻는다. SLT 믹싱은 같은 현상의 다른 언어 — 직접 인용은 안 하지만 바닥은 동일. (논문이 Davidson SLT를 인용하는 건 Tier 0의 martingale SLLN.)
+이게 곧 geometric $\beta$-mixing (그리고 $\beta\Rightarrow\alpha$이라 $\alpha$-mixing)이라, 의존 수열 $g(S_s) = (h_i - h_j)^2$의 LLN/CLT를 정당화한다. 다만 논문 Tier 2는 SLT mixing-CLT가 아니라 **Meyn–Tweedie positive Harris 에르고딕 정리(LLN)**를 직접 써서 $SD^2/t \to c$를 얻는다. SLT 믹싱은 같은 현상의 다른 언어 — 직접 인용은 안 하지만 바닥은 동일. (논문이 Davidson SLT를 인용하는 건 Tier 0의 martingale SLLN.)
+
+참고로 $\varphi$-mixing은 더 강해서 **uniform ergodicity**(Doeblin 조건, 전 공간 minorization)가 있어야 나온다. HST의 minorization은 small set $C_0$ 위에서만 성립하니 $\beta$·$\alpha$는 주지만 $\varphi$는 일반적으로 안 준다.
 
 ---
 
