@@ -224,19 +224,37 @@ window.Quarto = {
 <p><strong>한 줄</strong>: (iii)은 “fall 적립만으로 어떤 목표든 <strong>부피가 양수인 한 묶음</strong>의 방법으로 맞힐 수 있다”를 보이는 단계다. 핵심은 목표가 도달 가능 영역 <strong>안쪽</strong>에 있어야 하고, 그 묶음에서 <strong>위험한 가장자리를 잘라낸 robust 코어</strong>도 여전히 양의 부피를 남긴다는 것.</p>
 <hr>
 <p><strong>H.</strong> Lemma 17 (iii), 다른 단계랑 떼어놓고 보면 도대체 뭘 하는 거야?</p>
-<p><strong>G.</strong> 한 문장으로: <strong>“falls(목표를 맞히는 적립)만으로, 우리가 원하는 어떤 목표 <span class="math inline">\(y\)</span>든, 그걸 맞히는 적립 조합이 한 점이 아니라 부피가 양수인 한 덩어리로 존재한다.”</strong> 그 덩어리의 부피에 양수 바닥(floor)을 까는 게 (iii)의 전부야.</p>
-<p>왜 “한 점”이 아니라 “덩어리”가 중요하냐 — 나중에 그 덩어리 위에서 밀도를 적분해 확률 <span class="math inline">\(\eta\)</span>를 만들거든. 점 하나는 부피 0이라 적분하면 0. 덩어리라야 양수 확률이 나와.</p>
+<p><strong>G.</strong> 한 문장으로: <strong>“fall 적립만으로, 출발 높이차에서 원하는 목적지 높이차까지 가는 적립 조합이 — 점 하나가 아니라 — 부피가 양수인 한 덩어리로 존재한다.”</strong> 그 덩어리의 부피에 양수 바닥(floor)을 까는 게 (iii)의 전부야. 용어가 빽빽하니 하나씩 풀자.</p>
+<p>왜 “점 하나”가 아니라 “덩어리”라야 하냐부터 — 나중에 그 덩어리 위에서 밀도를 <strong>적분</strong>해 확률 <span class="math inline">\(\eta\)</span>를 만들거든. 점 하나는 부피 0이라 적분하면 0 → 확률 0. <strong>덩어리(양의 부피)라야 양수 확률</strong>이 나와.</p>
 <hr>
-<p><strong>H.</strong> “목표를 맞히는 적립 조합” — 이게 무슨 말이야? 구체적으로.</p>
-<p><strong>G.</strong> falls가 <span class="math inline">\(nL\)</span>개 있다고 하자. 각 fall이 <span class="math inline">\([0,b]\)</span> 범위의 적립 <span class="math inline">\(b^{\sharp}_1,\ldots,b^{\sharp}_{nL}\)</span>을 쌓아. 이 적립 벡터를 선형사상 <span class="math inline">\(\Sigma\)</span>가 높이차 변위로 보내:</p>
-<p><span class="math display">\[\Sigma: [0,b]^{nL} \to \mathbb{R}^{d}, \qquad d = n-1.\]</span></p>
-<p>입력이 <span class="math inline">\(nL\)</span>개, 출력이 <span class="math inline">\(d\)</span>개인데 <strong><span class="math inline">\(nL\)</span>이 <span class="math inline">\(d\)</span>보다 훨씬 많아</strong> (falls가 많으니까). 그래서 <span class="math inline">\(\Sigma\)</span>는 납작한(fat) 사상이고, 목표 <span class="math inline">\(y\)</span>를 맞히는 입력이 <strong>하나가 아니라 한 무더기</strong>야. 그 무더기가</p>
+<p><strong>H.</strong> “fall”, “적립”, “적립 조합”부터. 뭐가 뭐야?</p>
+<p><strong>G.</strong> 차례로:</p>
+<ul>
+<li><strong>fall</strong> — HST에서 매 시각 <span class="math inline">\(t\)</span>의 스텝은 둘 중 하나야: <strong>fall</strong>(눈이 새 타겟 노드에 떨어지는 스텝, <span class="math inline">\(\boldsymbol{\mu}_0\)</span> 추첨) 또는 non-fall(flow·block). 한 window에 fall이 <span class="math inline">\(nL\)</span>개 있어. fall을 “주역”이라 부르는 건 <strong>높이차를 원하는 값으로 끌고 가는 게 fall들</strong>이기 때문이야 (non-fall은 작은 노이즈).</li>
+<li><strong>적립 <span class="math inline">\(b^{\sharp}_j\)</span></strong> — <span class="math inline">\(j\)</span>번째 fall이 그 노드에 쌓는 <strong>눈의 양</strong>. 그냥 숫자 하나, <span class="math inline">\([0,b]\)</span> 범위.</li>
+<li><strong>적립 조합 <span class="math inline">\(\mathbf{b}^{\sharp}\)</span></strong> — <span class="math inline">\(nL\)</span>개 적립을 묶은 <strong>벡터</strong> <span class="math inline">\(\mathbf{b}^{\sharp} = (b^{\sharp}_1,\ldots,b^{\sharp}_{nL}) \in [0,b]^{nL}\)</span>. 아래 그림에선 (fall 2개라) 정사각형 <span class="math inline">\([0,b]^2\)</span> 안의 <strong>한 점</strong>.</li>
+</ul>
+<hr>
+<p><strong>H.</strong> 그럼 “목표 <span class="math inline">\(y\)</span>”가 뭐야? 이게 제일 헷갈려.</p>
+<p><strong>G.</strong> <span class="math inline">\(y\)</span>는 <strong>목적지가 아니라, fall들이 만들어내야 할 “높이차 이동량”</strong>이야. 셋을 구분하면 깔끔해 (<span class="math inline">\(n=2\)</span>라 높이차가 숫자 하나인 경우로):</p>
+<ul>
+<li><strong>출발 <span class="math inline">\(\Delta_1\mathbf{h}(s)\)</span></strong> — 지금 상태 <span class="math inline">\(s\)</span>의 높이차. 예: <span class="math inline">\(h(v_2)-h(v_1) = 0.3\)</span>.</li>
+<li><strong>목적지 <span class="math inline">\(u\)</span></strong> — 도달하고 싶은 높이차 (chamber <span class="math inline">\(U\)</span> 안의 점, 최종 기준측도 <span class="math inline">\(\nu\)</span>가 사는 곳). 예: <span class="math inline">\(u = 0.9\)</span>.</li>
+<li><strong>이동량 <span class="math inline">\(y\)</span></strong> — 출발에서 목적지까지 <strong>fall이 채워야 할 양</strong>: <span class="math display">\[y := u - \Delta_1\mathbf{h}(s) = 0.9 - 0.3 = 0.6.\]</span></li>
+</ul>
+<p>즉 <span class="math inline">\(y\)</span>는 높이도 상태도 아니고, <strong>“출발과 목적지의 차이”</strong>야. (non-fall이 미리 <span class="math inline">\(R\)</span>만큼 밀어놨으면 fall은 덜 채워도 되니 <span class="math inline">\(y = u - \Delta_1\mathbf{h}(s) - R\)</span>. 앞 단계에서 잔차 얘기한 게 이 <span class="math inline">\(R\)</span>이야.)</p>
+<hr>
+<p><strong>H.</strong> 그래서 fall이 <span class="math inline">\(y\)</span>를 “맞힌다”는 건?</p>
+<p><strong>G.</strong> 적립 조합 <span class="math inline">\(\mathbf{b}^{\sharp}\)</span>를 선형사상 <span class="math inline">\(\Sigma\)</span>가 높이차 변위 <span class="math inline">\(\Sigma\mathbf{b}^{\sharp}\)</span>로 보내. 목적지에 정확히 닿으려면</p>
+<p><span class="math display">\[\Delta_1\mathbf{h}(s) + \Sigma\mathbf{b}^{\sharp} = u \;\;\Longleftrightarrow\;\; \Sigma\mathbf{b}^{\sharp} = u - \Delta_1\mathbf{h}(s) = y.\]</span></p>
+<p>여기서 <span class="math inline">\(\Sigma:[0,b]^{nL}\to\mathbb{R}^d\)</span> (<span class="math inline">\(d=n-1\)</span>). 입력 <span class="math inline">\(nL\)</span>개, 출력 <span class="math inline">\(d\)</span>개인데 <strong><span class="math inline">\(nL\)</span>이 <span class="math inline">\(d\)</span>보다 훨씬 많아</strong> (falls가 많으니) → <span class="math inline">\(\Sigma\)</span>는 납작한(fat) 사상이라 <span class="math inline">\(\Sigma\mathbf{b}^{\sharp}=y\)</span>를 푸는 적립 조합이 <strong>하나가 아니라 한 무더기</strong>야. 그 무더기가</p>
 <p><span class="math display">\[\text{fibre} \;=\; [0,b]^{nL} \cap \Sigma^{-1}(y) \;=\; \{\,\mathbf{b}^{\sharp}\in[0,b]^{nL} : \Sigma\mathbf{b}^{\sharp} = y\,\}.\]</span></p>
-<p>“fibre(올, 섬유)”는 그냥 <strong>목표 <span class="math inline">\(y\)</span>로 가는 입력들의 집합</strong>이야. 차원은 <span class="math inline">\(m := nL - d\)</span> (자유도 = 입력 수 − 제약 수).</p>
+<p>“fibre(올, 섬유)”는 그냥 <strong>이동량 <span class="math inline">\(y\)</span>를 정확히 만드는 적립 조합들의 집합</strong>. 차원은 <span class="math inline">\(m := nL - d\)</span> (자유도 = 입력 수 − 제약 수).</p>
 <hr>
 <p><strong>H.</strong> 너무 추상적이야. 작은 그림으로.</p>
-<p><strong>G.</strong> <span class="math inline">\(\Sigma\)</span>를 <strong>합(sum)</strong>이라고 치자 (가장 단순한 fat 사상, <span class="math inline">\(d=1\)</span>). 손잡이(knob) 두 개 <span class="math inline">\(b^{\sharp}_1, b^{\sharp}_2 \in [0,b]\)</span>, 목표는 <span class="math inline">\(b^{\sharp}_1 + b^{\sharp}_2 = y\)</span>. 그럼 fibre는 정사각형 <span class="math inline">\([0,b]^2\)</span>를 가로지르는 <strong>선분</strong>이야.</p>
-<div id="dbebca9e" class="cell" data-execution_count="1">
+<p><strong>G.</strong> <span class="math inline">\(\Sigma\)</span>를 <strong>합(sum)</strong>이라고 치자 (가장 단순한 fat 사상, <span class="math inline">\(d=1\)</span>). fall 적립 두 개 <span class="math inline">\(b^{\sharp}_1, b^{\sharp}_2 \in [0,b]\)</span>, 이동량은 <span class="math inline">\(b^{\sharp}_1 + b^{\sharp}_2 = y\)</span>. 그럼 fibre는 정사각형 <span class="math inline">\([0,b]^2\)</span>를 가로지르는 <strong>선분</strong>이야.</p>
+<p>여기서 <strong>“점 하나 vs 덩어리”</strong>가 한눈에 보여: 만약 fall이 <strong>1개</strong>뿐이면 <span class="math inline">\(b^{\sharp}_1 = y\)</span>라 해가 <strong>점 하나</strong>(부피 0). fall이 <strong>2개</strong>라 자유도가 남아 <span class="math inline">\(b^{\sharp}_1+b^{\sharp}_2=y\)</span>의 해가 <strong>선분</strong>(길이 = 양의 부피)이 되는 거야.</p>
+<div id="fd86f3a5" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
