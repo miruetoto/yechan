@@ -295,6 +295,63 @@ chamber $U$가 들어앉을 박스 — $\mathcal{O}$보다 안쪽으로 빡빡�
 1. **등호 초평면 회피:** 등호면 $\{\widetilde{u}_i = \widetilde{u}_j\}$가 $\mathcal{O}$ 안을 지나니, $U$를 $\mathcal{O}^\dagger$ 안에서 그 초평면들과 $\kappa_U$ 떨어뜨려 잡아 퇴화 비교를 robust하게 만든다 (아래 ④, 조건 $(\ast)$).
 2. **$L$-포함 보장:** $U$가 작은 $\mathcal{O}^\dagger$에 있어야 목표 집합 $K_U^\varrho = \{u - \Delta_1\mathbf{h}(s) - r\}$가 $\operatorname{int}(L\cdot\mathcal{O})$ 안에 컴팩트하게 든다 ($K_U^\varrho \Subset \operatorname{int}(L\cdot\mathcal{O})$, $L \geq 16M_0/b+1$로 가능).
 
+```{python}
+#| echo: false
+import matplotlib.pyplot as plt
+
+plt.rcParams.update({'text.usetex': True, 'font.size': 9,
+    'text.latex.preamble': r'\usepackage{amsmath,amsfonts,amssymb}'})
+
+fig, (axA, axB) = plt.subplots(1, 2, figsize=(8.4, 4.3))
+XL = r'$h(v_2)-h(v_1)$'; YL = r'$h(v_3)-h(v_1)$'
+
+# ---- (A) O (b/4) vs O† (b/16): nesting + equality lines ----
+for ax, S in [(axA, 0.32)]:
+    # equality hyperplanes through O
+    ax.plot([-S,S],[0,0], color='#e67e22', ls=':', lw=1.0)   # u2=0
+    ax.plot([0,0],[-S,S], color='#e67e22', ls=':', lw=1.0)   # u1=0
+    ax.plot([-S,S],[-S,S], color='#e67e22', ls=':', lw=1.0)  # u1=u2
+axA.add_patch(plt.Rectangle((-0.25,-0.25),0.5,0.5, fill=False,
+              edgecolor='#2980b9', lw=1.8))
+axA.add_patch(plt.Rectangle((-0.0625,-0.0625),0.125,0.125, fill=True,
+              facecolor='#f3e8ff', edgecolor='#8e44ad', lw=1.6))
+axA.text(0, 0.275, r'$\mathcal{O}=\{\|y\|_\infty<b/4\}$ ($\pm0.25$)', color='#2980b9',
+         ha='center', fontsize=8.5)
+axA.text(0.066, 0.10, r'$\mathcal{O}^\dagger$ ($\pm\tfrac{1}{16}=\pm0.0625$)', color='#8e44ad',
+         ha='left', fontsize=8)
+axA.text(0.205, -0.04, r'equality lines $\{u_1{=}u_2\}$', color='#e67e22', fontsize=7, rotation=45)
+axA.set_xlim(-0.32,0.32); axA.set_ylim(-0.32,0.32); axA.set_aspect('equal')
+axA.set_xlabel(XL, fontsize=8); axA.set_ylabel(YL, fontsize=8)
+axA.set_title(r'(A) $\mathcal{O}$ (big) $\supset \mathcal{O}^\dagger$ ($4\times$ inner)', fontsize=9)
+axA.tick_params(labelsize=6.5)
+
+# ---- (B) zoom into O† interior: chamber U off the equality lines ----
+Z = 0.013
+axB.plot([-Z,Z],[0,0], color='#e67e22', ls=':', lw=1.0)
+axB.plot([0,0],[-Z,Z], color='#e67e22', ls=':', lw=1.0)
+axB.plot([-Z,Z],[-Z,Z], color='#e67e22', ls=':', lw=1.0)
+cx, cy, rU = 1/384, 1/192, 1/1536
+axB.add_patch(plt.Rectangle((cx-rU,cy-rU),2*rU,2*rU, facecolor='#27ae60',
+              edgecolor='#1e7e44', lw=1.2, zorder=3))
+axB.text(cx+0.0016, cy+0.0011, r'$U$', color='#1e7e44', fontsize=11)
+axB.text(0.0007,-0.0045, r'$\{u_1{=}0\}$', color='#e67e22', fontsize=7, rotation=90)
+axB.text(0.006,0.0004, r'$\{u_2{=}0\}$', color='#e67e22', fontsize=7)
+axB.text(0.0072,0.009, r'$\{u_1{=}u_2\}$', color='#e67e22', fontsize=7, rotation=45)
+axB.set_xlim(-Z,Z); axB.set_ylim(-Z,Z); axB.set_aspect('equal')
+axB.set_xlabel(XL, fontsize=8); axB.set_ylabel(YL, fontsize=8)
+axB.set_title(r'(B) zoom in $\mathcal{O}^\dagger$: $U$ avoids equality lines ($\kappa_U$)', fontsize=8)
+axB.tick_params(labelsize=6)
+
+plt.tight_layout()
+import os
+os.makedirs('results/figures/260605_유진_HST_petite_smallset_K3.qmd', exist_ok=True)
+plt.savefig('results/figures/260605_유진_HST_petite_smallset_K3.qmd/O_vs_Odagger.png',
+            dpi=150, bbox_inches='tight')
+plt.show()
+```
+
+(A) $\mathcal{O}$(파랑, $\pm0.25$)와 그 $\tfrac14$ 크기인 $\mathcal{O}^\dagger$(보라, $\pm0.0625$) — 등호면 셋이 둘 다 관통한다. (B) $\mathcal{O}^\dagger$ 안을 더 줌인하면, chamber $U$(초록)가 그 등호면들에서 $\kappa_U$ 떨어져 앉아 있다.
+
 **④ $U$ — 실제 목표 chamber.**
 $\mathcal{O}^\dagger$ 안의 작은 $\ell^\infty$-공인데, **final-equality 초평면을 피해서** 잡는다. anchored 전체높이 $\widetilde{u} = (0, u_1, u_2)$ (여기 $u=(u_1,u_2)\in U$)의 세 등호면
 $$\{u_1 = 0\},\quad \{u_2 = 0\},\quad \{u_1 = u_2\}$$
