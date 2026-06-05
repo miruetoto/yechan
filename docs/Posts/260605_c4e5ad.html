@@ -251,7 +251,7 @@ window.Quarto = {
 <p><strong>(1) 높이차 <span class="math inline">\(\Delta_1\mathbf{h}\)</span></strong> — <span class="math inline">\(v_1\)</span>을 기준으로 뺀 anchored 높이차: <span class="math display">\[\Delta_1\mathbf{h}(s) = \bigl(h(v_2) - h(v_1),\ h(v_3) - h(v_1)\bigr) = (7-5,\ 3-5) = (2, -2).\]</span></p>
 <p><strong>(2) 현재 노드 <span class="math inline">\(X\)</span></strong> — walker가 지금 있는 노드 (예: <span class="math inline">\(v_1\)</span>).</p>
 <p>→ 우리 예제의 상태는 <span class="math inline">\(s = \bigl((2,-2),\ v_1\bigr)\)</span>이다. (<span class="math inline">\(\Delta_1\mathbf{h}\)</span>가 절대높이 <span class="math inline">\(5,7,3\)</span>을 안 기억해도 되는 이유: 눈은 모든 노드에 똑같이 와 닿는 게 아니라 <strong>높이차</strong>만 동역학에 들어오기 때문. 높이를 통째로 <span class="math inline">\(+10\)</span> 해도 같은 상태.)</p>
-<div id="bba37f47" class="cell" data-execution_count="1">
+<div id="8780f608" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -270,7 +270,7 @@ window.Quarto = {
 </blockquote>
 <p><strong>먼저 <span class="math inline">\(s\)</span>가 어디의 원소인지</strong> 못박자. 라운드 스켈레톤의 상태공간은 <span class="math display">\[\bar{\mathcal{X}} \;=\; \mathbb{R}^{n-1} \times V \;=\; \mathbb{R}^2 \times \{v_1, v_2, v_3\},\]</span> 즉 상태는 <span class="math inline">\(s = (\Delta_1\mathbf{h},\ X)\)</span> — <strong>(높이차 벡터, 현재 노드)</strong> 쌍이다. 우리 예제에선 <span class="math display">\[s = \bigl((2,-2),\ v_1\bigr) \in \bar{\mathcal{X}}.\]</span></p>
 <p>후보 small set은 <strong>높이차 범위가 <span class="math inline">\(M_0\)</span> 이하인 상태들</strong>. 좌표 약자로 <span class="math inline">\(u_1 := h(v_2)-h(v_1)\)</span>, <span class="math inline">\(u_2 := h(v_3)-h(v_1)\)</span> (<span class="math inline">\(\Delta_1\mathbf{h}=(u_1,u_2)\)</span>)라 두면, 범위 <span class="math inline">\(M(s)\)</span>는 anchored 높이 <span class="math inline">\(\{0, u_1, u_2\}\)</span>의 최대−최소 = 최대 pairwise 거리: <span class="math display">\[M(s) = \max\bigl(|u_1|,\ |u_2|,\ |u_1 - u_2|\bigr).\]</span> 따라서 <strong>closed form</strong>으로 (<span class="math inline">\(M\)</span>은 <span class="math inline">\(\Delta_1\mathbf{h}\)</span> 좌표에만 의존, 노드 <span class="math inline">\(X\)</span>는 자유): <span class="math display">\[C_0 = \bigl\{\, (u_1,u_2) : |u_1| \leq M_0,\ |u_2| \leq M_0,\ |u_1 - u_2| \leq M_0 \,\bigr\} \times V\]</span> — 세 띠의 교집합인 <strong>육각형</strong> <span class="math inline">\(\times V\)</span>. 이 예제 <span class="math inline">\(M_0 := 4\)</span>. 우리 <span class="math inline">\(s=(2,-2)\)</span>: <span class="math inline">\((|u_1|, |u_2|, |u_1-u_2|) = (2, 2, 4)\)</span> 모두 <span class="math inline">\(\leq 4\)</span> → <span class="math inline">\(s \in C_0\)</span> (마지막이 <span class="math inline">\(=4\)</span>라 육각형 <strong>경계</strong> 위).</p>
-<div id="fb8fae8f" class="cell" data-execution_count="2">
+<div id="eea3f567" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -309,7 +309,7 @@ window.Quarto = {
 </ul>
 <p>위 밀도 하한의 유도 (왜 <span class="math inline">\(\mathcal{O}\)</span> 위에서만 <span class="math inline">\(f \geq \tfrac12\)</span>인가): 증분 밀도 <span class="math inline">\(f\)</span>는 <span class="math inline">\(b^{\sharp}_1\)</span>을 적분해 없앤 것인데, 모든 <span class="math inline">\(|b^{\sharp}_i - b^{\sharp}_1| &lt; b/4\)</span>일 때 적분 구간이 길이 <span class="math inline">\(\geq b/2\)</span>를 품어 <span class="math inline">\(f \geq b^{1-n}/2\)</span>로 떨어진다 (<span class="math inline">\(b{=}1, n{=}3\)</span>이라 <span class="math inline">\(\tfrac12\)</span>). 그 조건이 정확히 <span class="math inline">\(\mathbf{d}^{\sharp} \in \mathcal{O}\)</span>.</p>
 <p><strong>주의 — <span class="math inline">\(\mathcal{O}\)</span>는 “한 블록으로 갈 수 있는 전부”가 아니다.</strong> 증분 <span class="math inline">\(\mathbf{d}^{\sharp} = (b^{\sharp}_2 - b^{\sharp}_1,\ b^{\sharp}_3 - b^{\sharp}_1)\)</span>은 각 <span class="math inline">\(b^{\sharp}_i \in [0,b]\)</span>라, 실제 <strong>도달 영역</strong>은 박스가 아니라 <strong>육각형</strong> <span class="math display">\[\{\, \zeta : |\zeta_1| \leq b,\ |\zeta_2| \leq b,\ |\zeta_1 - \zeta_2| \leq b \,\}\]</span> 이다 (증분도 높이차 벡터라 range <span class="math inline">\(\leq b=1\)</span> — <span class="math inline">\(C_0\)</span>와 똑같은 모양!). 예컨대 모서리 <span class="math inline">\((b, -b)\)</span>는 <span class="math inline">\(b^{\sharp}_1\)</span>을 공유하는 제약 때문에 도달 불가(<span class="math inline">\(|x-y|=2b &gt; b\)</span>). 박스 <span class="math inline">\(\mathcal{O}\)</span>(한 좌표 <span class="math inline">\(\pm b/4\)</span>)는 그 육각형 <strong>안쪽의 밀도 <span class="math inline">\(\geq \tfrac12\)</span> 보장 부분</strong>일 뿐이다. 증명이 박스만 쓰는 이유: 깔끔한 밀도 하한 <span class="math inline">\(b^{1-n}/2\)</span>가 거기서만 나오기 때문 (육각형 안·박스 밖은 밀도가 양수지만 그 하한은 안 나옴). 아래 그림은 (A) <strong>큰 <span class="math inline">\(C_0\)</span> 안에 한 블록 도달역(작은 육각형)이 작게 들어있는 모습</strong> — 둘 다 “range ≤ 상수” 꼴이라 닮았지만 <span class="math inline">\(C_0\)</span>는 원점 중심·크기 <span class="math inline">\(M_0{=}4\)</span>, 도달역은 <span class="math inline">\(s{=}(2,-2)\)</span> 중심·크기 <span class="math inline">\(b{=}1\)</span>로 별개 — 과 (B) 그 도달역 줌인(도달 육각형 <span class="math inline">\(\supset\)</span> 밀도박스 <span class="math inline">\(\mathcal{O}\)</span>)을 보여준다.</p>
-<div id="ec753f2c" class="cell" data-execution_count="3">
+<div id="209ea5e2" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -324,7 +324,7 @@ window.Quarto = {
 <p><strong>정의 (도달역).</strong> 한 블록 증분이 밀도바닥 박스 <span class="math inline">\(\mathcal{O}\)</span> 안에 있을 때, <span class="math inline">\(L\)</span>블록을 누적한 총변위가 떨어질 수 있는 곳이 곧 Minkowski 합 <span class="math inline">\(L\cdot\mathcal{O}\)</span>다. 이 집합을 <strong>도달역</strong>(reachable region)이라 부른다 — “<span class="math inline">\(L\)</span>번 걸어서 닿을 수 있는 모든 점”. 출발점 <span class="math inline">\(s\)</span>에서 시작하면 도달역은 <span class="math inline">\(s + L\cdot\mathcal{O}\)</span>로 평행이동한다.</p>
 </blockquote>
 <p><span class="math inline">\(M_0 = 4\)</span>, <span class="math inline">\(b = 1\)</span>이라 <span class="math inline">\(L = \lceil 16\cdot 4 + 1 \rceil = 65\)</span>. 그러면 <span class="math inline">\(L\cdot\mathcal{O} = (-\tfrac{L}{4}, \tfrac{L}{4})^2 = (-16.25, 16.25)^2\)</span> — <strong>출발 <span class="math inline">\(\Delta_1\mathbf{h}(s)=(2,-2)\)</span>를 원점 근처로 끌어내릴 만큼 넉넉</strong>하다. (falls가 채울 변위 <span class="math inline">\(\zeta = u - \Delta_1\mathbf{h}(s) - r \approx (0,0)-(2,-2) = (-2,2)\)</span>가 <span class="math inline">\(\pm 16\)</span> 안에 푹 들어옴. 여기 <span class="math inline">\(r\)</span>은 <strong>non-fall 잔차</strong>로 ③에서 정의·범위를 못박는다.)</p>
-<div id="7c645de6" class="cell" data-execution_count="4">
+<div id="49654764" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -363,6 +363,9 @@ window.Quarto = {
 <li><strong><span class="math inline">\(r\)</span> (<span class="math inline">\(\|r\|_\infty \leq Lb/8\)</span>)</strong> — non-fall 잔차가 그때그때 다름 (정체는 바로 아래).</li>
 </ul>
 <p>이 <span class="math inline">\((u,s,r)\)</span> <strong>모든 조합</strong>이 변위 <span class="math inline">\(\zeta = u-\Delta_1\mathbf{h}(s)-r\)</span> 하나씩을 만들고, 그 전부의 모임이 <span class="math inline">\(K_U\)</span>다. 즉 <strong>falls의 “숙제 목록”</strong> — minorization이 성립하려면 falls가 이 목록의 <strong>모든 점</strong>을 밀도 깔며 맞혀야 한다 (하나라도 못 맞히면 그 출발·도착·잔차 조합에서 floor가 깨짐). 그래서 “<span class="math inline">\(K_U \Subset \operatorname{int}(L\cdot\mathcal{O})\)</span>”는 <strong>숙제 목록 전체가 도달역 안쪽에 든다</strong>는 뜻이고, 그래야 conv-lower(Lemma 12)가 모든 목표에 fibre floor <span class="math inline">\(m_0\)</span>을 깔아준다.</p>
+<p><strong>이 식을 거꾸로 읽으면 — falls가 통제하는 건 <span class="math inline">\(\zeta\)</span> 하나뿐.</strong> <span class="math inline">\(\zeta = u - \Delta_1\mathbf{h}(s) - r\)</span>를 <span class="math inline">\(u\)</span>에 대해 풀면</p>
+<p><span class="math display">\[u \;=\; \underbrace{\Delta_1\mathbf{h}(s)}_{\text{출발 현황}} \;+\; \underbrace{r}_{\text{non-fall 부작용 (side effect)}} \;+\; \underbrace{\zeta}_{\text{fall 액션 (} \sum_k \mathbf{d}^\sharp_k \text{)}},\]</span></p>
+<p>즉 <strong>최종 착지 위치 <span class="math inline">\(u\)</span> = (출발 현황) <span class="math inline">\(+\)</span> (non-fall 부작용) <span class="math inline">\(+\)</span> (fall 액션)</strong>이다. 앞 두 항은 falls가 못 바꾼다 — <span class="math inline">\(\Delta_1\mathbf{h}(s)\)</span>는 이미 주어진 출발점, <span class="math inline">\(r\)</span>은 동역학이 떠넘긴 부작용. falls가 손댈 수 있는 건 <strong>세 번째 항 <span class="math inline">\(\zeta\)</span> (<span class="math inline">\(=L\)</span>블록 fall 증분의 합 <span class="math inline">\(\sum_k \mathbf{d}^\sharp_k\)</span>)뿐</strong>이다. 그래서 “주어진 <span class="math inline">\(\Delta_1\mathbf{h}(s)\)</span>·<span class="math inline">\(r\)</span> 아래 <span class="math inline">\(u\)</span>에 정확히 착지하려면 falls가 만들어내야 할 증분 합”이 곧 표적 <span class="math inline">\(\zeta = u - \Delta_1\mathbf{h}(s) - r\)</span>이고, 이게 falls의 명중 목표다.</p>
 <p><strong>잔차 <span class="math inline">\(r\)</span>은 어디서 나오나 — “그렇다고 치는” 게 아니다.</strong> <span class="math inline">\(r\)</span>은 자유롭게 고르는 값이 아니라, <span class="math inline">\(nL\)</span>라운드 동안 <strong>non-fall(flow·block) 스텝이 높이차에 보탠 누적 변위</strong>다 (페이퍼: <span class="math inline">\(r = R_{\mathbf{v}^\flat}(\mathbf{b}^\flat)\)</span>, non-fall 증분 <span class="math inline">\(\mathbf{b}^\flat\)</span>의 결정론적 선형 함수 — 동역학이 정한다). 상한 <span class="math inline">\(\|r\|_\infty \leq \tfrac{Lb}{8}\)</span>은 임의로 박은 게 아니라 <strong>“스텝 수 <span class="math inline">\(\times\)</span> 한 스텝 크기”</strong>로 나온다. 증명이 non-fall을 억누른 사건 <span class="math inline">\(\mathcal{A}^\flat\)</span> 위에서만 작업하므로 각 스텝이 <span class="math inline">\(\leq \varepsilon_{\rm D}\)</span>로 작다:</p>
 <table class="caption-top table">
 <colgroup>
@@ -462,7 +465,7 @@ window.Quarto = {
 </table>
 <p>(다섯 행 모두 <span class="math inline">\(u\)</span>는 chamber 중심 <span class="math inline">\(\tfrac{b}{128n}(1,2) = (\tfrac1{384},\tfrac1{192}) \approx (0.003,\,0.005)\)</span>로 고정 — <strong>정확히 <span class="math inline">\(0\)</span>이 아니라</strong> 등호 초평면을 피한 미세 offset이라, 그 꼬리가 <span class="math inline">\(\zeta\)</span>의 셋째 자리에 그대로 남는다. 예: A는 <span class="math inline">\((-2,2)\)</span>가 아니라 <span class="math inline">\((-1.997,\,2.005)\)</span>.)</p>
 <p>A는 손잡이를 거의 안 돌린 <strong>중심 근처 변위</strong>(falls가 살짝만 밀면 됨), E는 셋을 모두 극단으로 돌린 <strong>숙제 목록의 가장 먼 표적</strong>. 도착지 <span class="math inline">\(U\)</span>는 원점 근처 <span class="math inline">\(\pm0.006\)</span>짜리 점만 한 요새지만, “<span class="math inline">\(-\Delta_1\mathbf{h}(s)\)</span> (최대 <span class="math inline">\(4\)</span>)”와 “<span class="math inline">\(-r\)</span> (최대 <span class="math inline">\(8.125\)</span>)” 두 손잡이가 그걸 <strong><span class="math inline">\(\pm12\)</span>짜리 큰 집합으로 부풀린 게</strong> <span class="math inline">\(K_U\)</span>다. 아래 그림이 그 집합 전체(보라 zonotope)와 표적 A–E가 도달역 안에 어떻게 드는지 보여준다.</p>
-<div id="c6b10373" class="cell" data-execution_count="5">
+<div id="274bb4b3" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -489,7 +492,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="1409857f" class="cell" data-execution_count="6">
+<div id="04426d06" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
