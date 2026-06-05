@@ -206,24 +206,29 @@ axA.set_xlabel(XL, fontsize=8.5); axA.set_ylabel(YL, fontsize=8.5)
 axA.set_title(r'(A) $C_0$ (big) $\supset$ one-block reach (small)', fontsize=8.5)
 axA.tick_params(labelsize=6.5)
 
-# ---- Panel B: zoom at s — reach (hexagon) contains density box O ----
-axB.add_patch(Polygon(reachv, closed=True, facecolor='#eafaf0',
-                      edgecolor='#27ae60', lw=1.6, zorder=1))
-axB.add_patch(plt.Rectangle((old[0]-q, old[1]-q), 2*q, 2*q,
-              facecolor='#e8f0ff', edgecolor='#2980b9', ls='--', lw=1.5, zorder=2))
-axB.scatter(*old, s=46, color='#c0392b', zorder=4)
-for dx,dy in [(0.1,-0.1),(-0.15,0.15),(0.2,0.05)]:
-    axB.scatter(old[0]+dx, old[1]+dy, s=16, color='#27ae60', zorder=5)
-axB.text(2.0, -0.85, r'reach: range $\leq b{=}1$', color='#1e7e44',
-         ha='center', fontsize=8)
-axB.annotate(r'$\mathcal{O}$: density $\geq\tfrac12$', xy=(2.22,-2.2), xytext=(2.6,-3.05),
-             color='#2980b9', fontsize=8,
-             arrowprops=dict(arrowstyle='->', color='#2980b9', lw=1.0))
+# ---- Panel B: zoom at s — one-block density f shaded (high at center, ->0 at hexagon edge) ----
+import numpy as np
+gx = np.linspace(0.7, 3.3, 260); gy = np.linspace(-3.3, -0.7, 260)
+GX, GY = np.meshgrid(gx, gy)
+Y1 = GX - old[0]; Y2 = GY - old[1]              # increment = position - s
+lo = np.maximum.reduce([np.zeros_like(Y1), -Y1, -Y2])
+hi = np.minimum.reduce([np.ones_like(Y1), 1-Y1, 1-Y2])
+F = np.clip(hi - lo, 0.0, None)                 # one-block increment density f
+cf = axB.contourf(GX, GY, F, levels=np.linspace(0, 1, 11), cmap='Greens', zorder=0)
+axB.add_patch(Polygon(reachv, closed=True, fill=False, edgecolor='#1e7e44', lw=1.5, zorder=2))
+axB.add_patch(plt.Rectangle((old[0]-q, old[1]-q), 2*q, 2*q, fill=False,
+              edgecolor='#2980b9', ls='--', lw=1.7, zorder=3))
+axB.scatter(*old, s=40, color='#c0392b', zorder=5)
+axB.text(2.0, -0.83, r'shade $=$ density $f$ ($f{=}1$ at center, $\to0$ at edge)',
+         color='#1e7e44', ha='center', fontsize=7)
+axB.annotate(r'$\mathcal{O}$: $f\geq\tfrac12$', xy=(2.22,-2.2), xytext=(2.62,-3.08),
+             color='#2980b9', fontsize=8, arrowprops=dict(arrowstyle='->', color='#2980b9', lw=1.0))
 axB.text(1.97,-2.02, r'$(2,-2)$', color='#c0392b', ha='right', va='center', fontsize=7.5)
+cb = fig.colorbar(cf, ax=axB, fraction=0.046, pad=0.03); cb.ax.tick_params(labelsize=5.5)
 axB.set_xlim(0.7,3.3); axB.set_ylim(-3.3,-0.7); axB.set_aspect('equal')
 axB.set_xlabel(XL, fontsize=8.5); axB.set_ylabel(YL, fontsize=8.5)
 axB.set_xticks([1,1.75,2,2.25,3]); axB.set_yticks([-3,-2.25,-2,-1.75,-1])
-axB.set_title(r'(B) zoom at $s$: reach $\supset\mathcal{O}$ (box $\pm\tfrac14$)', fontsize=8.5)
+axB.set_title(r'(B) zoom at $s$: density $f$ ($\mathcal{O}=\{f\geq\tfrac12\}$)', fontsize=8.5)
 axB.tick_params(labelsize=6)
 plt.tight_layout()
 import os
