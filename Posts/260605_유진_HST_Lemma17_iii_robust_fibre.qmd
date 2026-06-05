@@ -1,0 +1,179 @@
+---
+title: "연구 ▷ HST ▷ Lemma 17 (iii) 하나만 천천히 — robust fibre floor"
+author: 유진
+date: 2026-06-05
+output-file: 260605_2fcb7a.html
+fontsize: 0.85em
+draft: false
+# 판정: (A) 학습·이해용 — Doeblin minorization 증명의 (iii) robust fibre floor 단계만 concrete 예시로 천천히 + ε_D 연결
+---
+
+**한 줄**: (iii)은 "fall 적립만으로 어떤 목표든 **부피가 양수인 한 묶음**의 방법으로 맞힐 수 있다"를 보이는 단계다. 핵심은 목표가 도달 가능 영역 **안쪽**에 있어야 하고, 그 묶음에서 **위험한 가장자리를 잘라낸 robust 코어**도 여전히 양의 부피를 남긴다는 것.
+
+---
+
+**H.** Lemma 17 (iii), 다른 단계랑 떼어놓고 보면 도대체 뭘 하는 거야?
+
+**G.** 한 문장으로: **"falls(목표를 맞히는 적립)만으로, 우리가 원하는 어떤 목표 $y$든, 그걸 맞히는 적립 조합이 한 점이 아니라 부피가 양수인 한 덩어리로 존재한다."** 그 덩어리의 부피에 양수 바닥(floor)을 까는 게 (iii)의 전부야.
+
+왜 "한 점"이 아니라 "덩어리"가 중요하냐 — 나중에 그 덩어리 위에서 밀도를 적분해 확률 $\eta$를 만들거든. 점 하나는 부피 0이라 적분하면 0. 덩어리라야 양수 확률이 나와.
+
+---
+
+**H.** "목표를 맞히는 적립 조합" — 이게 무슨 말이야? 구체적으로.
+
+**G.** falls가 $nL$개 있다고 하자. 각 fall이 $[0,b]$ 범위의 적립 $b^{\sharp}_1,\ldots,b^{\sharp}_{nL}$을 쌓아. 이 적립 벡터를 선형사상 $\Sigma$가 높이차 변위로 보내:
+
+$$\Sigma: [0,b]^{nL} \to \mathbb{R}^{d}, \qquad d = n-1.$$
+
+입력이 $nL$개, 출력이 $d$개인데 **$nL$이 $d$보다 훨씬 많아** (falls가 많으니까). 그래서 $\Sigma$는 납작한(fat) 사상이고, 목표 $y$를 맞히는 입력이 **하나가 아니라 한 무더기**야. 그 무더기가
+
+$$\text{fibre} \;=\; [0,b]^{nL} \cap \Sigma^{-1}(y) \;=\; \{\,\mathbf{b}^{\sharp}\in[0,b]^{nL} : \Sigma\mathbf{b}^{\sharp} = y\,\}.$$
+
+"fibre(올, 섬유)"는 그냥 **목표 $y$로 가는 입력들의 집합**이야. 차원은 $m := nL - d$ (자유도 = 입력 수 − 제약 수).
+
+---
+
+**H.** 너무 추상적이야. 작은 그림으로.
+
+**G.** $\Sigma$를 **합(sum)**이라고 치자 (가장 단순한 fat 사상, $d=1$). 손잡이(knob) 두 개 $b^{\sharp}_1, b^{\sharp}_2 \in [0,b]$, 목표는 $b^{\sharp}_1 + b^{\sharp}_2 = y$. 그럼 fibre는 정사각형 $[0,b]^2$를 가로지르는 **선분**이야.
+
+```{python}
+#| echo: false
+import matplotlib.pyplot as plt
+import numpy as np
+
+plt.rcParams.update({
+    'text.usetex': True, 'font.size': 9,
+    'text.latex.preamble': r'\usepackage{amsmath,amsfonts,amssymb}'
+})
+
+fig, (axA, axB) = plt.subplots(1, 2, figsize=(8, 4))
+
+# ---- Panel A: fibre = slice; interior vs extreme target ----
+for ax in (axA, axB):
+    ax.add_patch(plt.Rectangle((0, 0), 1, 1, fill=False, edgecolor='black', lw=1.6))
+    ax.set_xlim(-0.12, 1.18); ax.set_ylim(-0.12, 1.18)
+    ax.set_aspect('equal'); ax.axis('off')
+
+# good target y=0.9 : long chord
+axA.plot([0, 0.9], [0.9, 0], color='#2980b9', lw=3, zorder=3)
+axA.text(0.30, 0.66, r'good $y$: long fibre', color='#2980b9', fontsize=8.5, rotation=-45)
+# extreme target y=1.8 : tiny chord near corner
+axA.plot([0.8, 1.0], [1.0, 0.8], color='#c0392b', lw=3, zorder=3)
+axA.text(0.02, 1.10, r'extreme $y$: tiny fibre', color='#c0392b', fontsize=8.5)
+axA.annotate('', xy=(0.87, 0.91), xytext=(0.45, 1.08),
+             arrowprops=dict(arrowstyle='->', color='#c0392b', lw=1.0))
+axA.text(-0.02, 1.07, r'$b^{\sharp}_2$', fontsize=9)
+axA.text(1.06, -0.02, r'$b^{\sharp}_1$', fontsize=9)
+axA.text(0.5, -0.12, r'(A) fibre $=\Sigma^{-1}(y)\cap[0,b]^2$, a slice',
+         ha='center', fontsize=9)
+
+# ---- Panel B: robust core (margin delta, tie band cut) ----
+d = 0.16
+axB.add_patch(plt.Rectangle((d, d), 1-2*d, 1-2*d, fill=False,
+                            edgecolor='gray', ls='--', lw=1.2))
+# fibre chord y=0.9
+axB.plot([0, 0.9], [0.9, 0], color='#bbbbbb', lw=2.2, zorder=2)
+# tie line (diagonal b1=b2) + band
+axB.plot([0, 1], [0, 1], color='#e67e22', lw=1.0, ls=':', zorder=2)
+# robust part: chord within inner square AND away from tie point (0.45,0.45)
+# chord param: (t, 0.9-t), t in [0, 0.9]; inner square -> t in [d, 0.9-d]=[0.16,0.74]
+# tie crossing at t=0.45; cut band |t-0.45|<= ~0.09
+import numpy as np
+ts = np.linspace(0.16, 0.74, 200)
+for seg in [ts[ts < 0.36], ts[ts > 0.54]]:
+    if len(seg):
+        axB.plot(seg, 0.9-seg, color='#27ae60', lw=3.4, zorder=4)
+axB.text(0.13, 0.80, r'robust core', color='#27ae60', fontsize=8.5)
+axB.annotate('', xy=(0.25, 0.65), xytext=(0.20, 0.78),
+             arrowprops=dict(arrowstyle='->', color='#27ae60', lw=1.0))
+axB.text(0.62, 0.70, r'tie band (cut)', color='#e67e22', fontsize=8)
+axB.annotate('', xy=(0.47, 0.43), xytext=(0.62, 0.66),
+             arrowprops=dict(arrowstyle='->', color='#e67e22', lw=1.0))
+axB.annotate('', xy=(0, d), xytext=(0, 0), arrowprops=dict(arrowstyle='<->', color='gray', lw=0.9))
+axB.text(-0.10, d/2, r'$\delta$', color='gray', fontsize=9, va='center')
+axB.text(0.5, -0.12, r'(B) cut cube-edge \& tie tubes $\Rightarrow$ robust core',
+         ha='center', fontsize=9)
+
+plt.tight_layout()
+import os
+os.makedirs('results/figures/260605_유진_HST_Lemma17_iii_robust_fibre.qmd', exist_ok=True)
+plt.savefig('results/figures/260605_유진_HST_Lemma17_iii_robust_fibre.qmd/fibre_floor.png',
+            dpi=150, bbox_inches='tight')
+plt.show()
+```
+
+(A)를 봐. 목표 $y=0.9$ (파랑)면 fibre가 정사각형 한가운데를 길게 가로질러 — **길이(=$1$차원 부피)가 큼**. 그런데 $y$가 극단적이면 (빨강, $y=1.8$, 거의 모서리 $(1,1)$ 근처)? fibre가 모서리에 몰린 **짧은 토막**이라 부피가 거의 0. 바닥(floor)을 깔 수 없어.
+
+→ 그래서 **목표가 너무 극단적이면 안 된다**. "안쪽(interior)"에 있어야 fibre가 통통하지.
+
+---
+
+**H.** 그 "안쪽"이 본문의 $\operatorname{int}(L\cdot\mathcal{O})$랑 $K_U^\varrho$ 얘기야?
+
+**G.** 맞아. $L\cdot\mathcal{O}$ = $L$바퀴 falls가 만들 수 있는 변위들의 영역. 그 **내부(interior)**에 목표가 있어야 fibre가 통통하다는 게 보조정리(pushforward density $\geq b^{1-n}/2$ on $\mathcal{O}$ + convolution lower bound)가 보장하는 바야.
+
+근데 우리 목표는 그냥 $y$가 아니라 **residual만큼 밀린** $y = u - \Delta_1\mathbf{h}(s) - \mathbf{r}$이거든 (flow·block이 남긴 잔차 $\mathbf{r}$). 그래서 본문은 **밀린 목표 전부**를 한 집합으로 묶어:
+
+$$K_U^\varrho := \{\,u - \Delta_1\mathbf{h}(s) - \mathbf{r} \;:\; u\in U,\ s\in C_0,\ \|\mathbf{r}\|_\infty \leq Lb/8\,\}.$$
+
+이게 통째로 $\operatorname{int}(L\cdot\mathcal{O})$ 안에 (컴팩트하게) 들어가야 해 — 기호로 $K_U^\varrho \Subset \operatorname{int}(L\cdot\mathcal{O})$. $L \geq 16M_0/b + 1$로 $L$을 키우면 $L\cdot\mathcal{O}$가 충분히 커져서 잔차 반경 $Lb/8$까지 품을 방이 생겨.
+
+**반례로 왜 $L$을 키워야 하나**: $L$이 작으면 $L\cdot\mathcal{O}$가 좁아서, 출발 높이차 $\Delta_1\mathbf{h}(s)$ (최대 $M_0$ 규모)만으로도 목표가 영역 밖으로 튀어나가 — fibre가 쪼그라들어 floor가 0. $L$을 키워야 영역이 넉넉해져 안쪽에 안전하게 들어가.
+
+---
+
+**H.** 좋아, 목표가 안쪽이면 fibre가 통통하다. 그럼 floor $m_0$은?
+
+**G.** "통통하다"를 정량화한 게 floor야:
+
+$$\mathcal{H}^m\bigl([0,b]^{nL} \cap \Sigma^{-1}(y)\bigr) \;\geq\; m_0 > 0 \qquad (\forall\, y \in K_U^\varrho).$$
+
+$\mathcal{H}^m$ = $m$차원 Hausdorff 측도 = 그냥 **fibre의 $m$차원 부피** ($m = nL - d$). 위 그림이면 $m=1$이라 "선분의 길이". 이게 $K_U^\varrho$ 안 **모든** $y$에 대해 공통 하한 $m_0$을 가져 — 목표마다 들쭉날쭉하지 않고 일정 바닥이 깔린다는 게 핵심 ("uniform").
+
+---
+
+**H.** 여기까지가 그냥 fibre. 그럼 "robust"는 왜 또 붙어?
+
+**G.** fibre 안에도 **위험한 점들**이 있어서야. 두 종류를 잘라내:
+
+1. **cube 가장자리 (cube-boundary tube)**: 어떤 fall 적립 $b^{\sharp}_j$가 $0$이나 $b$에 너무 가까운 점. 왜 위험하냐 — 다음 단계 (iv)에서 잔차를 흡수하려고 적립을 살짝 움직이는데, 가장자리에 붙어있으면 $[0,b]$ **밖으로 튕겨나가** 버려. 유효하지 않은 적립이 됨.
+2. **tie tube (높이 비교 동점 근처)**: 두 노드 높이 비교가 거의 동점인 점. 살짝 건드리면 **부호가 뒤집혀** walker 경로(branch)가 바뀌어 버려.
+
+이 위험 지대를 폭 $\delta$ 튜브로 도려낸 게 **robust fibre**:
+
+$$\mathcal{R}_\delta(y,s) := [0,b]^{nL} \cap \Sigma^{-1}(y) \cap \{\delta \leq b^{\sharp}_j \leq b-\delta\ \forall j\} \cap \bigcap_{a}\{|\alpha_a\cdot\mathbf{b}^{\sharp} + \gamma_a(s)| \geq \delta\}.$$
+
+(B) 그림의 초록색이 그거야 — 안쪽 정사각형 $[\delta, b-\delta]^2$ 안에 있으면서 (가장자리 마진 $\delta$) tie 띠(주황)도 피한 부분.
+
+---
+
+**H.** 도려내면 부피가 줄잖아. floor가 깨지지 않아?
+
+**G.** 그게 $\delta$를 **충분히 작게** 잡는 이유야. 잘라내는 튜브들의 부피가 각각 $\leq C\delta$ (tube-bound 보조정리)라, $\delta$를 작게 하면 잘리는 양을 $m_0/2$ 이하로 누를 수 있어:
+
+$$(C_{\rm tie} + C_{\rm bdry})\,\delta \leq m_0/2.$$
+
+그러면 남는 robust fibre가 여전히 절반은 건짐:
+
+$$\mathcal{H}^m\bigl(\mathcal{R}_\delta(y,s)\bigr) \;\geq\; m_* := m_0/2 > 0.$$
+
+→ **이게 (iii)의 최종 산출물**: 위험지대를 다 뺀 뒤에도 양의 부피 바닥 $m_*$가 남는다. 이 $m_*$가 나중에 밀도 floor $c_* = m_*/(b^{nL} J(\Sigma))$로, 결국 $\eta$의 한 인자가 돼.
+
+---
+
+**H.** 그럼 내가 아까 헤맸던 $\varepsilon_{\rm D} \leq b/(8nT_{\max})$랑 $Lb/8$은 (iii)의 어디랑 붙는 거야?
+
+**G.** 두 군데로 붙어 — (iii)이 **방(margin)**을 만들고, $\varepsilon_{\rm D}$가 잔차를 **그 방 안에 넣는** 거야.
+
+1. **목표가 안쪽에 들도록**: 잔차 $\mathbf{r}$이 목표를 밀어도 $K_U^\varrho$ 안에 있어야 하니 $\|\mathbf{r}\|_\infty \leq Lb/8$. 그래서 잔차를 그만큼 작게 만들려고 $\varepsilon_{\rm D} \leq b/(8nT_{\max})$를 골랐지 ($\|R\|_\infty \leq nLT_{\max}\varepsilon_{\rm D} \leq Lb/8$로). ← (iii)의 "안쪽" 요구와 직결.
+2. **robust 마진 안에 들도록**: (iv)에서 잔차를 흡수하며 적립을 $\leq \delta/4$만큼 움직이는데, robust fibre가 가장자리·tie에서 $\delta$ 떨어져 있으니 안 튕겨나가. 이 $\delta/4$를 보장하려고 $\varepsilon_{\rm D} \leq \delta/(4 C_Q B_R)$도 같이 걸어.
+
+즉 **(iii)이 "$\delta$만큼 여유 있는 robust 코어"를 깔아주면, $\varepsilon_{\rm D}$를 그 여유보다 작게 골라 잔차가 코어를 안 벗어나게** 하는 구조야. (iii) 없이는 잔차를 넣을 방 자체가 없어.
+
+---
+
+**H.** 한 줄 요약.
+
+**G.** (iii) robust fibre floor는 **"falls만으로 안쪽 목표를 맞히는 적립 덩어리(fibre)가 양의 부피를 갖고, 위험한 가장자리·tie를 $\delta$만큼 도려낸 robust 코어도 여전히 $m_* = m_0/2 > 0$의 부피를 남긴다"**를 보이는 단계다. 목표가 **안쪽**($K_U^\varrho \Subset \operatorname{int}(L\cdot\mathcal{O})$)이어야 fibre가 통통하고, robust 마진 $\delta$가 곧 (iv)에서 잔차를 흡수할 **여유 공간**이 된다 — 그 여유에 잔차를 욱여넣는 게 $\varepsilon_{\rm D} \leq b/(8nT_{\max})$였던 것.
