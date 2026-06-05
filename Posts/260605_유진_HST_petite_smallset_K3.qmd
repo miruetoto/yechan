@@ -91,17 +91,48 @@ $$\bar{\mathcal{X}} \;=\; \mathbb{R}^{n-1} \times V \;=\; \mathbb{R}^2 \times \{
 즉 상태는 $s = (\Delta_1\mathbf{h},\ X)$ — **(높이차 벡터, 현재 노드)** 쌍이다. 우리 예제에선
 $$s = \bigl((2,-2),\ v_1\bigr) \in \bar{\mathcal{X}}.$$
 
-후보 small set은 그 $\bar{\mathcal{X}}$ 안에서 **높이차가 너무 벌어지지 않은 상태들의 부분집합**:
-$$C_0 \;:=\; \{\, s \in \bar{\mathcal{X}} : M(s) \leq M_0 \,\}, \qquad M(s) := (\text{최대 높이}) - (\text{최소 높이}).$$
-여기서 $M$은 **$\Delta_1\mathbf{h}$ 좌표에만** 의존한다 — 현재 노드 $X$와 무관하고, 절대높이를 통째로 평행이동해도 안 변한다. 구체적으로 $\Delta_1\mathbf{h}=(u_1,u_2)$이면 anchored 높이가 $(0, u_1, u_2)$라
-$$M(s) = \max(0, u_1, u_2) - \min(0, u_1, u_2).$$
-따라서 $C_0$는 $\bar{\mathcal{X}}$에서 "$\Delta_1\mathbf{h}$가 어떤 띠(band) 안, 노드 $X$는 자유"인 집합: $C_0 = \{(u_1,u_2) : \max(0,u_1,u_2)-\min(0,u_1,u_2)\leq M_0\} \times V$.
+후보 small set은 **높이차 범위가 $M_0$ 이하인 상태들**. 좌표 약자로 $u_1 := h(v_2)-h(v_1)$, $u_2 := h(v_3)-h(v_1)$ ($\Delta_1\mathbf{h}=(u_1,u_2)$)라 두면, 범위 $M(s)$는 anchored 높이 $\{0, u_1, u_2\}$의 최대−최소 = 최대 pairwise 거리:
+$$M(s) = \max\bigl(|u_1|,\ |u_2|,\ |u_1 - u_2|\bigr).$$
+따라서 **closed form**으로 ($M$은 $\Delta_1\mathbf{h}$ 좌표에만 의존, 노드 $X$는 자유):
+$$C_0 = \bigl\{\, (u_1,u_2) : |u_1| \leq M_0,\ |u_2| \leq M_0,\ |u_1 - u_2| \leq M_0 \,\bigr\} \times V$$
+— 세 띠의 교집합인 **육각형** $\times V$. 이 예제 $M_0 := 4$. 우리 $s=(2,-2)$: $(|u_1|, |u_2|, |u_1-u_2|) = (2, 2, 4)$ 모두 $\leq 4$ → $s \in C_0$ (마지막이 $=4$라 육각형 **경계** 위).
 
-우리 예제: $\Delta_1\mathbf{h}=(2,-2)$라 anchored 높이 $(0, 2, -2)$,
-$$M(s) = \max(0,2,-2) - \min(0,2,-2) = 2 - (-2) = 4$$
-(절대높이로 봐도 $\max(5,7,3)-\min(5,7,3) = 7-3 = 4$, 같은 값).
+```{python}
+#| echo: false
+import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
 
-$M_0$의 정체는 Foster 문턱 $M_0 = 2C_{M^2}/\varepsilon_F$ (drift 보조정리에서 옴)인데, 그 **숫자**는 snowfall 분포 $\boldsymbol{\mu}_0$와 drift 상수가 있어야 나온다. 구성은 $M_0$이 **어떤 고정 상수든** 동일하게 작동하므로, 이 예제에선 구체적으로 $M_0 = 4$ (즉 $C_0 = \{M \leq 4\}$)로 잡는다. 이는 우리 $s$ (range $4$)가 $C_0$에 들어가는 **최소값**이라 — $s$는 $C_0$의 **경계**(가장 불균형한 worst case)에 놓인다. 그래서 falls가 높이차를 가장 크게 끌어내려야 하는 대표 케이스고, 출발점으로 딱 좋다. $M(s)=4 \leq 4$ → **$s \in C_0$.**
+plt.rcParams.update({
+    'text.usetex': True, 'font.size': 9,
+    'text.latex.preamble': r'\usepackage{amsmath,amsfonts,amssymb}'
+})
+
+fig, ax = plt.subplots(figsize=(4.6, 4.6))
+M0 = 4
+verts = [(4,0),(4,4),(0,4),(-4,0),(-4,-4),(0,-4)]
+ax.add_patch(Polygon(verts, closed=True, facecolor='#e8f0ff',
+                     edgecolor='#2980b9', lw=1.8, zorder=1))
+# our state on the boundary
+ax.scatter(2, -2, s=55, color='#c0392b', zorder=4)
+ax.text(2.25, -2.25, r'$(2,-2)$', color='#c0392b', fontsize=9, ha='left', va='top')
+# edge labels (active constraints)
+ax.text(2.7, -1.0, r'$|u_1{-}u_2|{=}4$', color='#2980b9', fontsize=7.5, rotation=45)
+ax.text(4.05, 2.0, r'$u_1{=}4$', color='#2980b9', fontsize=7.5, rotation=90)
+ax.text(2.0, 4.1, r'$u_2{=}4$', color='#2980b9', fontsize=7.5)
+ax.axhline(0, color='#cccccc', lw=0.6); ax.axvline(0, color='#cccccc', lw=0.6)
+ax.set_xlim(-5.5, 5.5); ax.set_ylim(-5.5, 5.5); ax.set_aspect('equal')
+ax.set_xlabel(r'$h(v_2)-h(v_1)$', fontsize=8.5); ax.set_ylabel(r'$h(v_3)-h(v_1)$', fontsize=8.5)
+ax.set_title(r'$C_0$: $|u_1|,|u_2|,|u_1{-}u_2|\leq 4$ \ ($u_i{=}h(v_{i+1}){-}h(v_1)$)', fontsize=8.5)
+ax.tick_params(labelsize=7)
+plt.tight_layout()
+import os
+os.makedirs('results/figures/260605_유진_HST_petite_smallset_K3.qmd', exist_ok=True)
+plt.savefig('results/figures/260605_유진_HST_petite_smallset_K3.qmd/C0_region.png',
+            dpi=150, bbox_inches='tight')
+plt.show()
+```
+
+이 육각형이 $C_0$($\times$ 노드 $V$) — 세 높이차 $h(v_2)-h(v_1)$, $h(v_3)-h(v_1)$, $|u_1-u_2|$가 모두 $M_0=4$ 이하인 상태들이며, 출발 $s=(2,-2)$는 $|u_1-u_2|=4$ 변(=$C_0$의 경계, 가장 불균형한 worst case)에 놓인다.
 
 ---
 
@@ -109,8 +140,12 @@ $M_0$의 정체는 Foster 문턱 $M_0 = 2C_{M^2}/\varepsilon_F$ (drift 보조정
 
 falls가 높이차를 끌고 갈 **목표 영역**을 세 겹으로 잡는다. 전부 $\Delta_1\mathbf{h}$가 사는 $\mathbb{R}^2$ ($y$-공간)의 부분집합이다. $b=1$, $n=3$을 대입한다.
 
-**① $\mathcal{O}$ — 한 블록 fall이 밀도를 까는 (증분) 영역.**
+**① $\mathcal{O}$ — 한 블록 증분의 밀도가 양수 하한을 갖는 영역.**
 $$\mathcal{O} := \{\,\|\mathbf{y}\|_\infty < b/4\,\} = (-\tfrac14, \tfrac14)^2.$$
+
+**용어 정의 ("밀도 하한").** 한 블록 증분 $Y_1 = (b^{\sharp}_2 - b^{\sharp}_1,\ b^{\sharp}_3 - b^{\sharp}_1)$ ($b^{\sharp}_i \sim \mathrm{Unif}(0,b)$ 독립)의 확률밀도를 $f$라 하자. pushforward 보조정리가
+$$f(y) \;\geq\; \frac{b^{1-n}}{2} = \frac12 \qquad (\forall\, y \in \mathcal{O})$$
+를 보장한다. 동치로, 임의의 가측 $B \subseteq \mathcal{O}$에 대해 $\mathbb{P}(Y_1 \in B) \geq \tfrac12\,|B|_{\mathrm{Leb}}$. **이 "밀도 $f$가 $\mathcal{O}$ 위에서 양수 상수 $\tfrac12$ 이상"이 앞으로 쓸 *밀도 하한(floor)*의 정확한 뜻**이다 (양수란 게 핵심; 어디서도 $0$으로 안 꺼짐).
 
 핵심은 $\mathcal{O}$가 **위치가 아니라 "한 블록이 만드는 $\Delta_1\mathbf{h}$의 증분(이동량)"의 영역**이라는 점이다. 우리 예제로 "$\Delta_1\mathbf{h}(s)=(2,-2)$가 한 블록 뒤 어떻게 바뀌나"를 직접 따라가자.
 
@@ -131,7 +166,11 @@ $$
 - $b^{\sharp} = (0.7,\ 0.55,\ 0.85)$ → 증분 $(-0.15,\ 0.15)$ → $(1.85, -1.85)$. 역시 $\mathcal{O}$ 안.
 - $b^{\sharp} = (0.5,\ 0.9,\ 0.3)$ → 증분 $(0.4,\ -0.2)$. 첫 성분 $0.4 > \tfrac14$ 라 $\mathcal{O}$ **밖** — 가능은 하지만 밀도 보장 안 됨.
 
-왜 $\mathcal{O}$ 위에서만 밀도 $\geq b^{1-n}/2 = \tfrac12$인가 (pushforward 보조정리): 증분 밀도는 $b^{\sharp}_1$을 적분해 없앤 것인데, 모든 $|b^{\sharp}_i - b^{\sharp}_1| < b/4$일 때 적분 구간이 길이 $\geq b/2$를 품어 밀도가 $\geq b^{1-n}/2$로 떨어진다 ($b{=}1, n{=}3$이라 $\tfrac12$). 그 조건이 정확히 $\widetilde{\mathbf{b}}^{\sharp} \in \mathcal{O}$.
+위 밀도 하한의 유도 (왜 $\mathcal{O}$ 위에서만 $f \geq \tfrac12$인가): 증분 밀도 $f$는 $b^{\sharp}_1$을 적분해 없앤 것인데, 모든 $|b^{\sharp}_i - b^{\sharp}_1| < b/4$일 때 적분 구간이 길이 $\geq b/2$를 품어 $f \geq b^{1-n}/2$로 떨어진다 ($b{=}1, n{=}3$이라 $\tfrac12$). 그 조건이 정확히 $\widetilde{\mathbf{b}}^{\sharp} \in \mathcal{O}$.
+
+**주의 — $\mathcal{O}$는 "한 블록으로 갈 수 있는 전부"가 아니다.** 증분 $\widetilde{\mathbf{b}}^{\sharp} = (b^{\sharp}_2 - b^{\sharp}_1,\ b^{\sharp}_3 - b^{\sharp}_1)$은 각 $b^{\sharp}_i \in [0,b]$라, 실제 **도달 영역**은 박스가 아니라 **육각형**
+$$\{\, (x,y) : |x| \leq b,\ |y| \leq b,\ |x - y| \leq b \,\}$$
+이다 (증분도 높이차 벡터라 range $\leq b=1$ — $C_0$와 똑같은 모양!). 예컨대 모서리 $(b, -b)$는 $b^{\sharp}_1$을 공유하는 제약 때문에 도달 불가($|x-y|=2b > b$). 박스 $\mathcal{O}$(한 좌표 $\pm b/4$)는 그 육각형 **안쪽의 밀도 $\geq \tfrac12$ 보장 부분**일 뿐이다. 증명이 박스만 쓰는 이유: 깔끔한 밀도 하한 $b^{1-n}/2$가 거기서만 나오기 때문 (육각형 안·박스 밖은 밀도가 양수지만 그 하한은 안 나옴). 아래 그림은 (A) **큰 $C_0$ 안에 한 블록 도달역(작은 육각형)이 작게 들어있는 모습** — 둘 다 "range ≤ 상수" 꼴이라 닮았지만 $C_0$는 원점 중심·크기 $M_0{=}4$, 도달역은 $s{=}(2,-2)$ 중심·크기 $b{=}1$로 별개 — 과 (B) 그 도달역 줌인(도달 육각형 $\supset$ 밀도박스 $\mathcal{O}$)을 보여준다.
 
 ```{python}
 #| echo: false
@@ -142,46 +181,50 @@ plt.rcParams.update({
     'text.latex.preamble': r'\usepackage{amsmath,amsfonts,amssymb}'
 })
 
-fig, ax = plt.subplots(figsize=(5.8, 4.6))
-old = (2, -2)
-q = 0.25  # b/4
-# O-neighborhood around old = where Delta_1 h lands after 1 block (with density)
-ax.add_patch(plt.Rectangle((old[0]-q, old[1]-q), 2*q, 2*q,
-             fill=False, edgecolor='#2980b9', ls='--', lw=1.5))
-# guide lines to edge values
-for xv in (1.75, 2.25):
-    ax.plot([xv, xv], [-2.62, -2.25], color='#2980b9', ls=':', lw=0.7)
-for yv in (-1.75, -2.25):
-    ax.plot([1.5, 1.75], [yv, yv], color='#2980b9', ls=':', lw=0.7)
-# four corner coordinates
-corners = {(1.75,-1.75):('right','bottom'), (2.25,-1.75):('left','bottom'),
-           (1.75,-2.25):('right','top'),   (2.25,-2.25):('left','top')}
-for (cxv,cyv),(ha,va) in corners.items():
-    ax.scatter(cxv, cyv, s=14, color='#2980b9', zorder=5)
-    ox = -0.01 if ha=='right' else 0.01
-    oy = 0.012 if va=='bottom' else -0.012
-    ax.text(cxv+ox, cyv+oy, r'$(%.2f,\,%.2f)$' % (cxv,cyv),
-            ha=ha, va=va, color='#2980b9', fontsize=7.5)
-ax.scatter(*old, s=55, color='#c0392b', zorder=4)
-ax.text(1.96, -2.02, r'$(2,-2)$', color='#c0392b', ha='right', va='center', fontsize=8)
-# sample increments inside O
-incs = [(0.1,-0.1), (-0.15,0.15), (0.2,0.05)]
-for dx,dy in incs:
-    new = (old[0]+dx, old[1]+dy)
-    ax.annotate('', xy=new, xytext=old,
-                arrowprops=dict(arrowstyle='->', color='#27ae60', lw=1.2))
-    ax.scatter(*new, s=24, color='#27ae60', zorder=5)
-ax.set_title(r'one block: $\Delta_1\mathbf{h}\mapsto(2,-2)+\widetilde{\mathbf{b}}^{\sharp}$', fontsize=9)
-ax.text(2.0, -2.50,
-        r'$\mathcal{O}=\{\|\mathbf{y}\|_\infty<\tfrac{b}{4}\}$ (open), $\ \tfrac{b}{4}=0.25$',
-        ha='center', fontsize=8)
-ax.text(2.0, -2.60,
-        r'box $=(2,-2)+\mathcal{O}$, corners $(2\pm\tfrac14,\,-2\pm\tfrac14)$',
-        ha='center', fontsize=8)
-ax.set_xlim(1.5, 2.6); ax.set_ylim(-2.7, -1.4); ax.set_aspect('equal')
-ax.set_xlabel(r'$u_1$', fontsize=9); ax.set_ylabel(r'$u_2$', fontsize=9)
-ax.set_xticks([1.75, 2.0, 2.25]); ax.set_yticks([-2.25, -2.0, -1.75])
-ax.tick_params(labelsize=7)
+from matplotlib.patches import Polygon
+fig, (axA, axB) = plt.subplots(1, 2, figsize=(9.2, 4.4))
+old = (2, -2); q = 0.25  # b/4
+XL = r'$h(v_2)-h(v_1)$'; YL = r'$h(v_3)-h(v_1)$'
+reachv = [(old[0]+dx, old[1]+dy) for dx,dy in
+          [(1,0),(1,1),(0,1),(-1,0),(-1,-1),(0,-1)]]
+
+# ---- Panel A: C_0 (big) contains the one-block reach (small) ----
+C0v = [(4,0),(4,4),(0,4),(-4,0),(-4,-4),(0,-4)]
+axA.add_patch(Polygon(C0v, closed=True, facecolor='#eaf1fb',
+                      edgecolor='#2980b9', lw=1.5, zorder=1))
+axA.text(0, 4.5, r'$C_0$: range $\leq M_0{=}4$', color='#2980b9',
+         ha='center', fontsize=8.5)
+axA.add_patch(Polygon(reachv, closed=True, facecolor='#cdebd9',
+                      edgecolor='#27ae60', lw=1.4, zorder=2))
+axA.scatter(*old, s=40, color='#c0392b', zorder=4)
+axA.annotate('1-block reach at $s$\n(range $\\leq b{=}1$)',
+             xy=(2.5,-1.6), xytext=(3.0,1.4), color='#1e7e44', fontsize=7.5,
+             arrowprops=dict(arrowstyle='->', color='#1e7e44', lw=1.0))
+axA.text(2.5,-2.8, r'$s=(2,-2)$', color='#c0392b', fontsize=7.5)
+axA.set_xlim(-5.5,5.5); axA.set_ylim(-5.5,5.5); axA.set_aspect('equal')
+axA.set_xlabel(XL, fontsize=8.5); axA.set_ylabel(YL, fontsize=8.5)
+axA.set_title(r'(A) $C_0$ (big) $\supset$ one-block reach (small)', fontsize=8.5)
+axA.tick_params(labelsize=6.5)
+
+# ---- Panel B: zoom at s — reach (hexagon) contains density box O ----
+axB.add_patch(Polygon(reachv, closed=True, facecolor='#eafaf0',
+                      edgecolor='#27ae60', lw=1.6, zorder=1))
+axB.add_patch(plt.Rectangle((old[0]-q, old[1]-q), 2*q, 2*q,
+              facecolor='#e8f0ff', edgecolor='#2980b9', ls='--', lw=1.5, zorder=2))
+axB.scatter(*old, s=46, color='#c0392b', zorder=4)
+for dx,dy in [(0.1,-0.1),(-0.15,0.15),(0.2,0.05)]:
+    axB.scatter(old[0]+dx, old[1]+dy, s=16, color='#27ae60', zorder=5)
+axB.text(2.0, -0.85, r'reach: range $\leq b{=}1$', color='#1e7e44',
+         ha='center', fontsize=8)
+axB.annotate(r'$\mathcal{O}$: density $\geq\tfrac12$', xy=(2.22,-2.2), xytext=(2.6,-3.05),
+             color='#2980b9', fontsize=8,
+             arrowprops=dict(arrowstyle='->', color='#2980b9', lw=1.0))
+axB.text(1.97,-2.02, r'$(2,-2)$', color='#c0392b', ha='right', va='center', fontsize=7.5)
+axB.set_xlim(0.7,3.3); axB.set_ylim(-3.3,-0.7); axB.set_aspect('equal')
+axB.set_xlabel(XL, fontsize=8.5); axB.set_ylabel(YL, fontsize=8.5)
+axB.set_xticks([1,1.75,2,2.25,3]); axB.set_yticks([-3,-2.25,-2,-1.75,-1])
+axB.set_title(r'(B) zoom at $s$: reach $\supset\mathcal{O}$ (box $\pm\tfrac14$)', fontsize=8.5)
+axB.tick_params(labelsize=6)
 plt.tight_layout()
 import os
 os.makedirs('results/figures/260605_유진_HST_petite_smallset_K3.qmd', exist_ok=True)
@@ -190,11 +233,63 @@ plt.savefig('results/figures/260605_유진_HST_petite_smallset_K3.qmd/oneblock.p
 plt.show()
 ```
 
-한 블록은 $\Delta_1\mathbf{h}$를 $\mathcal{O}$만큼(최대 한 좌표 $\pm\tfrac14$) 살짝 민다. 이 증분이 $L=65$블록 누적되면 (Minkowski 합 $L\cdot\mathcal{O}$, 최대 $\pm 16.25$) $(2,-2)$를 원점의 $U$까지 끌어내릴 수 있다.
+한 블록은 $\Delta_1\mathbf{h}$를 육각형(range $\leq b$)만큼 밀 수 있고, 그중 **밀도 하한 $f \geq \tfrac12$을 갖는** 부분이 박스 $\mathcal{O}$(한 좌표 $\pm\tfrac14$)다.
+
+**밀도 하한의 L블록 버전 (정의).** $L$블록 총 증분 $Y = \sum_{k=1}^{L} Y_k$ (독립 합)의 밀도는 $L$겹 합성곱 $f^{*L}$이고, $\operatorname{int}(L\cdot\mathcal{O})$의 임의의 **컴팩트** 부분집합 $K$에 대해 양수 상수 $c_K$가 존재해
+$$f^{*L}(z) \;\geq\; c_K \;>\; 0 \quad (z \in K), \qquad\text{즉}\qquad \mathbb{P}(Y \in B) \;\geq\; c_K\,|B|_{\mathrm{Leb}}\ \ (B \subseteq K).$$
+주의 두 가지: (i) $c_K$는 한 블록의 $\tfrac12$이 **아니다** — 합성곱을 $L$번 거치며 작아진 양수로, conv-lower 보조정리는 존재만 보장하고 거친 하한은 $c_K \geq (\tfrac{b^{1-n}}{2})^{L}(\omega_d s^d)^{L-1} \sim (\tfrac12)^{65}$ 규모(혹은 더 작음). (ii) floor는 $L\cdot\mathcal{O}$ **전체**가 아니라 **경계에서 떨어진 컴팩트 $K$** 위에서만 — $f^{*L}$은 $L\cdot\mathcal{O}$ 경계로 갈수록 $0$으로 떨어진다.
+
+그래도 핵심은 $c_K > 0$: 이 양수 floor 덕에 $L=65$블록 누적 도달역 $L\cdot\mathcal{O}$($\pm 16.25$)가 $(2,-2)$를 원점의 $U$까지 (밀도를 깔며) 끌어내린다.
 
 **② $L\cdot\mathcal{O}$ — $L$블록이 도달하는 영역 (Minkowski 합).**
 $$L := \Bigl\lceil \tfrac{16M_0}{b} + 1 \Bigr\rceil.$$
 $M_0 = 4$, $b = 1$이라 $L = \lceil 16\cdot 4 + 1 \rceil = 65$. 그러면 $L\cdot\mathcal{O} = (-\tfrac{L}{4}, \tfrac{L}{4})^2 = (-16.25, 16.25)^2$ — **출발 $\Delta_1\mathbf{h}(s)=(2,-2)$를 원점 근처로 끌어내릴 만큼 넉넉**하다. (falls가 채울 변위 $y = u - \Delta_1\mathbf{h}(s) - \mathbf{r} \approx (0,0)-(2,-2) = (-2,2)$가 $\pm 16$ 안에 푹 들어옴.)
+
+```{python}
+#| echo: false
+import matplotlib.pyplot as plt
+plt.rcParams.update({'text.usetex': True, 'font.size': 9,
+    'text.latex.preamble': r'\usepackage{amsmath,amsfonts,amssymb}'})
+
+fig, ax = plt.subplots(figsize=(5.6, 5.2))
+old = (2, -2); R = 16.25; q = 0.25
+# reachable endpoints after L blocks = s + L.O  (big box)
+ax.add_patch(plt.Rectangle((old[0]-R, old[1]-R), 2*R, 2*R, fill=False,
+             edgecolor='#2980b9', ls='--', lw=1.5))
+ax.text(old[0], old[1]+R+0.9, r'$(2,-2)+L\cdot\mathcal{O}$ : reachable after $L{=}65$ blocks',
+        color='#2980b9', ha='center', fontsize=8)
+# one-block box O (tiny at this scale) -- leader line (no arrowhead: it is a label, not a step)
+ax.add_patch(plt.Rectangle((old[0]-q, old[1]-q), 2*q, 2*q, fill=True,
+             facecolor='#cdebd9', edgecolor='#27ae60', lw=1.0, zorder=3))
+ax.annotate(r'one block $\mathcal{O}$ ($\pm\tfrac14$, tiny) -- label, not a step',
+            xy=(old[0]+q, old[1]+q),
+            xytext=(old[0]+4.5, old[1]+4.5), color='#1e7e44', fontsize=7,
+            arrowprops=dict(arrowstyle='-', color='#1e7e44', lw=0.8, ls=':'))
+ax.scatter(*old, s=42, color='#c0392b', zorder=4)
+ax.text(old[0]+1.0, old[1]-2.0, r'$s=(2,-2)$', color='#c0392b', fontsize=8)
+# target U near origin
+ax.scatter(0, 0, s=42, color='#8e44ad', zorder=4)
+ax.text(-0.6, 1.4, r'$U$ (target) $\approx 0$', color='#8e44ad', fontsize=8, ha='right')
+# black arrow = total displacement, achieved over 65 blocks
+ax.annotate('', xy=(0.25,-0.25), xytext=(1.8,-1.8),
+            arrowprops=dict(arrowstyle='->', color='black', lw=1.4))
+ax.text(-7.5, -1.0, 'black arrow $=$ total displacement\n'
+        r'$\approx(-2,2)$, $|\cdot|=2\sqrt2\approx2.83$''\n'
+        r'$=65$ blocks (each step $\leq\tfrac14$)',
+        color='black', fontsize=7, ha='center', va='center')
+ax.set_xlim(-17, 21); ax.set_ylim(-21, 17); ax.set_aspect('equal')
+ax.set_xlabel(r'$h(v_2)-h(v_1)$', fontsize=8.5); ax.set_ylabel(r'$h(v_3)-h(v_1)$', fontsize=8.5)
+ax.set_title(r'(C) $L{=}65$ blocks reach far: $U \subset (2,-2)+L\cdot\mathcal{O}$', fontsize=8.5)
+ax.tick_params(labelsize=6.5)
+plt.tight_layout()
+import os
+os.makedirs('results/figures/260605_유진_HST_petite_smallset_K3.qmd', exist_ok=True)
+plt.savefig('results/figures/260605_유진_HST_petite_smallset_K3.qmd/LO_reach.png',
+            dpi=150, bbox_inches='tight')
+plt.show()
+```
+
+한 블록은 $\mathcal{O}$($\pm\tfrac14$)짜리 작은 걸음이지만, $L=65$번 누적하면 도달 영역이 $\pm 16.25$까지 커져 — 출발 $s=(2,-2)$에서 목표 $U(\approx 0)$가 그 안에 푹 들어온다.
 
 **③ $\mathcal{O}^\dagger$ — 더 빡빡한 안쪽 박스.**
 $$\mathcal{O}^\dagger := \{\,\|\mathbf{y}\|_\infty < b/16\,\} = (-\tfrac{1}{16}, \tfrac{1}{16})^2.$$
@@ -232,7 +327,7 @@ axA.text(0.0009, -0.0042, r'$\{u_1{=}0\}$', color='#e67e22', fontsize=7.5, rotat
 axA.text(0.006, 0.00035, r'$\{u_2{=}0\}$', color='#e67e22', fontsize=7.5)
 axA.text(0.0075, 0.0094, r'$\{u_1{=}u_2\}$', color='#e67e22', fontsize=7.5, rotation=45)
 axA.set_xlim(-Z, Z); axA.set_ylim(-Z, Z); axA.set_aspect('equal')
-axA.set_xlabel(r'$u_1$', fontsize=9); axA.set_ylabel(r'$u_2$', fontsize=9)
+axA.set_xlabel(r'$h(v_2)-h(v_1)$', fontsize=8); axA.set_ylabel(r'$h(v_3)-h(v_1)$', fontsize=8)
 axA.set_title(r'(A) chamber $U$ avoids the 3 lines ($\kappa_U=\tfrac{1}{768}$)', fontsize=8.5)
 axA.tick_params(labelsize=6)
 
@@ -252,7 +347,7 @@ axB.annotate('', xy=(0.15,-0.15), xytext=(1.9,-1.9),
 axB.text(-2.9, 2.4, r'$L\cdot\mathcal{O}$ reaches $\pm16.25$ ($L{=}65$):', fontsize=8)
 axB.text(-2.9, 1.9, r'displacement $(-2,2)$ sits well inside', fontsize=8)
 axB.set_xlim(-S, S); axB.set_ylim(-S, S); axB.set_aspect('equal')
-axB.set_xlabel(r'$u_1$', fontsize=9); axB.set_ylabel(r'$u_2$', fontsize=9)
+axB.set_xlabel(r'$h(v_2)-h(v_1)$', fontsize=8); axB.set_ylabel(r'$h(v_3)-h(v_1)$', fontsize=8)
 axB.set_title(r'(B) falls drive $\Delta_1\mathbf{h}(s)$ into $U$', fontsize=8.5)
 axB.tick_params(labelsize=6)
 
