@@ -146,10 +146,10 @@ falls가 쓰는 영역을 **두 종류**로 나눠 잡는다 (전부 $\Delta_1\m
 두 종류가 같은 $\mathbb{R}^2$에 살아 박스 크기로 "$\mathcal{O}\supset\mathcal{O}^\dagger$"처럼 보이지만, **변위(가) vs 위치(나)라 한 줄로 묶어 읽으면 안 된다** (이 혼동은 ③에서 다시 짚는다). $b=1$, $n=3$.
 
 **① $\mathcal{O}$ — 한 블록 증분의 밀도가 양수 하한을 갖는 영역.**
-$$\mathcal{O} := \{\,\|\mathbf{y}\|_\infty < b/4\,\} = (-\tfrac14, \tfrac14)^2.$$
+$$\mathcal{O} := \{\,\|\xi\|_\infty < b/4\,\} = (-\tfrac14, \tfrac14)^2.$$
 
 **용어 정의 ("밀도 하한").** 한 블록 증분 $Y_1 = (b^{\sharp}_2 - b^{\sharp}_1,\ b^{\sharp}_3 - b^{\sharp}_1)$ ($b^{\sharp}_i \sim \mathrm{Unif}(0,b)$ 독립)의 확률밀도를 $f$라 하자. pushforward 보조정리가
-$$f(y) \;\geq\; \frac{b^{1-n}}{2} = \frac12 \qquad (\forall\, y \in \mathcal{O})$$
+$$f(\xi) \;\geq\; \frac{b^{1-n}}{2} = \frac12 \qquad (\forall\, \xi \in \mathcal{O})$$
 를 보장한다. 동치로, 임의의 가측 $B \subseteq \mathcal{O}$에 대해 $\mathbb{P}(Y_1 \in B) \geq \tfrac12\,|B|_{\mathrm{Leb}}$. **이 "밀도 $f$가 $\mathcal{O}$ 위에서 양수 상수 $\tfrac12$ 이상"이 앞으로 쓸 *밀도 하한(floor)*의 정확한 뜻**이다 (양수란 게 핵심; 어디서도 $0$으로 안 꺼짐).
 
 핵심은 $\mathcal{O}$가 **위치가 아니라 "한 블록이 만드는 $\Delta_1\mathbf{h}$의 증분(이동량)"의 영역**이라는 점이다. 우리 예제로 "$\Delta_1\mathbf{h}(s)=(2,-2)$가 한 블록 뒤 어떻게 바뀌나"를 직접 따라가자.
@@ -174,7 +174,7 @@ $$
 위 밀도 하한의 유도 (왜 $\mathcal{O}$ 위에서만 $f \geq \tfrac12$인가): 증분 밀도 $f$는 $b^{\sharp}_1$을 적분해 없앤 것인데, 모든 $|b^{\sharp}_i - b^{\sharp}_1| < b/4$일 때 적분 구간이 길이 $\geq b/2$를 품어 $f \geq b^{1-n}/2$로 떨어진다 ($b{=}1, n{=}3$이라 $\tfrac12$). 그 조건이 정확히 $\widetilde{\mathbf{b}}^{\sharp} \in \mathcal{O}$.
 
 **주의 — $\mathcal{O}$는 "한 블록으로 갈 수 있는 전부"가 아니다.** 증분 $\widetilde{\mathbf{b}}^{\sharp} = (b^{\sharp}_2 - b^{\sharp}_1,\ b^{\sharp}_3 - b^{\sharp}_1)$은 각 $b^{\sharp}_i \in [0,b]$라, 실제 **도달 영역**은 박스가 아니라 **육각형**
-$$\{\, (x,y) : |x| \leq b,\ |y| \leq b,\ |x - y| \leq b \,\}$$
+$$\{\, \xi : |\xi_1| \leq b,\ |\xi_2| \leq b,\ |\xi_1 - \xi_2| \leq b \,\}$$
 이다 (증분도 높이차 벡터라 range $\leq b=1$ — $C_0$와 똑같은 모양!). 예컨대 모서리 $(b, -b)$는 $b^{\sharp}_1$을 공유하는 제약 때문에 도달 불가($|x-y|=2b > b$). 박스 $\mathcal{O}$(한 좌표 $\pm b/4$)는 그 육각형 **안쪽의 밀도 $\geq \tfrac12$ 보장 부분**일 뿐이다. 증명이 박스만 쓰는 이유: 깔끔한 밀도 하한 $b^{1-n}/2$가 거기서만 나오기 때문 (육각형 안·박스 밖은 밀도가 양수지만 그 하한은 안 나옴). 아래 그림은 (A) **큰 $C_0$ 안에 한 블록 도달역(작은 육각형)이 작게 들어있는 모습** — 둘 다 "range ≤ 상수" 꼴이라 닮았지만 $C_0$는 원점 중심·크기 $M_0{=}4$, 도달역은 $s{=}(2,-2)$ 중심·크기 $b{=}1$로 별개 — 과 (B) 그 도달역 줌인(도달 육각형 $\supset$ 밀도박스 $\mathcal{O}$)을 보여준다.
 
 ```{python}
@@ -247,7 +247,7 @@ plt.show()
 
 **② $L\cdot\mathcal{O}$ — $L$블록이 도달하는 영역 (Minkowski 합).**
 $$L := \Bigl\lceil \tfrac{16M_0}{b} + 1 \Bigr\rceil.$$
-$M_0 = 4$, $b = 1$이라 $L = \lceil 16\cdot 4 + 1 \rceil = 65$. 그러면 $L\cdot\mathcal{O} = (-\tfrac{L}{4}, \tfrac{L}{4})^2 = (-16.25, 16.25)^2$ — **출발 $\Delta_1\mathbf{h}(s)=(2,-2)$를 원점 근처로 끌어내릴 만큼 넉넉**하다. (falls가 채울 변위 $y = u - \Delta_1\mathbf{h}(s) - \mathbf{r} \approx (0,0)-(2,-2) = (-2,2)$가 $\pm 16$ 안에 푹 들어옴.)
+$M_0 = 4$, $b = 1$이라 $L = \lceil 16\cdot 4 + 1 \rceil = 65$. 그러면 $L\cdot\mathcal{O} = (-\tfrac{L}{4}, \tfrac{L}{4})^2 = (-16.25, 16.25)^2$ — **출발 $\Delta_1\mathbf{h}(s)=(2,-2)$를 원점 근처로 끌어내릴 만큼 넉넉**하다. (falls가 채울 변위 $\xi = u - \Delta_1\mathbf{h}(s) - r \approx (0,0)-(2,-2) = (-2,2)$가 $\pm 16$ 안에 푹 들어옴.)
 
 ```{python}
 #| echo: false
@@ -299,7 +299,7 @@ $$f^{*L}(z) \;\geq\; c_K \;>\; 0 \quad (z \in K), \qquad\text{즉}\qquad \mathbb
 주의 세 가지: (i) $c_K$는 한 블록의 $\tfrac12$이 **아니다** (합성곱은 곱이 아니라 적분이라 $(\tfrac12)^L$과 다름). (ii) floor는 $L\cdot\mathcal{O}$ **전체**가 아니라 **경계에서 떨어진 컴팩트 $K$** 위에서만 — $f^{*L}$은 $L\cdot\mathcal{O}$ 경계로 갈수록 $0$으로 떨어진다. (iii) **$c_K$의 크기 — 사실 $(\tfrac12)^L$보다 훨씬 크다.** Lemma 13이 증명하는 하한 $c_K \geq (\tfrac{b^{1-n}}{2})^{L}(\omega_d s^d)^{L-1}$ 은 "$c_K>0$"만 보이려는 **매우 loose한 과소평가**(지수적으로 작은 값)일 뿐, **실제 $c_K$는 이보다 한참 크다.** 합 $Y$의 분포는 평균 $0$ 주위로 표준편차 $\sqrt{L/6}\approx 3.3$ 퍼지고(CLT), 타깃($|y|\lesssim 12$)은 그 **bulk**에 있어 밀도가 $f^{*L} \sim L^{-d/2}$ — 즉 **다항적**으로만 작다 ($\sim 1/L$). 정리하면 $(\tfrac12)^L$(loose 하한) $\ll$ 실제 $c_K \sim L^{-d/2}$. 증명엔 $c_K>0$만 필요해 loose bound로 충분할 뿐.
 
 **③ $\mathcal{O}^\dagger$ — chamber $U$를 앉히는 안쪽 박스 (위치 영역).**
-$$\mathcal{O}^\dagger := \{\,\|\mathbf{y}\|_\infty < b/16\,\} = (-\tfrac{1}{16}, \tfrac{1}{16})^2.$$
+$$\mathcal{O}^\dagger := \{\,\|\xi\|_\infty < b/16\,\} = (-\tfrac{1}{16}, \tfrac{1}{16})^2.$$
 여기서 한 번 짚고 가자: **$\mathcal{O}^\dagger$는 ① $\mathcal{O}$와 같은 "증분 영역"이 아니다.** falls가 "$\mathcal{O}^\dagger$만큼 민다"는 뜻이 전혀 아니고 (falls는 여전히 $\mathcal{O}$/$L\cdot\mathcal{O}$ 전체를 쓴다), $\mathcal{O}^\dagger$는 **최종 위치 chamber $U$(④)가 들어앉을 박스**다. 그 역할은 하나 — **$U$를 도달역 안쪽에 충분히 작게 가두는 것**:
 
 > $U \Subset \mathcal{O}^\dagger$이면 목표 집합 $K_U^\varrho = \{u - \Delta_1\mathbf{h}(s) - r\}$가 도달역 내부에 컴팩트하게 든다: $K_U^\varrho \Subset \operatorname{int}(L\cdot\mathcal{O})$.
@@ -307,16 +307,16 @@ $$\mathcal{O}^\dagger := \{\,\|\mathbf{y}\|_\infty < b/16\,\} = (-\tfrac{1}{16},
 (또 다른 $U$ 조건인 **등호 초평면 회피**는 $\mathcal{O}^\dagger$ 크기와 무관하므로 ④에서 다룬다.)
 
 **왜 "$U \Subset \mathcal{O}^\dagger \Rightarrow K_U^\varrho \Subset \operatorname{int}(L\cdot\mathcal{O})$"인가.** 목표 집합의 한 점은 세 조각의 합이다:
-$$y \;=\; \underbrace{u}_{\in\, U \subset \mathcal{O}^\dagger} \;-\; \underbrace{\Delta_1\mathbf{h}(s)}_{s\,\in\, C_0} \;-\; \underbrace{r}_{\text{잔차}}.$$
+$$\xi \;=\; \underbrace{u}_{\in\, U \subset \mathcal{O}^\dagger} \;-\; \underbrace{\Delta_1\mathbf{h}(s)}_{s\,\in\, C_0} \;-\; \underbrace{r}_{\text{잔차}}.$$
 각 조각의 크기는: $\|u\|_\infty < \tfrac{b}{16}$ ($\mathcal{O}^\dagger$), $\|\Delta_1\mathbf{h}(s)\|_\infty \leq M_0$ (range $\leq M_0$), $\|r\|_\infty \leq \tfrac{Lb}{8}$ (잔차 예산). 삼각부등식으로
-$$\|y\|_\infty \;\leq\; \|u\|_\infty + \|\Delta_1\mathbf{h}(s)\|_\infty + \|r\|_\infty \;<\; \frac{b}{16} + M_0 + \frac{Lb}{8}.$$
+$$\|\xi\|_\infty \;\leq\; \|u\|_\infty + \|\Delta_1\mathbf{h}(s)\|_\infty + \|r\|_\infty \;<\; \frac{b}{16} + M_0 + \frac{Lb}{8}.$$
 이게 $\operatorname{int}(L\cdot\mathcal{O}) = \{\|\cdot\|_\infty < \tfrac{Lb}{4}\}$ 안에 들려면 $< \tfrac{Lb}{4}$여야 하는데, $L = \lceil 16M_0/b + 1\rceil$이라 $\tfrac{Lb}{8} \geq 2M_0 + \tfrac{b}{8}$이고 남는 margin이
 $$\frac{Lb}{4} - \Bigl(\frac{b}{16} + M_0 + \frac{Lb}{8}\Bigr) = \frac{Lb}{8} - \frac{b}{16} - M_0 \;\geq\; \bigl(2M_0 + \tfrac{b}{8}\bigr) - \tfrac{b}{16} - M_0 = M_0 + \frac{b}{16} \;>\; 0.$$
 양의 margin이 남으니 $K_U^\varrho$가 경계에서 떨어진 채(컴팩트하게) $\operatorname{int}(L\cdot\mathcal{O})$ 안에 든다.
 
 **K3 수치로 확인** ($M_0 = 4$, $b = 1$, $L = 65$):
 $$\|u\|_\infty < \tfrac{1}{16} = 0.0625, \quad \|\Delta_1\mathbf{h}(s)\|_\infty \leq 4, \quad \|r\|_\infty \leq \tfrac{65}{8} = 8.125$$
-$$\Rightarrow \|y\|_\infty < 0.0625 + 4 + 8.125 = 12.19 \;<\; \tfrac{Lb}{4} = 16.25,$$
+$$\Rightarrow \|\xi\|_\infty < 0.0625 + 4 + 8.125 = 12.19 \;<\; \tfrac{Lb}{4} = 16.25,$$
 margin $= 16.25 - 12.19 = 4.06\,(= M_0 + \tfrac{b}{16})$. 즉 목표 전체가 도달역 $\operatorname{int}(L\cdot\mathcal{O})$ 안에 여유 $\sim 4$ 두고 들어간다. (참고: $\mathcal{O}^\dagger$의 $\tfrac{b}{16}$은 이 부등식을 *넉넉히* 충족하는 충분조건일 뿐 — $\|u\|_\infty$는 사실 $M_0 + \tfrac{b}{8}$까지 허용되니 $\mathcal{O}^\dagger$는 과하게 조인 값이다 — 아래 ④의 Remark에서 자세히.)
 
 ```{python}
@@ -339,7 +339,7 @@ axA.add_patch(plt.Rectangle((-0.0625,-0.0625),0.125,0.125, fill=True,
               facecolor='#f3e8ff', edgecolor='#8e44ad', lw=1.7))
 axA.add_patch(plt.Rectangle((cx-rU,cy-rU),2*rU,2*rU, facecolor='#27ae60',
               edgecolor='#1e7e44', lw=1.0, zorder=3))
-axA.text(0, 0.072, r'$\mathcal{O}^\dagger=\{\|y\|_\infty<b/16\}$ ($\pm0.0625$)', color='#8e44ad',
+axA.text(0, 0.072, r'$\mathcal{O}^\dagger=\{\|\xi\|_\infty<b/16\}$ ($\pm0.0625$)', color='#8e44ad',
          ha='center', fontsize=8)
 axA.annotate(r'$U$ (tiny)', xy=(cx,cy), xytext=(0.034,0.042), color='#1e7e44',
              fontsize=8, arrowprops=dict(arrowstyle='->', color='#1e7e44', lw=0.9))
@@ -426,9 +426,9 @@ fall 사상 $\Sigma: [0,1]^{195} \to \mathbb{R}^2$ 가 이 적립을 높이차 �
 
 ### 1. 맨 fibre — "목표 맞히는 적립 조합 전부"
 
-목표 변위 $y$를 맞히는 적립 조합의 집합:
-$$\text{fibre} = \{\mathbf{b}^{\sharp} \in [0,1]^{195} : \Sigma\mathbf{b}^{\sharp} = y\}.$$
-입력 195개에 제약 2개($\mathbb{R}^2$ 방정식)라 **자유도 $195-2 = 193$차원** — $y$를 맞히는 방법이 193차원만큼 많다. 부피는 $\mathcal{H}^{193}$(193차원 Hausdorff 측도)로 재고, Lemma 13(conv-lower)+coarea가 $\mathcal{H}^{193}(\text{fibre}) \geq m_0 > 0$을 준다 (§2②의 floor가 여기로).
+목표 변위 $\xi$를 맞히는 적립 조합의 집합:
+$$\text{fibre} = \{\mathbf{b}^{\sharp} \in [0,1]^{195} : \Sigma\mathbf{b}^{\sharp} = \xi\}.$$
+입력 195개에 제약 2개($\mathbb{R}^2$ 방정식)라 **자유도 $195-2 = 193$차원** — $\xi$를 맞히는 방법이 193차원만큼 많다. 부피는 $\mathcal{H}^{193}$(193차원 Hausdorff 측도)로 재고, Lemma 13(conv-lower)+coarea가 $\mathcal{H}^{193}(\text{fibre}) \geq m_0 > 0$을 준다 (§2②의 floor가 여기로).
 
 ### 2. 왜 맨 fibre로는 부족 — 두 교란을 견뎌야
 
@@ -448,7 +448,7 @@ $$\text{fibre} = \{\mathbf{b}^{\sharp} \in [0,1]^{195} : \Sigma\mathbf{b}^{\shar
 ### 4. robust fibre = 안전한 알짜
 
 세 조건을 다 만족하는 적립 조합:
-$$\mathcal{R}_\delta(y,s) = [0,b]^{195} \cap \underbrace{\Sigma^{-1}(y)}_{①\ \text{목표 맞힘}} \cap \underbrace{\{\delta \leq b^{\sharp}_j \leq b-\delta\}}_{②\ \text{가장자리 회피}} \cap \underbrace{\bigcap_a\{|g_a| \geq \delta\}}_{③\ \text{tie 회피 = 같은 branch}}.$$
+$$\mathcal{R}_\delta(\xi,s) = [0,b]^{195} \cap \underbrace{\Sigma^{-1}(\xi)}_{①\ \text{목표 맞힘}} \cap \underbrace{\{\delta \leq b^{\sharp}_j \leq b-\delta\}}_{②\ \text{가장자리 회피}} \cap \underbrace{\bigcap_a\{|g_a| \geq \delta\}}_{③\ \text{tie 회피 = 같은 branch}}.$$
 
 ### 5. 도려내도 부피가 남는다 (floor 생존)
 
@@ -470,7 +470,7 @@ $\mathcal{R}_\delta$ 위에서는:
 
 이 $m_*$가 밀도 floor $c_* = m_*/(b^{nL} J(\Sigma))$로, 결국 $\eta$의 한 인자가 된다.
 
-**한 줄.** robust fibre = "목표 $y$를 맞히는 195차원 적립조합(fibre, ①) 중 cube 가장자리(②)와 tie 초평면(③) 둘 다에서 $\delta$ 떨어진 안전한 알짜". 위험 튜브를 도려내되 $\delta$를 작게 잡아 양의 부피 $m_*$를 남기고, 그 위에서 transport가 적립 유효성·branch를 견디며 측도를 보존 → 밀도 floor $c_*$를 공급한다.
+**한 줄.** robust fibre = "목표 $\xi$를 맞히는 195차원 적립조합(fibre, ①) 중 cube 가장자리(②)와 tie 초평면(③) 둘 다에서 $\delta$ 떨어진 안전한 알짜". 위험 튜브를 도려내되 $\delta$를 작게 잡아 양의 부피 $m_*$를 남기고, 그 위에서 transport가 적립 유효성·branch를 견디며 측도를 보존 → 밀도 floor $c_*$를 공급한다.
 
 ---
 
