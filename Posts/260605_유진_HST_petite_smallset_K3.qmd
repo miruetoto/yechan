@@ -99,7 +99,9 @@ $$M(s) = \max(0, u_1, u_2) - \min(0, u_1, u_2).$$
 
 우리 예제: $\Delta_1\mathbf{h}=(2,-2)$라 anchored 높이 $(0, 2, -2)$,
 $$M(s) = \max(0,2,-2) - \min(0,2,-2) = 2 - (-2) = 4$$
-(절대높이로 봐도 $\max(5,7,3)-\min(5,7,3) = 7-3 = 4$, 같은 값). $M_0$은 Foster 문턱 $2C_{M^2}/\varepsilon_F$로 큰 상수라, 우리 $s$는 $M(s)=4 \leq M_0$ — **$s \in C_0$.** 좋다, 출발점 확보.
+(절대높이로 봐도 $\max(5,7,3)-\min(5,7,3) = 7-3 = 4$, 같은 값).
+
+$M_0$의 정체는 Foster 문턱 $M_0 = 2C_{M^2}/\varepsilon_F$ (drift 보조정리에서 옴)인데, 그 **숫자**는 snowfall 분포 $\boldsymbol{\mu}_0$와 drift 상수가 있어야 나온다. 구성은 $M_0$이 **어떤 고정 상수든** 동일하게 작동하므로, 이 예제에선 구체적으로 $M_0 = 4$ (즉 $C_0 = \{M \leq 4\}$)로 잡는다. 이는 우리 $s$ (range $4$)가 $C_0$에 들어가는 **최소값**이라 — $s$는 $C_0$의 **경계**(가장 불균형한 worst case)에 놓인다. 그래서 falls가 높이차를 가장 크게 끌어내려야 하는 대표 케이스고, 출발점으로 딱 좋다. $M(s)=4 \leq 4$ → **$s \in C_0$.**
 
 ---
 
@@ -140,26 +142,45 @@ plt.rcParams.update({
     'text.latex.preamble': r'\usepackage{amsmath,amsfonts,amssymb}'
 })
 
-fig, ax = plt.subplots(figsize=(5.4, 4.0))
+fig, ax = plt.subplots(figsize=(5.8, 4.6))
 old = (2, -2)
+q = 0.25  # b/4
 # O-neighborhood around old = where Delta_1 h lands after 1 block (with density)
-ax.add_patch(plt.Rectangle((old[0]-0.25, old[1]-0.25), 0.5, 0.5,
+ax.add_patch(plt.Rectangle((old[0]-q, old[1]-q), 2*q, 2*q,
              fill=False, edgecolor='#2980b9', ls='--', lw=1.5))
-ax.text(old[0]+0.27, old[1]+0.20, r'$(2,-2)+\mathcal{O}$', color='#2980b9', fontsize=9)
+# guide lines to edge values
+for xv in (1.75, 2.25):
+    ax.plot([xv, xv], [-2.62, -2.25], color='#2980b9', ls=':', lw=0.7)
+for yv in (-1.75, -2.25):
+    ax.plot([1.5, 1.75], [yv, yv], color='#2980b9', ls=':', lw=0.7)
+# four corner coordinates
+corners = {(1.75,-1.75):('right','bottom'), (2.25,-1.75):('left','bottom'),
+           (1.75,-2.25):('right','top'),   (2.25,-2.25):('left','top')}
+for (cxv,cyv),(ha,va) in corners.items():
+    ax.scatter(cxv, cyv, s=14, color='#2980b9', zorder=5)
+    ox = -0.01 if ha=='right' else 0.01
+    oy = 0.012 if va=='bottom' else -0.012
+    ax.text(cxv+ox, cyv+oy, r'$(%.2f,\,%.2f)$' % (cxv,cyv),
+            ha=ha, va=va, color='#2980b9', fontsize=7.5)
 ax.scatter(*old, s=55, color='#c0392b', zorder=4)
-ax.text(old[0]-0.02, old[1]-0.34, r'$\Delta_1\mathbf{h}(s)=(2,-2)$', color='#c0392b',
-        ha='center', fontsize=8.5)
+ax.text(1.96, -2.02, r'$(2,-2)$', color='#c0392b', ha='right', va='center', fontsize=8)
 # sample increments inside O
 incs = [(0.1,-0.1), (-0.15,0.15), (0.2,0.05)]
 for dx,dy in incs:
     new = (old[0]+dx, old[1]+dy)
     ax.annotate('', xy=new, xytext=old,
                 arrowprops=dict(arrowstyle='->', color='#27ae60', lw=1.2))
-    ax.scatter(*new, s=28, color='#27ae60', zorder=5)
-ax.text(2.0, -1.45, r'one block: $\Delta_1\mathbf{h}\mapsto(2,-2)+\widetilde{\mathbf{b}}^{\sharp}$',
-        ha='center', fontsize=8.5)
-ax.set_xlim(1.55, 2.55); ax.set_ylim(-2.55, -1.4); ax.set_aspect('equal')
+    ax.scatter(*new, s=24, color='#27ae60', zorder=5)
+ax.set_title(r'one block: $\Delta_1\mathbf{h}\mapsto(2,-2)+\widetilde{\mathbf{b}}^{\sharp}$', fontsize=9)
+ax.text(2.0, -2.50,
+        r'$\mathcal{O}=\{\|\mathbf{y}\|_\infty<\tfrac{b}{4}\}$ (open), $\ \tfrac{b}{4}=0.25$',
+        ha='center', fontsize=8)
+ax.text(2.0, -2.60,
+        r'box $=(2,-2)+\mathcal{O}$, corners $(2\pm\tfrac14,\,-2\pm\tfrac14)$',
+        ha='center', fontsize=8)
+ax.set_xlim(1.5, 2.6); ax.set_ylim(-2.7, -1.4); ax.set_aspect('equal')
 ax.set_xlabel(r'$u_1$', fontsize=9); ax.set_ylabel(r'$u_2$', fontsize=9)
+ax.set_xticks([1.75, 2.0, 2.25]); ax.set_yticks([-2.25, -2.0, -1.75])
 ax.tick_params(labelsize=7)
 plt.tight_layout()
 import os
@@ -173,7 +194,7 @@ plt.show()
 
 **② $L\cdot\mathcal{O}$ — $L$블록이 도달하는 영역 (Minkowski 합).**
 $$L := \Bigl\lceil \tfrac{16M_0}{b} + 1 \Bigr\rceil.$$
-우리 예제는 $M(s)=4 \leq M_0$이라 $M_0 \geq 4$, 따라서 $L \geq \lceil 65 \rceil = 65$. 그러면 $L\cdot\mathcal{O} = (-\tfrac{L}{4}, \tfrac{L}{4})^2 \supseteq (-16.25, 16.25)^2$ — **출발 $\Delta_1\mathbf{h}(s)=(2,-2)$를 원점 근처로 끌어내릴 만큼 넉넉**하다. (falls가 채울 변위 $y = u - \Delta_1\mathbf{h}(s) - \mathbf{r} \approx (0,0)-(2,-2) = (-2,2)$가 $\pm 16$ 안에 푹 들어옴.)
+$M_0 = 4$, $b = 1$이라 $L = \lceil 16\cdot 4 + 1 \rceil = 65$. 그러면 $L\cdot\mathcal{O} = (-\tfrac{L}{4}, \tfrac{L}{4})^2 = (-16.25, 16.25)^2$ — **출발 $\Delta_1\mathbf{h}(s)=(2,-2)$를 원점 근처로 끌어내릴 만큼 넉넉**하다. (falls가 채울 변위 $y = u - \Delta_1\mathbf{h}(s) - \mathbf{r} \approx (0,0)-(2,-2) = (-2,2)$가 $\pm 16$ 안에 푹 들어옴.)
 
 **③ $\mathcal{O}^\dagger$ — 더 빡빡한 안쪽 박스.**
 $$\mathcal{O}^\dagger := \{\,\|\mathbf{y}\|_\infty < b/16\,\} = (-\tfrac{1}{16}, \tfrac{1}{16})^2.$$
