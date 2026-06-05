@@ -30,7 +30,13 @@ draft: false
 - **눈의 단위**: $b = 1$ (한 번에 쌓이는 눈 $\sim \mathrm{Unif}(0,1)$).
 - **시작 고도**: $h(v_1) = 5,\quad h(v_2) = 7,\quad h(v_3) = 3.$
 
-**김.** 절대 고도는 잊어도 돼 — 전황을 가르는 건 **고도차**니까. 상태(state)부터 보자. 스켈레톤 상태공간은 $\bar{\mathcal{X}} = \mathbb{R}^{n-1} \times V$ ($n = 3$이라 $\mathbb{R}^2 \times V$). 두 좌표는:
+> **용어 약속 (falls / non-fall — 이 원정기의 두 진영).** 매 라운드 각 노드에 눈이 한 덩이씩 새로 떨어진다. 이 **노드별 강설 증분** $b^{\sharp}_i \sim \mathrm{Unif}(0,b)$이 *fall*(페이퍼 표기 위첨자 $\sharp$)이고, 본 원정기의 **아군 군대**다 — 우리가 통제해 목표 요새로 밀어붙이는 힘. 반면 강설 외 동역학(이웃 노드로 흘러내리는 *flow*, 뭉쳐 머무는 *block* 등)이 만드는 잔여 교란을 *non-fall*(위첨자 $\flat$)이라 부른다 — falls의 진군을 흩뜨리는 **적의 교란**. §5.2 증명은 *falls가 non-fall을 억눌러($\leq\varepsilon_{\rm D}$) 목표 chamber $U$를 점령*하는 이야기다.
+
+**김.** 절대 고도는 잊어도 돼 — 전황을 가르는 건 **고도차**니까. 상태(state)부터 보자.
+
+> **용어 약속 (라운드 스켈레톤 / 윗줄 $\bar{\,\cdot\,}$ 표기).** 연속적으로 굴러가는 눈 동역학을 **한 라운드 단위로 띄엄띄엄 관찰**한 이산 마르코프 체인을 *라운드 스켈레톤*(round skeleton)이라 한다 (뼈대만 남긴다는 뜻). 앞으로 윗줄 표기 — 상태공간 $\bar{\mathcal{X}}$, 전이커널 $\bar{P}$ — 는 모두 *이 스켈레톤 체인의 것*이다. 예컨대 $\bar{P}^{\,nL}(s,\cdot)$은 "$s$에서 출발해 $nL$라운드 뒤 상태 분포".
+
+스켈레톤 상태공간은 $\bar{\mathcal{X}} = \mathbb{R}^{n-1} \times V$ ($n = 3$이라 $\mathbb{R}^2 \times V$). 두 좌표는:
 
 **(1) 높이차 $\Delta_1\mathbf{h}$** — $v_1$을 기준으로 뺀 anchored 높이차:
 $$\Delta_1\mathbf{h}(s) = \bigl(h(v_2) - h(v_1),\ h(v_3) - h(v_1)\bigr) = (7-5,\ 3-5) = (2, -2).$$
@@ -255,9 +261,12 @@ plt.show()
 
 한 블록은 $\Delta_1\mathbf{h}$를 육각형(range $\leq b$)만큼 밀 수 있고, 그중 **밀도 하한 $f \geq \tfrac12$을 갖는** 부분이 박스 $\mathcal{O}$(한 좌표 $\pm\tfrac14$)다. ($L$블록 누적 버전은 ② 참조.)
 
-**② $L\cdot\mathcal{O}$ — $L$블록이 도달하는 영역 (Minkowski 합).**
-$$L := \Bigl\lceil \tfrac{16M_0}{b} + 1 \Bigr\rceil.$$
-$M_0 = 4$, $b = 1$이라 $L = \lceil 16\cdot 4 + 1 \rceil = 65$. 그러면 $L\cdot\mathcal{O} = (-\tfrac{L}{4}, \tfrac{L}{4})^2 = (-16.25, 16.25)^2$ — **출발 $\Delta_1\mathbf{h}(s)=(2,-2)$를 원점 근처로 끌어내릴 만큼 넉넉**하다. (falls가 채울 변위 $\zeta = u - \Delta_1\mathbf{h}(s) - r \approx (0,0)-(2,-2) = (-2,2)$가 $\pm 16$ 안에 푹 들어옴.)
+**② $L\cdot\mathcal{O}$ — $L$블록이 도달하는 영역 (Minkowski 합). 이하 *도달역*이라 부른다.**
+$$L := \Bigl\lceil \tfrac{16M_0}{b} + 1 \Bigr\rceil, \qquad L\cdot\mathcal{O} := \underbrace{\mathcal{O}+\mathcal{O}+\cdots+\mathcal{O}}_{L\text{개}} = \bigl\{\, x : \|x\|_\infty < \tfrac{Lb}{4} \,\bigr\}.$$
+
+> **정의 (도달역).** 한 블록 증분이 밀도바닥 박스 $\mathcal{O}$ 안에 있을 때, $L$블록을 누적한 총변위가 떨어질 수 있는 곳이 곧 Minkowski 합 $L\cdot\mathcal{O}$다. 이 집합을 **도달역**(reachable region)이라 부른다 — "$L$번 걸어서 닿을 수 있는 모든 점". 출발점 $s$에서 시작하면 도달역은 $s + L\cdot\mathcal{O}$로 평행이동한다.
+
+$M_0 = 4$, $b = 1$이라 $L = \lceil 16\cdot 4 + 1 \rceil = 65$. 그러면 $L\cdot\mathcal{O} = (-\tfrac{L}{4}, \tfrac{L}{4})^2 = (-16.25, 16.25)^2$ — **출발 $\Delta_1\mathbf{h}(s)=(2,-2)$를 원점 근처로 끌어내릴 만큼 넉넉**하다. (falls가 채울 변위 $\zeta = u - \Delta_1\mathbf{h}(s) - r \approx (0,0)-(2,-2) = (-2,2)$가 $\pm 16$ 안에 푹 들어옴. 여기 $r$은 **non-fall 잔차**로 ③에서 정의·범위를 못박는다.)
 
 ```{python}
 #| echo: false
@@ -306,6 +315,7 @@ plt.show()
 
 **밀도 하한의 L블록 버전 (정의).** $L$블록 총 차분 $Y = \sum_{k=1}^{L} Y_k$ (독립 합; $Y_k$ = $k$번째 블록의 차분벡터 $\mathbf{d}^{\sharp}$)의 밀도는 $L$겹 합성곱 $f^{*L}$이고, $\operatorname{int}(L\cdot\mathcal{O})$의 임의의 **컴팩트** 부분집합 $K$에 대해 양수 상수 $c_K$가 존재해
 $$f^{*L}(z) \;\geq\; c_K \;>\; 0 \quad (z \in K), \qquad\text{즉}\qquad \mathbb{P}(Y \in B) \;\geq\; c_K\,|B|_{\mathrm{Leb}}\ \ (B \subseteq K).$$
+
 ::: {.callout-note collapse="true"}
 ## 🔽 접어둔 군사 계산 — $L$겹 바닥 $c_K$는 얼마나 작나 (사실 안 작다)
 
@@ -406,7 +416,8 @@ plt.show()
 (A) $\mathcal{O}^\dagger$(보라, $\pm0.0625$)는 원점 근처 박스이고 등호면 셋이 **원점을 관통**한다 — chamber $U$(초록)가 그 안에 작게 앉는다. (B) 더 줌인하면 $U$가 등호면들에서 $\kappa_U$ 떨어져 있다. *이 그림은 **도착(chamber) 공간**이라 원점 기준이다 (한 블록 reach의 $\mathcal{O}$는 §2①의 $s$-기준 그림 참조).*
 
 **④ $U$ — 실제 목표 chamber.**
-$\mathcal{O}^\dagger$ 안의 작은 $\ell^\infty$-공인데, **final-equality 초평면을 피해서** 잡는다. anchored 전체높이 $\widetilde{u} = (0, u_1, u_2)$ (여기 $u=(u_1,u_2)\in U$)의 세 등호면
+(*chamber*란 등호 초평면 $\{\widetilde{u}_i = \widetilde{u}_j\}$들로 잘려 나온 영역 하나 — 그 안에서는 노드 높이들의 **대소 순서가 고정**된 cell이다. 순서가 안 바뀌어야 fall이 목표를 일관되게 맞힐 수 있다.) $U$는
+$\mathcal{O}^\dagger$ 안의 작은 $\ell^\infty$-공인데, **이 chamber 안에 들도록**(=final-equality 초평면을 피해서) 잡는다. anchored 전체높이 $\widetilde{u} = (0, u_1, u_2)$ (여기 $u=(u_1,u_2)\in U$)의 세 등호면
 $$\{u_1 = 0\},\quad \{u_2 = 0\},\quad \{u_1 = u_2\}$$
 위에선 fall이 목표를 robust하게 못 맞힌다 (퇴화 비교). 그래서 이 셋에서 떨어진 곳에 중심을 둔다:
 $$\text{중심} = \tfrac{b}{128n}(1, 2) = \bigl(\tfrac{1}{384}, \tfrac{1}{192}\bigr) \approx (0.0026,\ 0.0052), \qquad \text{반경 } r_U = \tfrac{1}{1536}.$$
@@ -459,6 +470,8 @@ $$\bar{P}^{\,nL}\bigl(s,\, B \times \{v_3\}\bigr) \;\geq\; \eta\,\frac{|B|_{\mat
 | (v) 조립 | $q_d\,\lvert U\rvert_{\rm Leb}$ | 다섯을 한 번에 적분 |
 
 $$\eta = \mu_{\min}^{nL}\, q_d\,(\varepsilon_{\rm D}/b)^{nLT_{\max}}\, c_*\, \lvert U\rvert_{\rm Leb} > 0.$$
+
+> **기호 한 줄 사전** (상세 유도는 다음 편): $\mu_{\min}$ = cyclic fall 한 스텝의 최소 확률, $\varepsilon_{\rm D}$ = non-fall 교란 허용 상한, $T_{\max}$ = 라운드당 최대 스텝 수, $c_* = m_*/(b^{nL}J(\Sigma))$ = robust fibre가 깔아주는 양의 부피 바닥($m_*$ = fibre floor, $J(\Sigma)$ = 적립→fibre 변환의 야코비안), $q_d$ = 조립 단계의 양의 상수. **다섯 인자 모두 $>0$이라 곱 $\eta>0$.**
 
 이 $\eta>0$이 곧 "$\bar P^{\,nL}(s,\cdot)\geq\eta\,\nu\ (\forall s\in C_0)$" — **$C_0$ 함락 완료, small set 증명 끝**(Lemma 16). 군령 달성.
 
