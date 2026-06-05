@@ -86,12 +86,20 @@ ergodic 정리(Meyn–Tweedie)를 쓰려면 가정 셋이 필요한데, 그중 *
 > 집합 $C$가 **small**이다 $\iff$ 어떤 스텝 수 $m$과 0이 아닌 측도 $\nu$가 있어, $C$ 안 **어디서 출발하든** $m$스텝 뒤 분포가 공통 바닥 $\nu$를 깐다:
 > $$P^m(s, \cdot) \geq \nu(\cdot) \qquad (\forall\, s \in C).$$
 
-후보 small set은 **높이차가 너무 벌어지지 않은 상태들의 모임**:
-$$C_0 := \{\, s : M(s) \leq M_0 \,\}, \qquad M(s) := (\text{최대 높이}) - (\text{최소 높이}).$$
+**먼저 $s$가 어디의 원소인지** 못박자. 라운드 스켈레톤의 상태공간은
+$$\bar{\mathcal{X}} \;=\; \mathbb{R}^{n-1} \times V \;=\; \mathbb{R}^2 \times \{v_1, v_2, v_3\},$$
+즉 상태는 $s = (\Delta_1\mathbf{h},\ X)$ — **(높이차 벡터, 현재 노드)** 쌍이다. 우리 예제에선
+$$s = \bigl((2,-2),\ v_1\bigr) \in \bar{\mathcal{X}}.$$
 
-우리 예제에서 범위 $M(s)$는:
-$$M(s) = \max(5,7,3) - \min(5,7,3) = 7 - 3 = 4.$$
-($\Delta_1\mathbf{h}=(2,-2)$로 보면 anchored 높이 $(0, 2, -2)$의 최대−최소 $= 2-(-2) = 4$, 같은 값.) $M_0$은 Foster 문턱 $2C_{M^2}/\varepsilon_F$로 큰 상수라, 우리 $s$는 $M(s)=4 \leq M_0$ — **$C_0$ 안에 있다.** 좋다, 출발점 확보.
+후보 small set은 그 $\bar{\mathcal{X}}$ 안에서 **높이차가 너무 벌어지지 않은 상태들의 부분집합**:
+$$C_0 \;:=\; \{\, s \in \bar{\mathcal{X}} : M(s) \leq M_0 \,\}, \qquad M(s) := (\text{최대 높이}) - (\text{최소 높이}).$$
+여기서 $M$은 **$\Delta_1\mathbf{h}$ 좌표에만** 의존한다 — 현재 노드 $X$와 무관하고, 절대높이를 통째로 평행이동해도 안 변한다. 구체적으로 $\Delta_1\mathbf{h}=(u_1,u_2)$이면 anchored 높이가 $(0, u_1, u_2)$라
+$$M(s) = \max(0, u_1, u_2) - \min(0, u_1, u_2).$$
+따라서 $C_0$는 $\bar{\mathcal{X}}$에서 "$\Delta_1\mathbf{h}$가 어떤 띠(band) 안, 노드 $X$는 자유"인 집합: $C_0 = \{(u_1,u_2) : \max(0,u_1,u_2)-\min(0,u_1,u_2)\leq M_0\} \times V$.
+
+우리 예제: $\Delta_1\mathbf{h}=(2,-2)$라 anchored 높이 $(0, 2, -2)$,
+$$M(s) = \max(0,2,-2) - \min(0,2,-2) = 2 - (-2) = 4$$
+(절대높이로 봐도 $\max(5,7,3)-\min(5,7,3) = 7-3 = 4$, 같은 값). $M_0$은 Foster 문턱 $2C_{M^2}/\varepsilon_F$로 큰 상수라, 우리 $s$는 $M(s)=4 \leq M_0$ — **$s \in C_0$.** 좋다, 출발점 확보.
 
 ---
 
@@ -99,9 +107,69 @@ $$M(s) = \max(5,7,3) - \min(5,7,3) = 7 - 3 = 4.$$
 
 falls가 높이차를 끌고 갈 **목표 영역**을 세 겹으로 잡는다. 전부 $\Delta_1\mathbf{h}$가 사는 $\mathbb{R}^2$ ($y$-공간)의 부분집합이다. $b=1$, $n=3$을 대입한다.
 
-**① $\mathcal{O}$ — 한 블록 fall이 밀도를 까는 영역.**
+**① $\mathcal{O}$ — 한 블록 fall이 밀도를 까는 (증분) 영역.**
 $$\mathcal{O} := \{\,\|\mathbf{y}\|_\infty < b/4\,\} = (-\tfrac14, \tfrac14)^2.$$
-pushforward 보조정리가 "한 블록(=$n$개 fall)이 만드는 높이차 증분의 밀도가 $\mathcal{O}$ 위에서 $\geq b^{1-n}/2 = \tfrac12$"임을 보장한다. 즉 $\mathcal{O}$는 **한 블록이 확실히 도달하는** 변위 영역.
+
+핵심은 $\mathcal{O}$가 **위치가 아니라 "한 블록이 만드는 $\Delta_1\mathbf{h}$의 증분(이동량)"의 영역**이라는 점이다. 우리 예제로 "$\Delta_1\mathbf{h}(s)=(2,-2)$가 한 블록 뒤 어떻게 바뀌나"를 직접 따라가자.
+
+한 블록 = 각 노드에 fall 하나씩 ($K_3$이라 $v_1, v_2, v_3$에 각각 $b^{\sharp}_1, b^{\sharp}_2, b^{\sharp}_3 \sim \mathrm{Unif}(0,1)$). 그러면 높이가 $h(v_i) \mapsto h(v_i) + b^{\sharp}_i$로 오르고:
+$$
+\begin{aligned}
+\Delta_1\mathbf{h}_{\text{new}}
+&= \bigl(\,(h(v_2){+}b^{\sharp}_2) - (h(v_1){+}b^{\sharp}_1),\ \ (h(v_3){+}b^{\sharp}_3) - (h(v_1){+}b^{\sharp}_1)\,\bigr)\\
+&= \underbrace{\bigl(h(v_2){-}h(v_1),\ h(v_3){-}h(v_1)\bigr)}_{=\,(2,-2)} \;+\; \underbrace{\bigl(b^{\sharp}_2 - b^{\sharp}_1,\ b^{\sharp}_3 - b^{\sharp}_1\bigr)}_{=:\ \text{증분 }\widetilde{\mathbf{b}}^{\sharp}}.
+\end{aligned}
+$$
+
+즉 한 블록의 증분은 $\widetilde{\mathbf{b}}^{\sharp} = (b^{\sharp}_2 - b^{\sharp}_1,\ b^{\sharp}_3 - b^{\sharp}_1)$. **$v_1$에 쌓인 $b^{\sharp}_1$이 모든 차이에서 상쇄**돼, 절대 적립량은 안 남고 **노드 간 상대 차이만** $\Delta_1\mathbf{h}$를 옮긴다. (그래서 pushforward 보조정리가 다루는 양이 deposit 자체가 아니라 차이벡터 $\widetilde{\mathbf{b}}^{\sharp}$인 것.)
+
+수치 예시 ($(2,-2)$에서 출발):
+
+- $b^{\sharp} = (0.5,\ 0.6,\ 0.4)$ → 증분 $(0.6{-}0.5,\ 0.4{-}0.5) = (0.1, -0.1)$ → $(2.1, -2.1)$. 두 성분 다 $|\cdot| < \tfrac14$ 라 $\mathcal{O}$ 안 — **밀도 $\geq \tfrac12$ 보장**.
+- $b^{\sharp} = (0.7,\ 0.55,\ 0.85)$ → 증분 $(-0.15,\ 0.15)$ → $(1.85, -1.85)$. 역시 $\mathcal{O}$ 안.
+- $b^{\sharp} = (0.5,\ 0.9,\ 0.3)$ → 증분 $(0.4,\ -0.2)$. 첫 성분 $0.4 > \tfrac14$ 라 $\mathcal{O}$ **밖** — 가능은 하지만 밀도 보장 안 됨.
+
+왜 $\mathcal{O}$ 위에서만 밀도 $\geq b^{1-n}/2 = \tfrac12$인가 (pushforward 보조정리): 증분 밀도는 $b^{\sharp}_1$을 적분해 없앤 것인데, 모든 $|b^{\sharp}_i - b^{\sharp}_1| < b/4$일 때 적분 구간이 길이 $\geq b/2$를 품어 밀도가 $\geq b^{1-n}/2$로 떨어진다 ($b{=}1, n{=}3$이라 $\tfrac12$). 그 조건이 정확히 $\widetilde{\mathbf{b}}^{\sharp} \in \mathcal{O}$.
+
+```{python}
+#| echo: false
+import matplotlib.pyplot as plt
+
+plt.rcParams.update({
+    'text.usetex': True, 'font.size': 9,
+    'text.latex.preamble': r'\usepackage{amsmath,amsfonts,amssymb}'
+})
+
+fig, ax = plt.subplots(figsize=(5.4, 4.0))
+old = (2, -2)
+# O-neighborhood around old = where Delta_1 h lands after 1 block (with density)
+ax.add_patch(plt.Rectangle((old[0]-0.25, old[1]-0.25), 0.5, 0.5,
+             fill=False, edgecolor='#2980b9', ls='--', lw=1.5))
+ax.text(old[0]+0.27, old[1]+0.20, r'$(2,-2)+\mathcal{O}$', color='#2980b9', fontsize=9)
+ax.scatter(*old, s=55, color='#c0392b', zorder=4)
+ax.text(old[0]-0.02, old[1]-0.34, r'$\Delta_1\mathbf{h}(s)=(2,-2)$', color='#c0392b',
+        ha='center', fontsize=8.5)
+# sample increments inside O
+incs = [(0.1,-0.1), (-0.15,0.15), (0.2,0.05)]
+for dx,dy in incs:
+    new = (old[0]+dx, old[1]+dy)
+    ax.annotate('', xy=new, xytext=old,
+                arrowprops=dict(arrowstyle='->', color='#27ae60', lw=1.2))
+    ax.scatter(*new, s=28, color='#27ae60', zorder=5)
+ax.text(2.0, -1.45, r'one block: $\Delta_1\mathbf{h}\mapsto(2,-2)+\widetilde{\mathbf{b}}^{\sharp}$',
+        ha='center', fontsize=8.5)
+ax.set_xlim(1.55, 2.55); ax.set_ylim(-2.55, -1.4); ax.set_aspect('equal')
+ax.set_xlabel(r'$u_1$', fontsize=9); ax.set_ylabel(r'$u_2$', fontsize=9)
+ax.tick_params(labelsize=7)
+plt.tight_layout()
+import os
+os.makedirs('results/figures/260605_유진_HST_petite_smallset_K3.qmd', exist_ok=True)
+plt.savefig('results/figures/260605_유진_HST_petite_smallset_K3.qmd/oneblock.png',
+            dpi=150, bbox_inches='tight')
+plt.show()
+```
+
+한 블록은 $\Delta_1\mathbf{h}$를 $\mathcal{O}$만큼(최대 한 좌표 $\pm\tfrac14$) 살짝 민다. 이 증분이 $L=65$블록 누적되면 (Minkowski 합 $L\cdot\mathcal{O}$, 최대 $\pm 16.25$) $(2,-2)$를 원점의 $U$까지 끌어내릴 수 있다.
 
 **② $L\cdot\mathcal{O}$ — $L$블록이 도달하는 영역 (Minkowski 합).**
 $$L := \Bigl\lceil \tfrac{16M_0}{b} + 1 \Bigr\rceil.$$
