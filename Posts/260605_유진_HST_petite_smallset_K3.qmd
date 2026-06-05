@@ -414,7 +414,10 @@ samples = {'A': ((2,-2),(0,0)), 'B': ((4,0),(8.125,-8.125)),
 for k,(s_,r_) in samples.items():
     z = u_c - np.array(s_,float) - np.array(r_,float)
     ax.scatter(*z, s=32, color='#c0392b', zorder=7)
-    ax.text(z[0]+0.5, z[1]+0.5, k, color='#c0392b', fontsize=10, zorder=7)
+    dx = 0.8 if z[0] <= 0 else -0.8
+    ha = 'left' if z[0] <= 0 else 'right'
+    lbl = r'%s $(%.1f,\,%.1f)$' % (k, z[0], z[1])
+    ax.text(z[0]+dx, z[1]+0.8, lbl, color='#c0392b', fontsize=7.5, ha=ha, zorder=7)
 ax.axhline(0, color='#dddddd', lw=0.6); ax.axvline(0, color='#dddddd', lw=0.6)
 ax.set_xlim(-19,19); ax.set_ylim(-19,19); ax.set_aspect('equal')
 ax.set_xlabel(r'$\zeta_1$', fontsize=9); ax.set_ylabel(r'$\zeta_2$', fontsize=9)
