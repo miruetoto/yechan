@@ -496,17 +496,20 @@ fig, (axA, axB) = plt.subplots(1, 2, figsize=(9.6, 5.0))
 # ---- (A) position frame ----
 axA.add_patch(plt.Rectangle((s[0]-reach, s[1]-reach), 2*reach, 2*reach,
               fill=False, edgecolor='#2980b9', ls='--', lw=1.4))
+axA.add_patch(Polygon(KU + s, closed=True, facecolor='#f3e8ff',
+              edgecolor='#8e44ad', lw=1.4, alpha=0.6, zorder=1.5))   # s + K_U
 axA.add_patch(Polygon(hexv, closed=True, facecolor='#eafaf0', edgecolor='#27ae60', lw=1.4, zorder=2))
 axA.annotate('', xy=tuple(U), xytext=tuple(s),
              arrowprops=dict(arrowstyle='->', color='black', lw=1.6))
 axA.scatter(*s, s=46, color='#c0392b', zorder=5); axA.text(s[0]+0.4, s[1]-1.0, r'$s=(2,-2)$', color='#c0392b', fontsize=8)
 axA.scatter(*U, s=40, color='#8e44ad', zorder=5); axA.text(U[0]-2.6, U[1]+0.6, r'$U\approx0$', color='#8e44ad', fontsize=8)
 axA.text(0.7, -1.6, r'$\zeta$', color='black', fontsize=11)
+axA.text(-4.8, -7.2, r'$s+K_U$', color='#8e44ad', fontsize=9)
 axA.text(s[0], s[1]+reach+0.5, r'reach $=s+L\cdot\mathcal{O}$', color='#2980b9', ha='center', fontsize=8)
 axA.axhline(0, color='#dddddd', lw=0.5); axA.axvline(0, color='#dddddd', lw=0.5)
 axA.set_xlim(-9,12); axA.set_ylim(-12,9); axA.set_aspect('equal')
 axA.set_xlabel(r'$h(v_2){-}h(v_1)$ (position)', fontsize=8); axA.set_ylabel(r'$h(v_3){-}h(v_1)$', fontsize=8)
-axA.set_title(r'(A) position frame: arrow $s\!\to\!U$', fontsize=8.5)
+axA.set_title(r'(A) position frame: $U\subset s+K_U$ (arrow $s\!\to\!U$)', fontsize=8.5)
 axA.tick_params(labelsize=6.5)
 
 # ---- (B) displacement frame (= A shifted by -s) ----
@@ -534,7 +537,7 @@ plt.savefig('results/figures/260605_유진_HST_petite_smallset_K3.qmd/frames_uni
 plt.show()
 ```
 
-(A)에서 화살표가 가리키는 변위가 (B)에서 점 A로 찍힌다. 단, (B)의 보라 $K_U$는 **이 한 출발 $s$만이 아니라 $C_0$의 모든 출발**까지 union한 집합이라 (A)의 화살표 하나보다 크다 — 출발이 $C_0$ 안에서 움직이면 (B)의 점도 $K_U$ 안을 훑는다.
+(A)에서 화살표가 가리키는 변위가 (B)에서 점 A로 찍힌다. **(A)의 보라 영역이 $s+K_U$** — 즉 $K_U$(변위)를 출발 $s$만큼 평행이동한 위치 집합이고, 도착 $U$($\approx$원점)가 그 안에 든다(**$U \subset s+K_U$**, $u = \mathring{\mathbf h}(s)+\zeta+r$이라). $U$가 변위 그림 (B)에 직접 안 찍히는 이유가 이것 — $U$는 위치라 $K_U$와 만나려면 $s$만큼 옮겨야 한다. 단, (B)의 $K_U$는 **이 한 출발 $s$만이 아니라 $C_0$의 모든 출발**까지 union한 집합이라 (A)의 화살표 하나보다 크다 — 출발이 $C_0$ 안에서 움직이면 (B)의 점도 $K_U$ 안을 훑는다.
 
 ::: {.callout-note collapse="true"}
 ## 🔽 접어둔 군사 계산 — 왜 숙제 목록 $K_U$가 도달역 안에 드나 (삼각부등식 + $K_3$ 수치)
