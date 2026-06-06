@@ -383,71 +383,66 @@ A는 손잡이를 거의 안 돌린 **중심 근처 변위**(falls가 살짝만 
 #| echo: false
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.patches import Polygon
+from matplotlib.patches import Polygon, Rectangle, Patch
 
 plt.rcParams.update({'text.usetex': True, 'font.size': 9,
     'text.latex.preamble': r'\usepackage{amsmath,amsfonts,amssymb}'})
 
-M0 = 2.0; r_bnd = 4.375; reach = 8.75; bb = 8.625
+r_bnd = 4.375; reach = 8.75; bb = 8.625
 u_c = np.array([0.0026, 0.0052])
+starts = [(2,-2),(4,2),(2,4),(-2,2),(-4,-2),(-2,-4)]            # C_0 vertices
+resids = [(0,0),(4.375,-4.375),(-4.375,4.375),(-4.375,-4.375),(4.375,4.375)]
+cols   = ['#1f77b4','#ff7f0e','#e377c2','#d62728','#8c564b','#17becf']
 
-# K_U = U (+) (-C_0 hexagon) (+) (-r box);  -hex == hex (symmetric)
-hexv = [(4,2),(2,4),(-2,2),(-4,-2),(-2,-4),(2,-2)]
-sqv  = [(r_bnd,r_bnd),(r_bnd,-r_bnd),(-r_bnd,-r_bnd),(-r_bnd,r_bnd)]
-pts = [(h[0]+s[0]+u_c[0], h[1]+s[1]+u_c[1]) for h in hexv for s in sqv]
-
+# full K_U hull (reference outline) = (-C_0) (+) residual box (+) U
+sqv = [(r_bnd,r_bnd),(r_bnd,-r_bnd),(-r_bnd,-r_bnd),(-r_bnd,r_bnd)]
+pts = [(u_c[0]-s[0]-q[0], u_c[1]-s[1]-q[1]) for s in starts for q in sqv]
 def convex_hull(P):
     P = sorted(set(P))
-    def cross(o,a,b): return (a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0])
+    def cr(o,a,b): return (a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0])
     lo=[]
     for p in P:
-        while len(lo)>=2 and cross(lo[-2],lo[-1],p)<=0: lo.pop()
+        while len(lo)>=2 and cr(lo[-2],lo[-1],p)<=0: lo.pop()
         lo.append(p)
     up=[]
     for p in reversed(P):
-        while len(up)>=2 and cross(up[-2],up[-1],p)<=0: up.pop()
+        while len(up)>=2 and cr(up[-2],up[-1],p)<=0: up.pop()
         up.append(p)
     return np.array(lo[:-1]+up[:-1])
-
 KU = convex_hull(pts)
 
-fig, ax = plt.subplots(figsize=(6.0, 5.6))
-# reach box int(L.O)
-ax.add_patch(plt.Rectangle((-reach,-reach), 2*reach, 2*reach, fill=False,
+fig, ax = plt.subplots(figsize=(6.6, 6.1))
+# reach + bounding box
+ax.add_patch(Rectangle((-reach,-reach), 2*reach, 2*reach, fill=False,
              edgecolor='#27ae60', lw=1.6, ls='--', zorder=1))
-ax.text(0, reach+0.45, r'reach $\operatorname{int}(L\cdot\mathcal{O})=(-8.75,\,8.75)^2$',
+ax.text(0, reach+0.4, r'reach $\operatorname{int}(L\cdot\mathcal{O})=(-8.75,8.75)^2$',
         color='#1e7e44', ha='center', fontsize=8)
-# bounding box +-8.625
-ax.add_patch(plt.Rectangle((-bb,-bb), 2*bb, 2*bb, fill=False,
-             edgecolor='#aaaaaa', lw=0.9, ls=':', zorder=1))
-ax.text(bb, -bb-0.7, r'$\|\zeta\|_\infty<8.625$', color='#888888', ha='right', fontsize=7.5)
-# K_U zonotope
-ax.add_patch(Polygon(KU, closed=True, facecolor='#f3e8ff',
-             edgecolor='#8e44ad', lw=1.7, zorder=2))
-ax.text(-4.2, -2.2, r'$K_U$', color='#8e44ad', ha='center', va='center',
-        fontsize=15, zorder=5)
-ax.text(-4.2, -3.5, r'$=\{u-\mathring{\mathbf{h}}(s)-r\}$', color='#8e44ad',
-        ha='center', va='center', fontsize=8, zorder=5)
-# origin = zero displacement (NOT U; U is a position, lives in the position frame)
-ax.scatter(0, 0, s=14, color='#888888', zorder=6)
-ax.annotate(r'$\zeta=0$ (no displacement)', xy=(0,0), xytext=(2.4,1.5),
-            color='#888888', fontsize=7,
-            arrowprops=dict(arrowstyle='->', color='#888888', lw=0.7))
-# sample targets
-samples = {'A': ((2,-2),(0,0)), 'B': ((4,2),(4.375,-4.375)),
-           'C': ((-4,-2),(-4.375,4.375)), 'D': ((2,4),(-4.375,-4.375)),
-           'E': ((4,2),(4.375,4.375))}
-for k,(s_,r_) in samples.items():
-    z = u_c - np.array(s_,float) - np.array(r_,float)
-    ax.scatter(*z, s=32, color='#c0392b', zorder=7)
-    dx = 0.45 if z[0] <= 0 else -0.45
-    ha = 'left' if z[0] <= 0 else 'right'
-    lbl = r'%s $(%.1f,\,%.1f)$' % (k, z[0], z[1])
-    ax.text(z[0]+dx, z[1]+0.45, lbl, color='#c0392b', fontsize=7.5, ha=ha, zorder=7)
-ax.axhline(0, color='#dddddd', lw=0.6); ax.axvline(0, color='#dddddd', lw=0.6)
+ax.add_patch(Rectangle((-bb,-bb), 2*bb, 2*bb, fill=False,
+             edgecolor='#bbbbbb', lw=0.8, ls=':', zorder=1))
+# per-start residual boxes (colored) + the 5 residual sample points each
+handles=[]
+for s,col in zip(starts,cols):
+    cx,cy = u_c[0]-s[0], u_c[1]-s[1]                 # box centre = u - h(s)
+    ax.add_patch(Rectangle((cx-r_bnd,cy-r_bnd), 2*r_bnd, 2*r_bnd,
+                 facecolor=col, edgecolor=col, lw=0.9, alpha=0.20, zorder=2))
+    for r in resids:
+        z=(u_c[0]-s[0]-r[0], u_c[1]-s[1]-r[1])
+        ax.scatter(*z, s=22, color=col, edgecolor='white', linewidth=0.4, zorder=6)
+    handles.append(Patch(facecolor=col, edgecolor=col, alpha=0.55,
+                   label=r'$s=(%d,%d)$' % (s[0],s[1])))
+# K_U hull outline (union of all per-start boxes)
+ax.add_patch(Polygon(KU, closed=True, fill=False, edgecolor='#6a1b9a', lw=1.9, zorder=4))
+ax.text(0, 7.2, r'$K_U=\bigcup_s$ (per-start box)', color='#6a1b9a', ha='center', fontsize=8.5, zorder=7)
+# origin
+ax.scatter(0,0, s=12, color='#555555', zorder=7)
+ax.annotate(r'$\zeta=0$', xy=(0,0), xytext=(1.3,1.1), color='#555555', fontsize=7,
+            arrowprops=dict(arrowstyle='->', color='#555555', lw=0.6))
+ax.axhline(0, color='#dddddd', lw=0.5); ax.axvline(0, color='#dddddd', lw=0.5)
 ax.set_xlim(-10,10); ax.set_ylim(-10,10); ax.set_aspect('equal')
 ax.set_xlabel(r'$\zeta_1$ (displacement)', fontsize=9); ax.set_ylabel(r'$\zeta_2$ (displacement)', fontsize=9)
-ax.set_title(r'\textbf{displacement frame}: $K_U \Subset \operatorname{int}(L\cdot\mathcal{O})$ -- targets A--E', fontsize=8.5)
+ax.set_title(r'\textbf{displacement frame}: $K_U$ coloured by start $s$ (6 starts $\times$ 5 residuals)', fontsize=8.5)
+ax.legend(handles=handles, loc='lower left', fontsize=6.0, framealpha=0.92, ncol=2,
+          handlelength=1.1, handletextpad=0.4, columnspacing=0.8)
 ax.tick_params(labelsize=6.5)
 plt.tight_layout()
 import os
@@ -457,7 +452,7 @@ plt.savefig('results/figures/260605_유진_HST_petite_smallset_K3.qmd/KU_rho.png
 plt.show()
 ```
 
-보라 $K_U$는 (육각형 $C_0 \oplus$ 잔차 박스)를 합친 zonotope로, 그 끝($\|\zeta\|_\infty < 8.625$)도 도달역(초록 점선, $8.75$) 안에 **여유 $b/8 = 0.125$** 두고 컴팩트하게 든다. 아래 접이식에 삼각부등식 증명을 둔다.
+각 **색깔이 한 출발 $s$**($C_0$의 6개 꼭짓점)다 — 그 출발의 표적은 중심 $u-\mathring{\mathbf{h}}(s)\approx-s$, 한 변 $\pm Lb/8=\pm4.375$인 **잔차 박스**(점 5개 = 중심+네 모서리). 6개 출발 박스의 **합집합**이 보라 외곽선 $K_U$다 ($6\times5=30$개 표본점). 가장 먼 점도 $\|\zeta\|_\infty\leq8.38<8.75$라 도달역(초록 점선) 안에 **여유 $\sim0.37$** 두고 든다. (출발이 zonotope의 큰 틀을, 잔차가 각 출발 주변 $\pm4.375$를 채움.) 아래 접이식에 삼각부등식 증명을 둔다.
 
 > **좌표계 주의 — 이 그림은 §2②의 도달역 그림과 축이 다르다.** ②(LO_reach)는 **위치 공간**(축 $h(v_i){-}h(v_1)$, 도달역이 출발 $s$ 중심 $s+L\cdot\mathcal{O}$)이고, 이 그림은 **변위 공간** $\zeta$(원점 중심 $\operatorname{int}(L\cdot\mathcal{O})$)다. 둘은 $\zeta = (\text{도착}) - (\text{출발 } s)$로 연결돼 — **②의 화살표 하나(변위 $\approx(-2,2)$)가 여기선 점 하나(A)**다. "위치 = $s + $ 변위"라, 변위 그림은 위치 그림을 $s$만큼 원점으로 끌어온 셈.
 
