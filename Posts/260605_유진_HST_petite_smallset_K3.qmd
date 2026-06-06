@@ -461,6 +461,81 @@ plt.show()
 
 > **좌표계 주의 — 이 그림은 §2②의 도달역 그림과 축이 다르다.** ②(LO_reach)는 **위치 공간**(축 $h(v_i){-}h(v_1)$, 도달역이 출발 $s$ 중심 $s+L\cdot\mathcal{O}$)이고, 이 그림은 **변위 공간** $\zeta$(원점 중심 $\operatorname{int}(L\cdot\mathcal{O})$)다. 둘은 $\zeta = (\text{도착}) - (\text{출발 } s)$로 연결돼 — **②의 화살표 하나(변위 $\approx(-2,2)$)가 여기선 점 하나(A)**다. "위치 = $s + $ 변위"라, 변위 그림은 위치 그림을 $s$만큼 원점으로 끌어온 셈.
 
+**두 좌표계를 한 그림에 — 같은 변위, $-s$ 평행이동.** 아래 통일 비교에서 (A) 위치 공간의 **화살표** $s\to U$가 (B) 변위 공간의 **점 A**로 그대로 옮겨간다. (B)는 (A)를 "출발 $s$를 원점으로" 끌어온 것 — 도달역 박스도 $s+L\cdot\mathcal{O}$(A)에서 $L\cdot\mathcal{O}$(B)로 같이 평행이동한다.
+
+```{python}
+#| echo: false
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.patches import Polygon
+
+plt.rcParams.update({'text.usetex': True, 'font.size': 9,
+    'text.latex.preamble': r'\usepackage{amsmath,amsfonts,amssymb}'})
+
+reach = 8.75; r_bnd = 4.375
+s = np.array([2.0, -2.0]); U = np.array([0.0026, 0.0052])
+hexv = [(4,2),(2,4),(-2,2),(-4,-2),(-2,-4),(2,-2)]   # C_0
+sqv  = [(r_bnd,r_bnd),(r_bnd,-r_bnd),(-r_bnd,-r_bnd),(-r_bnd,r_bnd)]
+
+def convex_hull(P):
+    P = sorted(set(map(tuple,P)))
+    def cr(o,a,b): return (a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0])
+    lo=[]
+    for p in P:
+        while len(lo)>=2 and cr(lo[-2],lo[-1],p)<=0: lo.pop()
+        lo.append(p)
+    up=[]
+    for p in reversed(P):
+        while len(up)>=2 and cr(up[-2],up[-1],p)<=0: up.pop()
+        up.append(p)
+    return np.array(lo[:-1]+up[:-1])
+KU = convex_hull([(h[0]+q[0]+U[0], h[1]+q[1]+U[1]) for h in hexv for q in sqv])
+
+fig, (axA, axB) = plt.subplots(1, 2, figsize=(9.6, 5.0))
+
+# ---- (A) position frame ----
+axA.add_patch(plt.Rectangle((s[0]-reach, s[1]-reach), 2*reach, 2*reach,
+              fill=False, edgecolor='#2980b9', ls='--', lw=1.4))
+axA.add_patch(Polygon(hexv, closed=True, facecolor='#eafaf0', edgecolor='#27ae60', lw=1.4, zorder=2))
+axA.annotate('', xy=tuple(U), xytext=tuple(s),
+             arrowprops=dict(arrowstyle='->', color='black', lw=1.6))
+axA.scatter(*s, s=46, color='#c0392b', zorder=5); axA.text(s[0]+0.4, s[1]-1.0, r'$s=(2,-2)$', color='#c0392b', fontsize=8)
+axA.scatter(*U, s=40, color='#8e44ad', zorder=5); axA.text(U[0]-2.6, U[1]+0.6, r'$U\approx0$', color='#8e44ad', fontsize=8)
+axA.text(0.7, -1.6, r'$\zeta$', color='black', fontsize=11)
+axA.text(s[0], s[1]+reach+0.5, r'reach $=s+L\cdot\mathcal{O}$', color='#2980b9', ha='center', fontsize=8)
+axA.axhline(0, color='#dddddd', lw=0.5); axA.axvline(0, color='#dddddd', lw=0.5)
+axA.set_xlim(-9,12); axA.set_ylim(-12,9); axA.set_aspect('equal')
+axA.set_xlabel(r'$h(v_2){-}h(v_1)$ (position)', fontsize=8); axA.set_ylabel(r'$h(v_3){-}h(v_1)$', fontsize=8)
+axA.set_title(r'(A) position frame: arrow $s\!\to\!U$', fontsize=8.5)
+axA.tick_params(labelsize=6.5)
+
+# ---- (B) displacement frame (= A shifted by -s) ----
+axB.add_patch(plt.Rectangle((-reach,-reach), 2*reach, 2*reach,
+              fill=False, edgecolor='#27ae60', ls='--', lw=1.4))
+axB.add_patch(Polygon(KU, closed=True, facecolor='#f3e8ff', edgecolor='#8e44ad', lw=1.5, zorder=2))
+zA = U - s
+axB.scatter(*zA, s=40, color='#c0392b', zorder=6)
+axB.text(zA[0]-0.4, zA[1]+0.6, r'A $(-2,2)$', color='#c0392b', fontsize=8, ha='right')
+axB.scatter(0,0, s=26, color='#27ae60', zorder=6); axB.text(0.4,-1.0, r'origin', color='#1e7e44', fontsize=7.5)
+axB.text(-4.5,-3.0, r'$K_U$', color='#8e44ad', fontsize=13)
+axB.text(0, reach+0.5, r'reach $=L\cdot\mathcal{O}$', color='#1e7e44', ha='center', fontsize=8)
+axB.axhline(0, color='#dddddd', lw=0.5); axB.axvline(0, color='#dddddd', lw=0.5)
+axB.set_xlim(-10,10); axB.set_ylim(-10,10); axB.set_aspect('equal')
+axB.set_xlabel(r'$\zeta_1$ (displacement)', fontsize=8); axB.set_ylabel(r'$\zeta_2$', fontsize=8)
+axB.set_title(r'(B) displacement frame: point A $=U-s$', fontsize=8.5)
+axB.tick_params(labelsize=6.5)
+
+fig.suptitle(r'same displacement $\zeta$: \textbf{(A) arrow} $=$ \textbf{(B) point A}; \ (B) $=$ (A) shifted by $-s$', fontsize=9, y=1.02)
+plt.tight_layout()
+import os
+os.makedirs('results/figures/260605_유진_HST_petite_smallset_K3.qmd', exist_ok=True)
+plt.savefig('results/figures/260605_유진_HST_petite_smallset_K3.qmd/frames_unified.png',
+            dpi=150, bbox_inches='tight')
+plt.show()
+```
+
+(A)에서 화살표가 가리키는 변위가 (B)에서 점 A로 찍힌다. 단, (B)의 보라 $K_U$는 **이 한 출발 $s$만이 아니라 $C_0$의 모든 출발**까지 union한 집합이라 (A)의 화살표 하나보다 크다 — 출발이 $C_0$ 안에서 움직이면 (B)의 점도 $K_U$ 안을 훑는다.
+
 ::: {.callout-note collapse="true"}
 ## 🔽 접어둔 군사 계산 — 왜 숙제 목록 $K_U$가 도달역 안에 드나 (삼각부등식 + $K_3$ 수치)
 
