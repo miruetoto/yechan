@@ -55,7 +55,7 @@ plt.rcParams.update({
     'text.latex.preamble': r'\usepackage{amsmath,amsfonts,amssymb}'
 })
 
-fig, (axG, axH) = plt.subplots(1, 2, figsize=(8, 3.4))
+fig, (axG, axH) = plt.subplots(1, 2, figsize=(7.5, 3.2))
 
 # --- left: K3 graph ---
 pos = {'v1': (0, 0), 'v2': (2, 0), 'v3': (1, 1.7)}
@@ -206,7 +206,7 @@ plt.rcParams.update({
 })
 
 from matplotlib.patches import Polygon
-fig, (axA, axB) = plt.subplots(1, 2, figsize=(9.2, 4.4))
+fig, (axA, axB) = plt.subplots(1, 2, figsize=(7.6, 3.65))
 old = (2, -2); q = 0.25  # b/4
 XL = r'$h(v_2)-h(v_1)$'; YL = r'$h(v_3)-h(v_1)$'
 reachv = [(old[0]+dx, old[1]+dy) for dx,dy in
@@ -465,7 +465,54 @@ plt.savefig('results/figures/260605_유진_HST_petite_smallset_K3.qmd/KU_rho.png
 plt.show()
 ```
 
-**6개 패널 = 6개 출발 $s$**($C_0$의 꼭짓점). 각 패널에서 색 박스는 그 출발의 표적 모임 — 중심 $u-\mathring{\mathbf{h}}(s)\approx-s$, 한 변 $\pm Lb/8=\pm4.375$인 **잔차 박스**(점 5개 = 중심+네 모서리), 그리고 연한 보라 외곽선이 **전체 $K_U$**(6패널 박스의 합집합) 참조용. 출발마다 박스가 $-s$ 위치로 옮겨다니며 $K_U$를 채우는 게 한눈에 보인다. $6\times5=30$개 표본 모두 $\|\zeta\|_\infty\leq8.38<8.75$라 도달역(초록 점선) 안에 **여유 $\sim0.37$** 두고 든다. 아래 접이식에 삼각부등식 증명을 둔다.
+**6개 패널 = 6개 출발 $s$**($C_0$의 꼭짓점). 각 패널에서 색 박스는 그 출발의 표적 모임 — 중심 $u-\mathring{\mathbf{h}}(s)\approx-s$, 한 변 $\pm Lb/8=\pm4.375$인 **잔차 박스**(점 5개 = 중심+네 모서리), 그리고 연한 보라 외곽선이 **전체 $K_U$**(6패널 박스의 합집합) 참조용. 출발마다 박스가 $-s$ 위치로 옮겨다니며 $K_U$를 채우는 게 한눈에 보인다. $6\times5=30$개 표본 모두 $\|\zeta\|_\infty\leq8.38<8.75$라 도달역(초록 점선) 안에 **여유 $\sim0.37$** 두고 든다.
+
+각 패널의 **다이아몬드는 그 박스의 중심 $u-\mathring{\mathbf{h}}(s)\approx-s$**다. 이 6개 중심만 한 그림에 모으면 — 출발 $s$가 $C_0$ 꼭짓점이라 $-s$도 $C_0$ 꼭짓점이므로 — **다이아몬드 6개가 그대로 $C_0$ 육각형을 이룬다** (잔차 박스를 떼고 "출발 손잡이만" 본 그림):
+
+```{python}
+#| echo: false
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.patches import Polygon, Rectangle
+
+plt.rcParams.update({'text.usetex': True, 'font.size': 9,
+    'text.latex.preamble': r'\usepackage{amsmath,amsfonts,amssymb}'})
+
+reach = 8.75; u_c = np.array([0.0026, 0.0052])
+starts = [(2,-2),(4,2),(2,4),(-2,2),(-4,-2),(-2,-4)]
+cols   = ['#1f77b4','#ff7f0e','#e377c2','#d62728','#8c564b','#17becf']
+centres = [(u_c[0]-s[0], u_c[1]-s[1]) for s in starts]   # diamonds = u - h(s)
+
+fig, ax = plt.subplots(figsize=(6.4, 6.1))
+ax.add_patch(Rectangle((-reach,-reach), 2*reach, 2*reach, fill=False,
+             edgecolor='#27ae60', lw=1.3, ls='--', zorder=1))
+ax.text(0, reach+0.4, r'reach $\operatorname{int}(L\cdot\mathcal{O})=(-8.75,8.75)^2$',
+        color='#1e7e44', ha='center', fontsize=8)
+# hexagon through the 6 diamonds (CCW)
+hexpoly = [(-1.997,2.005),(2.003,4.005),(4.003,2.005),(2.003,-1.995),(-1.997,-3.995),(-3.997,-1.995)]
+ax.add_patch(Polygon(hexpoly, closed=True, facecolor='#eafaf0', edgecolor='#27ae60', lw=1.5, alpha=0.5, zorder=2))
+ax.text(0, 3.0, r'$\{\,u-\mathring{\mathbf{h}}(s)\,\}=-C_0$', color='#1e7e44', ha='center', fontsize=9)
+# the 6 diamonds, coloured by start, labelled
+for s,col,c in zip(starts,cols,centres):
+    ax.scatter(*c, s=130, color=col, marker='D', edgecolor='white', linewidth=0.6, zorder=5)
+    ax.text(c[0], c[1]+0.7, r'$s=(%d,%d)$' % (s[0],s[1]), color=col, ha='center', fontsize=7.5, zorder=6)
+ax.scatter(0,0, s=12, color='#555555', zorder=6)
+ax.annotate(r'$\zeta=0$', xy=(0,0), xytext=(1.0,0.9), color='#555555', fontsize=7,
+            arrowprops=dict(arrowstyle='->', color='#555555', lw=0.6))
+ax.axhline(0, color='#dddddd', lw=0.5); ax.axvline(0, color='#dddddd', lw=0.5)
+ax.set_xlim(-10,10); ax.set_ylim(-10,10); ax.set_aspect('equal')
+ax.set_xlabel(r'$\zeta_1$ (displacement)', fontsize=9); ax.set_ylabel(r'$\zeta_2$ (displacement)', fontsize=9)
+ax.set_title(r'box centres (diamonds) $=u-\mathring{\mathbf{h}}(s)\approx-s$, forming $-C_0$', fontsize=9)
+ax.tick_params(labelsize=6.5)
+plt.tight_layout()
+import os
+os.makedirs('results/figures/260605_유진_HST_petite_smallset_K3.qmd', exist_ok=True)
+plt.savefig('results/figures/260605_유진_HST_petite_smallset_K3.qmd/box_centres.png',
+            dpi=150, bbox_inches='tight')
+plt.show()
+```
+
+다이아몬드 6개($=$출발 손잡이만)가 $-C_0$ 육각형 꼭짓점에 놓이고, 여기에 각 다이아몬드마다 $\pm4.375$ 잔차 박스를 씌우면 위 3×2의 전체 $K_U$가 된다. 아래 접이식에 삼각부등식 증명을 둔다.
 
 > **좌표계 주의 — 이 그림은 §2②의 도달역 그림과 축이 다르다.** ②(LO_reach)는 **위치 공간**(축 $h(v_i){-}h(v_1)$, 도달역이 출발 $s$ 중심 $s+L\cdot\mathcal{O}$)이고, 이 그림은 **변위 공간** $\zeta$(원점 중심 $\operatorname{int}(L\cdot\mathcal{O})$)다. 둘은 $\zeta = (\text{도착}) - (\text{출발 } s)$로 연결돼 — **②의 화살표 하나(변위 $\approx(-2,2)$)가 여기선 점 하나(A)**다. "위치 = $s + $ 변위"라, 변위 그림은 위치 그림을 $s$만큼 원점으로 끌어온 셈.
 
@@ -499,7 +546,7 @@ def convex_hull(P):
     return np.array(lo[:-1]+up[:-1])
 KU = convex_hull([(h[0]+q[0]+U[0], h[1]+q[1]+U[1]) for h in hexv for q in sqv])
 
-fig, (axA, axB) = plt.subplots(1, 2, figsize=(9.6, 5.0))
+fig, (axA, axB) = plt.subplots(1, 2, figsize=(7.6, 3.95))
 
 # ---- (A) position frame ----
 axA.add_patch(plt.Rectangle((s[0]-reach, s[1]-reach), 2*reach, 2*reach,
@@ -572,7 +619,7 @@ import matplotlib.pyplot as plt
 plt.rcParams.update({'text.usetex': True, 'font.size': 9,
     'text.latex.preamble': r'\usepackage{amsmath,amsfonts,amssymb}'})
 
-fig, (axA, axB) = plt.subplots(1, 2, figsize=(8.4, 4.3))
+fig, (axA, axB) = plt.subplots(1, 2, figsize=(7.6, 3.9))
 XL = r'$h(v_2)-h(v_1)$'; YL = r'$h(v_3)-h(v_1)$'
 cx, cy, rU = 1/384, 1/192, 1/1536
 
