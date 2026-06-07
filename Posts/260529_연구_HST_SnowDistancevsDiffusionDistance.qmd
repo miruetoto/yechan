@@ -1,0 +1,125 @@
+---
+title: "연구 ▷ HST ▷ Snow Distance vs Diffusion Distance"
+author: 유진
+date: 2026-05-29
+output-file: 260529_b3c7f2.html
+fontsize: 0.85em
+draft: false
+# 판정: (A) 학습·이해용 — SD(HST) vs Diffusion Distance: 원리·t→∞·HST근접성 비교 (f=0 가정)
+---
+
+**설정**: $f = 0$ (모든 노드 초기 높이 0). Snow distance는 $SD_{ij}(t) = h(v_i, t) - h(v_j, t)$.
+
+---
+
+## (1) 원리의 차이
+
+**H.** SD랑 Diffusion distance 같은 거야?
+
+**G.** 전혀 다르다. 원리부터 다르고, 무엇을 "거리"로 삼는지도 다르다.
+
+**SD** (Snow Distance): walker가 노드를 돌아다니면서 지나갈 때마다 눈 $b$를 쌓는다. $f=0$이면 $h(v_i, t)$는 순수하게 누적 방문량이다:
+
+$$h(v_i, t) = b \cdot (\text{시각 } 1 \sim t \text{ 동안 } v_i \text{ 방문 횟수}).$$
+
+그래서
+
+$$SD_{ij}(t) = h(v_i, t) - h(v_j, t) = b \cdot \bigl(N_t^{(i)} - N_t^{(j)}\bigr),$$
+
+$N_t^{(i)}$는 $v_i$의 방문 횟수. **방문 횟수 차이**가 곧 거리다.
+
+**Diffusion distance**: $v_1$과 $v_2$ 각각에서 잉크를 떨어뜨려 $t$번 확산시켰을 때, 두 잉크의 퍼짐 패턴이 얼마나 다른지를 잰다:
+
+$$D_t(v_1, v_2)^2 = \sum_u \frac{\bigl(p^t(v_1, u) - p^t(v_2, u)\bigr)^2}{\pi(u)}.$$
+
+$p^t(v, u)$는 "$v$에서 출발해 $t$번 이동 후 $u$에 있을 확률." **두 출발점의 $t$-step 분포 차이**가 거리다.
+
+---
+
+**H.** 내가 "v에서 잉크를 떨어뜨렸을 때 v1, v2에 비슷하게 오면 가깝다"고 했는데 맞아?
+
+**G.** 방향이 하나 뒤집혀 있다. 정확한 설명은: $v_1$에서 잉크를 떨어뜨린 패턴과 $v_2$에서 잉크를 떨어뜨린 패턴이 비슷하면 $v_1$과 $v_2$가 가깝다. 고정된 출처 $v$에서 $v_1$, $v_2$에 얼마나 오는지를 비교하는 게 아니다.
+
+직관: $v_1$과 $v_2$가 그래프에서 "같은 동네"에 있으면, 거기서 출발한 random walk는 $t$번 후에도 비슷한 곳에 있을 가능성이 높다 → $p^t(v_1, \cdot) \approx p^t(v_2, \cdot)$ → $D_t(v_1, v_2) \approx 0$.
+
+---
+
+**H.** 그럼 SD에서 "가까운 노드"란 정확히 뭐야?
+
+**G.** 방문 횟수가 **비슷한** 노드. 둘 다 자주 방문받는다고 가까운 게 아니라, 방문 횟수가 엇비슷해야 $|N_t^{(i)} - N_t^{(j)}|$가 작아진다. 장기적으로 방문 횟수는 stationary distribution $\pi(v)$에 비례하므로, **$\pi(v_i) \approx \pi(v_j)$인 노드들이 SD 기준으로 가깝다** — 차이가 없는 노드들.
+
+---
+
+## (2) $t \to \infty$에서의 동작 차이
+
+**H.** $t$가 커지면 SD랑 Diffusion이 어떻게 달라져?
+
+**G.** balanced case만 보자 (drift가 없는 경우, $\rho_i = \rho_j$). 이 경우 drift 항이 상쇄되고 martingale 항만 남아
+
+$$SD_{ij}(t) \;\sim\; \sqrt{t} \quad (t \to \infty) \quad \text{--- 성장}.$$
+
+반면 Diffusion은 $\lambda_k^{2t} \to 0$이라
+
+$$D_t(v_1, v_2) \to 0 \quad (t \to \infty) \quad \text{--- 붕괴}.$$
+
+방향이 정반대다. SD는 자라고, Diffusion은 줄어든다.
+
+---
+
+**H.** 왜 방향이 반대야?
+
+**G.** 근본 원인은 **누적 vs 스냅샷**이다.
+
+SD는 $h(v_i, t) = b \sum_{s=1}^{t} \mathbf{1}[X_s = v_i]$ — 시각 $1$부터 $t$까지의 **모든 방문을 합산**한다. 시간이 갈수록 쌓인다.
+
+Diffusion은 $p^t(v_1, \cdot)$ — 딱 **시각 $t$ 하나**의 분포를 본다. 이 분포가 $\pi$로 수렴하면서 두 출발점 간 차이가 사라진다.
+
+---
+
+## (3) HST와 가장 가까운 거리는?
+
+**H.** 둘을 억지로 연결하면? 어떻게 비슷해지게 만들 수 있어?
+
+**G.** 연결고리가 하나 있다. 핵심은 **무엇을 비교하느냐**다.
+
+$f = 0$이면 $h(v_i, t) = b \cdot N_t^{(i)}$ — 순수 방문 횟수. 이때 전체 시간에 걸친 이력을 벡터로 쌓으면:
+
+$$\mathbf{h}_i = \bigl(h(v_i, 1),\; h(v_i, 2),\; \ldots,\; h(v_i, T)\bigr).$$
+
+HST의 SD는 이 벡터의 **마지막 성분 차이** $|h(v_i, T) - h(v_j, T)|$를 거리로 쓴다 — 전체 이력을 누적한 뒤 최종값 하나를 꺼낸 것이다.
+
+Diffusion은 어떤가. $v_0$에서 출발한 random walk의 $t$-step 분포 $p^t(v_0, \cdot)$를 기준으로 두 노드를 비교한다. 이것은 **딱 시각 $t$ 하나의 스냅샷**이다. 이력 없음.
+
+둘이 닮으려면 HST 쪽을 바꿔야 한다: 마지막 성분만 보는 게 아니라, **전체 이력을 무시하고** $p^T(v_0, v_i)$ 하나만 비교하도록 제한하면 — 그제야 Diffusion distance 구조에 가까워진다. 즉 닮은 게 아니라, HST의 일부를 Diffusion처럼 취급하면 닮아진다.
+
+---
+
+**H.** 수학적으로는 어떻게 연결돼?
+
+**G.** 기댓값으로 보면 연결된다.
+
+$$\mathbb{E}\bigl[h(v_i, T)\bigr] = b \sum_{s=1}^{T} p^s(v_0, v_i).$$
+
+이 합 $\sum_{s=1}^{T} p^s(v_0, v_i)$는 그래프 이론에서 **potential kernel** (또는 Green's function)이라 불린다 — 시각 $1$부터 $T$까지 $v_0$에서 $v_i$로 도달할 전체 "교통량"을 더한 것이다.
+
+반면 Diffusion은 $p^T(v_0, v_i)$ **하나**만 본다.
+
+$$\underbrace{\sum_{s=1}^{T} p^s(v_0, v_i)}_{\text{HST (기댓값): 전체 이력}} \;\leftrightarrow\; \underbrace{p^T(v_0, v_i)}_{\text{Diffusion: 마지막 프레임만}}.$$
+
+HST는 전체 영화, Diffusion은 마지막 장면 하나. $t \to \infty$에서 Diffusion은 마지막 장면이 $\pi$로 균등해져 거리가 사라지고, HST는 영화 전체가 쌓여 거리가 커지는 것이다.
+
+---
+
+**H.** 그럼 HST의 SD랑 개념적으로 가장 가까운 기존 거리는?
+
+**G.** 위 구조에서 보면: HST(기댓값) = potential kernel 차이다. $T \to \infty$ 극한에서 potential kernel은 그래프의 **effective resistance** (저항 거리)와 연결된다:
+
+$$\sum_{s=0}^{\infty} \bigl(p^s(v_i, u) - p^s(v_j, u)\bigr)^2 \;\propto\; R_{\mathrm{eff}}(v_i, v_j).$$
+
+따라서 SD (balanced case, $f=0$)는 개념적으로 **commute distance / resistance distance**에 가장 가깝다. Diffusion distance와는 시간 통합 방식이 다르고 — 발산 vs 붕괴 — 방향도 반대다.
+
+---
+
+**H.** 한 줄 요약.
+
+**G.** HST는 전체 이력 $\sum_s p^s$ (potential kernel)를 쌓아 커지고, Diffusion은 마지막 프레임 $p^T$ 하나만 보다가 $\pi$에 균등화되어 사라진다. 둘은 같은 random walk에서 출발하지만 **어느 시점을 쓰느냐**가 정반대 — HST의 SD는 저항 거리에, Diffusion은 고유벡터 거리에 가깝다.
