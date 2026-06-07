@@ -732,6 +732,43 @@ def postrender_rename_files_dirs(posts_dir: Path, docs_posts_dir: Path):
         print_color("✓ _files 디렉터리 ASCII 화 대상 없음", Colors.GREEN)
 
 
+def verify_docs_figure_refs(docs_posts_dir: Path) -> int:
+    """docs/ 각 포스트 HTML 이 참조하는 `{…}_files/` figure 자산이 실제로
+    존재하는지 검증. 누락(=배포 시 404) 개수를 반환.
+
+    freeze 렌더 오염 등으로 docs HTML 이 없는 figure 폴더를 가리키는 사고를
+    push 전에 잡는 트립와이어. 호출측에서 non-zero 면 exit 시켜 pub.sh 의
+    set -e + rollback 이 작동하도록 한다.
+    """
+    if not docs_posts_dir.exists():
+        return 0
+
+    print_color("검증: docs figure 자산 참조 무결성", Colors.GREEN)
+    print()
+
+    # <img src="..._files/...">, <a href="..._files/..."> 형태의 figure 참조
+    ref_re = re.compile(r'(?:src|href)\s*=\s*["\']([^"\']*?_files/[^"\']+)["\']')
+    missing = []
+    for html_path in sorted(docs_posts_dir.glob('*.html')):
+        html = html_path.read_text(encoding='utf-8', errors='ignore')
+        for ref in ref_re.findall(html):
+            clean = unquote(ref.split('?')[0].split('#')[0])
+            if not (docs_posts_dir / clean).exists():
+                missing.append((html_path.name, clean))
+
+    if missing:
+        print_color(f"✗ 누락된 figure 자산 {len(missing)}개 (docs HTML 참조 깨짐):",
+                    Colors.RED)
+        for html_name, ref in missing[:20]:
+            print(f"  {html_name} → {ref}")
+        if len(missing) > 20:
+            print(f"  ... 외 {len(missing) - 20}개")
+    else:
+        print_color("✓ 모든 figure 참조 정상", Colors.GREEN)
+
+    return len(missing)
+
+
 # ============================================================
 # 메인 함수
 # ============================================================
@@ -760,7 +797,15 @@ def main():
         docs_posts_dir = current_dir / "docs" / "Posts"
         postrender_rename_files_dirs(posts_dir, docs_posts_dir)
         print()
+        print("-" * 50)
+        print()
+        missing = verify_docs_figure_refs(docs_posts_dir)
+        print()
         print("=" * 50)
+        if missing:
+            print_color(f"실패: figure 자산 {missing}개 누락 — 배포 중단", Colors.RED)
+            print("=" * 50)
+            return 1
         print_color("완료", Colors.BLUE)
         print("=" * 50)
         return 0

@@ -48,7 +48,16 @@ trap rollback_on_failure ERR INT TERM
 # 2단계: 이미지 정리 + index.qmd 자동생성 + 블로그 렌더 (맥에서)
 uv run python cleanup.py
 uv run python gen_index.py
+
+# 렌더 전 청소 — 빌드물(docs) + 소스측 중간 산출물 전부 제거.
+#   freeze:true 이므로 그림 원본은 _freeze/ 에 있고 거기서 복원된다.
+#   소스에 stale {stem}_files/ 가 남아있으면 Quarto 가 그걸 in-place 자산으로
+#   오인해 docs 로 복사하지 않아 → 배포 사이트 그림 404. 매 렌더 깨끗이 비운다.
 rm -rf docs
+find Posts -type d -name '*_files' -prune -exec rm -rf {} +
+find Posts -type f -name '*.quarto_ipynb*' -delete
+rm -rf Posts/.quarto
+
 quarto render
 uv run python cleanup.py --postrender
 
