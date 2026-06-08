@@ -711,14 +711,23 @@ def postrender_rename_files_dirs(posts_dir: Path, docs_posts_dir: Path):
         shutil.move(str(old_dir), str(new_dir))
         print(f"  ✓ {old_dir.name}/ → {new_dir.name}/")
 
-        # 대응 HTML 내부 참조 치환 (raw + URL-encoded 둘 다)
+        # 대응 HTML 내부 참조 치환.
+        #   korean_stem 은 glob 결과라 macOS 에선 NFD. 그러나 Quarto 가 쓴
+        #   HTML 본문의 참조는 NFC 다 → NFD 문자열로 replace 하면 매칭 실패해
+        #   참조가 안 바뀌고 디렉터리만 ASCII 화 → dangling → 배포 404.
+        #   따라서 NFC/NFD × raw/URL-encoded 4가지 변형을 모두 치환한다.
         html_path = docs_posts_dir / f"{ascii_prefix}.html"
         if html_path.exists():
             html = html_path.read_text(encoding='utf-8')
-            old_ref = f"{korean_stem}_files/"
             new_ref = f"{ascii_prefix}_files/"
-            old_ref_enc = quote(korean_stem, safe='') + "_files/"
-            html2 = html.replace(old_ref, new_ref).replace(old_ref_enc, new_ref)
+            stems = {korean_stem, nfc(korean_stem)}
+            old_refs = set()
+            for st in stems:
+                old_refs.add(f"{st}_files/")                 # raw
+                old_refs.add(quote(st, safe='') + "_files/")  # URL-encoded
+            html2 = html
+            for old_ref in old_refs:
+                html2 = html2.replace(old_ref, new_ref)
             if html2 != html:
                 html_path.write_text(html2, encoding='utf-8')
                 print(f"    └ HTML 참조 치환: {html_path.name}")
