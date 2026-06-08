@@ -25,6 +25,22 @@ if [ "$PRECOMPOSE" != "true" ]; then
   exit 1
 fi
 
+# 선제 가드 2: 그림 출력 마운트(results 심볼릭 링크) 확인
+#   각 .qmd 의 matplotlib 셀은 results/figures/... 에 그림을 저장한다.
+#   Posts/results 는 ../results → /Volumes/nfs/.../results 로 가는 심볼릭 링크.
+#   NFS 가 마운트되지 않아 이 링크가 끊겨 있으면(dangling), freeze 캐시가 없는
+#   신규 포스트 렌더 중 os.makedirs('results/figures/...') 가 FileNotFoundError →
+#   quarto render 실패 → ERR 트랩 롤백 → push 가 깨진다.
+#   (-d 는 심볼릭 링크를 따라가므로 dangling 링크면 false)
+if [ ! -d Posts/results ]; then
+  TARGET=$(python3 -c "import os; print(os.path.realpath('Posts/results'))" 2>/dev/null || echo "?")
+  echo "ERROR: Posts/results 심볼릭 링크가 끊겨 있습니다 (dangling)."
+  echo "  resolve 대상: $TARGET"
+  echo "  → NFS(results) 마운트 상태를 확인하세요. 마운트 없이 렌더하면"
+  echo "    freeze 캐시 없는 신규 포스트의 그림 저장(makedirs)이 실패해 push 가 깨집니다."
+  exit 1
+fi
+
 # 1단계: 백업 커밋 — 실패 시 복원 지점
 git add -A
 git diff --cached --quiet || git commit -m "backup: before image processing"
