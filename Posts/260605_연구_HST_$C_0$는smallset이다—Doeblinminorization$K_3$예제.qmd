@@ -347,7 +347,7 @@ $$u \;=\; \underbrace{\mathring{\mathbf{h}}(s^{\star})}_{\text{출발 현황}} \
 
 즉 **최종 착지 위치 $u$ = (출발 현황) $+$ (non-fall 부작용) $+$ (fall 액션)**이다. 앞 두 항은 falls가 못 바꾼다 — $\mathring{\mathbf{h}}(s^{\star})$는 이미 주어진 출발점, $r$은 HST 알고리즘을 진행하며 얻는 랜덤성에 의해 결정되는 부작용. falls가 손댈 수 있는 건 **세 번째 항 $\boldsymbol{\zeta}$ ($=L$블록 fall 증분의 합 $\sum_k \mathring{\mathbf{b}}^\sharp_k$)뿐**이다. 그래서 "주어진 $\mathring{\mathbf{h}}(s^{\star})$·$r$ 아래 $u$에 정확히 착지하려면 falls가 만들어내야 할 증분 합"이 곧 표적 $\boldsymbol{\zeta} = u - \mathring{\mathbf{h}}(s^{\star}) - r$이고, 이게 falls의 명중 목표다.
 
-**잔차 $r$은 어디서 나오나 — "그렇다고 치는" 게 아니다.** $r$은 자유롭게 고르는 값이 아니라, $nL$라운드 동안 **non-fall(flow·block) 스텝이 높이차에 보탠 누적 변위**다 (페이퍼: $r = \Lambda^{\flat}_{\mathbf{v}^\flat}\mathbf{b}^\flat$, non-fall 증분 $\mathbf{b}^\flat$의 결정론적 선형 함수 — HST 알고리즘을 진행하며 얻는 랜덤성에 의해 결정된다). 상한 $\|r\|_\infty \leq \tfrac{Lb}{8}$은 임의로 박은 게 아니라 **"스텝 수 $\times$ 한 스텝 크기"**로 나온다. 증명이 non-fall을 억누른 사건 $\mathcal{A}^\flat$ 위에서만 작업하므로 각 스텝이 $\leq \varepsilon_{\flat}$로 작다:
+**잔차 $r$은 어디서 나오나 — "그렇다고 치는" 게 아니다.** $r$은 자유롭게 고르는 값이 아니라, $nL$라운드 동안 **non-fall(flow·block) 스텝이 높이차에 보탠 누적 변위**다 (페이퍼: $r = \Lambda^{\flat}_{\amalg}\mathbf{b}^\flat$ — 여기서 $\amalg$는 **분기**(branch), 즉 non-fall 스텝이 밟은 노드 순서다. $r$은 non-fall 증분 $\mathbf{b}^\flat$의 결정론적 선형 함수 — HST 알고리즘을 진행하며 얻는 랜덤성에 의해 결정된다). 상한 $\|r\|_\infty \leq \tfrac{Lb}{8}$은 임의로 박은 게 아니라 **"스텝 수 $\times$ 한 스텝 크기"**로 나온다. 증명이 non-fall을 억누른 사건 $\mathcal{A}^\flat$ 위에서만 작업하므로 각 스텝이 $\leq \varepsilon_{\flat}$로 작다:
 
 | 양 | 뜻 | $K_3$ 값 |
 |:---|:---|:---:|
@@ -355,7 +355,7 @@ $$u \;=\; \underbrace{\mathring{\mathbf{h}}(s^{\star})}_{\text{출발 현황}} \
 | $\varepsilon_{\flat}$ | 한 스텝 크기 상한 ($\leq \tfrac{b}{8nT_{\max}}$) | $\leq \tfrac{1}{144} \approx 0.0069$ |
 | $\|r\|_\infty \leq nLT_{\max}\,\varepsilon_{\flat}$ | 누적 잔차 상한 | $\leq 630 \times 0.0069 = 4.375 = \tfrac{Lb}{8}$ |
 
-즉 $4.375$는 **"630개의 미세한 flow·block 밀림(각 $\leq 0.0069$)이 최악으로 한 방향 누적됐을 때"의 상한**이지 아무 값이나가 아니다. $K_U$가 $\|r\|_\infty \leq \tfrac{Lb}{8}$ 공 **전체**를 덮는 이유도 — *우리가 $r$을 고르는 게 아니라 **HST 알고리즘 진행 중 어떤 랜덤성이 어떤 $r$을 줄지 몰라** 가능한 모든 경우를 커버*해야 하기 때문(worst-case 합집합). 그리고 각 $r$은 버려지지 않고, fall 적립을 강체 평행이동 $\mathbf{b}^\sharp \mapsto \mathbf{b}^\sharp - Q\,\Lambda^{\flat}_{\mathbf{v}^\flat}\mathbf{b}^\flat$ 해서 fibre를 $-r$만큼 밀어 **정확히 흡수**한다 (결산표 (iv) transport).
+즉 $4.375$는 **"630개의 미세한 flow·block 밀림(각 $\leq 0.0069$)이 최악으로 한 방향 누적됐을 때"의 상한**이지 아무 값이나가 아니다. $K_U$가 $\|r\|_\infty \leq \tfrac{Lb}{8}$ 공 **전체**를 덮는 이유도 — *우리가 $r$을 고르는 게 아니라 **HST 알고리즘 진행 중 어떤 랜덤성이 어떤 $r$을 줄지 몰라** 가능한 모든 경우를 커버*해야 하기 때문(worst-case 합집합). 그리고 각 $r$은 버려지지 않고, fall 적립을 강체 평행이동 $\mathbf{b}^\sharp \mapsto \mathbf{b}^\sharp - Q\,\Lambda^{\flat}_{\amalg}\mathbf{b}^\flat$ 해서 fibre를 $-r$만큼 밀어 **정확히 흡수**한다 (결산표 (iv) transport).
 
 주의: **$K_U \neq U$.** $U$는 작은 **도착지**($\pm0.006$), $K_U$는 그걸 $-\mathring{\mathbf{h}}(s^{\star})$($C_0$만큼)·$-r$(잔차만큼)로 부풀린 **큰 변위 목표 집합**($\pm8.6$, 약 $1400\times$).
 
@@ -744,7 +744,7 @@ $$\mathbb{P}(\mathcal{A}^{\sharp}) \;\geq\; \mu_{\min}^{nL} \;=\; \bigl(\tfrac13
 
 ## (ii) non-fall 억제 $\mathcal{A}^{\flat}$ — 인자 $(\varepsilon_{\flat}/b)^{nLT_{\max}}$
 
-fall과 fall 사이엔 **flow·block 스텝**(non-fall)이 낀다. 그 스텝에서 방문 노드에도 눈 $b^{\flat}\sim\mathrm{Unif}(0,b)$이 쌓이고, 이게 높이차를 교란해 1부의 잔차 $r=\Lambda^{\flat}_{\mathbf{v}^{\flat}}\mathbf{b}^{\flat}$를 만든다. **이 교란을 작게 묶는** 게 (ii)다.
+fall과 fall 사이엔 **flow·block 스텝**(non-fall)이 낀다. 그 스텝에서 방문 노드에도 눈 $b^{\flat}\sim\mathrm{Unif}(0,b)$이 쌓이고, 이게 높이차를 교란해 1부의 잔차 $r=\Lambda^{\flat}_{\amalg}\mathbf{b}^{\flat}$를 만든다. **이 교란을 작게 묶는** 게 (ii)다.
 
 - 각 non-fall 적립을 $b^{\flat}\leq\varepsilon_{\flat}$로 제한한다 (사건 $\mathcal{A}^{\flat}$).
 - 한 non-fall 스텝이 $[0,\varepsilon_{\flat}]$에 들 확률 $= \varepsilon_{\flat}/b$.
@@ -767,7 +767,7 @@ $$\mathbf{b}^{\sharp} \in [0,b]^{nL} = [0,1]^{105} \qquad (\text{105차원 큐�
 
 이고, 선형사상 $\Lambda^{\sharp}:\mathbb{R}^{105}\to\mathbb{R}^{2}$가 이 적립을 **변위**로 보낸다: $\Lambda^{\sharp}\mathbf{b}^{\sharp}=\boldsymbol{\zeta}$. (1부의 $\boldsymbol{\zeta}=u-\mathring{\mathbf{h}}(s^{\star})-r$가 표적.)
 
-> **표기 (정본).** $\Lambda^{\sharp}$는 **fall map**(적립→변위 선형사상, 정본 hst_AAA.tex 표기 그대로)이다. 1부의 잔차 $r$은 정본의 **non-fall map** $\Lambda^{\flat}_{\mathbf{v}^{\flat}}\mathbf{b}^{\flat}$로, $r=\Lambda^{\flat}_{\mathbf{v}^{\flat}}\mathbf{b}^{\flat}$(분기 $\mathbf{v}^{\flat}$의 non-fall 적립 $\mathbf{b}^{\flat}$가 만드는 변위)이다. 위첨자 $\sharp$=fall, $\flat$=non-fall.
+> **표기 (정본).** $\Lambda^{\sharp}$는 **fall map**(적립→변위 선형사상, 정본 hst_AAA.tex 표기 그대로)이다. 1부의 잔차 $r$은 정본의 **non-fall map** $\Lambda^{\flat}_{\amalg}\mathbf{b}^{\flat}$로, $r=\Lambda^{\flat}_{\amalg}\mathbf{b}^{\flat}$(분기 $\amalg$의 non-fall 적립 $\mathbf{b}^{\flat}$가 만드는 변위)이다. 위첨자 $\sharp$=fall, $\flat$=non-fall.
 
 ::: {.callout-note collapse="true"}
 ## 🔽 **b**^♯의 두 정보층 — 인덱스가 노드 배정표
@@ -839,7 +839,7 @@ falls가 밀도를 까는 곳은 $s^{\star}+K_U$ 전체가 아니라 보라색 �
 ## 🔽 두 튜브 도려내기와 $m_* = m_0/2$
 
 - **큐브 가장자리 튜브.** 어떤 적립 $b^{\sharp}_i$이 $0$ 또는 $b$에 $\delta$ 이내인 점들 (눈이 거의 안 쌓였거나 꽉 찬 극단). 4막 transport가 적립을 살짝 밀면 이런 점은 **큐브 $[0,b]^{nL}$ 밖으로 튕겨나가** 무효가 된다. 이 튜브의 fibre 측도 $\leq C_{\rm bdry}\,\delta$.
-- **tie 튜브.** 라운드 도중 flow·block 경로를 결정하는 높이 비교 $g_a = \alpha_a \cdot \mathbf{b}^{\sharp} + \gamma_a(s^{\star})$가 등호에 $\delta$ 이내인 점들. 여기선 비교가 $0$에 걸려 **분기 $\mathbf{v}^{\flat}$가 바뀌어** 버린다. 측도 $\leq C_{\rm tie}\,\delta$.
+- **tie 튜브.** 라운드 도중 flow·block 경로를 결정하는 높이 비교 $g_a = \alpha_a \cdot \mathbf{b}^{\sharp} + \gamma_a(s^{\star})$가 등호에 $\delta$ 이내인 점들. 여기선 비교가 $0$에 걸려 **분기 $\amalg$가 바뀌어** 버린다. 측도 $\leq C_{\rm tie}\,\delta$.
 
 **왜 $\mathcal{H}^{103}$(튜브) $\leq C\delta$인가 — Lemma 8 Claim 2-b (tube bound).** 비교식 $g_a$를 fibre 접선공간 $\ker\Lambda^{\sharp}$에 사영하면 기울기 $\|P_K\alpha_a\| \geq \lambda_* > 0$이 생긴다(비퇴화 비교). 그래서 $|g_a| \leq \delta$인 영역은 $\ker\Lambda^{\sharp}$ 방향으로 폭 $\leq 2\delta/\lambda_*$인 슬랩 — 나머지 $102$차원 단면을 적분하면 $\mathcal{H}^{103}(\text{tie 튜브}) \leq C_{\rm tie}\,\delta$. 경계 튜브도 같은 구조로 $\leq C_{\rm bdry}\,\delta$.
 
@@ -902,11 +902,11 @@ plt.show()
 
 ## (iv) transport — 잔차 흡수, 측도 보존
 
-1부에서 봤듯 실제 한 회차엔 잔차 $r=\Lambda^{\flat}_{\mathbf{v}^{\flat}}\mathbf{b}^{\flat}\neq0$이라, falls가 만들어야 할 총합이 $\boldsymbol{\zeta}$가 아니라 $\boldsymbol{\zeta} - r$로 **옮겨진다**. 이걸 적립의 **강체 평행이동**으로 흡수한다.
+1부에서 봤듯 실제 한 회차엔 잔차 $r=\Lambda^{\flat}_{\amalg}\mathbf{b}^{\flat}\neq0$이라, falls가 만들어야 할 총합이 $\boldsymbol{\zeta}$가 아니라 $\boldsymbol{\zeta} - r$로 **옮겨진다**. 이걸 적립의 **강체 평행이동**으로 흡수한다.
 
 여기서 $Q$는 $\Lambda^{\sharp}$의 **오른쪽 역행렬(right inverse)** — $\Lambda^{\sharp}$가 $2\times105$ full rank 행렬이라 $\Lambda^{\sharp} Q = I_2$를 만족하는 $105\times2$ 행렬 $Q$가 존재한다. 평행이동의 정의:
 
-$$\mathbf{b}^{\sharp} \;\mapsto\; \widehat{\mathbf{b}}^{\sharp} := \mathbf{b}^{\sharp} - Q\,\Lambda^{\flat}_{\mathbf{v}^{\flat}}\mathbf{b}^{\flat} \qquad\Longrightarrow\qquad \Lambda^{\sharp}\widehat{\mathbf{b}}^{\sharp} = \underbrace{\Lambda^{\sharp}\mathbf{b}^{\sharp}}_{=\,\boldsymbol{\zeta}} - \underbrace{\Lambda^{\sharp} Q}_{=\,I_2}\,r = \boldsymbol{\zeta} - r.$$
+$$\mathbf{b}^{\sharp} \;\mapsto\; \widehat{\mathbf{b}}^{\sharp} := \mathbf{b}^{\sharp} - Q\,\Lambda^{\flat}_{\amalg}\mathbf{b}^{\flat} \qquad\Longrightarrow\qquad \Lambda^{\sharp}\widehat{\mathbf{b}}^{\sharp} = \underbrace{\Lambda^{\sharp}\mathbf{b}^{\sharp}}_{=\,\boldsymbol{\zeta}} - \underbrace{\Lambda^{\sharp} Q}_{=\,I_2}\,r = \boldsymbol{\zeta} - r.$$
 
 핵심은 **평행이동이 $\mathcal{H}^{103}$를 보존**한다는 것 — 그러니 3막에서 확보한 robust fibre의 부피 $m_*$가 $r$이 뭐든 **그대로 살아남는다**. 그리고 3막에서 가장자리·tie를 $\delta$ 도려낸 덕에, $\mathcal{A}^{\flat}$의 작은 잔차($\|QR\|_\infty\leq C_Q B_R\varepsilon_{\flat}\leq\delta/4$)만큼 밀어도 $\widehat{\mathbf{b}}^{\sharp}$가 여전히 **큐브 안 + 같은 분기** 유지. (3막 도려내기가 여기서 보답받는다.)
 
