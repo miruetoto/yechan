@@ -8,7 +8,7 @@ draft: false
 # 판정: (A) 학습·이해용 (해설체) — Lemma 8 full proof(Lebesgue-only 정본 2026-06-12판)를 단락 순서 그대로 옮기며 K3 수치로 주해. 원문 전개 충실 + 예시 삽입.
 ---
 
-**Lemma 8 ($C_0$ is a small set).** *The sublevel set $C_0 = \{s^{\star} : M(s^{\star}) \leq M_0\}$ is small --- hence petite --- for the round skeleton.*
+**Lemma 8 ($\mathsf{C}_0$ is a small set).** *The sublevel set $\mathsf{C}_0 = \{s^{\star} : M(s^{\star}) \leq M_0\}$ is small --- hence petite --- for the round skeleton.*
 
 이 글은 정본 hst_AAA.tex Lemma 8의 **full proof를 단락 순서 그대로** 옮기며 따라간다. 각 단락은 원문에 충실하게 두고, 사이사이 완전그래프 $K_3$ 예제 — $b=1$, 시작 높이 $(5,7,3)$, 즉 anchored 높이차 $\mathring{\mathbf{h}}(s^{\star})=(2,-2)$, walker $X=v_1$ — 의 수치로 해설한다.
 
@@ -16,9 +16,9 @@ draft: false
 
 ## Setup (window and skeleton)
 
-증명 전체에서 윈도우는 $m := nL$ 라운드다. 여기서 $L := \lceil 16M_0/b+3\rceil$은 $n$개 fall 의 cyclic sweep 횟수, $M_0 := R_*$는 Foster drift(Lemma 6)가 주는 반경이다. 무대는 round skeleton $\{S^{\star}_r\}$ — $\mathsf{S}^{\star} := \mathbb{R}^{n-1}\times\mathsf{V}$ 위의 Markov 사슬($(\mathring{\mathbf{h}}, X)$ 좌표) — 이고, small set 후보는 centered 높이 범위 $M(s^{\star}) = \max_i|\hbar(v_i)|$의 sublevel $C_0 = \{s^{\star} : M(s^{\star})\leq M_0\}$이다.
+증명 전체에서 윈도우는 $m := nL$ 라운드다. 여기서 $L := \lceil 16M_0/b+3\rceil$은 $n$개 fall 의 cyclic sweep 횟수, $M_0 := R_*$는 Foster drift(Lemma 6)가 주는 반경이다. 무대는 round skeleton $\{S^{\star}_r\}$ — $\mathsf{S}^{\star} := \mathbb{R}^{n-1}\times\mathsf{V}$ 위의 Markov 사슬($(\mathring{\mathbf{h}}, X)$ 좌표) — 이고, small set 후보는 centered 높이 범위 $M(s^{\star}) = \max_i|\hbar(v_i)|$의 sublevel $\mathsf{C}_0 = \{s^{\star} : M(s^{\star})\leq M_0\}$이다.
 
-**예 ($K_3$).** $n=3$, $b=1$, $M_0=2$로 잡으면 $L = \lceil 16\cdot2/1+3\rceil = 35$, $m = nL = 105$. 우리 상태는 $s^{\star} = \bigl((2,-2),\,v_1\bigr)$: 평균 $\bar h = 5$, $\hbar = (0,2,-2)$, $M(s^{\star}) = 2 = M_0$ — $C_0$의 **경계 꼭짓점**(가장 치우친 worst case)이다.
+**예 ($K_3$).** $n=3$, $b=1$, $M_0=2$로 잡으면 $L = \lceil 16\cdot2/1+3\rceil = 35$, $m = nL = 105$. 우리 상태는 $s^{\star} = \bigl((2,-2),\,v_1\bigr)$: 평균 $\bar h = 5$, $\hbar = (0,2,-2)$, $M(s^{\star}) = 2 = M_0$ — $\mathsf{C}_0$의 **경계 꼭짓점**(가장 치우친 worst case)이다.
 
 ```{python}
 #| echo: false
@@ -80,7 +80,7 @@ plt.rcParams.update({
 
 fig, ax = plt.subplots(figsize=(4.6, 4.6))
 M0 = 2
-# C_0 = {max_i |hbar_i| <= M_0} in anchored (u1,u2) coords; hexagon vertices:
+# \mathsf{C}_0 = {max_i |hbar_i| <= M_0} in anchored (u1,u2) coords; hexagon vertices:
 verts = [(4,2),(2,4),(-2,2),(-4,-2),(-2,-4),(2,-2)]
 ax.add_patch(Polygon(verts, closed=True, facecolor='#e8f0ff',
                      edgecolor='#2980b9', lw=1.8, zorder=1))
@@ -92,7 +92,7 @@ ax.annotate(r'$s^{\star}=(2,-2)$' '\n' r'($v_2$ high, $v_3$ low)',
 ax.axhline(0, color='#cccccc', lw=0.6); ax.axvline(0, color='#cccccc', lw=0.6)
 ax.set_xlim(-5.5, 5.5); ax.set_ylim(-5.5, 5.5); ax.set_aspect('equal')
 ax.set_xlabel(r'$h(v_2)-h(v_1)$', fontsize=8.5); ax.set_ylabel(r'$h(v_3)-h(v_1)$', fontsize=8.5)
-ax.set_title(r'$C_0=\{\max_i|\hbar(v_i)|\leq M_0{=}2\}$ (anchored plane)', fontsize=8.5)
+ax.set_title(r'$\mathsf{C}_0=\{\max_i|\hbar(v_i)|\leq M_0{=}2\}$ (anchored plane)', fontsize=8.5)
 ax.tick_params(labelsize=7)
 plt.tight_layout()
 import os
@@ -102,11 +102,11 @@ plt.savefig('results/figures/260605_유진_HST_petite_smallset_K3.qmd/C0_region.
 plt.show()
 ```
 
-anchored 평면에서 $C_0$는 육각형($\times$ 노드 $\mathsf{V}$)이고, 출발 $s^{\star}=(2,-2)$는 그 꼭짓점에 있다. 증명은 이 꼭짓점을 포함한 **$C_0$ 안 모든 점에서 균일한** 바닥을 깔아야 한다.
+anchored 평면에서 $\mathsf{C}_0$는 육각형($\times$ 노드 $\mathsf{V}$)이고, 출발 $s^{\star}=(2,-2)$는 그 꼭짓점에 있다. 증명은 이 꼭짓점을 포함한 **$\mathsf{C}_0$ 안 모든 점에서 균일한** 바닥을 깔아야 한다.
 
 ## Setup (step notation)
 
-$nL$-라운드 윈도우의 모든 스텝은 **fall**($\boldsymbol{\mu}_0$-draw)이거나 **non-fall**(flow 또는 block-stay)이고, 각 스텝은 독립 $\mathrm{Unif}(0,b)$ 양을 적립한다. $nL$개 fall 적립이 벡터 $\mathbf{b}^{\sharp}\in[0,b]^{nL}$를, non-fall 적립이 벡터 $\mathbf{b}^{\flat}$(non-fall 스텝당 한 좌표)를 이룬다. $r$번째 fall은 cyclic 표적 $v^{\sharp}_r$를 맞히고, non-fall 방문 노드들이 라운드별로 **branch** $\amalg$ — falls가 정해주지 않는 이산 자유도 — 를 이룬다. 두 사건이 반복 등장한다: $\mathcal{A}^{\sharp}$ (falls가 cyclic 표적을 모두 맞힘)와 $\mathcal{A}^{\flat}$ (모든 non-fall 적립 $\leq\varepsilon_{\flat}$, 상수는 아래서 고정). $T_{\max} = 2n$은 라운드별 threshold $\Theta^{(r)}\sim\mathrm{Unif}\{n,\ldots,2n\}$의 a.s. 상한으로 모든 상수가 이걸 쓴다. **full $(n-1)$차원 퍼짐은 $nL$개 fall 적립에서 나오고, non-fall 적립은 유계 잔차(각 $\leq\varepsilon_{\flat}$)로만 들어온다** — 이 역할 분담이 증명의 뼈대다.
+$nL$-라운드 윈도우의 모든 스텝은 **fall**($\boldsymbol{\mu}_0$-draw)이거나 **non-fall**(flow 또는 block-stay)이고, 각 스텝은 독립 $\mathrm{Unif}(0,b)$ 양을 적립한다. 윈도우의 non-fall 스텝 시각 집합을 $\mathsf{T}^{\flat}$, round-start fall 시각 집합을 $\mathsf{T}^{\star} = \{t_1,\ldots,t_{nL}\}$로 쓴다. $nL$개 fall 적립이 벡터 $\mathbf{b}^{\sharp}\in[0,b]^{nL}$를, non-fall 적립이 벡터 $\mathbf{b}^{\flat}$(non-fall 스텝당 한 좌표)를 이룬다. $r$번째 fall은 cyclic 표적 $v^{\sharp}_r$를 맞히고, non-fall 방문 노드들이 라운드별로 **branch** $\amalg$ — falls가 정해주지 않는 이산 자유도 — 를 이룬다. 두 사건이 반복 등장한다: $\mathsf{A}^{\sharp}$ (falls가 cyclic 표적을 모두 맞힘)와 $\mathsf{A}^{\flat}$ (모든 non-fall 적립 $\leq\varepsilon$, 상수는 아래서 고정). $T_{\max} = 2n$은 라운드별 threshold $\Theta^{(r)}\sim\mathrm{Unif}\{n,\ldots,2n\}$의 a.s. 상한으로 모든 상수가 이걸 쓴다. **full $(n-1)$차원 퍼짐은 $nL$개 fall 적립에서 나오고, non-fall 적립은 유계 잔차(각 $\leq\varepsilon$)로만 들어온다** — 이 역할 분담이 증명의 뼈대다.
 
 **예 ($K_3$).** $T_{\max}=6$, fall 적립 $\mathbf{b}^{\sharp}\in[0,1]^{105}$, non-fall 적립은 최대 $nLT_{\max}=630$개 좌표. cyclic 표적은 $v^{\sharp}_1=v_1, v^{\sharp}_2=v_2, v^{\sharp}_3=v_3, v^{\sharp}_4=v_1,\dots$, terminal $v^{\sharp}_{105}=v_3=v_n$.
 
@@ -143,11 +143,11 @@ XL = r'$h(v_2)-h(v_1)$'; YL = r'$h(v_3)-h(v_1)$'
 reachv = [(old[0]+dx, old[1]+dy) for dx,dy in
           [(1,0),(1,1),(0,1),(-1,0),(-1,-1),(0,-1)]]
 
-# ---- Panel A: C_0 (big) contains the one-block reach (small) ----
+# ---- Panel A: \mathsf{C}_0 (big) contains the one-block reach (small) ----
 C0v = [(4,2),(2,4),(-2,2),(-4,-2),(-2,-4),(2,-2)]
 axA.add_patch(Polygon(C0v, closed=True, facecolor='#eaf1fb',
                       edgecolor='#2980b9', lw=1.5, zorder=1))
-axA.text(0, 4.7, r'$C_0$: $\max_i|\hbar_i|\leq M_0{=}2$', color='#2980b9',
+axA.text(0, 4.7, r'$\mathsf{C}_0$: $\max_i|\hbar_i|\leq M_0{=}2$', color='#2980b9',
          ha='center', fontsize=8.5)
 axA.add_patch(Polygon(reachv, closed=True, facecolor='#cdebd9',
                       edgecolor='#27ae60', lw=1.4, zorder=2))
@@ -158,7 +158,7 @@ axA.annotate('1-block reach at $s^{\star}$\n(range $\\leq b{=}1$)',
 axA.text(2.5,-2.8, r'$s^{\star}=(2,-2)$', color='#c0392b', fontsize=7.5)
 axA.set_xlim(-5.5,5.5); axA.set_ylim(-5.5,5.5); axA.set_aspect('equal')
 axA.set_xlabel(XL, fontsize=8.5); axA.set_ylabel(YL, fontsize=8.5)
-axA.set_title(r'(A) $C_0$ (big) $\supset$ one-block reach (small)', fontsize=8.5)
+axA.set_title(r'(A) $\mathsf{C}_0$ (big) $\supset$ one-block reach (small)', fontsize=8.5)
 axA.tick_params(labelsize=6.5)
 
 # ---- Panel B: zoom at s — one-block density f shaded (high at center, ->0 at hexagon edge) ----
@@ -176,14 +176,14 @@ axB.add_patch(plt.Rectangle((old[0]-q, old[1]-q), 2*q, 2*q, fill=False,
 axB.scatter(*old, s=40, color='#c0392b', zorder=5)
 axB.text(2.0, -0.83, r'shade $=$ density $f$ ($f{=}1$ at center, $\to0$ at edge)',
          color='#1e7e44', ha='center', fontsize=7)
-axB.annotate(r'$\mathcal{O}$: $f\geq\tfrac12$', xy=(2.22,-2.2), xytext=(2.62,-3.08),
+axB.annotate(r'$\mathsf{O}$: $f\geq\tfrac12$', xy=(2.22,-2.2), xytext=(2.62,-3.08),
              color='#2980b9', fontsize=8, arrowprops=dict(arrowstyle='->', color='#2980b9', lw=1.0))
 axB.text(1.97,-2.02, r'$(2,-2)$', color='#c0392b', ha='right', va='center', fontsize=7.5)
 cb = fig.colorbar(cf, ax=axB, fraction=0.046, pad=0.03); cb.ax.tick_params(labelsize=5.5)
 axB.set_xlim(0.7,3.3); axB.set_ylim(-3.3,-0.7); axB.set_aspect('equal')
 axB.set_xlabel(XL, fontsize=8.5); axB.set_ylabel(YL, fontsize=8.5)
 axB.set_xticks([1,1.75,2,2.25,3]); axB.set_yticks([-3,-2.25,-2,-1.75,-1])
-axB.set_title(r'(B) zoom at $s^{\star}$: density $f$ ($\mathcal{O}=\{f\geq\tfrac12\}$)', fontsize=8.5)
+axB.set_title(r'(B) zoom at $s^{\star}$: density $f$ ($\mathsf{O}=\{f\geq\tfrac12\}$)', fontsize=8.5)
 axB.tick_params(labelsize=6)
 plt.tight_layout()
 import os
@@ -195,14 +195,14 @@ plt.show()
 
 ## Setup (fall map과 치환적분 항등식 $(\dagger)$)
 
-fall-표적 사건 $\mathcal{A}^{\sharp}$ 위에서 fall 양은 $\mathbf{b}^{\sharp} = (b^{\sharp}_{k,\ell})_{1\leq k\leq n,\,1\leq\ell\leq L}\in[0,b]^{nL}$ ($k$=노드, $\ell$=cycle)이고, anchored 좌표에서의 누적 fall shift는 선형 사상 $\boldsymbol{\Lambda}^{\sharp}:\mathbb{R}^{nL}\to\mathbb{R}^d$ ($d := n-1$),
+fall-표적 사건 $\mathsf{A}^{\sharp}$ 위에서 fall 양은 $\mathbf{b}^{\sharp} = (b^{\sharp}_{k,\ell})_{1\leq k\leq n,\,1\leq\ell\leq L}\in[0,b]^{nL}$ ($k$=노드, $\ell$=cycle)이고, anchored 좌표에서의 누적 fall shift는 선형 사상 $\boldsymbol{\Lambda}^{\sharp}:\mathbb{R}^{nL}\to\mathbb{R}^d$ ($d := n-1$),
 
 $$\boldsymbol{\Lambda}^{\sharp}\mathbf{b}^{\sharp} \;=\; \Bigl(\textstyle\sum_\ell b^{\sharp}_{2,\ell}-\sum_\ell b^{\sharp}_{1,\ell},\ \ldots,\ \sum_\ell b^{\sharp}_{n,\ell}-\sum_\ell b^{\sharp}_{1,\ell}\Bigr) \;=\; \mathring{\mathbf{b}}^{\sharp}_1+\cdots+\mathring{\mathbf{b}}^{\sharp}_L,$$
 
 즉 $L$개 per-block 증분 $\mathring{\mathbf{b}}^{\sharp}_\ell$의 합이다. rank-$d$ per-block 차분의 $L$겹 합이므로 $\operatorname{rank}\boldsymbol{\Lambda}^{\sharp} = d$ — 따라서:
 
 - **오른쪽 역원** $\mathbf{Q}:\mathbb{R}^d\to\mathbb{R}^{nL}$이 존재한다 ($\boldsymbol{\Lambda}^{\sharp}\mathbf{Q} = \mathbf{I}_d$, $C_Q := \|\mathbf{Q}\|_{\infty\to\infty}<\infty$);
-- **커널** $K := \ker\boldsymbol{\Lambda}^{\sharp}$는 차원 $nL-d$이고, 그 **정규직교기저를 열로 갖는 행렬 $\mathbf{N}\in\mathbb{R}^{nL\times(nL-d)}$를 한 번 고정**한다.
+- **커널** $\mathsf{K} := \ker\boldsymbol{\Lambda}^{\sharp}$는 차원 $nL-d$이고, 그 **정규직교기저를 열로 갖는 행렬 $\mathbf{Z}\in\mathbb{R}^{nL\times(nL-d)}$를 한 번 고정**한다.
 
 transpose의 range는
 
@@ -210,19 +210,19 @@ $$\operatorname{Range}((\boldsymbol{\Lambda}^{\sharp})^{\top}) = \bigl\{\boldsym
 
 — $\boldsymbol{\xi} = (\boldsymbol{\Lambda}^{\sharp})^{\top}\theta$가 $\xi_{1,\ell} = -\sum_q\theta_q$, $\xi_{k,\ell} = \theta_{k-1}$ ($k\geq 2$)라 노드 그룹별 상수에 그룹합 0이기 때문이다. (이 특성화는 한참 뒤 "퇴화 비교 분류"에서 결정적으로 쓰인다.)
 
-이제 핵심 좌표 교체. 선형사상 $(\boldsymbol{\zeta},\mathbf{w})\mapsto \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}$는 $\mathbb{R}^{d}\times\mathbb{R}^{nL-d}$에서 $\mathbb{R}^{nL}$ 위로의 **전단사**다: $\mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w} = \mathbf{0}$이면 $\boldsymbol{\Lambda}^{\sharp}$를 적용해 $\boldsymbol{\zeta} = \mathbf{0}$ ($\because\ \boldsymbol{\Lambda}^{\sharp}\mathbf{Q} = \mathbf{I}_d$이고 $\boldsymbol{\Lambda}^{\sharp}\mathbf{N} = \mathbf{0}$), 이어서 $\mathbf{N}$의 열 독립으로 $\mathbf{w} = \mathbf{0}$. 이 좌표에서 $\boldsymbol{\Lambda}^{\sharp}(\mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}) = \boldsymbol{\zeta}$: **$\boldsymbol{\zeta}$가 fall shift, $\mathbf{w}$가 그 shift를 실현하는 적립 벡터들의 매개변수**다. $X\sim\mathrm{Unif}([0,b]^{nL})$, 가측 $S\subseteq\mathbb{R}^{nL}$, $A\subseteq\mathbb{R}^{d}$에 대해, 치환 $\mathbf{b}^{\sharp} = \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}$ 후 Tonelli:
+이제 핵심 좌표 교체. 선형사상 $(\mathbf{x},\mathbf{z})\mapsto \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}$는 $\mathbb{R}^{d}\times\mathbb{R}^{nL-d}$에서 $\mathbb{R}^{nL}$ 위로의 **전단사**다: $\mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z} = \mathbf{0}$이면 $\boldsymbol{\Lambda}^{\sharp}$를 적용해 $\mathbf{x} = \mathbf{0}$ ($\because\ \boldsymbol{\Lambda}^{\sharp}\mathbf{Q} = \mathbf{I}_d$이고 $\boldsymbol{\Lambda}^{\sharp}\mathbf{Z} = \mathbf{0}$), 이어서 $\mathbf{Z}$의 열 독립으로 $\mathbf{z} = \mathbf{0}$. 이 좌표에서 $\boldsymbol{\Lambda}^{\sharp}(\mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}) = \mathbf{x}$: **$\mathbf{x}$가 fall shift, $\mathbf{z}$가 그 shift를 실현하는 적립 벡터들의 매개변수**다. $X\sim\mathrm{Unif}([0,b]^{nL})$, 가측 $\mathsf{S}\subseteq\mathbb{R}^{nL}$, $\mathsf{B}\subseteq\mathbb{R}^{d}$에 대해, 치환 $\mathbf{b}^{\sharp} = \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}$ 후 Tonelli:
 
-$$\mathbb{P}\bigl(X\in S,\ \boldsymbol{\Lambda}^{\sharp}X\in A\bigr) \;=\; b^{-nL}\,\bigl|\det[\mathbf{Q}\ \mathbf{N}]\bigr|\int_{A}\bigl|\bigl\{\mathbf{w} : \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}\in[0,b]^{nL}\cap S\bigr\}\bigr|_{\mathrm{Leb}}\,d\boldsymbol{\zeta} \qquad\cdots\ (\dagger)$$
+$$\mathbb{P}\bigl(X\in \mathsf{S},\ \boldsymbol{\Lambda}^{\sharp}X\in \mathsf{B}\bigr) \;=\; b^{-nL}\,\bigl|\det[\mathbf{Q}\ \mathbf{Z}]\bigr|\int_{\mathsf{B}}\bigl|\bigl\{\mathbf{z} : \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}\in[0,b]^{nL}\cap \mathsf{S}\bigr\}\bigr|_{\mathrm{Leb}}\,d\mathbf{x} \qquad\cdots\ (\dagger)$$
 
-즉 $\{X\in S\}$로 제한한 $\boldsymbol{\Lambda}^{\sharp}X$의 법칙은 $\boldsymbol{\zeta}$에서 Lebesgue 밀도 $b^{-nL}|\det[\mathbf{Q}\ \mathbf{N}]|\,|\{\mathbf{w} : \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}\in[0,b]^{nL}\cap S\}|_{\mathrm{Leb}}$를 갖는다. **아래의 모든 밀도 바닥은, 적절한 적립 집합 $S$를 골라 $(\dagger)$의 $\mathbf{w}$-slice 측도를 바닥내는 것으로 얻는다.**
+즉 $\{X\in \mathsf{S}\}$로 제한한 $\boldsymbol{\Lambda}^{\sharp}X$의 법칙은 $\mathbf{x}$에서 Lebesgue 밀도 $b^{-nL}|\det[\mathbf{Q}\ \mathbf{Z}]|\,|\{\mathbf{z} : \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}\in[0,b]^{nL}\cap \mathsf{S}\}|_{\mathrm{Leb}}$를 갖는다. **아래의 모든 밀도 바닥은, 적절한 적립 집합 $\mathsf{S}$를 골라 $(\dagger)$의 $\mathbf{z}$-slice 측도를 바닥내는 것으로 얻는다.**
 
-**예 ($K_3$).** $d=2$, $nL=105$: $\boldsymbol{\Lambda}^{\sharp}\in\mathbb{R}^{2\times105}$는 동일한 $2\times3$ 블록 $\bigl[\begin{smallmatrix}-1&1&0\\-1&0&1\end{smallmatrix}\bigr]$ 35개를 이어붙인 것, $K$는 103차원, $\mathbf{N}\in\mathbb{R}^{105\times103}$, $\mathbf{w}\in\mathbb{R}^{103}$. **$\mathbf{w}$의 뜻**: 표적 $\boldsymbol{\zeta}=(-2,2)$ — "$v_2$ 쪽 합을 $2$ 줄이고 $v_3$ 쪽 합을 $2$ 늘려라" — 를 실현하는 적립 $\mathbf{b}^{\sharp}$는 무수히 많다 (매 cycle 균등하게 $(0.4,\,0.343,\,0.457)$씩 적립하든, 앞쪽 cycle에 몰아서 밀든). 105개 좌표를 (목적지 2) + (실현 방법 103)으로 갈아끼우면, 그 "방법"들이 $\mathbf{w}\in\mathbb{R}^{103}$ 하나로 라벨링되고, "방법이 얼마나 많은가"가 $\mathbf{w}$-slice의 **103차원 Lebesgue 부피**가 된다. 한 점 표적이 확률 0인 이유(점이라서)와 그런데도 밀도가 생기는 이유(slice 부피가 양수라서)가 이 좌표에서 동시에 보인다.
+**예 ($K_3$).** $d=2$, $nL=105$: $\boldsymbol{\Lambda}^{\sharp}\in\mathbb{R}^{2\times105}$는 동일한 $2\times3$ 블록 $\bigl[\begin{smallmatrix}-1&1&0\\-1&0&1\end{smallmatrix}\bigr]$ 35개를 이어붙인 것, $\mathsf{K}$는 103차원, $\mathbf{Z}\in\mathbb{R}^{105\times103}$, $\mathbf{z}\in\mathbb{R}^{103}$. **$\mathbf{z}$의 뜻**: 표적 $\mathbf{x}=(-2,2)$ — "$v_2$ 쪽 합을 $2$ 줄이고 $v_3$ 쪽 합을 $2$ 늘려라" — 를 실현하는 적립 $\mathbf{b}^{\sharp}$는 무수히 많다 (매 cycle 균등하게 $(0.4,\,0.343,\,0.457)$씩 적립하든, 앞쪽 cycle에 몰아서 밀든). 105개 좌표를 (목적지 2) + (실현 방법 103)으로 갈아끼우면, 그 "방법"들이 $\mathbf{z}\in\mathbb{R}^{103}$ 하나로 라벨링되고, "방법이 얼마나 많은가"가 $\mathbf{z}$-slice의 **103차원 Lebesgue 부피**가 된다. 한 점 표적이 확률 0인 이유(점이라서)와 그런데도 밀도가 생기는 이유(slice 부피가 양수라서)가 이 좌표에서 동시에 보인다.
 
 ::: {.callout-note collapse="true"}
-## 🔽 $K_3$에서 $|\det[\mathbf{Q}\ \mathbf{N}]|$ 계산 — 그리고 왜 값을 몰라도 되나
+## 🔽 $K_3$에서 $|\det[\mathbf{Q}\ \mathbf{Z}]|$ 계산 — 그리고 왜 값을 몰라도 되나
 
-$[\mathbf{Q}\ \mathbf{N}]$은 $105\times105$ 정방행렬. $\mathbf{Q}$를 유사역원 $(\boldsymbol{\Lambda}^{\sharp})^{\top}(\boldsymbol{\Lambda}^{\sharp}(\boldsymbol{\Lambda}^{\sharp})^{\top})^{-1}$로 고르면 $\mathbf{Q}$의 열이 row space에 살아 $\mathbf{Q}^{\top}\mathbf{N} = \mathbf{0}$이고,
-$$\det[\mathbf{Q}\ \mathbf{N}]^2 = \det(\mathbf{Q}^{\top}\mathbf{Q}) = \det\bigl((\boldsymbol{\Lambda}^{\sharp}(\boldsymbol{\Lambda}^{\sharp})^{\top})^{-1}\bigr) = \frac{1}{L^{n-1}n} \quad\Rightarrow\quad |\det[\mathbf{Q}\ \mathbf{N}]| = \frac{1}{35\sqrt3} \approx \frac{1}{60.62}$$
+$[\mathbf{Q}\ \mathbf{Z}]$은 $105\times105$ 정방행렬. $\mathbf{Q}$를 유사역원 $(\boldsymbol{\Lambda}^{\sharp})^{\top}(\boldsymbol{\Lambda}^{\sharp}(\boldsymbol{\Lambda}^{\sharp})^{\top})^{-1}$로 고르면 $\mathbf{Q}$의 열이 row space에 살아 $\mathbf{Q}^{\top}\mathbf{Z} = \mathbf{0}$이고,
+$$\det[\mathbf{Q}\ \mathbf{Z}]^2 = \det(\mathbf{Q}^{\top}\mathbf{Q}) = \det\bigl((\boldsymbol{\Lambda}^{\sharp}(\boldsymbol{\Lambda}^{\sharp})^{\top})^{-1}\bigr) = \frac{1}{L^{n-1}n} \quad\Rightarrow\quad |\det[\mathbf{Q}\ \mathbf{Z}]| = \frac{1}{35\sqrt3} \approx \frac{1}{60.62}$$
 ($\because$ Gram $\boldsymbol{\Lambda}^{\sharp}(\boldsymbol{\Lambda}^{\sharp})^{\top} = L(\mathbf{I}_d+\mathbf{1}\mathbf{1}^{\top})$, $\det = L^d n = 35^2\cdot3$). 다른 $\mathbf{Q}$를 고르면 값이 달라지지만 무방하다 — 아래에서 $m_0$에 $|\det|^{-1}$로, $c_*$에 $|\det|$로 들어가 정확히 상쇄되고, 최종 $c_*$는 $\mathbf{Q}$ 선택과 무관해진다.
 :::
 
@@ -254,14 +254,14 @@ axA.plot([0,0],[-S,S], color='#e67e22', ls=':', lw=1.0)
 axA.plot([-S,S],[-S,S], color='#e67e22', ls=':', lw=1.0)
 axA.add_patch(plt.Rectangle((cx-rU,cy-rU),2*rU,2*rU, facecolor='#27ae60',
               edgecolor='#1e7e44', lw=1.0, zorder=3))
-axA.annotate(r'$U$ (tiny)', xy=(cx,cy), xytext=(0.008,0.012), color='#1e7e44',
+axA.annotate(r'$\mathsf{U}$ (tiny)', xy=(cx,cy), xytext=(0.008,0.012), color='#1e7e44',
              fontsize=8, arrowprops=dict(arrowstyle='->', color='#1e7e44', lw=0.9))
 axA.text(0.012,-0.003, r'equality lines', color='#e67e22', fontsize=7, rotation=45)
-axA.text(0, 0.017, r'$U\Subset\mathcal{O}$ ($\mathcal{O}=\pm b/4=\pm0.25$ box, off-scale)',
+axA.text(0, 0.017, r'$\mathsf{U}\Subset\mathsf{O}$ ($\mathsf{O}=\pm b/4=\pm0.25$ box, off-scale)',
          color='#8e44ad', ha='center', fontsize=7.5)
 axA.set_xlim(-0.02,0.02); axA.set_ylim(-0.02,0.02); axA.set_aspect('equal')
 axA.set_xlabel(XL, fontsize=8); axA.set_ylabel(YL, fontsize=8)
-axA.set_title(r'(A) chamber $U$ near origin (inside $\mathcal{O}$)', fontsize=8.5)
+axA.set_title(r'(A) chamber $\mathsf{U}$ near origin (inside $\mathsf{O}$)', fontsize=8.5)
 axA.tick_params(labelsize=6.5)
 
 # ---- (B) zoom into O† interior: chamber U off the equality lines ----
@@ -271,13 +271,13 @@ axB.plot([0,0],[-Z,Z], color='#e67e22', ls=':', lw=1.0)
 axB.plot([-Z,Z],[-Z,Z], color='#e67e22', ls=':', lw=1.0)
 axB.add_patch(plt.Rectangle((cx-rU,cy-rU),2*rU,2*rU, facecolor='#27ae60',
               edgecolor='#1e7e44', lw=1.2, zorder=3))
-axB.text(cx+0.0016, cy+0.0011, r'$U$', color='#1e7e44', fontsize=11)
+axB.text(cx+0.0016, cy+0.0011, r'$\mathsf{U}$', color='#1e7e44', fontsize=11)
 axB.text(0.0007,-0.0045, r'$\{u_1{=}0\}$', color='#e67e22', fontsize=7, rotation=90)
 axB.text(0.006,0.0004, r'$\{u_2{=}0\}$', color='#e67e22', fontsize=7)
 axB.text(0.0072,0.009, r'$\{u_1{=}u_2\}$', color='#e67e22', fontsize=7, rotation=45)
 axB.set_xlim(-Z,Z); axB.set_ylim(-Z,Z); axB.set_aspect('equal')
 axB.set_xlabel(XL, fontsize=8); axB.set_ylabel(YL, fontsize=8)
-axB.set_title(r'(B) zoom: $U$ avoids equality lines ($\kappa_U$)', fontsize=8)
+axB.set_title(r'(B) zoom: $\mathsf{U}$ avoids equality lines ($\kappa_U$)', fontsize=8)
 axB.tick_params(labelsize=6)
 
 plt.tight_layout()
@@ -290,85 +290,85 @@ plt.show()
 
 ## 목표선언 — $\eta$의 정체
 
-Definition 3(petite)에 의해, 어떤 스텝 수와 0 아닌 측도를 잡아 그 전이가 $s^{\star}\in C_0$ 위에서 균일하게 그 측도를 minorize함을 보이면 $C_0$는 small이다. 스텝 수로 $nL$ 라운드, 측도로 chamber 측도 $\nu := \mathrm{Unif}(\mathsf{U})\otimes\delta_{v_n}$를 잡고,
+Definition 3(petite)에 의해, 어떤 스텝 수와 0 아닌 측도를 잡아 그 전이가 $s^{\star}\in \mathsf{C}_0$ 위에서 균일하게 그 측도를 minorize함을 보이면 $\mathsf{C}_0$는 small이다. 스텝 수로 $nL$ 라운드, 측도로 chamber 측도 $\nu := \mathrm{Unif}(\mathsf{U})\otimes\delta_{v_n}$를 잡고,
 
-$$(P^{\star})^{nL}(s^{\star},\cdot) \;\geq\; \eta\,\nu \quad (s^{\star}\in C_0), \qquad \eta := \mu_{\min}^{nL}\,q_{\min}^{D}\,(\varepsilon_{\flat}/b)^{nLT_{\max}}\,c_*\,|\mathsf{U}|_{\mathrm{Leb}} \;>\; 0$$
+$$(P^{\star})^{nL}(s^{\star},\cdot) \;\geq\; \eta\,\nu \quad (s^{\star}\in \mathsf{C}_0), \qquad \eta := \mu_{\min}^{nL}\,q_{\min}^{D}\,(\varepsilon/b)^{nLT_{\max}}\,c_*\,|\mathsf{U}|_{\mathrm{Leb}} \;>\; 0$$
 
-을 증명한다. 동치로, 모든 Borel $B\subseteq\mathsf{U}$에 대해 $(P^{\star})^{nL}(s^{\star}, B\times\{v_n\}) \geq \eta\,|B|_{\mathrm{Leb}}/|\mathsf{U}|_{\mathrm{Leb}}$ ($\because \nu(B\times\{v_n\}) = |B|_{\mathrm{Leb}}/|\mathsf{U}|_{\mathrm{Leb}}$). 스케일 $\eta$는 **discrete floor** $\mu_{\min}^{nL}q_{\min}^{D}(\varepsilon_{\flat}/b)^{nLT_{\max}}$ 곱하기 **fall-density floor** $c_*>0$로 쪼개지며, 둘 다 아래서 만든다 — 모든 인자가 $s^{\star}$ 무관이다. 증명은 두괄식으로 간다: 좌변을 전개해 display를 두 floor로 환원하고, 각 floor를 차례로 닫는다 (density floor는 robust core로의 환원을 거쳐).
+을 증명한다. 동치로, 모든 Borel $\mathsf{B}\subseteq\mathsf{U}$에 대해 $(P^{\star})^{nL}(s^{\star}, \mathsf{B}\times\{v_n\}) \geq \eta\,|\mathsf{B}|_{\mathrm{Leb}}/|\mathsf{U}|_{\mathrm{Leb}}$ ($\because \nu(\mathsf{B}\times\{v_n\}) = |\mathsf{B}|_{\mathrm{Leb}}/|\mathsf{U}|_{\mathrm{Leb}}$). 스케일 $\eta$는 **discrete floor** $\mu_{\min}^{nL}q_{\min}^{D}(\varepsilon/b)^{nLT_{\max}}$ 곱하기 **fall-density floor** $c_*>0$로 쪼개지며, 둘 다 아래서 만든다 — 모든 인자가 $s^{\star}$ 무관이다. 증명은 두괄식으로 간다: 좌변을 전개해 display를 두 floor로 환원하고, 각 floor를 차례로 닫는다 (density floor는 robust core로의 환원을 거쳐).
 
-**해설.** 다섯 인자를 미리 읽어두면 — $\mu_{\min}^{nL}$: falls가 cyclic 표적을 맞출 확률, $q_{\min}^{D}$: walker의 하류 픽들이 favourable branch를 따라줄 확률, $(\varepsilon_{\flat}/b)^{nLT_{\max}}$: non-fall 적립이 전부 작을 확률 (여기까지 이산), $c_*$: 그 시나리오 위에서 fall 적립이 표적에 밀도를 까는 바닥 (연속), $|\mathsf{U}|_{\mathrm{Leb}}$: 측도 정규화.
+**해설.** 다섯 인자를 미리 읽어두면 — $\mu_{\min}^{nL}$: falls가 cyclic 표적을 맞출 확률, $q_{\min}^{D}$: walker의 하류 픽들이 favourable branch를 따라줄 확률, $(\varepsilon/b)^{nLT_{\max}}$: non-fall 적립이 전부 작을 확률 (여기까지 이산), $c_*$: 그 시나리오 위에서 fall 적립이 표적에 밀도를 까는 바닥 (연속), $|\mathsf{U}|_{\mathrm{Leb}}$: 측도 정규화.
 
 ## 좌변을 확률로 읽기
 
-$$(P^{\star})^{nL}(s^{\star}, B\times\{v_n\}) \;=\; \mathbb{P}_{s^{\star}}\bigl(S^{\star}_{r+nL}\in B\times\{v_n\}\bigr)$$
+$$(P^{\star})^{nL}(s^{\star}, \mathsf{B}\times\{v_n\}) \;=\; \mathbb{P}_{s^{\star}}\bigl(S^{\star}_{r+nL}\in \mathsf{B}\times\{v_n\}\bigr)$$
 
-— $nL$ 라운드 뒤 skeleton walker가 $v_n$에 앉아 있고 anchored 높이가 $B$에 들 확률로 읽는다. (종점은 terminal fall 시각 $t_{r+nL}$**에서** 읽으므로 $X_{t_{r+nL}}=v_n$은 마지막 fall의 표적이다 — 그 뒤의 라운드 내 flow는 구간 $(t_{r+nL},t_{r+nL+1}]$, 라운드 $r+nL$ 소속으로 이 $nL$-스텝 전이 밖이다.) 윈도우 동안 anchored 높이는
+— $nL$ 라운드 뒤 skeleton walker가 $v_n$에 앉아 있고 anchored 높이가 $\mathsf{B}$에 들 확률로 읽는다. (종점은 terminal fall 시각 $t_{r+nL}$**에서** 읽으므로 $X_{t_{r+nL}}=v_n$은 마지막 fall의 표적이다 — 그 뒤의 라운드 내 flow는 구간 $(t_{r+nL},t_{r+nL+1}]$, 라운드 $r+nL$ 소속으로 이 $nL$-스텝 전이 밖이다.) 윈도우 동안 anchored 높이는
 
 $$\mathring{\mathbf{h}}(s^{\star}) \;\longmapsto\; \mathring{\mathbf{h}}(s^{\star}) + \boldsymbol{\Lambda}^{\sharp}\mathbf{b}^{\sharp} + \boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}$$
 
 로 움직인다 — 출발, 더하기 누적 fall shift $\boldsymbol{\Lambda}^{\sharp}\mathbf{b}^{\sharp}$ (위의 fall map), 더하기 non-fall 기여 $\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}$. 여기서 $\boldsymbol{\Lambda}^{\flat}_{\amalg}:\mathbb{R}^{nLT_{\max}}\to\mathbb{R}^{n-1}$는 작은 non-fall 적립들을 조립하는 **branch-고정 선형 사상**이다 ($\mathbf{b}^{\flat}$는 길이 $nLT_{\max}$로 패딩, 미사용 non-fall 슬롯 좌표는 0). 이 기여는 사후에야 알게 되는 shift가 아니라, **선형 사상의 작은 출력**이다.
 
-**예 ($K_3$).** 출발 $\mathring{\mathbf{h}}(s^{\star}) = (2,-2)$에서 chamber 중심 $(0.0026, 0.0052)$ 근방 $B$에 들어가려면 fall shift가 대략 $\boldsymbol{\Lambda}^{\sharp}\mathbf{b}^{\sharp} \approx (-2,\,2)$ — "$v_2$ 누적합은 $v_1$보다 $2$ 작게, $v_3$ 누적합은 $2$ 크게". $L=35$ cycle이면 cycle당 평균 $(-0.057,\,0.057)$씩, 박스 $\mathsf{O}=(\pm\tfrac14)^2$ 안에 넉넉히 든다.
+**예 ($K_3$).** 출발 $\mathring{\mathbf{h}}(s^{\star}) = (2,-2)$에서 chamber 중심 $(0.0026, 0.0052)$ 근방 $\mathsf{B}$에 들어가려면 fall shift가 대략 $\boldsymbol{\Lambda}^{\sharp}\mathbf{b}^{\sharp} \approx (-2,\,2)$ — "$v_2$ 누적합은 $v_1$보다 $2$ 작게, $v_3$ 누적합은 $2$ 크게". $L=35$ cycle이면 cycle당 평균 $(-0.057,\,0.057)$씩, 박스 $\mathsf{O}=(\pm\tfrac14)^2$ 안에 넉넉히 든다.
 
-전이를 하나의 favourable 시나리오로 하한한다: $nL$ falls가 $v_1,\dots,v_n$을 cyclic하게 맞히고(terminal 표적 $v_n$), walker는 **고정 branch $\amalg$**를 그 fall 적립이 robust core $\mathcal{R}_{\delta,\amalg}$(아래서 깎음)에 들면서 실현하며, 모든 non-fall 적립은 $\leq\varepsilon_{\flat}$. 이 시나리오 위에서 walker는 $v_n$에 도착하고, 높이가 $B$에 드는 것은 정확히 **good event**
+전이를 하나의 favourable 시나리오로 하한한다: $nL$ falls가 $v_1,\dots,v_n$을 cyclic하게 맞히고(terminal 표적 $v_n$), walker는 **고정 branch $\amalg$**를 그 fall 적립이 robust core $\mathsf{R}_{\delta,\amalg}$(아래서 깎음)에 들면서 실현하며, 모든 non-fall 적립은 $\leq\varepsilon$. 이 시나리오 위에서 walker는 $v_n$에 도착하고, 높이가 $\mathsf{B}$에 드는 것은 정확히 **good event**
 
-$$G_B \;=\; \Bigl\{(\mathbf{b}^{\sharp},\mathbf{b}^{\flat}) : \mathbf{b}^{\flat}\in[0,\varepsilon_{\flat}]^{nLT_{\max}},\ \ \boldsymbol{\Lambda}^{\sharp}\mathbf{b}^{\sharp} = \mathbf{u} - \mathring{\mathbf{h}}(s^{\star}) - \boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}\ \text{ for some } \mathbf{u}\in B\Bigr\}$$
+$$\mathsf{G}_{\mathsf{B}} \;=\; \Bigl\{(\mathbf{b}^{\sharp},\mathbf{b}^{\flat}) : \mathbf{b}^{\flat}\in[0,\varepsilon]^{nLT_{\max}},\ \ \boldsymbol{\Lambda}^{\sharp}\mathbf{b}^{\sharp} = \mathbf{u} - \mathring{\mathbf{h}}(s^{\star}) - \boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}\ \text{ for some } \mathbf{u}\in \mathsf{B}\Bigr\}$$
 
 이다. fall 적립은 i.i.d. $\mathrm{Unif}(0,b)$ (결합밀도 $b^{-nL}$ on $[0,b]^{nL}$), non-fall 적립도 i.i.d. $\mathrm{Unif}(0,b)$ (결합밀도 $b^{-nLT_{\max}}$)이고, 이산적인 fall 스케줄·branch 픽과 독립이다 — 그 이산 부분이 아래 discrete floor $\mu_{\min}^{nL}q_{\min}^{D}$를 나른다. $\mathbf{b}^{\flat}$를 고정하면 favourable fall 이미지는 $(\dagger)$에 의해 $\mathbf{u}\in\mathsf{U}$에서 Lebesgue 밀도
 
-$$\rho_{\mathbf{b}^{\flat}}(\mathbf{u}) \;:=\; \frac{|\det[\mathbf{Q}\ \mathbf{N}]|}{b^{nL}}\sum_{\amalg}\Bigl|\Bigl\{\mathbf{w} : \mathbf{Q}\bigl(\mathbf{u}-\mathring{\mathbf{h}}(s^{\star})-\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}\bigr)+\mathbf{N}\mathbf{w} \,\in\, \mathcal{R}_{\delta,\amalg}\Bigr\}\Bigr|_{\mathrm{Leb}}$$
+$$\rho_{\mathbf{b}^{\flat}}(\mathbf{u}) \;:=\; \frac{|\det[\mathbf{Q}\ \mathbf{Z}]|}{b^{nL}}\sum_{\amalg}\Bigl|\Bigl\{\mathbf{z} : \mathbf{Q}\bigl(\mathbf{u}-\mathring{\mathbf{h}}(s^{\star})-\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}\bigr)+\mathbf{Z}\mathbf{z} \,\in\, \mathsf{R}_{\delta,\amalg}\Bigr\}\Bigr|_{\mathrm{Leb}}$$
 
-를 갖는다 — 표적 $\mathbf{u}$ 위의 robust-core slice 측도에 배율 $|\det[\mathbf{Q}\ \mathbf{N}]|/b^{nL}$. 증명의 나머지가 세우는 게 정확히 이 바닥이다. (branch 제약이 없다면 full-slice 밀도 $b^{-nL}|\det[\mathbf{Q}\ \mathbf{N}]|\,|\{\mathbf{w} : \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}\in[0,b]^{nL}\}|_{\mathrm{Leb}}$일 것이다; walker가 $\amalg$를 **실제로 따르라**는 요구가 각 slice에서 $\delta$-튜브를 도려내, full slice를 robust core $\mathcal{R}_{\delta,\amalg}$로 바꾼다 — slice-floor 단계가 $m_0$를, robust-core 단계가 $m_*$를 준다.) 좌변을 전개한다, 한 줄에 한 연산:
+를 갖는다 — 표적 $\mathbf{u}$ 위의 robust-core slice 측도에 배율 $|\det[\mathbf{Q}\ \mathbf{Z}]|/b^{nL}$. 증명의 나머지가 세우는 게 정확히 이 바닥이다. (branch 제약이 없다면 full-slice 밀도 $b^{-nL}|\det[\mathbf{Q}\ \mathbf{Z}]|\,|\{\mathbf{z} : \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}\in[0,b]^{nL}\}|_{\mathrm{Leb}}$일 것이다; walker가 $\amalg$를 **실제로 따르라**는 요구가 각 slice에서 $\delta$-튜브를 도려내, full slice를 robust core $\mathsf{R}_{\delta,\amalg}$로 바꾼다 — slice-floor 단계가 $m_0$를, robust-core 단계가 $m_*$를 준다.) 좌변을 전개한다, 한 줄에 한 연산:
 
-$$\begin{aligned} (P^{\star})^{nL}(s^{\star}, B\times\{v_n\}) &\;\geq\; \mu_{\min}^{nL}\,q_{\min}^{D}\int_{[0,\varepsilon_{\flat}]^{nLT_{\max}}}\!\!\! b^{-nLT_{\max}}\int_{B}\rho_{\mathbf{b}^{\flat}}(\mathbf{u})\,d\mathbf{u}\,d\mathbf{b}^{\flat} && (\because G_B,\ (\dagger)) \\ &\;\geq\; \mu_{\min}^{nL}\,q_{\min}^{D}\int_{[0,\varepsilon_{\flat}]^{nLT_{\max}}}\!\!\! b^{-nLT_{\max}}\int_{B} c_*\,d\mathbf{u}\,d\mathbf{b}^{\flat} && (\because \rho_{\mathbf{b}^{\flat}}\geq c_*\ \text{(below)}) \\ &\;=\; \mu_{\min}^{nL}\,q_{\min}^{D}\,c_*\,|B|_{\mathrm{Leb}}\int_{[0,\varepsilon_{\flat}]^{nLT_{\max}}}\!\!\! b^{-nLT_{\max}}\,d\mathbf{b}^{\flat} && (\because \text{factor out } c_*) \\ &\;=\; \mu_{\min}^{nL}\,q_{\min}^{D}\,(\varepsilon_{\flat}/b)^{nLT_{\max}}\,c_*\,|B|_{\mathrm{Leb}} && (\because \text{integrate } \mathbf{b}^{\flat}) \\ &\;=\; \eta\,|B|_{\mathrm{Leb}}/|\mathsf{U}|_{\mathrm{Leb}} \;>\; 0 && (\because \text{definition of }\eta). \end{aligned}$$
+$$\begin{aligned} (P^{\star})^{nL}(s^{\star}, \mathsf{B}\times\{v_n\}) &\;\geq\; \mu_{\min}^{nL}\,q_{\min}^{D}\int_{[0,\varepsilon]^{nLT_{\max}}}\!\!\! b^{-nLT_{\max}}\int_{\mathsf{B}}\rho_{\mathbf{b}^{\flat}}(\mathbf{u})\,d\mathbf{u}\,d\mathbf{b}^{\flat} && (\because \mathsf{G}_{\mathsf{B}},\ (\dagger)) \\ &\;\geq\; \mu_{\min}^{nL}\,q_{\min}^{D}\int_{[0,\varepsilon]^{nLT_{\max}}}\!\!\! b^{-nLT_{\max}}\int_{\mathsf{B}} c_*\,d\mathbf{u}\,d\mathbf{b}^{\flat} && (\because \rho_{\mathbf{b}^{\flat}}\geq c_*\ \text{(below)}) \\ &\;=\; \mu_{\min}^{nL}\,q_{\min}^{D}\,c_*\,|\mathsf{B}|_{\mathrm{Leb}}\int_{[0,\varepsilon]^{nLT_{\max}}}\!\!\! b^{-nLT_{\max}}\,d\mathbf{b}^{\flat} && (\because \text{factor out } c_*) \\ &\;=\; \mu_{\min}^{nL}\,q_{\min}^{D}\,(\varepsilon/b)^{nLT_{\max}}\,c_*\,|\mathsf{B}|_{\mathrm{Leb}} && (\because \text{integrate } \mathbf{b}^{\flat}) \\ &\;=\; \eta\,|\mathsf{B}|_{\mathrm{Leb}}/|\mathsf{U}|_{\mathrm{Leb}} \;>\; 0 && (\because \text{definition of }\eta). \end{aligned}$$
 
-따라서 두 floor만 손에 넣으면 display가 선다: **(i) discrete floor** $\mu_{\min}^{nL}\,q_{\min}^{D}\,(\varepsilon_{\flat}/b)^{nLT_{\max}}$와 **(ii) density floor** $\rho_{\mathbf{b}^{\flat}}\geq c_*$. (i)을 즉시 닫고, 다음 (ii)로.
+따라서 두 floor만 손에 넣으면 display가 선다: **(i) discrete floor** $\mu_{\min}^{nL}\,q_{\min}^{D}\,(\varepsilon/b)^{nLT_{\max}}$와 **(ii) density floor** $\rho_{\mathbf{b}^{\flat}}\geq c_*$. (i)을 즉시 닫고, 다음 (ii)로.
 
 ## Discrete floor
 
-시나리오의 이산 확률은 $\mu_{\min}^{nL}\,q_{\min}^{D}\,(\varepsilon_{\flat}/b)^{nLT_{\max}}$ 이상, $s^{\star}$ 무관이다.
+시나리오의 이산 확률은 $\mu_{\min}^{nL}\,q_{\min}^{D}\,(\varepsilon/b)^{nLT_{\max}}$ 이상, $s^{\star}$ 무관이다.
 
-cyclic fall 스케줄 $\mathcal{A}^{\sharp} := \bigcap_{r=1}^{nL}\{X_{t_r}=v^{\sharp}_r\}$ (표적이 $L$ 라운드에 걸쳐 $v_1,\dots,v_n$ 순환, terminal 표적 $v^{\sharp}_{nL}=v_n$)은 i.i.d. $\boldsymbol{\mu}_0$-draw(snowfall A)라
+cyclic fall 스케줄 $\mathsf{A}^{\sharp} := \bigcap_{r=1}^{nL}\{X_{t_r}=v^{\sharp}_r\}$ (표적이 $L$ 라운드에 걸쳐 $v_1,\dots,v_n$ 순환, terminal 표적 $v^{\sharp}_{nL}=v_n$)은 i.i.d. $\boldsymbol{\mu}_0$-draw(snowfall A)라
 
-$$\mathbb{P}(\mathcal{A}^{\sharp}\mid s^{\star}) = \Bigl(\prod_{i=1}^{n}\boldsymbol{\mu}_0(v_i)\Bigr)^{L} \geq \mu_{\min}^{nL},$$
+$$\mathbb{P}(\mathsf{A}^{\sharp}\mid s^{\star}) = \Bigl(\prod_{i=1}^{n}\boldsymbol{\mu}_0(v_i)\Bigr)^{L} \geq \mu_{\min}^{nL},$$
 
-$s^{\star}$ 무관. small-deposit 사건 $\mathcal{A}^{\flat} := \{\text{모든 non-fall 적립} \leq \varepsilon_{\flat}\}$는 $\leq nLT_{\max}$개 non-fall 스텝에 걸쳐 — 각 적립이 $\mathcal{F}_{t-1}$-가측 분류와 독립인 $\mathrm{Unif}(0,b)$라 — tower property로 조건부 스텝마다 인자 $\varepsilon_{\flat}/b$를 줘 $\mathbb{P}(\mathcal{A}^{\flat}\mid\mathcal{A}^{\sharp},s^{\star}) \geq (\varepsilon_{\flat}/b)^{nLT_{\max}}$. favourable branch $\amalg$의 실현은, 강하 이웃이 둘 이상인 각 flow 스텝에서 walker의 degree-weighted 픽도 고정한다: 그런 픽 하나하나가 확률 $\geq q_{\min} := 1/\deg_{\max}$ ($\deg_{\max} := \max_i \deg(v_i)$)의 이산 atom이고, 윈도우에 $D$개 있다 — 유한하고 graph-bounded이며 정확한 값은 무관, $q_{\min}^{D}>0$이 고정된 $s^{\star}$-무관 상수라는 것만 쓴다. (라운드별 threshold는 non-binding이다 — 강하 경로가 $\leq n-1 < \Theta^{(r)}$ flow로 소진되므로 — 인자를 기여하지 않는다.) 세 독립 이산 floor가 곱해져 $\mu_{\min}^{nL}\,q_{\min}^{D}\,(\varepsilon_{\flat}/b)^{nLT_{\max}}$; fall의 **크기**는 여기서가 아니라 아래 density floor에서 센다 — fall 적립을 non-fall 적립과 결합으로 적분하지, 조건부 fall 법칙을 경유하지 않는다.
+$s^{\star}$ 무관. small-deposit 사건 $\mathsf{A}^{\flat} := \{\text{모든 non-fall 적립} \leq \varepsilon\}$는 $\leq nLT_{\max}$개 non-fall 스텝에 걸쳐 — 각 적립이 $\mathcal{F}_{t-1}$-가측 분류와 독립인 $\mathrm{Unif}(0,b)$라 — tower property로 조건부 스텝마다 인자 $\varepsilon/b$를 줘 $\mathbb{P}(\mathsf{A}^{\flat}\mid\mathsf{A}^{\sharp},s^{\star}) \geq (\varepsilon/b)^{nLT_{\max}}$. favourable branch $\amalg$의 실현은, 강하 이웃이 둘 이상인 각 flow 스텝에서 walker의 degree-weighted 픽도 고정한다: 그런 픽 하나하나가 확률 $\geq q_{\min} := 1/\deg_{\max}$ ($\deg_{\max} := \max_i \deg(v_i)$)의 이산 atom이고, 윈도우에 $D$개 있다 — 유한하고 graph-bounded이며 정확한 값은 무관, $q_{\min}^{D}>0$이 고정된 $s^{\star}$-무관 상수라는 것만 쓴다. (라운드별 threshold는 non-binding이다 — 강하 경로가 $\leq n-1 < \Theta^{(r)}$ flow로 소진되므로 — 인자를 기여하지 않는다.) 세 독립 이산 floor가 곱해져 $\mu_{\min}^{nL}\,q_{\min}^{D}\,(\varepsilon/b)^{nLT_{\max}}$; fall의 **크기**는 여기서가 아니라 아래 density floor에서 센다 — fall 적립을 non-fall 적립과 결합으로 적분하지, 조건부 fall 법칙을 경유하지 않는다.
 
-**예 ($K_3$).** $\boldsymbol{\mu}_0$ 균등(degree-proportional, $K_3$ 정규그래프라 균등)이면 $\mu_{\min} = \tfrac13$, 첫 인자 $(\tfrac13)^{105}$. $\deg_{\max}=2$라 $q_{\min} = \tfrac12$. 셋째 인자는 $\varepsilon_{\flat}^{630}$ ($b=1$). 지수적으로 작지만 전부 **양수** — minorization은 "양수 바닥"만 요구한다. 그리고 "$\mathcal{F}_{t-1}$-가측 분류와 독립"이 왜 필요한가: "지금 스텝이 non-fall인가"는 과거 궤적이 정하지만, **적립량** $b'_t$ 자체는 그 결정과 독립으로 새로 뽑히므로, 분류가 어떻게 꼬여도 각 스텝의 $\mathbb{P}(b^{\flat}_t\leq\varepsilon_{\flat}\mid\mathcal{F}_{t-1}) = \varepsilon_{\flat}/b$가 흔들리지 않는다.
+**예 ($K_3$).** $\boldsymbol{\mu}_0$ 균등(degree-proportional, $K_3$ 정규그래프라 균등)이면 $\mu_{\min} = \tfrac13$, 첫 인자 $(\tfrac13)^{105}$. $\deg_{\max}=2$라 $q_{\min} = \tfrac12$. 셋째 인자는 $\varepsilon^{630}$ ($b=1$). 지수적으로 작지만 전부 **양수** — minorization은 "양수 바닥"만 요구한다. 그리고 "$\mathcal{F}_{t-1}$-가측 분류와 독립"이 왜 필요한가: "지금 스텝이 non-fall인가"는 과거 궤적이 정하지만, **적립량** $b'_t$ 자체는 그 결정과 독립으로 새로 뽑히므로, 분류가 어떻게 꼬여도 각 스텝의 $\mathbb{P}(b^{\flat}_t\leq\varepsilon\mid\mathcal{F}_{t-1}) = \varepsilon/b$가 흔들리지 않는다.
 
-(ii)를 세울 차례다. $(\dagger)$에 의해, $\rho_{\mathbf{b}^{\flat}}\geq c_*$는 **branch-일관 적립 집합이 모든 이동된 표적에서 $\mathbf{w}$-slice 측도 $\geq m_*$를 유지**하면 성립한다 ($m_*>0$은 $s^{\star}$ 무관, $c_* := m_*\,|\det[\mathbf{Q}\ \mathbf{N}]|/b^{nL}$). 그러려면 적립 큐브에서 robust core $\mathcal{R}_\delta$ — full slice에서 얇은 tie 튜브를 뺀 것 — 를 깎아 그 slice가 잔차 shift를 견디게 하면 충분하다. 두 재료면 된다: **full-slice floor $m_0$** (다음)과 **마진을 갖춘 깎기** (그다음).
+(ii)를 세울 차례다. $(\dagger)$에 의해, $\rho_{\mathbf{b}^{\flat}}\geq c_*$는 **branch-일관 적립 집합이 모든 이동된 표적에서 $\mathbf{z}$-slice 측도 $\geq m_*$를 유지**하면 성립한다 ($m_*>0$은 $s^{\star}$ 무관, $c_* := m_*\,|\det[\mathbf{Q}\ \mathbf{Z}]|/b^{nL}$). 그러려면 적립 큐브에서 robust core $\mathsf{R}_\delta$ — full slice에서 얇은 tie 튜브를 뺀 것 — 를 깎아 그 slice가 잔차 shift를 견디게 하면 충분하다. 두 재료면 된다: **full-slice floor $m_0$** (다음)과 **마진을 갖춘 깎기** (그다음).
 
 ## Slice floor on a compact target
 
-다음 네 단계로 $m_0>0$을 만든다: 관련 표적들의 컴팩트 집합 $K_{\mathsf{U}}$ (가는 길에 고정)의 모든 표적 $\boldsymbol{\zeta}$에서 $\bigl|\{\mathbf{w} : \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}\in[0,b]^{nL}\}\bigr|_{\mathrm{Leb}}\geq m_0$.
+다음 네 단계로 $m_0>0$을 만든다: 관련 표적들의 컴팩트 집합 $\mathsf{K}_{\mathsf{U}}$ (가는 길에 고정)의 모든 표적 $\mathbf{x}$에서 $\bigl|\{\mathbf{z} : \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}\in[0,b]^{nL}\}\bigr|_{\mathrm{Leb}}\geq m_0$.
 
-**Non-fall residual.** branch $\amalg$는 non-fall 방문 노드들의 수열($\mathcal{A}^{\sharp}$가 정해주지 않는 이산 선택)이고, 라운드별 길이가 threshold들을 인코딩한다. 각 non-fall 적립 $b^{\flat}\sim\mathrm{Unif}(0,b)$는 anchored 높이 $\mathring{\mathbf{h}}(t)\in\mathbb{R}^{n-1}$를 sup-노름 $\leq b^{\flat}$의 벡터만큼 움직이므로, 앞의 환원에 나온 branch-고정 사상 $\boldsymbol{\Lambda}^{\flat}_{\amalg}$는 누적 non-fall 기여
+**Non-fall residual.** branch $\amalg$는 non-fall 방문 노드들의 수열($\mathsf{A}^{\sharp}$가 정해주지 않는 이산 선택)이고, 라운드별 길이가 threshold들을 인코딩한다. 각 non-fall 적립 $b^{\flat}\sim\mathrm{Unif}(0,b)$는 anchored 높이 $\mathring{\mathbf{h}}(t)\in\mathbb{R}^{n-1}$를 sup-노름 $\leq b^{\flat}$의 벡터만큼 움직이므로, 앞의 환원에 나온 branch-고정 사상 $\boldsymbol{\Lambda}^{\flat}_{\amalg}$는 누적 non-fall 기여
 
-$$\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat} \;=\; \sum_{t\,\text{non-fall}} \bigl(\mathring{\mathbf{h}}(t) - \mathring{\mathbf{h}}(t-1)\bigr) \;\in\; \mathbb{R}^{n-1},$$
+$$\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat} \;=\; \sum_{t\in\mathsf{T}^{\flat}} \bigl(\mathring{\mathbf{h}}(t) - \mathring{\mathbf{h}}(t-1)\bigr) \;\in\; \mathbb{R}^{n-1},$$
 
-연산자 노름이 graph-bounded인 $\mathbf{b}^{\flat}$의 선형 함수다. 따라서 $\mathcal{A}^{\flat}$ 위에서
+연산자 노름이 graph-bounded인 $\mathbf{b}^{\flat}$의 선형 함수다. 따라서 $\mathsf{A}^{\flat}$ 위에서
 
-$$\|\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}\|_\infty \leq \|\boldsymbol{\Lambda}^{\flat}_{\amalg}\|_{\infty\to\infty}\,\|\mathbf{b}^{\flat}\|_\infty \leq nLT_{\max}\,\varepsilon_{\flat}\leq Lb/8 \qquad (\because\ \varepsilon_{\flat}\leq b/(8nT_{\max})).$$
+$$\|\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}\|_\infty \leq \|\boldsymbol{\Lambda}^{\flat}_{\amalg}\|_{\infty\to\infty}\,\|\mathbf{b}^{\flat}\|_\infty \leq nLT_{\max}\,\varepsilon\leq Lb/8 \qquad (\because\ \varepsilon\leq b/(8nT_{\max})).$$
 
-그러므로 모든 표적 $\boldsymbol{\zeta} = \mathbf{u}-\mathring{\mathbf{h}}(s^{\star})-\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}$ ($\mathbf{u}\in \mathsf{U}$, $s^{\star}\in C_0$)는 다음에 정의할 컴팩트 $K_{\mathsf{U}}$에 든다.
+그러므로 모든 표적 $\mathbf{x} = \mathbf{u}-\mathring{\mathbf{h}}(s^{\star})-\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}$ ($\mathbf{u}\in \mathsf{U}$, $s^{\star}\in \mathsf{C}_0$)는 다음에 정의할 컴팩트 $\mathsf{K}_{\mathsf{U}}$에 든다.
 
-**예 ($K_3$).** $\varepsilon_{\flat}\leq\tfrac{1}{8\cdot3\cdot6} = \tfrac1{144}$, 잔차 상한 $630\times\tfrac1{144} = 4.375 = \tfrac{Lb}8$. "스텝 수 $\times$ 한 스텝 크기"라는 단순 곱이다 — $630$개의 미세한 flow·block 밀림(각 $\leq0.0069$)이 최악으로 한 방향 누적된 경우의 상한.
+**예 ($K_3$).** $\varepsilon\leq\tfrac{1}{8\cdot3\cdot6} = \tfrac1{144}$, 잔차 상한 $630\times\tfrac1{144} = 4.375 = \tfrac{Lb}8$. "스텝 수 $\times$ 한 스텝 크기"라는 단순 곱이다 — $630$개의 미세한 flow·block 밀림(각 $\leq0.0069$)이 최악으로 한 방향 누적된 경우의 상한.
 
 **Compact target.** 고정된 $L$로 컴팩트 집합
 
-$$K_{\mathsf{U}} := \{\mathbf{u} - \mathring{\mathbf{h}}(s^{\star}) - \mathbf{r} : \mathbf{u}\in \mathsf{U},\ s^{\star}\in C_0,\ \|\mathbf{r}\|_\infty\leq Lb/8\}$$
+$$\mathsf{K}_{\mathsf{U}} := \{\mathbf{u} - \mathring{\mathbf{h}}(s^{\star}) - \mathbf{r} : \mathbf{u}\in \mathsf{U},\ s^{\star}\in \mathsf{C}_0,\ \|\mathbf{r}\|_\infty\leq Lb/8\}$$
 
-는 컴팩트(닫힘·유계: $\mathbf{u}\in \mathsf{U}$, $M(s^{\star})\leq M_0$, $\|\mathbf{r}\|_\infty\leq Lb/8$)이고, 여유를 갖고 $\operatorname{int}(L\cdot\mathsf{O})$에 든다. 실제로 $\boldsymbol{\zeta} = \mathbf{u} - \mathring{\mathbf{h}}(s^{\star}) - \mathbf{r}\in K_{\mathsf{U}}$에 삼각부등식을 쓰면
+는 컴팩트(닫힘·유계: $\mathbf{u}\in \mathsf{U}$, $M(s^{\star})\leq M_0$, $\|\mathbf{r}\|_\infty\leq Lb/8$)이고, $L$개 fall 블록의 도달 범위 **안쪽 깊숙이** 앉는다. 실제로 $\mathbf{x} = \mathbf{u} - \mathring{\mathbf{h}}(s^{\star}) - \mathbf{r}\in \mathsf{K}_{\mathsf{U}}$에 삼각부등식을 쓰면
 
-$$\|\boldsymbol{\zeta}\|_\infty \;\leq\; \|\mathbf{u}\|_\infty + \|\mathring{\mathbf{h}}(s^{\star})\|_\infty + \|\mathbf{r}\|_\infty \;<\; \tfrac{b}{4} + 2M_0 + \tfrac{Lb}{8}$$
+$$\|\mathbf{x}\|_\infty \;\leq\; \|\mathbf{u}\|_\infty + \|\mathring{\mathbf{h}}(s^{\star})\|_\infty + \|\mathbf{r}\|_\infty \;<\; \tfrac{b}{4} + 2M_0 + \tfrac{Lb}{8}$$
 
-($\mathbf{u}\in \mathsf{U}\Subset\mathsf{O}$라 $\|\mathbf{u}\|_\infty < b/4$; 각 anchored 차이가 $\hbar(v_i,s^{\star})-\hbar(v_1,s^{\star})$로 모듈러스 $\leq 2M(s^{\star})$라 $\|\mathring{\mathbf{h}}(s^{\star})\|_\infty\leq 2M_0$; $\|\mathbf{r}\|_\infty\leq Lb/8$). $L = \lceil 16M_0/b + 3\rceil$이 $Lb/8 \geq 2M_0 + 3b/8$을 주므로, $\operatorname{int}(L\cdot\mathsf{O}) = \{\|\cdot\|_\infty < Lb/4\}$ 경계까지의 마진은 (박스 $\mathsf{O}$의 $L$겹 Minkowski 합은 팽창 박스 $\{\|\cdot\|_\infty < Lb/4\}$다 — 열린집합이라 자신이 자신의 내부: $\boldsymbol{\zeta} = \sum_\ell\boldsymbol{\zeta}_\ell$, $\|\boldsymbol{\zeta}_\ell\|_\infty < b/4$이면 삼각부등식으로 $\|\boldsymbol{\zeta}\|_\infty < Lb/4$, 역으로 $\|\boldsymbol{\zeta}\|_\infty < Lb/4$이면 $\boldsymbol{\zeta} = \sum_\ell(\boldsymbol{\zeta}/L)$, $\|\boldsymbol{\zeta}/L\|_\infty < b/4$)
+($\mathbf{u}\in \mathsf{U}\Subset\mathsf{O}$라 $\|\mathbf{u}\|_\infty < b/4$; 각 anchored 차이가 $\hbar(v_i,s^{\star})-\hbar(v_1,s^{\star})$로 모듈러스 $\leq 2M(s^{\star})$라 $\|\mathring{\mathbf{h}}(s^{\star})\|_\infty\leq 2M_0$; $\|\mathbf{r}\|_\infty\leq Lb/8$). $L = \lceil 16M_0/b + 3\rceil$이 $Lb/8 \geq 2M_0 + 3b/8$을 주므로
 
 $$\tfrac{Lb}{4} - \Bigl(\tfrac{b}{4} + 2M_0 + \tfrac{Lb}{8}\Bigr) \;=\; \tfrac{Lb}{8} - \tfrac{b}{4} - 2M_0 \;\geq\; \tfrac{b}{8} \;>\; 0,$$
 
-따라서 $K_{\mathsf{U}} \subset \{\|\boldsymbol{\zeta}\|_\infty \leq \tfrac{b}{4} + 2M_0 + \tfrac{Lb}{8}\} \Subset \operatorname{int}(L\cdot\mathsf{O})$.
+따라서 모든 $\mathbf{x}\in \mathsf{K}_{\mathsf{U}}$가 $\|\mathbf{x}\|_\infty \leq \tfrac{Lb}{4} - \tfrac{b}{8}$을 만족한다.
 
-**예 ($K_3$).** $\|\mathbf{u}\|_\infty<0.25$, $\|\mathring{\mathbf{h}}(s^{\star})\|_\infty\leq4$, $\|\mathbf{r}\|_\infty\leq4.375$ — 합쳐 $\|\boldsymbol{\zeta}\|_\infty < 8.625$, 도달역 $\operatorname{int}(35\cdot\mathsf{O}) = (\pm8.75)^2$ 안에 **마진 $b/8 = 0.125$**를 남기고 든다. ($L$의 상수가 $+1$이 아니라 $+3$인 이유가 이 마진이다.) 우리 worst-case 출발 $(2,-2)$로는 $\boldsymbol{\zeta}\approx(-2,2)$, $\|\cdot\|_\infty\approx2$ — 한참 안쪽이다.
+**예 ($K_3$).** $\|\mathbf{u}\|_\infty<0.25$, $\|\mathring{\mathbf{h}}(s^{\star})\|_\infty\leq4$, $\|\mathbf{r}\|_\infty\leq4.375$ — 합쳐 $\|\mathbf{x}\|_\infty < 8.625 = \tfrac{Lb}4 - \tfrac b8 = 8.75-0.125$: $L$개 블록의 도달 한계 $\pm8.75$에서 **마진 $b/8 = 0.125$**를 남긴 안쪽이다. ($L$의 상수가 $+1$이 아니라 $+3$인 이유가 이 마진이다.) 우리 worst-case 출발 $(2,-2)$로는 $\mathbf{x}\approx(-2,2)$, $\|\cdot\|_\infty\approx2$ — 한참 안쪽이다.
 
 ```{python}
 #| echo: false
@@ -385,25 +385,25 @@ XL = r'$h(v_2)-h(v_1)$'; YL = r'$h(v_3)-h(v_1)$'
 ax.add_patch(plt.Rectangle((old[0]-R, old[1]-R), 2*R, 2*R, fill=False,
              edgecolor='#2980b9', ls='--', lw=1.5))
 ax.text(old[0], old[1]+R+0.6,
-        r'reachable from $s$: $(2,-2)+L\cdot\mathcal{O}$ ($\pm8.75$)',
+        r'reachable from $s$: $(2,-2)+L\cdot\mathsf{O}$ ($\pm8.75$)',
         color='#2980b9', ha='center', fontsize=8)
-# C_0 hexagon (max|hbar| <= M_0 = 2) centered at origin
+# \mathsf{C}_0 hexagon (max|hbar| <= M_0 = 2) centered at origin
 C0v = [(4,2),(2,4),(-2,2),(-4,-2),(-2,-4),(2,-2)]
 ax.add_patch(Polygon(C0v, closed=True, facecolor='#eafaf0',
                      edgecolor='#27ae60', lw=1.6, zorder=2))
-ax.text(-4.6, 4.6, r'$C_0$ ($\max_i|\hbar_i|\leq M_0{=}2$)', color='#1e7e44', fontsize=8, ha='center')
-# s on the C_0 vertex, U inside C_0
+ax.text(-4.6, 4.6, r'$\mathsf{C}_0$ ($\max_i|\hbar_i|\leq M_0{=}2$)', color='#1e7e44', fontsize=8, ha='center')
+# s on the \mathsf{C}_0 vertex, U inside \mathsf{C}_0
 ax.scatter(*old, s=46, color='#c0392b', zorder=4)
 ax.text(old[0]+0.7, old[1]-1.4, r'$s^{\star}=(2,-2)$', color='#c0392b', fontsize=8)
 ax.scatter(0, 0, s=46, color='#8e44ad', zorder=4)
-ax.text(-1.3, 1.1, r'$U\approx0$', color='#8e44ad', fontsize=8, ha='right')
+ax.text(-1.3, 1.1, r'$\mathsf{U}\approx0$', color='#8e44ad', fontsize=8, ha='right')
 ax.annotate('', xy=(0.2,-0.2), xytext=(1.8,-1.8),
             arrowprops=dict(arrowstyle='->', color='black', lw=1.3))
-ax.text(-5.6, -6.2, 'arrow $=$ displacement $\\boldsymbol{\zeta}\\approx(-2,2)$\n($=$ point A in the $K_U$ figure)', color='black',
+ax.text(-5.6, -6.2, 'arrow $=$ displacement $\\mathbf{x}\\approx(-2,2)$\n($=$ point A in the $K_U$ figure)', color='black',
         fontsize=7, ha='center')
 ax.set_xlim(-9, 12); ax.set_ylim(-12, 9); ax.set_aspect('equal')
 ax.set_xlabel(XL + r' (position)', fontsize=8.5); ax.set_ylabel(YL, fontsize=8.5)
-ax.set_title(r'(C) \textbf{position frame}: reach $(2,-2)+L\cdot\mathcal{O}\ \supset\ C_0 \ni U$ ($L{=}35$)', fontsize=8.5)
+ax.set_title(r'(C) \textbf{position frame}: reach $(2,-2)+L\cdot\mathsf{O}\ \supset\ \mathsf{C}_0 \ni \mathsf{U}$ ($L{=}35$)', fontsize=8.5)
 ax.tick_params(labelsize=6.5)
 plt.tight_layout()
 import os
@@ -413,68 +413,68 @@ plt.savefig('results/figures/260605_유진_HST_petite_smallset_K3.qmd/LO_reach.p
 plt.show()
 ```
 
-favourable fall 이미지는 per-block 밀도 $f := f_{\mathring{\mathbf{b}}^{\sharp}}$의 $L$겹 합성곱 $f^{\ast L}$이고, $f$는 열린 박스 $\mathsf{O}$ 위에서 $\geq c_f := b^{1-n}/2$ (Setup, per-block fall density). $f^{\ast L}$를 $K_{\mathsf{U}}$ 위에서 바닥내고, $(\dagger)$로 그 바닥을 $\mathbf{w}$-slice로 나른다.
+favourable fall 이미지는 per-block 밀도 $f := f_{\mathring{\mathbf{b}}^{\sharp}}$의 $L$겹 합성곱 $f^{\ast L}$이고, $f$는 열린 박스 $\mathsf{O}$ 위에서 $\geq c_f := b^{1-n}/2$ (Setup, per-block fall density). $f^{\ast L}$를 $\mathsf{K}_{\mathsf{U}}$ 위에서 바닥내고, $(\dagger)$로 그 바닥을 $\mathbf{z}$-slice로 나른다.
 
-**Convolution floor.** $\boldsymbol{\zeta}\in K_{\mathsf{U}}\subset\operatorname{int}(L\cdot\mathsf{O})$를 고정하고 $\boldsymbol{\zeta} = \boldsymbol{\zeta}_1+\cdots+\boldsymbol{\zeta}_L$ (각 $\boldsymbol{\zeta}_\ell\in\mathsf{O}$)로 쓰자; $\mathsf{O}$의 열림성이 ($\boldsymbol{\zeta}$에 의존하는) $r>0$을 줘 모든 $\ell$에서 $B(\boldsymbol{\zeta}_\ell, 2r)\subset\mathsf{O}$. $s := r/(L-1)$로 두자. 임의의 $\boldsymbol{\zeta}'\in B(\boldsymbol{\zeta}, r)$와 임의의 $\mathbf{x}_\ell\in B(\boldsymbol{\zeta}_\ell, s)$ ($\ell = 1,\ldots,L-1$)에 대해 마지막 인자 $\mathbf{x}_L := \boldsymbol{\zeta}'-\sum_{\ell<L}\mathbf{x}_\ell$는
+**Convolution floor.** $\mathbf{x}\in \mathsf{K}_{\mathsf{U}}$를 고정하고 **$L$등분**한다: $\mathbf{x} = \sum_{\ell=1}^{L}(\mathbf{x}/L)$. 위 compact-target 바운드가 $\|\mathbf{x}/L\|_\infty \leq b/4 - b/(8L)$을 주므로, $r := b/(32L)$로 잡으면 유클리드 공 $B(\mathbf{x}/L,\, 2r)$이 $\mathsf{O}$에 든다 ($\because \|\cdot\|_\infty\leq\|\cdot\|_2$이고 $b/4 - b/(8L) + b/(16L) < b/4$). $s := r/(L-1)$로 두자. 임의의 $\mathbf{x}_\ell\in B(\mathbf{x}/L,\, s)$ ($\ell = 1,\ldots,L-1$)에 대해 마지막 인자 $\mathbf{x}_L := \mathbf{x}-\sum_{\ell<L}\mathbf{x}_\ell$는
 
-$$\|\mathbf{x}_L - \boldsymbol{\zeta}_L\| \;=\; \Bigl\|(\boldsymbol{\zeta}'-\boldsymbol{\zeta}) + \textstyle\sum_{\ell<L}(\boldsymbol{\zeta}_\ell-\mathbf{x}_\ell)\Bigr\| \;<\; r + (L-1)s \;=\; 2r$$
+$$\|\mathbf{x}_L - \mathbf{x}/L\| \;=\; \Bigl\|\textstyle\sum_{\ell<L}(\mathbf{x}/L-\mathbf{x}_\ell)\Bigr\| \;<\; (L-1)s \;=\; r \;<\; 2r$$
 
-이라 $\mathbf{x}_L\in B(\boldsymbol{\zeta}_L, 2r)\subset\mathsf{O}$. 그러면 $L$개 인자 전부가 $f\geq c_f$인 곳에 있어
+이라 $\mathbf{x}_L\in B(\mathbf{x}/L, 2r)\subset\mathsf{O}$. 그러면 $L$개 인자 전부가 $f\geq c_f$인 곳에 있어
 
-$$f^{\ast L}(\boldsymbol{\zeta}') \;=\; \int f(\mathbf{x}_1)\cdots f(\mathbf{x}_{L-1})\,f\Bigl(\boldsymbol{\zeta}'-\textstyle\sum_{\ell<L}\mathbf{x}_\ell\Bigr)\,d\mathbf{x}_1\cdots d\mathbf{x}_{L-1} \;\geq\; c_f^L\,\bigl(\omega_d\,s^d\bigr)^{L-1} \;>\; 0$$
+$$f^{\ast L}(\mathbf{x}) \;=\; \int f(\mathbf{x}_1)\cdots f(\mathbf{x}_{L-1})\,f\Bigl(\mathbf{x}-\textstyle\sum_{\ell<L}\mathbf{x}_\ell\Bigr)\,d\mathbf{x}_1\cdots d\mathbf{x}_{L-1} \;\geq\; c_f^L\,\bigl(\omega_d\,s^d\bigr)^{L-1} \;=:\; c_{\mathsf{K}_{\mathsf{U}}} \;>\; 0$$
 
-— 모든 $\boldsymbol{\zeta}'\in B(\boldsymbol{\zeta}, r)$에서 ($\omega_d s^d = \mathrm{Leb}\,B(\cdot, s)$). 컴팩트 $K_{\mathsf{U}}$는 그런 공 유한 개로 덮이고, 유한 개 양수 바닥의 최솟값이 $c_{K_{\mathsf{U}}} := \inf_{\boldsymbol{\zeta}\in K_{\mathsf{U}}} f^{\ast L}(\boldsymbol{\zeta}) > 0$을 준다.
+($\omega_d s^d = \mathrm{Leb}\,B(\cdot, s)$) — $\mathbf{x}\in \mathsf{K}_{\mathsf{U}}$에 균일한 **explicit 상수**다. (옛 판본의 "임의 분할 + 컴팩트 유한피복" 논증은 폐기 — 균등분할이 상수를 식으로 직접 준다.)
 
-**해설 — "$L$로 나눠 타기".** 표적 $\boldsymbol{\zeta}=(-2,2)$를 한 블록으로는 못 간다 ($\mathsf{O}$가 $\pm\tfrac14$). 하지만 $35$블록이면 각 블록이 $\boldsymbol{\zeta}_\ell = (-\tfrac2{35},\tfrac2{35})\approx(-0.057,0.057)\in\mathsf{O}$만 책임지면 된다 — 위 분해가 그것. 그리고 앞 $34$개 블록이 표적 근방에서 **공만큼 출렁여도**(자유도 = 부피), 마지막 블록이 잔차를 받아 $\mathsf{O}$ 안에서 처리한다 — 이 "마지막 인자 흡수"가 위 부등식의 전부다.
+**예 ($K_3$).** $L=35$: 각 등분 $\|\mathbf{x}/L\|_\infty \leq \tfrac{8.625}{35} \approx 0.246 < 0.25$, $r = \tfrac{1}{1120}$, $s = \tfrac{r}{34} = \tfrac1{38080}$. 표적 $(-2,2)$면 등분은 $(-0.057,\,0.057)$ — $\mathsf{O}$ 중심부라 공 $B(\cdot,2r)$이 여유 있게 든다. 앞 $34$개 인자가 공 $B(\mathbf{x}/L,s)$만큼 출렁여도 마지막 인자가 잔차를 받아 $\mathsf{O}$ 안에서 처리한다.
 
 ::: {.callout-note collapse="true"}
-## 🔽 $c_{K_{\mathsf{U}}}$는 얼마나 작나 — 사실 안 작다
+## 🔽 $c_{\mathsf{K}_{\mathsf{U}}}$는 얼마나 작나 — 사실 안 작다
 
-위 하한 $c_f^L(\omega_d s^d)^{L-1}$은 "$>0$"만 보이려는 매우 loose한 과소평가다. 실제 $f^{\ast L}$는 독립합의 밀도라 평균 $\mathbf{0}$ 주위로 표준편차 $\sqrt{L/6}\approx2.4$ 퍼지고(CLT), $K_{\mathsf{U}}$의 표적($\|\boldsymbol{\zeta}\|_\infty\lesssim8.6$)은 그 bulk에 있어 실제 밀도는 $\sim L^{-d/2}$ — 다항적으로만 작다. 증명엔 양수면 충분해 loose bound로 끝낸 것.
+위 하한 $c_f^L(\omega_d s^d)^{L-1}$은 "$>0$"만 보이려는 매우 loose한 과소평가다. 실제 $f^{\ast L}$는 독립합의 밀도라 평균 $\mathbf{0}$ 주위로 표준편차 $\sqrt{L/6}\approx2.4$ 퍼지고(CLT), $\mathsf{K}_{\mathsf{U}}$의 표적($\|\mathbf{x}\|_\infty\lesssim8.6$)은 그 bulk에 있어 실제 밀도는 $\sim L^{-d/2}$ — 다항적으로만 작다. 증명엔 양수면 충분해 loose bound로 끝낸 것.
 :::
 
-**Slice floor.** $f^{\ast L}$는 $\mathrm{Unif}([0,b]^{nL})$의 fall map $\boldsymbol{\Lambda}^{\sharp}$에 의한 pushforward 밀도이므로, $(\dagger)$의 $S = \mathbb{R}^{nL}$ 경우가
+**Slice floor.** $f^{\ast L}$는 $\mathrm{Unif}([0,b]^{nL})$의 fall map $\boldsymbol{\Lambda}^{\sharp}$에 의한 pushforward 밀도이므로, $(\dagger)$의 $\mathsf{S} = \mathbb{R}^{nL}$ 경우가
 
-$$b^{-nL}|\det[\mathbf{Q}\ \mathbf{N}]|\,\bigl|\{\mathbf{w} : \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}\in[0,b]^{nL}\}\bigr|_{\mathrm{Leb}} \;=\; f^{\ast L}(\boldsymbol{\zeta}) \;\geq\; c_{K_{\mathsf{U}}}$$
+$$b^{-nL}|\det[\mathbf{Q}\ \mathbf{Z}]|\,\bigl|\{\mathbf{z} : \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}\in[0,b]^{nL}\}\bigr|_{\mathrm{Leb}} \;=\; f^{\ast L}(\mathbf{x}) \;\geq\; c_{\mathsf{K}_{\mathsf{U}}}$$
 
 를 주고, 정리하면 slice가 바닥을 받는다:
 
-$$\bigl|\{\mathbf{w} : \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}\in[0,b]^{nL}\}\bigr|_{\mathrm{Leb}} \;\geq\; m_0 := \frac{b^{nL}\,c_{K_{\mathsf{U}}}}{|\det[\mathbf{Q}\ \mathbf{N}]|} \;>\; 0 \qquad (\boldsymbol{\zeta}\in K_{\mathsf{U}}).$$
+$$\bigl|\{\mathbf{z} : \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}\in[0,b]^{nL}\}\bigr|_{\mathrm{Leb}} \;\geq\; m_0 := \frac{b^{nL}\,c_{\mathsf{K}_{\mathsf{U}}}}{|\det[\mathbf{Q}\ \mathbf{Z}]|} \;>\; 0 \qquad (\mathbf{x}\in \mathsf{K}_{\mathsf{U}}).$$
 
-**예 ($K_3$).** 유사역원 $\mathbf{Q}$ 기준 $m_0 = c_{K_{\mathsf{U}}}\cdot35\sqrt3$ ($b=1$). "표적 $\boldsymbol{\zeta}$를 실현하는 방법들의 $103$차원 부피가 $K_{\mathsf{U}}$ 어디서든 $m_0$ 이상"으로 읽는다.
+**예 ($K_3$).** 유사역원 $\mathbf{Q}$ 기준 $m_0 = c_{\mathsf{K}_{\mathsf{U}}}\cdot35\sqrt3$ ($b=1$). "표적 $\mathbf{x}$를 실현하는 방법들의 $103$차원 부피가 $\mathsf{K}_{\mathsf{U}}$ 어디서든 $m_0$ 이상"으로 읽는다.
 
 ## Robust core and residual shift
 
-이제 robust core $\mathcal{R}_\delta\subseteq[0,b]^{nL}$를 깎는다 — $K_{\mathsf{U}}$의 모든 표적에서 $\mathbf{w}$-slice 측도 $\geq m_* := m_0/2$를 유지하면서, 그 slice가 **$\mathbf{w}$는 건드리지 않은 채** 임의의 admissible non-fall 잔차만큼 이동한 표적의 branch-일관 적립 집합 안으로 운반되도록.
+이제 robust core $\mathsf{R}_\delta\subseteq[0,b]^{nL}$를 깎는다 — $\mathsf{K}_{\mathsf{U}}$의 모든 표적에서 $\mathbf{z}$-slice 측도 $\geq m_* := m_0/2$를 유지하면서, 그 slice가 **$\mathbf{z}$는 건드리지 않은 채** 임의의 admissible non-fall 잔차만큼 이동한 표적의 branch-일관 적립 집합 안으로 운반되도록.
 
-**Comparisons and degeneracy.** 이산 branch 데이터 $\amalg$를 고정한다. 윈도우에 걸친 walker의 flow 스텝들은 유한 집합 $\mathcal{A}$의 **높이 비교**들로 결정된다: 각 $a\in\mathcal{A}$는 어떤 스텝 $t$에서 시험되는 높이차 $\Delta_{ij}(\mathring{\mathbf{h}}(t))$ (노드쌍 $i\neq j$는 $a$에 따름), 적립들의 affine 함수다. fall-적립 계수를 $\alpha_a\in\mathbb{R}^{nL}$, 적립 $0$에서의 값을 $\gamma_a(s^{\star})$라 쓰면 $\mathbf{b}^{\flat}=0$에서 비교는 $\alpha_a\cdot\mathbf{b}^{\sharp}+\gamma_a(s^{\star})$로 읽힌다 ($\mathbf{b}^{\flat}$ 의존은 Lipschitz 연속 — 아래서 유계 섭동으로 처리). $P_K$를 커널 $K = \ker\boldsymbol{\Lambda}^{\sharp}$ 위로의 직교사영이라 하자. $P_K\alpha_a = 0$이면 $\alpha_a\in\operatorname{Range}((\boldsymbol{\Lambda}^{\sharp})^{\top})$이고, fall map의 transpose-range 특성화에 의해 $\alpha_a$는 그룹상수·그룹합 $0$; $h_i-h_j$ 비교의 fall 계수는 일어난 $v_i$-fall에 $+1$, 일어난 $v_j$-fall에 $-1$, 나머지 $0$이므로, 그룹상수성은 $i,j$ 각각에 대해 "그 노드의 $L$개 fall이 전부 일어났거나 전혀 안 일어났거나"를 강제하고, 합 $0$ 조건이 남기는 건 둘뿐이다: $\alpha_a = 0$ (**결정론적 비교** — branch가 값을 고정) 또는 **final-equality 타입** $\alpha_a\cdot\mathbf{b}^{\sharp} = \sum_\ell b^{\sharp}_{i,\ell}-\sum_\ell b^{\sharp}_{j,\ell}$. 후자의 경우, fall shift가 $\boldsymbol{\Lambda}^{\sharp}\mathbf{b}^{\sharp} = \boldsymbol{\zeta} = \mathbf{u}-\mathring{\mathbf{h}}(s^{\star})$ ($\mathbf{u}\in\mathsf{U}$)인 임의의 적립 벡터에서
+**Comparisons and degeneracy.** 이산 branch 데이터 $\amalg$를 고정한다. 윈도우에 걸친 walker의 flow 스텝들은 유한 집합 $\mathsf{A}$의 **높이 비교**들로 결정된다: 각 $a\in\mathsf{A}$는 어떤 스텝 $t$에서 시험되는 높이차 $\Delta_{ij}(\mathring{\mathbf{h}}(t))$ (노드쌍 $i\neq j$는 $a$에 따름), 적립들의 affine 함수다. fall-적립 계수를 $\alpha_a\in\mathbb{R}^{nL}$, 적립 $0$에서의 값을 $\gamma_a(s^{\star})$라 쓰면 $\mathbf{b}^{\flat}=0$에서 비교는 $\alpha_a\cdot\mathbf{b}^{\sharp}+\gamma_a(s^{\star})$로 읽힌다 ($\mathbf{b}^{\flat}$ 의존은 Lipschitz 연속 — 아래서 유계 섭동으로 처리). $P_{\mathsf{K}}$를 커널 $\mathsf{K} = \ker\boldsymbol{\Lambda}^{\sharp}$ 위로의 직교사영이라 하자. $P_{\mathsf{K}}\alpha_a = 0$이면 $\alpha_a\in\operatorname{Range}((\boldsymbol{\Lambda}^{\sharp})^{\top})$이고, fall map의 transpose-range 특성화에 의해 $\alpha_a$는 그룹상수·그룹합 $0$; $h_i-h_j$ 비교의 fall 계수는 일어난 $v_i$-fall에 $+1$, 일어난 $v_j$-fall에 $-1$, 나머지 $0$이므로, 그룹상수성은 $i,j$ 각각에 대해 "그 노드의 $L$개 fall이 전부 일어났거나 전혀 안 일어났거나"를 강제하고, 합 $0$ 조건이 남기는 건 둘뿐이다: $\alpha_a = 0$ (**결정론적 비교** — branch가 값을 고정) 또는 **final-equality 타입** $\alpha_a\cdot\mathbf{b}^{\sharp} = \sum_\ell b^{\sharp}_{i,\ell}-\sum_\ell b^{\sharp}_{j,\ell}$. 후자의 경우, fall shift가 $\boldsymbol{\Lambda}^{\sharp}\mathbf{b}^{\sharp} = \mathbf{x} = \mathbf{u}-\mathring{\mathbf{h}}(s^{\star})$ ($\mathbf{u}\in\mathsf{U}$)인 임의의 적립 벡터에서
 
-$$\gamma_a(s^{\star}) + \alpha_a\cdot\mathbf{b}^{\sharp} \;=\; \Delta_{ij}\bigl(\mathring{\mathbf{h}}(s^{\star})+\boldsymbol{\zeta}\bigr) \;=\; \Delta_{ij}(\mathbf{u}), \qquad |\gamma_a(s^{\star}) + \alpha_a\cdot\mathbf{b}^{\sharp}| \;\geq\; \kappa_{\mathsf{U}}$$
+$$\gamma_a(s^{\star}) + \alpha_a\cdot\mathbf{b}^{\sharp} \;=\; \Delta_{ij}\bigl(\mathring{\mathbf{h}}(s^{\star})+\mathbf{x}\bigr) \;=\; \Delta_{ij}(\mathbf{u}), \qquad |\gamma_a(s^{\star}) + \alpha_a\cdot\mathbf{b}^{\sharp}| \;\geq\; \kappa_{\mathsf{U}}$$
 
 — chamber 분리 $(\ast)$에 의해. **final-equality 비교는 등호에서 떨어진 채 머문다.**
 
 **예 ($K_3$) — 퇴화 vs 비퇴화 비교.**
 
-- *비퇴화 예*: 둘째 라운드 중간, "지금 $v_2$가 $v_3$보다 낮은가?"라는 비교의 fall 계수는 (그 시점까지 일어난 fall만 세니) $v_2$의 첫 fall에 $+1$, $v_3$ fall은 아직이라 $0$ — 즉 $\alpha_a$가 $v_2$ 그룹에서 "일부만 1"이라 그룹상수가 아니고 $P_K\alpha_a\neq0$. 이런 비교값은 적립을 $K$ 방향으로 움직이면 **변한다** — 그래서 $\delta$-튜브로 도려낼 수 있다(다음 단계).
+- *비퇴화 예*: 둘째 라운드 중간, "지금 $v_2$가 $v_3$보다 낮은가?"라는 비교의 fall 계수는 (그 시점까지 일어난 fall만 세니) $v_2$의 첫 fall에 $+1$, $v_3$ fall은 아직이라 $0$ — 즉 $\alpha_a$가 $v_2$ 그룹에서 "일부만 1"이라 그룹상수가 아니고 $P_{\mathsf{K}}\alpha_a\neq0$. 이런 비교값은 적립을 $\mathsf{K}$ 방향으로 움직이면 **변한다** — 그래서 $\delta$-튜브로 도려낼 수 있다(다음 단계).
 - *퇴화 예*: 윈도우가 끝난 뒤의 비교 — $v_2$의 fall $35$개가 **전부** 일어났고 $v_3$도 전부라, 계수가 그룹상수($+1$ 35개, $-1$ 35개, 합 0). 값은 $\sum_\ell b^{\sharp}_{2,\ell}-\sum_\ell b^{\sharp}_{3,\ell} + \gamma_a(s^{\star}) = \Delta_{23}(\mathbf{u}) = u_1-u_2$ — **최종 도착점 $\mathbf{u}$에서의 높이차 그 자체**다. 적립을 fibre 방향으로 아무리 바꿔도 안 변하니 튜브로 못 잡지만, $\mathbf{u}$가 chamber 안이라 $|u_1-u_2|\geq\kappa_{\mathsf{U}} = \tfrac1{768}$ — **chamber가 처리한다.** 조건 (ii) "ordering 고정"의 정체가 이것이다.
 
-**Tube and boundary bounds.** $\mathcal{A}_{\mathrm{nd}} := \{a\in\mathcal{A} : P_K\alpha_a\neq 0\}$을 비퇴화 비교들이라 하자. graph-data 상수 $C_{\mathrm{tie}}, C_{\mathrm{bdry}}<\infty$가 있어, 모든 shift $\boldsymbol{\zeta}$·상태 $s^{\star}$·$\delta>0$에 대해 (중괄호 안에서 $\mathbf{b}^{\sharp} := \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}$로 쓰면)
+**Tube and boundary bounds.** $\mathsf{A}_{\mathrm{nd}} := \{a\in\mathsf{A} : P_{\mathsf{K}}\alpha_a\neq 0\}$을 비퇴화 비교들이라 하자. graph-data 상수 $C_{\mathrm{tie}}, C_{\mathrm{bdry}}<\infty$가 있어, 모든 shift $\mathbf{x}$·상태 $s^{\star}$·$\delta>0$에 대해 (중괄호 안에서 $\mathbf{b}^{\sharp} := \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}$로 쓰면)
 
-$$\Bigl|\Bigl\{\mathbf{w} : \mathbf{b}^{\sharp}\in[0,b]^{nL},\ \min_{a\in\mathcal{A}_{\mathrm{nd}}}|\alpha_a\cdot\mathbf{b}^{\sharp}+\gamma_a(s^{\star})|\leq\delta\Bigr\}\Bigr|_{\mathrm{Leb}}\leq C_{\mathrm{tie}}\,\delta,$$
+$$\Bigl|\Bigl\{\mathbf{z} : \mathbf{b}^{\sharp}\in[0,b]^{nL},\ \min_{a\in\mathsf{A}_{\mathrm{nd}}}|\alpha_a\cdot\mathbf{b}^{\sharp}+\gamma_a(s^{\star})|\leq\delta\Bigr\}\Bigr|_{\mathrm{Leb}}\leq C_{\mathrm{tie}}\,\delta,$$
 
-$$\bigl|\bigl\{\mathbf{w} : \mathbf{b}^{\sharp}\in[0,b]^{nL},\ \textstyle\min_j b^{\sharp}_j\leq\delta\ \text{or}\ \min_j(b-b^{\sharp}_j)\leq\delta\bigr\}\bigr|_{\mathrm{Leb}}\leq C_{\mathrm{bdry}}\,\delta.$$
+$$\bigl|\bigl\{\mathbf{z} : \mathbf{b}^{\sharp}\in[0,b]^{nL},\ \textstyle\min_j b^{\sharp}_j\leq\delta\ \text{or}\ \min_j(b-b^{\sharp}_j)\leq\delta\bigr\}\bigr|_{\mathrm{Leb}}\leq C_{\mathrm{bdry}}\,\delta.$$
 
-실제로 $\mathcal{A}_{\mathrm{nd}}$가 유한하므로 $\lambda_\ast := \min_{a\in\mathcal{A}_{\mathrm{nd}}}\|P_K\alpha_a\|>0$. $\mathbf{w}$의 함수로서 각 비교 $\alpha_a\cdot(\mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w})+\gamma_a(s^{\star})$는 affine이고 기울기는 $\mathbf{N}^{\top}\alpha_a$, 그리고 $a\in\mathcal{A}_{\mathrm{nd}}$에서 $\|\mathbf{N}^{\top}\alpha_a\| = \|P_K\alpha_a\|\geq\lambda_\ast$ ($\because$ $\mathbf{N}$의 열이 $K$의 정규직교기저라 $P_K = \mathbf{N}\mathbf{N}^{\top}$). $\mathbf{w}$-공간을 $\mathbf{N}^{\top}\alpha_a/\|\mathbf{N}^{\top}\alpha_a\|$ 방향으로 썰면 함수는 slice 좌표에 대해 기울기 $\geq\lambda_\ast$의 affine이라 $\{|\cdot|\leq\delta\}$는 길이 $\leq 2\delta/\lambda_\ast$의 구간; 비어 있지 않은 slice $\{\mathbf{w} : \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}\in[0,b]^{nL}\}$는 지름 $\leq b\sqrt{nL}$ (두 점의 차 $\mathbf{w}-\mathbf{w}'$가 $\mathbf{N}(\mathbf{w}-\mathbf{w}')\in[-b,b]^{nL}$을 만족하고 $\|\mathbf{w}-\mathbf{w}'\| = \|\mathbf{N}(\mathbf{w}-\mathbf{w}')\|$이므로) — 유계 단면을 적분하고 유한 family를 합하면 첫째 바운드. 큐브 면 $\{b^{\sharp}_j = 0\}$·$\{b^{\sharp}_j = b\}$ 각각은 affine 함수 $e_j\cdot(\mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w})$를 기여하는데 기울기 $\mathbf{N}^{\top}e_j\neq 0$ (아니면 $e_j\in\operatorname{Range}((\boldsymbol{\Lambda}^{\sharp})^{\top})$ — 그룹상수·합 $0$ 특성화에 모순), 같은 썰기를 $2nL$개 면에 합하면 둘째 바운드. $C := C_{\mathrm{tie}}+C_{\mathrm{bdry}}$로 쓴다.
+실제로 $\mathsf{A}_{\mathrm{nd}}$가 유한하므로 $\lambda_\ast := \min_{a\in\mathsf{A}_{\mathrm{nd}}}\|P_{\mathsf{K}}\alpha_a\|>0$. $\mathbf{z}$의 함수로서 각 비교 $\alpha_a\cdot(\mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z})+\gamma_a(s^{\star})$는 affine이고 기울기는 $\mathbf{Z}^{\top}\alpha_a$, 그리고 $a\in\mathsf{A}_{\mathrm{nd}}$에서 $\|\mathbf{Z}^{\top}\alpha_a\| = \|P_{\mathsf{K}}\alpha_a\|\geq\lambda_\ast$ ($\because$ $\mathbf{Z}$의 열이 $\mathsf{K}$의 정규직교기저라 $P_{\mathsf{K}} = \mathbf{Z}\mathbf{Z}^{\top}$). $\mathbf{z}$-공간을 $\mathbf{Z}^{\top}\alpha_a/\|\mathbf{Z}^{\top}\alpha_a\|$ 방향으로 썰면 함수는 slice 좌표에 대해 기울기 $\geq\lambda_\ast$의 affine이라 $\{|\cdot|\leq\delta\}$는 길이 $\leq 2\delta/\lambda_\ast$의 구간; 비어 있지 않은 slice $\{\mathbf{z} : \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}\in[0,b]^{nL}\}$는 지름 $\leq b\sqrt{nL}$ (두 점의 차 $\mathbf{z}-\mathbf{z}'$가 $\mathbf{Z}(\mathbf{z}-\mathbf{z}')\in[-b,b]^{nL}$을 만족하고 $\|\mathbf{z}-\mathbf{z}'\| = \|\mathbf{Z}(\mathbf{z}-\mathbf{z}')\|$이므로) — 유계 단면을 적분하고 유한 family를 합하면 첫째 바운드. 큐브 면 $\{b^{\sharp}_j = 0\}$·$\{b^{\sharp}_j = b\}$ 각각은 affine 함수 $e_j\cdot(\mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z})$를 기여하는데 기울기 $\mathbf{Z}^{\top}e_j\neq 0$ (아니면 $e_j\in\operatorname{Range}((\boldsymbol{\Lambda}^{\sharp})^{\top})$ — 그룹상수·합 $0$ 특성화에 모순), 같은 썰기를 $2nL$개 면에 합하면 둘째 바운드. $C := C_{\mathrm{tie}}+C_{\mathrm{bdry}}$로 쓴다.
 
-**예 ($K_3$).** slice 지름 $\leq b\sqrt{nL} = \sqrt{105}\approx10.25$. "$\mathbf{w}$ 103차원 공간에서, 위험한 $\mathbf{w}$(비교 하나가 등호 $\delta$ 이내이거나 적립 하나가 면 $\delta$ 이내)는 **기울기 $\geq\lambda_*$인 affine 함수의 얇은 준위대**라 부피가 $\delta$에 비례한다"가 두 바운드의 내용이다.
+**예 ($K_3$).** slice 지름 $\leq b\sqrt{nL} = \sqrt{105}\approx10.25$. "$\mathbf{z}$ 103차원 공간에서, 위험한 $\mathbf{z}$(비교 하나가 등호 $\delta$ 이내이거나 적립 하나가 면 $\delta$ 이내)는 **기울기 $\geq\lambda_*$인 affine 함수의 얇은 준위대**라 부피가 $\delta$에 비례한다"가 두 바운드의 내용이다.
 
 **Robust core.** 오른쪽-역원 shift는 적립 벡터를 큐브 면 너머로 밀거나 tie 비교를 뒤집을 수 있으므로, shift를 흡수할 마진을 갖춘 robust core를 먼저 깎는다. 큐브-경계·비퇴화-tie 튜브(총 slice 측도 $\leq C\delta$, 위의 두 바운드)를 도려내고, $\delta>0$를 $C\delta\leq m_0/2$이고 $\delta\leq\kappa_{\mathsf{U}}$이도록 고정하면, robust core
 
-$$\mathcal{R}_\delta(s^{\star}) := \{\delta\leq b^{\sharp}_j\leq b-\delta\ \forall j\}\;\cap\!\!\bigcap_{a:\,P_K\alpha_a\neq 0}\!\!\{|\alpha_a\cdot \mathbf{b}^{\sharp}+\gamma_a(s^{\star})|\geq\delta\} \;\subseteq\; [0,b]^{nL}$$
+$$\mathsf{R}_\delta(s^{\star}) := \{\delta\leq b^{\sharp}_j\leq b-\delta\ \forall j\}\;\cap\!\!\bigcap_{a:\,P_{\mathsf{K}}\alpha_a\neq 0}\!\!\{|\alpha_a\cdot \mathbf{b}^{\sharp}+\gamma_a(s^{\star})|\geq\delta\} \;\subseteq\; [0,b]^{nL}$$
 
 는 slice 바닥을 유지한다:
 
-$$\bigl|\{\mathbf{w} : \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}\in\mathcal{R}_\delta(s^{\star})\}\bigr|_{\mathrm{Leb}}\;\geq\; m_* := m_0/2 \qquad (\forall\,\boldsymbol{\zeta}\in K_{\mathsf{U}},\ s^{\star}\in C_0).$$
+$$\bigl|\{\mathbf{z} : \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}\in\mathsf{R}_\delta(s^{\star})\}\bigr|_{\mathrm{Leb}}\;\geq\; m_* := m_0/2 \qquad (\forall\,\mathbf{x}\in \mathsf{K}_{\mathsf{U}},\ s^{\star}\in \mathsf{C}_0).$$
 
 ```{python}
 #| echo: false
@@ -498,8 +498,8 @@ ax.plot([0,1],[-0.5,0.5], color='#e67e22', ls=':', lw=1.2, zorder=2)
 ax.plot([0.12,0.85],[0.85,0.12], color='#2980b9', lw=1.2, ls='--', zorder=2)
 # robust core = fibre minus tubes: the safe upper-middle segment (clear of pink + orange)
 ax.plot([0.25,0.55],[0.72,0.42], color='#8e44ad', lw=4.5, solid_capstyle='round', zorder=4)
-ax.text(0.30, 0.62, r'$\mathcal{R}_\delta$', color='#8e44ad', fontsize=13, ha='right')
-ax.annotate(r'fibre $(\Lambda^{\sharp})^{-1}(\boldsymbol{\zeta})$', xy=(0.18,0.79), xytext=(0.06,0.95),
+ax.text(0.30, 0.62, r'$\mathsf{R}_\delta$', color='#8e44ad', fontsize=13, ha='right')
+ax.annotate(r'fibre $(\Lambda^{\sharp})^{-1}(\mathbf{x})$', xy=(0.18,0.79), xytext=(0.06,0.95),
             color='#2980b9', fontsize=8.5, ha='left',
             arrowprops=dict(arrowstyle='->', color='#2980b9', lw=0.8))
 ax.annotate('cut here\n(tie tube)', xy=(0.73,0.24), xytext=(0.80,0.45),
@@ -508,7 +508,7 @@ ax.annotate('cut here\n(tie tube)', xy=(0.73,0.24), xytext=(0.80,0.45),
 ax.text(0.5,-0.07, r'edge tubes (pink): $b^{\sharp}_i$ near $0$ or $b$', color='#c0392b', fontsize=7.5, ha='center')
 ax.text(0.5,1.05, r'tie tube (orange): degenerate comparison', color='#e67e22', fontsize=7.5, ha='center')
 ax.set_xlim(-0.08,1.08); ax.set_ylim(-0.12,1.12); ax.set_aspect('equal'); ax.axis('off')
-ax.set_title(r'(schematic) carve $\mathcal{R}_\delta$ out of the $103$-dim fibre', fontsize=9)
+ax.set_title(r'(schematic) carve $\mathsf{R}_\delta$ out of the $103$-dim fibre', fontsize=9)
 plt.tight_layout()
 import os
 os.makedirs('results/figures/260605_유진_HST_petite_smallset_K3.qmd', exist_ok=True)
@@ -517,37 +517,37 @@ plt.savefig('results/figures/260605_유진_HST_petite_smallset_K3.qmd/robust_fib
 plt.show()
 ```
 
-위 도식은 $105$차원 큐브를 2차원으로 줄인 만화다 — 파란 점선이 한 표적의 slice($\mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}$들의 자취), 분홍이 큐브-경계 튜브($b^{\sharp}_j$가 $0$·$b$에서 $\delta$ 이내), 주황이 tie 튜브(비퇴화 비교가 등호에서 $\delta$ 이내), **보라 굵은 토막이 $\mathcal{R}_\delta(s^{\star})$와 만나는 알짜 slice**다. 도려내기 전 측도 $m_0$, 튜브가 최대 $C\delta\leq m_0/2$를 먹어 절반 $m_*$가 남는다. 주의: $\mathcal{R}_\delta(s^{\star})$는 표적 $\boldsymbol{\zeta}$와 무관한 **큐브의 한 부분집합**이고, 표적은 "slice를 어디서 뜨느냐"로만 들어온다.
+위 도식은 $105$차원 큐브를 2차원으로 줄인 만화다 — 파란 점선이 한 표적의 slice($\mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}$들의 자취), 분홍이 큐브-경계 튜브($b^{\sharp}_j$가 $0$·$b$에서 $\delta$ 이내), 주황이 tie 튜브(비퇴화 비교가 등호에서 $\delta$ 이내), **보라 굵은 토막이 $\mathsf{R}_\delta(s^{\star})$와 만나는 알짜 slice**다. 도려내기 전 측도 $m_0$, 튜브가 최대 $C\delta\leq m_0/2$를 먹어 절반 $m_*$가 남는다. 주의: $\mathsf{R}_\delta(s^{\star})$는 표적 $\mathbf{x}$와 무관한 **큐브의 한 부분집합**이고, 표적은 "slice를 어디서 뜨느냐"로만 들어온다.
 
-**예 ($K_3$) — 왜 도려내나.** 가장자리 점: 적립 $b^{\sharp}_{2,7} = 0.0003$인 fibre 점은 transport(아래)가 $-\mathbf{Q}\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}$로 밀 때 $b^{\sharp}_{2,7}<0$이 될 수 있다 — 음수 적설량, 실현 불가능. tie 점: 어떤 라운드의 비교값이 $0.0001$이면 작은 밀림에 부호가 뒤집혀 walker가 **다른 branch로 새고**, slice가 $\mathcal{R}_{\delta,\amalg}$ 밖으로 샌다. $\delta$ 마진이 둘 다 차단한다.
+**예 ($K_3$) — 왜 도려내나.** 가장자리 점: 적립 $b^{\sharp}_{2,7} = 0.0003$인 fibre 점은 transport(아래)가 $-\mathbf{Q}\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}$로 밀 때 $b^{\sharp}_{2,7}<0$이 될 수 있다 — 음수 적설량, 실현 불가능. tie 점: 어떤 라운드의 비교값이 $0.0001$이면 작은 밀림에 부호가 뒤집혀 walker가 **다른 branch로 새고**, slice가 $\mathsf{R}_{\delta,\amalg}$ 밖으로 샌다. $\delta$ 마진이 둘 다 차단한다.
 
 ## Transport
 
-유한한 윈도우에 걸쳐 단일 $\ell^\infty$-Lipschitz 상수 $\Gamma<\infty$ (graph·$L$ 의존)가, $\mathcal{A}^{\flat}$ 위에서 모든 잔차·모든 오른쪽-역원 shift·모든 비교의 $\mathbf{b}^{\flat}$-민감도를 $\Gamma\varepsilon_{\flat}$로 묶는다. standing setup의 단일 smallness 조건을 고정한다 — 어떤 상태보다도 먼저, 한 번만:
+유한한 윈도우에 걸쳐 단일 $\ell^\infty$-Lipschitz 상수 $\Gamma<\infty$ (graph·$L$ 의존)가, $\mathsf{A}^{\flat}$ 위에서 모든 잔차·모든 오른쪽-역원 shift·모든 비교의 $\mathbf{b}^{\flat}$-민감도를 $\Gamma\varepsilon$로 묶는다. standing setup의 단일 smallness 조건을 고정한다 — 어떤 상태보다도 먼저, 한 번만:
 
-$$\varepsilon_{\flat} \;\leq\; \min\bigl\{\,b/(8nT_{\max}),\ \delta/(4\Gamma),\ \kappa_{\mathsf{U}}/(4\Gamma)\,\bigr\}.$$
+$$\varepsilon \;\leq\; \min\bigl\{\,b/(8nT_{\max}),\ \delta/(4\Gamma),\ \kappa_{\mathsf{U}}/(4\Gamma)\,\bigr\}.$$
 
-임의의 $\mathbf{b}^{\flat}\in[0,\varepsilon_{\flat}]^{nLT_{\max}}$, $\mathbf{u}\in \mathsf{U}$, $\boldsymbol{\zeta} := \mathbf{u}-\mathring{\mathbf{h}}(s^{\star})$에 대해, $\mathcal{R}_\delta(s^{\star}) = \bigsqcup_{\amalg}\mathcal{R}_{\delta,\amalg}$로 branch별 분할하고 각각을
+임의의 $\mathbf{b}^{\flat}\in[0,\varepsilon]^{nLT_{\max}}$, $\mathbf{u}\in \mathsf{U}$, $\mathbf{x} := \mathbf{u}-\mathring{\mathbf{h}}(s^{\star})$에 대해, $\mathsf{R}_\delta(s^{\star}) = \bigsqcup_{\amalg}\mathsf{R}_{\delta,\amalg}$로 branch별 분할하고 각각을
 
-$$\mathbf{b}^{\sharp}\;\mapsto\;\widehat{\mathbf{b}}^{\sharp} := \mathbf{b}^{\sharp} - \mathbf{Q} \boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}, \qquad\text{so}\qquad \boldsymbol{\Lambda}^{\sharp}\widehat{\mathbf{b}}^{\sharp} = \boldsymbol{\zeta} - \boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}$$
+$$\mathbf{b}^{\sharp}\;\mapsto\;\widehat{\mathbf{b}}^{\sharp} := \mathbf{b}^{\sharp} - \mathbf{Q} \boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}, \qquad\text{so}\qquad \boldsymbol{\Lambda}^{\sharp}\widehat{\mathbf{b}}^{\sharp} = \mathbf{x} - \boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}$$
 
-로 운반한다. **$(\dagger)$의 $(\boldsymbol{\zeta},\mathbf{w})$ 좌표에서 이 transport는 $\mathbf{w}$를 건드리지 않는다**: $\mathbf{b}^{\sharp} = \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}$이면 $\widehat{\mathbf{b}}^{\sharp} = \mathbf{Q}(\boldsymbol{\zeta}-\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat})+\mathbf{N}\mathbf{w}$ — 표적 좌표만 미끄러진다. $\mathcal{R}_\delta(s^{\star})$ 위에서 모든 비퇴화 비교가 등호에서 $\geq\delta$이므로 각 스텝의 strictly-lower 집합이 모호하지 않고(no tie) 각 적립 벡터는 $\mathcal{R}_{\delta,\amalg}$에 일관된 단일 branch $\amalg$를 따른다; 그 (여럿일 수 있는) 하류 이웃들 가운데 walker의 degree-weighted 픽은 위 discrete floor에서 이미 센 $q_{\min}^{D}$가 나른다 — **robust core가 없애는 것은 tie 모호성이지, 픽의 multiplicity가 아니다**. 각 라운드의 강하 경로는 $\leq n-1<\Theta^{(r)}$ flow로 소진된다 (threshold non-binding). shift는 $\mathbf{b}^{\sharp}$를 $\leq\Gamma\varepsilon_{\flat}\leq\delta/4$만큼 움직여 $\widehat{\mathbf{b}}^{\sharp}\in[0,b]^{nL}$ 유지; 비퇴화 비교는 $\leq\delta/2$ 움직여 부호 유지; 퇴화 final-equality 비교는 등호에서 $\geq\kappa_{\mathsf{U}}/2$ 유지 (위의 final-equality 바운드, $(\ast)$). 따라서 $\widehat{\mathbf{b}}^{\sharp}$는 branch $\amalg$에 머문다: slice $\{\mathbf{w} : \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}\in\mathcal{R}_{\delta,\amalg}\}$의 모든 $\mathbf{w}$가 $\mathbf{Q}(\boldsymbol{\zeta}-\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat})+\mathbf{N}\mathbf{w}\in[0,b]^{nL}$을, branch $\amalg$ 실현과 함께 만족한다. 즉 **이동된 표적 $\boldsymbol{\zeta} - \boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}$에서의 branch-$\amalg$ 적립 집합의 slice 측도는 $\geq\bigl|\{\mathbf{w} : \mathbf{Q}\boldsymbol{\zeta}+\mathbf{N}\mathbf{w}\in\mathcal{R}_{\delta,\amalg}\}\bigr|_{\mathrm{Leb}}$**, $\mathbf{b}^{\flat}$에 균일하게.
+로 운반한다. **$(\dagger)$의 $(\mathbf{x},\mathbf{z})$ 좌표에서 이 transport는 $\mathbf{z}$를 건드리지 않는다**: $\mathbf{b}^{\sharp} = \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}$이면 $\widehat{\mathbf{b}}^{\sharp} = \mathbf{Q}(\mathbf{x}-\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat})+\mathbf{Z}\mathbf{z}$ — 표적 좌표만 미끄러진다. $\mathsf{R}_\delta(s^{\star})$ 위에서 모든 비퇴화 비교가 등호에서 $\geq\delta$이므로 각 스텝의 strictly-lower 집합이 모호하지 않고(no tie) 각 적립 벡터는 $\mathsf{R}_{\delta,\amalg}$에 일관된 단일 branch $\amalg$를 따른다; 그 (여럿일 수 있는) 하류 이웃들 가운데 walker의 degree-weighted 픽은 위 discrete floor에서 이미 센 $q_{\min}^{D}$가 나른다 — **robust core가 없애는 것은 tie 모호성이지, 픽의 multiplicity가 아니다**. 각 라운드의 강하 경로는 $\leq n-1<\Theta^{(r)}$ flow로 소진된다 (threshold non-binding). shift는 $\mathbf{b}^{\sharp}$를 $\leq\Gamma\varepsilon\leq\delta/4$만큼 움직여 $\widehat{\mathbf{b}}^{\sharp}\in[0,b]^{nL}$ 유지; 비퇴화 비교는 $\leq\delta/2$ 움직여 부호 유지; 퇴화 final-equality 비교는 등호에서 $\geq\kappa_{\mathsf{U}}/2$ 유지 (위의 final-equality 바운드, $(\ast)$). 따라서 $\widehat{\mathbf{b}}^{\sharp}$는 branch $\amalg$에 머문다: slice $\{\mathbf{z} : \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}\in\mathsf{R}_{\delta,\amalg}\}$의 모든 $\mathbf{z}$가 $\mathbf{Q}(\mathbf{x}-\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat})+\mathbf{Z}\mathbf{z}\in[0,b]^{nL}$을, branch $\amalg$ 실현과 함께 만족한다. 즉 **이동된 표적 $\mathbf{x} - \boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}$에서의 branch-$\amalg$ 적립 집합의 slice 측도는 $\geq\bigl|\{\mathbf{z} : \mathbf{Q}\mathbf{x}+\mathbf{Z}\mathbf{z}\in\mathsf{R}_{\delta,\amalg}\}\bigr|_{\mathrm{Leb}}$**, $\mathbf{b}^{\flat}$에 균일하게.
 
-**해설.** 잔차가 "표적을 $\boldsymbol{\zeta}$에서 $\boldsymbol{\zeta}-\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}$로 옮겼는데", transport는 같은 $\mathbf{w}$ 집합을 그대로 들고 가서 그 새 표적의 적립 집합에 욱여넣는다. $\mathbf{w}$가 안 변하니 측도도 그대로 — 측도 보존을 따로 논증할 필요가 없다. 견뎌야 할 것은 "욱여넣은 점들이 여전히 큐브 안 + 같은 branch인가"뿐이고, 그게 $\delta/4$, $\delta/2$, $\kappa_{\mathsf{U}}/2$ 마진 셋이다. **예 ($K_3$)**: $\|\mathbf{Q}\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}\|_\infty\leq C_Q\cdot4.375\cdot\varepsilon_{\flat}/(\tfrac1{144})$ 꼴로 $\varepsilon_{\flat}$에 비례 — $\varepsilon_{\flat}$를 $\delta/(4\Gamma)$ 이하로 잡는 순간 $\delta$ 마진 안쪽이다.
+**해설.** 잔차가 "표적을 $\mathbf{x}$에서 $\mathbf{x}-\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}$로 옮겼는데", transport는 같은 $\mathbf{z}$ 집합을 그대로 들고 가서 그 새 표적의 적립 집합에 욱여넣는다. $\mathbf{z}$가 안 변하니 측도도 그대로 — 측도 보존을 따로 논증할 필요가 없다. 견뎌야 할 것은 "욱여넣은 점들이 여전히 큐브 안 + 같은 branch인가"뿐이고, 그게 $\delta/4$, $\delta/2$, $\kappa_{\mathsf{U}}/2$ 마진 셋이다. **예 ($K_3$)**: $\|\mathbf{Q}\boldsymbol{\Lambda}^{\flat}_{\amalg}\mathbf{b}^{\flat}\|_\infty\leq C_Q\cdot4.375\cdot\varepsilon/(\tfrac1{144})$ 꼴로 $\varepsilon$에 비례 — $\varepsilon$를 $\delta/(4\Gamma)$ 이하로 잡는 순간 $\delta$ 마진 안쪽이다.
 
 ## 닫기 — $c_*$, 그리고 $\eta$
 
-branch-일관 적립 집합이 모든 이동된 표적에서 $\mathbf{w}$-slice 측도 $\geq m_* = m_0/2$를 유지하므로, $(\dagger)$가
+branch-일관 적립 집합이 모든 이동된 표적에서 $\mathbf{z}$-slice 측도 $\geq m_* = m_0/2$를 유지하므로, $(\dagger)$가
 
-$$\rho_{\mathbf{b}^{\flat}} \;\geq\; c_* := \frac{m_*\,|\det[\mathbf{Q}\ \mathbf{N}]|}{b^{nL}} \;>\; 0 \quad\text{on } \mathsf{U},$$
+$$\rho_{\mathbf{b}^{\flat}} \;\geq\; c_* := \frac{m_*\,|\det[\mathbf{Q}\ \mathbf{Z}]|}{b^{nL}} \;>\; 0 \quad\text{on } \mathsf{U},$$
 
-$s^{\star}\in C_0$와 admissible 잔차에 균일하게 — (ii)가 닫히고, master 전개와 합쳐 $(P^{\star})^{nL}(s^{\star},\cdot)\geq\eta\,\nu$가 증명된다. $\blacksquare$
+$s^{\star}\in \mathsf{C}_0$와 admissible 잔차에 균일하게 — (ii)가 닫히고, master 전개와 합쳐 $(P^{\star})^{nL}(s^{\star},\cdot)\geq\eta\,\nu$가 증명된다. $\blacksquare$
 
-**예 ($K_3$) — 상수 추적.** $m_0 = b^{nL}c_{K_{\mathsf{U}}}/|\det[\mathbf{Q}\ \mathbf{N}]|$를 대입하면 $c_* = \tfrac{(m_0/2)\,|\det[\mathbf{Q}\ \mathbf{N}]|}{b^{nL}} = \tfrac{c_{K_{\mathsf{U}}}}2$ — $|\det[\mathbf{Q}\ \mathbf{N}]|$도 $b^{nL}$도 상쇄되고 **밀도 바닥 = 합성곱 바닥의 절반**. 최종:
+**예 ($K_3$) — 상수 추적.** $m_0 = b^{nL}c_{\mathsf{K}_{\mathsf{U}}}/|\det[\mathbf{Q}\ \mathbf{Z}]|$를 대입하면 $c_* = \tfrac{(m_0/2)\,|\det[\mathbf{Q}\ \mathbf{Z}]|}{b^{nL}} = \tfrac{c_{\mathsf{K}_{\mathsf{U}}}}2$ — $|\det[\mathbf{Q}\ \mathbf{Z}]|$도 $b^{nL}$도 상쇄되고 **밀도 바닥 = 합성곱 바닥의 절반**. 최종:
 
-$$\eta \;=\; \underbrace{(\tfrac13)^{105}}_{\mu_{\min}^{nL}}\;\underbrace{(\tfrac12)^{D}}_{q_{\min}^{D}}\;\underbrace{\varepsilon_{\flat}^{630}}_{(\varepsilon_{\flat}/b)^{nLT_{\max}}}\;\underbrace{\tfrac{c_{K_{\mathsf{U}}}}2}_{c_*}\;|\mathsf{U}|_{\mathrm{Leb}} \;>\;0.$$
+$$\eta \;=\; \underbrace{(\tfrac13)^{105}}_{\mu_{\min}^{nL}}\;\underbrace{(\tfrac12)^{D}}_{q_{\min}^{D}}\;\underbrace{\varepsilon^{630}}_{(\varepsilon/b)^{nLT_{\max}}}\;\underbrace{\tfrac{c_{\mathsf{K}_{\mathsf{U}}}}2}_{c_*}\;|\mathsf{U}|_{\mathrm{Leb}} \;>\;0.$$
 
-천문학적으로 작지만 — $s^{\star}$에 의존하지 않는 **양수**다. $C_0$ 안 어디서 출발하든 $105$라운드 뒤 분포가 $\nu = \mathrm{Unif}(\mathsf{U})\otimes\delta_{v_3}$를 $\eta$배 이상 깐다: $C_0$는 small, 따라서 petite다.
+천문학적으로 작지만 — $s^{\star}$에 의존하지 않는 **양수**다. $\mathsf{C}_0$ 안 어디서 출발하든 $105$라운드 뒤 분포가 $\nu = \mathrm{Unif}(\mathsf{U})\otimes\delta_{v_3}$를 $\eta$배 이상 깐다: $\mathsf{C}_0$는 small, 따라서 petite다.
 
 ## Snowfall A가 본질적인 이유
 
@@ -559,4 +559,4 @@ $$\eta \;=\; \underbrace{(\tfrac13)^{105}}_{\mu_{\min}^{nL}}\;\underbrace{(\tfra
 
 여기까지가 Lemma 8 — 에르고딕 정리의 **H2(small set)** 다. 전체 그림은 H1($\psi$-irreducibility·aperiodicity, §5.3의 twin minorisation)·H3(Foster drift, §5.1)까지 세 가설을 채워 완성된다.
 
-*(Lemma 8 full proof를 단락 순서 그대로 옮긴 주해. 정본: hst_AAA.tex, 2026-06-12판 — Lebesgue-only, $(\dagger)$ 치환적분 + $\mathbf{w}$-slice. 같은 증명의 직관 narrative는 정본의 Proof sketch(시나리오 1→4)와 Example 1(branch-perturb) 참조.)*
+*(Lemma 8 full proof를 단락 순서 그대로 옮긴 주해. 정본: hst_AAA.tex, 2026-06-12판 — Lebesgue-only, $(\dagger)$ 치환적분 + $\mathbf{z}$-slice. 같은 증명의 직관 narrative는 정본의 Proof sketch(시나리오 1→4)와 Example 1(branch-perturb) 참조.)*
