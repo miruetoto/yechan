@@ -164,6 +164,27 @@ plt.show()
 
 빨간 띠가 버리는 곳, 파란 다발이 쓰는 곳이다. chamber $\mathsf{U}$를 동점에서 $\kappa_{\mathsf{U}}$만큼 띄워 잡았기 때문에 파란 fibre들은 애초에 빨간 띠를 지나지 않는다. fibre는 직선(1차원)이지만 양의 길이를 갖고, $\zeta$가 $\mathsf{U}$ 위를 움직여도 그 길이가 일정 수준 아래로 떨어지지 않는다 — 이 "fibre 길이의 바닥"이 일반 증명에서 $\mathcal{H}^{nL-d}$ 바닥 $m_*$에 해당한다.
 
+::: {.callout-tip}
+## 왜 2D 르벡이 아니라 $\mathcal{H}^1$인가?
+
+파란 fibre 선은 $[0,1]^2$ 안에 놓인 **1차원 부분집합**이다. 2차원 르벡 측도로 재면 면적이 0 — "이 직선 위에서 robust core가 얼마를 차지하나?"를 2D 르벡으로는 물을 수 없다.
+
+증명은 대신 **coarea 공식**으로 2D 적분을 분해한다:
+
+$$
+\int_{[0,1]^2} f(\mathbf{b}^{\sharp})\,d\mathbf{b}^{\sharp}
+\;=\;
+\frac{1}{|\nabla \boldsymbol{\Lambda}^{\sharp}|}
+\int_{\zeta}
+\underbrace{\int_{\text{fibre }\zeta} f\,d\mathcal{H}^1}_{\text{1D arc-length 적분}}
+\,d\zeta.
+$$
+
+바깥 적분은 $\zeta$에 대한 1D 르벡, 안쪽 적분은 각 fibre 위에서의 **1차원 하우스도르프 측도 $\mathcal{H}^1$** (= 선분 길이 = 1D 르벡을 fibre 방향으로 제한한 것)이다. 이 분해를 통해 "fibre 위에서 robust core가 차지하는 선분 길이"가 $\varepsilon_{\flat}$에 무관하게 $m_* > 0$ 아래로 떨어지지 않음을 보일 수 있다.
+
+$\mathcal{H}^{1}$이 낯설어 보이는 이유는 대개 하우스도르프를 **분수 차원**(프랙탈 집합의 2.3차원 측도 같은 것)의 맥락에서 먼저 배우기 때문이다. 여기서 쓰이는 건 정수 차원 버전 — 1차원 아핀 부분다양체에 대해 $\mathcal{H}^1 = $ 호의 길이이고, 실질적으로는 fibre를 매개변수로 쓰는 1D 르벡 적분과 동일하다.
+:::
+
 **마지막 조각이 transport다.** 현실에는 non-fall 잡음 $b^{\flat}$가 있어서, 같은 표적 $\mathbf{u}$에 도달하려면 fall이 맞춰야 하는 값이 $\zeta$에서 $\zeta-\Lambda^{\flat}b^{\flat}$로 밀린다. 그러면 fibre가 잡음마다 달라지는데, 바닥도 같이 흔들리는가? 흔들리지 않는다 — $b^{\flat}$를 하나 고정하면 그 이동량은 상수이고, 두 fibre는 서로의 **평행이동 복사본**이라 길이가 같기 때문이다.
 
 ```{python}
