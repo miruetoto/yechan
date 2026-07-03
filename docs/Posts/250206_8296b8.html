@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="신록예찬">
+<meta name="dcterms.date" content="2025-02-06">
+
+<title>공부 ▷ 통계적 추정 – 신록예찬’s Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5b48ee63c5e90d651e19f9ead4b448f1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">신록예찬’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DL2024/"> 
+<span class="menu-text">DL2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/AP2023/"> 
+<span class="menu-text">AP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/PP2024/"> 
+<span class="menu-text">PP2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DV2023/"> 
+<span class="menu-text">DV2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/MP2023/"> 
+<span class="menu-text">MP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SC2024/"> 
+<span class="menu-text">SC2024</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/DS2022/"> 
+<span class="menu-text">DS2022</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/SP2023/"> 
+<span class="menu-text">SP2023</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://guebin.github.io/IR2021/"> 
+<span class="menu-text">IR2021</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan/"> 
+<span class="menu-text">yechan</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://miruetoto.github.io/yechan2/"> 
+<span class="menu-text">yechan2</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/miruetoto/yechan"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">공부 ▷ 통계적 추정</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>신록예찬 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 6, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bibtex code-with-copy"><code class="sourceCode bibtex"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">@book</span>{<span class="ot">bickel2015mathematical</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>={Mathematical statistics: basic ideas and selected topics, volumes I-II package},</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>={Bickel, Peter J and Doksum, Kjell A},</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>={2015},</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">publisher</span>={Chapman and Hall/CRC}</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="va">@book</span>{<span class="ot">hogg2013introduction</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>={Introduction to mathematical statistics},</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>={Hogg, Robert V and McKean, Joseph W and Craig, Allen T and others},</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>={2013},</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">publisher</span>={Pearson Education India}</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="va">@book</span>{<span class="ot">casella2024statistical</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span>={Statistical inference},</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span>={Casella, George and Berger, Roger},</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>={2024},</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="dt">publisher</span>={CRC press}</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>-</code> ref: <a href="http://www2.math.ou.edu/~cremling/teaching/lecturenotes/stat/ln5.pdf" class="uri">http://www2.math.ou.edu/~cremling/teaching/lecturenotes/stat/ln5.pdf</a></p>
+<section id="약속" class="level2">
+<h2 class="anchored" data-anchor-id="약속">약속</h2>
+<p><code>-</code> 모수공간 및 확률변수: 모수공간은 일반적으로 <span class="math inline">\(d\)</span>차원이라고 가정하며, 확률변수는 <span class="math inline">\(n\)</span>개 존재한다고 가정한다. 즉 다음을 기본 가정으로 한다.</p>
+<ul>
+<li><span class="math inline">\(\boldsymbol \theta := (\theta_1, \dots, \theta_d)\)</span></li>
+<li><span class="math inline">\(X_1, \dots, X_n \sim F_{\boldsymbol \theta}\)</span></li>
+</ul>
+<p><code>-</code> 표기 간소화 약속</p>
+<ul>
+<li>랜덤샘플: <span class="math inline">\({\bf X} := (X_1, \dots, X_n)\)</span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
+<li>랜덤샘플의 실현값: <span class="math inline">\({\boldsymbol x} := (x_1, \dots, x_n)\)</span></li>
+<li>통계량: <span class="math inline">\(u_1({\bf X}) := u_1(X_1, \dots, X_n)\)</span></li>
+<li>통계량(벡터): <span class="math inline">\(\vec{u}({\bf X}):=(u_1({\bf X}),\dots,u_n({\bf X}))\)</span><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
+<li>통계량의 실현값: <span class="math inline">\(u_1({\boldsymbol x}) := u_1(x_1, \dots, x_n)\)</span> (<span class="citation" data-cites="hogg2013introduction">@hogg2013introduction</span>)</li>
+<li>통계량의 실현값(벡터): <span class="math inline">\(\vec{u}({\boldsymbol x}) := (u_1({\boldsymbol x}),\dots u_n({\boldsymbol x}))\)</span><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></li>
+<li>결합확률밀도함수: <span class="math inline">\(f_{\bf X}({\boldsymbol x}; {\boldsymbol \theta}):=f_{X_1,\dots,X_n}(x_1,\dots,x_n; \boldsymbol \theta)\)</span></li>
+<li>확률측도들의 집합: <span class="math inline">\({\cal P}_{\Theta} = \{\mathbb{P}_{\boldsymbol \theta}: {\boldsymbol \theta} \in \Theta\}\)</span><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></li>
+</ul>
+<blockquote class="blockquote">
+<p>결합확률밀도함수를 표현하는 방법은 매우 다양하다. <span class="math display">\[f_{\bf X}({\boldsymbol x};{\boldsymbol \theta}) = f_{\bf X}({\boldsymbol x}, {\boldsymbol \theta}) = f_{\bf X}({\boldsymbol x}|{\boldsymbol \theta}) = f_{\bf X}({\boldsymbol x}) = f({\boldsymbol x})\]</span></p>
+<ul>
+<li><span class="math inline">\(f_{\bf X}({\boldsymbol x}; {\boldsymbol \theta})\)</span>: 호그 앤 크레이그 스타일 (<span class="citation" data-cites="hogg2013introduction">@hogg2013introduction</span>)</li>
+<li><span class="math inline">\(f_{\bf X}({\boldsymbol x}, {\boldsymbol \theta})\)</span>: 비켈 앤 닥섬 스타일 (<span class="citation" data-cites="bickel2015mathematical">@bickel2015mathematical</span>)</li>
+<li><span class="math inline">\(f_{\bf X}({\boldsymbol x} | {\boldsymbol \theta})\)</span>: 카셀라 앤 버거 스타일<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>(<span class="citation" data-cites="casella2024statistical">@casella2024statistical</span>)</li>
+<li><span class="math inline">\(f_{\bf X}({\boldsymbol x})\)</span>: 단순함수가 아니라 확률변수벡터 <span class="math inline">\({\bf X}\)</span>의 pdf임을 명시하는 수준.</li>
+<li><span class="math inline">\(f({\boldsymbol x})\)</span>: 그냥 다변수 함수정도로 보겠다는 입장.</li>
+</ul>
+</blockquote>
+<p><code>-</code> <span class="math inline">\({\cal P}_{\Theta}=\{\mathbb{P}_{\boldsymbol \theta}: {\boldsymbol \theta} \in {\bf \Theta}\}\)</span> 의 모든 원소에 대하여 어떠한 state가 성립한다는 것은 <span class="math inline">\(\forall {\boldsymbol \theta} \in {\bf \Theta}\)</span> 에 대하여 어떠한 state가 성립한다는 말과 같음.</p>
+<p><code>-</code> <span class="math inline">\(\mathbb{P}_{\boldsymbol \theta}\)</span>가 더이상 <span class="math inline">\({\boldsymbol \theta}\)</span>에 대한 함수가 아니라면 간단하게 <span class="math inline">\(\mathbb{P}\)</span>라고 쓴다.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<p><code>-</code> <span class="math inline">\(\mathbb{E}_{\boldsymbol \theta}(X)\)</span>는 <span class="math inline">\(\mathbb{E}_{\boldsymbol \theta}(X)=\int_{X \in {\cal X}} X d\mathbb{P}_{\boldsymbol\theta}\)</span> 을 의미한다.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<p><code>-</code> <span class="math inline">\({\cal X}\)</span>는 density function의 정의역을 의미한다.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+</section>
+<section id="추정이란" class="level2">
+<h2 class="anchored" data-anchor-id="추정이란">추정이란?</h2>
+<p><code>-</code> 통계학에서 말하는 추정이라는 것은 기본적으로 미지의 모수 <span class="math inline">\({\boldsymbol \theta}\)</span> 를 하나의 수로 미루어 짐작하는 행위를 의미한다.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<p><code>-</code> 추정에서 전개하는 많은 논의는 확률측도들의 집합 <span class="math inline">\({\cal P}_{\Theta}=\big\{\mathbb{P}_{\boldsymbol\theta}: {\boldsymbol\theta} \in {\bf \Theta} \big\}\)</span> 을 우선적으로 상상해 놓아야 정확한 이해를 할 수 있다. 예를들어 <span class="math inline">\(\boldsymbol\theta\)</span> 를 잘 추정한다는 말의 의미는 <span class="math inline">\({\cal P}_{\Theta}\)</span>에서 적절한 원소를 잘 선택한다는 것을 뜻한다. 또한 추정량이 가져야 하는 여러가지 좋은 성질에 대한 의미도 다시 생각해볼 수 있다. 추정량이 가져야할 좋은 성질은 어떠한 수식의 형태로 나타나는데, 그러한 수식은 true 가 <span class="math inline">\({\cal P}_{\Theta}\)</span> 중 어떠한 원소라고 할지라도 항상 성립해야 한다. 즉 임의의 <span class="math inline">\(\mathbb{P}_{\boldsymbol\theta}\)</span> 에 대하여 성립해야 함을 의미한다. 예를 들어 불편성의 경우 <span class="math inline">\(\mathbb{E}(\hat{\boldsymbol \theta})=\boldsymbol\theta\)</span> 라는 수식이 떠오를텐데, 이 수식은 임의의 <span class="math inline">\(\mathbb{P}_{\boldsymbol\theta} \in {\cal P}_{\Theta}\)</span> 혹은 임의의 <span class="math inline">\({\boldsymbol \theta} \in {\bf \Theta}\)</span> 에 대하여 성립해야 한다. 아래는 호그 앤 크레이그의 수리통계학에서 발췌한 부분이다.</p>
+<blockquote class="blockquote">
+<p><strong>Hogg and Craig 5e 에서 발췌</strong></p>
+<p>확률밀도함수족 <span class="math inline">\(\big\{f(x;\theta): {\boldsymbol \theta} \in {\bf \Theta}\big\}\)</span> 를 고려하자. 실험자는 이 함수족의 하나의 요소가 확률변수의 p.d.f. 이도록 택할 필요가 있다. 즉 실험자는 <span class="math inline">\({\boldsymbol \theta}\)</span>의 점추정치를 필요로 한다. <span class="math inline">\(X_1,X_2,\dots,X_n\)</span>은 확률밀도함수족 <span class="math inline">\(\big\{f(x;{\boldsymbol \theta}): {\boldsymbol \theta} \in {\bf \Theta} \big\}\)</span> 의 하나의 요소 (알지 못하는 요소) 인 p.d.f. 를 갖는 분포에서 추출한 확률표본이라 하자. 즉 이 표본은 p.d.f. <span class="math inline">\(f(x; {\boldsymbol \theta}), {\boldsymbol \theta} \in {\bf \Theta}\)</span> 인 분포에서 나온 것이다. 문제는 통계량</p>
+<ul>
+<li><span class="math inline">\(\hat{\theta}_1=Y_1=u_1(X_1,X_2,\dots,X_n)=u_1({\bf X})\)</span></li>
+<li><span class="math inline">\(\dots\)</span></li>
+<li><span class="math inline">\(\hat{\theta}_d=Y_d=u_d(X_1,X_2,\dots,X_n)=u_d({\bf X})\)</span></li>
+</ul>
+<p>을 정의하는 것이므로 <span class="math inline">\((x_1,x_2,\dots,x_n)\)</span> 이 <span class="math inline">\((X_1,X_2,\dots,X_n)\)</span> 의 실험치로 관찰되었다면 수 <span class="math inline">\((y_1,\dots,y_d)\)</span> 는 <span class="math inline">\((\theta_1,\dots,\theta_d)\)</span> 의 좋은 점추정치가 될 것이다.</p>
+</blockquote>
+<p>예전에 공부할때는 왜 확률밀도함수족이라는 개념을 굳이 설명하는 것인가 의문이었는데, (복잡하기만 하다고 생각되었다) 이 확률밀도함수족이라는 개념이 미리 전제되지 않으면 이후의 논의를 정확하게 이해하는 것이 매우 어려워진다는 것을 오랜 시간이 지나고 알게 되었다.</p>
+<section id="예제-추정이란" class="level4">
+<h4 class="anchored" data-anchor-id="예제-추정이란">예제 – 추정이란?</h4>
+<p>아래와 같은 상황을 가정하자.</p>
+<p><span class="math display">\[X_1,X_2 \sim {\cal B}er(\theta)\]</span></p>
+<p>일반적으로</p>
+<ul>
+<li><span class="math inline">\(\mathbb{P}_{\theta}(X_1=0,X_2=0)=(1-\theta)^2\)</span></li>
+<li><span class="math inline">\(\mathbb{P}_{\theta}(X_1=0,X_2=1)=\theta(1-\theta)\)</span></li>
+<li><span class="math inline">\(\mathbb{P}_{\theta}(X_1=1,X_2=0)=(1-\theta)^2\)</span></li>
+<li><span class="math inline">\(\mathbb{P}_{\theta}(X_1=1,X_2=1)=\theta^2\)</span></li>
+</ul>
+<p>와 같은 확률들은 <span class="math inline">\(\theta\)</span>가 unknown일 때 하나의 숫자로 정할 수 없다. 예를들어 <span class="math inline">\(\theta=0\)</span> 이라면 아래와 같을 것이고</p>
+<ul>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=0)=1\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=1)=0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=0)=0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=1)=0\)</span></li>
+</ul>
+<p><span class="math inline">\(\theta=1/2\)</span> 이라면 아래와 같을 것이다.</p>
+<ul>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=0)=1/4\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=1)=1/4\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=0)=1/4\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=1)=1/4\)</span></li>
+</ul>
+<p>즉 <span class="math inline">\(X_1,X_2\)</span>의 결합확률분포는 <span class="math inline">\(\theta\)</span>가 변함에 따라 같이 변화한다. 이를 이용해 우리는 <span class="math inline">\(X_1,X_2\)</span>의 결합확률분포에서 관찰한 샘플들 <span class="math inline">\((x_1,x_2)\)</span>을 이용하여 <span class="math inline">\(\theta\)</span>의 값을 역으로 추론하는 과정을 분석한다. 그런데 <span class="math inline">\(\theta\)</span>를 특정한다는 것은 분포 <span class="math inline">\(F_{\theta}\)</span>를 특정한다는 것과 동치이므로 결국 추정은 “<span class="math inline">\({\bf X}\)</span>의 결합확률분포에서 얻은 샘플 <span class="math inline">\({\boldsymbol x}\)</span>를 이용하여 분포 <span class="math inline">\(F_{\theta}\)</span>를 특정하는 방법” 을 의미한다.</p>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</section>
+</section>
+<section id="불편추정량" class="level2">
+<h2 class="anchored" data-anchor-id="불편추정량">불편추정량</h2>
+<section id="definition" class="level4">
+<h4 class="anchored" data-anchor-id="definition">Definition</h4>
+<p>불편추정량의 정의는 아래와 같다.</p>
+<p><span class="math display">\[\hat{\boldsymbol\theta} \text{ is UB} \Leftrightarrow \forall {\boldsymbol \theta} \in {\bf \Theta}: \mathbb{E}_{\boldsymbol\theta}[\hat{\boldsymbol\theta}] = \boldsymbol\theta\]</span> - 불편추정량의 정의가 단순히 수식 <span class="math inline">\(\mathbb{E}_{{\boldsymbol \theta}}(\hat{\boldsymbol \theta})={\boldsymbol \theta}\)</span>를 만을 의미하는게 아니라 임의의 <span class="math inline">\({\boldsymbol \theta}\)</span>에 대한 수식의 성립을 요구한다는 점을 주의하자.</p>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</section>
+<section id="예제-불편추정량" class="level4">
+<h4 class="anchored" data-anchor-id="예제-불편추정량">예제 – 불편추정량</h4>
+<p>아래와 같은 상황을 가정하자. <span class="math display">\[X_1,\dots, X_n \overset{iid}{\sim} N(\theta,1)\]</span> (1) <span class="math inline">\(\hat{\theta}_1=0\)</span> 은 <span class="math inline">\(\theta=0\)</span> 일 경우에는 <span class="math inline">\(E_{\theta}(\hat{\theta}_1)=\theta\)</span> 를 만족하지만 그 외의 경우에는 <span class="math inline">\(E_{\theta}(\hat{\theta}_1)\neq\theta\)</span> 이므로 UB가 아니다. (2) <span class="math inline">\(\hat{\theta}_2=X_1\)</span> 은 UB이다. (3) <span class="math inline">\(\hat{\theta}_3=\frac{X_1+X_2}{2}\)</span> 역시 UB이다. (4) <span class="math inline">\(\hat{\theta}_4=X_1+X_2-X_3\)</span> 역시 UB이다. (5) <span class="math inline">\(\hat{\theta}_5=-99X_1+100X_2\)</span> 역시 UB이다. (6) <span class="math inline">\(\hat{\theta}_6=\frac{X_1+0}{2}\)</span> 은 1과 동일한 이유로 UB가 아니다. (7) <span class="math inline">\(\hat{\theta}_7=\bar{X}\)</span>는 UB이다.</p>
+<p><span class="math inline">\(\blacksquare\)</span> ## 최소분산불편추정량</p>
+<p><code>-</code> 불편성이 전제되었다면 최소분산성을 가지는 통계량이 좋은 통계량이라 주장할 수 있다. 아래의 상황을 다시 복습하자. <span class="math display">\[X_1, \dots, X_n \overset{iid}{\sim} N(\theta,1)\]</span> 아래와 같은 추정량을 다시 생각해보자.</p>
+<ul>
+<li><span class="math inline">\(\hat{\theta}_2=X_1\)</span></li>
+<li><span class="math inline">\(\hat{\theta}_3=\frac{X_1+X_2}{2}\)</span></li>
+<li><span class="math inline">\(\hat{\theta}_4=X_1+X_2-X_3\)</span></li>
+<li><span class="math inline">\(\hat{\theta}_5=-99X_1+100X_2\)</span></li>
+<li><span class="math inline">\(\hat{\theta}_7=\bar{X}\)</span></li>
+</ul>
+<p>이러한 추정량은 모두 불편성을 만족한다. 따라서 불편성을 기준으로 한다면 이중에서 좋은 추정량을 고를 수 없다. 불편성과 함께 추정량의 분산도 고려해보자. 추정량들의 분산을 계산해보면 <span class="math inline">\(\hat{\theta}_7=\bar{X}\)</span> 인 경우가 <span class="math inline">\(\mathbb{V}_{\theta}(\hat{\theta}_7)=\frac{1}{n}\)</span> 로 가장 분산이 작음을 알 수 있다. 이를 미루어 보면 <span class="math inline">\(\hat{\theta}_7\)</span> 이 가장 좋은 추정치임을 알 수 있다. 이처럼 비편향 추정량중에서 최소분산을 가지는 추정량은 좋은 추정량인데 이를 최소분산비편향추정량 (MVUE) 라고 한다.</p>
+<p><code>-</code> 주의할것은 최소분산성은 불편성이 전제되지 않는다면 의미가 없다는 것이다. 예를들어 <span class="math inline">\(\hat{\theta}=0\)</span> 은 분산이 0이지만 불편성을 만족하지 않으므로 좋은 추정량이 아니다. .</p>
+<hr>
+</section>
+<section id="definition-1" class="level4">
+<h4 class="anchored" data-anchor-id="definition-1">Definition</h4>
+<p>최소분산불편추정량에 대한 정의는 아래와 같다. <span class="math display">\[\hat{\boldsymbol\theta} \text{ is MVUE} \Leftrightarrow ~ (1) ~\hat{\boldsymbol\theta} \text{ is UB} ~~(2) ~\forall \hat{\boldsymbol \theta}^{UB}:\mathbb{V}_{\boldsymbol\theta}[\hat{\boldsymbol\theta}]\leq\mathbb{V}_{\boldsymbol\theta}[\hat{\boldsymbol\theta}^{UB}] \]</span> 여기에서 <span class="math inline">\(\leq\)</span> 는 positive semi-definite ordering을 의미한다.</p>
+</section>
+</section>
+<section id="blacksquare" class="level2">
+<h2 class="anchored" data-anchor-id="blacksquare"><span class="math inline">\(\blacksquare\)</span></h2>
+<p><code>-</code> 따라서 정의를 순진하게 적용한다면 최소분산불편추정량을 구하는 방법을 아래와 같이 요약할 수 있다.</p>
+<ol type="1">
+<li>고정된 <span class="math inline">\(\boldsymbol\theta\)</span> 에 대한 모든 비편향추정량을 구한다.</li>
+<li>1의 모든 추정량에 대하여 분산을 계산한다.</li>
+<li>분산이 가장 작은 추정량을 고른다.</li>
+</ol>
+<p>그런데 사실상 정의 그대로 MVUE를 구하는건 거의 불가능에 가깝다. 따라서 이를 쉽게 하기 위한 적당한 이론이 필요하다.</p>
+<hr>
+<section id="theorem-crb" class="level4">
+<h4 class="anchored" data-anchor-id="theorem-crb">Theorem – CRB</h4>
+<p>크래머라오 하한값(편의상 <span class="math inline">\({\bf L}^\star\)</span>이라고 하자)이라고 있는데, 이는 <span class="math inline">\(\hat{\bf \Theta}^{UB}\)</span> 에 존재하는 모든 추정량에 대한 분산의 하한값을 제공한다.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> 즉 아래가 성립한다.</p>
+<ul>
+<li><span class="math inline">\({\bf L}^\star\)</span> is Cramer-Rao lower bound <span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(\forall \hat{\boldsymbol \theta} \in \hat{\bf \Theta}^{UB}:~ \mathbb{V}_{\boldsymbol \theta}(\hat{\boldsymbol\theta}) \geq {\bf L}^\star\)</span></li>
+</ul>
+<p>여기에서 <span class="math inline">\(\geq\)</span>는 Positive Semi-Definite Ordering 을 의미한다. <span class="math inline">\({\bf L}^{\star}\)</span>는 이후에 <span class="math inline">\({\bf L}^{\star}:=I({\boldsymbol \theta})^{-1}\)</span> 임이 밝혀진다.</p>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<hr>
+<p><code>-</code> 따라서 CRB를 이용하면 아래의 논리전개를 펼 수 있다.</p>
+<ol type="1">
+<li><span class="math inline">\({\bf L}^\star\)</span>를 구한다.</li>
+<li>왠지 MVUE가 될 것 같은 <span class="math inline">\(\hat{\boldsymbol \theta}\)</span>을 하나 찍고 그것의 분산 <span class="math inline">\(\mathbb{V}_{\boldsymbol \theta}(\hat{\boldsymbol \theta})\)</span>를 구한다.</li>
+<li>만약에 <span class="math inline">\(\mathbb{V}_{\boldsymbol \theta}(\hat{\boldsymbol \theta})={\bf L}^\star\)</span>를 만족하면 그 <span class="math inline">\(\hat{\boldsymbol\theta}\)</span>이 MVUE라고 주장할 수 있다.</li>
+</ol>
+<p>직관적으로 MVUE가 될 것 같은 <span class="math inline">\(\hat{\boldsymbol\theta}\)</span> 를 찍는 일은 쉬우므로 사실 이 논리전개는 아주 쓸만하다. 예를들어 <span class="math inline">\(X_1, X_2, \dots, X_n \overset{iid}{\sim} \mathcal{N}(\theta, \sigma^2)\)</span> 라고 하자. 여기서 <span class="math inline">\(\sigma^2\)</span>는 알려져 있고, <span class="math inline">\(\theta\)</span>는 모르는 평균이라고 하자. 우리의 목표는 <span class="math inline">\(\theta\)</span>의 MVUE(Minimum Variance Unbiased Estimator)를 찾는 것이다. 우선 후보로 생각하는 <span class="math inline">\(\hat{\theta} = \bar{X} = \frac{1}{n} \sum_{i=1}^n X_i\)</span> 를 고려하자. 이 통계량의 분산은 <span class="math inline">\(\mathbb{V}(\bar{X}) = \mathbb{V}\left(\frac{1}{n} \sum X_i\right) = \frac{\sigma^2}{n}\)</span> 와 같이 구할 수 있다. 이제 확인할 것은 정규분포의 평균에 대한 Fisher Information이다.</p>
+<ul>
+<li><span class="math inline">\(f_{\theta}(x) =\frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x - \theta)^2}{2\sigma^2} \right)\)</span></li>
+<li><span class="math inline">\(\log f_{\theta}(x) = -\frac{1}{2} \log(2\pi\sigma^2) - \frac{(x - \theta)^2}{2\sigma^2}\)</span></li>
+<li><span class="math inline">\(\frac{\partial}{\partial \theta} \log f_\theta(x) = \frac{(x - \theta)}{\sigma^2}\)</span></li>
+<li><span class="math inline">\(\left( \frac{\partial}{\partial \theta} \log f_\theta(x)\right)^2 = \left( \frac{x - \theta}{\sigma^2} \right)^2\)</span></li>
+<li><span class="math inline">\(I(\theta) = \mathbb{E}_\theta\left[ \left( \frac{X - \theta}{\sigma^2} \right)^2 \right] = \frac{1}{\sigma^4} \mathbb{E}_\theta\left[ (X - \theta)^2 \right]=\frac{1}{\sigma^4}\sigma^2=\frac{1}{\sigma^2}\)</span></li>
+<li><span class="math inline">\(I_n(\theta) = n I(\theta)= \frac{n}{\sigma^2}\)</span></li>
+<li><span class="math inline">\(L^\star=I_n(\theta)^{-1} = \frac{\sigma^2}{n}\)</span></li>
+</ul>
+<p>따라서 <span class="math inline">\(\bar{X}\)</span>는 최소분산불편추정량이라고 주장할 수 있다.</p>
+<p><code>-</code> 그렇지만 위와 같이 CRB를 이용한 논리전개를 펴는것이 어려운 경우도 존재한다. 그 이유는 모든 최소분산불편추정량의 분산이 CRB를 만족하지 않기 때문이다. 즉 MVUE 이지만 분산이 CRB보다 큰 추정량이 존재한다. 이러한 추정량에 대하여 MVUE임을 보이기 위해서는 다른 테크닉이 필요하다.</p>
+</section>
+</section>
+<section id="충분통계량" class="level2">
+<h2 class="anchored" data-anchor-id="충분통계량">충분통계량</h2>
+<p><code>-</code> 어떠한 통계량벡터의 관측값 <span class="math inline">\(\vec{T}({\boldsymbol x})\)</span>이 <span class="math inline">\({\boldsymbol \theta}\)</span>를 추정하기에 충분한 정보를 주는 경우가 있을까? 만약에 그렇다면 이때의 통계량벡터 <span class="math inline">\(\vec{T}({\bf X})\)</span>를 <span class="math inline">\(\theta\)</span>에 대한 충분통계량벡터라고 한다. (원래 충분통계량 벡터는 없는말이지만 의미를 명확하게 하기 위해서 사용하겠다.)</p>
+<p><code>-</code> 당연히 모든 관측값 <span class="math inline">\((x_1,\dots,x_n)\)</span>을 기억한다면 <span class="math inline">\({\boldsymbol \theta}\)</span>를 추정하기에 충분할 것이다. (만약에 그렇지 않다면 <span class="math inline">\({\boldsymbol \theta}\)</span>는 추청할 수 없다는 의미니까) 따라서 랜덤샘플 <span class="math inline">\(\vec{T}({\bf X})=(X_1,\dots,X_n)\)</span> 그 자체는 항상 <span class="math inline">\(\boldsymbol \theta\)</span>에 대한 충분통계량벡터이다. 또한 같은 논리로 순서통계량 <span class="math inline">\(\vec{T}({\bf X})=(X_{(1)},\dots,X_{(n)})\)</span> 역시 항상 <span class="math inline">\(\boldsymbol\theta\)</span>에 대한 충분통계량벡터이다.</p>
+<p><code>-</code> 충분통계량의 1:1함수도 충분통계량이다. 예를들어 <span class="math inline">\(\frac{1}{2}(X_1+X_2)\)</span>이 <span class="math inline">\(\theta\)</span>에 대한 충분통계량이라고 하자. 그렇다면 <span class="math inline">\(X_1+X_2\)</span>의 값만 관측해도 <span class="math inline">\(\theta\)</span>를 추정하기에 충분할 것이다. 왜냐하면 <span class="math inline">\(X_1+X_2\)</span>의 관측값으로 <span class="math inline">\(\frac{1}{2}(X_1+X_2)\)</span>의 관측값을 나중에 만들 수 있기 때문이다. (1/2만 곱하면 되니까) 따라서 <span class="math inline">\(\frac{1}{2}(X_1+X_2)\)</span> 가 <span class="math inline">\(\theta\)</span>에 대한 충분통계량 이라면 <span class="math inline">\(X_1+X_2\)</span> 역시 <span class="math inline">\(\theta\)</span>에 대한 충분통계량이다.</p>
+<section id="예제-충분성의-개념" class="level4">
+<h4 class="anchored" data-anchor-id="예제-충분성의-개념">예제 – 충분성의 개념</h4>
+<p>만약에 어떠한 “특수한 정보를 알고 있을 경우” <span class="math inline">\(X_1,X_2\)</span>의 결합확률분포를 완벽하게 기술할 수 있을까?</p>
+<ul>
+<li><p>경우1: <span class="math inline">\(\theta\)</span>를 알고 있을 경우. <span class="math inline">\((X_1,X_2)\)</span>의 조인트를 완벽하게 기술할 수 있다. 예를들어 <span class="math inline">\(\theta=1/2\)</span>일 경우는 아래와 같다.</p>
+<ul>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=0 ~;~ \theta=1/2)=1/4\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=1 ~;~ \theta=1/2)=1/4\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=0 ~;~ \theta=1/2)=1/4\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=1 ~;~ \theta=1/2)=1/4\)</span></li>
+</ul></li>
+<li><p>경우2: <span class="math inline">\(X_1,X_2\)</span>의 realization을 알고 있을 경우. <span class="math inline">\((X_1,X_2)\)</span>의 조인트를 완벽하게 기술할 수 있다. 예를들어 <span class="math inline">\(X_1=0,X_2=1\)</span>일 경우는 아래와 같다.</p>
+<ul>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=0 ~\big|~ X_1=0,X_2=0)=0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=1 ~\big|~ X_1=0,X_2=1)=0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=0 ~\big|~ X_1=1,X_2=0)=1\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=1 ~\big|~ X_1=1,X_2=1)=0\)</span></li>
+</ul></li>
+<li><p>경우3: <span class="math inline">\((X_1+X_2)(\omega)\)</span>의 realization을 알고 있을 경우. 이때도 매우 특이하게 <span class="math inline">\((X_1,X_2)\)</span> 의 조인트를 완벽하게 기술할 수 있다.</p>
+<ul>
+<li><p>case1: <span class="math inline">\(X_1+X_2=0\)</span>일 경우</p>
+<ul>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=0 ~\big|~ X_1+X_2=0)=1\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=1 ~\big|~ X_1+X_2=0)=0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=0 ~\big|~ X_1+X_2=0)=0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=1 ~\big|~ X_1+X_2=0)=0\)</span></li>
+</ul></li>
+<li><p>case2: <span class="math inline">\(X_1+X_2=1\)</span>일 경우</p>
+<ul>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=0 ~\big|~ X_1+X_2=1)=0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=1 ~\big|~ X_1+X_2=1)=1/2\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=0 ~\big|~ X_1+X_2=1)=1/2\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=1 ~\big|~ X_1+X_2=1)=0\)</span></li>
+</ul></li>
+<li><p>case3: <span class="math inline">\(X_1+X_2=2\)</span>일 경우</p>
+<ul>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=0 ~\big|~ X_1+X_2=2)=0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=0,X_2=1 ~\big|~ X_1+X_2=2)=0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=0 ~\big|~ X_1+X_2=2)=0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X_1=1,X_2=1 ~\big|~ X_1+X_2=2)=1\)</span></li>
+</ul></li>
+</ul></li>
+<li><p>경우4: <span class="math inline">\(X_1\)</span>의 realization만 알고 있을 경우. 이때는 <span class="math inline">\((X_1,X_2)\)</span> 의 조인트를 완벽하게 기술할 수 없다.</p>
+<ul>
+<li><p>case1: <span class="math inline">\(X_1=0\)</span>일 경우</p>
+<ul>
+<li><span class="math inline">\(\mathbb{P}_{\theta}(X_1=0,X_2=0 ~\big|~ X_1=0)=1-\theta\)</span></li>
+<li><span class="math inline">\(\mathbb{P}_{\theta}(X_1=0,X_2=1 ~\big|~ X_1=0)=\theta\)</span></li>
+<li><span class="math inline">\(\mathbb{P}_{\theta}(X_1=1,X_2=0 ~\big|~ X_1=0)=0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}_{\theta}(X_1=1,X_2=1 ~\big|~ X_1=0)=0\)</span></li>
+</ul></li>
+<li><p>case2: <span class="math inline">\(X_1=1\)</span>일 경우</p>
+<ul>
+<li><span class="math inline">\(\mathbb{P}_{\theta}(X_1=0,X_2=0 ~\big|~ X_1=1)=0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}_{\theta}(X_1=0,X_2=1 ~\big|~ X_1=1)=0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}_{\theta}(X_1=1,X_2=0 ~\big|~ X_1=1)=1-\theta\)</span></li>
+<li><span class="math inline">\(\mathbb{P}_{\theta}(X_1=1,X_2=1 ~\big|~ X_1=1)=\theta\)</span></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>종합해보면 경우1,경우2,경우3은 경우4와 구분되는 어떠한 공통점을 가지고 있다 볼 수 있다. 특징은 결합확률분포가 <span class="math inline">\(\theta\)</span>에 대한 함수로 표현되지 않는다는 것이다. 하나씩 살펴보면</p>
+<ul>
+<li>경우1: 당연히 <span class="math inline">\(\theta\)</span>를 줬으니까 <span class="math inline">\((X_1,X_2)\)</span>의 조인트는 <span class="math inline">\(\theta\)</span>에 의존하지 않음.</li>
+<li>경우2: <span class="math inline">\(X_1,X_2\)</span>를 줬음. <span class="math inline">\((X_1,X_2)\)</span>의 조인트는 <span class="math inline">\(\theta\)</span>에 의존하지 않음.</li>
+<li>경우3: <span class="math inline">\(X_1+X_2\)</span>를 줬음. <span class="math inline">\((X_1,X_2)\)</span>의 조인트는 <span class="math inline">\(\theta\)</span>에 의존하지 않음.</li>
+</ul>
+<p>이렇게보면 경우1과 경우2,3은 또 다시 구분된다. 경우1은 <strong><span class="math inline">\(\theta\)</span>에 대한 완전한 정보를 준 상황</strong>이므로 당연히 조인트는 <span class="math inline">\(\theta\)</span>에 의존하지 않는다. 경우2-3은 <span class="math inline">\(\theta\)</span>를 주지 않았음에도 조인트가 <span class="math inline">\(\theta\)</span>에 의존하지 않는 매우 특별해보이는 상황이다. 따라서 이를 통해서 유추하면</p>
+<blockquote class="blockquote">
+<p>경우2에서는 <span class="math inline">\((X_1,X_2)\)</span>이, 그리고 경우3에서는 <span class="math inline">\(X_1+X_2\)</span>가 <span class="math inline">\(\theta\)</span>에 대한 완전한 정보를 대신하고 있는것 아닐까?</p>
+</blockquote>
+<p>라는 생각이 든다. 정리하면</p>
+<ul>
+<li>경우2: <span class="math inline">\((X_1,X_2)\)</span>을 주는 것은 <span class="math inline">\(\theta\)</span>의 값을 그냥 알려주는 것과 대등한 효과</li>
+<li>경우3: <span class="math inline">\(X_1+X_2\)</span>를 주는 것은 <span class="math inline">\(\theta\)</span>의 값을 그냥 알려주는 것과 대등한 효과</li>
+</ul>
+<p>라고 해석할 수 있다.</p>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</section>
+<section id="definition-2" class="level4">
+<h4 class="anchored" data-anchor-id="definition-2">Definition</h4>
+<p>연속형 혹은 이산형 확률변수 <span class="math inline">\(X_1,X_2,\dots,X_n\)</span>는 족(family) <span class="math inline">\(\big\{P_{\boldsymbol\theta}: {\boldsymbol\theta} \in {\bf \Theta}\big\}\)</span> 중 하나의 원소에서 추출한 확률표본이라고 하자. 어떠한 통계량벡터 <span class="math inline">\(\vec{T}({\bf X})=(T_1({\bf X}),\dots,T_n({\bf X}))\)</span>의 값을 줬을때, <span class="math inline">\((X_1,X_2\dots,X_n)\)</span>의 결합확률분포가 (마치 <span class="math inline">\({\boldsymbol\theta}\)</span>의 값을 알려준 것 마냥) <span class="math inline">\({\boldsymbol\theta}\)</span>에 의존하지 않으면 그 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>의 값을 관측하는 것은 <span class="math inline">\({\boldsymbol\theta}\)</span>의 값을 알려준것과 대등한 효과라고 볼 수 있다. 이러한 일이 <span class="math inline">\(\big\{P_{\boldsymbol\theta}: {\boldsymbol\theta} \in {\bf \Theta}\big\}\)</span>의 아무원소에서나 성립한다면 그 통계량벡터 <span class="math inline">\({\vec T}({\bf X})\)</span>를 <span class="math inline">\(\boldsymbol\theta\)</span>의 충분통계량이라고 한다.</p>
+<ul>
+<li>통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>의 차원은 정해진 것이 없다. 예를들어 <span class="math inline">\(\theta\)</span>는 1차원이지만 <span class="math inline">\(\vec{T}({\bf X})\)</span>는 <span class="math inline">\(n\)</span>차원일수도있다. (순서통계량벡터를 충분통계량으로 고려한다면)</li>
+<li>보통은 위의 정의를 그대로 이용하여 충분통계량을 구하는 경우는 드물며 아래의 분해정리를 이용한다.</li>
+</ul>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</section>
+<section id="theorem-네이만의-분해정리" class="level4">
+<h4 class="anchored" data-anchor-id="theorem-네이만의-분해정리">Theorem – 네이만의 분해정리</h4>
+<p>네이만의 분해정리는 아래의 동치조건을 의미한다.</p>
+<p><span class="math display">\[\vec{T}({\bf X}) \text{ is SS } \Leftrightarrow  f_{\bf X}({\boldsymbol x}; {\boldsymbol \theta}) = h({\boldsymbol x}) \cdot g(\vec{T}({\boldsymbol x}), {\boldsymbol \theta}) \]</span></p>
+<p>(증명)</p>
+<p>이 정리 증명하는 것은 일반적인 상황에서는 좀 까다로우므로 이산형일 경우만 따져보도록 하자. 즉 <span class="math inline">\(f_{\bf X}({\boldsymbol x}; \theta)=P_{\boldsymbol \theta}({\bf X}={\boldsymbol x})\)</span> 를 가정하자. 또한 <span class="math inline">\({\boldsymbol\theta}, \vec{T}({\boldsymbol x})\)</span>를 모두 1차원으로 가정한다. 먼저 <span class="math inline">\((\Rightarrow)\)</span>를 따져보자. 충분통계량의 정의에 따라 임의의 <span class="math inline">\({\boldsymbol x}\)</span>에 대하여 <span class="math inline">\(P_{\theta}({\bf X}={\boldsymbol x}|T({\bf X})=T({\boldsymbol x}))\)</span>는 <span class="math inline">\(\theta\)</span>에 의존하지 않는다. 즉</p>
+<p><span class="math display">\[P_{\theta}({\bf X}={\boldsymbol x}|T({\bf X})=T({\boldsymbol x}))=P({\bf X}={\boldsymbol x}|T({\bf X})=T({\boldsymbol x}))\]</span></p>
+<p>와 같이 쓸 수 있다. 따라서 <span class="math inline">\(\theta\)</span>에 의존하지 않는 적당한 함수 <span class="math inline">\(h\)</span>가 존재하여 아래와 같이 쓸 수 있다.</p>
+<p><span class="math display">\[P_{\theta}({\bf X}={\boldsymbol x}|T({\bf X})=T({\boldsymbol x}))=h({\boldsymbol x})\]</span></p>
+<p>이제 이야기를 전환하여 임의의 <span class="math inline">\({\boldsymbol x}\)</span>에 대하여 <span class="math inline">\(P_{\theta}({\bf X}={\boldsymbol x})\)</span>를 생각해보자. 조건부확률의 정의를 이용하면</p>
+<p><span class="math display">\[P_{\theta}({\bf X}={\boldsymbol x}) = P_{\theta}({\bf X}={\boldsymbol x}|T({\bf X})=T({\boldsymbol x}))\times P_{\theta}(T({\bf X})=T({\boldsymbol x}))\]</span></p>
+<p>으로 표현할 수 있다. 그런데 여기에서 아까 충분통계량에 의해 유도된 조건을 쓰면 <span class="math inline">\(P_{\theta}({\bf X}={\boldsymbol x}|T({\bf X})=T({\boldsymbol x})) = h({\boldsymbol x})\)</span> 라고 쓸 수 있어서 <span class="math inline">\(P_{\theta}({\bf X}={\boldsymbol x})\)</span> 를 다시 아래로 정리할 수 있다.</p>
+<p><span class="math display">\[P_{\theta}({\bf X}={\boldsymbol x}) = h({\boldsymbol x}) \times P_{\theta}(T({\bf X})=T({\boldsymbol x}))\]</span></p>
+<p>이제 <span class="math inline">\(P_{\theta}(T({\bf X})=T({\boldsymbol x}))\)</span>를 적당한 함수 <span class="math inline">\(g(T({\boldsymbol x}), \theta)\)</span>로 정의하면 아래와 같이 정리할 수 있다.</p>
+<p><span class="math display">\[f_{\bf X}({\boldsymbol x} ; \theta)= P_{\theta}({\bf X}={\boldsymbol x}) = h({\boldsymbol x}) \times g(T({\boldsymbol x}), \theta)\]</span></p>
+<p>이제 <span class="math inline">\((\Leftarrow)\)</span>를 따져보자. 이제 <span class="math inline">\(({\bf X},T({\bf X}))\)</span> 의 joint를 고려하자. 임의의 고정된 <span class="math inline">\({\boldsymbol x}^\ast\)</span> 에 대하여</p>
+<p><span class="math display">\[ P_{\theta}({\bf X}={\boldsymbol x}^\ast|T({\bf X})=T({\boldsymbol x}^\ast)) = \frac{P_{\theta}({\bf X}={\boldsymbol x}^\ast, T({\bf X}) = T({\boldsymbol x}^\ast))}{P_{\theta}(T({\bf X})=T({\boldsymbol x}^\ast))} \quad \cdots (\star)\]</span></p>
+<p>그런데 사실</p>
+<p><span class="math display">\[P_{\theta}({\bf X}={\boldsymbol x}^\ast, T({\bf X}) = T({\boldsymbol x}^\ast))=P_{\theta}({\bf X}={\boldsymbol x}^\ast)\]</span></p>
+<p>이므로 <span class="math inline">\((\star)\)</span>는 아래와 같이 정리된다.</p>
+<p><span class="math display">\[ P_{\theta}({\bf X}={\boldsymbol x}^\ast|T({\bf X})=T({\boldsymbol x}^\ast)) = \frac{P_{\theta}({\bf X}={\boldsymbol x}^\ast)}{P_{\theta}(T({\bf X})=T({\boldsymbol x}^\ast))} \quad \cdots (\star)\]</span></p>
+<p>이제 분모를 정리해보자.</p>
+<p><span class="math display">\[P_{\theta}(T({\bf X})=T({\boldsymbol x}^\ast))=\sum_{\boldsymbol x \in \{{\boldsymbol x} : ~T({\boldsymbol x}) = T({\boldsymbol x}^\ast) \} }P_{\theta}({\bf X}={\boldsymbol x})\]</span></p>
+<p>편의상 <span class="math inline">\({\cal X}^\ast=\{{\boldsymbol x} : T({\boldsymbol x}) = T({\boldsymbol x}^\ast) \}\)</span> 라고 정리하면 간단히 <span class="math display">\[P_{\theta}(T({\bf X})=T({\boldsymbol x}^\ast)) =\sum_{\boldsymbol x \in {\cal X}^\ast }P_{\theta}({\bf X}={\boldsymbol x})\]</span> 와 같이 쓸 수 있다.</p>
+<blockquote class="blockquote">
+<p>여기에서 <span class="math inline">\({\cal X}^\ast=\{{\boldsymbol x} : T({\boldsymbol x}) = T({\boldsymbol x}^\ast) \}\)</span> 은 고정된 realization <span class="math inline">\({\boldsymbol x}^\ast\)</span>에 의하여 계산된 값 <span class="math inline">\(T({\boldsymbol x}^\ast)\)</span>을 똑같이 만들수 있는 any-realizaions <span class="math inline">\({\boldsymbol x}\)</span>의 집합을 의미한다. 예를들면 <span class="math display">\[X_1,X_2,X_3\sim {\cal B}er(p)\]</span> 에서 <span class="math inline">\(T({\bf X}) = \bar{\bf X}\)</span> 일때 <span class="math inline">\({\boldsymbol x}^\ast = (1,1,0)\)</span> 이라면 <span class="math inline">\(T({\boldsymbol x}^\ast)=\frac{2}{3}\)</span>이다. 따라서 이경우 <span class="math inline">\({\cal X}^\ast\)</span>는 아래와 같다. <span class="math display">\[{\cal X}^\ast = \big\{(1,1,0), (1,0,1), (0,0,1)\big\}\]</span></p>
+</blockquote>
+<p>즉 정리하면 <span class="math inline">\((\star)\)</span>는 아래와 같이 쓸 수 있다.</p>
+<p><span class="math display">\[ P_{\theta}({\bf X}={\boldsymbol x}^\ast|T({\bf X})=T({\boldsymbol x}^\ast)) = \frac{P_{\theta}({\bf X}={\boldsymbol x}^\ast)}{\sum_{{\boldsymbol x} \in {\cal X}^\ast}P_{\theta}({\bf X}={\boldsymbol x})} \quad \cdots (\star)\]</span></p>
+<p>이제 <span class="math inline">\(P_{\theta}({\bf X}={\boldsymbol x})=h({\boldsymbol x})g(T({\boldsymbol x}),\theta)\)</span> 를 적용하면</p>
+<p><span class="math display">\[P_{\theta}({\bf X}={\boldsymbol x}^\ast|T({\bf X})=T({\boldsymbol x}^\ast))
+= \frac{
+    h({\boldsymbol x}^\ast)g(T({\boldsymbol x}^\ast),\theta)
+}{
+    \sum_{{\boldsymbol x} \in {\cal X}^\ast}h({\boldsymbol x})g(T({\boldsymbol x}),{\theta})
+}\quad \cdots (\star)\]</span> 그런데 <span class="math inline">\({\boldsymbol x} \in {\cal X}^\ast\)</span> 라는 제약하에서는 <span class="math inline">\(T({\boldsymbol x})=T({\boldsymbol x}^\ast)\)</span> 이므로 <span class="math inline">\((\star)\)</span>의 분모는</p>
+<p><span class="math display">\[{\sum_{{\boldsymbol x} \in {\cal X}^\ast}h({\boldsymbol x})g(T({\boldsymbol x}),{\theta})}
+={\sum_{{\boldsymbol x} \in {\cal X}^\ast}h({\boldsymbol x})g(T({\boldsymbol x}^\ast),{\theta})}
+={g(T({\boldsymbol x}^\ast),{\theta})\sum_{{\boldsymbol x} \in {\cal X}^\ast}h({\boldsymbol x})}\]</span></p>
+<p>와 같이 정리할 수 있다. 이제 이를 이용하여 <span class="math inline">\((\star)\)</span>를 다시쓰면</p>
+<p><span class="math display">\[P_{\theta}({\bf X}={\boldsymbol x}^\ast|T({\bf X})=T({\boldsymbol x}^\ast))
+= \frac{
+    h({\boldsymbol x}^\ast)g(T({\boldsymbol x}^\ast),\theta)
+}{
+    g(T({\boldsymbol x}^\ast),{\theta})\sum_{{\boldsymbol x} \in {\cal X}^\ast}h({\boldsymbol x})
+}
+=\frac{h({\boldsymbol x}^\ast)}{\sum_{{\boldsymbol x} \in {\cal X}^\ast}h({\boldsymbol x})}\]</span></p>
+<p>따라서 <span class="math inline">\(P_{\theta}({\bf X}={\boldsymbol x}^\ast|T({\bf X})=T({\boldsymbol x}^\ast))\)</span>는 <span class="math inline">\(\theta\)</span>에 의존하지 않는다. 이러한 논의가 임의의 <span class="math inline">\({\boldsymbol x}^\ast\)</span>에 대하여 항상 성립하므로 <span class="math inline">\(({\bf X}, T({\bf X}))\)</span>의 결합확률분포는 <span class="math inline">\(\theta\)</span>에 의존하지 않는다.</p>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<hr>
+<p><code>-</code> 분해정리를 쓰기 위해서는 우선 확률변수 벡터의 결합확률밀도함수를 얻어야 한다. 결합확률밀도함수를 얻었다면 그것을 아래 4개의 곱형태로 분리해서 봐야한다.</p>
+<ol type="1">
+<li>상수</li>
+<li><span class="math inline">\({\boldsymbol x}\)</span>만의 함수만으로 표현되는 부분</li>
+<li><span class="math inline">\({\boldsymbol \theta}\)</span>만의 함수로 표현되는 부분</li>
+<li><span class="math inline">\({\boldsymbol x}\)</span>와 <span class="math inline">\({\boldsymbol \theta}\)</span>가 <strong>얽혀있는</strong> 부분</li>
+</ol>
+<p>이때 핵심은 얽혀있는 4번의 수식을 변형하는 것이다. 즉 <span class="math inline">\((\theta_1,\dots,\theta_d)\)</span>와 <span class="math inline">\((x_1,\dots,x_n)\)</span>이 얽혀있는 부분의 수식을 잘 변형하는 것이 중요한데 이때</p>
+<p>“<span class="math inline">\((x_1,\dots,x_n)\)</span> 를 모조리 외우는 것 보다 좀 더 간단한 방식으로 (예를들면 순서통계량만 기억한다든가, <span class="math inline">\(\sum_{i=1}^{n}x_i\)</span>의 값을 기억한다든가) 얽힌부분을 재표현 할 수 있느냐??”</p>
+<p>가 포인트이다. 예를들어서 아래와 같은 간단한 예시를 상상하자.</p>
+<p><span class="math display">\[X_1, X_2,\dots,X_n \overset{iid}{\sim} {\cal U}(a,b)\]</span></p>
+<p>확률변수벡터 <span class="math inline">\({\bf X}\)</span>의 결합밀도함수을 고려하면 아래와 같다.</p>
+<p><span class="math display">\[f_{\bf X}({\boldsymbol x},a,b)=\frac{1}{(b-a)^n}\prod_{i=1}^{n}I(a&lt;x_i&lt;b)\]</span></p>
+<p>여기에서 <span class="math inline">\({\boldsymbol x}\)</span>와 <span class="math inline">\({\boldsymbol \theta}\)</span>가 얽혀있는 부분은 아래와 같다.</p>
+<p><span class="math display">\[\text{얽힌부분}=\prod_{i=1}^{n}I(a&lt;x_i&lt;b)\]</span></p>
+<p>일단 모든 순서를 기억할 필요는 없으므로 얽힌부분은 아래와 같이 좀 더 간단한 방식으로 재표현할 수 있다.</p>
+<p><span class="math display">\[\text{얽힌부분}=\prod_{i=1}^{n}I(a&lt;x_{(i)}&lt;b)\]</span></p>
+<p>그리고 생각해보니까 <span class="math inline">\(\prod_{i=1}^{n}I(a&lt;x_{(i)}&lt;b)=I(a&lt;x_{(1)})I(x_{(n)}&lt;b)\)</span>이므로 얽힌부분은 다시 아래로 간단히 표현할 수 있다.</p>
+<p><span class="math display">\[\text{얽힌부분}=I(a&lt;x_{(1)})I(x_{(n)}&lt;b)\]</span></p>
+<p>따라서 얽힌부분이 <span class="math inline">\(({\boldsymbol x}, a,b)\)</span>의 함수에서 <span class="math inline">\((x_{(1)},x_{(n)},a,b)\)</span>의 함수로 재표현되었으므로 <span class="math inline">\(\vec{T}({\bf X})=(X_{(1)}, X_{(n)})\)</span>는 <span class="math inline">\((a,b)\)</span>에 대한 충분통계량이다.</p>
+<p><code>-</code> 만약에 얽힌부분을 재표현하기 어렵다면 그냥 순서통계량이 충분통계량이 된다. 예를들어 코시분포, 로그로지스틱, 파레토분포가 그러한 예시이다.</p>
+<p><code>-</code> 지금까지 살펴본 분포들을 정리하면 아래와 같다.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>분포</strong></th>
+<th><strong>PDF/PMF</strong></th>
+<th><strong>추정의대상</strong></th>
+<th><strong>충분통계량(=<span class="math inline">\(\vec{T}({\bf X})\)</span>)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>이산균등</strong></td>
+<td><span class="math inline">\(f(x)=\frac{1}{N},\quad x=1,2,\dots,N\)</span></td>
+<td><span class="math inline">\(N\)</span></td>
+<td><span class="math inline">\(X_{(n)}\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>연속균등</strong></td>
+<td><span class="math inline">\(f(x;a,b)=\frac{1}{b-a},\quad a\leq x\leq b\)</span></td>
+<td><span class="math inline">\((a,b)\)</span></td>
+<td><span class="math inline">\((X_{(1)},X_{(n)})\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>코시</strong></td>
+<td><span class="math inline">\(f(x;x_0,\gamma)=\frac{1}{\pi\gamma}\left(1+\left(\frac{x-x_0}{\gamma}\right)^2\right)^{-1}\)</span></td>
+<td><span class="math inline">\((x_0,\gamma)\)</span></td>
+<td><span class="math inline">\((X_{(1)},X_{(2)},\dots,X_{(n)})\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>로그로지스틱</strong></td>
+<td><span class="math inline">\(f(x;\alpha,\beta)=\frac{(\beta/\alpha)(x/\alpha)^{\beta-1}}{(1+(x/\alpha)^\beta)^2},\quad x&gt;0\)</span></td>
+<td><span class="math inline">\((\alpha,\beta)\)</span></td>
+<td><span class="math inline">\((X_{(1)},X_{(2)},\dots,X_{(n)})\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>파레토</strong></td>
+<td><span class="math inline">\(f(x;\alpha,x_m)=\frac{\alpha x_m^\alpha}{x^{\alpha+1}},\quad x\geq x_m\)</span></td>
+<td><span class="math inline">\((\alpha,x_m)\)</span></td>
+<td><span class="math inline">\((X_{(1)},X_{(2)},\dots,X_{(n)})\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>여기에서 이산균등, 연속균등은 요약이 잘 되는 경우이며 코시,로그로지스틱,파레토는 요약이 잘 안되는 경우이다. 위의 분포들은 모두 지수족이 아니다. (참고로 지수족이어야 충분통계량으로 요약이 된다는가 그런 이론이 있을걸? 확실치 않음)</p>
+<p><code>-</code> 몇 가지 (교과서에 잘 나오지 않는) 분포에 대한 충분통계량을 조사해보자.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>분포</strong></th>
+<th><strong>PDF/PMF</strong></th>
+<th><strong>추정의대상</strong></th>
+<th><strong>충분통계량(=<span class="math inline">\(\vec{T}({\bf X})\)</span>)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>역감마</strong></td>
+<td><span class="math inline">\(f(x)=\frac{\beta^\alpha}{\Gamma(\alpha)}x^{-\alpha-1}e^{-\beta/x}\)</span></td>
+<td><span class="math inline">\((\alpha,\beta)\)</span></td>
+<td><span class="math inline">\(\left(\sum\log X_i,\sum\frac{1}{X_i}\right)\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>로그정규</strong></td>
+<td><span class="math inline">\(f(x)=\frac{1}{x\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(\log x-\mu)^2}{2\sigma^2}\right)\)</span></td>
+<td><span class="math inline">\((\mu,\sigma^2)\)</span></td>
+<td><span class="math inline">\(\left(\sum\log X_i,\sum(\log X_i)^2\right)\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>와이블(<span class="math inline">\(k\)</span>isunknown)</strong></td>
+<td><span class="math inline">\(f(x)=\frac{k}{\lambda}\left(\frac{x}{\lambda}\right)^{k-1}e^{-(x/\lambda)^k}\)</span></td>
+<td><span class="math inline">\((k,\lambda)\)</span></td>
+<td><span class="math inline">\((X_{(1)},X_{(2)},\dots,X_{(n)})\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>와이블(<span class="math inline">\(k\)</span>isknown)</strong></td>
+<td><span class="math inline">\(f(x)=\frac{k}{\lambda}\left(\frac{x}{\lambda}\right)^{k-1}e^{-(x/\lambda)^k}\)</span></td>
+<td><span class="math inline">\(\lambda\)</span></td>
+<td><span class="math inline">\(\sum X_i^k\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><code>-</code> <strong>역감마분포</strong>를 살펴보자. 역감마분포의 pdf는 아래와 같다.</p>
+<p><span class="math display">\[f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{-\alpha-1} e^{-\beta/x}\]</span></p>
+<p>따라서 확률변수벡터의 결합밀도함수에서 얽힌부분은 아래와 같다.</p>
+<ol type="1">
+<li><span class="math inline">\(x_1^{-\alpha-1}\cdots x_n^{-\alpha-1}\)</span></li>
+<li><span class="math inline">\(e^{-\beta/x_1}\cdots e^{-\beta/x_n}\)</span></li>
+</ol>
+<p>이때 두번째 얽힘부분을 재표현하는 방법은 쉽다.</p>
+<p><span class="math display">\[e^{-\beta/x_1}\cdots e^{-\beta/x_n}=e^{-\beta(\frac{1}{x_1}+\dots+\frac{1}{x_n})}\]</span></p>
+<p>이므로 숫자 <span class="math inline">\(\sum_{i=1}^{n}\frac{1}{x_i}\)</span> 만 잘 기억한다면 두번째 얽힘부분을 재표현 할 수 있다. 첫번째 얽힘부분은 좀 까다로운데 아래와 같이 생각하면 쉽다. “로그변환하고 지수변환하면 같음”을 이용하여 첫 얽힘부분을 로그변환한다. 그러면 아래와 같이 된다.</p>
+<p><span class="math display">\[(-\alpha-1)\sum_{i=1}^{n}\log x_i\]</span></p>
+<p>따라서 첫 얽힘부분을 재표현하기 위해서는 (1) <span class="math inline">\((-\alpha-1)\sum_{i=1}^{n}\log x_i\)</span> 을 기억하고 (2) 그 결과에 <span class="math inline">\(\exp\)</span>를 취하면 된다. 요약하면 <span class="math inline">\((\sum_{i=1}^{n}\log x_i,\sum_{i=1}^{n}\frac{1}{x_i})\)</span>만 기억하면 얽힘부분을 재현할 수 있으므로 <span class="math inline">\(\vec{T}({\bf X})=(\sum_{i=1}^{n}\log X_i,\sum_{i=1}^{n}\frac{1}{X_i})\)</span>는 역감마분포의 충분통계량이다.</p>
+<p><code>-</code> 이제 <strong>로그정규분포</strong>를 살펴보자. 로그정규분포의 pdf는 아래와 같고</p>
+<p><span class="math display">\[f(x) = \frac{1}{x\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(\log x - \mu)^2}{2\sigma^2}\right)\]</span></p>
+<p>따라서 확률변수벡터의 결합밀도함수에서의 얽힌부분은 아래와 같다.</p>
+<p><span class="math display">\[\exp\left(-\sum_{i=1}^{n}\frac{(\log x_i - \mu)^2}{2\sigma^2}\right)\]</span></p>
+<p>얽힌부분을 기억함에 있어서 로그를 취한뒤 부호를 바꾸어 기억해도 무방하므로 아래를 기억해도 무방하다.</p>
+<p><span class="math display">\[\sum_{i=1}^{n}\frac{(\log x_i - \mu)^2}{2\sigma^2}\]</span></p>
+<p>정리하면</p>
+<p><span class="math display">\[\frac{1}{2\sigma^2}\sum_{i=1}^{n}(\log x_i)^2 - \frac{1}{2\sigma^2}2\mu\sum_{i=1}^{n}\log x_i + \frac{n}{2\sigma^2}\mu^2\]</span></p>
+<p>이 된다. 이렇게 보니까 <span class="math inline">\(\frac{n}{2\sigma^2}\mu^2\)</span>은 얽힌부분이 아니다. 남은 부분은</p>
+<p><span class="math display">\[\frac{1}{2\sigma^2}\sum_{i=1}^{n}(\log x_i)^2 - \frac{\mu}{\sigma^2}\sum_{i=1}^{n}\log x_i\]</span></p>
+<p>가 되고 이는 <span class="math inline">\((\sum_{i=1}^{n}\log x_i,\sum_{i=1}^{n}(\log x_i)^2)\)</span>만 기억해도 충분히 재표현할 수 있다. 따라서 로그정규분포의 충분통계량은 <span class="math inline">\(\vec{T}({\bf X})=(\sum_{i=1}^{n}\log X_i,\sum_{i=1}^{n}(\log X_i)^2)\)</span>이다.</p>
+<p><code>-</code> 이제 <strong>와이블분포</strong>를 고려해보자. 와이블분포의 pdf는 아래와 같다.</p>
+<p><span class="math display">\[f(x)=\frac{k}{\lambda} \left(\frac{x}{\lambda}\right)^{k-1} e^{-(x/\lambda)^k}\]</span></p>
+<p>따라서 확률변수벡터의 결합밀도함수에서 얽힌부분은 아래와 같이 될 것이다.</p>
+<ol type="1">
+<li><span class="math inline">\(x_1^{k-1}\cdots x_n^{k-1}\)</span></li>
+<li><span class="math inline">\(e^{-(x_1^k/\lambda^k + \cdots +x_n^k/\lambda^k) }\)</span></li>
+</ol>
+<p>따라서 1의 얽힘은 <span class="math inline">\(\sum_{i=1}^{n}\log x_i\)</span> 를 기억하면 충분하다. 2의 얽힘은 <span class="math inline">\(\sum_{i=1}^{n}x_i^k\)</span>를 기억하면 충분해 보인다. 따라서 이때 충분통계량은 <span class="math inline">\(\vec{T}({\bf X})=(\sum_{i=1}^{n}\log X_i, \sum_{i=1}^{n}X_i^k)\)</span> 인듯 보인다. 그렇지만</p>
+<p><span class="math display">\[\sum_{i=1}^{n}X_i^k\]</span></p>
+<p>는 통계량이 아니므로<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> <span class="math inline">\(\vec{T}({\bf X})=(\sum_{i=1}^{n}\log X_i, \sum_{i=1}^{n}X_i^k)\)</span>는 충분통계량이라고 주장할 수 없다. 어쩌면 좋을까? 결국 별 수 없이 이 경우 충분통계량은 순서통계량벡터가 되어야한다. 즉 아래가 충분통계량이다. <span class="math display">\[\vec{T}({\bf X})=(X_{(1)},\dots,X_{(n)})\]</span> 만약에 <span class="math inline">\(k\)</span>가 알려진 경우라면 어떨까?</p>
+<ol type="1">
+<li><span class="math inline">\(x_1^{k-1}\cdots x_n^{k-1}\)</span></li>
+<li><span class="math inline">\(e^{-(x_1^k/\lambda^k + \cdots +x_n^k/\lambda^k) }\)</span></li>
+</ol>
+<p>에서 1은 얽힌부분이 아니게 되고 2만 얽힌부분이된다. 따라서 이 경우 충분통계량은 <span class="math inline">\(T({\bf  X})=\sum_{i=1}^n X_i^k\)</span>가 된다.</p>
+<p><code>-</code> 아래의 표를 다시 관찰하자.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 50%">
+<col style="width: 9%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>분포</strong></th>
+<th><strong>PDF/PMF</strong></th>
+<th><strong>추정의대상</strong></th>
+<th><strong>충분통계량(=<span class="math inline">\(\vec{T}({\bf X})\)</span>)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>역감마</strong></td>
+<td><span class="math inline">\(f(x)=\frac{\beta^\alpha}{\Gamma(\alpha)}x^{-\alpha-1}e^{-\beta/x}\)</span></td>
+<td><span class="math inline">\((\alpha,\beta)\)</span></td>
+<td><span class="math inline">\(\left(\sum\log X_i,\sum\frac{1}{X_i}\right)\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>로그정규</strong></td>
+<td><span class="math inline">\(f(x)=\frac{1}{x\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(\log x-\mu)^2}{2\sigma^2}\right)\)</span></td>
+<td><span class="math inline">\((\mu,\sigma^2)\)</span></td>
+<td><span class="math inline">\(\left(\sum\log X_i,\sum(\log X_i)^2\right)\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>와이블(<span class="math inline">\(k\)</span>isunknown)</strong></td>
+<td><span class="math inline">\(f(x)=\frac{k}{\lambda}\left(\frac{x}{\lambda}\right)^{k-1}e^{-(x/\lambda)^k}\)</span></td>
+<td><span class="math inline">\((k,\lambda)\)</span></td>
+<td><span class="math inline">\((X_{(1)},X_{(2)},\dots,X_{(n)})\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>와이블(<span class="math inline">\(k\)</span>isknown)</strong></td>
+<td><span class="math inline">\(f(x)=\frac{k}{\lambda}\left(\frac{x}{\lambda}\right)^{k-1}e^{-(x/\lambda)^k}\)</span></td>
+<td><span class="math inline">\(\lambda\)</span></td>
+<td><span class="math inline">\(\sum X_i^k\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>역감마, 로그정규분포는 지수족이라고 생각된다. (확실하지 않음) 와이블은 지수족이 아니지만 <span class="math inline">\(k\)</span>를 고정하는 경우에는 지수족으로 볼 수 있다. 지수족임을 체크하는 핵심은 pdf상에서 보이는 얽힌부분이</p>
+<p><span class="math display">\[\vec{T}({\boldsymbol x}) \cdot \vec{\eta}({\boldsymbol \theta})\]</span></p>
+<p>꼴로 표현되는지인데 (그것 이외에도 까다로운 조건이 있어보이지만 잘 모르겠음) 각 분포의 <span class="math inline">\(\log f(x)\)</span>에 대한 얽힘부분을 표현하면 아래와 같다.</p>
+<ul>
+<li>역감마: <span class="math inline">\((-\alpha-1) \log x + (-\beta) \frac{1}{x}\)</span>,</li>
+<li>로그정규: <span class="math inline">\(\frac{1}{2\sigma^2} (\log x)^2  + \frac{-\mu}{\sigma^2}\log x\)</span></li>
+<li>와이블(<span class="math inline">\(k\)</span> is unknown): <span class="math inline">\((k-1)\log x + \frac{-1}{\lambda^k} x^k\)</span></li>
+<li>와이블(<span class="math inline">\(k\)</span> is known): <span class="math inline">\(\frac{-1}{\lambda^k} x^k\)</span></li>
+</ul>
+<p>보면 <span class="math inline">\(k\)</span>가 알려지지 않은 와이블의 경우 <span class="math inline">\(x^k\)</span> 때문에 <span class="math inline">\(\vec{T}({\boldsymbol x}) \cdot \vec{\eta}({\boldsymbol \theta})\)</span>로 표현이 안된다. <span class="math inline">\(k\)</span>가 알려진 와이블의 경우 얽힌부분이 단순히 <span class="math inline">\(\frac{-1}{\lambda^k}x^k\)</span>로만 정리되고 이때는 지수족이라 볼 수 있다. 사실 지수족의 경우 충분통계량을 매우 쉽게 구할 수 있다.</p>
+<ol type="1">
+<li><span class="math inline">\(\log f_{\boldsymbol \theta}(x)\)</span>에서 얽힌부분을 추출한다.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></li>
+<li>1의 결과로 나온 얽힌부분에서 <span class="math inline">\(d\)</span>차원 벡터 <span class="math inline">\(\vec{T}(x)=(T_1(x),\dots,T_d(x))\)</span>를 추출한다.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></li>
+<li>충분통계량(벡터) <span class="math inline">\(\vec{T}({\bf X}):=(\sum_{i=1}^{n}T_1(X_i),\dots,\sum_{i=1}^{n}T_d(X_i))\)</span></li>
+</ol>
+<p>위에서 <span class="math inline">\(\vec{T}(x)\)</span>를 이용하여 <span class="math inline">\(\vec{T}({\bf X})\)</span>를 만드는 것은 수식으로 보면 어려워보이지만 몇번 연습해보면 매우 쉽다.<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> 아래의 표를 살펴보면서 연습해보자.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>분포</th>
+<th>key</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>역감마</td>
+<td><span class="math inline">\(f(x)\)</span></td>
+<td><span class="math inline">\(\frac{\beta^\alpha}{\Gamma(\alpha)}x^{-(\alpha+1)}e^{-\beta/x}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\cdot\vec{\eta}({\boldsymbol\theta})\)</span></td>
+<td><span class="math inline">\(-(\alpha+1)\log x-\beta/x\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\)</span></td>
+<td><span class="math inline">\((\log x,1/x)\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(\mathbf{X})\)</span></td>
+<td><span class="math inline">\(\left(\sum_i\log X_i,\sum_i\frac{1}{X_i}\right)\)</span></td>
+</tr>
+<tr class="odd">
+<td>로그정규</td>
+<td><span class="math inline">\(f(x)\)</span></td>
+<td><span class="math inline">\(\frac{1}{x\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(\log x-\mu)^2}{2\sigma^2}\right)\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\cdot\vec{\eta}({\boldsymbol\theta})\)</span></td>
+<td><span class="math inline">\(\mu\log x/\sigma^2-(\log x)^2/(2\sigma^2)\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\)</span></td>
+<td><span class="math inline">\(((\log x)^2,\log x)\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(\mathbf{X})\)</span></td>
+<td><span class="math inline">\(\left(\sum_i(\log X_i)^2,\sum_i\log X_i\right)\)</span></td>
+</tr>
+<tr class="odd">
+<td>와이블(<span class="math inline">\(k\)</span>가알려진)</td>
+<td><span class="math inline">\(f(x)\)</span></td>
+<td><span class="math inline">\(\frac{k}{\lambda}\left(\frac{x}{\lambda}\right)^{k-1}\exp\left(-\left(\frac{x}{\lambda}\right)^k\right)\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\cdot\vec{\eta}({\boldsymbol\theta})\)</span></td>
+<td><span class="math inline">\(-\frac{1}{\lambda^k}x^k\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\)</span></td>
+<td><span class="math inline">\(x^k\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(\mathbf{X})\)</span></td>
+<td><span class="math inline">\(\sum_iX_i^k\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><code>-</code> 이제 좀 다른 예제들을 살펴보자.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>분포</th>
+<th>key</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>정규</td>
+<td><span class="math inline">\(f(x)\)</span></td>
+<td><span class="math inline">\(\frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\cdot\vec{\eta}({\boldsymbol\theta})\)</span></td>
+<td><span class="math inline">\(\mu x/\sigma^2-x^2/(2\sigma^2)\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\)</span></td>
+<td><span class="math inline">\((x,x^2)\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(\mathbf{X})\)</span></td>
+<td><span class="math inline">\(\left(\sum_jX_j,\sum_jX_j^2\right)\)</span></td>
+</tr>
+<tr class="odd">
+<td>이항</td>
+<td><span class="math inline">\(f(x)\)</span></td>
+<td><span class="math inline">\(\binom{n}{x}p^x(1-p)^{n-x}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\cdot\vec{\eta}({\boldsymbol\theta})\)</span></td>
+<td><span class="math inline">\(x\log\frac{p}{1-p}\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\)</span></td>
+<td><span class="math inline">\(x\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(\mathbf{X})\)</span></td>
+<td><span class="math inline">\(\sum_jX_j\)</span></td>
+</tr>
+<tr class="odd">
+<td>포아송</td>
+<td><span class="math inline">\(f(x)\)</span></td>
+<td><span class="math inline">\(\frac{\lambda^x e^{-\lambda}}{x!}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\cdot\vec{\eta}({\boldsymbol\theta})\)</span></td>
+<td><span class="math inline">\(x\log\lambda\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\)</span></td>
+<td><span class="math inline">\(x\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(\mathbf{X})\)</span></td>
+<td><span class="math inline">\(\sum_jX_j\)</span></td>
+</tr>
+<tr class="odd">
+<td>지수</td>
+<td><span class="math inline">\(f(x)\)</span></td>
+<td><span class="math inline">\(\lambda e^{-\lambda x}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\cdot\vec{\eta}({\boldsymbol\theta})\)</span></td>
+<td><span class="math inline">\(-\lambda x\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\)</span></td>
+<td><span class="math inline">\(x\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(\mathbf{X})\)</span></td>
+<td><span class="math inline">\(\sum_jX_j\)</span></td>
+</tr>
+<tr class="odd">
+<td>감마</td>
+<td><span class="math inline">\(f(x)\)</span></td>
+<td><span class="math inline">\(\frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\cdot\vec{\eta}({\boldsymbol\theta})\)</span></td>
+<td><span class="math inline">\((\alpha-1)\log x-\beta x\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\)</span></td>
+<td><span class="math inline">\((\log x,x)\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(\mathbf{X})\)</span></td>
+<td><span class="math inline">\(\left(\sum_j\log X_j,\sum_jX_j\right)\)</span></td>
+</tr>
+<tr class="odd">
+<td>베타</td>
+<td><span class="math inline">\(f(x)\)</span></td>
+<td><span class="math inline">\(\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}x^{\alpha-1}(1-x)^{\beta-1}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\cdot\vec{\eta}({\boldsymbol\theta})\)</span></td>
+<td><span class="math inline">\((\alpha-1)\log x+(\beta-1)\log(1-x)\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\)</span></td>
+<td><span class="math inline">\((\log x,\log(1-x))\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(\mathbf{X})\)</span></td>
+<td><span class="math inline">\(\left(\sum_j\log X_j,\sum_j\log(1-X_j)\right)\)</span></td>
+</tr>
+<tr class="odd">
+<td>다항</td>
+<td><span class="math inline">\(f(x)\)</span></td>
+<td><span class="math inline">\(\frac{n!}{x_1!\cdots x_k!}\prod_{j=1}^k p_j^{x_j}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\cdot\vec{\eta}({\boldsymbol\theta})\)</span></td>
+<td><span class="math inline">\(\sum_{j=1}^k x_j\log p_j\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\)</span></td>
+<td><span class="math inline">\((x_1,\dots,x_k)\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(\mathbf{X})\)</span></td>
+<td><span class="math inline">\(\left(\sum_iX_{i1},\dots,\sum_iX_{ik}\right)\)</span></td>
+</tr>
+<tr class="odd">
+<td>디리클레</td>
+<td><span class="math inline">\(f(x)\)</span></td>
+<td><span class="math inline">\(\frac{\Gamma(\sum_j\alpha_j)}{\prod_j\Gamma(\alpha_j)}\prod_{j=1}^k x_j^{\alpha_i-1}\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\cdot\vec{\eta}({\boldsymbol\theta})\)</span></td>
+<td><span class="math inline">\(\sum_{j=1}^k(\alpha_j-1)\log x_j\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\)</span></td>
+<td><span class="math inline">\((\log x_1,\dots,\log x_k)\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(\mathbf{X})\)</span></td>
+<td><span class="math inline">\(\left(\sum_i\log X_{i1},\dots,\sum_i\log X_{ik}\right)\)</span></td>
+</tr>
+<tr class="odd">
+<td>기하</td>
+<td><span class="math inline">\(f(x)\)</span></td>
+<td><span class="math inline">\((1-p)^x p\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\cdot\vec{\eta}({\boldsymbol\theta})\)</span></td>
+<td><span class="math inline">\(x\log(1-p)\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(\vec{T}(x)\)</span></td>
+<td><span class="math inline">\(x\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(\vec{T}(\mathbf{X})\)</span></td>
+<td><span class="math inline">\(\sum_iX_i\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>진짜 되게 쉬움.</p>
+<p><code>-</code> 너무 쉬워서 회귀분석 한번 해보자. 단순선형회귀모형은 다음과 같은 형태로 주어진다:</p>
+<p><span class="math display">\[Y_i = \beta_0 + \beta_1 x_i + \epsilon_i, \quad \epsilon_i \sim \mathcal{N}(0, \sigma^2), \quad i = 1, \dots, n\]</span></p>
+<ul>
+<li><span class="math inline">\(x_i\)</span>: 설명변수 (고정값)</li>
+<li><span class="math inline">\(\beta_0, \beta_1\)</span>: 회귀계수 (모수)</li>
+<li><span class="math inline">\(\epsilon_i\)</span>: 독립적인 정규오차</li>
+</ul>
+<p>각 <span class="math inline">\(Y_i\)</span>는 <span class="math inline">\(\mathcal{N}(\beta_0 + \beta_1 x_i, \sigma^2)\)</span>를 따르므로, <span class="math inline">\(Y_1, \dots, Y_n\)</span>의 결합확률밀도함수는 다음과 같다:</p>
+<p><span class="math display">\[f_{\beta_0,\beta_1, \sigma^2}(y_1, \dots, y_n) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left\{ -\frac{1}{2\sigma^2} (y_i - \beta_0 - \beta_1 x_i)^2 \right\}\]</span></p>
+<p>얽힌부분을 정리하기 위해 아래를 전개하자.</p>
+<p><span class="math display">\[(y_i - \beta_0 - \beta_1 x_i)^2=y_i^2 - 2y_i(\beta_0+\beta_1x_i) + (\beta_0+\beta_1x_i)^2\]</span></p>
+<p>따라서 얽힌부분은 아래와 같다.</p>
+<p><span class="math display">\[\frac{-1}{2\sigma^2}y_i^2+\frac{\beta_0}{\sigma^2}y_i+\frac{\beta_1}{\sigma^2}x_iy_i\]</span> 따라서 충분통계량벡터는 아래와 같다.</p>
+<p><span class="math display">\[\vec{T}({\bf Y})=\left(\sum_{i}Y_i^2, \sum_iY_i, \sum_ix_iY_i\right)\]</span></p>
+<p>만약에 <span class="math inline">\(\sigma^2\)</span>이 알려져 있다면 충분통계량 벡터는 아래와 같다. <span class="math display">\[\vec{T}({\bf Y})=\left(\sum_iY_i, \sum_ix_iY_i\right)\]</span> ## 완비충분통계량</p>
+<p><code>-</code> 이번절에서는 충분통계량의 축약에 대해서 다룬다. 먼저 최소충분통계량이라는 개념이 있는데 이는 함수를 이용한 직관적인 방법으로 축약된 통계량을 따진다. (구체적으로 최소충분통계량은 모든 다른 충분통계량의 함수인 충분통계량으로 정의한다)</p>
+<p><code>-</code> 언뜻 생각하면 최소충분통계량이 유용해보이지만 완비충분통계의 존재로 인해서 최소충분통계량은 그다지 유용하지 않다. 완비충분통계량이 더 자주 쓰이는 이유는 아래와 같다.</p>
+<ol type="1">
+<li>최소충분통계량이 존재하는 경우는 완비성이 최소충분성을 imply한다. <a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a> ((<span class="citation" data-cites="casella2024statistical">@casella2024statistical</span>)</li>
+<li>지수족에서는 완비충분통계량을 구하는 것이 상대적으로 쉽다</li>
+<li>완비충분통계량은 (최소충분통계량과 달리) 여러가지 이론과<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a> 직접적으로 연결된다.</li>
+</ol>
+<blockquote class="blockquote">
+<p>완비통계량을 살펴보기전에 함수공간이라는 개념을 살펴보자. 두 집합 <span class="math inline">\({\cal X}, {\cal Y}\)</span> 에 대하여 <span class="math inline">\(g: {\cal X} \to {\cal Y}\)</span> 인 모든 함수들의 집합을 <span class="math inline">\({\cal Y}^{\cal X}\)</span> 라고 정의하자. 이때 집합 <span class="math inline">\({\cal Y}^{\cal X}\)</span>를 함수공간이라고 한다. 예를들어 <span class="math inline">\({\cal X}=\{0,1\}\)</span> 이고 <span class="math inline">\({\cal Y}=\mathbb{R}\)</span> 이라고 하자. <span class="math inline">\(g:{\cal X} \to {\cal Y}\)</span>의 예시는 함수 <span class="math inline">\(g\)</span>의 예시는 아래와 같다. <span class="math display">\[g(x)=\sqrt{x+1},\quad x=0,1\]</span> 사실 위와 같은 함수 <span class="math inline">\(g\)</span>는 아래와 같은 순서쌍 <span class="math inline">\((x,g(x))\)</span>들의 집합으로 표현할 수 있다. 즉 아래는 함수 <span class="math inline">\(g\)</span>를 정의할 수 있다. <span class="math display">\[\big\{(0,g(0)), (1,g(1))\big\} = \big\{(0,1), (1,\sqrt{2})\big\}\]</span> 이뿐만 아니라 임의의 <span class="math inline">\(\{0,1\} \to \mathbb{R}\)</span> 인 함수는 모두 위와 같은 순서쌍으로 정의가능하다. 이러한 순서쌍들(=함수들)을 모두 모은 집합은 아래와 같이 기호로 정의한다. <span class="math display">\[{\cal Y}^{\cal X}=\mathbb{R}^{\{0,1\}}\]</span> 그런데 사실 어떠한 함수 <span class="math inline">\(g\)</span>를 <span class="math inline">\(\big\{(0,g(0)), (1,g(1))\big\}\)</span>와 같이 4개의 숫자로 표현하지 않고 <span class="math inline">\((g(0),g(1))\)</span> 2개의 숫자로 표현해도 충분할 것 같다. (왜냐하면 정의역은 뻔하니까) 예를들어 <span class="math inline">\(g(x)=\sqrt{x+1}\)</span>는 <span class="math inline">\((1,\sqrt{2})\)</span>로.. <span class="math inline">\(g(x)=\log(x+1)\)</span>은 <span class="math inline">\((0,\log2)\)</span>와 같은 식으로 말이다. 이런식의 표기법을 적용하면 <span class="math inline">\(\{0,1\} \to \mathbb{R}\)</span>의 모든 함수는 <span class="math inline">\(\mathbb{R}^2\)</span>의 모든 원소로 표현가능하다. 따라서 모든 <span class="math inline">\(g\)</span>들의 집합은 아래와 같이 표현가능하다. <span class="math display">\[{\cal Y}^{\cal X}=\mathbb{R}^{\{0,1\}}\cong \mathbb{R}^2\]</span> 이러한 논의를 적용하면 <span class="math inline">\(\{0,1,2,\dots,n\} \to \mathbb{R}\)</span> 인 모든 함수의 집합은 <span class="math inline">\(\mathbb{R}^{n+1}\)</span> 로 표현할 수 있고, <span class="math inline">\(\mathbb{N} \to \mathbb{R}\)</span>인 모든 함수들의 집합은 <span class="math inline">\(\mathbb{R}^{\mathbb{N}}\)</span>으로 표현할 수 있다. 또한 집합 <span class="math inline">\(X\)</span>의 모든 부분집합들의 집합은 <span class="math inline">\(X \to \{0,1\}\)</span>와 같은 함수로 생각할 수 있으므로 <span class="math inline">\(2^X\)</span>와 같이 표현할 수 있다. 또 <span class="math inline">\(\mathbb{R} \to \mathbb{R}\)</span> 인 모든 함수들의 집합은 <span class="math inline">\(\mathbb{R}^{\mathbb{R}}\)</span>로 표현할 수 있다.</p>
+</blockquote>
+<p><code>-</code> <span class="math inline">\(X_1,\dots, X_n \sim F_{\boldsymbol \theta}\)</span>, 이고 <span class="math inline">\(\vec{T}({\bf X})\)</span>는 통계량이라고 하자. 이제 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>으로 만들 수 있는 다른 모든 2차통계량<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a>을 모은 집합을 상상하자. 이때 <span class="math inline">\(\vec{T}({\bf X})\)</span>로 만들 수 있는 2차통계량은 <span class="math inline">\(g(\vec{T}({\bf X}))\)</span>와 같이 <span class="math inline">\(\vec{T}({\bf X})\)</span>의 함수형태로 표현할 수 있다. 함수 <span class="math inline">\(g\)</span>는 단순히 그냥 원래 통게량 <span class="math inline">\(\vec{T}({\bf X})\)</span>를 다른 2차통계량으로 바꾸는 변환이라고 생각하면 된다. 예를들어 <span class="math inline">\(\vec{T}({\bf X})=(X_1,\dots, X_n)\)</span>이라고 하고 2차통계량을 <span class="math inline">\((X_{(1)}, X_{(n)})\)</span> 이라고 한다면 <span class="math inline">\(g\)</span>는 <span class="math inline">\((X_1,\dots,X_n) \to (X_{(1)},X_{(n)})\)</span>와 같은 변환이라 생각할 수 있다. 여기에서 <span class="math inline">\(g\)</span>가 가져야할 최소한의 조건은 (1) <span class="math inline">\(\vec{T}({\bf X})\)</span>는 입력으로 받을 수 있을것 (2) <span class="math inline">\(g(\vec{T}({\bf X}))\)</span> 자체도 통계량일것 정도이다. (책에 나온건 아니지만 그래야할 것 같음. 나중에 찾아볼 생각) 이정도만 보장하면 <span class="math inline">\(g\)</span>의 형태는 마음대로 설정해도 되겠다. 아무튼 이러한 <span class="math inline">\(g: {\cal T} \to {\cal G}\)</span>를 모두 모은 집합 (즉 함수공간)을 <span class="math inline">\({\cal G}^{\cal T}\)</span> 라고 하자. 여기에서 <span class="math inline">\({\cal T}\)</span>는 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>이 가질 수 있는 값들의 집합이며 <span class="math inline">\({\cal G}\)</span>는 통계량 <span class="math inline">\(g(\vec{T}({\bf X}))\)</span>가 가질수 있는 값들의 집합이다.</p>
+<p><code>-</code> 올바른 공부순서는 아닐 수 있으나 완비통계량의 정의를 살펴보기전에 예제를 먼저 살펴보자. 즉 어떠한 문제에서 “완비통계량”임을 판단하는 예시를 몇개 풀어보자. 아래와 같은 방식으로 풀면된다.</p>
+<ol start="0" type="1">
+<li>(가정) <span class="math inline">\(X_1,\dots, X_n \sim F_{\boldsymbol \theta}\)</span>, <span class="math inline">\(\vec{T}({\bf X})\)</span>, <span class="math inline">\(g(\vec{T}({\bf X}))\)</span>의 존재를 일단 상상해두자.</li>
+<li>함수공간 <span class="math inline">\({\cal G}^{\cal T}\)</span> 를 구한다.</li>
+<li>통계량 <span class="math inline">\(\vec{T}\)</span>에 대한 확률밀도함수 <span class="math inline">\(f_{\vec{T}}(\vec{t}; {\boldsymbol \theta})\)</span>를 구한다.</li>
+<li>주어진 <span class="math inline">\(\Theta\)</span>에 대하여 <span class="math inline">\({\cal P}_{\Theta}:= \{ f_{\vec{T}}(\vec{t}; {\boldsymbol \theta)}: {\boldsymbol \theta} \in \Theta \}\)</span>를 고려한다.</li>
+<li><span class="math inline">\({\cal P}_{\Theta}:= \{ f_{\vec{T}}(\vec{t}; {\boldsymbol \theta)}: {\boldsymbol \theta} \in \Theta \}\)</span>가 <span class="math inline">\({\cal G}^{\cal T}\)</span>의 기저집합임을 보인다.</li>
+</ol>
+<p>4를 보일 수 있다면 <span class="math inline">\(\vec{T}({\bf X})\)</span>를 <span class="math inline">\(\theta \in \Theta\)</span>에 대한 완비통계량이라 부른다.</p>
+</section>
+<section id="예제-cal-bertheta-theta0121" class="level4">
+<h4 class="anchored" data-anchor-id="예제-cal-bertheta-theta0121">예제 – <span class="math inline">\({\cal B}er(\theta), \Theta=\{0,1/2,1\}\)</span></h4>
+<p>랜덤샘플 <span class="math inline">\(X_1,\dots, X_n \overset{iid}{\sim} {\cal B}er(\theta)\)</span> 를 고려하자. 이러한 랜덤샘플에 대하여 통계량 <span class="math inline">\(T=\sum_{i=1}^{n}X_i\)</span>를 고려하자. <span class="math inline">\(\Theta=\{0,\frac{1}{2}, 1\}\)</span> 이라고 할때 <span class="math inline">\(T\)</span>의 완비성을 따져보자.</p>
+<ol type="1">
+<li><span class="math inline">\(n=1\)</span> 일 경우:</li>
+</ol>
+<p>먼저 <span class="math inline">\(T\)</span>가 가질 수 있는 값은 <span class="math inline">\(T=0,1\)</span> 이고 임의의 가측함수는 <span class="math inline">\(g:\{0,1\} \to \mathbb{R}\)</span>와 같이 표현가능하므로 <span class="math display">\[{\cal G}^{\cal T}=\mathbb{R}^{\{0,1\}} \cong \mathbb{R}^2\]</span> 이 된다. (그런데 왜 함수 <span class="math inline">\(g:\{0,1\} \to \mathbb{R}^2\)</span> 이런식은 안되는거지??) 이제 <span class="math inline">\(T\)</span>의 확률밀도함수집합 <span class="math inline">\({\cal P}_{\Theta}=\big\{f_{T}(t; \theta): \theta \in \Theta\big\}\)</span> 를 구해보자. <span class="math inline">\(\mathbb{P}_{\theta}(T=0)=1-\theta\)</span> 이고 <span class="math inline">\(\mathbb{P}_{\theta}(T=1)=\theta\)</span> 이므로 확률밀도함수는 다음과 같이 2차원 벡터로 나타낼 수 있다. <span class="math display">\[f_{T}(t; \theta): = \begin{pmatrix} 1-\theta \\ \theta \end{pmatrix}\]</span> 따라서 <span class="math display">\[{\cal P}_{\Theta}= \left\{\begin{pmatrix} 1\\0\end{pmatrix},  \begin{pmatrix} 1/2\\1/2\end{pmatrix}, \begin{pmatrix} 0\\1\end{pmatrix} \right\}\]</span> 와 같이 된다. <span class="math inline">\({\cal P}_{\Theta}\)</span>는 <span class="math inline">\({\cal G}^{\cal T}=\mathbb{R}^2\)</span>의 기저집합이므로 <span class="math inline">\(T({\bf X})\)</span>는 <span class="math inline">\(\theta \in \Theta\)</span>의 완비통계량이다.</p>
+<ol start="2" type="1">
+<li><span class="math inline">\(n=2\)</span> 일 경우:</li>
+</ol>
+<p>이때는 <span class="math inline">\(\mathbb{P}_{\theta}(T=0)=(1-\theta)^2\)</span>, <span class="math inline">\(\mathbb{P}_{\theta}(T=1)=\theta(1-\theta)\)</span>, <span class="math inline">\(\mathbb{P}_{\theta}(T=2)=\theta^2\)</span>이므로 확률밀도함수는 다음과 같이 3차원 벡터로 나타낼 수 있다. <span class="math display">\[f_{T}(t; \theta): = \begin{pmatrix} (1-\theta)^2 \\ 2\theta(1-\theta) \\\theta^2 \end{pmatrix}\]</span> 따라서 <span class="math display">\[{\cal P}_{\Theta}=\left\{\begin{pmatrix} 1\\0\\0\end{pmatrix},  \begin{pmatrix} 1/4\\ 1/2\\ 1/4\end{pmatrix}, \begin{pmatrix} 0\\0 \\ 1\end{pmatrix} \right\}\]</span> 와 같이 된다. 이때 <span class="math inline">\({\cal P}_{\Theta}\)</span>는 <span class="math inline">\({\cal G}^{\cal T} \cong \mathbb{R}^3\)</span> 의 기저집합이 되므로 <span class="math inline">\(T({\bf X})\)</span>는 완비통계량이 된다.</p>
+<ol start="3" type="1">
+<li><span class="math inline">\(n=3\)</span> 일 경우:</li>
+</ol>
+<p>이때 <span class="math inline">\(T\)</span>가 가질 수 있는 값은 4개이며<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a> 확률벡밀도함수는 아래와 같이 4차원의 벡터로 나타낼 수 있다.</p>
+<p><span class="math display">\[f_{T}(t; \theta): = \begin{pmatrix} (1-\theta)^3 \\ 3\theta(1-\theta)^2 \\3\theta^2(1-\theta) \\\theta^3 \end{pmatrix}\]</span></p>
+<p>따라서 <span class="math display">\[{\cal P}_{\Theta}=\left\{\begin{pmatrix} 1\\0\\0 \\ 0\end{pmatrix},  \begin{pmatrix} 1/8\\ 3/8 \\3/8 \\ 1/8\end{pmatrix}, \begin{pmatrix} 0\\0\\0 \\ 1\end{pmatrix} \right\}\]</span> 이 된다. <span class="math inline">\({\cal P}_{\Theta}\)</span>는 <span class="math inline">\({\cal G}^{\cal T}=\mathbb{R}^4\)</span> 기저집합이 아니므로 이때 <span class="math inline">\(T\)</span>는 <span class="math inline">\(\theta \in \Theta\)</span>에 대한 완비통계량이 아니다.</p>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+</section>
+<section id="예제-cal-bertheta-theta01" class="level4">
+<h4 class="anchored" data-anchor-id="예제-cal-bertheta-theta01">예제 – <span class="math inline">\({\cal B}er(\theta), \Theta=[0,1]\)</span></h4>
+<p>랜덤샘플 <span class="math inline">\(X_1,\dots, X_n \overset{iid}{\sim} {\cal B}er(\theta)\)</span> 를 고려하자. 이러한 랜덤샘플에 대하여 통계량 <span class="math inline">\(T=\sum_{i=1}^{n}X_i\)</span>를 고려하자. 이번에는 <span class="math inline">\(\Theta=[0, 1]\)</span> 이라고 하자. <span class="math inline">\(T\)</span>의 완비성을 따져보자.</p>
+<ol type="1">
+<li><span class="math inline">\(n=1\)</span> 일 경우:</li>
+</ol>
+<p><span class="math inline">\(T\)</span>가 가질 수 있는 값이 <span class="math inline">\(\{0,1\}\)</span>이므로 <span class="math inline">\(\mathbb{R}^2\)</span>를 span하면 된다. <span class="math inline">\(\Theta\)</span>의 부분집합 <span class="math inline">\(\bar\Theta=\{0,1\}\)</span>을 상상하면 아래와 같이 <span class="math inline">\({\cal P}_{\Theta}\)</span>의 원소 2개를 얻을 수 있는데</p>
+<p><span class="math display">\[{\cal P}_{\bar\Theta}:= \{ f_T(t ; \theta): \theta =0,1\} =\left\{\begin{pmatrix} 1 \\ 0 \end{pmatrix},  \begin{pmatrix} 0\\ 1 \end{pmatrix}\right\}\]</span> 이 2개의 벡터만으로 이것이 <span class="math inline">\(\mathbb{R}^2\)</span>를 span하므로 <span class="math inline">\({\cal P}_{\Theta}\)</span>는 당연히 <span class="math inline">\(\mathbb{R}^2\)</span>의 기저집합이 된다. (<span class="math inline">\({\cal P}_{\bar\Theta}\)</span> 가 <span class="math inline">\(\mathbb{R}^{2}\)</span>의 기저집합이고, <span class="math inline">\({\cal P}_{\Theta}\)</span> 는 <span class="math inline">\({\cal P}_{\bar{\Theta}}\)</span> 를 포함하므로)</p>
+<ol start="2" type="1">
+<li><span class="math inline">\(n=2\)</span> 일 경우:</li>
+</ol>
+<p>앞선 예제에서 살펴보았듯이 <span class="math inline">\(\bar\Theta=\{0,\frac{1}{2}, 1\}\)</span> 을 선택하면 아래와 같은 집합 <span class="math inline">\({\cal P}_{\bar\Theta}\)</span> 를 얻을 수 있다.</p>
+<p><span class="math display">\[{\cal P}_{\bar{\Theta}}=\left\{\begin{pmatrix} 1\\0\\0\end{pmatrix},  \begin{pmatrix} 1/4\\ 1/2\\ 1/4\end{pmatrix}, \begin{pmatrix} 0\\0 \\ 1\end{pmatrix} \right\}\]</span></p>
+<p>이것이 <span class="math inline">\(\mathbb{R}^3\)</span>을 span하므로 <span class="math inline">\({\cal P}_{\Theta}\)</span>는 당연히 <span class="math inline">\(\mathbb{R}^3\)</span>의 기저집합이 된다. (<span class="math inline">\({\cal P}_{\bar\Theta}\)</span> 가 <span class="math inline">\(\mathbb{R}^{3}\)</span>의 기저집합이고, <span class="math inline">\({\cal P}_{\Theta}\)</span> 는 <span class="math inline">\({\cal P}_{\bar{\Theta}}\)</span> 를 포함하므로)</p>
+<ol start="3" type="1">
+<li>임의의 <span class="math inline">\(n\)</span> 일 경우:</li>
+</ol>
+<p><span class="math inline">\(T=0,1,2,\dots,n\)</span>의 값을 가질 수 있다. 이제 <span class="math inline">\(\theta_0,\dots,\theta_n\)</span> 을 <span class="math inline">\(\Theta\)</span>에서 뽑았다고 상상하자. 여기에서 <span class="math inline">\(\theta_i\)</span>의 값은 서로 다른 값이라고 하자. 집합 <span class="math inline">\(\bar{\Theta}=\{\theta_0,\dots,\theta_n\}\)</span>에 대하여 아래와 같은 <span class="math inline">\({\cal P}_{\bar\Theta}\)</span>를 상상하자. <span class="math display">\[\big\{ f_{T}(t; \theta_0), \dots,  f_{T}(t; \theta_n)\big\}\]</span> 이때 <span class="math inline">\(f_{T}(t; \theta_0) \in \mathbb{R}^{n+1}\)</span>임을 유의하자. 집합 <span class="math inline">\({\cal P}_{\bar\Theta}\)</span>는 <span class="math inline">\(\mathbb{R}^{n+1}\)</span>의 기저집합이 되는가? 이를 따지기는 쉽지 않다. 그렇지만 만약에 <span class="math inline">\({\cal P}_{\bar\Theta}\)</span>이 선형독립임을 보인다면 <span class="math inline">\({\cal P}_{\bar\Theta}\)</span>이 <span class="math inline">\(\mathbb{R}^{n+1}\)</span>의 기저집합임을 보일 수 있다. 이를 어떻게 보일 수 있을까? 당연하지만 <span class="math inline">\({\cal P}_{\Theta}\)</span> 가 선형독립이면 당연히 <span class="math inline">\({\cal P}_{\bar\Theta}\)</span> 이 선형독립이 될 것이다. 그걸 보일수 있을까? 만약에 아래를 보이면 <span class="math inline">\({\cal P}_{\Theta}\)</span>이 선형독립이라 주장할 수 있다. <span class="math display">\[\Big(\forall \theta \in [0,1]: \langle g(t), f_T(t; \theta)\rangle =0 \Big)\Rightarrow g(T)\overset{\mathbb{P}_{\theta}}=0\]</span> 이걸 보여보자! 우선 내적을 정리하면 아래와 같다.</p>
+<p><span class="math display">\[\langle g(t), f_T(t; \theta)\rangle =\sum_{t=0}^{n}g(t)f_T(t;\theta)\]</span> 따라서 내적은 <span class="math inline">\(\mathbb{E}_{\theta}[g(T)]\)</span>를 의미한다. <span class="math inline">\(T \sim {\cal B}(n,\theta)\)</span>임을 이용하면 단순히 <span class="math inline">\(f_T(t;\theta)\)</span>는 이항분포의 pdf가 되므로 내적을 다시 정리하면 아래와 같이 된다. <span class="math display">\[\langle g(t), f_T(t; \theta)\rangle =\sum_{t=0}^{n}g(t)\frac{n!}{t! (n-t)!}\theta^t(1-\theta)^{n-t}\]</span> 우변을 정리하면 아래와 같이 된다.</p>
+<p><span class="math display">\[RHS = g(0)(1-\theta)^n +\sum_{t=1}^{n}g(t)\frac{n!}{t! (n-t)!}\theta^t(1-\theta)^{n-t}\]</span> 그런데 이때 <span class="math inline">\(\sum_{t=1}^{n}g(t)\frac{n!}{t! (n-t)!}\theta^t(1-\theta)^{n-t}\)</span> 을 단순하게 생각하면 그냥 <span class="math inline">\(\theta\)</span>에 대한 <span class="math inline">\(n\)</span>차식으로 볼 수 있으므로 아래와 같이 정리될 수 있다.</p>
+<p><span class="math display">\[\sum_{t=1}^{n}g(t)\frac{n!}{t! (n-t)!}\theta^t(1-\theta)^{n-t} = a_1\theta + a_2\theta^2 + \dots + a_n\theta^n\]</span> 따라서 내적을 다시 정리하면 <span class="math display">\[\langle g(t), f_T(t; \theta)\rangle =g(0)(1-\theta)^n+a_1\theta + a_2\theta^2 + \dots + a_n\theta^n\]</span> 와 같이 된다. 모든 <span class="math inline">\(\theta \in [0,1]\)</span>에 대하여 내적이 0이라고 가정했으므로 아래가 성립한다.</p>
+<p><span class="math display">\[\forall \theta \in [0,1]: g(0)(1-\theta)^n + a_1\theta + a_2 \theta^2 + \dots + a_n\theta^n =0 \]</span></p>
+<p>당연히 위의 식은 <span class="math inline">\(\theta=0\)</span>에 대해서도 성립해야하므로 <span class="math inline">\(g(0)=0\)</span> 이 되어야만 한다. 이제 내적은 아래와 같이 쓸 수 있다.</p>
+<p><span class="math display">\[\begin{align}
+\langle g(t), f_T(t; \theta)\rangle =&amp;g(1)n\theta(1-\theta)^{n-1}+ \sum_{t=2}^{n}g(t)\frac{n!}{t! (n-t)!}\theta^t(1-\theta)^{n-t}\\
+=&amp;g(1)n\theta(1-\theta)^{n-1}+ \big( b_2\theta^2 + \dots + b_n\theta^n\big)
+\end{align}\]</span></p>
+<p>양변을 <span class="math inline">\(\theta\)</span>로 미분한뒤 <span class="math inline">\(\theta=0\)</span>을 대입하면 다시 <span class="math inline">\(g(1)=0\)</span> 을 얻을 수 있다. 이러한 논리를 계속 적용하면 <span class="math display">\[g(0)=g(1)=\dots= g(n)=0\]</span>임을 보일 수 있다. 따라서 아래가 증명되었다. <span class="math display">\[\Big(\forall \theta \in [0,1]: \langle g(t), f_T(t; \theta)\rangle =0 \Big)\Rightarrow g(T)\overset{\mathbb{P}_{\theta}}=0\]</span> 따라서 집합 <span class="math inline">\({\cal P}_{\Theta}\)</span>는 일차독립이다. 따라서 <span class="math inline">\({\cal P}_{\Theta}\)</span>는 <span class="math inline">\(\mathbb{R}^{n+1}\)</span>의 기저집합이 된다.</p>
+<p><span class="math inline">\(\blacksquare\)</span></p>
+<p><code>-</code> 완비충분통계량을 이해하기 앞서서 완비성이 가지는 단어의 의미를 생각해보자. 우선 complete라는 단어는 “빠짐없이 모두” 이라는 의미를 가지고 있다. 이 단어를 처음 들은게 해석학 교재를 읽으면서 그랬던 것 같다. 먼저 해석학 교재부터 시작해보자.</p>
+<ul>
+<li>무리수와 유리수는 완비공간 (<em>complete space</em>) 이 아니지만, 실수는 완비공간 (<em>complete space</em>) 이다.</li>
+</ul>
+<p><code>-</code> 이제 선형대수학 교재로 넘어가자. 선형대수학 교재에서는 complete basis라는 용어가 존재한다. 아래는 그 예시이다.</p>
+<ul>
+<li><span class="math inline">\(\mathbb{R}^n\)</span> 공간에서 표준기저 <span class="math inline">\(\{{\boldsymbol e}_1, {\boldsymbol e}_2, \dots, {\boldsymbol e}_n \}\)</span> 는 <em>complete basis</em> 이다.</li>
+<li><span class="math inline">\(L^2\)</span> 공간에서 <span class="math inline">\(\{\sin(x), \sin(2x), \sin(3x), \dots \}\)</span> 는 <em>complete basis</em> 이다. 왜냐하면 이 집합으로 모든 <span class="math inline">\(L^2\)</span> 함수(=제곱적분가능 함수)를 근사할 수 있기 때문이다.</li>
+</ul>
+<p>이는 “빠짐없이 모두”라는 개념이 확장되어 적용된 사례이다. 어떠한 벡터공간의 기저가 complete하다는 의미는 그 벡터공간의 모든 원소를 기저들의 선형결합으로 “빠짐없이 모두” 표현할 수 있다는 의미이다. (설령 limiting point를 이용해서라도)</p>
+<p><code>-</code> 어떠한 벡터공간 <span class="math inline">\({\cal G}\)</span>의 완비기저(complete basis) <span class="math inline">\(B\)</span>는 선형독립이라는 특징을 가지고 있다. 따라서 <span class="math inline">\(0\)</span>이 아닌 어떠한 <span class="math inline">\(g \in {\cal G}\)</span> 라도 <span class="math inline">\(B\)</span>의 모든 원소와 동시에 직교할 수 없다. 반대로 말하면 <span class="math inline">\(B\)</span>의 모든원소와 <span class="math inline">\(g\)</span>가 직교한다면 <span class="math inline">\(g=0\)</span>일 수 밖에 없다는 의미이다. 즉 아래가 성립한다.</p>
+<p><span class="math display">\[B \textup{ is complete basis on } {\cal G} \quad\Longleftrightarrow \quad\big(\forall f \in B:  \langle g,f\rangle=0 \big) \Rightarrow g=0\]</span></p>
+<p><code>-</code> 이 논의를 확장하자. 랜덤샘플 <span class="math inline">\(X_1,\dots,X_n \sim F_{\boldsymbol \theta}\)</span> 의 함수인 어떠한 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>를 고려하자. 그리고 아래를 상상하자.</p>
+<ul>
+<li>집합1: 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>으로 만들 수 있는 다른 모든 2차통계량<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a>을 모은 집합</li>
+<li>집합2: 집합1에서 생각한 2차통계량에 대응하는 확률밀도 함수들을 모은 집합</li>
+</ul>
+<blockquote class="blockquote">
+<p>집합1을 좀 더 자세히 생각해보자. 이때 <span class="math inline">\(\vec{T}({\bf X})\)</span>로 만들 수 있는 2차통계량은 <span class="math inline">\(g(\vec{T}({\bf X}))\)</span>와 같이 <span class="math inline">\(\vec{T}({\bf X})\)</span>의 함수형태로 표현할 수 있다. 함수 <span class="math inline">\(g\)</span>는 단순히 그냥 원래 통게량 <span class="math inline">\(\vec{T}({\bf X})\)</span>를 다른 2차통계량으로 바꾸는 변환이라고 생각하면 된다. 예를들어 <span class="math inline">\(\vec{T}({\bf X})=(X_1,\dots, X_n)\)</span>이라고 하고 2차통계량을 <span class="math inline">\((X_{(1)}, X_{(n)})\)</span> 이라고 한다면 <span class="math inline">\(g\)</span>는 <span class="math inline">\((X_1,\dots,X_n) \to (X_{(1)},X_{(n)})\)</span>와 같은 변환이라 생각할 수 있다. 여기에서 <span class="math inline">\(g\)</span>가 가져야할 최소한의 조건은 (1) <span class="math inline">\(\vec{T}({\bf X})\)</span>는 입력으로 받을 수 있을것 (2) <span class="math inline">\(g(\vec{T}({\bf X}))\)</span> 자체도 통계량일것 정도이다. (책에 나온건 아니지만 그래야할 것 같음. 나중에 찾아볼 생각) 이정도만 보장하면 <span class="math inline">\(g\)</span>의 형태는 마음대로 설정해도 되겠다.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>이제 집합2를 좀 더 자세히 상상해보자. 편의상 <span class="math inline">\({\bf Y}=\vec{Y}=g(\vec{T}({\bf X}))\)</span>라는 노테이션을 적용하면 집합2의 원소는 <span class="math inline">\(f_{\bf Y}({\bf y}; {\boldsymbol \theta})\)</span>의 꼴이라고 생각할 수 있다. 그런데 우리는 이후에 집합1의 원소와 집합2의 원소의 내적 <span class="math inline">\(\langle g(\vec{T}({\bf X}), f_{\bf Y}({\bf y} ;{\boldsymbol \theta})\rangle\)</span> 을 고민하게 될 것인데 아래의 수식에 의하여 <span class="math display">\[\mathbb{E}[g(\vec{T}({\bf X}))]=\int g(\vec{T}({\bf X}))f_{\bf Y}({\bf y}; {\boldsymbol \theta})d{\bf y}=\int g(\vec{T}({\bf X}))f_{\bf X}({\bf x}; {\boldsymbol \theta})d{\bf x}\]</span> 내적은 아래와 같이 다시 고려될 수 있다. <span class="math display">\[\langle g(\vec{T}({\bf X}), f_{\bf Y}({\bf y} ;{\boldsymbol \theta})\rangle=\langle g(\vec{T}({\bf X}), f_{\bf X}({\bf x} ;{\boldsymbol \theta})\rangle\]</span> 따라서 집합2는 단순히 <span class="math inline">\({\bf X}\)</span>의 확률밀도함수족을 의미하도록 바꿀 수 있다.</p>
+</blockquote>
+<p><code>-</code> 지금까지의 논의를 정리하여 다시 집합1,2를 정리하면 아래와 같다.</p>
+<ul>
+<li>집합1: <span class="math inline">\({\cal G}_{\vec{T}}:=\big\{ g: \text{ (1) } g(\vec{T}({\bf x})) \text{ is well-defined and (2) } g \text{ is measurable}\}\)</span></li>
+<li>집합2: <span class="math inline">\(\{f_{\vec{T}}(\vec{t}; {\boldsymbol \theta}): {\boldsymbol \theta} \in \Theta\}\)</span>.</li>
+</ul>
+<p><code>-</code> 이제 “complete”의 의미를 정의해보자. 먼저 이전의 셋팅을 복습하자. 벡터공간 <span class="math inline">\({\cal G}\)</span>와 그 벡터공간의 원소 <span class="math inline">\(g\)</span>, 그리고 <span class="math inline">\({\cal G}\)</span>의 완비기저집합 <span class="math inline">\(B\)</span>와 완비기저집합의 원소 <span class="math inline">\(f\)</span>를 고려했었다. 그리고 아래의 수식을 논의한 바 있다. <span class="math display">\[B \textup{ is complete basis on } {\cal G} \quad\Longleftrightarrow \quad\big(\forall f \in B:  \langle g,f\rangle=0 \big) \Rightarrow g=0\]</span></p>
+<p>이제 완비통계량을 정의하기 위해서 위의 개념을 확장할 것이다. 대응되는 요소를 표로 만들어 정리해보자.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 26%">
+<col style="width: 67%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th>선형대수학</th>
+<th>수리통계학</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">공간</td>
+<td><span class="math inline">\({\cal G}\)</span></td>
+<td><span class="math inline">\({\cal G}_{\vec{T}}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">공간의원소</td>
+<td><span class="math inline">\(g\)</span></td>
+<td><span class="math inline">\(g(\vec{T}({\bf X}))\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">기저집합</td>
+<td><span class="math inline">\(B\)</span></td>
+<td><span class="math inline">\(\big\{f_{\vec{T}}(\vec{t}; {\boldsymbol \theta}): {\boldsymbol \theta} \in \Theta\big\}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">기저집합의 원소</td>
+<td><span class="math inline">\(f\)</span></td>
+<td><span class="math inline">\(f_{\vec{T}}(\vec{t}; {\boldsymbol \theta})\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">내적</td>
+<td><span class="math inline">\(\langle g,f \rangle\)</span></td>
+<td><span class="math inline">\(\mathbb{E}_{\boldsymbol \theta}[g(\vec{T}({\bf X}))]\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">모두직교</td>
+<td><span class="math inline">\(\forall f: \langle g,f \rangle =0\)</span></td>
+<td><span class="math inline">\(\forall \theta: \mathbb{E}_{\boldsymbol \theta}[g(\vec{T}({\bf X}))]=0\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">항등원표현</td>
+<td><span class="math inline">\(g=0\)</span></td>
+<td><span class="math inline">\(\mathbb{P}_{\boldsymbol \theta}\big(g(\vec{T}({\bf X}))=0\big)=1\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>이제 완비통계량의 정의를 살펴보자. 충분통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>의 확률밀도함수족 <span class="math inline">\(\big\{f_{\vec{T}}(\vec{t}; {\boldsymbol \theta}): {\boldsymbol \theta} \in \Theta \big\}\)</span> 이 아래를 만족한다면 <span class="math display">\[\big(\forall f_{\vec{T}}(\vec{t}; {\boldsymbol \theta}):  \langle g(\vec{T}({\bf X})),f_{\vec{T}}(\vec{t}; {\boldsymbol \theta})\rangle=0 \big) \Rightarrow g(\vec{T}({\bf X}))\overset{\mathbb{P}_{\boldsymbol \theta}}{=}0\]</span> 이 <span class="math inline">\(\vec{T}({\bf X})\)</span>의 확률밀도함수족이 <span class="math inline">\({\cal G}_{\vec{T}}\)</span>에 대하여 complete 하다고 표현한다.</p>
+<p><code>-</code> 만약에 complete하지 않은 경우는 어떨까? 선형대수학에서 얻은 직관에 의거하여 생각해보면 아래의 사실과 유사한 어떠한 성질이 있을 것이다. (느낌만 있지, 수학적으로 정의를 할 순 없겠음)</p>
+<ol type="1">
+<li>(직교성위반) 확률밀도함수족 <span class="math inline">\(\big\{f_{\vec{T}}(\vec{t}; {\boldsymbol \theta}): {\boldsymbol \theta} \in \Theta\big\}\)</span>는 “선형독립이 아님” 과 비슷한 어떠한 성질이 있을 것이다. 즉 어떠한 <span class="math inline">\({\boldsymbol \theta}_0, {\boldsymbol \theta}_1\)</span>에 대해서는 <span class="math inline">\(f_{\vec{T}}(\vec{t}; {\boldsymbol \theta_0}),f_{\vec{T}}(\vec{t}; {\boldsymbol \theta_1})\)</span>이 같거나 상당부분 겹칠 수 있다. 그리고 이것은 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>이 어떠한 경우는 <span class="math inline">\({\boldsymbol \theta}_0, {\boldsymbol \theta}_1\)</span>를 구분하기에 적절하지 않다는 것을 의미한다. 이것은 다시 통계량 <span class="math inline">\(\vec{T}({\bf X})\)</span>가 어떠한 경우는 <span class="math inline">\({\boldsymbol \theta}\)</span>를 추정하기에 적절하지 않다는 것을 의미한다.</li>
+<li>(채워짐위반) <span class="math inline">\(\vec{T}({\bf X})\)</span>로 만들어지는 어떠한 임의의 통계량 <span class="math inline">\({\bf Y}=g(\vec{T}({\bf X}))\)</span>를 고려하자.</li>
+</ol>
+<p><code>-</code></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 5%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>### Definition</td>
+</tr>
+<tr class="even">
+<td>랜덤샘플 $$$$$</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li>입력으로 <span class="math inline">\(\vec{T}({\bf X})\)</span>를 받을 수 있는 함수 <span class="math inline">\(g\)</span> 들을 모두 모은 집합 <span class="math inline">\({\cal G}_{\vec{T}}\)</span>.</li>
+<li><span class="math inline">\(\vec{T}({\bf X})\)</span>의 확률밀도함수족 <span class="math inline">\(\big\{f_{\vec{T}}(t; \theta): \theta \in \Theta\big\}\)</span></li>
+</ol>
+<p>확률밀도함수족 <span class="math inline">\(\big\{f_{\vec{T}}(t; \theta): \theta \in \Theta\big\}\)</span> 이 <span class="math inline">\({\cal G}_{\vec{T}}\)</span>에 대하여 complete 하다는 의미는 아래와 같은 함수들의 집합 <span class="math inline">\({\cal G}\)</span> 를 상상하자.</p>
+<p><span class="math display">\[{\cal G}:=\{ g:  g  \text{ is }\}\]</span></p>
+<p><code>-</code> 최소충분통계량이 완비하지 않을 수도 있다. 아래는 최소충분통계량이지만 완비충분통계량이 아닌 예시들이다.</p>
+<ul>
+<li>위치 균등 분포(Location uniform distribution)의 경우, <span class="math inline">\(\vec{T}({\bf X}) = (X_{(1)}, X_{(n)})\)</span>은 최소충분통계량이지만 완비하지 않다.</li>
+<li>구부러진 정규 분포(curved normal family)의 경우, <span class="math inline">\(\vec{T}({\bf X}) = (\sum_i X_i, \sum_i X_i^2)\)</span>는 최소충분통계량이지만 완비하지 않다.</li>
+<li>로짓 용량-반응 모델(logit dose-response models)의 특정 경우에, <span class="math inline">\(X\)</span>는 최소충분통계량이나 완비하지 않다.</li>
+</ul>
+</section>
+</section>
+<section id="완비통계량" class="level2">
+<h2 class="anchored" data-anchor-id="완비통계량">완비통계량</h2>
+<p><code># 예시1</code> – <span class="math inline">\(L^2\)</span> 공간에서 <span class="math inline">\(\{\sin(x), \sin(2x), \sin(3x), \dots \}\)</span> 는 <em>complete</em> 이다. 왜냐하면 이 집합으로 모든 <span class="math inline">\(L^2\)</span> 함수(=제곱적분가능 함수)를 근사할 수 있기 때문이다.</p>
+<ul>
+<li>basis 느낌 + 채우는 느낌</li>
+</ul>
+<p><code># 예시2</code> – <span class="math inline">\(\mathbb{R}^n\)</span> 공간에서 표준기저 <span class="math inline">\(\{{\boldsymbol e}_1, {\boldsymbol e}_2, \dots, {\boldsymbol e}_n \}\)</span> 는 <em>complete</em> 이다.</p>
+<ul>
+<li>basis 느낌</li>
+</ul>
+<p><code># 예시3</code> – 무리수와 유리수는 완비공간 (<em>complete space</em>) 이 아니지만, 실수는 완비공간 (<em>complete space</em>) 이다.</p>
+<ul>
+<li>basis 느낌</li>
+</ul>
+<p><code># 예시4</code> – 어떠한 벡터공간에서 <span class="math inline">\({\boldsymbol B}=\{{\bf v}_1,{\bf v}_2,\dots,{\bf v}_n\}\)</span> 가 <em>complete</em> 하다고 하자. 그렇다면 모든 <span class="math inline">\({\bf v} \in B\)</span> 와 직교하는 벡터 <span class="math inline">\({\bf w}\)</span> 는 영벡터 밖에 없다. 즉 <span class="math inline">\(B\)</span> 가 어떠한 벡터공간에서 <em>complete</em> 인 경우 아래가 성립한다.</p>
+<p><span class="math display">\[\Big(\forall {\bf v} \in B: \langle{\boldsymbol w},{\boldsymbol v}\rangle = 0\Big) \Rightarrow {\bf w}={\bf 0} \]</span></p>
+<p><code># 예제5</code> – <span class="math inline">\(X_1, X_2 \overset{i.i.d.}{\sim} {\cal B}er(\theta)\)</span> 라고 하자. <span class="math inline">\(Y=X_1+X_2\)</span> 라고 하자. <span class="math inline">\(Y\)</span> 가 가질 수 있는 값은 <span class="math inline">\(0,1,2\)</span> 이다. 이제 아래의 값에 관심이 있다고 하자.</p>
+<ul>
+<li><span class="math inline">\(Y=0\)</span> 일 확률</li>
+<li><span class="math inline">\(Y=1\)</span> 일 확률</li>
+<li><span class="math inline">\(Y=2\)</span> 일 확률</li>
+</ul>
+<p>이러한 확률들을 편의상 벡터로 표현하면 아래와 같다.</p>
+<p><span class="math display">\[{\boldsymbol p}_{\theta} = \begin{bmatrix} P_{\theta}(Y=0) \\ P_{\theta}(Y=1) \\  P_{\theta}(Y=2)\end{bmatrix}=\begin{bmatrix} (1-\theta)^2 \\ \theta(1-\theta) \\ \theta^2\end{bmatrix}\]</span></p>
+<p>여기에서 벡터의 원소값은 <span class="math inline">\(\theta\)</span> 의 변화에 따라서 달라지는데 이러한 의미로 <span class="math inline">\({\boldsymbol p}_{\theta}\)</span> 라는 기호를 사용하였다. 이제 <span class="math inline">\(\theta\)</span>를 변화하여 바뀌는 아래와 같은 <span class="math inline">\({\boldsymbol p}_\theta\)</span> 들을 상상하자.</p>
+<ul>
+<li><span class="math inline">\({\boldsymbol p}_0 = [1,0,0]^\top\)</span></li>
+<li><span class="math inline">\({\boldsymbol p}_1 = [0,0,1]^\top\)</span></li>
+<li><span class="math inline">\({\boldsymbol p}_{0.5} = [0.25,0.25,0.25]^\top\)</span></li>
+<li><span class="math inline">\(...\)</span></li>
+</ul>
+<p>이러한 벡터를 모두 모은 집합 <span class="math inline">\(B\)</span>를 상상하자. 즉 <span class="math inline">\(B\)</span>는 아래와 같다.</p>
+<p><span class="math display">\[B = \{{\boldsymbol p}_{\theta}: \theta \in [0,1]\}\]</span></p>
+<p>집합 <span class="math inline">\(B\)</span>는 <span class="math inline">\(\mathbb{R}^3\)</span> 의 base가 되는가?</p>
+<blockquote class="blockquote">
+<p>답변: 된다.</p>
+</blockquote>
+<p><code># 예제6</code> – <span class="math inline">\(X_1, X_2 \overset{i.i.d.}{\sim} {\cal B}er(\theta)\)</span> 라고 하자. <span class="math inline">\(Y=(X_1-X_2)^2\)</span> 라고 하자. <span class="math inline">\(Y\)</span> 가 가질 수 있는 값은 <span class="math inline">\(0,1\)</span> 이다. 이제 아래의 값에 관심이 있다고 하자.</p>
+<ul>
+<li><span class="math inline">\(Y=0\)</span> 일 확률</li>
+<li><span class="math inline">\(Y=1\)</span> 일 확률</li>
+</ul>
+<p>이러한 확률들을 편의상 벡터로 표현하면 아래와 같다.</p>
+<p><span class="math display">\[{\boldsymbol p}_{\theta}= \begin{bmatrix} P_{\theta}(Y=0) \\ P_{\theta}(Y=1) \end{bmatrix}=\begin{bmatrix} (1-\theta)^2 +\theta^2\\ \theta(1-\theta) \end{bmatrix}\]</span></p>
+<p>여기에서 벡터의 원소값은 <span class="math inline">\(\theta\)</span> 의 변화에 따라서 달라지는데 이러한 의미로 <span class="math inline">\({\boldsymbol p}_{\theta}\)</span> 라는 기호를 사용하였다. 이제 <span class="math inline">\(\theta\)</span>를 변화하여 바뀌는 아래와 같은 <span class="math inline">\({\boldsymbol p}_\theta\)</span> 들을 상상하자.</p>
+<ul>
+<li><span class="math inline">\({\boldsymbol p}_0 = [1,0]^\top\)</span></li>
+<li><span class="math inline">\({\boldsymbol p}_1 = [1,0]^\top\)</span></li>
+<li><span class="math inline">\({\boldsymbol p}_{0.5} = [0.625,0.1875]^\top\)</span></li>
+</ul>
+<p>이러한 벡터를 모두 모은 집합 <span class="math inline">\(B\)</span>를 상상하자. 즉 <span class="math inline">\(B\)</span>는 아래와 같다.</p>
+<p><span class="math display">\[B = \{{\boldsymbol p}_{\theta}: \theta \in [0,1]\}\]</span></p>
+<p>집합 <span class="math inline">\(B\)</span>는 <span class="math inline">\(\mathbb{R}^2\)</span> 의 base가 되는가?</p>
+<blockquote class="blockquote">
+<p>답변: 이것도 된다.</p>
+</blockquote>
+<p><code># 정의</code> – 통계량 <span class="math inline">\(T\)</span> 가 complete 하지 않다는 것은 <span class="math inline">\(T\)</span> 를 적당히 변형하여 새로운 통계량 <span class="math inline">\(g(T)\)</span> 를 만들어 <span class="math inline">\(\mathbb{E}g(T)=c\)</span> 를 만들 수 있다는 것이다.</p>
+<ul>
+<li>확률변수: <span class="math inline">\(X_i \sim P_{\theta}\)</span>,</li>
+<li>통계량: <span class="math inline">\(Y=X_1+\dots+X_n\)</span></li>
+<li>완비통계량조건: <span class="math inline">\(\Big(\forall \theta: \int g(Y) d P_{\theta} =0\Big) \Leftrightarrow \Big(\forall \theta: P_{\theta}(g(Y)=0)=1\Big)\)</span></li>
+</ul>
+<p><span class="math inline">\(\int g(Y) dP_\theta = 0\)</span></p>
+<p><span class="math inline">\(\Leftrightarrow \sum_{y=0}^n \binom{n}{y} \theta^y (1 - \theta)^{n-y} g(y) = 0\)</span></p>
+<p><span class="math inline">\(\Leftrightarrow\binom{n}{0} \theta^0 (1 - \theta)^{n} g(0)+ \binom{n}{1} \theta^1 (1 - \theta)^{n-1} g(1)+ \dots + \binom{n}{n} \theta^n (1 - \theta)^{0} g(n)= 0\)</span></p>
+<p>여기에서 <span class="math inline">\(\theta\)</span>는 임의의 값을 가지므로 <span class="math inline">\(g(0)\)</span>이 항상 0이어야함.</p>
+<section id="완비충분통계량" class="level3">
+<h3 class="anchored" data-anchor-id="완비충분통계량">완비충분통계량</h3>
+<p>ㅇㅇㅇ</p>
+</section>
+</section>
+<section id="라오블랙웰" class="level2">
+<h2 class="anchored" data-anchor-id="라오블랙웰">라오블랙웰</h2>
+<p><code>-</code> 어떠한 정보를 줬을때 <span class="math inline">\(\hat{\theta}\)</span>의 값을 update하는 방법</p>
+<p>아래와 같은 상황을 가정하자.</p>
+<p><span class="math display">\[X_1,X_2 \sim {\cal B}er(\theta)\]</span></p>
+<p><span class="math inline">\(\hat{\theta}=X_1\)</span> 이라면 <span class="math inline">\(\hat{\theta}\)</span>은 UB이다.</p>
+<p><code>-</code> 경우3: <span class="math inline">\((X_1+X_2)(\omega)\)</span>의 realization을 알고 있을 경우. 이때도 <strong><em>매우 특이하게</em></strong> <span class="math inline">\((X_1,X_2)\)</span> 의 조인트를 완벽하게 기술할 수 있다.</p>
+<p><strong><em>case1: <span class="math inline">\(X_1+X_2=0\)</span>일 경우</em></strong></p>
+<ul>
+<li><span class="math inline">\(P(X_1=0,X_2=0| X_1+X_2=0)=1\)</span></li>
+<li><span class="math inline">\(P(X_1=0,X_2=1| X_1+X_2=0)=0\)</span></li>
+<li><span class="math inline">\(P(X_1=1,X_2=0| X_1+X_2=0)=0\)</span></li>
+<li><span class="math inline">\(P(X_1=1,X_2=1| X_1+X_2=0)=0\)</span></li>
+</ul>
+<p><strong><em>case2: <span class="math inline">\(X_1+X_2=1\)</span>일 경우</em></strong></p>
+<ul>
+<li><span class="math inline">\(P(X_1=0,X_2=0| X_1+X_2=1)=0\)</span></li>
+<li><span class="math inline">\(P(X_1=0,X_2=1| X_1+X_2=1)=1/2\)</span></li>
+<li><span class="math inline">\(P(X_1=1,X_2=0| X_1+X_2=1)=1/2\)</span></li>
+<li><span class="math inline">\(P(X_1=1,X_2=1| X_1+X_2=1)=0\)</span></li>
+</ul>
+<p><strong><em>case3: <span class="math inline">\(X_1+X_2=2\)</span>일 경우</em></strong></p>
+<ul>
+<li><span class="math inline">\(P(X_1=0,X_2=0| X_1+X_2=2)=0\)</span></li>
+<li><span class="math inline">\(P(X_1=0,X_2=1| X_1+X_2=2)=0\)</span></li>
+<li><span class="math inline">\(P(X_1=1,X_2=0| X_1+X_2=2)=0\)</span></li>
+<li><span class="math inline">\(P(X_1=1,X_2=1| X_1+X_2=2)=1\)</span></li>
+</ul>
+<p><code>-</code> 충분통계량 <span class="math inline">\(S\)</span>을 알려주면 (기븐하면) <span class="math inline">\(\theta\)</span>에 대한 완벽한 정보를 알려주는 셈이다. 따라서 <span class="math inline">\(\theta\)</span>를 추정하는 어떠한 추정량 <span class="math inline">\(\hat{\theta}\)</span>도 충분통계량의 정보 <span class="math inline">\(S\)</span>가 있다면 <span class="math inline">\(\hat{\theta}\)</span>를 업그레이드할 수 있다고 볼 수 있다. (뭐 수틀리면 정보야 안쓰면 그만이니까 나빠질것은 없다)</p>
+<p><code>-</code> 충분통계량을 줬을때 <span class="math inline">\(\hat{\theta}\)</span>의 업그레이드 방법은</p>
+<p><span class="math display">\[\hat{\theta}^{new}:=E(\hat{\theta}|S)\]</span></p>
+<p>와 같이 할 수 있는데 이는 충분통계량 <span class="math inline">\(S\)</span>의 정보를 받아서 어떠한 방식으로 업데이트된 <span class="math inline">\(\hat{\theta}\)</span> 이므로 <span class="math inline">\(S\)</span>의 함수라 해석할 수 있다.</p>
+<p><code>-</code> 이론 (라오블랙웰, Thm, 4.5): <span class="math inline">\(\hat{\theta}\)</span>가 UB일때 충분통계량의 값을 알려주면 <span class="math inline">\(\hat{\theta}^{new}:=E(\hat{\theta}|S)\)</span>와 같이 <span class="math inline">\(\hat{\theta}\)</span>를 업그레이드 할 수 있다.</p>
+</section>
+<section id="레만쉐페정리" class="level2">
+<h2 class="anchored" data-anchor-id="레만쉐페정리">레만쉐페정리</h2>
+<p><code>-</code> 충분통계량 <span class="math inline">\(S\)</span>을 알려주면 (기븐하면) <span class="math inline">\(\theta\)</span>에 대한 완벽한 정보를 알려주는 셈이다. 따라서 <span class="math inline">\(\theta\)</span>를 추정하는 어떠한 추정량 <span class="math inline">\(\hat{\theta}\)</span>도 충분통계량의 정보 <span class="math inline">\(S\)</span>가 있다면 <span class="math inline">\(\hat{\theta}\)</span>를 업그레이드할 수 있다고 볼 수 있다. (뭐 수틀리면 정보야 안쓰면 그만이니까 나빠질것은 없다)</p>
+<p><code>-</code> 충분통계량을 줬을때 <span class="math inline">\(\hat{\theta}\)</span>의 업그레이드 방법은</p>
+<p><span class="math display">\[\hat{\theta}^{new}:=E(\hat{\theta}|S)\]</span></p>
+<p>와 같이 할 수 있는데 이는 충분통계량 <span class="math inline">\(S\)</span>의 정보를 받아서 어떠한 방식으로 업데이트된 <span class="math inline">\(\hat{\theta}\)</span> 이므로 <span class="math inline">\(S\)</span>의 함수라 해석할 수 있다.</p>
+<p><code>-</code> 이론 (라오블랙웰, Thm, 4.5): <span class="math inline">\(\hat{\theta}\)</span>가 UB일때 충분통계량의 값을 알려주면 <span class="math inline">\(\hat{\theta}^{new}:=E(\hat{\theta}|S)\)</span>와 같이 <span class="math inline">\(\hat{\theta}\)</span>를 업그레이드 할 수 있다.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<p>CCC</p>
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>확률변수벡터, 확률벡터도 맞긴한데 샘플느낌이 없어서..<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>통계량 자체가 벡터를 의미할수도있어서 이럴경우는 통계량벡터라고 명시해도되고 그냥 단순히 통계량이라고 해도된다.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>이 경우 역시 단순<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>레만&amp;카살라의 Point Estimation 에서는 단순히 <span class="math inline">\({\cal P}\)</span>로 표현함. 그런데 <span class="math inline">\({\cal P}\)</span>는 <span class="math inline">\(\Theta\)</span>에 따라 달라질 수 도 있으므로 <span class="math inline">\({\cal P}_\Theta\)</span>라고 표현하는게 더 좋은 것 같다.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>조건부밀도처럼 보일 수 있어 오해의 소지가 있음<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>카셀라 앤 버거 스타일(<span class="citation" data-cites="casella2024statistical">@casella2024statistical</span>)<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>카셀라 앤 버거 스타일(<span class="citation" data-cites="casella2024statistical">@casella2024statistical</span>)<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>카셀라 앤 버거 스타일(<span class="citation" data-cites="casella2024statistical">@casella2024statistical</span>)<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>엄밀하게 말하면 점추정일 경우를 의미한다. 이 문서에서 추정은 점추정을 의미한다<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>사실 <span class="math inline">\({\bf \Theta}^{UB}\)</span>가 아닌 집합에 대해서도 하한값을 제공함<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>모수 <span class="math inline">\(k\)</span>에 대한 식으로 표현되어 있으므로 통계량이 아님. 그냥 확률변수이긴 해서 분포는 가짐. 유사한 것으로 정규분포에서 쓰는 <span class="math inline">\(Z=\frac{X-\mu}{\sigma}\)</span>역시 통계량은 아님. 그렇지만 분포는 가짐.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>확률변수벡터의 결합확률밀도함수를 애써 상상할 필요가 없는 것이 포인트이다. 그냥 <span class="math inline">\(\log f_{\boldsymbol \theta}(x)\)</span>를 가지고 바로 얽힌부분을 추출하면 된다. <a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p>지수족에서는 항상 모수의 차원과 동일한 길의의 벡터 <span class="math inline">\(\vec{T}(x)\)</span>가 만들어짐<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p><span class="math inline">\(\vec{T}(x)\)</span>에서 <span class="math inline">\(\vec{T}({\bf X})\)</span>로 바꾸는 과정을 단순하게 기억하고 싶다면, “(1) <span class="math inline">\(x \to X_i\)</span> 로 바꾼다. (2) 벡터의 각 원소에 <span class="math inline">\(\sum_i\)</span>를 붙인다”고 기억하자.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p>즉 완비성이 최소충분성보다 더 강한 조건이다. 따라랏 최소비충분통계량을 찾는 문제가 나올 경우 그냥 완비충분통계량을 구하면 된다.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16"><p>이를테면 레만쉐페정리<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17"><p>2차통계량은 정식용어는 아님<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18"><p><span class="math inline">\(T=0,1,2,3\)</span><a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19"><p>2차통계량은 정식용어는 아님<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
