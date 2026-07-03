@@ -712,27 +712,20 @@ def postrender_rename_files_dirs(posts_dir: Path, docs_posts_dir: Path):
         print(f"  ✓ {old_dir.name}/ → {new_dir.name}/")
 
         # 대응 HTML 내부 참조 치환.
-        #   실패 유형(macOS): HTML 본문의 raw 참조가 NFD 인데 glob 이 준
-        #   korean_stem 은 NFC 로 반환되면, 검색어가 NFC 계열뿐이라 replace 가
-        #   조용히 실패 → 디렉터리만 ASCII 화되고 참조는 한글 잔존 → dangling
-        #   → 배포 404. (이전 코드는 {korean_stem, nfc(korean_stem)} 이라
-        #   korean_stem 이 이미 NFC 면 NFD raw 변형이 누락됐다.)
-        #   봉쇄: (1) 본문을 NFC 로 정규화해 raw 참조를 NFC 로 통일,
-        #        (2) 검색어를 NFC/NFD × raw/URL-encoded 전 조합으로 생성.
+        #   korean_stem 은 glob 결과라 macOS 에선 NFD. 그러나 Quarto 가 쓴
+        #   HTML 본문의 참조는 NFC 다 → NFD 문자열로 replace 하면 매칭 실패해
+        #   참조가 안 바뀌고 디렉터리만 ASCII 화 → dangling → 배포 404.
+        #   따라서 NFC/NFD × raw/URL-encoded 4가지 변형을 모두 치환한다.
         html_path = docs_posts_dir / f"{ascii_prefix}.html"
         if html_path.exists():
             html = html_path.read_text(encoding='utf-8')
-            html_norm = nfc(html)  # raw NFD 참조를 NFC 로 접어 매칭 가능하게
             new_ref = f"{ascii_prefix}_files/"
-            stems = {korean_stem,
-                     nfc(korean_stem),
-                     unicodedata.normalize('NFD', korean_stem)}
+            stems = {korean_stem, nfc(korean_stem)}
             old_refs = set()
             for st in stems:
-                old_refs.add(f"{nfc(st)}_files/")                 # raw (NFC; 정규화 본문과 매칭)
-                old_refs.add(quote(st, safe='') + "_files/")       # URL-encoded (원형 바이트)
-                old_refs.add(quote(nfc(st), safe='') + "_files/")  # URL-encoded (NFC 바이트)
-            html2 = html_norm
+                old_refs.add(f"{st}_files/")                 # raw
+                old_refs.add(quote(st, safe='') + "_files/")  # URL-encoded
+            html2 = html
             for old_ref in old_refs:
                 html2 = html2.replace(old_ref, new_ref)
             if html2 != html:
