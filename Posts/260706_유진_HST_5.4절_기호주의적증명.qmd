@@ -5,110 +5,143 @@ date: 2026-07-06
 output-file: 260706_hst54_symbolic.html
 fontsize: 0.85em
 draft: false
-# 판정: 스타일 변형 (기호주의) — §5.4 정직번역본(260706_hst54_translation)의 증명들을 형식논리 기호(∀∃⟹⟺∴∵)로 재작성. 정본 산문룰과 의도적으로 반대인 대표 지시 변형본. 논리내용은 원문과 동일.
+# 판정: 스타일 변형 (기호주의) — §5.4 정직번역본 기반. 정의·정리 서술(statement)은 산문 유지. 자체 증명(skeleton-step lift·balanced 정리·occupation 따름정리)만 형식논리 기호로 재작성. MT 책 인용 증명(보조정리 1–4)은 "…참조" 산문 그대로. 정본 산문룰과 반대인 대표 지시 변형본.
 ---
 
-*이 글은 §5.4 정직번역본(에르고딕 정리와 balanced 정리)의 **증명들을 기호주의적(형식논리) 스타일로 전면 재작성**한 것이다. 정의·정리의 서술(statement)은 번역본을 따르고, 각 **증명(proof)만** 논리기호 사슬로 옮긴다. 논리 내용은 원문과 동일하며, 산문 연결어를 $\forall,\exists,\implies,\iff,\therefore,\because,\land$ 등으로 치환한다.*
+*이 글은 §5.4의 **자체 증명들만** 기호주의(형식논리) 스타일로 재작성한 것이다. 정의·정리의 **서술(statement)은 산문 그대로** 두고, 증명 중에서도 **Meyn–Tweedie(2009)의 정리를 인용하는 보조정리 1–4는 "…참조"로 산문 유지**한다. 기호주의로 바꾸는 것은 우리 자체 증명 — skeleton-step 리프트, balanced 정리, occupation 따름정리 — 뿐이다.*
 
-기호 약속: $\implies$ 함의, $\iff$ 동치, $\therefore$ 결론, $\because$ 근거, $\land$ 그리고, $:=$ 정의, $\nearrow$ 비감소, $\exists!$ 유일 존재, $\overset{\text{X}}{\implies}$ "정리 X에 의해", $\blacksquare$ 증명 끝.
+기호 약속: $\implies$ 함의, $\iff$ 동치, $\therefore$ 결론, $\because$ 근거, $\land$ 그리고, $:=$ 정의, $\nearrow$ 비감소, $\exists!$ 유일 존재, $\overset{\text{X}}{\implies}$ "X에 의해", $\blacksquare$ 증명 끝.
+
+서술 규약: 각 (자체) 증명과 그 안의 Step은 **목표(*목표:*)를 먼저 제시**한 뒤, 여러 기호주의 state를 **itemize로 차근차근 쌓아(미괄식) 목표에 이른다** — 기호주의가 미괄식과 잘 맞기 때문이다.
 
 ---
 
-# §5.4 에르고딕 정리와 balanced 정리 — 기호주의적 증명
+# §5.4 에르고딕 정리와 balanced 정리의 증명
 
-## 정의 ((양) Harris 재귀성·불변법칙)
+방금 검증한 세 가설은 드리프트(H3, §5.1), petite 집합(H2, §5.2), 그리고 비주기성을 동반한 $\psi$-기약성(H1, §5.3)이다. 이것들은 Meyn–Tweedie(2009)의 네 고전적 에르고딕 정리의 상시 가정이며, 우리는 이를 상태공간 $\mathsf{Y}$ 위의 마르코프 사슬 $\{Y_t\}$에 대한 일반형으로 서술한 뒤 라운드 스켈레톤에 적용한다. 이 정리들은 Harris 재귀성을 통해 서술되므로, 그것부터 상기한다.
 
-$\psi$-기약 사슬 $\{Y_t\}$ on $\mathsf{Y}$에 대해:
-$$\text{Harris 재귀} \;:\iff\; \forall A\,(\psi(A)>0)\ \forall y:\ \mathbb{P}_y\bigl(\#\{t : Y_t\in A\}=\infty\bigr)=1.$$
-$$\pi\ \text{불변확률} \;:\iff\; \pi\ \text{확률측도}\ \land\ \forall A:\ \pi(A)=\int_{\mathsf{Y}}P(y,A)\,\pi(dy).$$
-$$\text{양 Harris 재귀} \;:\iff\; \text{Harris 재귀}\ \land\ \exists\,\pi\ \text{불변확률}\qquad(\implies \exists!\,\pi).$$
+## 정의 ((양) Harris 재귀성과 불변법칙; cf. Meyn–Tweedie(2009) §9.1, §10.1)
 
-## 보조정리 1 (Foster 드리프트 판정법; cf. Meyn–Tweedie(2009) Thm. 11.0.1)
+$\psi$-기약 사슬이 **Harris 재귀적**이라 함은, $\psi(A) > 0$인 모든 $A$와 모든 시작 상태 $y$에 대해 사슬이 $A$를 거의 확실하게 무한히 자주 방문한다는 것이다: $\mathbb{P}_y(Y_t \in A \text{ for infinitely many } t) = 1$. **불변확률**이란 모든 $A$에 대해 $\pi(A) = \int_{\mathsf{Y}} P(y, A)\,\pi(dy)$를 만족하는 확률측도 $\pi$이다(한 스텝으로 법칙이 변하지 않음). 사슬이 Harris 재귀적이고 불변확률 $\pi$를 가지면 **양 Harris 재귀적**이라 하며, 그러한 $\pi$는 유일하다.
 
-**서술.** $\{Y_t\}$ $\psi$-기약·비주기 $\land$ $\exists$ petite $C$, $V:\mathsf{Y}\to[0,\infty)$, $\tilde b<\infty$, $\varphi\nearrow$ with $\varphi(x)\xrightarrow{x\to\infty}\infty$ s.t. $\forall y:\ \mathbb{E}[V(Y_{t+1})\mid Y_t=y]\leq V(y)-\varphi(V(y))+\tilde b\,\mathbf{1}_C(y)$. $\implies$ $\{Y_t\}$ 양 Harris 재귀 $\land$ $\exists!\,\pi$ (초기분포 무관).
+## 보조정리 1 (양 Harris 재귀성에 대한 Foster 드리프트 판정법; cf. Meyn–Tweedie(2009) Thm. 11.0.1, 기원은 Foster(1953))
 
-**증명.**
-$$\varphi\nearrow \,\land\, \varphi(x)\xrightarrow{x\to\infty}\infty \;\implies\; \exists\,x_*\ \forall x>x_*:\ \varphi(x)\geq 1+\tilde b.$$
-$$\widetilde{C} := C\cup\{V\leq x_*\}\ \text{petite}\quad\Bigl(\because\ C\ \text{petite}\ \land\ \{V\leq x_*\}\ \text{sublevel}\Bigr).$$
-$$\therefore\ \forall y:\ \mathbb{E}[V(Y_{t+1})\mid Y_t=y]\;\leq\; V(y)-1+\tilde b\,\mathbf{1}_{\widetilde C}(y)\quad(\text{단위형 드리프트}).$$
-$$\overset{\text{MT 11.0.1}}{\implies}\; \{Y_t\}\ \text{양 Harris 재귀}\ \land\ \exists!\,\pi. \qquad\blacksquare$$
+$\{Y_t\}_{t \geq 0}$를 상태공간 $\mathsf{Y}$ 위의 $\psi$-기약·비주기 마르코프 사슬이라 하고, petite 집합 $C \subset \mathsf{Y}$, 가측함수 $V \colon \mathsf{Y} \to [0, \infty)$, 상수 $\tilde b < \infty$, 그리고 $x \to \infty$일 때 $\varphi(x) \to \infty$인 비감소함수 $\varphi \colon [0, \infty) \to [0, \infty)$가 존재하여
 
-## 보조정리 2 ($f$-노름 모멘트; cf. Meyn–Tweedie(2009) Thm. 14.3.7)
+$$\mathbb{E}[V(Y_{t+1}) \mid Y_t = y] \;\leq\; V(y) - \varphi(V(y)) + \tilde b\,\mathbf{1}_C(y) \qquad \text{for all } y \in \mathsf{Y}$$
 
-**서술.** $\{Y_t\}$ 양 Harris 재귀, 불변 $\pi$ $\land$ $\forall y:\ \mathbb{E}[V(Y_{t+1})\mid Y_t=y]\leq V(y)-f(y)+\tilde b\,\mathbf{1}_C(y)$. $\implies$ $\mathbb{E}_\pi[f]\leq\tilde b<\infty$.
+를 만족한다고 하자. 그러면 $\{Y_t\}$는 양 Harris 재귀적이며, 초기분포와 무관한 유일 불변확률 $\pi$를 갖는다.
 
-**증명.**
-$$\text{가정}\;\overset{\text{MT 14.3.7 ($f$-노름 에르고딕 정리)}}{\implies}\; \mathbb{E}_\pi[f]=\int_{\mathsf{Y}}f\,d\pi\;\leq\;\tilde b\;<\;\infty. \qquad\blacksquare$$
+**증명.** $\varphi$가 비감소이고 $\varphi(x) \to \infty$이므로, $x > x_*$에서 $\varphi(x) \geq 1 + \tilde b$인 수준 $x_*$가 존재한다. 따라서 $\widetilde C := C \cup \{V \leq x_*\}$ — petite 집합 $C$와 $V$의 sublevel 집합의 합집합이라 petite — 위에서 드리프트는 단위형 $\mathbb{E}[V(Y_{t+1}) \mid Y_t = y] \leq V(y) - 1 + \tilde b\,\mathbf{1}_{\widetilde C}(y)$로 환원된다. 이것이 양 Harris 재귀성에 대한 Foster의 드리프트 판정법이다; Meyn–Tweedie(2009) Thm. 11.0.1(기원은 Foster(1953)) 참조. $\square$
 
-## 보조정리 3 (대수의 법칙; cf. Meyn–Tweedie(2009) Thm. 17.1.7)
+## 보조정리 2 (정상 모멘트 바운드, $f$-노름 에르고딕 정리; cf. Meyn–Tweedie(2009) Thm. 14.3.7)
 
-**서술.** $\{Y_t\}$ 양 Harris 재귀, 불변 $\pi$ $\implies$ $\forall g\in L^1(\pi):\ \frac1t\sum_{k=0}^{t-1}g(Y_k)\xrightarrow{t\to\infty}\mathbb{E}_\pi[g]$ a.s.
+$\{Y_t\}_{t \geq 0}$가 불변확률 $\pi$를 갖는 양 Harris 재귀 사슬이고, 가측함수 $V \colon \mathsf{Y} \to [0, \infty)$와 $f \colon \mathsf{Y} \to [0, \infty)$, petite 집합 $C$, 상수 $\tilde b < \infty$에 대해
 
-**증명.**
-$$\text{양 Harris}\;\overset{\text{MT 17.1.7}}{\implies}\; \forall g\in L^1(\pi):\ \frac1t\sum_{k=0}^{t-1}g(Y_k)\xrightarrow{t\to\infty}\int_{\mathsf{Y}}g\,d\pi\ \ \text{a.s.} \qquad\blacksquare$$
+$$\mathbb{E}[V(Y_{t+1}) \mid Y_t = y] \;\leq\; V(y) - f(y) + \tilde b\,\mathbf{1}_C(y) \qquad \text{for all } y \in \mathsf{Y}$$
+
+를 만족한다고 하자. 그러면 $f$의 정상 평균이 유한하다: $\mathbb{E}_\pi[f] = \int_{\mathsf{Y}} f\,d\pi \leq \tilde b < \infty$.
+
+**증명.** 이것은 $f$-노름 에르고딕 정리, 즉 비교정리의 정상형이다; Meyn–Tweedie(2009) Thm. 14.3.7 참조. $\square$
+
+## 보조정리 3 (양 Harris 사슬에 대한 대수의 법칙; cf. Meyn–Tweedie(2009) Thm. 17.1.7)
+
+$\{Y_t\}_{t \geq 0}$가 불변확률 $\pi$를 갖는 양 Harris 재귀 사슬이라 하자. 그러면 모든 $\pi$-적분가능 $g$에 대해
+
+$$\frac1t\sum_{k=0}^{t-1} g(Y_k) \;\xrightarrow{t \to \infty}\; \mathbb{E}_\pi[g] = \int_{\mathsf{Y}} g(y)\,\pi(dy) \quad \text{a.s.}$$
+
+**증명.** 이것은 양 Harris 재귀 사슬에 대한 대수의 법칙이다; Meyn–Tweedie(2009) Thm. 17.1.7 참조. $\square$
 
 ## 보조정리 4 (비율 극한정리; cf. Meyn–Tweedie(2009) Thm. 17.3.2)
 
-**서술.** $\{Y_t\}$ 양 Harris 재귀, 불변 $\pi$ $\implies$ $\forall f,h\in L^1(\pi)\,(\pi(h)\neq0):\ \dfrac{\sum_{k<t}f(Y_k)}{\sum_{k<t}h(Y_k)}\xrightarrow{t\to\infty}\dfrac{\pi(f)}{\pi(h)}$ a.s.
+$\{Y_t\}_{t \geq 0}$가 불변확률 $\pi$를 갖는 양 Harris 재귀 사슬이라 하자. 그러면 $\pi(h) \neq 0$인 모든 $\pi$-적분가능 $f, h$에 대해
 
-**증명.**
-$$\text{양 Harris}\;\overset{\text{MT 17.3.2}}{\implies}\; \forall f,h\in L^1(\pi)\,(\pi(h)\neq0):\ \frac{\sum_{k<t}f(Y_k)}{\sum_{k<t}h(Y_k)}\xrightarrow{t\to\infty}\frac{\pi(f)}{\pi(h)}\ \ \text{a.s.} \qquad\blacksquare$$
+$$\frac{\sum_{k=0}^{t-1} f(Y_k)}{\sum_{k=0}^{t-1} h(Y_k)} \;\xrightarrow{t \to \infty}\; \frac{\pi(f)}{\pi(h)} = \frac{\int_{\mathsf{Y}} f\,d\pi}{\int_{\mathsf{Y}} h\,d\pi} \quad \text{a.s.}$$
+
+**증명.** 이것은 양 Harris 재귀 사슬에 대한 비율 극한정리이다; Meyn–Tweedie(2009) Thm. 17.3.2 참조. $\square$
 
 ## 보조정리 5 (skeleton-step 리프트)
 
-**서술.** $P^{\star}$ 양 Harris 재귀(불변 $\pi^{\star}$) $\land$ $1\leq m_r\leq D<\infty$. $\implies$ $\pi(A):=\dfrac{\mathbb{E}_{\pi^{\star}}[\sum_{q=0}^{m_r-1}\mathbf{1}\{S_{t_r+q}\in A\}]}{\mathbb{E}_{\pi^{\star}}[m_r]}$ 은 $\{S_t\}$-불변 확률 $\land$ $\forall g$ with $(\ast):\ \mathbb{E}_{\pi^{\star}}[\sum_{q<m_r}|g(S_{t_r+q})|]<\infty$ $\implies$ $\frac1t\sum_{k<t}g(S_k)\to\int g\,d\pi$ a.s.
+한-라운드 스켈레톤 $P^{\star}$가 불변확률 $\pi^{\star}$를 갖는 양 Harris 재귀적이고, 라운드 길이가 균일하게 유계, 즉 $1 \leq m_r \leq D < \infty$라 하자. 그러면 cycle-occupation 법칙
 
-**증명.**
-$$m_r:=t_{r+1}-t_r\in[1,D],\qquad F_r:=\textstyle\sum_{q=0}^{m_r-1}g(S_{t_r+q}),$$
-$$h(s^{\star}):=\mathbb{E}_{s^{\star}}[m_r]\in[1,D],\qquad f(s^{\star}):=\mathbb{E}_{s^{\star}}[F_r].$$
-$$(\ast)\iff \pi^{\star}(|f|)<\infty,\quad \pi^{\star}(h)=\mathbb{E}_{\pi^{\star}}[m_r]\in[1,D]\;\implies\; \pi\ \text{well-def},\ \pi(g)=\frac{\pi^{\star}(f)}{\pi^{\star}(h)}.$$
-$$\{S^{\star}_r\}\ \text{양 Harris}(\pi^{\star})\ \land\ f,h\in L^1(\pi^{\star})\;\overset{\text{보조정리 4}}{\implies}\; \frac{\sum_{r<N}f(S^{\star}_r)}{\sum_{r<N}h(S^{\star}_r)}\xrightarrow{N\to\infty}\frac{\pi^{\star}(f)}{\pi^{\star}(h)}=\int_{\mathsf{S}}g\,d\pi\ \text{a.s.}$$
-$$\textstyle\sum_{r<N}(F_r-f(S^{\star}_r)),\ \sum_{r<N}(m_r-h(S^{\star}_r))\ \text{평균 0 마팅게일},\ \text{증분}\ \overset{(\ast),\,\leq D}{\Longrightarrow}\ o(N)\ \text{a.s.}\ \bigl(\because\ \textstyle\sum_{r<N}h\geq N\bigr).$$
-$$t_N:=\textstyle\sum_{r<N}m_r,\quad \sum_{r<N}F_r=\sum_{k=0}^{t_N-1}g(S_k)\;\implies\; \frac{1}{t_N}\sum_{k=0}^{t_N-1}g(S_k)\xrightarrow{N\to\infty}\int_{\mathsf{S}}g\,d\pi\ \text{a.s.}$$
-$$\forall t\,(t_N\leq t<t_{N+1}):\ \text{누락 부분라운드}\leq\textstyle\sum_{q<m_N}|g(S_{t_N+q})|=o(t)\ \land\ t/t_N\to1\ (\because m_r\leq D)\ \implies\ \text{극한 }\forall t\ \text{유지}.$$
-$$g=\mathbf{1}_A\;\implies\; \pi\ \text{= per-step occupation 법칙 = }\{S_t\}\text{의 }\exists!\,\text{불변확률}. \qquad\blacksquare$$
+$$\pi(A) \;:=\; \frac{\mathbb{E}_{\pi^{\star}}\bigl[\sum_{q=0}^{m_r-1}\mathbf{1}\{S_{t_r+q}\in A\}\bigr]}{\mathbb{E}_{\pi^{\star}}[m_r]}$$
+
+은 확률측도이며, per-step 사슬 $\{S_t\}$에 대해 불변이다. 나아가 $\mathbb{E}_{\pi^{\star}}\bigl[\sum_{q=0}^{m_r-1}|g(S_{t_r+q})|\bigr] < \infty$ $\cdots\,(\ast)$ 를 만족하는 모든 $g \colon \mathsf{S} \to \mathbb{R}$는 per-step 대수의 법칙 $\frac1t\sum_{k=0}^{t-1} g(S_k) \to \int_{\mathsf{S}} g\,d\pi$ a.s. 를 따른다.
+
+**증명.** *목표:* $\ \dfrac1t\sum_{k<t}g(S_k)\xrightarrow{t\to\infty}\displaystyle\int_{\mathsf{S}}g\,d\pi$ a.s. $\ \land\ \pi\ \text{= }\{S_t\}\text{의 }\exists!\,\text{불변확률}.$ 아래를 차근차근 쌓아 목표에 이른다.
+
+- (정의) $m_r:=t_{r+1}-t_r\in[1,D]$, $\ F_r:=\sum_{q=0}^{m_r-1}g(S_{t_r+q})$, $\ h(s^{\star}):=\mathbb{E}_{s^{\star}}[m_r]\in[1,D]$, $\ f(s^{\star}):=\mathbb{E}_{s^{\star}}[F_r]$.
+- (well-def) $(\ast)\iff\pi^{\star}(|f|)<\infty$, $\ \pi^{\star}(h)\in[1,D]\ \implies\ \pi(g)=\dfrac{\pi^{\star}(f)}{\pi^{\star}(h)}$ 잘 정의됨.
+- (스켈레톤 비율) $\{S^{\star}_r\}\ \text{양 Harris}(\pi^{\star})\land f,h\in L^1(\pi^{\star})\ \overset{\text{보조정리 4}}{\implies}\ \dfrac{\sum_{r<N}f(S^{\star}_r)}{\sum_{r<N}h(S^{\star}_r)}\xrightarrow{N\to\infty}\dfrac{\pi^{\star}(f)}{\pi^{\star}(h)}=\int_{\mathsf{S}}g\,d\pi$ a.s.
+- (조건부→실현) $\sum_{r<N}(F_r-f(S^{\star}_r)),\ \sum_{r<N}(m_r-h(S^{\star}_r))$ 평균 0 마팅게일, 증분 $(\ast)$·$\leq D$ $\implies o(N)$ a.s. $\bigl(\because \sum_{r<N}h\geq N\bigr)$.
+- (라운드→스텝) $t_N:=\sum_{r<N}m_r$, $\ \sum_{r<N}F_r=\sum_{k=0}^{t_N-1}g(S_k)\ \implies\ \dfrac1{t_N}\sum_{k=0}^{t_N-1}g(S_k)\xrightarrow{N}\int_{\mathsf{S}}g\,d\pi$ a.s.
+- (부분라운드) $\forall t\,(t_N\leq t<t_{N+1})$: 누락분 $\leq\sum_{q<m_N}|g(S_{t_N+q})|=o(t)\ \land\ t/t_N\to1$ $\implies$ 극한 $\forall t$ 유지.
+
+$\therefore\ g=\mathbf{1}_A$로 두면 $\pi$ = per-step occupation 법칙 = $\{S_t\}$의 $\exists!\,$불변확률. $\blacksquare$
 
 ## 정리 (balanced regime 수렴)
 
-**서술.** 상시설정 $\land$ (A3)[$\ell$-라운드 Foster 드리프트] $\implies$ $\exists\,C=[c_{ij}]\ (c_{ij}\geq0,\ \mathbf{y}\text{-무관}):\ \frac{SD^2_{ij}(t)}{t}\xrightarrow{t\to\infty}c_{ij}$ a.s. ($\rho_i=1/n$은 가정 아님 — 따름정리로 도출).
+상시 설정(연결 그래프 $\mathcal{G}$, canonical degree-proportional $\boldsymbol{\mu}_0$)과 §2의 유일한 Tier 2 가설 (A3): $(\mathcal{G}, \boldsymbol{\mu}_0, b, T_{\max})$가 $\ell$-라운드 Foster 드리프트를 만족한다고 가정하자. 그러면 $c_{ij} = c_{ij}(\mathcal{G}, \boldsymbol{\mu}_0, b, T_{\max}) \geq 0$인 결정론적 행렬 $C = [c_{ij}]$가 존재하여 $\frac{SD^2_{ij}(t)}{t} \to c_{ij}$ a.s. 이며, 극한 $c_{ij}$는 초기 신호 $\mathbf{y}$와 무관하다. balanced occupation $\rho_i = 1/n$은 가정하지 않으며, (A3) 아래 정상법칙으로부터 따라온다.
 
-**증명.** 관측량 $g(S):=(h(v_i)-h(v_j))^2$ ($\mathring{\mathbf{h}}$의 함수, $\because\ h(v_1)$ 상쇄), $\dfrac{SD^2_{ij}(t)}{t}=\dfrac1t\sum_{k=0}^{t}g(S_k)$. 목표 환원 $\implies$ 이 평균의 a.s. 수렴(유한·$\mathbf{y}$-무관). ($g\geq0\implies$ 극한 $\geq0$; 종단 $k=t$ 항은 $/t$ 후 무시.)
+**증명.** 관측량 $g(S):=(h(v_i)-h(v_j))^2$ ($\mathring{\mathbf{h}}$의 함수, $\because\ h(v_1)$ 상쇄), $\dfrac{SD^2_{ij}(t)}{t}=\dfrac1t\sum_{k=0}^{t}g(S_k)$. 목표 = 이 평균의 a.s. 수렴(유한·$\mathbf{y}$-무관). ($g\geq0\implies$ 극한 $\geq0$; 종단 $k=t$ 항은 $/t$ 후 무시.)
 
-**Step 1** (per-step $\Longleftarrow$ 한-라운드 두 의무, via 보조정리 5).
-$$\text{목표}\;\Longleftarrow\; \text{(I) } P^{\star}\ \text{양 Harris},\ \exists!\,\pi^{\star}\,(\mathbf{y}\text{-무관}) \;\land\; \text{(II) } \mathbb{E}_{\pi^{\star}}[\Phi]<\infty.$$
-$$1\leq m_r\leq T_{\max}+1\ \land\ \text{(II)}\;\implies\; g(S_{t_r+q})\leq C_g(1+\Phi(S^{\star}_r))\;\implies\; \mathbb{E}_{\pi^{\star}}\bigl[\textstyle\sum_{q<m_r}|g|\bigr]\leq (T_{\max}{+}1)C_g(1+\mathbb{E}_{\pi^{\star}}[\Phi])<\infty\ \ [(\ast)].$$
-$$\text{(I)}\land\text{(II)}\;\overset{\text{보조정리 5}}{\implies}\; \frac{SD^2_{ij}(t)}{t}=\frac1t\sum_{k=0}^{t}g(S_k)\xrightarrow{t\to\infty}\int_{\mathsf{S}}g\,d\pi=:c_{ij}\ \text{a.s.},\quad c_{ij}<\infty\ \land\ \mathbf{y}\text{-무관}\,(\because\,\text{(I)}).$$
-$$\therefore\ \text{정리}\;\Longleftarrow\;\text{(I)}\land\text{(II)}.$$
+**Step 1** — per-step 주장을 한-라운드 두 의무로.
 
-**Step 2** ((I)(II) $\Longleftarrow$ $\ell$-라운드 스켈레톤 $Q:=(P^{\star})^{\ell}$).
-$$\text{충분: }Q\ \text{양 Harris},\ \exists!\,\pi^{\star}(\mathbf{y}\text{-무관}),\ \mathbb{E}_{\pi^{\star}}[\Phi]<\infty.$$
-$$(\pi^{\star}P^{\star})Q=\pi^{\star}(P^{\star})^{\ell+1}=(\pi^{\star}Q)P^{\star}=\pi^{\star}P^{\star}\;\implies\; \pi^{\star}P^{\star}\ Q\text{-불변}\;\overset{\exists!}{\implies}\;\pi^{\star}P^{\star}=\pi^{\star}\;\implies\;\pi^{\star}\ P^{\star}\text{-불변}.$$
-$$P^{\star}\text{-불변}\ \implies\ Q\text{-불변}\ \implies\ =\pi^{\star}\quad(\text{역방향 유일성}).$$
-$$\text{Harris 하강: } A\ \text{by }Q=(P^{\star})^{\ell}\ \text{i.o.}\ \implies\ A\ \text{by }P^{\star}\ \text{i.o.}\;\implies\;\text{(I) for }P^{\star};\quad \text{(II)}=\pi^{\star}\text{만의 성질(불변)}.$$
+*목표:* $\ \text{정리}\ \Longleftarrow\ \text{(I) }P^{\star}\ \text{양 Harris},\ \exists!\,\pi^{\star}(\mathbf{y}\text{-무관})\ \land\ \text{(II) }\mathbb{E}_{\pi^{\star}}[\Phi]<\infty.$
 
-**Step 3** ($Q$의 세 성질 $\Longleftarrow$ 세 가설, $V_{\mathrm{Foster}}(t_r):=\Phi(t_r)^2$).
-$$\text{충분(for }Q\text{): (H1) }\psi\text{-기약}\land\text{비주기};\ \ \text{(H2) petite }\mathsf{C}_0;\ \ \text{(H3) } \mathbb{E}[\Delta_\ell\Phi^2\mid s^{\star}]\leq-\tfrac{\varepsilon}{2n^{3/2}}\Phi^{3/2}+C_{\mathrm{cpt}}\mathbf{1}_{\mathsf{C}_0}.$$
-$$\text{(H3) }=\text{보조정리 1 드리프트, }\varphi(x)=\tfrac{\varepsilon}{2n^{3/2}}x^{3/4}\,(\nearrow,\ \to\infty),\ \text{petite }\mathsf{C}_0\;\overset{\text{보조정리 1}}{\implies}\;Q\ \text{양 Harris},\ \exists!\,\pi^{\star}(\mathbf{y}\text{-무관},\ \because\ \text{커널이 }\mathring{\mathbf{h}}\text{만 의존}).$$
-$$\overset{\text{보조정리 2},\ f=\varphi(V_{\mathrm{Foster}})=\tfrac{\varepsilon}{2n^{3/2}}\Phi^{3/2}}{\implies}\ \mathbb{E}_{\pi^{\star}}[\Phi^{3/2}]<\infty\;\implies\;\mathbb{E}_{\pi^{\star}}[\Phi]<\infty\ \ [\text{(II)}].$$
+- (적분가능성) $1\leq m_r\leq T_{\max}+1\ \land\ \text{(II)}\ \implies\ g(S_{t_r+q})\leq C_g(1+\Phi(S^{\star}_r))\ \implies\ \mathbb{E}_{\pi^{\star}}\bigl[\sum_{q<m_r}|g|\bigr]\leq(T_{\max}{+}1)C_g(1+\mathbb{E}_{\pi^{\star}}[\Phi])<\infty\ \ [(\ast)].$
+- (리프트 적용) $\text{(I)}\land\text{(II)}\ \overset{\text{보조정리 5}}{\implies}\ \dfrac{SD^2_{ij}(t)}{t}=\dfrac1t\sum_{k=0}^{t}g(S_k)\xrightarrow{t\to\infty}\int_{\mathsf{S}}g\,d\pi=:c_{ij}$ a.s.
+- (성질 확인) $c_{ij}<\infty\ \land\ \mathbf{y}\text{-무관}\ (\because\ \text{(I)})$.
 
-**Step 4** ((H1)(H2)(H3) 해소, via §5.1–§5.3; "$(P^{\star})^{\ell}$은 petite" 보조정리가 모든 거듭제곱에 적용).
-$$\text{(H1)}:\ (P^{\star})^{\ell}\ \psi\text{-기약}(\psi=\nu)\land\text{비주기}\ \ (\overset{\text{twin minorisation}}{\Longleftarrow}\ \text{"}\ell\text{-skeleton petite" 보조정리}).$$
-$$\text{(H2)}:\ \mathsf{C}_0=\{M(s^{\star})\leq M_0\}\ \text{small}\ (\therefore\ \text{petite})\ \text{for }(P^{\star})^{\ell}.$$
-$$\text{(H3)}:\ =\ \Phi^2\ \text{Foster 드리프트 보조정리 for }(P^{\star})^{\ell}.$$
-$$\therefore\ \text{잔여 의무 }\varnothing. \qquad\blacksquare$$
+$\therefore\ \text{정리}\ \Longleftarrow\ \text{(I)}\land\text{(II)}.$
+
+**Step 2** — 한-라운드 의무를 $\ell$-라운드 스켈레톤 $Q:=(P^{\star})^{\ell}$로.
+
+*목표:* $\ \text{(I)}\land\text{(II)}\ \Longleftarrow\ Q\ \text{양 Harris},\ \exists!\,\pi^{\star}(\mathbf{y}\text{-무관}),\ \mathbb{E}_{\pi^{\star}}[\Phi]<\infty.$
+
+- (불변성 이전) $(\pi^{\star}P^{\star})Q=\pi^{\star}(P^{\star})^{\ell+1}=(\pi^{\star}Q)P^{\star}=\pi^{\star}P^{\star}\ \implies\ \pi^{\star}P^{\star}\ Q\text{-불변}\ \overset{\exists!}{\implies}\ \pi^{\star}P^{\star}=\pi^{\star}\ \implies\ \pi^{\star}\ P^{\star}\text{-불변}.$
+- (역방향) $P^{\star}\text{-불변}\ \implies\ Q\text{-불변}\ \implies\ =\pi^{\star}$ (유일성).
+- (Harris 하강) $A\ \text{by }Q=(P^{\star})^{\ell}\ \text{i.o.}\ \implies\ A\ \text{by }P^{\star}\ \text{i.o.}$
+
+$\therefore\ \text{(I) for }P^{\star}\ \text{성립};\quad \text{(II)}=\pi^{\star}\text{만의 성질이라 불변}.$
+
+**Step 3** — $Q$의 세 성질을 세 가설로 ($V_{\mathrm{Foster}}(t_r):=\Phi(t_r)^2$).
+
+*목표:* $\ Q\text{의 성질}\ \Longleftarrow\ $ 아래 (H1)(H2)(H3):
+
+- (H1) $\psi\text{-기약}\land\text{비주기}$;
+- (H2) petite $\mathsf{C}_0$;
+- (H3) $\mathbb{E}[\Delta_\ell\Phi^2\mid s^{\star}]\leq-\tfrac{\varepsilon}{2n^{3/2}}\Phi^{3/2}+C_{\mathrm{cpt}}\mathbf{1}_{\mathsf{C}_0}.$
+
+그러면 차근차근:
+
+- (양 Harris) $\text{(H3)}=\text{보조정리 1 드리프트},\ \varphi(x)=\tfrac{\varepsilon}{2n^{3/2}}x^{3/4}\,(\nearrow,\to\infty),\ \text{petite }\mathsf{C}_0\ \overset{\text{보조정리 1}}{\implies}\ Q\ \text{양 Harris},\ \exists!\,\pi^{\star}\,(\mathbf{y}\text{-무관},\ \because\ \text{커널이 }\mathring{\mathbf{h}}\text{만 의존}).$
+- (모멘트) $\overset{\text{보조정리 2},\ f=\varphi(V_{\mathrm{Foster}})=\frac{\varepsilon}{2n^{3/2}}\Phi^{3/2}}{\implies}\ \mathbb{E}_{\pi^{\star}}[\Phi^{3/2}]<\infty\ \implies\ \mathbb{E}_{\pi^{\star}}[\Phi]<\infty\ \ [\text{(II)}].$
+
+**Step 4** — (H1)(H2)(H3) 해소 (§5.1–§5.3; "$(P^{\star})^{\ell}$은 petite" 보조정리가 모든 거듭제곱에 적용).
+
+*목표:* 세 가설을 이미 증명된 §5.1–§5.3 결과로 각각 닫기.
+
+- (H1) $(P^{\star})^{\ell}\ \psi\text{-기약}(\psi=\nu)\land\text{비주기}\ \overset{\text{twin minorisation}}{\Longleftarrow}\ \text{"}\ell\text{-skeleton petite" 보조정리}.$
+- (H2) $\mathsf{C}_0=\{M(s^{\star})\leq M_0\}\ \text{small}\ (\therefore\ \text{petite})\ \text{for }(P^{\star})^{\ell}.$
+- (H3) $=\ \Phi^2\ \text{Foster 드리프트 보조정리 for }(P^{\star})^{\ell}.$
+
+$\therefore\ \text{잔여 의무 }\varnothing. \qquad\blacksquare$
 
 ## 따름정리 (balanced occupation)
 
-**서술.** 위 정리 가정 $\implies$ $\rho_i:=\lim_{t}\frac1t\sum_{s=1}^{t}\mathbf{1}\{X_s=v_i\}=\frac1n$ a.s. ($\forall i$). $\therefore$ balanced occupation은 (A3)의 귀결.
+위 정리의 가정 아래에서, 장기 occupation 비율은 균일하다: $\rho_i := \lim_{t}\frac1t\sum_{s=1}^{t}\mathbf{1}\{X_s=v_i\} = \frac1n$ ($i=1,\ldots,n$) a.s. 따라서 balanced occupation은 Foster 드리프트 (A3)의 귀결이지, 독립적인 가정이 아니다.
 
-**증명.**
-$$\{S_t\}\ \exists!\,\pi\ (\text{보조정리 5})\ \land\ \mathbb{E}_{\pi}[\Phi]<\infty\ (\Longleftarrow \mathbb{E}_{\pi^{\star}}[\Phi]<\infty,\ \text{유계길이 리프트}).$$
-$$\Phi=\textstyle\sum_k\hbar(v_k,\cdot)^2\;\implies\;\mathbb{E}_{\pi}[\hbar(v_i,\cdot)^2]<\infty\;\implies\;\hbar(v_i,\cdot)\in L^1(\pi)\;\implies\;\mathbb{E}_{\pi}[\hbar(v_i,\cdot)]\ \text{유한·시간상수}.$$
-$$\therefore\ 0=\mathbb{E}_{\pi}[\hbar(v_i,t+1)-\hbar(v_i,t)].$$
-$$\overset{\text{Fact (한-스텝 증분)}}{\Longrightarrow}\ \hbar(v_i,t+1)-\hbar(v_i,t)=b'_{t+1}\bigl(\mathbf{1}\{X_{t+1}=v_i\}-\tfrac1n\bigr),\quad b'_{t+1}\perp X_{t+1}\ (\text{snowfall A}).$$
-$$\xRightarrow{\ \mathbb{E}_\pi\ }\ 0=\bar b\bigl(\pi(X=v_i)-\tfrac1n\bigr)\;\implies\;\pi(X=v_i)=\tfrac1n.$$
-$$\overset{\text{보조정리 5},\ \mathbf{1}\{X=v_i\}}{\implies}\ \rho_i=\frac1t\sum_{s=1}^{t}\mathbf{1}\{X_s=v_i\}\xrightarrow{t\to\infty}\pi(X=v_i)=\frac1n\ \text{a.s.} \qquad\blacksquare$$
+**증명.** *목표:* $\ \rho_i=\dfrac1n$ a.s. $(\forall i)$. 정상법칙 $\pi$의 성질부터 쌓아 올린다.
+
+- (적분가능) $\{S_t\}\ \exists!\,\pi\ (\text{보조정리 5})\ \land\ \mathbb{E}_{\pi}[\Phi]<\infty\ (\Longleftarrow\mathbb{E}_{\pi^{\star}}[\Phi]<\infty,\ \text{유계길이 리프트})$.
+- ($\hbar\in L^1$) $\Phi=\sum_k\hbar(v_k,\cdot)^2\ \implies\ \mathbb{E}_{\pi}[\hbar(v_i,\cdot)^2]<\infty\ \implies\ \hbar(v_i,\cdot)\in L^1(\pi)\ \implies\ \mathbb{E}_{\pi}[\hbar(v_i,\cdot)]\ \text{유한·시간상수}$.
+- (정상 증분 0) $\therefore\ 0=\mathbb{E}_{\pi}[\hbar(v_i,t+1)-\hbar(v_i,t)]$.
+- (Fact 대입) $\overset{\text{Fact (한-스텝 증분)}}{\Longrightarrow}\ \hbar(v_i,t+1)-\hbar(v_i,t)=b'_{t+1}\bigl(\mathbf{1}\{X_{t+1}=v_i\}-\tfrac1n\bigr),\ \ b'_{t+1}\perp X_{t+1}\ (\text{snowfall A})$.
+- (기댓값 분리) $\xRightarrow{\ \mathbb{E}_\pi\ }\ 0=\bar b\bigl(\pi(X=v_i)-\tfrac1n\bigr)\ \implies\ \pi(X=v_i)=\tfrac1n$.
+
+$\therefore\ \overset{\text{보조정리 5},\ \mathbf{1}\{X=v_i\}}{\implies}\ \rho_i=\dfrac1t\sum_{s=1}^{t}\mathbf{1}\{X_s=v_i\}\xrightarrow{t\to\infty}\pi(X=v_i)=\dfrac1n$ a.s. $\blacksquare$
 
 ---
 
-*(§5.4 정직번역본의 증명을 기호주의적으로 재작성. 정리·정의 서술은 번역본과 동일, 증명만 형식논리 사슬로 옮김. 논리내용은 정본 hst_AAA.tex §5.4와 동일하며, 이 기호 스타일은 대표 지시에 따른 변형본으로 정본의 산문 서술방식과는 별개다.)*
+*(§5.4 정직번역본 기반. 정의·정리 서술과 MT 인용 보조정리(1–4)의 증명은 산문 유지, 자체 증명(보조정리 5·정리·따름정리)만 기호주의로 재작성. 논리내용은 정본 hst_AAA.tex §5.4와 동일하며, 이 기호 스타일은 대표 지시 변형본이다.)*
