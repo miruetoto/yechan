@@ -5,10 +5,10 @@ date: 2026-07-06
 output-file: 260706_c5e82b.html
 fontsize: 0.85em
 draft: false
-# 판정: (A) 이해·정리용 — 260706_a1f4d7(§5.3 정직 번역)의 proof을 기호주의 양식으로 전면 재작성. statement는 그대로, proof만 기호 체인화.
+# 판정: (A) 이해·정리용 — 260706_a1f4d7(§5.3 정직 번역)의 proof을 기호주의 양식으로 전면 재작성. statement는 그대로, proof만 기호 체인화. 여러 병렬 state는 itemize 분리.
 ---
 
-*이 글은 [§5.3 정직 번역](260706_a1f4d7.html)의 짝이다. 정의·보조정리의 **서술(statement)** 은 그대로 두고, **증명(proof)** 만 기호주의(symbolic) 양식 — 산문 접속사를 논리 기호 체인으로 — 으로 전면 재작성한다. 기호 범례: $\Longrightarrow$ 함의, $\Longleftrightarrow$ 동치, $\therefore$ 따라서, $\because$ 왜냐하면, $\forall$ 모든, $\exists$ 존재, $\wedge$ 그리고, $\vee$ 또는, $\in$ 원소, $\bigsqcup$ 분리합집합, $\perp$ 직교, $\blacksquare$ 증명 끝. 기호는 §5.2 (Doeblin minorisation, 이하 Lemma 8)에서 이어진다.*
+*이 글은 [§5.3 정직 번역](260706_a1f4d7.html)의 짝이다. 정의·보조정리의 **서술(statement)** 은 그대로 두고, **증명(proof)** 만 기호주의(symbolic) 양식 — 산문 접속사를 논리 기호 체인으로, 여러 병렬 state는 itemize로 — 재작성한다. 기호 범례: $\Longrightarrow$ 함의, $\Longleftrightarrow$ 동치, $\therefore$ 따라서, $\because$ 왜냐하면, $\forall$ 모든, $\exists$ 존재, $\wedge$ 그리고, $\vee$ 또는, $\in$ 원소, $\bigsqcup$ 분리합집합, $\perp$ 직교, $\blacksquare$ 증명 끝. 기호는 §5.2 (Doeblin minorisation, 이하 Lemma 8)에서 이어진다.*
 
 ## 정의 ($\psi$-기약성과 비주기성)
 
@@ -32,98 +32,47 @@ $\therefore\ \mathsf{C}_0$은 $nL$과 $nL+1$ 모두에 small $\wedge\ \gcd(nL,nL
 **설정.** 윈도우 $= (nL\text{-round}) \,\|\, (\text{+1 round},\ \text{target}=v_n)$. 추가 낙하 $a_+$는 밀도원천 아님; spread $\xleftarrow{\ \mathbf{A}^{\sharp}\ }$ 처음 $nL$ 낙하, $a_+ \parallel \mathbf{e}_{n-1}$ ($1$-차원 잔차).
 
 **(i) 이산·잔차 사건.**
-$$
-\begin{aligned}
-&\mathsf{E}^{\sharp}_{+} := \mathsf{E}^{\sharp} \wedge \{X_{t_{nL+1}}=v_n\}
-   \;\Longrightarrow\; \mathbb{P}(\mathsf{E}^{\sharp}_{+}) \geq \mu_{\min}^{\,nL+1}
-   \quad(\because\ \boldsymbol{\mu}_0\text{-i.i.d.}),\\[2pt]
-&\mathsf{I}_+ := \{0\leq a_+\leq\varepsilon_+\},\ \ a_+\sim\mathrm{Unif}(0,b)
-   \;\Longrightarrow\; \text{독립 인자}\ \varepsilon_+/b,\\[2pt]
-&\mathsf{E}^{\flat}_{+} := \{\forall\ \text{non-fall dep.}\leq\varepsilon\}
-   \;\Longrightarrow\; \mathbb{P}(\mathsf{E}^{\flat}_{+}\mid\mathsf{E}^{\sharp}_{+}, s) \geq (\varepsilon/b)^{(nL+1)T_{\max}}
-   \quad(\because\ \mathcal{F}_{s-1}\text{-분류}).
-\end{aligned}
-$$
+
+- $\mathsf{E}^{\sharp}_{+} := \mathsf{E}^{\sharp} \wedge \{X_{t_{nL+1}}=v_n\} \;\Longrightarrow\; \mathbb{P}(\mathsf{E}^{\sharp}_{+}) \geq \mu_{\min}^{\,nL+1}$ $\quad(\because\ \boldsymbol{\mu}_0\text{-i.i.d.})$
+- $\mathsf{I}_+ := \{0\leq a_+\leq\varepsilon_+\},\ a_+\sim\mathrm{Unif}(0,b) \;\Longrightarrow\;$ 독립 인자 $\varepsilon_+/b$
+- $\mathsf{E}^{\flat}_{+} := \{\forall\ \text{non-fall dep.}\leq\varepsilon\} \;\Longrightarrow\; \mathbb{P}(\mathsf{E}^{\flat}_{+}\mid\mathsf{E}^{\sharp}_{+}, s) \geq (\varepsilon/b)^{(nL+1)T_{\max}}$ $\quad(\because\ \mathcal{F}_{s-1}\text{-분류})$
 
 **(ii) 잔차·여유.**
-$$
-\text{잔차} := \mathbf{A}^{\flat}_{\amalg}\mathbf{b}^{\flat} + a_+\,\mathbf{e}_{n-1};
-\qquad
-\mathsf{E}^{\flat}_{+}\cap\mathsf{I}_+ \;\Longrightarrow\;
-\begin{cases}
-\ \|\mathbf{A}^{\flat}_{\amalg}\mathbf{b}^{\flat} + a_+\mathbf{e}_{n-1}\|_\infty \leq B^{\flat}_+\varepsilon + \varepsilon_+,\\[2pt]
-\ |\Delta(\text{비교식})| \leq B_*^+(\varepsilon+\varepsilon_+).
-\end{cases}
-$$
 
-$\varepsilon,\varepsilon_+ \downarrow$ 를 택해:
-$$
-(\star_+)\quad
-\begin{cases}
-\ B^{\flat}_+\varepsilon + \varepsilon_+ \leq \kappa_{\mathsf{U}}/4, \\[2pt]
-\ \|(\mathbf{A}^{\sharp})^{+}\|_{\infty\to\infty}\,(B^{\flat}_+\varepsilon + \varepsilon_+) \leq \delta/4, \\[2pt]
-\ C_{\alpha Q}\,(B^{\flat}_+\varepsilon + \varepsilon_+) + B_*^+(\varepsilon+\varepsilon_+) \leq \delta/2, \\[2pt]
-\ 2(B^{\flat}_+\varepsilon + \varepsilon_+) \leq \kappa_{\mathsf{U}}/2, \\[2pt]
-\ 0 < \varepsilon,\ \varepsilon_+ \leq b.
-\end{cases}
-$$
+- 잔차 $:= \mathbf{A}^{\flat}_{\amalg}\mathbf{b}^{\flat} + a_+\,\mathbf{e}_{n-1}$
+- $\mathsf{E}^{\flat}_{+}\cap\mathsf{I}_+ \;\Longrightarrow\; \|\mathbf{A}^{\flat}_{\amalg}\mathbf{b}^{\flat} + a_+\mathbf{e}_{n-1}\|_\infty \leq B^{\flat}_+\varepsilon + \varepsilon_+$
+- $\mathsf{E}^{\flat}_{+}\cap\mathsf{I}_+ \;\Longrightarrow\; |\Delta(\text{비교식})| \leq B_*^+(\varepsilon+\varepsilon_+)$
+
+$\varepsilon,\varepsilon_+ \downarrow$ 를 택해 조건 $(\star_+)$:
+
+- $B^{\flat}_+\varepsilon + \varepsilon_+ \leq \kappa_{\mathsf{U}}/4$
+- $\|(\mathbf{A}^{\sharp})^{+}\|_{\infty\to\infty}\,(B^{\flat}_+\varepsilon + \varepsilon_+) \leq \delta/4$
+- $C_{\alpha Q}\,(B^{\flat}_+\varepsilon + \varepsilon_+) + B_*^+(\varepsilon+\varepsilon_+) \leq \delta/2$
+- $2(B^{\flat}_+\varepsilon + \varepsilon_+) \leq \kappa_{\mathsf{U}}/2$
+- $0 < \varepsilon,\ \varepsilon_+ \leq b$
 
 **(iii) 같은 fibre, 같은 밀도 floor.** 고정 $u\in \mathsf{U}$, $\mathbf{b}^{\flat}\in[0,\varepsilon]^{(nL+1)T_{\max}}$, $a_+\in[0,\varepsilon_+]$; $\ \mathsf{R}_\delta(s^{\star}) = \bigsqcup_{\amalg}\mathsf{R}_{\delta,\amalg}(s^{\star})$.
-$$
-\mathbf{b}^{\sharp}\in\mathsf{R}_{\delta,\amalg},\ \ \mathbf{A}^{\sharp}\mathbf{b}^{\sharp} = u - \mathring{\mathbf{h}}(s^{\star})
-\;\xrightarrow{\ \text{transport}\ }\;
-\widehat{\mathbf{b}}^{\sharp} := \mathbf{b}^{\sharp} - (\mathbf{A}^{\sharp})^{+}\bigl(\mathbf{A}^{\flat}_{\amalg}\mathbf{b}^{\flat} + a_+\mathbf{e}_{n-1}\bigr)
-$$
-$$
-\Longrightarrow\ \mathbf{A}^{\sharp}\widehat{\mathbf{b}}^{\sharp} = u - \mathring{\mathbf{h}}(s^{\star}) - \bigl(\mathbf{A}^{\flat}_{\amalg}\mathbf{b}^{\flat} + a_+\mathbf{e}_{n-1}\bigr)
-\ \Longrightarrow\ \text{종단 앵커높이} = u.
-$$
 
-추가 라운드 비교식:
-$$
-\boldsymbol{\alpha}_a \in \operatorname{Range}((\mathbf{A}^{\sharp})^{\top})
-\ \Longrightarrow\ \boldsymbol{\alpha}_a \perp \ker(\mathbf{A}^{\sharp})
-\ \Longrightarrow\ (\boldsymbol{\alpha}_a = \mathbf{0}) \vee (\text{final-equality 형})
-\quad(\therefore\ \text{new nondeg. 없음}).
-$$
+- transport: $\mathbf{b}^{\sharp}\in\mathsf{R}_{\delta,\amalg},\ \mathbf{A}^{\sharp}\mathbf{b}^{\sharp} = u - \mathring{\mathbf{h}}(s^{\star}) \;\Longrightarrow\; \widehat{\mathbf{b}}^{\sharp} := \mathbf{b}^{\sharp} - (\mathbf{A}^{\sharp})^{+}(\mathbf{A}^{\flat}_{\amalg}\mathbf{b}^{\flat} + a_+\mathbf{e}_{n-1})$
+- $\;\Longrightarrow\; \mathbf{A}^{\sharp}\widehat{\mathbf{b}}^{\sharp} = u - \mathring{\mathbf{h}}(s^{\star}) - (\mathbf{A}^{\flat}_{\amalg}\mathbf{b}^{\flat} + a_+\mathbf{e}_{n-1}) \;\Longrightarrow\;$ 종단 앵커높이 $= u$
+- 추가 라운드: $\boldsymbol{\alpha}_a \in \operatorname{Range}((\mathbf{A}^{\sharp})^{\top}) \;\Longrightarrow\; \boldsymbol{\alpha}_a \perp \ker(\mathbf{A}^{\sharp}) \;\Longrightarrow\; (\boldsymbol{\alpha}_a = \mathbf{0}) \vee (\text{final-equality})$ $\quad(\therefore\ \text{new nondeg. 없음})$
+- 여유: $(\star_+) \;\Longrightarrow\; \widehat{\mathbf{b}}^{\sharp}\in[0,b]^{nL} \;\wedge\; (\text{nondeg. 부호 보존};\ \text{섭동}\leq\delta/2) \;\wedge\; (|\text{final-eq}| \geq \kappa_{\mathsf{U}}/2) \;\Longrightarrow\; \widehat{\mathbf{b}}^{\sharp}\in\amalg$
+- $\therefore\ \mathbf{z}^{\sharp}$ 불변 $\wedge$ target만 이동 $\;\Longrightarrow\;$ 밀도 floor $c_* = m_*\,J/b^{nL}$ ($\forall\,(\mathbf{b}^{\flat}, a_+)$ 동일)
 
-여유 점검:
-$$
-(\star_+)\ \Longrightarrow\
-\underbrace{\widehat{\mathbf{b}}^{\sharp}\in[0,b]^{nL}}_{\text{cube 여유}}
-\ \wedge\
-\underbrace{\text{nondeg. 부호 보존}}_{\text{섭동}\,\leq\,\delta/2}
-\ \wedge\
-\underbrace{|\text{final-eq}| \geq \kappa_{\mathsf{U}}/2}_{(\ast),(\star_+)}
-\ \Longrightarrow\ \widehat{\mathbf{b}}^{\sharp}\in\amalg .
-$$
-$$
-\therefore\ \mathbf{z}^{\sharp}\ \text{불변}\ \wedge\ \text{target만 이동}
-\ \Longrightarrow\ \text{밀도 floor}\ c_* = m_*\,J/b^{nL}\ \ (\forall\,(\mathbf{b}^{\flat}, a_+)\ \text{동일}).
-$$
+**(iv) 조립.** $\mathbf{b}^{\flat}$와 $a_+\in[0,\varepsilon_+]$에 대해 함께 적분:
 
-**(iv) 조립.**
 $$
-\int_{[0,\varepsilon]^{(nL+1)T_{\max}}}\!\!\int_{0}^{\varepsilon_+}(\cdots)\,da_+\,d\mathbf{b}^{\flat}
-\ \Longrightarrow\
 (P^{\star})^{nL+1}(s^{\star}, \mathsf{B}\times\{v_n\})
-\;\geq\; \eta'\,\mathrm{Unif}(\mathsf{U})(\mathsf{B}),
+\;\geq\; \mu_{\min}^{nL+1}\,(1/n)^{2(nL+1)(n-1)}\,(\varepsilon/b)^{(nL+1)T_{\max}}\,(\varepsilon_+/b)\,c_*\,|\mathsf{B}\cap \mathsf{U}|_{\mathrm{Leb}}
+\;=\; \eta'\,\mathrm{Unif}(\mathsf{U})(\mathsf{B}),
 $$
-$$
-\eta' := \mu_{\min}^{nL+1}\,(1/n)^{2(nL+1)(n-1)}\,(\varepsilon/b)^{(nL+1)T_{\max}}\,(\varepsilon_+/b)\,c_*\,|\mathsf{U}|_{\mathrm{Leb}} \;>\; 0
-\ \Longrightarrow\ (P^{\star})^{nL+1}(s^{\star},\cdot) \geq \eta'\,\nu \ \text{ on } \mathsf{C}_0 .
-$$
+
+$\eta' > 0$ (위 상수들의 곱 $\times\,|\mathsf{U}|_{\mathrm{Leb}}$) $\;\Longrightarrow\; (P^{\star})^{nL+1}(s^{\star},\cdot) \geq \eta'\,\nu$ on $\mathsf{C}_0$.
 
 **(v) 비주기성.**
-$$
-\bigl[\mathsf{C}_0\ \text{small: } nL,\ nL+1\ (\text{공통}\ \nu)\bigr] \wedge \bigl[\gcd(nL,nL+1)=1\bigr]
-\ \Longrightarrow\ \text{period}(\mathsf{C}_0) = 1 \quad(\text{MT §5.4}),
-$$
-$$
-\nu\text{-petite}(\mathsf{C}_0) \ \wedge\ \bigl(\forall x:\ \mathbb{P}_x(\tau_{\mathsf{C}_0}<\infty)=1\bigr)
-\ \Longrightarrow\ \psi\text{-기약}\ (\psi=\nu)
-\quad(\because\ \text{Foster drift}\ \wedge\ \text{comparison thm, MT 11.3.4}).\qquad\blacksquare
-$$
+
+- $\bigl[\mathsf{C}_0\ \text{small}:\ nL,\ nL+1\ (\text{공통}\ \nu)\bigr] \wedge \bigl[\gcd(nL,nL+1)=1\bigr] \;\Longrightarrow\; \text{period}(\mathsf{C}_0) = 1$ $\quad(\text{MT §5.4})$
+- $\nu\text{-petite}(\mathsf{C}_0) \wedge \bigl(\forall x:\ \mathbb{P}_x(\tau_{\mathsf{C}_0}<\infty)=1\bigr) \;\Longrightarrow\; \psi\text{-기약}\ (\psi=\nu)$ $\quad(\because\ \text{Foster drift} \wedge \text{comparison thm, MT 11.3.4})$ $\qquad\blacksquare$
 
 ## 보조정리 ($\ell$-round skeleton에서 small set은 petite)
 
@@ -131,23 +80,8 @@ $\ell$-round drift의 정수 $\ell$에 대해, $\mathsf{C}_0$은 $(P^{\star})^{\
 
 ### 증명 (기호주의)
 
-$$
-\text{Lemma 8}:\ (P^{\star})^{nL}(s^{\star},\cdot) \geq \eta\,\nu\ \ (\forall s^{\star}\in \mathsf{C}_0);
-\qquad
-\exists\, q\in\{0,\ldots,\ell-1\}:\ nL + q \equiv 0 \!\!\pmod{\ell}.
-$$
-$$
-((P^{\star})^{\ell})^{(nL+q)/\ell}(s^{\star},\cdot)
-= (P^{\star})^{nL+q}(s^{\star},\cdot)
-= \int (P^{\star})^{nL}(s^{\star}, dy)\,(P^{\star})^{q}(y,\cdot)
-\geq \eta\,(\nu(P^{\star})^{q})(\cdot) =: \eta\,\tilde\nu .
-$$
-$$
-\bigl[\tilde\nu \neq 0\bigr] \wedge \bigl[\tilde\nu \perp s^{\star}\bigr]
-\ \Longrightarrow\ \mathsf{C}_0\ \text{small (petite) for } (P^{\star})^{\ell};
-$$
-$$
-P^{\star}\ \psi\text{-기약} \wedge \text{비주기}
-\ \Longrightarrow\ (P^{\star})^{\ell}\ \psi\text{-기약} \wedge \text{비주기}\ (\text{같은 극대 기약성 측도, MT §5.4}).
-\qquad\blacksquare
-$$
+- $\text{Lemma 8}:\ (P^{\star})^{nL}(s^{\star},\cdot) \geq \eta\,\nu\ \ (\forall s^{\star}\in \mathsf{C}_0)$
+- $\exists\, q\in\{0,\ldots,\ell-1\}:\ nL + q \equiv 0 \!\!\pmod{\ell}$
+- $\;\Longrightarrow\; ((P^{\star})^{\ell})^{(nL+q)/\ell}(s^{\star},\cdot) = (P^{\star})^{nL+q}(s^{\star},\cdot) = \int (P^{\star})^{nL}(s^{\star}, dy)\,(P^{\star})^{q}(y,\cdot) \geq \eta\,(\nu(P^{\star})^{q})(\cdot) =: \eta\,\tilde\nu$
+- $\bigl[\tilde\nu \neq 0\bigr] \wedge \bigl[\tilde\nu \perp s^{\star}\bigr] \;\Longrightarrow\; \mathsf{C}_0\ \text{small (petite) for } (P^{\star})^{\ell}$
+- $P^{\star}\ \psi\text{-기약} \wedge \text{비주기} \;\Longrightarrow\; (P^{\star})^{\ell}\ \psi\text{-기약} \wedge \text{비주기}$ $\quad(\text{같은 극대 기약성 측도, MT §5.4})$ $\qquad\blacksquare$
