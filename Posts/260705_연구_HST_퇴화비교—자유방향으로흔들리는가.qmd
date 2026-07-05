@@ -1,186 +1,67 @@
 ---
-title: "연구 ▷ HST ▷ 퇴화 비교 — 자유 방향으로 흔들리는가"
+title: "연구 ▷ HST ▷ Claim 6 — 높이 비교의 퇴화·비퇴화 (statement·proof)"
 author: 소미
 date: 2026-07-05
 output-file: 260705_058c28.html
 fontsize: 0.85em
 draft: false
-# 판정: (A) 학습·이해용 — Tier2 minorisation Claim 6(비교의 퇴화/비퇴화 + tie·경계 측도) 을 현재 정본 노테이션으로 n=2,L=2 구체예 해설
+# 판정: (A) 학습·이해용 — Tier2 minorisation Claim 6 의 statement·proof 를 정본 그대로 한국어 번역 (해설·예시 없음)
 ---
 
-**설정**: HST Tier 2 증명(balanced regime)에서, 한 window 동안 떨어지는 **낙하(fall)** 침전량을 벡터로 모읍니다. 낙하 관련량은 위첨자 $\sharp$로 표시합니다(뒤에 나올 비낙하량 $\flat$와 구분).
+*이하 기호는 같은 증명의 Claim 1–5에서 이어진다: 앵커 높이 $\mathring{\mathbf{h}}(\cdot)$, 개별 높이 $\hbar(v_k,\cdot)$, 낙하 벡터 $\mathbf{b}^{\sharp}$의 노드-사이클 인덱싱 $b^{\sharp}_{k,\ell}$, fall map $\mathbf{A}^{\sharp}$와 유사역 $(\mathbf{A}^{\sharp})^{+}$·커널 기저 $\mathbf{Z}^{\sharp}$ (Claim 2), fall shift $\mathbf{a}^{\sharp}$, chamber $\mathsf{U}$, 상태 $s^{\star}$.*
+
+## Claim 6
+
+앵커 좌표의 $\mathbf{x} = (x_2,\ldots,x_n)\in\mathbb{R}^{n-1}$에 대해, 앵커 $v_1$에는 $x_1 := 0$ 규약을 두고 $(i,j)$ 높이 gap을 $\Delta_{ij}(\mathbf{x}) := x_i - x_j$로 쓴다. 따라서 $\Delta_{ij}(\mathring{\mathbf{h}}(t)) = \hbar(v_i,t)-\hbar(v_j,t)$이다. $\mathbf{b}^{\flat}=\mathbf{0}$에서 높이는 낙하로만 변하므로, window의 모든 flow step은 window의 처음 $\rho$개 낙하가 떨어진 뒤의 앵커 높이를 본다($\rho\in\{1,\ldots,nL\}$). 그러므로 flow step이 테스트할 수 있는 gap들은 **height comparisons**
 
 $$
-\mathbf{b}^{\sharp} = (b^{\sharp}_{k,\ell}) \in [0,b]^{nL}.
+\mathsf{A} \;:=\; \bigl\{\,a = (i,j,\rho) : 1\leq i\neq j\leq n,\ 1\leq\rho\leq nL\,\bigr\},
+\qquad |\mathsf{A}| \;=\; n(n-1)\,nL,
 $$
 
-$n$은 노드 수, $L$은 사이클 수, $b^{\sharp}_{k,\ell}$은 노드 $v_k$에 $\ell$번째 사이클에서 떨어진 낙하량입니다. 이 낙하들이 만드는 것은 노드들 사이의 **높이 차이**뿐이고, 그걸 뽑아내는 선형사상이 fall map
+으로 남김없이 담긴다(실현된 궤적이 실제로 어떤 비교를 테스트하는지는 침전에 달렸으나, $\mathsf{A}$는 그 전부를 담는다), 고정된 유한집합이다. $a = (i,j,\rho)$에 대해, Claim 1의 노드-사이클 인덱싱 $b^{\sharp}_{k,\ell}$($v_k$의 사이클-$\ell$ 낙하; window의 cyclic schedule에서 window의 $(n(\ell-1)+k)$번째 낙하)로 $\boldsymbol{\alpha}_a\in\{0,\pm1\}^{nL}$를 성분별로 정의한다: $\boldsymbol{\alpha}_a$의 $(k,\ell)$ 성분은 $k = i$이고 $n(\ell-1)+i\leq\rho$이면 $+1$, $k = j$이고 $n(\ell-1)+j\leq\rho$이면 $-1$, 그밖에는 $0$. 그러면
 
 $$
-\mathbf{A}^{\sharp}\colon \mathbb{R}^{nL}\to\mathbb{R}^{n-1},\qquad \mathbf{A}^{\sharp}\mathbf{b}^{\sharp} = (\text{앵커 } v_1 \text{ 기준 누적 높이 차}).
+\boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp} \;=\; \sum_{\ell\,:\,n(\ell-1)+i\,\leq\,\rho} b^{\sharp}_{i,\ell} \;-\; \sum_{\ell\,:\,n(\ell-1)+j\,\leq\,\rho} b^{\sharp}_{j,\ell}
 $$
 
-$\mathbf{A}^{\sharp}$는 $nL$차원을 $n-1$차원으로 뭉갭니다. 뭉개져 사라지는 방향들, 즉 $\ker\mathbf{A}^{\sharp}$의 기저를 $\mathbf{Z}^{\sharp}$로 둡니다. 이 커널이 이 글의 주인공인 **자유 방향**입니다. 자유 방향으로 침전량을 아무리 흔들어도 최종 높이 차는 변하지 않습니다($\mathbf{A}^{\sharp}\mathbf{Z}^{\sharp}=\mathbf{0}$).
-
-Claim 6이 답하는 질문은 하나입니다. **워커가 이동을 결정할 때 보는 "높이 비교"가, 이 자유 방향 $\mathbf{Z}^{\sharp}$로 흔들리는가?**
-
-## 높이 비교와 그 계수 벡터
-
-워커는 flow step마다 두 노드 $v_i, v_j$의 높이 차 $\Delta_{ij} = h(v_i)-h(v_j)$의 부호를 보고 어디로 갈지 정합니다. 비낙하 침전을 잠시 끄면($\mathbf{b}^{\flat}=\mathbf{0}$) 높이는 낙하로만 바뀌므로, 어떤 flow step이든 "window의 처음 $\rho$개 낙하가 떨어진 뒤"의 높이를 봅니다($\rho\in\{1,\ldots,nL\}$). window가 테스트할 수 있는 모든 (노드쌍 $i\ne j$, 시점) 조합을 유한집합 $\mathsf{A}$로 모으면, 각 비교 $a=(i,j,t)$의 값은 낙하량의 아핀 함수가 됩니다:
+로, 처음 $\rho$개 낙하 중 $v_i$에 떨어진 침전은 더하고 $v_j$에 떨어진 것은 뺀다. 그래서 $a$가 테스트하는 gap은 $\Delta_{ij}(\mathring{\mathbf{h}}(s^{\star})) + \boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp}$, 시작점의 gap에 순 침전 shift를 더한 것이다. $\mathbf{a}^{\sharp}$ 위 fiber에서, 즉 Claim 2(II)의 좌표로 $\mathbf{b}^{\sharp} = (\mathbf{A}^{\sharp})^{+}\mathbf{a}^{\sharp}+\mathbf{Z}^{\sharp}\mathbf{z}^{\sharp}$일 때($\mathbf{Z}^{\sharp}$는 커널 기저이며, 이 매개화를 Claim 전체에서 쓴다), 각 gap은 $\mathbf{z}^{\sharp}$에 대해 기울기 $(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a$인 아핀함수다. 이 기울기가 사라질 때 $a$를 **degenerate**라 부르며(그 gap이 fiber 전체에서 상수), 나머지가 **nondegenerate** 집합
 
 $$
-\Delta_{ij}(t) \;=\; \gamma_a(s^\star) \;+\; \boldsymbol{\alpha}_a \cdot \mathbf{b}^{\sharp},
-\qquad \gamma_a(s^\star) := \Delta_{ij}(\mathring{\mathbf{h}}(s^\star)).
+\mathsf{A}_{\mathrm{nd}} \;:=\; \bigl\{\,a\in\mathsf{A} : (\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a\neq\mathbf{0}\,\bigr\}
 $$
 
-$\gamma_a(s^\star)$는 window 시작 시점에 이미 있던 높이 차(상수), 계수 벡터 $\boldsymbol{\alpha}_a\in\mathbb{R}^{nL}$는 다음처럼 만들어집니다:
+을 이룬다. 끝으로
 
 $$
-(\boldsymbol{\alpha}_a)_{k,\ell} =
-\begin{cases}
-+1, & k=i,\ \text{그 낙하가 시점 } t \text{까지 열렸으면}\\
--1, & k=j,\ \text{그 낙하가 시점 } t \text{까지 열렸으면}\\
-0, & \text{그 밖에.}
-\end{cases}
+\kappa_{\mathsf{U}} \;:=\; \min_{i\neq j}\,\inf_{\mathbf{u}\in\overline{\mathsf{U}}}\,\bigl|\Delta_{ij}(\mathbf{u})\bigr|
 $$
 
-즉 $\boldsymbol{\alpha}_a$는 "시점 $t$까지 $v_i$에 쌓인 낙하는 $+1$, $v_j$에 쌓인 낙하는 $-1$로 표시한 벡터"입니다. 시점이 이르면 아직 안 열린 낙하가 많아 $0$이 많고, 늦으면 대부분 $\pm1$로 채워집니다.
+를 tie로부터 chamber의 margin으로 둔다: $\kappa_{\mathsf{U}}>0$인 것은 $\overline{\mathsf{U}}$가 compact이고 유한개의 tie 초평면 $\{\mathbf{x} : \Delta_{ij}(\mathbf{x}) = 0\}$과 서로소이며(Claim 3), 각 $|\Delta_{ij}|$가 연속이기 때문이다. 모든 $\mathbf{a}^{\sharp}\in\mathbb{R}^{n-1}$, 상태 $s^{\star}$, $\delta>0$에 대해:
 
-이제 자유 방향으로의 감도는 $(\mathbf{Z}^{\sharp})^\top\boldsymbol{\alpha}_a$로 잽니다. 정의가 이렇게 갈립니다:
-
-- $(\mathbf{Z}^{\sharp})^\top\boldsymbol{\alpha}_a \neq \mathbf{0}$ → **비퇴화(nondegenerate)**. 비교가 자유 방향으로 실제로 움직인다. 이들을 모아 $\mathsf{A}_{\mathrm{nd}}$로 둔다.
-- $(\mathbf{Z}^{\sharp})^\top\boldsymbol{\alpha}_a = \mathbf{0}$ → **퇴화(degenerate)**. 비교가 자유 방향으로 꼼짝 안 한다.
-
-## 구체적으로: 노드 2개, 사이클 2번
-
-가장 작은 예로 감을 잡겠습니다. $n=2$, $L=2$. 낙하 벡터는 4차원이고, 좌표를 노드별로 묶어 적습니다:
+**(I)** 모든 degenerate 비교는 그 gap이 각 fiber에서 상수여서 tube 절단이 닿을 수 없고 또 필요도 없다: $\boldsymbol{\alpha}_a = \mathbf{0}$(branch가 고정하는 결정론적 비교)이거나, $a$가 **final-equality** 타입 $\boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp} = \sum_\ell b^{\sharp}_{i,\ell}-\sum_\ell b^{\sharp}_{j,\ell}$이며, 후자의 값은 임의의 fall shift $\mathbf{A}^{\sharp}\mathbf{b}^{\sharp} = \mathbf{u}-\mathring{\mathbf{h}}(s^{\star})$ ($\mathbf{u}\in \mathsf{U}$)에서 chamber에 고정된다:
 
 $$
-\mathbf{b}^{\sharp} = \big(\,\underbrace{b^{\sharp}_{1,1},\,b^{\sharp}_{1,2}}_{v_1 \text{의 두 낙하}},\ \underbrace{b^{\sharp}_{2,1},\,b^{\sharp}_{2,2}}_{v_2 \text{의 두 낙하}}\,\big)\in\mathbb{R}^4.
+\Delta_{ij}(\mathring{\mathbf{h}}(s^{\star})) + \boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp} \;=\; \Delta_{ij}\bigl(\mathring{\mathbf{h}}(s^{\star})+\mathbf{A}^{\sharp}\mathbf{b}^{\sharp}\bigr) \;=\; \Delta_{ij}(\mathbf{u}),
+\qquad |\Delta_{ij}(\mathbf{u})| \;\geq\; \kappa_{\mathsf{U}} ; \tag{$\ast$}
 $$
 
-앵커는 $v_1$, 뽑는 높이 차는 $x = h(v_2)-h(v_1)$ 하나뿐이므로 fall map은 $1\times 4$ 행
+**(II)** graph-data 상수 $C_{\mathrm{tie}}<\infty$가 존재하여
 
 $$
-\mathbf{A}^{\sharp} = [\,-1,\ -1,\ +1,\ +1\,],\qquad
-\mathbf{A}^{\sharp}\mathbf{b}^{\sharp} = (b^{\sharp}_{2,1}+b^{\sharp}_{2,2})-(b^{\sharp}_{1,1}+b^{\sharp}_{1,2}).
+\Bigl|\Bigl\{\mathbf{z}^{\sharp} : \mathbf{b}^{\sharp}\in[0,b]^{nL},\ \min_{a\in\mathsf{A}_{\mathrm{nd}}}|\boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp}+\Delta_{ij}(\mathring{\mathbf{h}}(s^{\star}))|\leq\delta\Bigr\}\Bigr|_{\mathrm{Leb}}\leq C_{\mathrm{tie}}\,\delta ;
 $$
 
-**두 가지 비교**를 봅시다. 둘 다 노드쌍은 $(i,j)=(2,1)$이고, 다른 것은 언제 보느냐입니다.
-
-- **끝 시점 비교** ($\boldsymbol{\alpha}_{\text{end}}$): 네 낙하가 모두 열린 뒤. 전부 $\pm1$로 채워져
-$$
-\boldsymbol{\alpha}_{\text{end}} = [\,-1,\ -1,\ +1,\ +1\,] = \mathbf{A}^{\sharp}.
-$$
-이건 fall map의 행 그 자체입니다. 즉 $\boldsymbol{\alpha}_{\text{end}}\in\operatorname{Range}((\mathbf{A}^{\sharp})^\top)$이라 자유 방향과 직교 → **퇴화**. 값은 전체 높이 차 $x$입니다.
-
-- **중간 시점 비교** ($\boldsymbol{\alpha}_{\text{mid}}$): 사이클 1의 낙하만 열린 시점. $v_1$은 $b^{\sharp}_{1,1}$만, $v_2$는 $b^{\sharp}_{2,1}$만 반영되어
-$$
-\boldsymbol{\alpha}_{\text{mid}} = [\,-1,\ 0,\ +1,\ 0\,].
-$$
-$[-1,-1,+1,+1]$의 배수가 아니므로 $\operatorname{Range}((\mathbf{A}^{\sharp})^\top)$ 밖 → **비퇴화**. 값은 "지금까지의 부분합" 차이입니다.
-
-핵심 직관이 여기서 나옵니다. 자유 방향 하나를 잡아 봅시다:
+**(III)** graph-data 상수 $C_{\mathrm{bdry}}<\infty$가 존재하여
 
 $$
-\mathbf{w} = (\,1,\ -1,\ 0,\ 0\,)\quad\text{— } v_1 \text{의 두 사이클 사이에서 낙하량을 재분배}.
+\bigl|\bigl\{\mathbf{z}^{\sharp} : \mathbf{b}^{\sharp}\in[0,b]^{nL},\ \textstyle\min_j b^{\sharp}_j\leq\delta\ \text{또는}\ \min_j(b-b^{\sharp}_j)\leq\delta\bigr\}\bigr|_{\mathrm{Leb}}\leq C_{\mathrm{bdry}}\,\delta.
 $$
 
-$v_1$의 사이클 1에 $+s$, 사이클 2에 $-s$를 주는 이동입니다. $v_1$의 **총합은 그대로**이므로 최종 높이 차는 안 변합니다($\mathbf{A}^{\sharp}\mathbf{w}=0$, 즉 $\mathbf{w}\in\ker\mathbf{A}^{\sharp}$). 그런데 **중간 시점**은 사이클 1만 보고 있으니 $b^{\sharp}_{1,1}$이 바뀌면 흔들립니다:
+## 증명
 
-$$
-\boldsymbol{\alpha}_{\text{mid}}\cdot\mathbf{w} = -1 \neq 0,\qquad
-\boldsymbol{\alpha}_{\text{end}}\cdot\mathbf{w} = 0.
-$$
+**(I)** Degeneracy $(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a = \mathbf{0}$은 $\boldsymbol{\alpha}_a\perp\ker(\mathbf{A}^{\sharp})$, 즉 $\boldsymbol{\alpha}_a\in\operatorname{Range}((\mathbf{A}^{\sharp})^{\top})$을 뜻한다. $\mathbf{b}^{\sharp}$의 $nL$개 좌표를 노드별로 묶어, $k$번째 **node group**이 $v_k$의 낙하 $L$개 $b^{\sharp}_{k,\ell}$($\ell = 1,\ldots,L$)를 모은다고 하자. fall map의 row space는 각 node group 안에서 상수이고 group 값들의 합이 $0$인 벡터들로 이뤄지므로, $\boldsymbol{\alpha}_a$는 group-constant이고 zero-sum이다. 그런데 statement의 $\boldsymbol{\alpha}_a$ 성분별 정의(처음 $\rho$개 중 $v_i$-낙하에 $+1$, $v_j$-낙하에 $-1$, 그밖에 $0$)에 의해 group-constancy는 all-or-none을 강제한다: 아무 낙하도 세지 않으면 $\boldsymbol{\alpha}_a = \mathbf{0}$(branch가 고정하는 결정론적 비교), 아니면 모든 낙하를 세는 final-equality 타입 $\boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp} = \sum_\ell b^{\sharp}_{i,\ell}-\sum_\ell b^{\sharp}_{j,\ell}$이다. 표시된 항등식 $(\ast)$은 착지점 $\mathbf{u}$에서 평가한 $\Delta_{ij}$의 선형성이고, 그 하한은 statement의 $\kappa_{\mathsf{U}}$ 정의다.
 
-**중간 비교는 부분합을 보고, 부분합은 자유 재분배로 흔들 수 있다. 끝 비교는 총합을 보고, 총합은 fall map이 딱 고정한 값이라 못 흔든다.** 이것이 퇴화/비퇴화를 가르는 정체입니다.
+**(II)** $\mathsf{A}_{\mathrm{nd}}$는 유한하므로 $\lambda_\ast := \min_{a\in\mathsf{A}_{\mathrm{nd}}}\|(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a\|>0$. $\mathbf{z}^{\sharp}$의 함수로서 각 비교 $\boldsymbol{\alpha}_a\cdot((\mathbf{A}^{\sharp})^{+}\mathbf{a}^{\sharp}+\mathbf{Z}^{\sharp}\mathbf{z}^{\sharp})+\Delta_{ij}(\mathring{\mathbf{h}}(s^{\star}))$는 기울기 $(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a$인 아핀함수이며, $a\in\mathsf{A}_{\mathrm{nd}}$면 그 노름이 $\geq\lambda_\ast$이다. $\mathbf{z}^{\sharp}$-공간을 $(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a/\|(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a\|$ 방향으로 자르면, 함수는 slice 좌표에 대해 기울기 $\geq\lambda_\ast$인 아핀이므로 $\{|\cdot|\leq\delta\}$는 길이 $\leq 2\delta/\lambda_\ast$인 구간이다. 그리고 비어 있지 않은 각 slice $\{\mathbf{z}^{\sharp} : (\mathbf{A}^{\sharp})^{+}\mathbf{a}^{\sharp}+\mathbf{Z}^{\sharp}\mathbf{z}^{\sharp}\in[0,b]^{nL}\}$는 지름이 $\leq b\sqrt{nL}$이다(두 점의 차 $\mathbf{z}^{\sharp}-\mathbf{z}^{\sharp\prime}$은 $\mathbf{Z}^{\sharp}(\mathbf{z}^{\sharp}-\mathbf{z}^{\sharp\prime})\in[-b,b]^{nL}$이고 $\|\mathbf{z}^{\sharp}-\mathbf{z}^{\sharp\prime}\| = \|\mathbf{Z}^{\sharp}(\mathbf{z}^{\sharp}-\mathbf{z}^{\sharp\prime})\|$). 유계 단면을 적분하고 유한 family에 대해 합하면 (II)를 얻는다.
 
-```{python}
-#| fig-cap: "자유 방향 감도 (Z♯)ᵀα 로 퇴화/비퇴화 판정 (A=A♯, Z=Z♯)"
-import numpy as np
-
-# 좌표: [b(v1,c1), b(v1,c2), b(v2,c1), b(v2,c2)]  (노드별 묶음)
-A = np.array([[-1., -1., 1., 1.]])          # fall map A♯ (1x4): 높이 차 = v2총합 - v1총합
-
-# ker(A♯) 기저 Z♯ = 자유 방향들 (SVD 의 특이값 0 우특이벡터)
-_, S, Vt = np.linalg.svd(A)
-Z = Vt[np.sum(S > 1e-9):].T                  # (4x3)
-print("ker(A♯) 차원 =", Z.shape[1], " (자유 방향 개수)")
-
-alpha_end = np.array([-1., -1.,  1.,  1.])    # 끝: 전체 gap  = A♯ 행
-alpha_mid = np.array([-1.,  0.,  1.,  0.])    # 중간: 부분합
-
-for name, a in [("끝  (전체 gap)", alpha_end), ("중간(부분합)", alpha_mid)]:
-    proj = Z.T @ a
-    kind = "퇴화 (degenerate)" if np.allclose(proj, 0) else "비퇴화 (nondegenerate)"
-    print(f"{name}:  ||(Z♯)ᵀα|| = {np.linalg.norm(proj):.3f}  →  {kind}")
-```
-
-```{python}
-# 자유 방향 w 로 흔들어 보기: 최종 gap 은 고정, 중간 비교만 움직인다
-w = np.array([1., -1., 0., 0.])              # v1 의 두 사이클 재분배 (총합 불변)
-print("A♯·w     =", (A @ w)[0], "  (=0 → 최종 높이 차 불변, w∈ker A♯)")
-print("α_mid·w  =", alpha_mid @ w, "  (≠0 → 중간 비교는 흔들림)")
-print("α_end·w  =", alpha_end @ w, "  (=0 → 끝 비교는 고정)")
-```
-
-두 계산이 정의를 그대로 확인합니다. 이제 자유 방향을 따라 실제로 쓸어 보면, 두 비교가 어떻게 움직이는지 한 장으로 보입니다.
-
-```{python}
-#| fig-cap: "자유 방향 s 를 따라: 비퇴화(중간) 비교는 tie(0)를 가로지르고, 퇴화(끝) 비교는 chamber 값에 고정된다"
-import matplotlib.pyplot as plt
-plt.rcParams.update({"text.usetex": True, "font.family": "serif"})
-
-b0 = np.array([0.3, 0.3, 0.5, 0.5])          # 기준 낙하량 (b=1 상자 안)
-s = np.linspace(-0.3, 0.3, 200)
-B = b0[None, :] + s[:, None] * w[None, :]     # b♯(s) = b0 + s·w
-
-mid = B @ alpha_mid                           # 중간 비교값 = 0.2 - s
-end = B @ alpha_end                           # 끝 비교값   = 0.4 (상수)
-
-fig, ax = plt.subplots(figsize=(8, 3))
-ax.plot(s, mid, lw=2, label=r"nondegenerate (mid): $\alpha_{\mathrm{mid}}\cdot b^{\sharp}(s)$")
-ax.plot(s, end, lw=2, label=r"degenerate (end): $\alpha_{\mathrm{end}}\cdot b^{\sharp}(s)$")
-ax.axhline(0, color="k", lw=0.8, ls="--")
-ax.text(-0.28, 0.02, r"tie ($\Delta=0$)", fontsize=9, va="bottom")
-ax.annotate(r"pinned at $\kappa_{\mathsf{U}}$",
-            xy=(0.0, 0.4), xytext=(-0.13, 0.58),
-            arrowprops=dict(arrowstyle="->", lw=0.8), fontsize=9)
-ax.set_xlabel(r"free-direction parameter $s$ (along $w=(1,-1,0,0)\in\ker\mathbf{A}^{\sharp}$)")
-ax.set_ylabel("comparison value")
-ax.set_ylim(-0.25, 0.7)
-ax.legend(loc="upper right", fontsize=9)
-ax.set_box_aspect(1/3)
-plt.tight_layout()
-plt.show()
-```
-
-파란 선(비퇴화, 중간)은 기울기 $-1$로 $s$를 따라 **tie($0$)를 가로지릅니다**. 자유 방향이 이 비교의 부호를 바꿀 수 있다는 뜻입니다. 주황 선(퇴화, 끝)은 완전히 평평합니다. 자유 방향으로는 손댈 수 없고, chamber margin $\kappa_{\mathsf{U}}$만큼 tie에서 떨어진 자리에 붙박여 있습니다.
-
-## Claim 6의 세 파트 (I)(II)(III)
-
-현재 정본에서 Claim 6은 이 분류 위에 세 결론을 얹습니다. 낙하 shift $\mathbf{a}^{\sharp}$를 고정하고 자유 좌표 $\mathbf{z}^{\sharp}$로 슬라이스를 볼 때($\mathbf{b}^{\sharp} := (\mathbf{A}^{\sharp})^{+}\mathbf{a}^{\sharp}+\mathbf{Z}^{\sharp}\mathbf{z}^{\sharp}$):
-
-**(I) 퇴화 비교는 이미 안전하다.** 자유 방향으로 안 움직이니 어차피 못 고친다. 대신 손댈 필요가 없다. 퇴화면 둘 중 하나다. 계수가 아예 $\boldsymbol{\alpha}_a=\mathbf{0}$인 결정론적 비교(branch가 정함)이거나, 총합을 보는 **final-equality** 비교 $\boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp}=\sum_\ell b^{\sharp}_{i,\ell}-\sum_\ell b^{\sharp}_{j,\ell}$인데, 후자의 값은 착지점 $\mathbf{u}$에서 $\Delta_{ij}(\mathbf{u})$로 고정되고 chamber margin
-
-$$
-\kappa_{\mathsf{U}} := \min_{i\ne j}\ \inf_{\mathbf{u}\in\overline{\mathsf{U}}}\ |\Delta_{ij}(\mathbf{u})| > 0
-$$
-
-덕분에 $|\Delta_{ij}(\mathbf{u})|\ge\kappa_{\mathsf{U}}$로 이미 tie에서 멀다. (위 그림 주황 선이 이 경우입니다.)
-
-**(II) 비퇴화 tie-관은 얇다.** 비퇴화 비교의 tie 근방($\delta$-관)이 슬라이스에서 차지하는 부피는 $\delta$에 선형으로 작다:
-
-$$
-\Bigl|\Bigl\{\mathbf{z}^{\sharp} : \mathbf{b}^{\sharp}\in[0,b]^{nL},\ \min_{a\in\mathsf{A}_{\mathrm{nd}}}|\boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp}+\gamma_a(s^\star)|\le\delta\Bigr\}\Bigr|_{\mathrm{Leb}} \le C_{\mathrm{tie}}\,\delta.
-$$
-
-이유는 간단합니다. $\mathbf{z}^{\sharp}$에 대해 각 비교는 기울기 $(\mathbf{Z}^{\sharp})^\top\boldsymbol{\alpha}_a$인 아핀함수이고, 비퇴화라 그 크기가 어떤 $\lambda_\ast>0$ 이상이라, $\{|\cdot|\le\delta\}$가 두께 $\le 2\delta/\lambda_\ast$의 얇은 슬랩이기 때문입니다. (위 그림 파란 선이 tie를 지나는 그 좁은 구간이 바로 잘리는 부분입니다.)
-
-**(III) 상자 경계도 얇다.** 침전이 상자 $[0,b]^{nL}$의 벽($b^{\sharp}_j\le\delta$ 또는 $\ge b-\delta$)에 붙는 부분도 같은 논리로 $\le C_{\mathrm{bdry}}\,\delta$.
-
-## 왜 이 분류가 필요한가
-
-minorisation은 워커가 원하는 branch(이동 경로)를 확실히 밟도록 낙하량 집합에서 양의 부피를 확보해야 하는데, 문제는 tie($\Delta_{ij}=0$) 근처입니다. 거기서 워커는 어디로 갈지 애매해집니다. 바로 다음 Claim 7의 **robust core $\mathsf{R}_\delta$**가 (II)의 tie-관과 (III)의 경계를 슬라이스에서 도려내 애매함을 없애는데, 이 절단은 자유 방향으로 움직이는 비퇴화 비교에만 통합니다. 그리고 도려낸 양이 $(C_{\mathrm{tie}}+C_{\mathrm{bdry}})\delta \le m_0/2$로 작으니, 전체 슬라이스 floor $m_0$에서 빼도 $m_0/2$가 남습니다.
-
-정리하면 Claim 6은 모든 비교를 남김없이 두 부류로 가릅니다. 못 자르는 **퇴화**는 (I)로 이미 tie 밖에 안전하게 놓여 있고, 자를 수 있는 **비퇴화**는 (II)(III)로 얇게만 잘린다. 어떤 비교도 애매하게 남지 않기에 워커의 경로가 확정되고 minorisation의 양의 부피가 살아납니다. 위 그림 한 장이 그 전부를 압축합니다. 흔들리는 비교는 tie를 피하도록 다루고, 안 흔들리는 비교는 처음부터 tie 밖에 놓여 있습니다.
+**(III)** 각 cube 면 $\{b^{\sharp}_j = 0\}$ 또는 $\{b^{\sharp}_j = b\}$는 아핀함수 $\mathbf{e}_j\cdot((\mathbf{A}^{\sharp})^{+}\mathbf{a}^{\sharp}+\mathbf{Z}^{\sharp}\mathbf{z}^{\sharp})$를 기여하며($\mathbf{e}_j\in\mathbb{R}^{nL}$는 $j$번째 표준기저), 그 기울기 $(\mathbf{Z}^{\sharp})^{\top}\mathbf{e}_j\neq \mathbf{0}$이다(아니라면 $\mathbf{e}_j\in\operatorname{Range}((\mathbf{A}^{\sharp})^{\top})$이 되어 (I)의 group-constant zero-sum 특성에 모순). 같은 slicing을 $2nL$개 면에 적용하면 (III)를 얻는다. $\qquad\blacksquare$
