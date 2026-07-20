@@ -139,8 +139,14 @@ cross = -0.20*np.sqrt(2)                              # gap(2,3,4) = 0
 fig, ax = plt.subplots(figsize=(8, 4))
 ax.axhspan(-tube, tube, color="0.85", zorder=0)
 ax.text(lo+0.01, 0, r"tie-tube $\pm\delta$", fontsize=8, va="center", color="0.4")
-ax.axvspan(cross - tube*np.sqrt(2), cross + tube*np.sqrt(2), color="#f3cccc", zorder=0)  # 도려낼 z#_2 구간
-ax.text(cross, 0.47, r"excise (Lem 14)", fontsize=8, color="#b03030", ha="center")
+ax.axvspan(cross - tube*np.sqrt(2), cross + tube*np.sqrt(2), color="#f3cccc", zorder=0)  # tie-tube 도려낼 구간
+ax.text(cross, 0.47, r"tie-tube excise (Lem 14)", fontsize=8, color="#b03030", ha="center")
+bd_left  = (tube - b0[1]) / s2                        # b2 = δ (0 근처)
+bd_right = (b0[4] - tube) / s2                        # b5 = δ (0 근처)
+ax.axvspan(lo, bd_left, color="#ffe0b0", zorder=0)    # 가장자리: b2 → 0
+ax.axvspan(bd_right, hi, color="#ffe0b0", zorder=0)   # 가장자리: b5 → 0
+ax.text((lo+bd_left)/2, 0.30, r"bdry", fontsize=7, color="#a06000", ha="center", rotation=90)
+ax.text((bd_right+hi)/2, 0.30, r"bdry", fontsize=7, color="#a06000", ha="center", rotation=90)
 for r, c, lab in [(1, "tab:red",    r"$r{=}1$ (fall-free): $\,0.05$"),
                   (4, "tab:blue",   r"$r{=}4$ (nondeg.): $\,0.20+z^{\sharp}_2/\sqrt2$"),
                   (6, "tab:purple", r"$r{=}6$ (final-eq.): $\,0.30$")]:
@@ -165,7 +171,7 @@ ax.legend(fontsize=8, loc="lower left"); fig.tight_layout()
 
 **G.** 계산 그대로네요 — 평평한 둘(빨강 $0.05$·보라 $0.30$)은 $z^{\sharp}_2$ 를 밀어도 안 변하고, 파란 것만 기울기 $1/\sqrt2$ 로 기울어져 $0$ 을 지나요. 근데 그림 가운데 **분홍 세로 띠**는 뭐예요?
 
-**H.** 그건 살짝 앞서 그려둔 거예요. 두 띠를 같이 보면 돼요. **가로 회색 띠**는 비교**값**이 동률에서 $\pm\delta$ 안에 든 구간 — 부호가 동률에 너무 가까워 **위태로운** 지대죠. **분홍 세로 띠**는 파란(비퇴화) 선이 바로 그 회색 띠를 지나는 $z^{\sharp}_2$ 구간이에요. 즉 **"값이 위험해지는 $z^{\sharp}_2$ 범위"** 를 가로 띠에서 세로축으로 옮겨 그린 거죠. 거기선 조금만 밀어도 파란 값이 $0$ 을 넘어 **부호가 뒤집히고 길이 바뀌어요** — 그래서 **밀면 안 되는 곳**. 셋째 막에서 이 얇은 띠만 **도려내는** 게 곧 **Lemma 14**(그래서 라벨이 "excise, Lem 14")예요. 밀 수 있는 건 분홍 띠 **밖**, 곧 **사인 플립 직전까지**고요. 그 폭도 $\delta$ 에 비례($2\delta\sqrt2$)해서 얇으니, 도려내도 밀도는 절반이 남죠 — 자세한 계산은 셋째 막에서요.
+**H.** 그건 살짝 앞서 그려둔 거예요. 두 띠를 같이 보면 돼요. **가로 회색 띠**는 비교**값**이 동률에서 $\pm\delta$ 안에 든 구간 — 부호가 동률에 너무 가까워 **위태로운** 지대죠. **분홍 세로 띠**는 파란(비퇴화) 선이 바로 그 회색 띠를 지나는 $z^{\sharp}_2$ 구간이에요. 즉 **"값이 위험해지는 $z^{\sharp}_2$ 범위"** 를 가로 띠에서 세로축으로 옮겨 그린 거죠. 거기선 조금만 밀어도 파란 값이 $0$ 을 넘어 **부호가 뒤집히고 길이 바뀌어요** — 그래서 **밀면 안 되는 곳**. 셋째 막에서 이 얇은 띠만 **도려내는** 게 곧 **Lemma 14**(그래서 라벨이 "excise, Lem 14")예요. 밀 수 있는 건 분홍 띠 **밖**, 곧 **사인 플립 직전까지**고요. 그리고 이건 **한 비교(파란 것 하나)** 만 그린 거예요 — 실제론 **모든 비퇴화 비교마다** 이런 tie-tube 가 하나씩 있고(유한 개), 게다가 낙하량이 $0$ 이나 $b$ 에 너무 붙는 **가장자리(그림 양끝 주황 띠, $b^{\sharp}_j\le\delta$ 나 $\ge b-\delta$)** 도 잘라내요 — 나중 이사 때 큐브 밖으로 안 나가게 여백을 남기려고요. **전부 $\delta$ 에 비례해 얇으니, 다 합쳐도 절제 총량 $\propto\delta$ → 다 도려내도 밀도는 $m_0/2$ 가 남아요.** 그게 셋째 막의 **Lemma 14** ($\mathsf{R}_\delta = \{\delta\le b^{\sharp}_j\le b-\delta\}\cap\{\text{비퇴화 gap}\ge\delta\}$)입니다.
 
 **G.** 알겠어요. 그럼 방금 세 종류로 갈린 건 무슨 정리예요?
 
