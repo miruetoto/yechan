@@ -1,0 +1,150 @@
+---
+title: "연구 ▷ HST ▷ §5.4 에르고딕 정리와 balanced 정리의 증명 (정직 번역)"
+author: 유진
+date: 2026-07-06
+output-file: 260706_8ef335.html
+fontsize: 1.0em
+draft: false
+# 판정: 정직 번역 (해설·예시 추가 없음) — hst_AAA.tex §5.4 (The ergodic theorem and proof of the balanced theorem) 영문→한글 축자 번역. 수식·정리·증명·인용 원문 유지.
+---
+
+*이 글은 정본 hst_AAA.tex의 §5.4 "The ergodic theorem and proof of Theorem (the balanced theorem)"를 영문에서 한글로 정직하게(축자) 번역한 것이다. 예시·해설·재구성 없이 원문의 정의·정리·증명·인용을 그대로 옮긴다.*
+
+---
+
+# §5.4 에르고딕 정리와 balanced 정리의 증명
+
+방금 검증한 세 가설은 드리프트(H3, §5.1), petite 집합(H2, §5.2), 그리고 비주기성을 동반한 $\psi$-기약성(H1, §5.3)이다. 이것들은 Meyn–Tweedie(2009)의 네 고전적 에르고딕 정리의 상시 가정이며, 우리는 이를 상태공간 $\mathsf{Y}$ 위의 마르코프 사슬 $\{Y_t\}$에 대한 일반형으로 서술한 뒤 라운드 스켈레톤에 적용한다. 이 정리들은 Harris 재귀성을 통해 서술되므로, 그것부터 상기한다.
+
+## 정의 ((양) Harris 재귀성과 불변법칙; cf. Meyn–Tweedie(2009) §9.1, §10.1)
+
+$\psi$-기약 사슬이 **Harris 재귀적(Harris recurrent)**이라 함은, $\psi(A) > 0$인 모든 $A$와 모든 시작 상태 $y$에 대해 사슬이 $A$를 거의 확실하게 무한히 자주 방문한다는 것이다: $\mathbb{P}_y(Y_t \in A \text{ for infinitely many } t) = 1$. **불변확률(invariant probability)**이란 모든 $A$에 대해 $\pi(A) = \int_{\mathsf{Y}} P(y, A)\,\pi(dy)$를 만족하는 확률측도 $\pi$이다(한 스텝으로 법칙이 변하지 않음). 사슬이 Harris 재귀적이고 불변확률 $\pi$를 가지면 **양 Harris 재귀적(positive Harris recurrent)**이라 하며, 그러한 $\pi$는 유일하다.
+
+## 보조정리 (양 Harris 재귀성에 대한 Foster 드리프트 판정법; cf. Meyn–Tweedie(2009) Thm. 11.0.1, 기원은 Foster(1953))
+
+$\{Y_t\}_{t \geq 0}$를 상태공간 $\mathsf{Y}$ 위의 $\psi$-기약·비주기 마르코프 사슬이라 하고, petite 집합 $C \subset \mathsf{Y}$, 가측함수 $V \colon \mathsf{Y} \to [0, \infty)$, 상수 $\tilde b < \infty$, 그리고 $x \to \infty$일 때 $\varphi(x) \to \infty$인 비감소함수 $\varphi \colon [0, \infty) \to [0, \infty)$가 존재하여
+
+$$\mathbb{E}[V(Y_{t+1}) \mid Y_t = y] \;\leq\; V(y) - \varphi(V(y)) + \tilde b\,\mathbf{1}_C(y) \qquad \text{for all } y \in \mathsf{Y}$$
+
+를 만족한다고 하자. 그러면 $\{Y_t\}$는 양 Harris 재귀적이며, 초기분포와 무관한 유일 불변확률 $\pi$를 갖는다.
+
+**증명.** $\varphi$가 비감소이고 $\varphi(x) \to \infty$이므로, $x > x_*$에서 $\varphi(x) \geq 1 + \tilde b$인 수준 $x_*$가 존재한다. 따라서 $\widetilde C := C \cup \{V \leq x_*\}$ — petite 집합 $C$와 $V$의 sublevel 집합의 합집합이라 petite — 위에서 드리프트는 단위형 $\mathbb{E}[V(Y_{t+1}) \mid Y_t = y] \leq V(y) - 1 + \tilde b\,\mathbf{1}_{\widetilde C}(y)$로 환원된다. 이것이 양 Harris 재귀성에 대한 Foster의 드리프트 판정법이다; Meyn–Tweedie(2009) Thm. 11.0.1(기원은 Foster(1953)) 참조. $\square$
+
+## 보조정리 (정상 모멘트 바운드, $f$-노름 에르고딕 정리; cf. Meyn–Tweedie(2009) Thm. 14.3.7)
+
+$\{Y_t\}_{t \geq 0}$가 불변확률 $\pi$를 갖는 양 Harris 재귀 사슬이고, 가측함수 $V \colon \mathsf{Y} \to [0, \infty)$와 $f \colon \mathsf{Y} \to [0, \infty)$, petite 집합 $C$, 상수 $\tilde b < \infty$에 대해
+
+$$\mathbb{E}[V(Y_{t+1}) \mid Y_t = y] \;\leq\; V(y) - f(y) + \tilde b\,\mathbf{1}_C(y) \qquad \text{for all } y \in \mathsf{Y}$$
+
+를 만족한다고 하자. 그러면 $f$의 정상 평균이 유한하다: $\mathbb{E}_\pi[f] = \int_{\mathsf{Y}} f\,d\pi \leq \tilde b < \infty$.
+
+**증명.** 이것은 $f$-노름 에르고딕 정리, 즉 비교정리의 정상형이다; Meyn–Tweedie(2009) Thm. 14.3.7 참조. $\square$
+
+## 보조정리 (양 Harris 사슬에 대한 대수의 법칙; cf. Meyn–Tweedie(2009) Thm. 17.1.7)
+
+$\{Y_t\}_{t \geq 0}$가 불변확률 $\pi$를 갖는 양 Harris 재귀 사슬이라 하자. 그러면 모든 $\pi$-적분가능 $g$에 대해
+
+$$\frac1t\sum_{k=0}^{t-1} g(Y_k) \;\xrightarrow{t \to \infty}\; \mathbb{E}_\pi[g] = \int_{\mathsf{Y}} g(y)\,\pi(dy) \quad \text{a.s.}$$
+
+**증명.** 이것은 양 Harris 재귀 사슬에 대한 대수의 법칙이다; Meyn–Tweedie(2009) Thm. 17.1.7 참조. $\square$
+
+## 보조정리 (비율 극한정리; cf. Meyn–Tweedie(2009) Thm. 17.3.2)
+
+$\{Y_t\}_{t \geq 0}$가 불변확률 $\pi$를 갖는 양 Harris 재귀 사슬이라 하자. 그러면 $\pi(h) \neq 0$인 모든 $\pi$-적분가능 $f, h$에 대해
+
+$$\frac{\sum_{k=0}^{t-1} f(Y_k)}{\sum_{k=0}^{t-1} h(Y_k)} \;\xrightarrow{t \to \infty}\; \frac{\pi(f)}{\pi(h)} = \frac{\int_{\mathsf{Y}} f\,d\pi}{\int_{\mathsf{Y}} h\,d\pi} \quad \text{a.s.}$$
+
+**증명.** 이것은 양 Harris 재귀 사슬에 대한 비율 극한정리이다; Meyn–Tweedie(2009) Thm. 17.3.2 참조. $\square$
+
+## 보조정리 (skeleton-step 리프트)
+
+한-라운드 스켈레톤 $P^{\star}$가 불변확률 $\pi^{\star}$를 갖는 양 Harris 재귀적이고, 라운드 길이가 균일하게 유계, 즉 $1 \leq m_r \leq D < \infty$라 하자. 그러면 cycle-occupation 법칙
+
+$$\pi(A) \;:=\; \frac{\mathbb{E}_{\pi^{\star}}\bigl[\sum_{q=0}^{m_r-1}\mathbf{1}\{S_{t_r+q}\in A\}\bigr]}{\mathbb{E}_{\pi^{\star}}[m_r]}$$
+
+은 확률측도이며, per-step 사슬 $\{S_t\}$에 대해 불변이다. 나아가
+
+$$\mathbb{E}_{\pi^{\star}}\Bigl[\textstyle\sum_{q=0}^{m_r-1}|g(S_{t_r+q})|\Bigr] < \infty \qquad\cdots\ (\ast)$$
+
+를 만족하는 모든 $g \colon \mathsf{S} \to \mathbb{R}$는 per-step 대수의 법칙
+
+$$\frac1t\sum_{k=0}^{t-1} g(S_k) \;\xrightarrow{t\to\infty}\; \int_{\mathsf{S}} g(s)\,\pi(ds) \quad\text{a.s.}$$
+
+를 따른다.
+
+**증명.** per-round 길이 $m_r = t_{r+1}-t_r \in [1,D]$와 보상 $F_r := \sum_{q=0}^{m_r-1} g(S_{t_r+q})$를 두고, 조건부 평균 $h(s^{\star}) := \mathbb{E}_{s^{\star}}[m_r] \in [1,D]$와 $f(s^{\star}) := \mathbb{E}_{s^{\star}}[F_r]$ — 둘 다 라운드 시작 상태 $s^{\star}$의 함수 — 를 둔다. 가정 $(\ast)$는 $\pi^{\star}(|f|) < \infty$이고 $\pi^{\star}(h) = \mathbb{E}_{\pi^{\star}}[m_r] \in [1,D]$이므로, $\pi$는 $\pi(g) = \pi^{\star}(f)/\pi^{\star}(h)$인 잘 정의된 확률이다. 라운드 스켈레톤 $\{S^{\star}_r\}$은 불변법칙 $\pi^{\star}$를 갖는 양 Harris이므로, 적분가능 관측량 $f, h$에 비율 극한정리(위 보조정리)를 적용하면
+
+$$\frac{\sum_{r=0}^{N-1} f(S^{\star}_r)}{\sum_{r=0}^{N-1} h(S^{\star}_r)} \;\xrightarrow{N\to\infty}\; \frac{\pi^{\star}(f)}{\pi^{\star}(h)} \;=\; \int_{\mathsf{S}} g\,d\pi \quad\text{a.s.}$$
+
+조건부 평균은 마르틴게일 잔차만큼의 차이로 실현량으로 교체된다: $\sum_{r<N}(F_r - f(S^{\star}_r))$와 $\sum_{r<N}(m_r - h(S^{\star}_r))$는 라운드 필트레이션에 적합한 평균 0 마르틴게일이며, 그 증분이 $(\ast)$에 의해 $L^1$에서 통제되고 $D$로 유계이므로, 분모 $\sum_{r<N} h(S^{\star}_r) \geq N$에 대해 거의 확실하게 $o(N)$이다. $t_N = \sum_{r<N} m_r$와 $\sum_{r<N} F_r = \sum_{k=0}^{t_N - 1} g(S_k)$로 쓰면 실현 비율이 같은 극한으로 수렴한다:
+
+$$\frac{1}{t_N}\sum_{k=0}^{t_N - 1} g(S_k) \;\xrightarrow{N\to\infty}\; \int_{\mathsf{S}} g\,d\pi \quad\text{a.s.}$$
+
+$t_N \leq t < t_{N+1}$인 임의의 $t$에 대해, 누락된 부분 라운드는 최대 $\sum_{q=0}^{m_N - 1}|g(S_{t_N + q})| = o(t)$ a.s.를 더하고 $t/t_N \to 1$($\because m_r \leq D$)이므로, 극한은 모든 $t$를 따라 성립한다. $g = \mathbf{1}_A$로 두면 $\pi$가 거의 확실한 per-step occupation 법칙으로 식별되며, 따라서 $\{S_t\}$의 유일 불변확률이다. $\square$
+
+## 정리 (balanced regime 수렴)
+
+상시 설정(연결 그래프 $\mathcal{G}$, canonical degree-proportional $\boldsymbol{\mu}_0$)과 §2의 유일한 Tier 2 가설 (A3): $(\mathcal{G}, \boldsymbol{\mu}_0, b, T_{\max})$가 $\ell$-라운드 Foster 드리프트(가정 Foster)를 만족한다고 가정하자. 그러면 $c_{ij} = c_{ij}(\mathcal{G}, \boldsymbol{\mu}_0, b, T_{\max}) \geq 0$인 결정론적 행렬 $C = [c_{ij}]_{i,j \in \mathsf{V}}$가 존재하여
+
+$$\frac{SD^2_{ij}(t)}{t} \;\xrightarrow{t \to \infty}\; c_{ij} \qquad \text{a.s.,}$$
+
+이며, 극한 $c_{ij}$는 초기 신호 $\mathbf{y}$와 무관하다. balanced occupation $\rho_i = 1/n$ ($i = 1, \ldots, n$)은 **가정하지 않는다**; (A3) 아래에서 그것은 정상법칙으로부터 따라온다(따름정리 balanced occupation).
+
+**증명.** §1의 augmented 상태 $S_t := (\mathring{\mathbf{h}}(t), X_t, Z_t, \Theta_t) \in \mathsf{S}$로 작업한다. 관측량은
+
+$$g : \mathsf{S} \to \mathbb{R}_+, \qquad g(S) := (h(v_i) - h(v_j))^2,$$
+
+로, $\mathring{\mathbf{h}}$를 통한 상태의 함수이며(공통 $h(v_1)$이 상쇄됨), 따라서
+
+$$\frac{SD^2_{ij}(t)}{t} = \frac1t\sum_{k=0}^{t} g(S_k).$$
+
+그러므로 이 평균이 거의 확실하게 유한하고 $\mathbf{y}$와 무관한 상수로 수렴함을 보이면 충분하다. $g \geq 0$이므로 극한은 자동으로 비음이고, $t-1$ 대신 종단 인덱스 $k = t$는 유계 보상 블록 하나를 더하나 $t$로 나눈 뒤 무시할 수 있다.
+
+**Step 1**은 occupation 리프트(위 skeleton-step 리프트 보조정리)를 통해 per-step 주장을 한-라운드 스켈레톤 $P^{\star}$에 대한 두 의무로 바꾼다: 다음을 보이면 충분하다.
+
+- (I) $P^{\star}$가 양 Harris 재귀적이며, 초기 신호 $\mathbf{y}$와 무관한 유일 불변법칙 $\pi^{\star}$를 갖는다;
+- (II) $\mathbb{E}_{\pi^{\star}}[\Phi] < \infty$.
+
+실제로 라운드 길이는 균일하게 유계, $1 \leq m_r \leq T_{\max}+1$이고, (II)는 skeleton-step 리프트 보조정리의 적분가능성 $(\ast)$을 준다: 한 라운드 안에서 각 centred 높이는 최대 $(T_{\max}+1)b$만큼 움직이므로 $0 \leq q < m_r$에 대해 $g(S_{t_r+q}) \leq C_g(1 + \Phi(S^{\star}_r))$($C_g = C_g(n, b, T_{\max})$)이고, 따라서 $\mathbb{E}_{\pi^{\star}}[\sum_{q=0}^{m_r-1}|g(S_{t_r+q})|] \leq (T_{\max}+1)\,C_g\bigl(1 + \mathbb{E}_{\pi^{\star}}[\Phi]\bigr) < \infty$. (I)과 (II)가 주어지면, 스켈레톤 $P^{\star}$와 관측량 $g$에 적용된 skeleton-step 리프트 보조정리는 cycle-occupation 법칙
+
+$$\pi(A) \;:=\; \frac{\mathbb{E}_{\pi^{\star}}\bigl[\sum_{q=0}^{m_r - 1}\mathbf{1}\{S_{t_r + q}\in A\}\bigr]}{\mathbb{E}_{\pi^{\star}}[m_r]},$$
+
+즉 per-step 사슬 $\{S_t\}$의 유일 불변법칙을 정의하고, 비율 극한
+
+$$\frac{SD^2_{ij}(t)}{t} = \frac1t\sum_{k=0}^{t} g(S_k) \;\xrightarrow{t\to\infty}\; \int_{\mathsf{S}} g(s)\,\pi(ds) =: c_{ij} \quad\text{a.s.},$$
+
+를 준다. 여기서 $\pi(g) = \mathbb{E}_{\pi^{\star}}[\sum_{q=0}^{m_r-1} g(S_{t_r+q})]/\mathbb{E}_{\pi^{\star}}[m_r]$는 방금 표시한 바운드에 의해 유한하고, $c_{ij} = c_{ij}(\mathcal{G}, \boldsymbol{\mu}_0, b, T_{\max})$는 (I)에 의해 $\mathbf{y}$와 무관하다. 이것이 주장한 극한이므로, 정리는 (I)과 (II)로 환원된다.
+
+**Step 2**는 한-라운드 의무를 $\ell$-라운드 스켈레톤 $Q := (P^{\star})^{\ell}$에 대한 것으로 바꾼다. 여기서 $\ell$은 시종 $\ell$-라운드 드리프트(가정 Foster)의 **그 하나의** 정수이다: $Q$가 $\mathbb{E}_{\pi^{\star}}[\Phi] < \infty$를 만족하는 유일·$\mathbf{y}$-무관 불변법칙 $\pi^{\star}$를 갖는 양 Harris 재귀적임을 보이면 충분하다. 실제로 $Q$가 이 성질들을 가진다고 하자. 측도 $\pi^{\star} P^{\star}$는 $Q$-불변이다. $(\pi^{\star} P^{\star})\,Q = \pi^{\star}(P^{\star})^{\ell+1} = (\pi^{\star}Q)P^{\star} = \pi^{\star} P^{\star}$이기 때문이다; 유일성에 의해 $\pi^{\star} P^{\star} = \pi^{\star}$, 즉 $\pi^{\star}$는 한-라운드 스켈레톤 $P^{\star}$에 대해 불변이다. 역으로 임의의 $P^{\star}$-불변 법칙은 $Q$-불변이므로 $\pi^{\star}$와 같다. Harris 재귀성은 하강한다: $Q = (P^{\star})^{\ell}$($P^{\star}$-궤적의 부분열)에 의해 무한히 자주 방문되는 $\nu$-양 집합은 $P^{\star}$에 의해 무한히 자주 방문된다. 따라서 (I)이 같은 법칙으로 $P^{\star}$에 대해 성립하고, (II)는 $\pi^{\star}$만의 성질이라 불변이다.
+
+**Step 3**은 $\ell$-라운드 의무를, Lyapunov 함수 $V_{\mathrm{Foster}}(t_r) := \Phi(t_r)^2$로 $Q$에 적용된 에르고딕 보조정리들(Foster 판정법·$f$-노름 모멘트)을 통해 세 상시 가설로 바꾼다: $Q$에 대해 다음을 검증하면 충분하다.
+
+- (H1) $\psi$-기약성과 비주기성;
+- (H2) petite 집합 $\mathsf{C}_0$;
+- (H3) 드리프트 $\mathbb{E}[\Phi(t_{r+\ell})^2 - \Phi(t_r)^2 \mid S^{\star}_r = s^{\star}] \leq -\tfrac{\varepsilon}{2n^{3/2}}\Phi(t_r)^{3/2} + C_{\mathrm{cpt}}\mathbf{1}_{\mathsf{C}_0}(s^{\star})$.
+
+실제로 (H3)은 $\varphi(x) = \tfrac{\varepsilon}{2n^{3/2}}x^{3/4}$($x \geq 0$에서 비감소, $\varphi(x) \to \infty$)와 petite 집합 $\mathsf{C}_0$를 갖는 Foster 판정법 보조정리의 드리프트이므로, Foster 판정법 보조정리에 의해 사슬 $Q$는 초기분포와 무관한 유일 불변법칙 $\pi^{\star}$를 갖는 양 Harris 재귀적이다; $\pi^{\star}$가 $\mathbf{y}$-무관인 것은 커널이 높이에 $\mathring{\mathbf{h}}$를 통해서만 의존하고 $\mathbf{y}$는 오직 (잊혀진) 시각-0 상태를 통해서만 들어오기 때문이다. $f$-노름 모멘트 보조정리(단, $f = \varphi(V_{\mathrm{Foster}}) = \tfrac{\varepsilon}{2n^{3/2}}\Phi^{3/2}$)에 의해 $\mathbb{E}_{\pi^{\star}}[\Phi^{3/2}] < \infty$, 따라서 $\mathbb{E}_{\pi^{\star}}[\Phi] < \infty$.
+
+**Step 4**는 (H1)–(H3)을 §5.1–§5.3에 대해 해소한다; 세 가지 모두 드리프트의 $\ell$에 대해 성립하는데, 이는 "$\ell$-round skeleton은 petite" 보조정리가 **모든** 스켈레톤 거듭제곱에 대해 관련 구조를 세우기 때문이다. (H1): "$\ell$-round skeleton은 petite" 보조정리에 의해 $(P^{\star})^{\ell}$은 twin minorisation(twin minorisation 보조정리)으로부터 물려받아 $\psi$-기약적($\psi = \nu$)이며 비주기적이다. (H2): "$\ell$-round skeleton은 petite" 보조정리에 의해 sublevel 집합 $\mathsf{C}_0 = \{s^{\star} : M(s^{\star}) \leq M_0\}$은 $(P^{\star})^{\ell}$에 대해 small, 따라서 petite이다. (H3): 이것은 정확히 $(P^{\star})^{\ell}$에 대한 $\Phi^2$ Foster 드리프트 보조정리이다. 남은 의무가 없으므로 증명이 완결된다. $\square$
+
+## 따름정리 (balanced occupation)
+
+위 정리(balanced regime 수렴)의 가정 아래에서, 장기 occupation 비율은 균일하다:
+
+$$\rho_i \;:=\; \lim_{t\to\infty}\frac{1}{t}\sum_{s=1}^{t}\mathbf{1}\{X_s = v_i\} \;=\; \frac{1}{n} \qquad (i = 1, \ldots, n) \quad \text{a.s.}$$
+
+따라서 balanced occupation은 Foster 드리프트 (A3)의 귀결이지, 독립적인 가정이 아니다.
+
+**증명.** balanced regime 정리의 증명에서 per-step 사슬 $\{S_t\}$은 유일 불변법칙 $\pi$(skeleton-step 리프트 보조정리)를 가지며, $\mathbb{E}_{\pi}[\Phi] < \infty$는 유계-길이 리프트를 통해 $\mathbb{E}_{\pi^{\star}}[\Phi] < \infty$(의무 (II), Step 3에서 확립)로부터 물려받는다. $\Phi = \sum_k \hbar(v_k,\cdot)^2$이므로 이는 $\mathbb{E}_{\pi}[\hbar(v_i,\cdot)^2] < \infty$를 주고, 따라서 $\hbar(v_i,\cdot)$는 모든 $i$에 대해 $\pi$-적분가능하다. 그러므로 $\mathbb{E}_{\pi}[\hbar(v_i,\cdot)]$는 유한하고 $\pi$ 아래 시간에 대해 상수이다:
+
+$$0 \;=\; \mathbb{E}_{\pi}\bigl[\hbar(v_i, t+1) - \hbar(v_i, t)\bigr] \qquad (i = 1,\ldots,n).$$
+
+Fact (한-스텝 centred-height 증분)에 의해 한-스텝 centred 높이 증분은 $\hbar(v_i, t+1) - \hbar(v_i, t) = b'_{t+1}\bigl(\mathbf{1}\{X_{t+1} = v_i\} - \tfrac{1}{n}\bigr)$이고, deposit $b'_{t+1}$은 이동 타깃 $X_{t+1}$과 독립(snowfall A)이므로, $\pi$-기댓값을 취하면
+
+$$0 \;=\; \bar b\Bigl(\pi(X = v_i) - \tfrac{1}{n}\Bigr) \qquad\text{hence}\qquad \pi(X = v_i) \;=\; \tfrac{1}{n}.$$
+
+유계 관측량 $\mathbf{1}\{X = v_i\}$에 적용된 skeleton-step 리프트 보조정리는 $\rho_i = \frac1t\sum_{s=1}^{t}\mathbf{1}\{X_s = v_i\} \to \pi(X = v_i) = 1/n$ a.s.를 준다. $\square$
+
+---
+
+*(정본 hst_AAA.tex §5.4의 영문→한글 정직 번역. 원문의 정의·정리·증명·인용을 유지하였고, 예시·해설·재구성은 추가하지 않았다.)*

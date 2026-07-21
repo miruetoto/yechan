@@ -1,0 +1,168 @@
+---
+title: "연구 ▷ HST ▷ Claim 6 — 높이 비교의 퇴화·비퇴화 (statement·proof)"
+author: 소미
+date: 2026-07-05
+output-file: 260705_61bd07.html
+fontsize: 1.0em
+draft: false
+# 판정: (A) 학습·이해용 — Tier2 minorisation Claim 6 statement·proof 정본 번역 + n=3,L=2 구체 예시 callout
+---
+
+*이하 기호는 같은 증명의 Claim 1–5에서 이어진다: 앵커 높이 $\mathring{\mathbf{h}}(\cdot)$, 개별 높이 $\hbar(v_k,\cdot)$, 낙하 벡터 $\mathbf{b}^{\sharp}$의 노드-사이클 인덱싱 $b^{\sharp}_{k,\ell}$, fall map $\mathbf{A}^{\sharp}$와 유사역 $(\mathbf{A}^{\sharp})^{+}$·커널 기저 $\mathbf{Z}^{\sharp}$ (Claim 2), fall shift $\mathbf{a}^{\sharp}$, chamber $\mathsf{U}$, 상태 $s^{\star}$.*
+
+## Claim 6
+
+앵커 좌표의 $\mathbf{x} = (x_2,\ldots,x_n)\in\mathbb{R}^{n-1}$에 대해, 앵커 $v_1$에는 $x_1 := 0$ 규약을 두고 $(i,j)$ 높이 gap을 $\Delta_{ij}(\mathbf{x}) := x_i - x_j$로 쓴다. 따라서 $\Delta_{ij}(\mathring{\mathbf{h}}(t)) = \hbar(v_i,t)-\hbar(v_j,t)$이다. $\mathbf{b}^{\flat}=\mathbf{0}$에서 높이는 낙하로만 변하므로, window의 모든 flow step은 window의 처음 $\rho$개 낙하가 떨어진 뒤의 앵커 높이를 본다($\rho\in\{1,\ldots,nL\}$). 그러므로 flow step이 테스트할 수 있는 gap들은 **height comparisons**
+
+$$
+\mathsf{A} \;:=\; \bigl\{\,a = (i,j,\rho) : 1\leq i\neq j\leq n,\ 1\leq\rho\leq nL\,\bigr\},
+\qquad |\mathsf{A}| \;=\; n(n-1)\,nL,
+$$
+
+으로 남김없이 담긴다(실현된 궤적이 실제로 어떤 비교를 테스트하는지는 침전에 달렸으나, $\mathsf{A}$는 그 전부를 담는다), 고정된 유한집합이다. $a = (i,j,\rho)$에 대해, Claim 1의 노드-사이클 인덱싱 $b^{\sharp}_{k,\ell}$($v_k$의 사이클-$\ell$ 낙하; window의 cyclic schedule에서 window의 $(n(\ell-1)+k)$번째 낙하)로 $\boldsymbol{\alpha}_a\in\{0,\pm1\}^{nL}$를 성분별로 정의한다: $\boldsymbol{\alpha}_a$의 $(k,\ell)$ 성분은 $k = i$이고 $n(\ell-1)+i\leq\rho$이면 $+1$, $k = j$이고 $n(\ell-1)+j\leq\rho$이면 $-1$, 그밖에는 $0$. 그러면
+
+$$
+\boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp} \;=\; \sum_{\ell\,:\,n(\ell-1)+i\,\leq\,\rho} b^{\sharp}_{i,\ell} \;-\; \sum_{\ell\,:\,n(\ell-1)+j\,\leq\,\rho} b^{\sharp}_{j,\ell}
+$$
+
+로, 처음 $\rho$개 낙하 중 $v_i$에 떨어진 침전은 더하고 $v_j$에 떨어진 것은 뺀다. 그래서 $a$가 테스트하는 gap은 $\Delta_{ij}(\mathring{\mathbf{h}}(s^{\star})) + \boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp}$, 시작점의 gap에 순 침전 shift를 더한 것이다. $\mathbf{a}^{\sharp}$ 위 fiber에서, 즉 Claim 2(II)의 좌표로 $\mathbf{b}^{\sharp} = (\mathbf{A}^{\sharp})^{+}\mathbf{a}^{\sharp}+\mathbf{Z}^{\sharp}\mathbf{z}^{\sharp}$일 때($\mathbf{Z}^{\sharp}$는 커널 기저이며, 이 매개화를 Claim 전체에서 쓴다), 각 gap은 $\mathbf{z}^{\sharp}$에 대해 기울기 $(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a$인 아핀함수다. 이 기울기가 사라질 때 $a$를 **degenerate**라 부르며(그 gap이 fiber 전체에서 상수), 나머지가 **nondegenerate** 집합
+
+$$
+\mathsf{A}_{\mathrm{nd}} \;:=\; \bigl\{\,a\in\mathsf{A} : (\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a\neq\mathbf{0}\,\bigr\}
+$$
+
+을 이룬다.
+
+::: {.callout-note title="정의 — 퇴화(degenerate) / 비퇴화(nondegenerate) 비교"}
+
+비교 $a=(i,j,\rho)$의 gap은 fiber 좌표 $\mathbf{z}^{\sharp}$에 대해 기울기 $(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a$인 아핀함수다(바로 위 문장). 이 기울기로 가른다:
+
+- **비퇴화 (nondegenerate)** — $(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a \ne \mathbf{0}$: gap이 자유방향 $\mathbf{z}^{\sharp}$로 **움직인다**. 직관은 $v_i, v_j$ 중 한쪽이 낙하를 **부분적으로만 받은 중간 시점**(부분합)이라, 아직 안 떨어진 눈이 gap을 흔들 수 있다는 것. 이들을 모아 $\mathsf{A}_{\mathrm{nd}}$로 둔다.
+- **퇴화 (degenerate)** — $(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a = \mathbf{0}$: gap이 $\mathbf{z}^{\sharp}$로 **꼼짝 안 한다**(fiber 전체에서 상수). 직관은 $v_i, v_j$가 **같은 극단**이라는 것 — 둘 다 아직 낙하 전($\boldsymbol{\alpha}_a=\mathbf{0}$, branch가 정하는 결정론)이거나, 둘 다 낙하 완료(final-equality, 값 $=\Delta_{ij}(\mathbf{u})$라 chamber margin $\kappa_{\mathsf{U}}$만큼 tie에서 떨어짐).
+
+한마디로 **비퇴화 = 중간(부분합), 퇴화 = 양 극단(텅 비었거나 꽉 찼거나)**. "언제($\rho$) 비교하느냐"가 이 셋 중 어디인지를 정한다.
+
+:::
+
+::: {.callout-note title="자세히: a♯ 위 fiber와 (a♯, z♯) 좌표, 그리고 왜 gap이 z♯에 아핀인가"}
+
+**a♯은 최종 높이 차, fiber는 그걸 주는 낙하들의 뭉텅이.** fall map $\mathbf{A}^{\sharp}$은 $nL$개 낙하 $\mathbf{b}^{\sharp}$을 $n-1$차원 높이 차 $\mathbf{a}^{\sharp}=\mathbf{A}^{\sharp}\mathbf{b}^{\sharp}$로 뭉갠다. $nL \to n-1$로 차원이 줄므로 **같은 $\mathbf{a}^{\sharp}$을 주는 $\mathbf{b}^{\sharp}$은 하나가 아니라 $nL-(n-1)$차원 뭉텅이**를 이룬다. 이 뭉텅이가 "$\mathbf{a}^{\sharp}$ 위 fiber"다.
+
+**좌표 분해.** 임의의 $\mathbf{b}^{\sharp}$을 두 조각으로 유일하게 쪼갠다:
+
+$$
+\mathbf{b}^{\sharp} = \underbrace{(\mathbf{A}^{\sharp})^{+}\mathbf{a}^{\sharp}}_{\text{어느 fiber냐 (gap 결정)}} + \underbrace{\mathbf{Z}^{\sharp}\mathbf{z}^{\sharp}}_{\text{그 fiber 안 어디냐 (자유)}}.
+$$
+
+$(\mathbf{A}^{\sharp})^{+}\mathbf{a}^{\sharp}$은 gap이 $\mathbf{a}^{\sharp}$이 되는 대표 낙하 하나(유사역행렬 $(\mathbf{A}^{\sharp})^{+}$가 고름), $\mathbf{Z}^{\sharp}\mathbf{z}^{\sharp}$은 커널 $\ker\mathbf{A}^{\sharp}$ 안에서의 이동이라 gap을 안 바꾼다($\mathbf{A}^{\sharp}\mathbf{Z}^{\sharp}=\mathbf{0}$).
+
+**"각 gap이 z♯에 아핀"의 뜻.** 비교값 $\boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp}$에 이 분해를 넣으면
+
+$$
+\boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp} = \underbrace{\boldsymbol{\alpha}_a\cdot(\mathbf{A}^{\sharp})^{+}\mathbf{a}^{\sharp}}_{\mathbf{z}^{\sharp}\text{과 무관 (상수)}} + \underbrace{\bigl((\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a\bigr)\cdot\mathbf{z}^{\sharp}}_{\mathbf{z}^{\sharp}\text{의 1차항}}.
+$$
+
+그래서 gap은 $\mathbf{z}^{\sharp}$의 아핀함수이고 **기울기가 정확히 $(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a$**다. 이 기울기가 $\mathbf{0}$이면 gap이 $\mathbf{z}^{\sharp}$를 아무리 움직여도 안 변한다 → **degenerate**. 아니면 움직인다 → **nondegenerate**.
+
+**n=3 예로.** 아래 예제의 자유 방향 하나가 "v3의 두 낙하(3번↔6번) 사이 재분배"다. 이걸 따라 $\mathbf{z}^{\sharp}$를 움직이면 v3 총합, 즉 최종 gap $\mathbf{a}^{\sharp}$은 그대로지만, 중간 비교(ρ=5, 3번 낙하만 셈)는 흔들린다. 그래서 중간 비교는 기울기 $\ne\mathbf{0}$ (비퇴화), 끝 비교는 기울기 $=\mathbf{0}$ (퇴화)다.
+
+:::
+
+끝으로
+
+$$
+\kappa_{\mathsf{U}} \;:=\; \min_{i\neq j}\,\inf_{\mathbf{u}\in\overline{\mathsf{U}}}\,\bigl|\Delta_{ij}(\mathbf{u})\bigr|
+$$
+
+를 tie로부터 chamber의 margin으로 둔다: $\kappa_{\mathsf{U}}>0$인 것은 $\overline{\mathsf{U}}$가 compact이고 유한개의 tie 초평면 $\{\mathbf{x} : \Delta_{ij}(\mathbf{x}) = 0\}$과 서로소이며(Claim 3), 각 $|\Delta_{ij}|$가 연속이기 때문이다. 모든 $\mathbf{a}^{\sharp}\in\mathbb{R}^{n-1}$, 상태 $s^{\star}$, $\delta>0$에 대해:
+
+**(I)** 모든 degenerate 비교는 그 gap이 각 fiber에서 상수여서 tube 절단이 닿을 수 없고 또 필요도 없다: $\boldsymbol{\alpha}_a = \mathbf{0}$(branch가 고정하는 결정론적 비교)이거나, $a$가 **final-equality** 타입 $\boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp} = \sum_\ell b^{\sharp}_{i,\ell}-\sum_\ell b^{\sharp}_{j,\ell}$이며, 후자의 값은 임의의 fall shift $\mathbf{A}^{\sharp}\mathbf{b}^{\sharp} = \mathbf{u}-\mathring{\mathbf{h}}(s^{\star})$ ($\mathbf{u}\in \mathsf{U}$)에서 chamber에 고정된다:
+
+$$
+\Delta_{ij}(\mathring{\mathbf{h}}(s^{\star})) + \boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp} \;=\; \Delta_{ij}\bigl(\mathring{\mathbf{h}}(s^{\star})+\mathbf{A}^{\sharp}\mathbf{b}^{\sharp}\bigr) \;=\; \Delta_{ij}(\mathbf{u}),
+\qquad |\Delta_{ij}(\mathbf{u})| \;\geq\; \kappa_{\mathsf{U}} ; \tag{$\ast$}
+$$
+
+**(II)** graph-data 상수 $C_{\mathrm{tie}}<\infty$가 존재하여
+
+$$
+\Bigl|\Bigl\{\mathbf{z}^{\sharp} : \mathbf{b}^{\sharp}\in[0,b]^{nL},\ \min_{a\in\mathsf{A}_{\mathrm{nd}}}|\boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp}+\Delta_{ij}(\mathring{\mathbf{h}}(s^{\star}))|\leq\delta\Bigr\}\Bigr|_{\mathrm{Leb}}\leq C_{\mathrm{tie}}\,\delta ;
+$$
+
+**(III)** graph-data 상수 $C_{\mathrm{bdry}}<\infty$가 존재하여
+
+$$
+\bigl|\bigl\{\mathbf{z}^{\sharp} : \mathbf{b}^{\sharp}\in[0,b]^{nL},\ \textstyle\min_j b^{\sharp}_j\leq\delta\ \text{또는}\ \min_j(b-b^{\sharp}_j)\leq\delta\bigr\}\bigr|_{\mathrm{Leb}}\leq C_{\mathrm{bdry}}\,\delta.
+$$
+
+## 증명
+
+**(I)** Degeneracy $(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a = \mathbf{0}$은 $\boldsymbol{\alpha}_a\perp\ker(\mathbf{A}^{\sharp})$, 즉 $\boldsymbol{\alpha}_a\in\operatorname{Range}((\mathbf{A}^{\sharp})^{\top})$을 뜻한다. $\mathbf{b}^{\sharp}$의 $nL$개 좌표를 노드별로 묶어, $k$번째 **node group**이 $v_k$의 낙하 $L$개 $b^{\sharp}_{k,\ell}$($\ell = 1,\ldots,L$)를 모은다고 하자. fall map의 row space는 각 node group 안에서 상수이고 group 값들의 합이 $0$인 벡터들로 이뤄지므로, $\boldsymbol{\alpha}_a$는 group-constant이고 zero-sum이다. 그런데 statement의 $\boldsymbol{\alpha}_a$ 성분별 정의(처음 $\rho$개 중 $v_i$-낙하에 $+1$, $v_j$-낙하에 $-1$, 그밖에 $0$)에 의해 group-constancy는 all-or-none을 강제한다: 아무 낙하도 세지 않으면 $\boldsymbol{\alpha}_a = \mathbf{0}$(branch가 고정하는 결정론적 비교), 아니면 모든 낙하를 세는 final-equality 타입 $\boldsymbol{\alpha}_a\cdot\mathbf{b}^{\sharp} = \sum_\ell b^{\sharp}_{i,\ell}-\sum_\ell b^{\sharp}_{j,\ell}$이다. 표시된 항등식 $(\ast)$은 착지점 $\mathbf{u}$에서 평가한 $\Delta_{ij}$의 선형성이고, 그 하한은 statement의 $\kappa_{\mathsf{U}}$ 정의다.
+
+**(II)** $\mathsf{A}_{\mathrm{nd}}$는 유한하므로 $\lambda_\ast := \min_{a\in\mathsf{A}_{\mathrm{nd}}}\|(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a\|>0$. $\mathbf{z}^{\sharp}$의 함수로서 각 비교 $\boldsymbol{\alpha}_a\cdot((\mathbf{A}^{\sharp})^{+}\mathbf{a}^{\sharp}+\mathbf{Z}^{\sharp}\mathbf{z}^{\sharp})+\Delta_{ij}(\mathring{\mathbf{h}}(s^{\star}))$는 기울기 $(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a$인 아핀함수이며, $a\in\mathsf{A}_{\mathrm{nd}}$면 그 노름이 $\geq\lambda_\ast$이다. $\mathbf{z}^{\sharp}$-공간을 $(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a/\|(\mathbf{Z}^{\sharp})^{\top}\boldsymbol{\alpha}_a\|$ 방향으로 자르면, 함수는 slice 좌표에 대해 기울기 $\geq\lambda_\ast$인 아핀이므로 $\{|\cdot|\leq\delta\}$는 길이 $\leq 2\delta/\lambda_\ast$인 구간이다. 그리고 비어 있지 않은 각 slice $\{\mathbf{z}^{\sharp} : (\mathbf{A}^{\sharp})^{+}\mathbf{a}^{\sharp}+\mathbf{Z}^{\sharp}\mathbf{z}^{\sharp}\in[0,b]^{nL}\}$는 지름이 $\leq b\sqrt{nL}$이다(두 점의 차 $\mathbf{z}^{\sharp}-\mathbf{z}^{\sharp\prime}$은 $\mathbf{Z}^{\sharp}(\mathbf{z}^{\sharp}-\mathbf{z}^{\sharp\prime})\in[-b,b]^{nL}$이고 $\|\mathbf{z}^{\sharp}-\mathbf{z}^{\sharp\prime}\| = \|\mathbf{Z}^{\sharp}(\mathbf{z}^{\sharp}-\mathbf{z}^{\sharp\prime})\|$). 유계 단면을 적분하고 유한 family에 대해 합하면 (II)를 얻는다.
+
+**(III)** 각 cube 면 $\{b^{\sharp}_j = 0\}$ 또는 $\{b^{\sharp}_j = b\}$는 아핀함수 $\mathbf{e}_j\cdot((\mathbf{A}^{\sharp})^{+}\mathbf{a}^{\sharp}+\mathbf{Z}^{\sharp}\mathbf{z}^{\sharp})$를 기여하며($\mathbf{e}_j\in\mathbb{R}^{nL}$는 $j$번째 표준기저), 그 기울기 $(\mathbf{Z}^{\sharp})^{\top}\mathbf{e}_j\neq \mathbf{0}$이다(아니라면 $\mathbf{e}_j\in\operatorname{Range}((\mathbf{A}^{\sharp})^{\top})$이 되어 (I)의 group-constant zero-sum 특성에 모순). 같은 slicing을 $2nL$개 면에 적용하면 (III)를 얻는다. $\qquad\blacksquare$
+
+::: {.callout-note title="구체 예시: 눈이 흐르는 장면과 계수벡터 맞물려 보기 (n=3, L=2)"}
+
+경로 그래프 `v1 — v2 — v3` (v2의 이웃은 v1, v3). $n=3$, $L=2$ 사이클이니 window에 낙하 $nL=6$번. 시작 높이는 모두 0, $b=1$. cyclic 스케줄이라 낙하가 $v_1, v_2, v_3, v_1, v_2, v_3$ 순서로 떨어진다(아래 표의 ρ 순서). 침전량을 이렇게 잡자($b^{\sharp}_{k,\ell}$ = $v_k$의 $\ell$번째 사이클 낙하):
+
+| ρ (몇째 낙하) | 낙하 | 노드 | 침전량 | 쌓인 뒤 높이 ($v_1, v_2, v_3$) |
+|:---:|:---:|:---:|:---:|:---:|
+| 0 | — | — | — | (0, 0, 0) |
+| 1 | $b^{\sharp}_{1,1}$ | $v_1$ | 0.6 | (0.6, 0, 0) |
+| 2 | $b^{\sharp}_{2,1}$ | $v_2$ | 0.3 | (0.6, 0.3, 0) |
+| 3 | $b^{\sharp}_{3,1}$ | $v_3$ | 0.5 | (0.6, 0.3, 0.5) |
+| 4 | $b^{\sharp}_{1,2}$ | $v_1$ | 0.2 | (0.8, 0.3, 0.5) |
+| 5 | $b^{\sharp}_{2,2}$ | $v_2$ | 0.7 | (0.8, 1.0, 0.5) |
+| 6 | $b^{\sharp}_{3,2}$ | $v_3$ | 0.4 | (0.8, 1.0, 0.9) |
+
+낙하 벡터를 **떨어진 시간순(ρ=1..6)**으로 나열하면:
+
+$$
+\mathbf{b}^{\sharp} = (\,b^{\sharp}_{1,1},\ b^{\sharp}_{2,1},\ b^{\sharp}_{3,1},\ b^{\sharp}_{1,2},\ b^{\sharp}_{2,2},\ b^{\sharp}_{3,2}\,) = (\,0.6,\ 0.3,\ 0.5,\ 0.2,\ 0.7,\ 0.4\,).
+$$
+
+**눈이 흘러가는 장면 (ρ=5 시점).** 5번째 낙하 직후 높이는 (0.8, **1.0**, 0.5). 워커가 방금 눈 맞은 v2에 있다고 하자. 이웃 v1(0.8)과 v3(0.5)이 둘 다 v2보다 낮으니 워커는 아래로 흘러간다(flow step). 어디로 갈지 정하려고 높이 차의 부호를 확인(테스트)한다:
+
+- $\Delta_{21} = h(v_2) - h(v_1) = 1.0 - 0.8 = +0.2$ (v1이 낮음)
+- $\Delta_{23} = h(v_2) - h(v_3) = 1.0 - 0.5 = +0.5$ (v3이 낮음)
+
+둘 다 양수라 워커는 v1이든 v3이든 내려갈 수 있다. 이 "v2가 v3보다 높나?"라는 판정이 바로 비교 $a = (2, 3, \rho{=}5)$이다.
+
+**그 비교의 $\alpha_a$ 만들기.** $a=(2,3,\rho{=}5)$는 "처음 5개 낙하까지 쌓인 눈으로 $v_2$ vs $v_3$ 비교". 규칙은 처음 $\rho$개 낙하 중 $v_i(=v_2)$에 떨어진 침전은 $+1$, $v_j(=v_3)$에 떨어진 침전은 $-1$, 나머지 0. 시간순(ρ=1..6)으로 훑으면:
+
+- ρ=1($v_1$): 0 · ρ=2(**$v_2$**): $+1$ · ρ=3(**$v_3$**): $-1$ · ρ=4($v_1$): 0 · ρ=5(**$v_2$**): $+1$ · ρ=6($v_3$): 아직(ρ=6>5) → 0
+
+$$
+\boldsymbol{\alpha}_a = (\,0,\ +1,\ -1,\ 0,\ +1,\ 0\,) \qquad (\rho=1,\ldots,6 \text{ 순서}).
+$$
+
+**맞물려 확인.** $\boldsymbol{\alpha}_a$와 $\mathbf{b}^{\sharp}$을 같은 시간순으로 내적하면 표에서 읽은 높이 차와 정확히 같다:
+
+$$
+\boldsymbol{\alpha}_a \cdot \mathbf{b}^{\sharp} = 0.3 - 0.5 + 0.7 = 0.5 = \Delta_{23}\ (\rho=5).
+$$
+
+즉 $\boldsymbol{\alpha}_a$는 "처음 $\rho$개 낙하 중 $v_2$에 쌓인 눈 $-$ $v_3$에 쌓인 눈"을 뽑아내는 마스크다. 표의 높이 차를 침전량들의 $\pm1$ 조합으로 다시 쓴 것뿐이다.
+
+**대조: 끝까지 간 비교 ($\rho=6$).** 같은 $v_2$ vs $v_3$을 모든 낙하 뒤($\rho=6$)에 보면 $v_3$의 6번 낙하(0.4)도 포함되어, 마지막 $v_3$ 자리가 $0\to-1$로 켜진다:
+
+$$
+\boldsymbol{\alpha}_a' = (\,0,\ +1,\ -1,\ 0,\ +1,\ -1\,), \qquad \boldsymbol{\alpha}_a'\cdot\mathbf{b}^{\sharp} = 0.3 - 0.5 + 0.7 - 0.4 = 0.1.
+$$
+
+| | $\boldsymbol{\alpha}_a$ ($\rho=5$, 중간) | $\boldsymbol{\alpha}_a'$ ($\rho=6$, 끝) |
+|---|:---:|:---:|
+| $v_3$ 자리(ρ=3,6) 성분 | (−1, **0**) | (−1, −1) |
+| gap 값 | 0.5 | 0.1 |
+| 성격 | $v_3$ 눈 일부만 셈 (부분합) | $v_3$ 눈 전부 셈 (총합) |
+
+$\rho=5$에선 $v_3$이 아직 두 번째 눈(0.4)을 안 받아 gap이 0.5로 커 보이지만, $\rho=6$에서 그 눈이 떨어지면 0.1로 줄어든다. 중간 비교($\rho=5$)는 부분합이라 아직 안 떨어진 눈에 따라 흔들리고, 끝 비교($\rho=6$)는 총합이라 fall map이 고정한 최종값이다. 이게 위 (I)의 퇴화/비퇴화와 정확히 연결된다. 시간순 벡터를 **노드별로 묶어**($v_1$은 ρ=1,4 자리 / $v_2$는 ρ=2,5 / $v_3$은 ρ=3,6) 보면:
+
+- $\boldsymbol{\alpha}_a'$ (끝) $= (0,+1,-1,0,+1,-1)$: $v_2$ 자리 둘 다 $+1$, $v_3$ 자리 둘 다 $-1$, $v_1$ 자리 둘 다 0 → 각 노드군 안에서 **상수**, 합 0 → **퇴화(final-equality)**
+- $\boldsymbol{\alpha}_a$ (중간) $= (0,+1,-1,0,+1,0)$: $v_3$ 자리가 $(-1, 0)$으로 **상수가 아님** → **비퇴화**
+
+즉 "언제($\rho$) 비교하느냐"가 $\boldsymbol{\alpha}_a$의 0/±1 패턴을 정하고, 그 패턴을 노드별로 묶었을 때 각 군이 상수(+합0)인지 아닌지가 퇴화/비퇴화를 가른다.
+
+:::
