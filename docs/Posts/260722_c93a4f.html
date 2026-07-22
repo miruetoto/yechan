@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="유진">
+<meta name="author" content="리이">
 <meta name="dcterms.date" content="2026-07-22">
 
-<title>연구 ▷ HST ▷ [팟캐스트] 눈은 그래프의 저항을 재고 있었다 — snow 극한 = 커뮤트타임 거리? – 신록예찬’s Blog</title>
+<title>연구 ▷ HST ▷ [팟캐스트] 눈이 재던 건 그래프의 전기저항이었다 — 균형레짐 눈극한 = 커뮤트타임 – 신록예찬’s Blog</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -192,7 +192,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">연구 ▷ HST ▷ [팟캐스트] 눈은 그래프의 저항을 재고 있었다 — snow 극한 = 커뮤트타임 거리?</h1>
+<h1 class="title">연구 ▷ HST ▷ [팟캐스트] 눈이 재던 건 그래프의 전기저항이었다 — 균형레짐 눈극한 = 커뮤트타임</h1>
 </div>
 
 
@@ -202,7 +202,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>유진 </p>
+             <p>리이 </p>
           </div>
   </div>
     
@@ -221,121 +221,88 @@ window.Quarto = {
 </header>
 
 
-<p><em>이 글은 연(연구팀)의 연구노트 「The Balanced Heavy-Snow Limit as an Effective-Resistance / Commute-Time Distance」(v0.1, 2026-07-22)를 두 진행자의 대화 팟캐스트 형식으로 옮긴 것이다. 결론은 아직 <strong>추측(conjecture)이자 leading-order 근사</strong>이며 수치적으로 강하다는 노트의 지위를 그대로 유지한다.</em></p>
+<p><em>이 글은 연(연구팀)의 연구노트 「The Balanced (Tier 2) Heavy-Snow Limit as an Effective-Resistance / Commute-Time Distance」(v0.1, 2026-07-22)를 두 진행자 대화로 옮긴 것이다. 결론은 아직 <strong>추측(conjecture)이자 leading-order 근사</strong>이며, 수치적으로 매우 강하지만 증명되진 않았다는 노트의 지위를 그대로 유지한다. 대상은 <strong>블록이 있는 full HST의 균형(Tier 2) 레짐</strong>이며, 블록 없는 <span class="math inline">\(\mathrm{HST}_0\)</span>(자매 노트)와는 다르다.</em></p>
 <hr>
-<p><strong>진행</strong> — 안녕하세요, 눈사람 라디오입니다. 오늘은 연 연구원의 따끈한 노트를 풀어봅니다. 한 문장으로 하면요?</p>
-<p><strong>해설</strong> — “눈(snow)이 쌓이면서 만드는 거리(距離)가, 알고 보니 그래프를 <strong>전기회로</strong>로 봤을 때의 <strong>유효저항</strong>이더라.” 이거예요.</p>
-<p><strong>진행</strong> — 눈이랑 전기저항이요? 그게 어떻게 연결돼요.</p>
-<p><strong>해설</strong> — 순서대로 가죠. HST(Heavy-Snow Transform)에서 각 노드에 눈이 쌓이고, 두 노드 <span class="math inline">\(i,j\)</span>의 높이차를 제곱해 누적한 게 snow distance <span class="math inline">\(\mathrm{SD}^2_{ij}(t)\)</span>입니다. <strong>균형레짐</strong>(Tier 2, 모든 노드 점유율 <span class="math inline">\(\rho_i\equiv 1/n\)</span>)에서 이걸 시간으로 나누면 수렴해요:</p>
-<p><span class="math display">\[\frac{\mathrm{SD}_{ij}^2(t)}{t}\;\xrightarrow[t\to\infty]{}\;c_{ij}=\mathbb{E}_\pi\bigl[(\delta_i-\delta_j)^2\bigr].\]</span></p>
-<p><span class="math inline">\(\delta_i\)</span>는 정상상태에서의 노드 <span class="math inline">\(i\)</span> 높이차 요동이고, <span class="math inline">\(\pi\)</span>는 walker의 정상분포. 이 <span class="math inline">\(c_{ij}\)</span> 행렬이 “snow 극한의 기하”를 통째로 담고 있습니다.</p>
-<p><strong>진행</strong> — 그 <span class="math inline">\(c_{ij}\)</span>가 저항이다?</p>
-<p><strong>해설</strong> — 정확히는 <strong>그래프 클래스에 딸린 스칼라 <span class="math inline">\(\kappa_{\mathcal G}\)</span> 하나 곱하기 유효저항</strong>이라는 게 이 노트의 주장(추측)입니다:</p>
-<p><span class="math display">\[c_{ij}\;=\;\kappa_{\mathcal G}\,R_{\mathrm{eff}}(i,j)\;=\;\frac{\kappa_{\mathcal G}}{2m}\,\mathrm{Cm}(i,j).\]</span></p>
-<p><span class="math inline">\(R_{\mathrm{eff}}(i,j)\)</span>는 그래프를 단위 전도도 회로로 볼 때 <span class="math inline">\(i,j\)</span> 사이 유효저항, <span class="math inline">\(\mathrm{Cm}\)</span>은 랜덤워크의 커뮤트타임(왕복 시간)인데 <span class="math inline">\(\mathrm{Cm}=2m\,R_{\mathrm{eff}}\)</span> (Chandra 등)이라 사실상 같은 얘기예요. <span class="math inline">\(m\)</span>은 엣지 수.</p>
-<p><strong>진행</strong> — “커뮤트타임”이 왕복시간이면 — 균형 snow 거리가 곧 “두 노드를 왕복하는 데 걸리는 시간”의 척도다?</p>
-<p><strong>해설</strong> — 스케일 <span class="math inline">\(\sqrt{\kappa_{\mathcal G}}\)</span> 빼면 그렇죠. <span class="math inline">\(\sqrt{c_{ij}}\)</span>가 저항거리 <span class="math inline">\(\sqrt{R_{\mathrm{eff}}}\)</span>, 즉 재스케일된 커뮤트타임 거리다. 그리고 이걸 <strong>두 개의 독립적인 이유</strong>로 설명합니다.</p>
-<section id="경로-1-공분산-항등식-정확무조건" class="level2">
-<h2 class="anchored" data-anchor-id="경로-1-공분산-항등식-정확무조건">경로 1 — 공분산 항등식 (정확·무조건)</h2>
-<p><strong>진행</strong> — 첫 번째 이유부터.</p>
-<p><strong>해설</strong> — 이건 <strong>가정이 하나도 안 들어가는</strong> 부분이에요. <span class="math inline">\(c_{ij}\)</span>는 사실 <span class="math inline">\(L^2(\pi)\)</span> 공간에서의 “제곱거리 행렬”입니다. Gram 행렬 <span class="math inline">\(\mathbf G_{ij}=\mathbb{E}_\pi[\delta_i\delta_j]\)</span>로 쓰면</p>
-<p><span class="math display">\[c_{ij}=\mathbb{E}_\pi[(\delta_i-\delta_j)^2]=\mathbf G_{ii}+\mathbf G_{jj}-2\mathbf G_{ij}.\]</span></p>
-<p>여기에 <strong>이중 센터링</strong>(double-centering) <span class="math inline">\(\mathbf J=\mathbf I-\tfrac1n\mathbf 1\mathbf 1^\top\)</span>을 씌우면 — 이게 고전 MDS의 Gower 항등식인데 — 정상 공분산이 <strong>정확히</strong> 복원됩니다:</p>
-<p><span class="math display">\[-\tfrac12\,\mathbf J\,\mathbf C\,\mathbf J=\mathbf J\,\mathbf G\,\mathbf J=\operatorname{Cov}_\pi(\delta)=\boldsymbol\Sigma.\]</span></p>
-<p><strong>진행</strong> — 왜 “정확”인가요? 보통 이런 건 근사잖아요.</p>
-<p><strong>해설</strong> — 센터링이 <span class="math inline">\(\mathbf 1 d^\top,\ d\mathbf 1^\top\)</span> 두 rank-1 항을 <span class="math inline">\(\mathbf J\mathbf 1=\mathbf 0\)</span>으로 지워버려서요. 게다가 <strong>균형레짐이라 노드별 평균 <span class="math inline">\(\mathbb{E}_\pi[\delta_i]\)</span>가 다 같아서</strong> 센터링 후 평균항이 안 남습니다. 그래서 조건 없이 성립해요.</p>
-<p><strong>진행</strong> — 그게 저항이랑 어떻게 이어지죠.</p>
-<p><strong>해설</strong> — 저항 행렬 <span class="math inline">\(\mathbf R=[R_{\mathrm{eff}}(i,j)]\)</span>도 <strong>똑같은 꼴</strong>의 항등식을 만족하거든요 — <span class="math inline">\(-\tfrac12\mathbf J\mathbf R\mathbf J=\mathbf L^{+}\)</span> (Bapat, <span class="math inline">\(\mathbf L^+\)</span>는 라플라시안 유사역행렬). 그러니</p>
-<p><span class="math display">\[\boldsymbol\Sigma=\kappa_{\mathcal G}\mathbf L^{+}\quad\Longleftrightarrow\quad c_{ij}=\kappa_{\mathcal G}R_{\mathrm{eff}}(i,j)\]</span></p>
-<p><strong>두 진술이 이중 센터링 후 완전히 같은 말</strong>이 됩니다. 즉 “snow 극한이 커뮤트타임 거리냐?”는 질문이 정확히 “정상 요동 공분산이 라플라시안 유사역행렬이냐?”로 바뀌는 거예요.</p>
-</section>
-<section id="경로-2-왜-하필-저항이-자연스러운가-스펙트럼" class="level2">
-<h2 class="anchored" data-anchor-id="경로-2-왜-하필-저항이-자연스러운가-스펙트럼">경로 2 — 왜 하필 저항이 자연스러운가 (스펙트럼)</h2>
-<p><strong>진행</strong> — 두 번째 이유는 “그럴 수밖에 없다”는 쪽이라고요.</p>
-<p><strong>해설</strong> — 네, 스펙트럼으로요. 확산(열흐름) 제곱거리를 스케일 <span class="math inline">\(s\)</span>에서</p>
-<p><span class="math display">\[DD_s^2(i,j)=\sum_{k\ge2}e^{-2\lambda_k s}\bigl(u_k(i)-u_k(j)\bigr)^2\]</span></p>
-<p>라 쓸게요 (<span class="math inline">\(\lambda_k,u_k\)</span>는 라플라시안 고유쌍). 이걸 <strong>시간으로 전부 적분</strong>하면 각 모드가 <span class="math inline">\(\int_0^\infty e^{-2\lambda_k s}\,ds=\tfrac1{2\lambda_k}\)</span>로 접혀서</p>
-<p><span class="math display">\[\int_0^\infty DD_s^2(i,j)\,ds=\sum_{k=2}^{n}\frac1{2\lambda_k}\bigl(u_k(i)-u_k(j)\bigr)^2=\tfrac12\,R_{\mathrm{eff}}(i,j).\]</span></p>
-<p><strong>진행</strong> — 오, 유효저항이 “모든 시간스케일의 확산거리를 다 합친 것”이네요.</p>
-<p><strong>해설</strong> — 바로 그겁니다. 그리고 heavy-snow 높이 과정도 <strong>똑같이 시간에 걸쳐 제곱차를 누적</strong>해요 — <span class="math inline">\(\mathrm{SD}^2_{ij}(t)=\sum_{s\le t}(h_i(s)-h_j(s))^2\)</span>가 말 그대로 running time-integral이거든요. 그러니 per-time 극한이 저 <span class="math inline">\(\sum_k \lambda_k^{-1}\)</span> 스펙트럼 가중을 물려받는 거죠. 즉 <strong>저항 형태</strong>. 스칼라 <span class="math inline">\(\kappa_{\mathcal G}\)</span>는 pair랑 무관한 누적률(<span class="math inline">\(\bar b\)</span>, 점유율)을 흡수한 상수고요.</p>
-<p><strong>진행</strong> — 그럼 저항은 여러 “그래프 거리” 중 하나인 거네요.</p>
-<p><strong>해설</strong> — 맞아요, 스펙트럼 필터 족 <span class="math inline">\(d_f^2(i,j)=\sum_{k\ge2}f(\lambda_k)(u_k(i)-u_k(j))^2\)</span> 안에서 봅니다:</p>
-<ul>
-<li><strong>저항</strong>: <span class="math inline">\(f(\lambda)=1/\lambda\)</span></li>
-<li><strong>확산</strong>: <span class="math inline">\(f(\lambda)=e^{-t\lambda}\)</span></li>
-<li><strong><span class="math inline">\(\mathrm{HST}_0\)</span></strong>(블록 없는 동차 변형, HST 족 중 전이행렬이 시간동차라 Brémaud의 fundamental matrix <span class="math inline">\(\mathbf Z\)</span>가 정의되고 진짜 닫힌형이 나오는 유일 케이스): <span class="math inline">\(f(\lambda)=\tfrac{1+\lambda}{1-\lambda}=\tfrac{2}{1-\lambda}-1\)</span>, “이동된(shifted) 저항 커널”.</li>
-</ul>
-<p>전부 라플라시안 스펙트럼의 매끄러운 함수인데, <strong>균형 full-HST 극한은 그중 저항 노드 <span class="math inline">\(f(\lambda)=1/\lambda\)</span>에 스케일 빼고 딱 앉는다</strong>는 겁니다.</p>
-</section>
-<section id="숫자는-뭐라고-하나" class="level2">
-<h2 class="anchored" data-anchor-id="숫자는-뭐라고-하나">숫자는 뭐라고 하나</h2>
-<p><strong>진행</strong> — 그래서 실제로 맞아요?</p>
-<p><strong>해설</strong> — 경로 1 덕에 검증이 아주 직접적이에요. 시뮬로 <span class="math inline">\(\widehat{\mathbf C}\)</span> 추정 → <span class="math inline">\(\widehat{\boldsymbol\Sigma}=-\tfrac12\mathbf J\widehat{\mathbf C}\mathbf J\)</span> 만들고 → 이게 <span class="math inline">\(\mathbf L^+\)</span>에 얼마나 가까운지 재면 됩니다. 연 연구원 진단(model AAA, degree-proportional <span class="math inline">\(\mu_0\)</span>, <span class="math inline">\(t=2\times10^{6}\)</span>), 세 개의 균형·정점추이(vertex-transitive) 그래프:</p>
+<p><strong>진행</strong> — 눈사람 라디오, 오늘 두 번째 노트입니다. 한 문장으로요?</p>
+<p><strong>해설</strong> — HST를 균형레짐에서 돌렸을 때 눈이 만드는 거리가, 알고 보니 그래프를 <strong>전기회로</strong>로 봤을 때의 <strong>유효저항(커뮤트타임)</strong> 거리더라 — 이겁니다. 단, <strong>추측</strong>이에요.</p>
+<p><strong>진행</strong> — 출발점부터요.</p>
+<p><strong>해설</strong> — 균형레짐(Tier 2, 모든 점유율 <span class="math inline">\(\rho_i\equiv 1/n\)</span>)에서 정규화한 눈거리가 수렴합니다:</p>
+<p><span class="math display">\[
+\frac{\mathrm{SD}^2_{ij}(t)}{t}\ \xrightarrow[t\to\infty]{}\ c_{ij}=\mathbb{E}_\pi\bigl[(\delta_i-\delta_j)^2\bigr],
+\]</span></p>
+<p><span class="math inline">\(\delta_i\)</span>는 정상상태에서 노드 <span class="math inline">\(i\)</span>의 높이차 요동이에요. 이 행렬 <span class="math inline">\(\mathbf{C}=[c_{ij}]\)</span>가 “눈극한의 기하”를 통째로 담습니다.</p>
+<p><strong>진행</strong> — 그리고 저항이 등장하는군요.</p>
+<p><strong>해설</strong> — 그래프를 단위 전도도 회로로 보면 두 노드 사이 <strong>유효저항</strong>이 <span class="math inline">\(R_{\mathrm{eff}}(i,j)=(e_i-e_j)^\top \mathbf{L}^+(e_i-e_j)=\sum_{k\ge2}\frac{1}{\lambda_k}(u_k(i)-u_k(j))^2\)</span>이고, 랜덤워크의 <strong>커뮤트타임</strong>은 <span class="math inline">\(\mathrm{Cm}(i,j)=2m\,R_{\mathrm{eff}}(i,j)\)</span>입니다(Chandra 외). 노트의 추측은 딱 한 줄 비례예요:</p>
+<p><span class="math display">\[
+c_{ij}=\kappa_{\mathcal{G}}\,R_{\mathrm{eff}}(i,j)=\frac{\kappa_{\mathcal{G}}}{2m}\,\mathrm{Cm}(i,j),\qquad\text{동치로}\quad \mathbf{\Sigma}:=\mathrm{Cov}_\pi(\delta)=\kappa_{\mathcal{G}}\,\mathbf{L}^+.
+\]</span></p>
+<p><span class="math inline">\(\kappa_{\mathcal{G}}\)</span>는 그래프(클래스)에만 의존하고 쌍 <span class="math inline">\((i,j)\)</span>엔 안 변하는 스칼라예요. 그러니 균형 눈거리 <span class="math inline">\(\sqrt{c_{ij}}\)</span>는 <strong>딱 한 스케일 <span class="math inline">\(\sqrt{\kappa_{\mathcal{G}}}\)</span>만 빼면 저항거리</strong> <span class="math inline">\(\sqrt{R_{\mathrm{eff}}}\)</span>입니다.</p>
+<p><strong>진행</strong> — 왜 그렇게 믿는지, 근거가 둘이라면서요.</p>
+<p><strong>해설</strong> — 네. 첫째는 <strong>정확하고 무조건 성립하는 공분산 항등식</strong>입니다. <span class="math inline">\(c_{ij}=\mathbb{E}_\pi[(\delta_i-\delta_j)^2]=G_{ii}+G_{jj}-2G_{ij}\)</span> 꼴의 제곱거리 행렬이에요(<span class="math inline">\(G\)</span>는 그람행렬). 여기에 double-centering <span class="math inline">\(\mathbf{J}=\mathbf{I}-\frac1n\mathbf{1}\mathbf{1}^\top\)</span>을 씌우면(Gower의 고전 MDS 항등식) 정상 공분산이 <strong>정확히</strong> 복원됩니다:</p>
+<p><span class="math display">\[
+-\tfrac12\,\mathbf{J}\mathbf{C}\mathbf{J}=\mathrm{Cov}_\pi(\delta)=\mathbf{\Sigma}.
+\]</span></p>
+<p>그런데 저항행렬도 똑같이 <span class="math inline">\(-\tfrac12\,\mathbf{J}\mathbf{R}\mathbf{J}=\mathbf{L}^+\)</span>이거든요(Bapat). 그래서</p>
+<p><span class="math display">\[
+\mathbf{\Sigma}=\kappa_{\mathcal{G}}\mathbf{L}^+\ \Longleftrightarrow\ c_{ij}=\kappa_{\mathcal{G}}R_{\mathrm{eff}}(i,j)
+\]</span></p>
+<p>이 둘은 double-centering 뒤엔 <strong>완전히 같은 말</strong>입니다. 즉 “눈극한이 커뮤트타임 거리냐?”는 질문은 “정상 요동 공분산이 라플라시안 유사역이냐?”와 정확히 같은 질문이에요.</p>
+<p><strong>진행</strong> — 그건 등가성이지 “왜 하필 저항”인지는 아니잖아요.</p>
+<p><strong>해설</strong> — 그게 둘째 근거, <strong>스펙트럴</strong>입니다. 스케일 <span class="math inline">\(s\)</span>에서 확산(열흐름) 제곱거리를 <span class="math inline">\(DD^2_s(i,j)=\sum_{k\ge2}e^{-2\lambda_k s}(u_k(i)-u_k(j))^2\)</span>라 두면, 이걸 시간에 대해 전부 적분할 때 각 모드가 <span class="math inline">\(\int_0^\infty e^{-2\lambda_k s}\,ds=\frac{1}{2\lambda_k}\)</span>로 붕괴합니다:</p>
+<p><span class="math display">\[
+\int_0^\infty DD^2_s(i,j)\,ds=\sum_{k=2}^{n}\frac{1}{2\lambda_k}(u_k(i)-u_k(j))^2=\tfrac12 R_{\mathrm{eff}}(i,j).
+\]</span></p>
+<p><strong>즉 유효저항 = 모든 시간스케일에 걸친 확산거리의 누적</strong>이에요. 그런데 눈 높이과정은 <span class="math inline">\(\mathrm{SD}^2_{ij}(t)=\sum_{s\le t}(h_i(s)-h_j(s))^2\)</span>로 <strong>말 그대로 시간적분을 돌리는 중</strong>이라, 그 per-time 극한이 <span class="math inline">\(\sum_k \lambda_k^{-1}\)</span> 가중치, 곧 저항 꼴을 물려받는 게 자연스럽습니다. <span class="math inline">\(\kappa_{\mathcal{G}}\)</span>는 쌍과 무관한 누적률(<span class="math inline">\(\bar b\)</span>, 점유)을 흡수하는 스칼라고요.</p>
+<p><strong>진행</strong> — 그러면 자매 노트 <span class="math inline">\(\mathrm{HST}_0\)</span>랑은 어떻게 다르죠?</p>
+<p><strong>해설</strong> — 둘 다 스펙트럴 필터 패밀리에 사는데, 저항은 <span class="math inline">\(f(\lambda)=1/\lambda\)</span> <strong>정확히 그 노드</strong>에 앉고, 블록 없는 <span class="math inline">\(\mathrm{HST}_0\)</span>는 <span class="math inline">\(\frac{1+\lambda}{1-\lambda}=\frac{2}{1-\lambda}-1\)</span>이라 <strong>살짝 이동된 저항</strong>이에요. 균형 full-HST가 순수 저항, <span class="math inline">\(\mathrm{HST}_0\)</span>가 이동된 저항 — 이웃한 자리입니다.</p>
+<p><strong>진행</strong> — 수치는요.</p>
+<p><strong>해설</strong> — 이게 강력해요. <span class="math inline">\(\hat{\mathbf{C}}\)</span>를 시뮬로 추정하고 <span class="math inline">\(\hat{\mathbf{\Sigma}}=-\tfrac12\mathbf{J}\hat{\mathbf{C}}\mathbf{J}\)</span>를 만들어 <span class="math inline">\(\mathbf{L}^+\)</span>와 얼마나 가까운지 봤더니(model AAA, <span class="math inline">\(t=2\times10^6\)</span>, 정점추이 그래프 3종):</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 16%">
-<col style="width: 27%">
-<col style="width: 27%">
-<col style="width: 27%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>그래프</th>
-<th style="text-align: center;">corr<span class="math inline">\((-\tfrac12\mathbf J\mathbf C\mathbf J,\ \mathbf L^{+})\)</span></th>
-<th style="text-align: center;">corr<span class="math inline">\((\operatorname{pinv}(\boldsymbol\Sigma),\ \mathbf L)\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(\kappa_{\mathcal G}\)</span></th>
+<th><span class="math inline">\(\mathrm{corr}(-\tfrac12\mathbf{J}\mathbf{C}\mathbf{J},\ \mathbf{L}^+)\)</span></th>
+<th><span class="math inline">\(\kappa_{\mathcal{G}}\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Petersen</td>
-<td style="text-align: center;">0.9998</td>
-<td style="text-align: center;">0.9998</td>
-<td style="text-align: center;">0.832</td>
+<td>0.9998</td>
+<td>0.832</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(C_{12}\)</span></td>
-<td style="text-align: center;">0.9998</td>
-<td style="text-align: center;">0.9990</td>
-<td style="text-align: center;">0.615</td>
+<td>0.9998</td>
+<td>0.615</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(C_{20}\)</span></td>
-<td style="text-align: center;">0.9998</td>
-<td style="text-align: center;">0.9987</td>
-<td style="text-align: center;">0.587</td>
+<td>0.9998</td>
+<td>0.587</td>
 </tr>
 </tbody>
 </table>
-<p><strong>진행</strong> — 0.9998이면 거의…</p>
-<p><strong>해설</strong> — 세 그래프 전부에서 공분산이 <span class="math inline">\(\mathbf L^+\)</span>를 상관 0.9998로 따라가요. 1% 안쪽으로 저항 형태가 성립. 그리고 복원된 <span class="math inline">\(\kappa_{\mathcal G}\)</span>가 진짜 그래프 클래스 상수처럼 나와요(Petersen 0.83, 사이클들 0.59–0.62) — pair랑 무관하다는 추측이랑 맞고요. 참고로 순수 대수 <span class="math inline">\(\operatorname{pinv}(-\tfrac12\mathbf J\mathbf R\mathbf J)=\mathbf L\)</span> 자체는 기계정밀도(<span class="math inline">\(10^{-15}\)</span>)로 정확합니다.</p>
-</section>
-<section id="그래서-뭐가-좋아지나" class="level2">
-<h2 class="anchored" data-anchor-id="그래서-뭐가-좋아지나">그래서 뭐가 좋아지나</h2>
-<p><strong>해설</strong> — 두 가지요. 하나, <strong>그래프 복원</strong>. 추측이 맞으면 <span class="math inline">\(\mathbf C\)</span>에서 <span class="math inline">\(\mathbf L\)</span>을 닫힌형으로 스케일 빼고 복원해요:</p>
-<p><span class="math display">\[\operatorname{pinv}\!\bigl(-\tfrac12\mathbf J\mathbf C\mathbf J\bigr)=\kappa_{\mathcal G}^{-1}\mathbf L.\]</span></p>
-<p>고윳값 중복 장애물 없이 위상과 상대 엣지 가중을 정확히 — 이게 Snow-Inversion 정리이고, 이 노트가 그 가설과 수치 뒷받침을 대는 거죠. 거꾸로 읽으면: snow 극한이 커뮤트타임 거리고, 커뮤트타임은 저항 네트워크 전체를 담으니까 — <strong>균형 snow 기하가 그래프를 “안다”.</strong></p>
-<p><strong>진행</strong> — 둘째는요.</p>
-<p><strong>해설</strong> — <strong>전기회로 도구상자를 통째로 수입</strong>할 수 있어요. 직렬/병렬 법칙, Rayleigh 단조성, Spielman–Srivastava 희소화 — 이게 전부 균형 snow 거리에 대한 진술로 넘어옵니다.</p>
-</section>
-<section id="어디서-깨지나-정직하게" class="level2">
-<h2 class="anchored" data-anchor-id="어디서-깨지나-정직하게">어디서 깨지나 (정직하게)</h2>
-<p><strong>진행</strong> — 너무 좋은데, 함정은요?</p>
-<p><strong>해설</strong> — 노트가 아주 솔직해요. 네 가지:</p>
-<ol type="1">
-<li><strong>Leading order + 아직 추측.</strong> <span class="math inline">\(t\to\infty\)</span> per-time 극한에서만이고, 수치는 강하지만 증명은 아직. 열린 건 스칼라 <span class="math inline">\(\kappa_{\mathcal G}\)</span>, 그리고 비례 자체가 프로그램의 Part-2 저항형태 추측입니다.</li>
-<li><strong>비가역성 갭.</strong> HST walker는 downstream 필터를 써서 <strong>가역(reversible)이 아니에요.</strong> 저항 형태는 가역 사슬의 대상이라, 그 차이가 위 상관의 잔차 <span class="math inline">\(\sim 0.0002\)</span>로 나타나요. 가역 극한(<span class="math inline">\(b\to0\)</span>, “Direction M”)이면 갭이 0으로 가야 하고, 정확한 비가역 보정은 대칭 <span class="math inline">\(\mathbf L^+\)</span>가 아니라 두 번째 fundamental matrix <span class="math inline">\(\mathbf Z\)</span>(“Direction K”)가 필요합니다.</li>
-<li><strong>드리프트 레짐에선 실패.</strong> 균형을 벗어나면(<span class="math inline">\(\rho_i\ne\rho_j\)</span>) 센터링에서 평균항이 안 지워지고, 극한이 드리프트 상수 <span class="math inline">\(\bar b^2(\rho_i-\rho_j)^2/3\)</span>가 돼요 — 이건 저항 형태가 <strong>아닙니다</strong>(과도 스펙트럼 없이 <span class="math inline">\(\pi\)</span>만 씀). 커뮤트타임 해석은 <strong>균형레짐 현상</strong>이에요.</li>
-<li><strong>큰 그래프 퇴화.</strong> 그래프가 커지면 유효저항이 <span class="math inline">\(R_{\mathrm{eff}}(i,j)\to 1/d_i+1/d_j\)</span>로 퇴화해 전역 기하를 잃어요(von Luxburg 등 2014). snow 극한의 커뮤트타임 해석도 이걸 물려받으니, 중간 크기 그래프에서 유효하지 <span class="math inline">\(n\to\infty\)</span>로 무작정 가면 안 됩니다.</li>
-</ol>
-<p><strong>진행</strong> — 정리하면 — 균형레짐에서 눈이 쌓이며 만드는 거리는, 스칼라 하나 빼면 그래프의 유효저항/커뮤트타임 거리다. 공분산 이중센터링으로 exact하게 이어지고, 스펙트럼으로 “시간적분된 확산거리 = 저항”이라 자연스럽고, 수치로 0.9998. 단 비가역성·드리프트·큰 그래프는 주의.</p>
-<p><strong>해설</strong> — 완벽한 요약입니다. 아직 v0.1 추측 단계라는 것만 기억하시고요.</p>
-<p><strong>진행</strong> — 오늘은 여기까지. 눈사람 라디오였습니다.</p>
-<hr>
-<p><em>(연(연구팀) 노트 260722_연_snowlimit_commute_resistance.tex v0.1의 팟캐스트 소개. 세 책상 자료 — snow_inversion.tex(이중센터링), 260603 진단(수치), hst0_variance_via_Z.tex(스펙트럼 필터) — 의 종합이다. 결론은 leading-order 추측·수치적 강함으로, 원 노트의 지위를 그대로 옮겼다.)</em></p>
+<p>셋 다 <strong>0.9998</strong>, 즉 저항 꼴이 1퍼센트의 몇 분의 일 오차로 성립합니다. 게다가 복원된 <span class="math inline">\(\kappa_{\mathcal{G}}\)</span>가 그래프-클래스 상수답게 나와요(Petersen 0.83, cycle 0.59–0.62 — 쌍마다 안 변함).</p>
+<p><strong>진행</strong> — 이게 맞으면 뭘 할 수 있죠?</p>
+<p><strong>해설</strong> — <strong>그래프 복원</strong>이에요. 추측이 성립하면 <span class="math inline">\(\mathbf{C}\)</span>가 라플라시안을 스케일 빼고 결정합니다: <span class="math inline">\(\mathrm{pinv}(-\tfrac12\mathbf{J}\mathbf{C}\mathbf{J})=\kappa_{\mathcal{G}}^{-1}\mathbf{L}\)</span>. 고유값 중복 장애물 없이 위상과 상대 간선가중치를 그대로요(Snow-Inversion). 뒤집어 읽으면, 눈극한이 커뮤트타임 거리라서 <strong>균형 눈기하가 그래프를 “안다”</strong>는 거죠. 덤으로 전기회로 도구(직·병렬 법칙, Rayleigh 단조성, Spielman–Srivastava 희소화)를 눈거리 명제로 그대로 수입할 수 있고요.</p>
+<p><strong>진행</strong> — 마지막으로, 안 되는 데를 정직하게.</p>
+<p><strong>해설</strong> — 네 가지 caveat이 명시돼 있어요.</p>
+<ul>
+<li><strong>① 추측 + leading-order뿐.</strong> <span class="math inline">\(t\to\infty\)</span> per-time 극한에 대한 얘기고, 수치는 강하지만 아직 증명 안 됐습니다. <span class="math inline">\(\kappa_{\mathcal{G}}\)</span>도 미정.</li>
+<li><strong>② 비가역 gap.</strong> HST walker는 downstream 필터라 <strong>가역이 아닌데</strong> 저항 꼴은 가역 대상이에요. 그 차이가 위 상관의 잔차 <span class="math inline">\(\sim0.0002\)</span>로 나타납니다. <span class="math inline">\(b\to0\)</span>(“방향 M”)이면 가역극한으로 gap이 0으로 가야 하고, 정확한 비가역 보정은 대칭 <span class="math inline">\(\mathbf{L}^+\)</span>가 아니라 두 번째 기본행렬 <span class="math inline">\(\mathbf{Z}\)</span>(“방향 K”)가 필요합니다.</li>
+<li><strong>③ drift 레짐은 저항 아님.</strong> 균형을 벗어나면(<span class="math inline">\(\rho_i\neq\rho_j\)</span>) 평균항이 centering에서 안 죽고, 극한은 drift 상수 <span class="math inline">\(\bar b^2(\rho_i-\rho_j)^2/3\)</span> — 이건 <span class="math inline">\(\pi\)</span>만 쓰고 과도 스펙트럼을 안 써서 저항 꼴이 아니에요. 커뮤트타임 해석은 <strong>균형레짐 현상</strong>입니다.</li>
+<li><strong>④ 큰 그래프 퇴화.</strong> 그래프가 커지면 유효저항이 <span class="math inline">\(R_{\mathrm{eff}}(i,j)\to 1/d_i+1/d_j\)</span>로 퇴화해 전역 기하를 잃습니다(von Luxburg 외). 그러니 이 항등식은 중간 크기 그래프에서 유용하지, <span class="math inline">\(n\to\infty\)</span>로 무작정 밀면 안 돼요.</li>
+</ul>
+<p><strong>진행</strong> — 한 문장 정리.</p>
+<p><strong>해설</strong> — <strong>균형레짐에서 눈이 재는 거리는, leading-order로 그래프의 유효저항·커뮤트타임 거리와 같아 보인다 — 정확한 공분산 항등식과 “저항=확산의 시간적분”이라는 두 근거, 그리고 corr 0.9998의 수치가 뒷받침한다. 단 아직 추측이고, 비가역·drift·큰그래프에서는 조심해야 한다.</strong></p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

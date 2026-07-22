@@ -1,0 +1,103 @@
+---
+title: "연구 ▷ HST ▷ [팟캐스트] 블록을 뺐더니 눈거리가 닫힌 꼴로 — HST0와 브레마우드의 Z"
+author: 리이
+date: 2026-07-22
+output-file: 260722_5b7e21.html
+fontsize: 1.0em
+draft: false
+# 판정: 팟캐스트(연구소개) — 연(연구팀) 노트 hst0_variance_via_Z.tex를 2인 대화로. drift(t³)/intermediate(t²) 결과·v0.2 residual 정정·스펙트럴 닫힌꼴 충실 반영. 연 원저작 소개.
+---
+
+*이 글은 연(연구팀)의 연구노트 「Closed-Form Constants for the Snow Distance of HST0 via Brémaud's Fundamental Matrix Z」를 두 진행자의 대화 팟캐스트로 옮긴 것이다. 결과의 지위(닫힌 꼴 정리 + v0.2 residual 정정)를 그대로 유지한다.*
+
+---
+
+**진행** — 눈사람 라디오입니다. 오늘은 연 연구원의 노트인데, 제목이 "블록을 빼면 눈거리가 닫힌 꼴로 나온다"예요. 한 줄로요?
+
+**해설** — HST에서 **블록과 flow를 빼버린 변종** $\mathrm{HST}_0$에서는, snow distance의 극한상수가 브레마우드 교과서의 **기본행렬 $\mathbf{Z}$** 로 딱 떨어지는 닫힌 꼴이 된다 — 이거예요.
+
+**진행** — 블록을 빼면 뭐가 달라지죠?
+
+**해설** — 원래 HST는 walker가 낮은 이웃으로 흐르고(flow) 막히면 리셋(block)합니다. 그걸 다 빼면 walker가 **그냥 보통 랜덤워크**가 돼요. 그러면 전이행렬 $\mathbf{P}$가 시간에 안 변하는 **time-homogeneous**가 되고, 고전 에르고딕 이론이 그대로 먹힙니다. 높이과정은
+
+$$
+h(v_i,t) = \sum_{s=1}^{t} b'_s\,\mathbf{1}\{X_s=v_i\},\qquad b'_s \sim \mathrm{Unif}(0,b),\ \ \bar b=b/2,
+$$
+
+이고 snow distance는 여느 때처럼 $\mathrm{SD}^2_{ij}(t)=\sum_{s=0}^{t}(h(v_i,s)-h(v_j,s))^2$입니다.
+
+**진행** — 그럼 이 거리를 어떻게 "고전 문제"로 바꾸나요?
+
+**해설** — 높이차를 지표함수 $f_{ij}(v)=\mathbf{1}\{v=v_i\}-\mathbf{1}\{v=v_j\}$의 부분합으로 씁니다. $S^{ij}_t=\sum_{r=1}^{t} f_{ij}(X_r)$라 두면 $h(v_i,t)-h(v_j,t)=\sum_r b'_r f_{ij}(X_r)$예요. 즉 snow distance의 점근은 **에르고딕 평균 $S^{ij}$의 분산** 문제로 환원됩니다.
+
+**진행** — 레짐이 둘로 갈린다면서요.
+
+**해설** — 네. 정상분포 점유율 $\pi_i,\pi_j$가 **다르냐 같냐**로 갈려요.
+
+**진행** — 먼저 다른 경우, drift 레짐.
+
+**해설** — $\pi_i\neq\pi_j$면 $f_{ij}$의 $\pi$-평균이 $\pi_i-\pi_j\neq 0$이라 부분합이 $S^{ij}_t\sim t(\pi_i-\pi_j)$로 선형으로 흘러갑니다. 제곱해서 시간 적분하면
+
+$$
+\frac{\mathrm{SD}^2_{ij}(t)}{t^3}\ \xrightarrow[t\to\infty]{}\ \frac{\bar b^2(\pi_i-\pi_j)^2}{3}\quad\text{a.s.}
+$$
+
+여기서 포인트는 — 이 상수는 **$\mathbf{Z}$가 전혀 필요 없다**는 거예요. 정상분포 $\pi$만 있으면 됩니다.
+
+**진행** — 왜 Z가 안 나오죠?
+
+**해설** — $\mathbf{Z}=(\mathbf{I}-\mathbf{P}+\mathbf{\Pi})^{-1}$는 정상상태에서 **벗어난 과도적(transient) 요동**을 담는 행렬이에요. drift 레짐에선 평균 흐름이 살아있어서 그게 지배하니까, 과도 요동은 안 보입니다. $\lambda_1=1$ 모드(=$\pi$)만 쓰는 거죠.
+
+**진행** — 이제 같은 경우, intermediate 레짐.
+
+**해설** — $\pi_i=\pi_j$면 평균 흐름이 상쇄돼서 부분합 $S^{ij}_t$가 **중심화된 에르고딕 평균**이 됩니다. 에르고딕 마르코프 CLT로 $t^{-1/2}S^{ij}_t\to N(0,\sigma^2_{ij})$이고, 이 점근분산이 바로 브레마우드 (6.34)의 $\mathbf{Z}$로 나와요:
+
+$$
+\sigma^2_{ij}=\langle f_{ij},f_{ij}\rangle_\pi-\langle f_{ij},\mathbf{\Pi}f_{ij}\rangle_\pi+2\langle f_{ij},(\mathbf{Z}-\mathbf{I})f_{ij}\rangle_\pi.
+$$
+
+그래서 스케일링이 $t^3$가 아니라 $t^2$이고
+
+$$
+\frac{\mathrm{SD}^2_{ij}(t)}{t^2}\ \xrightarrow[t\to\infty]{}\ \frac{\bar b^2\,\sigma^2_{ij}}{2}+\frac{\bar b^2(\pi_i+\pi_j)}{6}\quad\text{a.s.}
+$$
+
+**진행** — 뒤에 붙은 $\frac{\bar b^2(\pi_i+\pi_j)}{6}$은 뭐예요? 처음엔 없던데.
+
+**해설** — 그게 이 노트의 **v0.2 정정**입니다. 원래는 $b'_r$을 평균 $\bar b$로 바꿀 때 생기는 residual $R^{ij}_t=\sum_r(b'_r-\bar b)f_{ij}(X_r)$가 $o(t^2)$라 무시된다고 했는데 — **틀렸어요**. intermediate 레짐에선 그 residual의 기여가 $\bar b^2(\pi_i+\pi_j)/6\cdot t^2$로 **선두항과 같은 $t^2$ 차수**입니다. 그래서 상수에 이 항이 반드시 더해져야 해요. (drift 레짐은 $o(t^3)$라 영향 없습니다.)
+
+**진행** — "닫힌 꼴"이라는 게 스펙트럴로 어떻게 보이나요.
+
+**해설** — 그래프 위 보통 랜덤워크는 **가역(reversible)**이라, $\mathbf{P}$의 고유쌍 $(\lambda_k,v_k)$로 분산이 딱 떨어집니다:
+
+$$
+\sigma^2_{ij}=\sum_{k=2}^{n}\frac{1+\lambda_k}{1-\lambda_k}\,\pi^2\bigl(v_k(i)-v_k(j)\bigr)^2.
+$$
+
+즉 상수가 **$\mathbf{P}$의 스펙트럼과 두 노드에서의 고유벡터 값만으로** 완전히 결정됩니다.
+
+**진행** — 저 필터 $\frac{1+\lambda}{1-\lambda}$가 눈에 익은데요.
+
+**해설** — 맞아요. $\frac{1+\lambda}{1-\lambda}=\frac{2}{1-\lambda}-1$, 즉 **"이동된 저항(shifted resistance)" 커널**이에요. 그래프 거리들이 다 $d_f^2(i,j)=\sum_{k\ge2}f(\lambda_k)(\psi_k(i)-\psi_k(j))^2$ 꼴의 **스펙트럴 필터 패밀리**에 사는데:
+
+| $f(\lambda)$ | 거리 |
+|---|---|
+| $(1-\lambda)^{2t}$ | diffusion |
+| $e^{-t\lambda}$ | heat kernel |
+| $1/\lambda$ | effective resistance |
+| $1/\lambda^2$ | biharmonic |
+| $\dfrac{1+\lambda}{1-\lambda}$ | **$\mathrm{HST}_0$ intermediate (이 노트)** |
+
+$\mathrm{HST}_0$가 이 표에 한 줄을 새로 추가한 거죠 — 저항($1/\lambda$)을 살짝 밀어놓은 자리에.
+
+**진행** — 왜 하필 $\mathrm{HST}_0$만 이렇게 깔끔한가요?
+
+**해설** — 그게 핵심이에요. **full HST는 $\mathbf{P}(t)$가 높이에 따라 변하는 비-동차**라 $\mathbf{Z}$ 자체가 정의가 안 됩니다. 그래서 full HST는 Foster–Lyapunov drift + Doeblin minorization으로 상수의 **존재만** 보이죠. 반면 블록을 뺀 $\mathrm{HST}_0$는 전이행렬이 시간불변이라, **HST 패밀리에서 유일하게** 브레마우드 (6.34)가 진짜 닫힌 꼴을 주는 대상입니다.
+
+**진행** — 수치 확인도 있나요.
+
+**해설** — Wheel $W_{21}$(허브 + 링 20개)에서 링–링 쌍은 대칭으로 $\pi_{r_1}=\pi_{r_2}$라 intermediate 레짐이에요. 블로그가 $\mathrm{SD}^2\propto t^2$를 정성적으로 보고했고, 상수를 $\mathbf{P}$ 스펙트럼으로부터의 고유값 합과 정량 비교하는 건 후속 과제로 남겨뒀습니다.
+
+**진행** — 한 문장 정리.
+
+**해설** — **블록·flow를 빼서 walker를 보통 랜덤워크로 만들면, HST 패밀리 중 유일하게 눈거리 상수가 브레마우드의 $\mathbf{Z}$—스펙트럴로는 $\frac{1+\lambda}{1-\lambda}$ 필터—로 닫힌 꼴이 된다.** 저항거리 바로 옆자리예요.
