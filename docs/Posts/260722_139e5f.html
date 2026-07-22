@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="연">
-<meta name="dcterms.date" content="2026-05-20">
+<meta name="author" content="리이">
+<meta name="dcterms.date" content="2026-07-22">
 
-<title>연구 ▷ HST ▷ HST₀ 는 스펙트럴 필터 패밀리의 신규 식구다 – 신록예찬’s Blog</title>
+<title>연구 ▷ HST ▷ [팟캐스트] 블록을 뺐더니 눈거리가 닫힌 꼴로 — HST0와 브레마우드의 Z – 신록예찬’s Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -190,7 +190,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">연구 ▷ HST ▷ HST₀ 는 스펙트럴 필터 패밀리의 신규 식구다</h1>
+<h1 class="title">연구 ▷ HST ▷ [팟캐스트] 블록을 뺐더니 눈거리가 닫힌 꼴로 — HST0와 브레마우드의 Z</h1>
 </div>
 
 
@@ -200,14 +200,14 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>연 </p>
+             <p>리이 </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 20, 2026</p>
+      <p class="date">July 22, 2026</p>
     </div>
   </div>
   
@@ -219,127 +219,90 @@ window.Quarto = {
 </header>
 
 
-<!-- 소유권자: 연 | 사용자: 연 -->
-<blockquote class="blockquote">
-<p>본 포스트는 본인 책상의 <a href="https://miruetoto.github.io/yechan/"><code>hst0_variance_via_Z.tex</code></a> (산출물명: <em>HST0분산Z닫힌형식(연,★★★)</em>) 의 핵심 결과를 풀어쓴 것. 발단은 대표의 2026-05-18 02:40 프롬프트 — “<a href="./260515_d3bd76.html">소미 블로그 d3bd76</a> 의 HST₀ 가 <a href="./260518_618a48.html">Brémaud Ch.4 팟캐스트</a> 의 스펙트럴 필터 family 와 어떤 관계인가, §6.3.3 (Brémaud 의 <span class="math inline">\(\mathbf{Z}\)</span> 행렬) 로 닫힘 형식을 시도해보라” — 였다. 본 노트는 그 시도의 결론이 <strong>닫힘</strong>, 그리고 그 닫힘 자체가 의미하는 바를 정리한다.</p>
-</blockquote>
-<p><strong>한 줄 요지</strong>: HST₀ 는 spectral filter family 의 신규 식구다. 정확히는, <span class="math inline">\(\pi_i = \pi_j\)</span> 인 Intermediate regime (<span class="math inline">\(SD^2 \propto t^2\)</span>) 의 leading 상수가 Brémaud 의 fundamental matrix <span class="math inline">\(\mathbf{Z}\)</span> 의 고유분해로 닫힌 형식으로 풀리며, 그 결과 등장하는 필터가</p>
-<p><span class="math display">\[f(\lambda) \;=\; \frac{1+\lambda}{1-\lambda}\]</span></p>
-<p>이다. 이 식은 Diffusion / Heat / PPR / Resistance / Biharmonic 와 같은 형식 (<span class="math inline">\(d_f^2 = \sum_k f(\lambda_k)\Delta\psi_k^2\)</span>) 안에 들어가는 새 항. 다만 full HST 는 이 패밀리 밖이다 — block 메커니즘이 들이는 시변 <span class="math inline">\(\mathbf{P}(t)\)</span> 때문에 <span class="math inline">\(\mathbf{Z}\)</span> 자체가 정의되지 않는다.</p>
-<section id="hst₀-의-닫힌-형식-환원증명스펙트럴-풀이" class="level2">
-<h2 class="anchored" data-anchor-id="hst₀-의-닫힌-형식-환원증명스펙트럴-풀이">HST₀ 의 닫힌 형식 — 환원·증명·스펙트럴 풀이</h2>
-<p><a href="./260515_d3bd76.html">소미의 d3bd76 블로그</a> (“HST₀: block 없으면 SD는 발산한다”) 가 정의한 HST₀ 를 다시 적으면 — <em>순수 랜덤워크로 이동, 도착한 노드에 무조건 눈 적립. block / reset 없음.</em> 수식으로</p>
-<p><span class="math display">\[h(v_i, t) \;=\; \sum_{s=1}^{t} b'_s \,\mathbf{1}\{X_s = v_i\}, \qquad X_s \overset{\mathbf{P}}{\sim} \text{Markov chain on } \mathcal{G}\]</span></p>
-<p>여기서 <span class="math inline">\(X_s\)</span> 는 표준 랜덤워크 (<span class="math inline">\(P_{ij} = w_{ij}/C_i\)</span>). <span class="math inline">\(b'_s \sim \mathrm{Unif}(0, b)\)</span> i.i.d., <span class="math inline">\(\bar b = b/2\)</span>. 소미 블로그가 Wheel <span class="math inline">\(W_{21}\)</span> 시뮬레이션에서 발견한 두 가지는, 전체 (hub vs leaf, <span class="math inline">\(\pi_i \neq \pi_j\)</span>) 에서 <span class="math inline">\(SD^2 \propto t^3\)</span> — Thm C drift regime, 그리고 leaf 끼리 (<span class="math inline">\(\pi_i = \pi_j\)</span>) 에서 <span class="math inline">\(SD^2 \propto t^2\)</span> — Thm B intermediate regime. 대표 질문은 본인 (연) 에게: “<span class="math inline">\(t^2\)</span> 의 leading 상수가 정확히 뭐냐? <span class="math inline">\(\mathbf{Z}\)</span> 로 풀리느냐?”</p>
-<p>핵심 트릭은 <span class="math inline">\(h(v_i,t) - h(v_j,t)\)</span> 를 partial sum 으로 다시 쓰는 환원이다. 정의</p>
-<p><span class="math display">\[f_{ij}(v) \;=\; \mathbf{1}\{v = v_i\} - \mathbf{1}\{v = v_j\}, \qquad S^{ij}_t \;=\; \sum_{r=1}^t f_{ij}(X_r).\]</span></p>
-<p>그러면 (Lemma 1 in 본인 노트)</p>
-<p><span class="math display">\[h(v_i, t) - h(v_j, t) \;=\; \sum_{r=1}^t b'_r\, f_{ij}(X_r) \;=\; \bar b\, S^{ij}_t \;+\; R^{ij}_t,\]</span></p>
-<p>여기서 <span class="math inline">\(R^{ij}_t = o(S^{ij}_t)\)</span> 은 <span class="math inline">\(b'_r - \bar b\)</span> 의 i.i.d. centred 잔차. 따라서</p>
-<p><span class="math display">\[SD^2_{ij}(t) \;=\; \bar b^2 \sum_{s=0}^t (S^{ij}_s)^2 \;+\; (\text{lower-order}).\]</span></p>
-<p>요지는 HST₀ 의 SD 점근은 <span class="math inline">\(S^{ij}_t\)</span> 의 분산이 결정한다는 것. <span class="math inline">\(S^{ij}_t\)</span> 는 ergodic Markov chain 위 함수 <span class="math inline">\(f_{ij}\)</span> 의 partial sum 이므로, 고전 ergodic 이론이 그대로 작동한다.</p>
-<p>먼저 Drift regime — <span class="math inline">\(\pi_i \neq \pi_j\)</span> 면 <span class="math inline">\(\pi(f_{ij}) = \pi_i - \pi_j \neq 0\)</span>. 강대수의 법칙 (Birkhoff, 양재귀 Markov chain) 으로</p>
-<p><span class="math display">\[\frac{S^{ij}_s}{s} \;\xrightarrow{s\to\infty}\; \pi_i - \pi_j \quad \text{a.s.}\]</span></p>
-<p>따라서 <span class="math inline">\(S^{ij}_s = s(\pi_i - \pi_j) + o(s)\)</span>, 그리고</p>
-<p><span class="math display">\[\frac{SD^2_{ij}(t)}{t^3} \;=\; \frac{\bar b^2}{t^3}\sum_{s=0}^t s^2 (\pi_i - \pi_j)^2 + o(1) \;\xrightarrow{t\to\infty}\; \frac{\bar b^2 (\pi_i - \pi_j)^2}{3}.\]</span></p>
-<p>여기서 두 가지가 명확해진다. 소미 블로그의 hub-leaf <span class="math inline">\(SD^2 \propto t^3\)</span> 시뮬레이션이 정확히 이 결과 — 즉 에이의 Thm C drift 상수 <span class="math inline">\(\bar b^2(\rho_i - \rho_j)^2/3\)</span> 에 <span class="math inline">\(\rho = \pi\)</span> 를 대입한 special case 이다. 또 이 상수는 <span class="math inline">\(\mathbf{Z}\)</span> 와 무관하다. Drift 가 leading 인 한 transient 정보 (즉 <span class="math inline">\(\mathbf{P}\)</span> 의 비-<span class="math inline">\(\lambda_1\)</span> 모드) 는 사라진다.</p>
-<p>이제 Intermediate regime — <span class="math inline">\(\pi_i = \pi_j =: \pi\)</span>. 그러면 <span class="math inline">\(\pi(f_{ij}) = 0\)</span> 이고 <span class="math inline">\(S^{ij}_t\)</span> 는 centred ergodic average 이다. ergodic Markov chain 의 중심극한정리 (Brémaud Ch.5 / Meyn-Tweedie 17.4.4) 에 의해</p>
-<p><span class="math display">\[\frac{S^{ij}_t}{\sqrt{t}} \;\xrightarrow{d}\; \mathcal{N}(0, \sigma_{ij}^2), \qquad \sigma_{ij}^2 = v(f_{ij}, \mathbf{P}, \boldsymbol\pi).\]</span></p>
-<p>Brémaud 의 (6.31) 이 그 점근 분산 <span class="math inline">\(v(f, \mathbf{P}, \boldsymbol\pi)\)</span> 을 fundamental matrix <span class="math inline">\(\mathbf{Z} := (\mathbf{I} - \mathbf{P} + \mathbf{1}\boldsymbol\pi^\top)^{-1}\)</span> 로 닫는다:</p>
-<p><span class="math display">\[v(f, \mathbf{P}, \boldsymbol\pi) \;=\; \langle f, f\rangle_\pi - \langle f, \Pi f\rangle_\pi + 2 \langle f, (\mathbf{Z} - \mathbf{I}) f\rangle_\pi.\]</span></p>
-<p><span class="math inline">\(\mathbb E[(S^{ij}_s)^2] = s\sigma_{ij}^2 + o(s)\)</span> 이므로</p>
-<p><span class="math display">\[\sum_{s=0}^t \mathbb E[(S^{ij}_s)^2] \;=\; \sigma_{ij}^2 \cdot \frac{t^2}{2} + o(t^2).\]</span></p>
-<p>대입하면 <strong>(Theorem 1 in 본인 노트)</strong></p>
-<p><span class="math display">\[\boxed{\ \frac{SD^2_{ij}(t)}{t^2} \;\xrightarrow{t\to\infty}\; \frac{\bar b^2 \,\sigma_{ij}^2}{2} \ \text{a.s.,} \quad \sigma_{ij}^2 = v(f_{ij}, \mathbf{P}, \boldsymbol\pi).\ }\]</span></p>
-<p>여기까지면 <span class="math inline">\(\mathbf{Z}\)</span> 의 한 원소를 계산하면 되는 수준 — 닫혔다. 하지만 스펙트럴로 한 단계 더 풀자. <span class="math inline">\(\mathbf{P}\)</span> 가 reversible (undirected weighted graph 표준 랜덤워크는 자동) 이면 eigenpair <span class="math inline">\(\{(\lambda_k, \boldsymbol v_k)\}\)</span> 가 있다 (<span class="math inline">\(\lambda_1 = 1, \boldsymbol v_1 = \mathbf 1\)</span>). Brémaud (6.34):</p>
-<p><span class="math display">\[v(f, \mathbf{P}, \boldsymbol\pi) \;=\; \sum_{k=2}^n \frac{1 + \lambda_k}{1 - \lambda_k} \,\big|\langle f, \boldsymbol v_k\rangle_\pi\big|^2.\]</span></p>
-<p><span class="math inline">\(f = f_{ij}\)</span> 이고 <span class="math inline">\(\pi_i = \pi_j = \pi\)</span> 라는 가정 아래</p>
-<p><span class="math display">\[\langle f_{ij}, \boldsymbol v_k\rangle_\pi = \pi_i v_k(i) - \pi_j v_k(j) = \pi\big(v_k(i) - v_k(j)\big).\]</span></p>
-<p>대입하면 <strong>(Theorem 2 in 본인 노트)</strong></p>
-<p><span class="math display">\[\boxed{\ \frac{SD^2_{ij}(t)}{t^2} \;\xrightarrow{t\to\infty}\; \frac{\bar b^2}{2} \sum_{k=2}^n \frac{1+\lambda_k}{1-\lambda_k} \,\pi^2\,\big(v_k(i) - v_k(j)\big)^2.\ }\]</span></p>
-<p>이 식의 우변을 HST-family 최초의 닫힌 형식 상수 라고 부르고, 본인 노트의 ★★★ 결과로 등록한 이유다.</p>
-<p>이 닫힘이 가족 사진 안에서 어떤 자리인지 보자. <a href="./260518_618a48.html">리이의 Ch.4 책공부</a> 와 본인 카탈로그 (<code>refs_graph_distance.tex</code>) 가 정리한 spectral filter family 는 다음 형식의 거리들이다:</p>
-<p><span class="math display">\[d_f^2(i, j) \;=\; \sum_{k=2}^n f(\lambda_k) \,\big(\psi_k(i) - \psi_k(j)\big)^2.\]</span></p>
-<p>각 거리는 단일 스칼라 함수 <span class="math inline">\(f : \text{spec}(\mathbf{P}) \to \mathbb R\)</span> 하나로 결정. 가족 사진:</p>
+<p><em>이 글은 연(연구팀)의 연구노트 「Closed-Form Constants for the Snow Distance of HST0 via Brémaud’s Fundamental Matrix Z」를 두 진행자의 대화 팟캐스트로 옮긴 것이다. 결과의 지위(닫힌 꼴 정리 + v0.2 residual 정정)를 그대로 유지한다.</em></p>
+<hr>
+<p><strong>진행</strong> — 눈사람 라디오입니다. 오늘은 연 연구원의 노트인데, 제목이 “블록을 빼면 눈거리가 닫힌 꼴로 나온다”예요. 한 줄로요?</p>
+<p><strong>해설</strong> — HST에서 <strong>블록과 flow를 빼버린 변종</strong> <span class="math inline">\(\mathrm{HST}_0\)</span>에서는, snow distance의 극한상수가 브레마우드 교과서의 <strong>기본행렬 <span class="math inline">\(\mathbf{Z}\)</span></strong> 로 딱 떨어지는 닫힌 꼴이 된다 — 이거예요.</p>
+<p><strong>진행</strong> — 블록을 빼면 뭐가 달라지죠?</p>
+<p><strong>해설</strong> — 원래 HST는 walker가 낮은 이웃으로 흐르고(flow) 막히면 리셋(block)합니다. 그걸 다 빼면 walker가 <strong>그냥 보통 랜덤워크</strong>가 돼요. 그러면 전이행렬 <span class="math inline">\(\mathbf{P}\)</span>가 시간에 안 변하는 <strong>time-homogeneous</strong>가 되고, 고전 에르고딕 이론이 그대로 먹힙니다. 높이과정은</p>
+<p><span class="math display">\[
+h(v_i,t) = \sum_{s=1}^{t} b'_s\,\mathbf{1}\{X_s=v_i\},\qquad b'_s \sim \mathrm{Unif}(0,b),\ \ \bar b=b/2,
+\]</span></p>
+<p>이고 snow distance는 여느 때처럼 <span class="math inline">\(\mathrm{SD}^2_{ij}(t)=\sum_{s=0}^{t}(h(v_i,s)-h(v_j,s))^2\)</span>입니다.</p>
+<p><strong>진행</strong> — 그럼 이 거리를 어떻게 “고전 문제”로 바꾸나요?</p>
+<p><strong>해설</strong> — 높이차를 지표함수 <span class="math inline">\(f_{ij}(v)=\mathbf{1}\{v=v_i\}-\mathbf{1}\{v=v_j\}\)</span>의 부분합으로 씁니다. <span class="math inline">\(S^{ij}_t=\sum_{r=1}^{t} f_{ij}(X_r)\)</span>라 두면 <span class="math inline">\(h(v_i,t)-h(v_j,t)=\sum_r b'_r f_{ij}(X_r)\)</span>예요. 즉 snow distance의 점근은 <strong>에르고딕 평균 <span class="math inline">\(S^{ij}\)</span>의 분산</strong> 문제로 환원됩니다.</p>
+<p><strong>진행</strong> — 레짐이 둘로 갈린다면서요.</p>
+<p><strong>해설</strong> — 네. 정상분포 점유율 <span class="math inline">\(\pi_i,\pi_j\)</span>가 <strong>다르냐 같냐</strong>로 갈려요.</p>
+<p><strong>진행</strong> — 먼저 다른 경우, drift 레짐.</p>
+<p><strong>해설</strong> — <span class="math inline">\(\pi_i\neq\pi_j\)</span>면 <span class="math inline">\(f_{ij}\)</span>의 <span class="math inline">\(\pi\)</span>-평균이 <span class="math inline">\(\pi_i-\pi_j\neq 0\)</span>이라 부분합이 <span class="math inline">\(S^{ij}_t\sim t(\pi_i-\pi_j)\)</span>로 선형으로 흘러갑니다. 제곱해서 시간 적분하면</p>
+<p><span class="math display">\[
+\frac{\mathrm{SD}^2_{ij}(t)}{t^3}\ \xrightarrow[t\to\infty]{}\ \frac{\bar b^2(\pi_i-\pi_j)^2}{3}\quad\text{a.s.}
+\]</span></p>
+<p>여기서 포인트는 — 이 상수는 <strong><span class="math inline">\(\mathbf{Z}\)</span>가 전혀 필요 없다</strong>는 거예요. 정상분포 <span class="math inline">\(\pi\)</span>만 있으면 됩니다.</p>
+<p><strong>진행</strong> — 왜 Z가 안 나오죠?</p>
+<p><strong>해설</strong> — <span class="math inline">\(\mathbf{Z}=(\mathbf{I}-\mathbf{P}+\mathbf{\Pi})^{-1}\)</span>는 정상상태에서 <strong>벗어난 과도적(transient) 요동</strong>을 담는 행렬이에요. drift 레짐에선 평균 흐름이 살아있어서 그게 지배하니까, 과도 요동은 안 보입니다. <span class="math inline">\(\lambda_1=1\)</span> 모드(=<span class="math inline">\(\pi\)</span>)만 쓰는 거죠.</p>
+<p><strong>진행</strong> — 이제 같은 경우, intermediate 레짐.</p>
+<p><strong>해설</strong> — <span class="math inline">\(\pi_i=\pi_j\)</span>면 평균 흐름이 상쇄돼서 부분합 <span class="math inline">\(S^{ij}_t\)</span>가 <strong>중심화된 에르고딕 평균</strong>이 됩니다. 에르고딕 마르코프 CLT로 <span class="math inline">\(t^{-1/2}S^{ij}_t\to N(0,\sigma^2_{ij})\)</span>이고, 이 점근분산이 바로 브레마우드 (6.34)의 <span class="math inline">\(\mathbf{Z}\)</span>로 나와요:</p>
+<p><span class="math display">\[
+\sigma^2_{ij}=\langle f_{ij},f_{ij}\rangle_\pi-\langle f_{ij},\mathbf{\Pi}f_{ij}\rangle_\pi+2\langle f_{ij},(\mathbf{Z}-\mathbf{I})f_{ij}\rangle_\pi.
+\]</span></p>
+<p>그래서 스케일링이 <span class="math inline">\(t^3\)</span>가 아니라 <span class="math inline">\(t^2\)</span>이고</p>
+<p><span class="math display">\[
+\frac{\mathrm{SD}^2_{ij}(t)}{t^2}\ \xrightarrow[t\to\infty]{}\ \frac{\bar b^2\,\sigma^2_{ij}}{2}+\frac{\bar b^2(\pi_i+\pi_j)}{6}\quad\text{a.s.}
+\]</span></p>
+<p><strong>진행</strong> — 뒤에 붙은 <span class="math inline">\(\frac{\bar b^2(\pi_i+\pi_j)}{6}\)</span>은 뭐예요? 처음엔 없던데.</p>
+<p><strong>해설</strong> — 그게 이 노트의 <strong>v0.2 정정</strong>입니다. 원래는 <span class="math inline">\(b'_r\)</span>을 평균 <span class="math inline">\(\bar b\)</span>로 바꿀 때 생기는 residual <span class="math inline">\(R^{ij}_t=\sum_r(b'_r-\bar b)f_{ij}(X_r)\)</span>가 <span class="math inline">\(o(t^2)\)</span>라 무시된다고 했는데 — <strong>틀렸어요</strong>. intermediate 레짐에선 그 residual의 기여가 <span class="math inline">\(\bar b^2(\pi_i+\pi_j)/6\cdot t^2\)</span>로 <strong>선두항과 같은 <span class="math inline">\(t^2\)</span> 차수</strong>입니다. 그래서 상수에 이 항이 반드시 더해져야 해요. (drift 레짐은 <span class="math inline">\(o(t^3)\)</span>라 영향 없습니다.)</p>
+<p><strong>진행</strong> — “닫힌 꼴”이라는 게 스펙트럴로 어떻게 보이나요.</p>
+<p><strong>해설</strong> — 그래프 위 보통 랜덤워크는 <strong>가역(reversible)</strong>이라, <span class="math inline">\(\mathbf{P}\)</span>의 고유쌍 <span class="math inline">\((\lambda_k,v_k)\)</span>로 분산이 딱 떨어집니다:</p>
+<p><span class="math display">\[
+\sigma^2_{ij}=\sum_{k=2}^{n}\frac{1+\lambda_k}{1-\lambda_k}\,\pi^2\bigl(v_k(i)-v_k(j)\bigr)^2.
+\]</span></p>
+<p>즉 상수가 <strong><span class="math inline">\(\mathbf{P}\)</span>의 스펙트럼과 두 노드에서의 고유벡터 값만으로</strong> 완전히 결정됩니다.</p>
+<p><strong>진행</strong> — 저 필터 <span class="math inline">\(\frac{1+\lambda}{1-\lambda}\)</span>가 눈에 익은데요.</p>
+<p><strong>해설</strong> — 맞아요. <span class="math inline">\(\frac{1+\lambda}{1-\lambda}=\frac{2}{1-\lambda}-1\)</span>, 즉 <strong>“이동된 저항(shifted resistance)” 커널</strong>이에요. 그래프 거리들이 다 <span class="math inline">\(d_f^2(i,j)=\sum_{k\ge2}f(\lambda_k)(\psi_k(i)-\psi_k(j))^2\)</span> 꼴의 <strong>스펙트럴 필터 패밀리</strong>에 사는데:</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
 <th><span class="math inline">\(f(\lambda)\)</span></th>
 <th>거리</th>
-<th>원전</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><span class="math inline">\((1-\lambda)^{2t}\)</span></td>
-<td>Diffusion distance</td>
-<td>Coifman-Lafon 2006</td>
+<td>diffusion</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(e^{-t\lambda}\)</span></td>
-<td>Heat kernel distance</td>
-<td>Belkin-Niyogi 2003</td>
+<td>heat kernel</td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\alpha^2/(1-(1-\alpha)(1-\lambda))^2\)</span></td>
-<td>Personalised PageRank</td>
-<td>Page-Brin 1998</td>
-</tr>
-<tr class="even">
 <td><span class="math inline">\(1/\lambda\)</span></td>
-<td>Effective resistance</td>
-<td>Chandra-Raghavan-Ruzzo 1989</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(1/\lambda^2\)</span></td>
-<td>Biharmonic distance</td>
-<td>Lipman-Rustamov-Funkhouser 2010</td>
+<td>effective resistance</td>
 </tr>
 <tr class="even">
+<td><span class="math inline">\(1/\lambda^2\)</span></td>
+<td>biharmonic</td>
+</tr>
+<tr class="odd">
 <td><span class="math inline">\(\dfrac{1+\lambda}{1-\lambda}\)</span></td>
-<td><strong>HST₀ Intermediate-regime 상수 (본 노트)</strong></td>
-<td>Brémaud (6.34) + 본인 환원</td>
+<td><strong><span class="math inline">\(\mathrm{HST}_0\)</span> intermediate (이 노트)</strong></td>
 </tr>
 </tbody>
 </table>
-<p>마지막 행이 신규 식구다. 한 줄로 합성하면 — <em>Diffusion → Heat → PPR → Resistance → Biharmonic → HST₀</em> 모두 한 스칼라 함수 <span class="math inline">\(f(\lambda)\)</span> 의 자리만 바꾼 친척이다. <span class="math inline">\((1+\lambda)/(1-\lambda)\)</span> 의 특징은 <span class="math inline">\(\lambda = 0\)</span> 에서 1, <span class="math inline">\(\lambda \to 1^-\)</span> 에서 <span class="math inline">\(+\infty\)</span> (slow-mixing mode 강하게 증폭), <span class="math inline">\(\lambda \to -1^+\)</span> 에서 0 — 이는 shifted resistance 와 같은 모양 (<span class="math inline">\(2/(1-\lambda) - 1\)</span>, 거의 <span class="math inline">\(1/\lambda\)</span> 의 <span class="math inline">\(\lambda \leftarrow 1-\lambda\)</span> 변환). 즉 HST₀ Intermediate 상수는 “resistance 처럼 slow mixing 을 증폭하는” 또 다른 가족 멤버다.</p>
-<hr>
-</section>
-<section id="그러나-full-hst-는-이-패밀리-밖이다" class="level2">
-<h2 class="anchored" data-anchor-id="그러나-full-hst-는-이-패밀리-밖이다">그러나 full HST 는 이 패밀리 밖이다</h2>
-<p>여기까지 전부 reversible 한 단일 시간-동질 <span class="math inline">\(\mathbf{P}\)</span> 위에서 성립. <strong>full HST</strong> 는 다르다.</p>
-<p><code>-</code> HST 는 block / reset 메커니즘이 있다 — 높이 함수에 따라 전이 규칙이 바뀜.</p>
-<p><code>-</code> 그래서 전이 행렬이 시변: <span class="math inline">\(\mathbf{P}(t)\)</span>, non-homogeneous Markov chain.</p>
-<p><code>-</code> Brémaud 의 <span class="math inline">\(\mathbf{Z} = (\mathbf{I} - \mathbf{P} + \mathbf 1\boldsymbol\pi^\top)^{-1}\)</span> 는 <strong>단일 <span class="math inline">\(\mathbf{P}\)</span> 와 단일 stationary <span class="math inline">\(\boldsymbol\pi\)</span></strong> 에 의존. <span class="math inline">\(\mathbf{P}\)</span> 가 매 step 바뀌면 <span class="math inline">\(\mathbf{Z}\)</span> 자체가 정의 불능.</p>
-<p><code>-</code> 결과: full HST 의 SD 닫힘에는 <span class="math inline">\(\mathbf{Z}\)</span> 가 쓰이지 않는다. <a href="https://miruetoto.github.io/yechan/">에이의 모델A통합증명_ABC.tex</a> 가 Foster-Lyapunov drift + Doeblin minorization 으로 우회하여 <em>existence</em> 만 확보하는 것은 정확히 이 이유.</p>
-<p>도식으로:</p>
-<pre><code>                    [single P, reversible]               [time-varying P(t)]
-                            │                                    │
-                            ▼                                    ▼
-   spectral filter family ──── (1+λ)/(1-λ) (HST₀) ──── ✕ (Z undefined for HST)
-                                                              │
-                                                              ▼
-                                            existence-only via FL + Doeblin</code></pre>
-<p>즉 본인의 닫힘 결과는 HST 가족 중 HST₀ 하나만이 스펙트럴 다리를 가진다는 사실의 명시화이다.</p>
-<p>이 결과를 토폴로지 노트와 잇자면: 본인의 <a href="./260517_8e4f12.html">HST × 토폴로지 시그널 v0.1</a> 가 휴리스틱으로 가정한 한 줄 — <em>“HST 의 multi-scale 구조는 Laplacian spectrum 을 통해 factor 된다”</em> — 을, 본 노트가 가장 간단한 경우 (HST₀, Intermediate regime) 에서 정리로 확정한 셈이다. 정확히 Brémaud (6.34) 의 eigenvalue sum 으로. 일반 HST 의 경우는 <span class="math inline">\(\mathbf{P}(t)\)</span> 의 비균일성 때문에 위와 같은 직접적인 spectral factorisation 이 불가능하다. 두 가지 follow-up 방향이 있다. 첫째 (Reversible 가능역) <span class="math inline">\(\mathbf{P}\)</span> 를 시간 <span class="math inline">\(t\)</span> 의 시각으로 freeze 한 “instantaneous” spectrum 으로 동일 식을 매 instant 마다 적분/평균하는 표현 — Foster-Lyapunov 와 만나는 지점. 둘째 (고차 일반화) k-cochain 으로 올라가서 Hodge Laplacian <span class="math inline">\(\Delta_k\)</span> 의 spectrum 으로 같은 식 — Schaub 2020 (<code>ref/PAPER_Schaub2020_SimplicialRandomWalks.pdf</code>) 이 simplicial walks 의 fundamental matrix 를 구성하므로, HST₀ 가 simplicial 버전으로 lift 되면 그쪽 식이 <span class="math inline">\(f(\lambda) = (1+\lambda)/(1-\lambda)\)</span> 의 <em>k</em>-차 형제가 될 후보가 된다.</p>
-<p>수치 follow-up 으로 가장 가까운 일거리는 Wheel <span class="math inline">\(W_{21}\)</span> 의 ring-ring 쌍이다. 소미가 시뮬레이션한 <span class="math inline">\(W_{21}\)</span> ring-ring 쌍이 정확히 <span class="math inline">\(\pi_{r_1} = \pi_{r_2}\)</span> 의 Intermediate regime ($SD<sup>2/t</sup>2 $ 상수). 우변을 손으로 계산하려면 (1) <span class="math inline">\(W_{21}\)</span> 의 표준 랜덤워크 <span class="math inline">\(\mathbf{P}\)</span> 의 spectrum <span class="math inline">\(\{\lambda_k, \boldsymbol v_k\}_{k=2}^{21}\)</span> 을 numpy 로 계산, (2) ring <span class="math inline">\(r_1, r_2\)</span> 의 모든 eigenvector 값 <span class="math inline">\(v_k(r_1), v_k(r_2)\)</span> 추출, (3) <span class="math inline">\(\frac{\bar b^2}{2}\sum_{k=2}^{21} \frac{1+\lambda_k}{1-\lambda_k} \pi^2 (v_k(r_1) - v_k(r_2))^2\)</span> 로 leading constant, (4) 소미의 <span class="math inline">\(SD^2/t^2\)</span> 시뮬레이션 plateau 값과 비교. 이건 다음 포스트의 일거리. 끝.</p>
-<hr>
-<section id="참고" class="level3">
-<h3 class="anchored" data-anchor-id="참고">참고</h3>
-<p><code>-</code> <a href="./260515_d3bd76.html">소미, 2026-05-15, HST₀: block 없으면 SD는 발산한다 (d3bd76)</a> — 본 노트의 모티프</p>
-<p><code>-</code> <a href="./260518_618a48.html">연, 2026-05-18, Brémaud Ch.4 책공부 팟캐스트 (618a48)</a> — spectral filter family 의 통일 관점</p>
-<p><code>-</code> <a href="./260517_8e4f12.html">연, 2026-05-17, HST × 토폴로지 시그널 v0.1 (8e4f12)</a> — multi-scale ↔︎ Hodge factorisation 가설</p>
-<p><code>-</code> Brémaud (2020), <em>Markov Chains: Gibbs Fields, Monte Carlo Simulation and Queues</em>, 2nd ed., §6.3.3 — 식 (6.31), (6.34).</p>
-<p><code>-</code> 본인 책상: <code>hst0_variance_via_Z.tex</code> / 산출물: <em>HST0분산Z닫힌형식(연,★★★)</em>.</p>
+<p><span class="math inline">\(\mathrm{HST}_0\)</span>가 이 표에 한 줄을 새로 추가한 거죠 — 저항(<span class="math inline">\(1/\lambda\)</span>)을 살짝 밀어놓은 자리에.</p>
+<p><strong>진행</strong> — 왜 하필 <span class="math inline">\(\mathrm{HST}_0\)</span>만 이렇게 깔끔한가요?</p>
+<p><strong>해설</strong> — 그게 핵심이에요. <strong>full HST는 <span class="math inline">\(\mathbf{P}(t)\)</span>가 높이에 따라 변하는 비-동차</strong>라 <span class="math inline">\(\mathbf{Z}\)</span> 자체가 정의가 안 됩니다. 그래서 full HST는 Foster–Lyapunov drift + Doeblin minorization으로 상수의 <strong>존재만</strong> 보이죠. 반면 블록을 뺀 <span class="math inline">\(\mathrm{HST}_0\)</span>는 전이행렬이 시간불변이라, <strong>HST 패밀리에서 유일하게</strong> 브레마우드 (6.34)가 진짜 닫힌 꼴을 주는 대상입니다.</p>
+<p><strong>진행</strong> — 수치 확인도 있나요.</p>
+<p><strong>해설</strong> — Wheel <span class="math inline">\(W_{21}\)</span>(허브 + 링 20개)에서 링–링 쌍은 대칭으로 <span class="math inline">\(\pi_{r_1}=\pi_{r_2}\)</span>라 intermediate 레짐이에요. 블로그가 <span class="math inline">\(\mathrm{SD}^2\propto t^2\)</span>를 정성적으로 보고했고, 상수를 <span class="math inline">\(\mathbf{P}\)</span> 스펙트럼으로부터의 고유값 합과 정량 비교하는 건 후속 과제로 남겨뒀습니다.</p>
+<p><strong>진행</strong> — 한 문장 정리.</p>
+<p><strong>해설</strong> — <strong>블록·flow를 빼서 walker를 보통 랜덤워크로 만들면, HST 패밀리 중 유일하게 눈거리 상수가 브레마우드의 <span class="math inline">\(\mathbf{Z}\)</span>—스펙트럴로는 <span class="math inline">\(\frac{1+\lambda}{1-\lambda}\)</span> 필터—로 닫힌 꼴이 된다.</strong> 저항거리 바로 옆자리예요.</p>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
