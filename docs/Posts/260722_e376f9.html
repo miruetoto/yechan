@@ -548,39 +548,58 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rd_s[<span class="dv">3</span>, <span class="dv">1</span>] <span class="op">==</span> rd_s[<span class="dv">3</span>, <span class="dv">2</span>])                 <span class="co"># resistance: True (구별 못함)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>최단·저항·diffusion 모두 <span class="math inline">\(d(d,b)\)</span>와 <span class="math inline">\(d(d,c)\)</span>를 정확히 같게 주는 반면, snow는 둘을 수십 배로 가른다. 가역 거리가 정의상 버릴 수밖에 없는 방향 정보를, 무거운 눈 과정은 흐름의 자연스러운 부산물로 직접 읽는다.</p>
 </section>
-<section id="스케일-스펙트럴-거리가-사라져-버리는-지점-collapse" class="level2">
-<h2 class="anchored" data-anchor-id="스케일-스펙트럴-거리가-사라져-버리는-지점-collapse">스케일 — 스펙트럴 거리가 사라져 버리는 지점 (collapse)</h2>
-<p>스펙트럴 거리들은 스케일 <span class="math inline">\(t_{\mathrm{diff}}\)</span>를 하나 지니는데, 그 스케일을 키워 워크가 충분히 섞이면 모든 정보를 잃는다. 다리 하나로 이어진 두 6-클리크를 보자.</p>
+<section id="필터-어떤-스케일로도-만들-수-없는-순서" class="level2">
+<h2 class="anchored" data-anchor-id="필터-어떤-스케일로도-만들-수-없는-순서">필터 — 어떤 스케일로도 만들 수 없는 순서</h2>
+<p>앞의 두 도장깨기는 거리 하나하나가 무엇을 못 보는지 짚었다. 마지막은 한 단계 센 주장이다. 스펙트럴 거리를 <strong>가족 전체로</strong> 놓고 봐도, 그 가족이 절대로 만들어 낼 수 없는 순서가 있다.</p>
+<p>고전 거리 대부분은 앞 절에서 본 그 틀에 들어간다. 같은 바탕 워크 <span class="math inline">\(p^\infty\)</span>의 고유쌍 <span class="math inline">\((\lambda_k, v_k)\)</span>를 놓으면, 우리가 비교해 온 거리들은 모두</p>
+<p><span class="math display">\[
+d_f(i,j)^2 \;=\; \sum_{k \ge 2} f(\lambda_k)\, c_k(i,j),
+\qquad c_k(i,j) \;:=\; \big(v_k(i)-v_k(j)\big)^2
+\]</span></p>
+<p>꼴로 쓰인다. 여기서 <span class="math inline">\(f\)</span>는 고유값마다 얼마나 무게를 줄지 정하는, 음이 아닌 값을 갖는 감쇠 함수다. diffusion 거리는 <span class="math inline">\(f(\lambda) = (1-\lambda)^{2t_{\mathrm{diff}}}\)</span>, heat 커널 거리는 <span class="math inline">\(f(\lambda) = e^{-s\lambda}\)</span>, 저항거리는 <span class="math inline">\(f(\lambda) = 1/\lambda\)</span>에 해당한다. 스케일 손잡이 <span class="math inline">\(t_{\mathrm{diff}}\)</span>나 <span class="math inline">\(s\)</span>를 돌리는 일은 <span class="math inline">\(f\)</span>를 바꾸는 일이지 이 틀을 벗어나는 일이 아니다.</p>
+<p>여기서 관찰 하나를 얻는다. 두 쌍 <span class="math inline">\(P_1\)</span>과 <span class="math inline">\(P_2\)</span>에 대해 계수가 <strong>모든 고유값에서</strong> <span class="math inline">\(c_k(P_1) \le c_k(P_2)\)</span>라 하자. 비의 분자와 분모가 같은 무게 <span class="math inline">\(f(\lambda_k) \ge 0\)</span>로 섞인 가중합이므로 그 비는 성분별 비의 최댓값을 넘을 수 없고, 따라서</p>
+<p><span class="math display">\[
+\frac{d_f(P_1)^2}{d_f(P_2)^2} \;=\; \frac{\sum_k f(\lambda_k)\,c_k(P_1)}{\sum_k f(\lambda_k)\,c_k(P_2)} \;\le\; \max_k \frac{c_k(P_1)}{c_k(P_2)} \;\le\; 1
+\]</span></p>
+<p>이 된다. <span class="math inline">\(f\)</span>를 어떻게 고르든 — diffusion을 어느 스케일에서 재든, heat 커널을 어느 시각에 재든, 저항거리를 쓰든, 아직 아무도 안 써 본 감쇠 함수를 새로 만들든 — <span class="math inline">\(P_1\)</span>이 <span class="math inline">\(P_2\)</span>보다 멀어질 수 없다. 스케일을 잘못 골라서 생기는 문제가 아니라, 고를 수 있는 것 전체가 닿지 못하는 영역이 있다는 뜻이다.</p>
+<p>그런 쌍을 실제로 만들 수 있다.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="attachments/260722_e376f9_13.png" class="img-fluid figure-img" style="width:96.0%"></p>
-<figcaption>스케일 예제. 왼쪽은 그래프(두 6-클리크+다리), 가운데는 snow 임베딩(두 군집이 계속 갈라져 있다), 오른쪽은 최대 diffusion 거리가 스케일 <span class="math inline">\(t_{\mathrm{diff}}\)</span>가 커지며 0으로 붕괴하는 모습.</figcaption>
+<figcaption>필터 예제. 왼쪽은 그래프 — 별 <span class="math inline">\(K_{1,20}\)</span>의 잎 하나에 펜던트를 달았고, 빨강이 쌍 <span class="math inline">\(P_1 = (\text{허브},\text{잎})\)</span>(1홉), 파랑이 쌍 <span class="math inline">\(P_2 = (\text{다른 잎},\text{펜던트})\)</span>(3홉)다. 가운데는 두 쌍의 스펙트럴 계수로, 네 고유값 전부에서 빨강이 파랑 이하다. 오른쪽 회색 띠는 <span class="math inline">\(f \ge 0\)</span>인 어떤 감쇠 함수로도 도달 가능한 거리비의 범위 전체이고, diffusion(모든 <span class="math inline">\(t_{\mathrm{diff}}\)</span>)·heat(모든 <span class="math inline">\(s\)</span>)·저항·최단거리가 모두 그 안에 갇힌다. snow만 띠 밖에 있다.</figcaption>
 </figure>
 </div>
-<p>이 그래프에는 뚜렷한 두 군집과 그 사이의 병목(다리)이 있다. 좋은 거리라면 이 경계를 언제 재도 유지해야 한다. 그런데 diffusion 거리는 스케일 <span class="math inline">\(t_{\mathrm{diff}}\)</span>가 커지면 가장 큰 거리마저 0으로 무너져, 모든 노드가 서로 등거리가 된다 — 과잉혼합이다.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nb <span class="op">=</span> <span class="dv">12</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Wb <span class="op">=</span> np.zeros((nb, nb))</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a, b0 <span class="kw">in</span> [(<span class="dv">0</span>, <span class="dv">6</span>), (<span class="dv">6</span>, <span class="dv">12</span>)]:</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(a, b0):</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i <span class="op">+</span> <span class="dv">1</span>, b0):</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>            Wb[i, j] <span class="op">=</span> Wb[j, i] <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Wb[<span class="dv">5</span>, <span class="dv">6</span>] <span class="op">=</span> Wb[<span class="dv">6</span>, <span class="dv">5</span>] <span class="op">=</span> <span class="dv">1</span>               <span class="co"># 다리 하나</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> td <span class="kw">in</span> [<span class="dv">2</span>, <span class="dv">32</span>, <span class="dv">512</span>]:               <span class="co"># diffusion: 스케일을 키우면 최대거리가 붕괴</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(td, <span class="bu">round</span>(diffusion_distance(Wb, td).<span class="bu">max</span>(), <span class="dv">4</span>))   <span class="co"># 1.895, 0.396, 0.0000</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>SDb <span class="op">=</span> snow_distance(Wb, np.zeros(nb), b<span class="op">=</span><span class="fl">0.5</span>, T<span class="op">=</span><span class="dv">30000</span>, seed<span class="op">=</span><span class="dv">5</span>)   <span class="co"># snow: ~4배로 유지</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>diffusion 거리는 <span class="math inline">\(t_{\mathrm{diff}}=2\)</span>에서 약 <span class="math inline">\(1.9\)</span>였다가 <span class="math inline">\(t_{\mathrm{diff}}=512\)</span>에서는 수치적으로 0까지 무너진다. snow는 그런 붕괴를 겪지 않고 두 군집을 언제나 군집 내부의 약 4배 거리로 벌려 둔다. 눈은 시간에 걸쳐 쌓이지 특정 스케일에서 평형에 도달해 정보를 잃지 않기 때문이다. 아래 애니메이션이 그 대비다 — 왼쪽 diffusion 임베딩은 한 점으로 뭉개지고, 오른쪽 snow 임베딩은 두 군집을 계속 떨어뜨려 둔다.</p>
+<p>계수를 보면 지배가 아슬아슬하지 않고 넉넉하다. <span class="math inline">\(\lambda = 0.31\)</span>에서 <span class="math inline">\(0.010\)</span> 대 <span class="math inline">\(23.0\)</span>, <span class="math inline">\(\lambda = 1.69\)</span>에서 <span class="math inline">\(0.300\)</span> 대 <span class="math inline">\(17.2\)</span>이고, 나머지 두 고유값에서는 정확히 같다. 이 계수들이 허용하는 비의 범위를 끝까지 계산하면 <span class="math inline">\([0.021,\ 1.000]\)</span>이다 — 스펙트럴 거리라면 무엇이든 이 구간 안에서만 답할 수 있다. 실제로 최단거리는 <span class="math inline">\(1/3\)</span>, 저항거리는 <span class="math inline">\(0.577\)</span>, diffusion은 스케일을 <span class="math inline">\(1\)</span>부터 <span class="math inline">\(4096\)</span>까지 훑어도 <span class="math inline">\([0.424,\ 1.000]\)</span>, heat 커널도 <span class="math inline">\([0.021,\ 0.716]\)</span>을 벗어나지 않는다. 전부 1 이하, 즉 하나같이 <strong>허브가 잎에 더 가깝다</strong>고 답한다.</p>
+<p>snow는 정반대로 답한다. 같은 그래프에서 <span class="math inline">\(\mathrm{SD}(\text{허브},\text{잎})\)</span>이 <span class="math inline">\(\mathrm{SD}(\text{다른 잎},\text{펜던트})\)</span>의 약 <span class="math inline">\(4.7\)</span>배다.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> m <span class="op">+</span> <span class="dv">2</span>                                  <span class="co"># 허브 0, 잎 1..20, 펜던트 21 (잎 1에 매달림)</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Wp <span class="op">=</span> np.zeros((n, n))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, m <span class="op">+</span> <span class="dv">1</span>): Wp[<span class="dv">0</span>, k] <span class="op">=</span> Wp[k, <span class="dv">0</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>Wp[<span class="dv">1</span>, m <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> Wp[m <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>SDp <span class="op">=</span> snow_distance(Wp, np.zeros(n), b<span class="op">=</span><span class="fl">0.5</span>, T<span class="op">=</span><span class="dv">150000</span>, seed<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(SDp[<span class="dv">0</span>, <span class="dv">5</span>] <span class="op">/</span> SDp[<span class="dv">2</span>, m <span class="op">+</span> <span class="dv">1</span>], <span class="dv">2</span>))                    <span class="co"># snow: 4.70  ← 허브-잎이 더 멀다</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>Rp <span class="op">=</span> np.sqrt(resistance_distance(Wp))            <span class="co"># 저항은 제곱값이라 d 스케일로 맞춘다</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>Hp <span class="op">=</span> shortest_hops(Wp)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Hp[<span class="dv">0</span>, <span class="dv">5</span>], Hp[<span class="dv">2</span>, m <span class="op">+</span> <span class="dv">1</span>])                                 <span class="co"># 1 vs 3      (비 0.333)</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">round</span>(Rp[<span class="dv">0</span>, <span class="dv">5</span>] <span class="op">/</span> Rp[<span class="dv">2</span>, m <span class="op">+</span> <span class="dv">1</span>], <span class="dv">3</span>))                      <span class="co"># 0.577</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>([<span class="bu">round</span>(diffusion_distance(Wp, td)[<span class="dv">0</span>, <span class="dv">5</span>] <span class="op">/</span> diffusion_distance(Wp, td)[<span class="dv">2</span>, m <span class="op">+</span> <span class="dv">1</span>], <span class="dv">3</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>       <span class="cf">for</span> td <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">16</span>, <span class="dv">64</span>, <span class="dv">512</span>]])           <span class="co"># [0.424, 0.815, 1.0, 1.0, 1.0]  ← 전부 1 이하</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>왜 갈리는지는 지형을 직접 보면 바로 보인다. 낙하가 차수에 비례하니 차수 <span class="math inline">\(20\)</span>인 허브는 잎보다 스무 배 자주 눈을 받고, 잎에서 올라오지 못해 막히는 흐름까지 허브에 얹힌다. 그래서 허브가 압도적으로 솟는다. 펜던트 쪽은 다르다. 펜던트와 그 부모 잎은 막다른 골목이라 한번 들어온 걷는 이가 한동안 갇혀 눈을 쌓고, 그래서 평범한 잎보다는 높지만 허브에는 한참 못 미치는 중간 높이가 된다. <span class="math inline">\(T = 150{,}000\)</span>에서 잎 평균을 기준으로 허브는 <span class="math inline">\(+5332\)</span>, 펜던트와 그 부모 잎은 <span class="math inline">\(+1132\)</span>, 평범한 잎은 <span class="math inline">\(-39\)</span>다. 높이 서열이 허브 <span class="math inline">\(\gg\)</span> 펜던트 <span class="math inline">\(&gt;\)</span> 잎이니, 1홉 떨어진 허브–잎 쌍이 3홉 떨어진 잎–펜던트 쌍보다 멀 수밖에 없다.</p>
+<p>구조 거리들은 이 서열을 볼 방법이 없다. 그들이 아는 것은 “허브는 모두와 1홉이니 모두와 가깝다”뿐이고, 감쇠 함수를 어떻게 바꿔도 그 판단의 부호는 안 바뀐다. 반면 눈은 중심성이 높은 노드를 <strong>가까운 곳</strong>이 아니라 <strong>눈이 몰리는 곳</strong>으로 읽는다.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="attachments/260722_e376f9_15.gif" class="img-fluid figure-img" style="width:88.0%"></p>
-<figcaption>왼쪽: <span class="math inline">\(t_{\mathrm{diff}}\)</span>가 커지며 diffusion 임베딩이 한 점으로 붕괴. 오른쪽: snow 임베딩은 두 군집(주황/초록)을 계속 갈라 둔다.</figcaption>
+<p><img src="attachments/260722_e376f9_15.gif" class="img-fluid figure-img" style="width:96.0%"></p>
+<figcaption>왼쪽은 그래프, 가운데는 잎 평균을 기준으로 잰 지형이 자라나는 모습(허브가 솟고, 펜던트 가지가 중간에 걸린다), 오른쪽은 snow 거리비가 시간에 따라 어떻게 가는지다. 회색 띠는 모든 스펙트럴 거리가 갇히는 구간으로, snow 곡선은 처음부터 끝까지 그 위에 머문다.</figcaption>
 </figure>
 </div>
+<p>두 쌍 모두 드리프트 티어라(<span class="math inline">\(\mathrm{SD}^2\)</span>의 로그–로그 기울기 <span class="math inline">\(2.99\)</span>와 <span class="math inline">\(3.07\)</span>) 이 비는 시간이 지나며 사라지는 과도 현상이 아니라 상수로 안정된다. 오른쪽 곡선이 회색 띠 위에 붙어 평평한 것이 그 뜻이다.</p>
 </section>
 </section>
 <section id="세-얼굴을-모으면" class="level1">
 <h1>세 얼굴을 모으면</h1>
-<p>여섯 개의 작은 실험 그래프가 한 결론을 가리킨다. 무거운 눈 변환은 <strong>값과 구조 사이를 손잡이 하나로 오가고</strong>(<span class="math inline">\(t\)</span>의 줄다리기), <strong>오래 돌렸을 때의 거동이 정수 하나로 완전히 분류되며</strong>(세 티어), <strong>고전 그래프 거리들이 — 하나씩, 그리고 여기서는 전부 — 놓치는 병목·방향·군집 구조를 읽는다</strong>(도장깨기). 값만 보는 거리도, 구조만 보는 거리도, 스케일에 갇힌 거리도, 화살표를 지워야 하는 거리도 아니다. 그래프 위 데이터를 지형 삼아 눈을 쌓아 보는 것 — 그 단순한 발상이 셋을 한꺼번에 준다.</p>
+<p>일곱 개의 작은 실험 그래프가 한 결론을 가리킨다. 무거운 눈 변환은 <strong>값과 구조 사이를 손잡이 하나로 오가고</strong>(<span class="math inline">\(t\)</span>의 줄다리기), <strong>오래 돌렸을 때의 거동이 정수 하나로 완전히 분류되며</strong>(세 티어), <strong>고전 그래프 거리들이 놓치는 병목·방향을 읽고, 나아가 스펙트럴 거리 가족 전체가 어떤 스케일로도 도달할 수 없는 순서를 만든다</strong>(도장깨기). 값만 보는 거리도, 구조만 보는 거리도, 감쇠 함수 하나에 갇힌 거리도, 화살표를 지워야 하는 거리도 아니다. 그래프 위 데이터를 지형 삼아 눈을 쌓아 보는 것 — 그 단순한 발상이 셋을 한꺼번에 준다.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
