@@ -1,0 +1,177 @@
+---
+title: "연구 ▷ HST ▷ 보조정리 12 (degenerate gaps are chamber-pinned) 해설"
+author: 리이
+date: 07/30/2026
+draft: false
+output-file: 260730_533910.html
+fontsize: 1.0em
+# 판정: (A) 학습·이해용 — 해리 hst_AAA_52재구성 §The petite small set 보조정리 12 해설. §2.7 수열·행렬 코드+수식 페어 적용 (figure 없음이라 §2.6 은 해당 없음). 대표 지시 2026-07-30.
+---
+
+기준본은 감(감사팀) 글다듬기 반영본 `hst_AAA_52재구성.tex` 이고, 번호는 그 `.aux` 의 `\newlabel` 실측이다: `lem:chamber` = 보조정리 12, `lem:rowspace` = 보조정리 11, `dfn:fiber` = 정의 10, `dfn:window` = 정의 4, `dfn:chamber` = 정의 3, `ex:gap` = 예제 5, `ex:fallmap` = 예제 3, `ex:degeneracy` = 예제 8.
+
+## 이 보조정리가 풀려는 문제
+
+구성의 이 지점에서 남은 재료는 (i) tie 회피와 (ii) 비-낙하 적재량이 gap 을 뒤집지 않을 만큼 작을 것, 둘이다. 둘 다 "낙하 적재량에서 무엇을 도려내야(excise) walker 가 하는 모든 비교가 확정되는가" 에 대한 진술이다.
+
+도려내기가 통하는 이유는 단순하다. gap 은 낙하 적재량의 affine 함수이므로, gap 이 tie 값 근처에 오는 적재량들은 tie 값을 중심으로 한 얇은 관(tube)을 이루고, 그 관의 부피는 두께에 비례한다. 얇게 도려내면 잃는 질량도 얇다.
+
+그런데 fiber 위에서는 이 논법이 통하지 않는 gap 이 있다. fiber 는 같은 fall shift 를 갖는 적재량들의 집합이고 (정의 9), 그 위를 움직이는 좌표가 kernel 좌표 $\mathbf{z}^{\sharp}$ 이다. 어떤 gap 은 이 좌표에 대해 **상수**다. 상수인 함수에는 "tie 근처" 라는 얇은 관이 없다. tie 값과 같으면 fiber 전체가 나쁘고, 다르면 fiber 전체가 좋다. 도려내기로는 손댈 수 없다.
+
+보조정리 12가 하는 일은 이 손댈 수 없는 gap 들이 사실은 **손댈 필요가 없음**을 보이는 것이다. 그것들은 두 종류뿐이고, 한 종류는 낙하가 아예 관여하지 않아 자명하며, 다른 한 종류는 착지점 $\mathbf{u}$ 에서의 값으로 pin 되는데 chamber 가 그 값을 tie 로부터 이미 떼어놓았다.
+
+## degeneracy 는 선형대수적 조건이다
+
+정의 4에서 $(i,j,r)$ 의 gap 은 낙하 적재량 $\mathbf{b}^{\sharp}\in\mathbb{R}^{m}$ 의 affine 함수
+
+$$
+\mathbf{b}^{\sharp} \;\longmapsto\; \hbar(v_i,s^{\star})-\hbar(v_j,s^{\star}) + (\boldsymbol{a}^{\sharp}_{ijr})^{\top}\mathbf{b}^{\sharp}
+$$
+
+이고, 여기서 $\boldsymbol{a}^{\sharp}_{ijr}\in\{0,1,-1\}^{m}$ 은 라운드 $r'$ 에 대응하는 성분이 $r'\leq r$ 이면서 그 낙하가 $v_i$ 에 착지하면 $+1$, $v_j$ 에 착지하면 $-1$, 그 외에는 $0$ 인 벡터다.
+
+fiber 를 $\mathbf{b}^{\sharp}=(\mathbf{A}^{\sharp})^{+}\Delta\boldsymbol{h}^{\sharp}+\mathbf{Z}^{\sharp}\mathbf{z}^{\sharp}$ 로 매개하면, 위 함수는 $\mathbf{z}^{\sharp}$ 에 대해
+
+$$
+\text{상수항} \;+\; (\boldsymbol{a}^{\sharp}_{ijr})^{\top}\mathbf{Z}^{\sharp}\,\mathbf{z}^{\sharp}
+$$
+
+가 된다. 그래서 정의 10은 $(\boldsymbol{a}^{\sharp}_{ijr})^{\top}\mathbf{Z}^{\sharp}=\mathbf{0}$ 일 때 그 gap 을 degenerate 라 부른다. $\mathbf{Z}^{\sharp}$ 의 열이 $\ker(\mathbf{A}^{\sharp})$ 의 기저이므로 이 조건은
+
+$$
+\boldsymbol{a}^{\sharp}_{ijr} \perp \ker(\mathbf{A}^{\sharp})
+\qquad\text{즉}\qquad
+\boldsymbol{a}^{\sharp}_{ijr} \in \operatorname{Range}\bigl((\mathbf{A}^{\sharp})^{\top}\bigr)
+$$
+
+와 같다. degeneracy 는 그러니까 gap 벡터가 sharp map 의 row space 에 들어앉느냐 하는 문제다.
+
+## row space 가 강제하는 all-or-none
+
+보조정리 11이 그 row space 를 정확히 읽어준다. 벡터 $\boldsymbol{\xi}\in\mathbb{R}^{m}$ 를 $(k,\ell)$ — 노드 $k$, cycle $\ell$ — 로 인덱싱하면
+
+$$
+\operatorname{Range}\bigl((\mathbf{A}^{\sharp})^{\top}\bigr)
+= \Bigl\{\boldsymbol{\xi} : \xi_{k,\ell}=c_k\ (\ell \text{ 에 무관}),\ \textstyle\sum_{k=1}^{n} c_k = 0\Bigr\} .
+$$
+
+즉 조건이 둘이다. 첫째, **각 노드 그룹 안에서 값이 상수**여야 한다 — 같은 노드에 떨어진 $L$ 개의 낙하가 모두 같은 계수를 받아야 한다. 둘째, 그 그룹 값들의 **합이 $0$** 이어야 한다.
+
+여기에 $\boldsymbol{a}^{\sharp}_{ijr}$ 의 성분이 $0,\pm1$ 뿐이라는 사실을 얹으면 all-or-none 이 나온다. $v_i$ 그룹의 성분들을 보자. 정의 4에 따라 $r'$ 번째 낙하가 $v_i$ 에 착지하면 그 성분은 $r'\leq r$ 일 때 $1$, 아니면 $0$ 이다. 그룹 안에서 상수이려면 $v_i$ 위의 $L$ 개 낙하가 전부 $r$ 이하이거나 전부 $r$ 초과여야 한다. 중간은 허용되지 않는다. $v_j$ 도 마찬가지다.
+
+- $v_i$·$v_j$ 위의 낙하가 하나도 세어지지 않는 경우 $\Rightarrow$ $\boldsymbol{a}^{\sharp}_{ijr}=\mathbf{0}$, 이는 $r$ 이 $v_i$ 나 $v_j$ 의 첫 낙하보다 앞선다는 것, 즉 $r<\min(i,j)$ 이다.
+- $v_i$·$v_j$ 위의 낙하가 전부 세어지는 경우 $\Rightarrow$ $c_i=1$, $c_j=-1$, 나머지 $c_k=0$ 이고 합은 $0$ 이다.
+
+이 둘이 보조정리 12가 말하는 두 타입, **fall-free** 와 **final-equality** 다.
+
+## 세 벡터로 확인하기
+
+$n=3$, $L=2$ 로 두면 window 는 $m=6$ 번의 낙하를 라운드 순서로 $v_1,v_2,v_3,v_1,v_2,v_3$ 에 떨어뜨린다 (예제 3). 예제 5의 세 gap 벡터가 위 세 경우를 정확히 하나씩 실현한다.
+
+```python
+n, L = 3, 2
+m = n * L                        # 6
+fall_node = [1, 2, 3, 1, 2, 3]   # 라운드 순서로 본 각 낙하의 착지 노드
+
+A = np.zeros((n - 1, m))         # 예제 3 의 sharp map
+for ell in range(L):
+    for k in range(2, n + 1):
+        A[k - 2, n * ell + (k - 1)] = 1.0
+        A[k - 2, n * ell + 0] = -1.0
+
+Z = np.zeros((m, m - (n - 1)))   # 노드별 transfer 3개 + equal add 1개
+for k in range(n):
+    Z[k, k] = 1 / np.sqrt(2)
+    Z[n + k, k] = -1 / np.sqrt(2)
+Z[:, n] = 1 / np.sqrt(6)
+
+print(A)
+print(A @ Z)
+```
+
+```text
+[[-1.  1.  0. -1.  1.  0.]
+ [-1.  0.  1. -1.  0.  1.]]
+[[0. 0. 0. 0.]
+ [0. 0. 0. 0.]]
+```
+
+$\mathbf{A}^{\sharp}\mathbf{Z}^{\sharp}=\mathbf{0}$ 이니 $\mathbf{Z}^{\sharp}$ 의 열이 실제로 kernel 에 앉아 있고, 그 차원은 $m-(n-1)=4$ 다.
+
+이제 $(i,j)=(2,3)$ 에 대해 $r=1,6,4$ 의 gap 벡터를 만들어 $(\boldsymbol{a}^{\sharp}_{2,3,r})^{\top}\mathbf{Z}^{\sharp}$ 와, 보조정리 11의 두 조건(그룹 내 상수 / 그룹 값 합 $0$)을 나란히 본다.
+
+```python
+def a_vec(i, j, r):
+    a = np.zeros(m)
+    for rp in range(1, m + 1):
+        if rp <= r:
+            if fall_node[rp - 1] == i:
+                a[rp - 1] = 1.0
+            elif fall_node[rp - 1] == j:
+                a[rp - 1] = -1.0
+    return a
+
+for r in (1, 6, 4):
+    a = a_vec(2, 3, r)
+    groups = np.array([[a[n * ell + k] for ell in range(L)] for k in range(n)])
+    print(r, a, a @ Z, groups.tolist(),
+          np.all(groups.max(axis=1) == groups.min(axis=1)), groups[:, 0].sum())
+```
+
+```text
+--- (i,j,r) = (2,3,1) ---
+a^sharp_(2,3,1)     = [0. 0. 0. 0. 0. 0.]
+a^T Z^sharp        = [0. 0. 0. 0.]
+node group 별 값    = [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]  (행 = v1,v2,v3 / 열 = cycle)
+group 내 상수인가   = True
+group 값 c          = [0. 0. 0.],  합 = 0.0
+degenerate 인가     = True
+
+--- (i,j,r) = (2,3,6) ---
+a^sharp_(2,3,6)     = [ 0.  1. -1.  0.  1. -1.]
+a^T Z^sharp        = [0. 0. 0. 0.]
+node group 별 값    = [[0.0, 0.0], [1.0, 1.0], [-1.0, -1.0]]  (행 = v1,v2,v3 / 열 = cycle)
+group 내 상수인가   = True
+group 값 c          = [ 0.  1. -1.],  합 = 0.0
+degenerate 인가     = True
+
+--- (i,j,r) = (2,3,4) ---
+a^sharp_(2,3,4)     = [ 0.  1. -1.  0.  0.  0.]
+a^T Z^sharp        = [ 0.     0.707 -0.707  0.   ]
+node group 별 값    = [[0.0, 0.0], [1.0, 0.0], [-1.0, 0.0]]  (행 = v1,v2,v3 / 열 = cycle)
+group 내 상수인가   = False
+group 값 c          = [ 0.  1. -1.],  합 = 0.0
+degenerate 인가     = False
+```
+
+$r=1$ 은 fall-free 다. $r=1<\min(2,3)=2$ 이므로 $v_2$ 에도 $v_3$ 에도 아직 낙하가 없었고 벡터 자체가 $\mathbf{0}$ 이다.
+
+$r=6$ 은 final-equality 다. $v_2$ 그룹이 $(1,1)$, $v_3$ 그룹이 $(-1,-1)$ 로 각각 상수이고 합이 $0+1-1=0$ 이니 row space 조건을 만족한다. 두 노드 위의 낙하가 하나도 빠짐없이 세어진 경우다.
+
+$r=4$ 가 **왜 degenerate 가 아닌지**가 all-or-none 의 핵심을 보여준다. $v_2$ 그룹이 $(1,0)$ 이다 — cycle 1의 낙하는 $r=4$ 이하라 세어지고 cycle 2의 낙하($r'=5$)는 세어지지 않는다. 그룹 안에서 상수가 깨지므로 row space 밖이고, 실제로 $(\boldsymbol{a}^{\sharp}_{2,3,4})^{\top}\mathbf{Z}^{\sharp}=(0,\ 1/\sqrt{2},\ -1/\sqrt{2},\ 0)$ 로 $\mathbf{0}$ 이 아니다. $v_2$ 안에서의 transfer(두 번째 kernel 열)가 $z^{\sharp}_2$ 한 단위당 이 gap 을 $1/\sqrt{2}$ 만큼 움직인다는 뜻이다. 움직일 수 있으니 도려내기가 통한다.
+
+즉 "낙하를 세다 마는" 중간 상태의 gap 은 항상 nondegenerate 이고, degenerate 인 것은 세지 않거나 다 세거나 둘뿐이다.
+
+## chamber 가 회수되는 지점
+
+두 타입이 왜 각각 안전한지가 남았다.
+
+fall-free 타입은 $\boldsymbol{a}^{\sharp}_{ijr}=\mathbf{0}$ 이라 낙하 적재량이 식에서 통째로 빠진다. 그 gap 은 시작 상태와 비-낙하 적재량만의 함수이므로 낙하 쪽에서 도려낼 것이 애초에 없다.
+
+final-equality 타입이 chamber 를 쓴다. $v_i$·$v_j$ 위의 모든 낙하가 세어지므로 이 gap 은 window 가 끝난 시점의 상대 높이 차이 그 자체이고, fall shift 가 $\sum_{\ell=1}^{L}\bar{\boldsymbol{b}}^{\sharp}_\ell=\mathbf{u}-\boldsymbol{\hbar}(s^{\star})$ 인 곳에서는
+
+$$
+\hbar(v_i,s^{\star})-\hbar(v_j,s^{\star}) + \sum_{\ell=1}^{L} b^{\sharp}_{i,\ell}-\sum_{\ell=1}^{L} b^{\sharp}_{j,\ell} \;=\; u_i-u_j
+$$
+
+로 착지점 $\mathbf{u}$ 의 $i$·$j$ 성분 차이에 pin 된다. 그리고 이 값은 $0$ 에서 떨어져 있다:
+
+$$
+|u_i-u_j| \;\geq\; c_{\mathsf{U}} := \min_{k\neq l}\,\inf_{\mathbf{u}'\in\mathsf{U}}\,|u'_k-u'_l| \;>\; 0 .
+$$
+
+$c_{\mathsf{U}}>0$ 인 이유는 정의 3이 chamber 를 그렇게 만들어 두었기 때문이다. $\mathsf{U}$ 는 콤팩트하고, tie 집합 $\{\mathbf{u} : u_k = u_l\}$ 들과 서로소이며, 그 tie 집합은 유한개($k\neq l$ 쌍의 개수만큼)다. 콤팩트 집합과 그와 서로소인 유한개의 닫힌 집합 사이의 거리는 양수이므로 하한 $c_{\mathsf{U}}$ 가 $0$ 이 될 수 없다.
+
+여기서 비고 1이 걸어둔 약속이 회수된다. 비고 1은 chamber 가 왜 원점 근처의, 그것도 하나의 strict order 안(ties 로부터 떨어져)에 있어야 하는지를 "보조정리 12에서 분명해진다" 고만 하고 미뤄두었다. 그 이유가 이것이다. tie 로부터 떨어져 있으라는 요구는 미적 취향이 아니라, 도려내기가 손댈 수 없는 gap 들을 대신 확정해 주는 장치다.
+
+정리하면 역할 분담이 이렇게 갈린다. nondegenerate gap 은 fiber 위에서 움직이므로 tie 값 둘레의 $\delta$-관을 도려내어 확정하고, 그 대가는 보조정리 13이 $O(\delta)$ 로 값을 매겨 fiber floor 의 절반을 지킨다. degenerate gap 은 움직이지 않으므로 도려낼 수 없고, 대신 chamber 가 target 쪽에서 확정한다.
