@@ -63,11 +63,101 @@ $$
 
 한 걸음 물러나 보면 이 두 조건은 $\mathbf{A}^{\sharp}$ 가 무엇을 읽는지를 그대로 반영한 것이다. 낙하지도는 각 노드가 window 동안 받은 **총량**을 $v_1$ 기준으로 잴 뿐이다. 언제 받았는지는 묻지 않으므로 같은 노드 안의 재분배가 투명하고, $v_1$ 과의 차이만 재므로 전체를 똑같이 올리는 것도 투명하다. 행공간은 그 두 가지 투명성을 뒤집어 놓은 것이다.
 
-증명이 하는 일도 이 관찰의 확인이다. 행공간이 $\mathbf{A}^{\sharp}$ 의 행벡터들이 생성하는 공간이라는 것은 정의이므로, 남는 일은 그 생성 결과가 위 표들이라는 확인뿐이다.
+## 증명 — 기호주의 골격
 
-$\mathbf{A}^{\sharp}$ 의 $p$ 번째 행을 표로 접으면 $L$ 개 cycle 에 걸쳐 같은 패턴이 반복된다 — 노드 그룹 $p+1$ 에 $+1$, 노드 그룹 $1$ 에 $-1$, 나머지는 $0$. 즉 각 행이 이미 두 조건을 만족하되, 그룹 값이 아무 $c$ 나 아니라 $\mathbf{e}_{p+1}-\mathbf{e}_1$ 이라는 특수한 꼴이다. 낱개의 행은 "노드 하나 대 $v_1$" 만 비교한다.
+**보일 것.**
 
-그런데 이 $n-1$ 개의 $\mathbf{e}_{p+1}-\mathbf{e}_1$ 이 $\{c\in\mathbb{R}^{n} : \sum_k c_k=0\}$ 을 생성하고, 표를 만드는 일이 $c$ 에 대해 선형이므로, span 을 취하면 합이 $0$ 인 모든 $c$ 의 표가 나온다. $v_1$ 을 기준으로 삼지 않는 비교도 이렇게 얻어진다. 앞서 든 $c=(0,1,-1)$ 은 어느 행도 아니지만 첫 행에서 둘째 행을 빼면 나온다.
+$$
+\operatorname{Range}\bigl((\mathbf{A}^{\sharp})^{\top}\bigr)\;=\;\mathsf{R},
+\qquad
+\mathsf{R}:=\Bigl\{\boldsymbol{\xi} : \xi_{k,\ell}=c_k\ (\ell \text{ 에 무관}),\ \textstyle\sum_{k}c_k=0\Bigr\} .
+$$
+
+행공간이 행벡터들의 span 이라는 것은 정의이므로, 남은 일은 그 span 을 계산하는 것뿐이다. 계산을 두 부품으로 나눈다 — 행 하나가 무엇인지, 그리고 그것들을 섞으면 어디까지 퍼지는지.
+
+**기호.** $c$ 를 노드 그룹 안 상수로 펼치는 사상을 $\Psi$ 라 쓰고, 합이 $0$ 인 $c$ 들의 공간을 $\mathsf{H}$ 라 쓴다:
+
+- $\Psi:\mathbb{R}^{n}\to\mathbb{R}^{m}$, $(\Psi c)_{k,\ell}:=c_k$ (모든 $\ell$ 에 같은 값을 복사).
+- $\mathsf{H}:=\{c\in\mathbb{R}^{n} : \sum_{k=1}^{n}c_k=0\}$.
+
+이 표기로 목표는 $\operatorname{Range}((\mathbf{A}^{\sharp})^{\top})=\Psi(\mathsf{H})$ 이다.
+
+### Step 1 — 행 하나의 정체
+
+$\mathbf{A}^{\sharp}$ 의 $p$ 번째 행은 $\mathbf{A}^{\sharp}\mathbf{b}^{\sharp}$ 의 $p$ 성분을 만드는 covector 이다:
+
+$$
+(\mathbf{A}^{\sharp}\mathbf{b}^{\sharp})_p=\sum_{\ell=1}^{L}\bigl(b^{\sharp}_{p+1,\ell}-b^{\sharp}_{1,\ell}\bigr)
+\;\Longrightarrow\;
+\text{행}_p \text{ 는 노드 그룹 } p+1 \text{ 에 } +1,\ \text{노드 그룹 } 1 \text{ 에 } -1,\ \text{나머지 } 0 .
+$$
+
+$$
+\Longrightarrow\quad \text{행}_p=\Psi(\mathbf{e}_{p+1}-\mathbf{e}_1)
+\qquad (1\leq p\leq n-1) .
+\tag{1}
+$$
+
+각 행이 이미 $\mathsf{R}$ 의 조건을 만족하되, 그룹 값이 아무 $c$ 가 아니라 $\mathbf{e}_{p+1}-\mathbf{e}_1$ 이라는 특수한 꼴이다. 즉 낱개의 행은 "노드 하나 대 $v_1$" 만 비교한다.
+
+### Step 2 — $\Psi$ 가 span 을 통과시킨다
+
+$$
+\Psi \text{ 선형}
+\;\Longrightarrow\;
+\operatorname{span}\{\Psi(x_1),\ldots,\Psi(x_q)\}=\Psi\bigl(\operatorname{span}\{x_1,\ldots,x_q\}\bigr) .
+\tag{2}
+$$
+
+$$
+(\Psi c=\mathbf{0} \Longrightarrow c_k=0\ \forall k \Longrightarrow c=\mathbf{0})
+\;\Longrightarrow\;
+\Psi \text{ 단사}
+\;\Longrightarrow\;
+\dim\Psi(\mathsf{H})=\dim\mathsf{H} .
+\tag{2'}
+$$
+
+### Step 3 — 특수한 $c$ 들이 $\mathsf{H}$ 전체를 덮는다
+
+- $\sum_k(\mathbf{e}_{p+1}-\mathbf{e}_1)_k=1-1=0 \Longrightarrow \mathbf{e}_{p+1}-\mathbf{e}_1\in\mathsf{H}$.
+- $\sum_{p}a_p(\mathbf{e}_{p+1}-\mathbf{e}_1)=\mathbf{0}$ 의 $(p+1)$ 좌표를 읽으면 $a_p=0$ $\Longrightarrow$ 이 $n-1$ 개는 일차독립.
+- $\mathsf{H}$ 는 $\mathbb{R}^{n}$ 에 비자명 선형조건 하나를 건 것 $\Longrightarrow \dim\mathsf{H}=n-1$.
+
+$$
+\Longrightarrow\quad
+\operatorname{span}\{\mathbf{e}_{p+1}-\mathbf{e}_1 : 1\leq p\leq n-1\}=\mathsf{H} .
+\tag{3}
+$$
+
+### Step 4 — 조립
+
+$$
+\begin{aligned}
+\operatorname{Range}\bigl((\mathbf{A}^{\sharp})^{\top}\bigr)
+&=\operatorname{span}\{\text{행}_1,\ldots,\text{행}_{n-1}\}
+   \quad (\because\ \text{행공간의 정의}) \\
+&=\operatorname{span}\{\Psi(\mathbf{e}_{p+1}-\mathbf{e}_1)\}_{p=1}^{n-1}
+   \quad (\because\ (1)) \\
+&=\Psi\bigl(\operatorname{span}\{\mathbf{e}_{p+1}-\mathbf{e}_1\}_{p=1}^{n-1}\bigr)
+   \quad (\because\ (2)) \\
+&=\Psi(\mathsf{H})
+   \quad (\because\ (3)) \\
+&=\mathsf{R} .
+\end{aligned}
+$$
+
+$$
+\Longrightarrow\quad \operatorname{Range}\bigl((\mathbf{A}^{\sharp})^{\top}\bigr)=\mathsf{R} . \qquad \blacksquare
+$$
+
+차원도 맞아떨어진다. $(2')$ 와 $(3)$ 에서 $\dim\mathsf{R}=\dim\mathsf{H}=n-1$ 이고, 이는 보조정리 1 이 준 $\operatorname{rank}\mathbf{A}^{\sharp}=n-1$ 과 같다.
+
+원문이 "taking spans on both sides" 한 줄로 넘긴 곳이 Step 2 와 Step 3 이다. 여기서 실제로 일어나는 일은 범위의 확장이다 — 낱개의 행은 전부 $v_1$ 을 기준으로 삼는 비교인데, 섞고 나면 $v_1$ 이 등장하지 않는 비교까지 나온다. 앞서 든 $c=(0,1,-1)$ 이 그런 경우로, 어느 행도 아니지만 첫 행에서 둘째 행을 빼면 얻어진다:
+
+$$
+\Psi(\mathbf{e}_2-\mathbf{e}_1)-\Psi(\mathbf{e}_3-\mathbf{e}_1)=\Psi(\mathbf{e}_2-\mathbf{e}_3) .
+$$
 
 ## Example 3·5·8 로 확인
 
