@@ -167,6 +167,53 @@ $$
 \quad (\because\ \text{Step 0 의 adjunction}) . \qquad \blacksquare
 $$
 
+## Example 1·2 의 수치로 보기
+
+같은 문서의 Example 1 (three nodes 의 chamber) 과 Example 2 (landing a target) 가 이미 구체적인 수를 잡아 두었으므로, 그것을 그대로 넣으면 위 골격이 평면 위의 그림 하나가 된다. 두 예제의 설정은 $n=3$, $b=3.2$, $M_0=1$ 이고, Example 2 는 시작 상대높이 $\boldsymbol{\hbar}(s^{\star})=(0.3,\,0.2)$ 와 chamber $\mathsf{U}=[-0.3,-0.1]\times[0.4,0.6]$, target $\mathbf{u}=(-0.2,\,0.5)$ 를 쓴다. 상대높이가 2차원이므로 등장하는 집합이 전부 평면 도형이다.
+
+$L$ 은 두 예제가 정해 준 수에서 바로 나온다:
+
+$$
+L=\lceil 16M_0/b+3\rceil=\lceil 16/3.2+3\rceil=\lceil 8\rceil=8,
+\qquad m=nL=24 .
+$$
+
+$\mathsf{H}_0$ 는 높이 범위가 $M_0$ 이하인 상대높이들이므로 Example 1 이 그린 육각형이고, 원점대칭이라 $-\mathsf{H}_0=\mathsf{H}_0$ 이다. 따라서 반사는 이 예제에서 아무 일도 하지 않는다. $\mathsf{U}$ 와 $\mathsf{H}_0$ 가 모두 볼록다각형이므로 민코프스키 합은 꼭짓점 쌍의 합을 convex hull 로 감싸 얻는다.
+
+```python
+n, b, M0 = 3, 3.2, 1.0
+L = int(np.ceil(16 * M0 / b + 3))            # 8
+H0 = np.array([[1,0],[1,1],[0,1],[-1,0],[-1,-1],[0,-1]], float) * M0
+U = rect([-0.3, 0.4], [-0.1, 0.6])
+raw = minkowski(U, -H0)                       # U (+) (-H_0)
+grown = minkowski(raw, square(L * b / 8))     # raw (+) 여유 disk
+```
+
+```text
+L=8, m=24, 여유 disk 반지름 Lb/8=3.2
+raw 실제 최대 ell^inf = 1.60
+grown 실제 최대 ell^inf = 4.80
+문서 상한 b/4+2M_0+Lb/8 = 6.0, reach 하한 Lb/4 = 6.4, 여유 b/8 = 0.4
+```
+
+![](attachments/260730_17fa6c_01.png)
+
+(a) 는 두 예제의 무대이다. 회색 육각형이 $\mathsf{H}_0$, 파란 정사각형이 $\mathsf{D}_\infty(b/4)=\mathsf{D}_\infty(0.8)$, 그 안의 작은 빨간 사각형이 chamber $\mathsf{U}$ 이며, 점선 세 개가 tie 집합이다. $\mathsf{U}$ 가 세 점선 어디에도 닿지 않고 파란 정사각형 안에 들어가 있는 것이 정의 2 가 요구한 전부다. 검은 점이 출발점, 별표가 target 이고 Example 2 는 아홉 스텝으로 앞의 것을 뒤의 것으로 옮긴다.
+
+(b) 는 raw target 집합 $\mathsf{U}\oplus(-\mathsf{H}_0)$ 이다. 작은 사각형에 육각형을 붙여 문지른 모양이 되고, 점선 정사각형이 Step 2 가 잡은 상한 $b/4+2M_0=2.8$ 이다. 실제 도형은 $1.6$ 까지밖에 안 가므로 상한이 꽤 헐겁게 잡혀 있다.
+
+(c) 가 Step 2 그 자체다. 진한 파랑이 raw target, 옅은 파랑이 거기에 여유 disk $\overline{\mathsf{D}}_\infty(Lb/8)=\overline{\mathsf{D}}_\infty(3.2)$ 를 더해 자란 것, 점선이 상한 $6.0$, 굵은 초록이 reach 가 담고 있는 $\overline{\mathsf{D}}_\infty(Lb/4)=\overline{\mathsf{D}}_\infty(6.4)$ 이다. 자란 도형이 초록 정사각형 안에 들어가는 것이 보이면 (G2) 가 눈으로 확인된 것이다.
+
+여기서 한 가지가 눈에 띈다. $16M_0/b=5$ 가 정수라 천장함수가 아무것도 올리지 않고, 그래서 Step 2 의 부등식이 **등호로 닿는다**:
+
+$$
+\tfrac{Lb}{8}=3.2,
+\qquad
+2M_0+\tfrac{3b}{8}=2+1.2=3.2 .
+$$
+
+즉 이 예제는 $L$ 을 하나라도 줄이면 곧장 깨지는 tight case 이고, 상한 $6.0$ 과 reach $6.4$ 의 차이가 정확히 여유 $b/8=0.4$ 다. 그림 (c) 의 확대 상자가 그 $0.4$ 이다. 반면 실제 도형은 $4.8$ 까지밖에 자라지 않으므로, 부등식이 tight 한 것은 어디까지나 **상한끼리의 산술**이고 실제 집합에는 $1.6$ 만큼의 여백이 더 남아 있다. 이 격차의 대부분은 시작 상대높이를 $2M_0$ 로 잡은 데서 온다 — 상대높이는 $|\hbar_i|\leq M(s^{\star})\leq M_0$ 이므로 실제로는 $M_0=1$ 이면 충분한데 $2M_0=2$ 로 세었고, 그 차이가 (b) 의 점선과 파란 도형 사이 간격으로 그대로 보인다.
+
 ## 이 보조정리가 앉는 자리
 
 여기까지는 순수한 기하이다. tie 를 도려내는 일도, 밀도도 등장하지 않는다.
