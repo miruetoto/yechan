@@ -1,5 +1,5 @@
 ---
-title: "연구 ▷ HST ▷ HST₀: block 없으면 SD는 발산한다"
+title: "연구 ▷ 눈사람연구소 ▷ HST₀: block 없으면 SD는 발산한다"
 author: 소미
 date: 05/15/2026
 draft: false

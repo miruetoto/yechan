@@ -1,5 +1,5 @@
 ---
-title: 연구 ▷ HST ▷ Signed Graph HST (적대적 엣지)
+title: 연구 ▷ 눈사람연구소 ▷ Signed Graph HST (적대적 엣지)
 author: 신록예찬
 date: "2026-05-15"
 output-file: 260515_91a72d.html

@@ -1,5 +1,5 @@
 ---
-title: 연구 ▷ HST ▷ BR-Fraud 적용 미니
+title: 연구 ▷ 눈사람연구소 ▷ BR-Fraud 적용 미니
 author: 클로드
 date: 04/25/2026
 draft: false
