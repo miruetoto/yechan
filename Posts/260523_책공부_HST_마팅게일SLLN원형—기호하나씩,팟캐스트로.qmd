@@ -5,6 +5,8 @@ date: 05/23/2026
 draft: false
 output-file: 260523_db4951.html
 fontsize: 1.0em
+execute:
+  enabled: false
 ---
 <!-- 소유권자: 리이 | 사용자: 리이 -->
 <!-- 판정: (A) 학습·이해용 — Lemma 8 기호 분해 해설, 팟캐스트 형식 -->
@@ -69,6 +71,16 @@ for nv in n_check:
     print(f"{nv:6d}  {em2:10.1f}  {nv:12d}")
 ```
 
+```
+     n    E[M_n^2]  theory (= n)
+----------------------------------
+    10         9.0            10
+   100        97.0           100
+   500       411.1           500
+  1000      1357.0          1000
+  2000      2779.6          2000
+```
+
 **G.** $E[M_n^2] \approx n$ 정확하네요.
 
 **H.** fair walk 에서 $E[M_n^2] = n$ 이 정확히 성립해요. 증분 $\epsilon_k \in \{-1,+1\}$ 이 independent 라 교차항이 0, $E[\epsilon_k^2] = 1$ 이라 합이 $n$.
@@ -87,6 +99,8 @@ ax.set_title(r"$M_n$ (fair walk) -- $E[M_n^2] = n$, spreads as $\sqrt{n}$")
 ax.set_xlabel(r"$n$"); ax.set_ylabel(r"$M_n$"); ax.legend()
 plt.tight_layout(); plt.show()
 ```
+
+![](attachments/260523_db4951_01.png)
 
 **G.** 퍼지긴 하는데 $\sqrt{n}$ 봉투 안에 들어 있네요.
 
@@ -145,6 +159,8 @@ axes[1].set_xlabel(r"$n$"); axes[1].set_ylabel(r"$M_n$"); axes[1].legend(fontsiz
 plt.tight_layout(); plt.show()
 ```
 
+![](attachments/260523_db4951_02.png)
+
 **G.** $A_n$ 이 그 마팅게일의 누적 에너지 같은 거군요.
 
 **H.** 정확히 그 말이에요. SLLN 에서 분모의 출발점이 여기예요.
@@ -168,6 +184,13 @@ M_conv = np.cumsum(sigma_conv[None, :] * rng.standard_normal((NPATH, T)), axis=1
 print("A_n (마지막 5개) -- σ_k = k^{-0.6}:")
 print(np.round(A_conv[-5:], 4))
 print(f"\nfair walk A_n (마지막 5개): {A_fair[-5:].astype(int)}")
+```
+
+```
+A_n (마지막 5개) -- σ_k = k^{-0.6}:
+[4.4978 4.4979 4.4981 4.4982 4.4983]
+
+fair walk A_n (마지막 5개): [1996 1997 1998 1999 2000]
 ```
 
 ```{python}
@@ -196,6 +219,8 @@ axes[1, 1].set_xlabel(r"$n$"); axes[1, 1].set_ylabel(r"$M_n$")
 
 plt.tight_layout(); plt.show()
 ```
+
+![](attachments/260523_db4951_03.png)
 
 **G.** 왼쪽은 $M_n$ 이 어딘가로 수렴해 버리는데, 오른쪽은 계속 퍼지네요.
 
@@ -236,6 +261,12 @@ print(f"f(t) = sqrt(t(logt)²): partial sum (n={T}) = {ps_ll2[-1]:.5f}")
 print(f"f(t) = sqrt(t logt)  : partial sum (n={T}) = {ps_ll[-1]:.5f}  (diverges)")
 ```
 
+```
+f(t) = t             : partial sum (n=2000) = 1.64443  (theory π²/6 = 1.64493)
+f(t) = sqrt(t(logt)²): partial sum (n=2000) = 1.75645
+f(t) = sqrt(t logt)  : partial sum (n=2000) = 3.16100  (diverges)
+```
+
 ```{python}
 fig, axes = plt.subplots(1, 3, figsize=(8, 3.5))
 data = [
@@ -249,6 +280,8 @@ for ax, (ps, color, label) in zip(axes, data):
     ax.set_xlabel(r"$n$"); ax.set_ylabel("partial sum")
 plt.tight_layout(); plt.show()
 ```
+
+![](attachments/260523_db4951_04.png)
 
 **G.** $f(t) = \sqrt{t \log t}$ 는 아슬아슬하게 발산하는군요.
 
@@ -287,6 +320,8 @@ for ax, (ratio, label) in zip(axes, pairs):
     ax.set_xlabel(r"$n$"); ax.set_ylabel(r"ratio")
 plt.tight_layout(); plt.show()
 ```
+
+![](attachments/260523_db4951_05.png)
 
 **G.** 셋 다 0 으로 가네요. $f$ 가 작을수록 수렴이 느리지만 그래도 0.
 
@@ -338,6 +373,8 @@ axes[1].set_title(r"$M_t^{(1)}/t \to 0$ a.s. --- Theorem C Step 1")
 axes[1].set_xlabel(r"$t$"); axes[1].set_ylabel(r"$M_t^{(1)}/t$"); axes[1].legend()
 plt.tight_layout(); plt.show()
 ```
+
+![](attachments/260523_db4951_06.png)
 
 **G.** 오른쪽이 0 으로 수렴하는 게 보여요. 이게 Theorem C 의 첫 단계였군요.
 

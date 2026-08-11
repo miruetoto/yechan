@@ -6,6 +6,8 @@ draft: false
 output-file: 260524_288b83.html
 fontsize: 1.0em
 # 판정: (A) 학습·이해용 (연구팀 Snow Inversion 정리 풀이 + imputation 응용) — §2.6/2.7 코드+figure 페어 적용
+execute:
+  enabled: false
 ---
 <!-- 소유권자: 소미 | 사용자: 소미 -->
 
@@ -33,6 +35,15 @@ print("저항거리 행렬 R (제곱거리):")
 print(R)
 ```
 
+```
+저항거리 행렬 R (제곱거리):
+[[0. 1. 2. 3. 4.]
+ [1. 0. 1. 2. 3.]
+ [2. 1. 0. 1. 2.]
+ [3. 2. 1. 0. 1.]
+ [4. 3. 2. 1. 0.]]
+```
+
 이제 double-centering으로 Gram을 복원하고, 거기에 한 단계만 더 얹으면 그래프가 통째로 돌아온다. 만약 이 Gram $\boldsymbol{\Sigma}$가 Laplacian의 유사역행렬에 비례하면 — $\boldsymbol{\Sigma}=\kappa\,\mathbf{L}^{+}$, 이것이 연구팀 Part-2에서 "resistance form"이라 부르는 조건이다 — 유사역행렬은 대칭행렬에서 involution(두 번 취하면 제자리)이므로 $\mathrm{pinv}(\boldsymbol{\Sigma})=\tfrac1\kappa\mathbf{L}$이 된다. 즉 **그래프 Laplacian을 global scale $\kappa$만 빼고 정확히 복원**한다. Laplacian의 비대각 성분이 곧 (부호 반전된) 인접행렬이므로, 어느 쌍이 간선인지와 상대 가중치가 그대로 읽힌다.
 
 ```{python}
@@ -43,6 +54,17 @@ L_rec = np.linalg.pinv(Sigma)     # pinv → L 복원
 print("복원된 -L_rec (비대각 = 인접행렬):")
 print(np.round(-L_rec, 2))
 print(f"\n복원 오차 ||L_rec - L|| / ||L|| = {np.linalg.norm(L_rec - L)/np.linalg.norm(L):.2e}")
+```
+
+```
+복원된 -L_rec (비대각 = 인접행렬):
+[[-1.  1.  0. -0.  0.]
+ [ 1. -2.  1.  0. -0.]
+ [ 0.  1. -2.  1.  0.]
+ [ 0.  0.  1. -2.  1.]
+ [-0.  0. -0.  1. -1.]]
+
+복원 오차 ||L_rec - L|| / ||L|| = 1.01e-15
 ```
 
 오차가 $10^{-15}$ 수준 — 기계 정밀도다. 거리행렬에서 출발해 그래프를 정확히 되돌렸다. 이 방법은 spectral 방법과 달리 **고윳값 중복(multiplicity) 장애가 없다** — 개별 고윳값이 아니라 행렬 $\mathbf{L}$ 자체를 복원하므로, 고윳값이 겹치는 대칭 그래프($K_n$, vertex-transitive)에서도 똑같이 깨끗하게 작동한다. 대표적 대칭 그래프인 3-정칙 Petersen 그래프로 확인해 보자.
@@ -87,6 +109,8 @@ for k, (Amat, title) in enumerate([(Wp, "true Petersen graph"),
 plt.tight_layout(); plt.show()
 ```
 
+![](attachments/260524_288b83_01.png)
+
 왼쪽이 실제 Petersen 그래프(바깥 오각형 + 안쪽 오각성 + 살, 간선 15개)이고, 오른쪽은 거리행렬만으로 복원한 간선이다 — 간선 두께를 복원된 가중치로 줬는데, 실제 간선만 굵게 살아나고 나머지 노드 쌍은 가중치가 0에 가까워 그려지지 않는다. 즉 그래프 모양이 그대로 되살아난다(상관 $\approx 1$). 연구팀 실험에서는 한 걸음 더 나아가, 그래프를 **모르는 채** HST를 앙상블로 돌려 얻은 snow distance만으로 복원을 시도했고, Petersen 그래프에서 상관 $0.998$, $C_{20}$에서 $0.850$을 얻었다.
 
 복원한 Laplacian은 그 자체로 끝이 아니라 **실용 도구**가 된다. 응용 하나를 보자 — ring 위에 신호가 놓여 있는데 일부 노드의 관측값이 빠진(missing) 상황을, 복원한 그래프 구조로 메우는(imputation) 것이다. ring $C_{40}$ 위에 저주파 sinusoid(모드 2와 3을 섞은) 신호를 깔고 관측 noise를 더한 뒤, 12개 노드를 가린다. sinusoid는 Laplacian의 저주파 모드라 graph smoothness로 잘 메워진다 — 관측값에 맞추면서 $f^\top \mathbf{L} f$(매끄러움)를 작게 하는 graph Tikhonov 해 $(\mathbf{M}+\gamma\mathbf{L})f=\mathbf{M}y$를 쓴다($\mathbf{M}$은 관측 노드 마스크).
@@ -129,6 +153,12 @@ ax.set_xlabel(r"node on ring $C_{40}$", fontsize=9); ax.set_ylabel(r"signal $f$"
 ax.legend(fontsize=7, ncol=2); ax.grid(alpha=0.25)
 plt.tight_layout(); plt.show()
 ```
+
+```
+missing 12개 impute RMSE = 0.251
+```
+
+![](attachments/260524_288b83_02.png)
 
 가려진 12개 노드(회색 ✕)의 값을 관측값(파란 점)과 복원한 그래프 구조만으로 추정한 결과(빨간 ■)가 참값을 잘 따라간다. sinusoid가 그래프의 저주파 모드라 Laplacian smoothness가 효과적으로 작동한 것이다.
 

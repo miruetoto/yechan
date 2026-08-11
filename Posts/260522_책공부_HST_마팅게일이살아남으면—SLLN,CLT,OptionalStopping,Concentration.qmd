@@ -5,6 +5,8 @@ date: 05/22/2026
 draft: false
 output-file: 260522_5134bf.html
 fontsize: 1.0em
+execute:
+  enabled: false
 ---
 <!-- 소유권자: 리이 | 사용자: 리이 -->
 
@@ -81,6 +83,8 @@ axes[1].set_xlabel(r"$n$"); axes[1].set_ylabel(r"$M_n / n$"); axes[1].legend()
 plt.tight_layout(); plt.show()
 ```
 
+![](attachments/260522_5134bf_01.png)
+
 **G.** 왼쪽은 퍼지는데 오른쪽은 0 으로 모이네요.
 
 **H.** 정확해요. HST 에서 height 잔차 $M_t^{(i)} / t \to 0$ — Theorem C Step 1 의 핵심이 바로 이 그림이에요.
@@ -104,6 +108,13 @@ for nv in n_vals:
     print(f"n={nv:5d}:  mean={s.mean():+.4f}  std={s.std():.4f}  (theory: 0, 1)")
 ```
 
+```
+n=   50:  mean=-0.0127  std=1.0139  (theory: 0, 1)
+n=  200:  mean=+0.0140  std=1.0164  (theory: 0, 1)
+n=  500:  mean=+0.0124  std=1.0030  (theory: 0, 1)
+n= 2000:  mean=+0.0127  std=0.9977  (theory: 0, 1)
+```
+
 ```{python}
 fig, axes = plt.subplots(1, 4, figsize=(8, 3.5))
 x = np.linspace(-4, 4, 300)
@@ -117,6 +128,8 @@ axes[0].set_ylabel("density")
 fig.suptitle(r"CLT: $M_n/\sqrt{n} \to N(0,1)$ in distribution", fontsize=10, y=1.02)
 plt.tight_layout(); plt.show()
 ```
+
+![](attachments/260522_5134bf_02.png)
 
 **G.** $n=50$ 도 이미 꽤 닮았는데요.
 
@@ -155,6 +168,12 @@ print(f"E[X_τ]  전략 B (첫 +10 도달):   {X_B.mean():+.4f}  (theory: 0)")
 print(f"E[X_τ]  전략 C (첫 -10 도달):   {X_C.mean():+.4f}  (theory: 0)")
 ```
 
+```
+E[X_τ]  전략 A (고정 n=100):    -0.0504  (theory: 0)
+E[X_τ]  전략 B (첫 +10 도달):   -0.1346  (theory: 0)
+E[X_τ]  전략 C (첫 -10 도달):   -0.2894  (theory: 0)
+```
+
 ```{python}
 fig, axes = plt.subplots(1, 3, figsize=(8, 3.5))
 for ax, vals, label in zip(axes,
@@ -167,6 +186,8 @@ for ax, vals, label in zip(axes,
 fig.suptitle(r"Optional Stopping: $E[X_\tau] \approx 0$ (all strategies)", fontsize=10, y=1.02)
 plt.tight_layout(); plt.show()
 ```
+
+![](attachments/260522_5134bf_03.png)
 
 **G.** 전략 B 는 이길 때만 멈추는 건데도 평균이 0 이에요?
 
@@ -200,6 +221,13 @@ for tv in [10, 20, 30, 40]:
     print(f"t={tv:2d}:  empirical={emp_v:.6f}   Azuma={az_v:.6f}   ratio={emp_v/az_v:.3f}")
 ```
 
+```
+t=10:  empirical=0.688340   Azuma=1.340640   ratio=0.513
+t=20:  empirical=0.394820   Azuma=0.403793   ratio=0.978
+t=30:  empirical=0.196400   Azuma=0.054647   ratio=3.594
+t=40:  empirical=0.082840   Azuma=0.003323   ratio=24.928
+```
+
 ```{python}
 fig, ax = plt.subplots(figsize=(7, 4))
 ax.plot(t_vals, emp,   lw=2.0, color="C0", label=r"empirical $P(|M_n| \geq t)$")
@@ -210,6 +238,8 @@ ax.set_title(rf"Concentration ($n={n_conc}$, 50k reps)")
 ax.set_xlabel(r"$t$"); ax.set_ylabel(r"$P(|M_n| \geq t)$"); ax.legend()
 plt.tight_layout(); plt.show()
 ```
+
+![](attachments/260522_5134bf_04.png)
 
 **G.** 경험 확률이 항상 Azuma 상한 아래네요.
 
