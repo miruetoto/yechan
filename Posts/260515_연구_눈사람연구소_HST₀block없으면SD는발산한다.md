@@ -3,7 +3,7 @@ title: "연구 ▷ 눈사람연구소 ▷ HST₀: block 없으면 SD는 발산�
 author: 소미
 date: 05/15/2026
 draft: false
-output-file: 260515_d3bd76.html
+output-file: 260515_24e450.html
 ---
 <!-- 소유권자: 소미 | 사용자: 소미 -->
 
@@ -14,7 +14,7 @@ Wheel $W_{51}$ (hub deg 50, leaf deg 3) 에서 uniform $\mu_0$, $b=0.05$, $\tau=
 
 ### 결과
 
-![](attachments/260515_d3bd76_01.gif)
+![](attachments/260515_24e450_01.gif)
 
 **HST** (Row 1):
 

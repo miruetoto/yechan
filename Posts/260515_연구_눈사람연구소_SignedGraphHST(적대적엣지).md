@@ -2,7 +2,7 @@
 title: 연구 ▷ 눈사람연구소 ▷ Signed Graph HST (적대적 엣지)
 author: 신록예찬
 date: "2026-05-15"
-output-file: 260515_91a72d.html
+output-file: 260515_2d95ed.html
 ---
 <!-- 소유권자: 최규빈 | 사용자: 최규빈 -->
 
@@ -30,7 +30,7 @@ output-file: 260515_91a72d.html
 - Row 2: within-community 임베딩 (각 커뮤니티 내 구조)
 - Row 3: Standard HST 비교
 
-![](attachments/260515_91a72d_02.gif)
+![](attachments/260515_2d95ed_01.gif)
 
 # 예제 2: Spy Detection (7+7)
 
@@ -38,7 +38,7 @@ output-file: 260515_91a72d.html
 - Signed HST 임베딩에서 **spy가 B 쪽으로 끌려감** → 이상탐지
 - within-A의 SD²/t가 발산 (spy 때문에 A 내부 불안정)
 
-![](attachments/260515_91a72d_03.gif)
+![](attachments/260515_2d95ed_02.gif)
 
 # 예제 3: Zachary Karate Club (n=34)
 
@@ -46,14 +46,14 @@ output-file: 260515_91a72d.html
 - Signed HST 임베딩에서 Mr. Hi 파벌(빨강)과 Officer 파벌(파랑) **분리**
 - Standard HST에서도 약간 분리되긴 하지만 signed가 훨씬 선명
 
-![](attachments/260515_91a72d_04.gif)
+![](attachments/260515_2d95ed_03.gif)
 
 # 예제 4: 3-Community (4+4+4)
 
 - A vs B vs C 3파전. 3그룹이 임베딩에서 삼각형으로 분리
 - Standard HST에서는 3그룹 구분 불가
 
-![](attachments/260515_91a72d_05.gif)
+![](attachments/260515_2d95ed_04.gif)
 
 # 예제 5: Unbalanced Triad
 
@@ -62,7 +62,7 @@ output-file: 260515_91a72d.html
 - Balanced (전부 우호): 3 pair 모두 비슷하게 수렴
 - Balance theory와 정확히 일치
 
-![](attachments/260515_91a72d_06.gif)
+![](attachments/260515_2d95ed_05.gif)
 
 # 예제 6: Ring with Frustration
 
@@ -71,7 +71,7 @@ output-file: 260515_91a72d.html
 - neg-edge pairs SD²/t 발산, pos-edge pairs 수렴
 - 임베딩에서 자연스러운 pair (0-1, 2-3, ...)끼리 클러스터링
 
-![](attachments/260515_91a72d_07.gif)
+![](attachments/260515_2d95ed_06.gif)
 
 # 정리
 
