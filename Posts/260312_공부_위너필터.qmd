@@ -4,6 +4,8 @@ author: 신록예찬
 date: 03/12/2026
 draft: false
 output-file: 260312_08e53e.html
+execute:
+  enabled: false
 ---
 
 # 위너필터 (Wiener Filter)
@@ -196,6 +198,8 @@ plt.title('Adjacency Matrix A')
 plt.show()
 ```
 
+![](attachments/260312_08e53e_01.png)
+
 ```{python}
 #| fig-height: 1.5
 fig, axes = plt.subplots(1, 2)
@@ -211,6 +215,8 @@ axes[1].set_xlabel('Node')
 plt.tight_layout()
 plt.show()
 ```
+
+![](attachments/260312_08e53e_02.png)
 
 `-` path graph의 라플라시안 고유벡터 $\mathbf{v}_1$은 sin wave와 유사한 형태를 보인다. 이것을 클린 신호 $\mathbf{x}$로 사용하자.
 
@@ -229,6 +235,8 @@ ax.set_xlabel('Node')
 plt.tight_layout()
 plt.show()
 ```
+
+![](attachments/260312_08e53e_03.png)
 
 `-` 노이즈 $\boldsymbol{\epsilon} \sim \mathcal{N}(0, \sigma_n^2 \mathbf{I})$를 추가하여 관측 신호 $\mathbf{y} = \mathbf{x} + \boldsymbol{\epsilon}$를 만든다.
 
@@ -251,6 +259,8 @@ axes[1].set_xlabel('Node')
 plt.tight_layout()
 plt.show()
 ```
+
+![](attachments/260312_08e53e_04.png)
 
 `-` 이 신호의 PSD는 $P_1 = 9$이고 나머지 $P_k = 0$ ($k \neq 1$)이다. ($\because \tilde{x}_1 = 3$이므로 $P_1 = |\tilde{x}_1|^2 = 9$)
 
@@ -314,6 +324,16 @@ for name, x_hat in [('OLS', x_hat_ols), ('Ridge', x_hat_ridge),
     print(f'{name:12s} MSE = {mse:.6f}')
 ```
 
+```
+OLS          MSE = 0.020366
+Ridge        MSE = 0.019162
+Lasso        MSE = 0.001358
+Hard Thr.    MSE = 0.015064
+Tikhonov     MSE = 0.018885
+James-Stein  MSE = 0.016629
+Wiener       MSE = 0.000442
+```
+
 `-` 복원 결과를 비교하자. 빨간선은 원래 클린 신호이다.
 
 ```{python}
@@ -340,6 +360,12 @@ for i in range(0, len(recoveries), 2):
     plt.tight_layout()
     plt.show()
 ```
+
+![](attachments/260312_08e53e_05.png)
+
+![](attachments/260312_08e53e_06.png)
+
+![](attachments/260312_08e53e_07.png)
 
 `-` 위의 결과에서 Wiener가 압도적으로 좋은데, 이것은 **oracle PSD**($P_k$)와 **oracle $\sigma^2$**을 사용했기 때문이다. 실무에서는 둘 다 모르므로 데이터에서 추정해야 한다.
 
@@ -411,6 +437,21 @@ for name, x_o, x_p in [('OLS', x_hat_ols, x_hat_ols_p),
     print(f'{name:12s} {mse_o:12.6f} {mse_p:14.6f}')
 ```
 
+```
+True sigma   = 0.1500
+Est. sigma   = 0.1749
+
+Method         Oracle MSE  Practical MSE
+------------------------------------------
+OLS              0.020366       0.020366
+Ridge            0.019162       0.018792
+Lasso            0.001358       0.000629
+Hard Thr.        0.015064       0.012970
+Tikhonov         0.018885       0.018414
+James-Stein      0.016629       0.016326
+Wiener           0.000442       0.002321
+```
+
 `-` 추정값을 사용한 복원 결과를 비교하자.
 
 ```{python}
@@ -437,6 +478,12 @@ for i in range(0, len(recoveries_p), 2):
     plt.tight_layout()
     plt.show()
 ```
+
+![](attachments/260312_08e53e_08.png)
+
+![](attachments/260312_08e53e_09.png)
+
+![](attachments/260312_08e53e_10.png)
 
 `-` Oracle에서는 Wiener가 PSD를 정확히 알고 있어 압도적이었지만, 추정 PSD를 쓰면 그 이점이 줄어든다. 반면 Lasso나 Hard Thresholding 같은 **비모수적 방법**은 PSD를 필요로 하지 않아 추정 오차의 영향을 덜 받는다.
 
@@ -495,6 +542,8 @@ axes[1].set_xlim(-1, N)
 plt.tight_layout()
 plt.show()
 ```
+
+![](attachments/260312_08e53e_11.png)
 
 `-` 부분 관측에서의 각 추정기:
 
@@ -583,6 +632,16 @@ for name, x_hat in [('Ridge', x_hat_ridge2), ('Lasso', x_hat_lasso2),
     print(f'{name:10s}  MSE(all)={mse_all:.6f}  MSE(missing)={mse_miss:.6f}')
 ```
 
+```
+True sigma   = 0.1500
+Est. sigma   = 0.0190
+
+Ridge       MSE(all)=0.106601  MSE(missing)=0.180000
+Lasso       MSE(all)=0.023422  MSE(missing)=0.016477
+Tikhonov    MSE(all)=0.024862  MSE(missing)=0.016538
+Wiener      MSE(all)=0.028885  MSE(missing)=0.025418
+```
+
 `-` 복원 결과를 비교하자. 빨간선은 원래 클린 신호이다.
 
 ```{python}
@@ -618,6 +677,10 @@ for ax, (name, x_hat, color) in zip(axes, recoveries2[2:]):
 plt.tight_layout()
 plt.show()
 ```
+
+![](attachments/260312_08e53e_12.png)
+
+![](attachments/260312_08e53e_13.png)
 
 ## Ex3. 비균일 샘플링에서의 디노이징
 
@@ -669,6 +732,8 @@ axes[1].legend()
 plt.tight_layout()
 plt.show()
 ```
+
+![](attachments/260312_08e53e_14.png)
 
 `-` 왼쪽 영역에 점이 밀집되어 있고, 오른쪽으로 갈수록 드물다.
 
@@ -741,6 +806,18 @@ for m in methods:
     print(row)
 ```
 
+```
+Method               1/d        1/d²    Gaussian  Unweighted
+------------------------------------------------------------
+OLS             0.023915    0.023915    0.023915    0.023915
+Ridge           0.023042    0.022863    0.023433    0.022898
+Lasso           0.010620    0.012999    0.011555    0.020969
+Hard Thr.       0.018198    0.014333    0.022403    0.021583
+Tikhonov        0.008595    0.068860    0.023541    0.021734
+James-Stein     0.022866    0.023154    0.023227    0.022952
+Wiener          0.010304    0.008810    0.015170    0.016135
+```
+
 `-` Wiener와 Tikhonov의 복원 결과를 가중치 방식별로 비교하자.
 
 ```{python}
@@ -771,6 +848,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+![](attachments/260312_08e53e_15.png)
+
+![](attachments/260312_08e53e_16.png)
+
 ```{python}
 #| fig-height: 1.5
 # Wiener: 4 weights
@@ -798,6 +879,10 @@ for ax, wname in zip(axes, ['Gaussian', 'Unweighted']):
 plt.tight_layout()
 plt.show()
 ```
+
+![](attachments/260312_08e53e_17.png)
+
+![](attachments/260312_08e53e_18.png)
 
 `-` **Unweighted**(거리 무시)는 비균일 기하를 전혀 반영하지 못해 성능이 떨어진다. 반면 거리 기반 가중치($1/d$, $1/d^2$, Gaussian)는 비균일 샘플링 구조를 라플라시안에 반영하므로, 그래프 기반 방법(Tikhonov, Wiener)의 성능이 개선된다. 가중치 함수의 선택은 데이터의 특성에 따라 달라질 수 있다.
 
@@ -847,6 +932,8 @@ axes[1].legend()
 plt.tight_layout()
 plt.show()
 ```
+
+![](attachments/260312_08e53e_19.png)
 
 `-` Ex2와 동일한 4가지 방법(Ridge, Lasso, Tikhonov, Wiener)을 적용한다. 단, $\sigma$와 PSD는 **부분 관측 데이터로부터 추정**해야 한다. 전체 노드를 관측한 Ex3의 값을 가져다 쓸 수는 없다.
 
@@ -903,6 +990,16 @@ for name, x_hat in [('Ridge', x_hat_ridge4), ('Lasso', x_hat_lasso4),
     print(f'{name:10s}  MSE(all)={mse_all:.6f}  MSE(missing)={mse_miss:.6f}')
 ```
 
+```
+True sigma   = 0.1500
+Est. sigma   = 0.1571
+
+Ridge       MSE(all)=0.280175  MSE(missing)=0.537371
+Lasso       MSE(all)=0.023472  MSE(missing)=0.034284
+Tikhonov    MSE(all)=0.011102  MSE(missing)=0.017122
+Wiener      MSE(all)=0.007068  MSE(missing)=0.009587
+```
+
 `-` 복원 결과를 비교하자.
 
 ```{python}
@@ -940,6 +1037,10 @@ for ax, (name, x_hat, color) in zip(axes, recoveries4[2:]):
 plt.tight_layout()
 plt.show()
 ```
+
+![](attachments/260312_08e53e_20.png)
+
+![](attachments/260312_08e53e_21.png)
 
 `-` 비균일 그래프에서도 보간이 잘 작동한다. 특히 Tikhonov와 Wiener는 가중 라플라시안을 통해 "가까운 관측 노드에서 더 강하게 정보를 전파"하므로, 밀집 영역에서는 더 정확하고 희소 영역에서는 불확실성이 커지는 자연스러운 결과를 보여준다.
 
@@ -993,6 +1094,11 @@ print(f'Nodes: {N5}, Edges: {len(edges5)}, k={k5}')
 print(f'Bandwidth h = {h5:.4f}')
 ```
 
+```
+Nodes: 100, Edges: 427, k=7
+Bandwidth h = 0.1815
+```
+
 ```{python}
 def draw_graph_signal(pos, edges, signal, ax, title, vmin, vmax):
     """그래프 위에 신호를 색상으로 표시한다."""
@@ -1021,6 +1127,8 @@ plt.tight_layout()
 plt.show()
 ```
 
+![](attachments/260312_08e53e_22.png)
+
 `-` Ex3에서 정의한 `denoise_all` 함수를 그대로 사용한다. 그래프만 다를 뿐 알고리즘은 동일하다.
 
 ```{python}
@@ -1028,6 +1136,16 @@ results5, mse5 = denoise_all(y5, L5, x_clean5)
 
 for name in ['OLS', 'Ridge', 'Lasso', 'Hard Thr.', 'Tikhonov', 'James-Stein', 'Wiener']:
     print(f'{name:12s} MSE = {mse5[name]:.6f}')
+```
+
+```
+OLS          MSE = 0.045076
+Ridge        MSE = 0.040625
+Lasso        MSE = 0.016014
+Hard Thr.    MSE = 0.039879
+Tikhonov     MSE = 0.023511
+James-Stein  MSE = 0.036809
+Wiener       MSE = 0.020931
 ```
 
 `-` 복원 결과를 그래프 위에 시각화하자.
@@ -1045,6 +1163,8 @@ plt.tight_layout()
 plt.show()
 ```
 
+![](attachments/260312_08e53e_23.png)
+
 ```{python}
 #| fig-height: 4
 fig, axes = plt.subplots(1, 2)
@@ -1058,6 +1178,8 @@ plt.tight_layout()
 plt.show()
 ```
 
+![](attachments/260312_08e53e_24.png)
+
 ```{python}
 #| fig-height: 4
 fig, axes = plt.subplots(1, 2)
@@ -1070,6 +1192,8 @@ draw_graph_signal(pos5, edges5, results5['Wiener'], axes[1],
 plt.tight_layout()
 plt.show()
 ```
+
+![](attachments/260312_08e53e_25.png)
 
 `-` 1D path graph에서와 동일한 패턴이 나타난다: 그래프 구조를 활용하는 Tikhonov와 Wiener가 좋은 성능을 보인다. 핵심은 **그래프만 바꾸면 알고리즘은 동일하다**는 것이다. Path graph, 비균일 1D, 2D 센서 네트워크 — 어떤 그래프든 라플라시안의 고유벡터가 적절한 주파수 기저를 제공한다.
 
@@ -1152,6 +1276,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+![](attachments/260312_08e53e_26.png)
+
+![](attachments/260312_08e53e_27.png)
+
 `-` 각 함수에 $\sigma = 0.1$의 노이즈를 추가하고, 7가지 방법으로 디노이징한다. `denoise_all` 함수를 그대로 사용한다.
 
 ```{python}
@@ -1179,6 +1307,18 @@ print('-' * len(header))
 for m in methods6:
     row = f'{m:12s}' + ''.join(f'{all_mse6[fn][m]:12.4f}' for fn in func_names)
     print(row)
+```
+
+```
+Method            Blocks       Bumps     Doppler   HeaviSine
+------------------------------------------------------------
+OLS               0.0108      0.0104      0.0103      0.0105
+Ridge             0.0108      0.0109      0.0102      0.0104
+Lasso             0.0136      0.0202      0.0079      0.0033
+Hard Thr.         0.0117      0.0122      0.0098      0.0090
+Tikhonov          0.0100      0.0095      0.0099      0.0100
+James-Stein       0.0106      0.0108      0.0102      0.0104
+Wiener            0.0103      0.0122      0.0073      0.0045
 ```
 
 `-` 함수별로 각 방법의 복원 결과를 비교하자.
@@ -1213,6 +1353,38 @@ for fname in func_names:
         plt.tight_layout()
         plt.show()
 ```
+
+![](attachments/260312_08e53e_28.png)
+
+![](attachments/260312_08e53e_29.png)
+
+![](attachments/260312_08e53e_30.png)
+
+![](attachments/260312_08e53e_31.png)
+
+![](attachments/260312_08e53e_32.png)
+
+![](attachments/260312_08e53e_33.png)
+
+![](attachments/260312_08e53e_34.png)
+
+![](attachments/260312_08e53e_35.png)
+
+![](attachments/260312_08e53e_36.png)
+
+![](attachments/260312_08e53e_37.png)
+
+![](attachments/260312_08e53e_38.png)
+
+![](attachments/260312_08e53e_39.png)
+
+![](attachments/260312_08e53e_40.png)
+
+![](attachments/260312_08e53e_41.png)
+
+![](attachments/260312_08e53e_42.png)
+
+![](attachments/260312_08e53e_43.png)
 
 `-` 함수 특성에 따라 최적의 방법이 달라진다:
 
@@ -1257,6 +1429,8 @@ plt.tight_layout()
 plt.show()
 ```
 
+![](attachments/260312_08e53e_44.png)
+
 `-` 7가지 방법으로 디노이징한다.
 
 ```{python}
@@ -1264,6 +1438,16 @@ results7, mse7 = denoise_all(y7, L7, x_clean7)
 
 for name in ['OLS', 'Ridge', 'Lasso', 'Hard Thr.', 'Tikhonov', 'James-Stein', 'Wiener']:
     print(f'{name:12s} MSE = {mse7[name]:.6f}')
+```
+
+```
+OLS          MSE = 0.009496
+Ridge        MSE = 0.009420
+Lasso        MSE = 0.004178
+Hard Thr.    MSE = 0.008132
+Tikhonov     MSE = 0.008994
+James-Stein  MSE = 0.009524
+Wiener       MSE = 0.004559
 ```
 
 `-` 복원 결과를 비교하자.
@@ -1291,6 +1475,12 @@ for i in range(0, len(recoveries7), 2):
     plt.tight_layout()
     plt.show()
 ```
+
+![](attachments/260312_08e53e_45.png)
+
+![](attachments/260312_08e53e_46.png)
+
+![](attachments/260312_08e53e_47.png)
 
 `-` Step 함수에서 관찰되는 현상:
 
@@ -1346,6 +1536,8 @@ plt.tight_layout()
 plt.show()
 ```
 
+![](attachments/260312_08e53e_48.png)
+
 `-` 적응적 그래프로 디노이징한다. 불연속점에서 edge가 약해지므로 Tikhonov/Wiener의 ringing이 완화될 것이다.
 
 ```{python}
@@ -1357,6 +1549,18 @@ for name in ['OLS', 'Ridge', 'Lasso', 'Hard Thr.', 'Tikhonov', 'James-Stein', 'W
     m1 = mse7[name]
     m2 = mse7a[name]
     print(f'{name:12s} {m1:12.6f} {m2:12.6f}')
+```
+
+```
+Method         Unweighted     Adaptive
+--------------------------------------
+OLS              0.009496     0.009496
+Ridge            0.009420     0.009477
+Lasso            0.004178     0.005134
+Hard Thr.        0.008132     0.009295
+Tikhonov         0.008994     0.009484
+James-Stein      0.009524     0.009461
+Wiener           0.004559     0.007701
 ```
 
 `-` Tikhonov와 Wiener의 복원 결과를 비교하자: unweighted vs adaptive.
@@ -1389,6 +1593,10 @@ for ax, (label, res, mse_dict) in zip(axes, [
 plt.tight_layout()
 plt.show()
 ```
+
+![](attachments/260312_08e53e_49.png)
+
+![](attachments/260312_08e53e_50.png)
 
 `-` 적응적 그래프의 효과:
 
