@@ -268,7 +268,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><strong>H.</strong> 오늘은 이 Lemma 8 한 장을 기호 하나씩 분해할 거예요. <span class="math inline">\(\{M_n\}_{n \geq 0}\)</span>, <span class="math inline">\(A_n\)</span>, <span class="math inline">\(A_\infty = \infty\)</span>, <span class="math inline">\(f(A_n)\)</span>, 수렴 조건 — 전부 다요.</p>
 <p><strong>G.</strong> 기호가 많아 보이는데 실제로는 뭘 말하는 건가요?</p>
 <p><strong>H.</strong> 핵심만 보면 이거예요: <strong>마팅게일을 “얼마나 자랐는가”로 나누면 0이 된다.</strong> <span class="math inline">\(A_n\)</span> 이 “누적 변동 에너지” 고, <span class="math inline">\(f(A_n)\)</span> 은 그걸 조금 키운 분모예요. 코드 설정 먼저.</p>
-<div id="0cdf4a2c" class="cell" data-execution_count="1">
+<div id="99f400f8" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">"seaborn-v0_8-whitegrid"</span>)</span>
@@ -292,7 +292,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><span class="math display">\[E[M_n^2] &lt; \infty \qquad \text{(square-integrable)}\]</span></p>
 <p><strong>G.</strong> 두 번째 조건이 왜 추가로 필요한가요?</p>
 <p><strong>H.</strong> <span class="math inline">\(A_n\)</span> 정의에 <span class="math inline">\(E[(M_k - M_{k-1})^2]\)</span> 가 등장해요. 이게 유한해야 <span class="math inline">\(A_n\)</span> 이 잘 정의돼요. fair walk 으로 확인해볼게요.</p>
-<div id="479b71cf" class="cell" data-execution_count="2">
+<div id="3abe1e03" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> rng.choice([<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">1.0</span>], size<span class="op">=</span>(NPATH, T))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>M_fair <span class="op">=</span> np.cumsum(eps, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -302,7 +302,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> nv <span class="kw">in</span> n_check:</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    em2 <span class="op">=</span> (M_fair[:, nv <span class="op">-</span> <span class="dv">1</span>] <span class="op">**</span> <span class="dv">2</span>).mean()</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>nv<span class="sc">:6d}</span><span class="ss">  </span><span class="sc">{</span>em2<span class="sc">:10.1f}</span><span class="ss">  </span><span class="sc">{</span>nv<span class="sc">:12d}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</div>
 <pre><code>     n    E[M_n^2]  theory (= n)
 ----------------------------------
     10         9.0            10
@@ -310,11 +310,9 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
    500       411.1           500
   1000      1357.0          1000
   2000      2779.6          2000</code></pre>
-</div>
-</div>
 <p><strong>G.</strong> <span class="math inline">\(E[M_n^2] \approx n\)</span> 정확하네요.</p>
 <p><strong>H.</strong> fair walk 에서 <span class="math inline">\(E[M_n^2] = n\)</span> 이 정확히 성립해요. 증분 <span class="math inline">\(\epsilon_k \in \{-1,+1\}\)</span> 이 independent 라 교차항이 0, <span class="math inline">\(E[\epsilon_k^2] = 1\)</span> 이라 합이 <span class="math inline">\(n\)</span>.</p>
-<div id="a930e024" class="cell" data-execution_count="3">
+<div id="2a643077" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_arr <span class="op">=</span> np.arange(<span class="dv">1</span>, T <span class="op">+</span> <span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">float</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">3.5</span>))</span>
@@ -327,14 +325,8 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="vs">r"</span><span class="dv">$</span><span class="vs">M_n</span><span class="dv">$</span><span class="vs"> </span><span class="kw">(</span><span class="vs">fair walk</span><span class="kw">)</span><span class="vs"> -- </span><span class="dv">$</span><span class="vs">E</span><span class="pp">[M_n^2]</span><span class="vs"> = n</span><span class="dv">$</span><span class="vs">, spreads as </span><span class="dv">$\s</span><span class="vs">qrt{n}</span><span class="dv">$</span><span class="vs">"</span>)</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">n</span><span class="dv">$</span><span class="vs">"</span>)<span class="op">;</span> ax.set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">M_n</span><span class="dv">$</span><span class="vs">"</span>)<span class="op">;</span> ax.legend()</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="260523_db4951_files/figure-html/cell-4-output-1.png" width="662" height="326" class="figure-img"></p>
-</figure>
 </div>
-</div>
-</div>
+<p><img src="attachments/260523_db4951_01.png" class="img-fluid"></p>
 <p><strong>G.</strong> 퍼지긴 하는데 <span class="math inline">\(\sqrt{n}\)</span> 봉투 안에 들어 있네요.</p>
 <hr>
 </section>
@@ -349,7 +341,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p>상수예요. 그러면 <span class="math inline">\(A_n = \sum_{k=1}^n 1 = n\)</span> 정확히.</p>
 <p><strong>G.</strong> 분산이 경로에 따라 달라지면요?</p>
 <p><strong>H.</strong> <span class="math inline">\(M_k - M_{k-1} = \sigma_k \cdot \epsilon_k\)</span> 이고 <span class="math inline">\(\sigma_k\)</span> 가 <span class="math inline">\(\mathcal F_{k-1}\)</span>-measurable 이면 (predictable) <span class="math inline">\(A_n = \sum \sigma_k^2\)</span>. 세 패턴 비교해 볼게요.</p>
-<div id="eb239f52" class="cell" data-execution_count="4">
+<div id="b65ab827" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>k_arr <span class="op">=</span> np.arange(<span class="dv">1</span>, T <span class="op">+</span> <span class="dv">1</span>, dtype<span class="op">=</span><span class="bu">float</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># fair walk</span></span>
@@ -380,14 +372,8 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="vs">r"</span><span class="dv">$</span><span class="vs">M_n</span><span class="dv">$</span><span class="vs"> paths </span><span class="kw">(</span><span class="vs">increasing </span><span class="dv">$\s</span><span class="vs">igma_k</span><span class="dv">$</span><span class="kw">)</span><span class="vs">"</span>)</span>
 <span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">n</span><span class="dv">$</span><span class="vs">"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">M_n</span><span class="dv">$</span><span class="vs">"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].legend(fontsize<span class="op">=</span><span class="dv">8</span>)</span>
 <span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="260523_db4951_files/figure-html/cell-5-output-1.png" width="757" height="326" class="figure-img"></p>
-</figure>
 </div>
-</div>
-</div>
+<p><img src="attachments/260523_db4951_02.png" class="img-fluid"></p>
 <p><strong>G.</strong> <span class="math inline">\(A_n\)</span> 이 그 마팅게일의 누적 에너지 같은 거군요.</p>
 <p><strong>H.</strong> 정확히 그 말이에요. SLLN 에서 분모의 출발점이 여기예요.</p>
 <hr>
@@ -397,7 +383,7 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <p><strong>H.</strong> 세 번째. <span class="math inline">\(A_\infty := \lim_{n \to \infty} A_n = \infty\)</span> a.s. 이 조건이 없으면 SLLN 이 의미 없어요.</p>
 <p><strong>G.</strong> <span class="math inline">\(A_\infty &lt; \infty\)</span> 면 어떻게 되나요?</p>
 <p><strong>H.</strong> 그 경우엔 <span class="math inline">\(M_n\)</span> 자체가 유한한 랜덤 변수로 a.s. 수렴해요. <span class="math inline">\(M_n / n \to 0\)</span> 은 자동으로 따라오지만 — 유한한 수열을 <span class="math inline">\(n\)</span> 으로 나누면 당연히 0 이니까 — SLLN 이라 부를 만한 내용이 아니에요.</p>
-<div id="567716cb" class="cell" data-execution_count="5">
+<div id="402b0ad5" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># σ_k = k^{-0.6} → Σ σ_k^2 = Σ k^{-1.2} 수렴</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sigma_conv <span class="op">=</span> k_arr <span class="op">**</span> (<span class="op">-</span><span class="fl">0.6</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>A_conv <span class="op">=</span> np.cumsum(sigma_conv <span class="op">**</span> <span class="dv">2</span>)</span>
@@ -406,14 +392,12 @@ mjx-container[display="true"] { text-align: left !important; margin-left: 0 !imp
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"A_n (마지막 5개) -- σ_k = k^{-0.6}:"</span>)</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.<span class="bu">round</span>(A_conv[<span class="op">-</span><span class="dv">5</span>:], <span class="dv">4</span>))</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">fair walk A_n (마지막 5개): </span><span class="sc">{</span>A_fair[<span class="op">-</span><span class="dv">5</span>:]<span class="sc">.</span>astype(<span class="bu">int</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</div>
 <pre><code>A_n (마지막 5개) -- σ_k = k^{-0.6}:
 [4.4978 4.4979 4.4981 4.4982 4.4983]
 
 fair walk A_n (마지막 5개): [1996 1997 1998 1999 2000]</code></pre>
-</div>
-</div>
-<div id="d26781a2" class="cell" data-execution_count="6">
+<div id="d6170f00" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(k_arr, A_conv, color<span class="op">=</span><span class="st">"C3"</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
@@ -438,14 +422,8 @@ fair walk A_n (마지막 5개): [1996 1997 1998 1999 2000]</code></pre>
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">n</span><span class="dv">$</span><span class="vs">"</span>)<span class="op">;</span> axes[<span class="dv">1</span>, <span class="dv">1</span>].set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">M_n</span><span class="dv">$</span><span class="vs">"</span>)</span>
 <span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="260523_db4951_files/figure-html/cell-7-output-1.png" width="757" height="566" class="figure-img"></p>
-</figure>
 </div>
-</div>
-</div>
+<p><img src="attachments/260523_db4951_03.png" class="img-fluid"></p>
 <p><strong>G.</strong> 왼쪽은 <span class="math inline">\(M_n\)</span> 이 어딘가로 수렴해 버리는데, 오른쪽은 계속 퍼지네요.</p>
 <p><strong>H.</strong> <span class="math inline">\(A_\infty = \infty\)</span> 가 “게임이 계속 실질적으로 진행된다” 는 보장이에요. 그 조건 아래에서만 SLLN 이 의미 있어요.</p>
 <hr>
@@ -463,7 +441,7 @@ fair walk A_n (마지막 5개): [1996 1997 1998 1999 2000]</code></pre>
 <li><span class="math inline">\(f(t) = \sqrt{t(\log t)^2}\)</span> <span class="math inline">\(\;\Rightarrow\;\)</span> <span class="math inline">\(\sum 1/(n(\log n)^2) &lt; \infty\)</span> ✓ <span class="math inline">\(\;\Rightarrow\;\)</span> 더 약한 나눗셈도 OK</li>
 <li><span class="math inline">\(f(t) = \sqrt{t \log t}\)</span> <span class="math inline">\(\;\Rightarrow\;\)</span> <span class="math inline">\(\sum 1/(n \log n) = \infty\)</span> <span class="math inline">\(\times\)</span> <span class="math inline">\(\;\Rightarrow\;\)</span> 조건 불충족</li>
 </ul>
-<div id="f761da80" class="cell" data-execution_count="7">
+<div id="a7ba717d" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>f_t   <span class="op">=</span> k_arr.copy()                                       <span class="co"># f(t) = t</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>f_ll2 <span class="op">=</span> np.sqrt(k_arr <span class="op">*</span> (np.log(k_arr <span class="op">+</span> <span class="dv">2</span>)) <span class="op">**</span> <span class="dv">2</span>)         <span class="co"># f(t) = sqrt(t (log t)^2)</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>f_ll  <span class="op">=</span> np.sqrt(k_arr <span class="op">*</span> np.log(k_arr <span class="op">+</span> <span class="dv">2</span>))                 <span class="co"># f(t) = sqrt(t log t)</span></span>
@@ -476,13 +454,11 @@ fair walk A_n (마지막 5개): [1996 1997 1998 1999 2000]</code></pre>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"(theory π²/6 = </span><span class="sc">{</span>np<span class="sc">.</span>pi<span class="op">**</span><span class="dv">2</span><span class="op">/</span><span class="dv">6</span><span class="sc">:.5f}</span><span class="ss">)"</span>)</span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"f(t) = sqrt(t(logt)²): partial sum (n=</span><span class="sc">{</span>T<span class="sc">}</span><span class="ss">) = </span><span class="sc">{</span>ps_ll2[<span class="op">-</span><span class="dv">1</span>]<span class="sc">:.5f}</span><span class="ss">"</span>)</span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"f(t) = sqrt(t logt)  : partial sum (n=</span><span class="sc">{</span>T<span class="sc">}</span><span class="ss">) = </span><span class="sc">{</span>ps_ll[<span class="op">-</span><span class="dv">1</span>]<span class="sc">:.5f}</span><span class="ss">  (diverges)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</div>
 <pre><code>f(t) = t             : partial sum (n=2000) = 1.64443  (theory π²/6 = 1.64493)
 f(t) = sqrt(t(logt)²): partial sum (n=2000) = 1.75645
 f(t) = sqrt(t logt)  : partial sum (n=2000) = 3.16100  (diverges)</code></pre>
-</div>
-</div>
-<div id="a4fb17c4" class="cell" data-execution_count="8">
+<div id="197fbf09" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.5</span>))</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    (ps_t,   <span class="st">"C0"</span>, <span class="vs">r"</span><span class="dv">$\s</span><span class="vs">um 1/n</span><span class="dv">^</span><span class="vs">2 </span><span class="ch">\t</span><span class="vs">o </span><span class="er">\</span><span class="vs">pi</span><span class="dv">^</span><span class="vs">2/6</span><span class="dv">$</span><span class="vs"> </span><span class="dv">$</span><span class="er">\</span><span class="vs">checkmark</span><span class="dv">$</span><span class="vs">"</span>),</span>
@@ -494,14 +470,8 @@ f(t) = sqrt(t logt)  : partial sum (n=2000) = 3.16100  (diverges)</code></pre>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    ax.set_title(label, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">n</span><span class="dv">$</span><span class="vs">"</span>)<span class="op">;</span> ax.set_ylabel(<span class="st">"partial sum"</span>)</span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="260523_db4951_files/figure-html/cell-9-output-1.png" width="758" height="326" class="figure-img"></p>
-</figure>
 </div>
-</div>
-</div>
+<p><img src="attachments/260523_db4951_04.png" class="img-fluid"></p>
 <p><strong>G.</strong> <span class="math inline">\(f(t) = \sqrt{t \log t}\)</span> 는 아슬아슬하게 발산하는군요.</p>
 <p><strong>H.</strong> <span class="math inline">\(\int_2^\infty dt/(t \log t) = \infty\)</span> — 이중 로그 발산이에요. 반면 <span class="math inline">\(\int dt/(t(\log t)^2)\)</span> 는 수렴. 선택 기준은 항상 이 적분의 수렴 여부예요.</p>
 <hr>
@@ -513,7 +483,7 @@ f(t) = sqrt(t logt)  : partial sum (n=2000) = 3.16100  (diverges)</code></pre>
 <p>특히 bounded-increment 마팅게일에서 <span class="math inline">\(A_n \sim cn\)</span> 이면 <span class="math inline">\(f(A_n) = n\)</span> 으로 두면 <span class="math inline">\(M_n/n \to 0\)</span> a.s.</p>
 <p><strong>G.</strong> 세 가지 <span class="math inline">\(f\)</span> 선택에서 어떻게 다른지 볼 수 있나요?</p>
 <p><strong>H.</strong> 볼게요. <span class="math inline">\(f\)</span> 가 작을수록 더 강한 결론이에요 — 더 천천히 나눠도 0 이 된다.</p>
-<div id="39fec0d8" class="cell" data-execution_count="9">
+<div id="ef192730" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ratio_t   <span class="op">=</span> M_fair <span class="op">/</span> f_t[<span class="va">None</span>, :]</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>ratio_ll2 <span class="op">=</span> M_fair <span class="op">/</span> f_ll2[<span class="va">None</span>, :]</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># f_ll 은 조건 안 채우지만 경험적으로 어떻게 보이는지 함께</span></span>
@@ -531,19 +501,13 @@ f(t) = sqrt(t logt)  : partial sum (n=2000) = 3.16100  (diverges)</code></pre>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    ax.set_title(label, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">n</span><span class="dv">$</span><span class="vs">"</span>)<span class="op">;</span> ax.set_ylabel(<span class="vs">r"ratio"</span>)</span>
 <span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="260523_db4951_files/figure-html/cell-10-output-1.png" width="758" height="326" class="figure-img"></p>
-</figure>
 </div>
-</div>
-</div>
+<p><img src="attachments/260523_db4951_05.png" class="img-fluid"></p>
 <p><strong>G.</strong> 셋 다 0 으로 가네요. <span class="math inline">\(f\)</span> 가 작을수록 수렴이 느리지만 그래도 0.</p>
 <p><strong>H.</strong> 맞아요. 이제 HST 와 연결할게요. Height martingale 을 기억해봐요:</p>
 <p><span class="math display">\[M_t^{(i)} := \sum_{s=1}^{t} (b'_s - \bar b) \cdot \mathbf{1}\{X_s = v_i\}\]</span></p>
 <p>여기서 <span class="math inline">\(A_t = \mathrm{Var}(b') \cdot \sum_{s=1}^t \mathbf{1}\{X_s = v_i\} = \frac{b^2}{12} \cdot t \cdot \rho_i(t) \;\sim\; \frac{b^2 \rho_i}{12} \cdot t\)</span>. <span class="math inline">\(A_\infty = \infty\)</span> ✓, <span class="math inline">\(f(A_t) = t\)</span> 로 두면 <span class="math inline">\(M_t^{(i)}/t \to 0\)</span> a.s. — Theorem C Step 1 의 한 줄 요약이에요.</p>
-<div id="625e0214" class="cell" data-execution_count="10">
+<div id="e80da262" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Star K_{1,5} 위 height martingale 시뮬</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>N_NODE <span class="op">=</span> <span class="dv">5</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>T_hst  <span class="op">=</span> <span class="dv">3000</span></span>
@@ -584,14 +548,8 @@ f(t) = sqrt(t logt)  : partial sum (n=2000) = 3.16100  (diverges)</code></pre>
 <span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="vs">r"</span><span class="dv">$</span><span class="vs">M_t</span><span class="dv">^</span><span class="vs">{</span><span class="kw">(</span><span class="vs">1</span><span class="kw">)</span><span class="vs">}/t </span><span class="ch">\t</span><span class="vs">o 0</span><span class="dv">$</span><span class="vs"> a</span><span class="dv">.</span><span class="vs">s</span><span class="dv">.</span><span class="vs"> --- Theorem C Step 1"</span>)</span>
 <span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">t</span><span class="dv">$</span><span class="vs">"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">M_t</span><span class="dv">^</span><span class="vs">{</span><span class="kw">(</span><span class="vs">1</span><span class="kw">)</span><span class="vs">}/t</span><span class="dv">$</span><span class="vs">"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].legend()</span>
 <span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="260523_db4951_files/figure-html/cell-11-output-1.png" width="757" height="326" class="figure-img"></p>
-</figure>
 </div>
-</div>
-</div>
+<p><img src="attachments/260523_db4951_06.png" class="img-fluid"></p>
 <p><strong>G.</strong> 오른쪽이 0 으로 수렴하는 게 보여요. 이게 Theorem C 의 첫 단계였군요.</p>
 <p><strong>H.</strong> 네. Lemma 8 은 이 한 줄 — <span class="math inline">\(M_t^{(i)}/t \to 0\)</span> — 을 엄밀하게 보장하는 도구예요. 기호별로 요약하면:</p>
 <ul>
